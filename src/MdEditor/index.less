@@ -1,0 +1,51 @@
+@prefix: 'md-editor';
+
+.md-editor {
+  width: 100%;
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  &-icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    overflow: hidden;
+  }
+
+  &-toolbar {
+    padding: 4px 12px;
+    height: 36px;
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &-left,
+    &-right {
+      padding: 1px 0;
+      li {
+        height: 24px;
+        float: left;
+        padding: 0 4px;
+        transition: all 0.3s;
+        border-radius: 0;
+        cursor: pointer;
+        list-style: none;
+
+        &:hover {
+          border-radius: 3px;
+          background-color: rgb(230, 230, 230);
+        }
+      }
+
+      &::after {
+        content: '';
+        clear: left;
+        display: block;
+      }
+    }
+  }
+}
