@@ -1,13 +1,26 @@
 {
+  "name": "md-editor-v3",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build:preview": "vue-tsc --noEmit && vite build --mode=preview",
     "serve": "vite preview"
   },
   "author": {
     "name": "zbf",
     "url": "https://imbf.cc"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "./lib/md-editor-v3.umd.js",
+  "module": "./lib/md-editor-v3.es.js",
+  "exports": {
+    ".": {
+      "import": "./lib/md-editor-v3.es.js",
+      "require": "./lib/md-editor-v3.umd.js"
+    }
   },
   "license": "MIT",
   "devDependencies": {

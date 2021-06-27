@@ -3,7 +3,25 @@ import { UserConfigExport, ConfigEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 
-export default ({ command }: ConfigEnv): UserConfigExport => {
+const libBuildOptions = {
+  outDir: path.resolve(__dirname, 'lib'),
+  lib: {
+    entry: path.resolve(__dirname, './src/MdEditor'),
+    name: 'MdEditor'
+  },
+  rollupOptions: {
+    external: ['vue'],
+    output: {
+      globals: {
+        vue: 'Vue'
+      }
+    }
+  }
+};
+
+export default ({ mode }: ConfigEnv): UserConfigExport => {
+  console.log('mode：', mode);
+
   return {
     base: '/',
     server: {
@@ -28,6 +46,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
           javascriptEnabled: true
         }
       }
-    }
+    },
+    build: mode === 'production' ? libBuildOptions : {}
   };
 };
