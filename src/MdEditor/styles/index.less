@@ -1,6 +1,6 @@
-@prefix: 'md-editor';
+@import './vars';
 
-.md-editor {
+.@{prefix} {
   width: 100%;
 
   * {
@@ -18,7 +18,7 @@
   &-toolbar {
     padding: 4px 12px;
     height: 36px;
-    border: 1px solid #eee;
+    border: 1px solid hsv(0, 0, 90%);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,9 +26,10 @@
     &-left,
     &-right {
       padding: 1px 0;
-      li {
+
+      div {
         height: 24px;
-        float: left;
+        display: inline-block;
         padding: 0 4px;
         transition: all 0.3s;
         border-radius: 0;
