@@ -1,8 +1,9 @@
 import { CSSProperties, defineComponent, onMounted, PropType, reactive } from 'vue';
 import config from './config';
-import './index.less';
 import { useStyle } from './capi';
 import ToolBar from './components/Toolbar';
+
+import './styles/index.less';
 
 export const prefix: string = 'md-editor';
 
