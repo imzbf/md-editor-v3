@@ -3,11 +3,6 @@
 .@{prefix} {
   width: 100%;
 
-  * {
-    margin: 0;
-    padding: 0;
-  }
-
   &-icon {
     width: 24px;
     height: 24px;
@@ -23,30 +18,26 @@
     justify-content: space-between;
     align-items: center;
 
+    &-item {
+      height: 24px;
+      display: inline-block;
+      padding: 0 4px;
+      transition: all 0.3s;
+      border-radius: 0;
+      cursor: pointer;
+      list-style: none;
+
+      &:hover {
+        border-radius: 3px;
+        background-color: rgb(230, 230, 230);
+      }
+    }
+
     &-left,
     &-right {
       padding: 1px 0;
-
-      div {
-        height: 24px;
-        display: inline-block;
-        padding: 0 4px;
-        transition: all 0.3s;
-        border-radius: 0;
-        cursor: pointer;
-        list-style: none;
-
-        &:hover {
-          border-radius: 3px;
-          background-color: rgb(230, 230, 230);
-        }
-      }
-
-      &::after {
-        content: '';
-        clear: left;
-        display: block;
-      }
+      display: flex;
+      align-items: center;
     }
   }
 }
