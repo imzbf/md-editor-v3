@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
-import Divider from './Divider';
-import { prefix } from '../Editor';
+import Divider from '../../components/Divider';
+import { prefix } from '../../Editor';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
