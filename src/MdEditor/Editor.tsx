@@ -1,7 +1,8 @@
 import { CSSProperties, defineComponent, onMounted, PropType, reactive } from 'vue';
 import config from './config';
 import { useStyle } from './capi';
-import ToolBar from './components/Toolbar';
+import ToolBar from './layouts/Toolbar';
+import Content from './layouts/Content';
 
 import './styles/index.less';
 
@@ -21,7 +22,7 @@ const props = {
   // 外层扩展样式
   editorStyle: {
     type: [Object, String] as PropType<CSSProperties | string>,
-    default: () => ({
+    default: (): CSSProperties => ({
       height: '300px'
     })
   },
@@ -58,6 +59,7 @@ export default defineComponent({
     return () => (
       <div class={[prefix, props.editorClass]} style={style.editor}>
         <ToolBar />
+        <Content />
       </div>
     );
   }
