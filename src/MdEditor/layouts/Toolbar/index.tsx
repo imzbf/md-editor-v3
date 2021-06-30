@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue';
 import Divider from '../../components/Divider';
+import Dropdown from '../../components/Dropdown';
 import { prefix } from '../../Editor';
 
 export default defineComponent({
@@ -29,11 +30,13 @@ export default defineComponent({
             </svg>
           </div>
           <Divider />
-          <div class={`${prefix}-toolbar-item`} title="标题">
-            <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-title"></use>
-            </svg>
-          </div>
+          <Dropdown>
+            <div class={`${prefix}-toolbar-item`} title="标题">
+              <svg class={`${prefix}-icon`} aria-hidden="true">
+                <use xlinkHref="#icon-title"></use>
+              </svg>
+            </div>
+          </Dropdown>
           <div class={`${prefix}-toolbar-item`} title="引用">
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-quote"></use>

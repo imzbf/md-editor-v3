@@ -1,4 +1,12 @@
-import { defineComponent, PropType, CSSProperties } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  CSSProperties,
+  SetupContext,
+  EmitsOptions,
+  cloneVNode
+} from 'vue';
+import { getSlot } from '../../utils/vue-tsx';
 
 export default defineComponent({
   props: {
@@ -9,7 +17,18 @@ export default defineComponent({
       type: [Array] as PropType<Array<'hover' | 'click'>>
     }
   },
-  setup() {
-    return () => <div></div>;
+  setup(props, ctx: SetupContext<EmitsOptions>) {
+    return () => {
+      const slotDefault = getSlot({ ctx });
+      console.log('slotDefault', slotDefault);
+
+      if (slotDefault) {
+        // (slotDefault[0].el as HTMLElement).addEventListener('click', () => {
+        //   console.log(123);
+        // });
+      }
+
+      return slotDefault;
+    };
   }
 });
