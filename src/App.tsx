@@ -1,5 +1,4 @@
-import { defineComponent, reactive, watchEffect } from 'vue';
-import Dropdown from './MdEditor/components/Dropdown';
+import { defineComponent } from 'vue';
 import Editor from './MdEditor';
 
 export default defineComponent({
@@ -7,7 +6,6 @@ export default defineComponent({
     return () => (
       <>
         <Editor />
-        <Dropdown trigger={[]} />
       </>
     );
   }
