@@ -6,7 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 const libBuildOptions = {
   outDir: path.resolve(__dirname, 'lib'),
   lib: {
-    entry: path.resolve(__dirname, './src/MdEditor'),
+    entry: path.resolve(__dirname, './MdEditor'),
     name: 'MdEditor'
   },
   rollupOptions: {
@@ -33,7 +33,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     resolve: {
       alias: {
         // 键必须以斜线开始和结束
-        '@': path.resolve(__dirname, './src')
+        '@': path.resolve(__dirname, './dev')
       }
     },
     plugins: [vue(), vueJsx()],

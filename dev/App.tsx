@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import Editor from './MdEditor';
+import Editor from '../MdEditor';
 
 export default defineComponent({
   setup() {

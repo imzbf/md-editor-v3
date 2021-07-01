@@ -56,6 +56,7 @@ export default defineComponent({
     watch(
       () => ctl.visible,
       (newV) => {
+        console.log(newV);
         if (newV) {
           ctl.overlayClass = ctl.overlayClass.filter(
             (classItem: string) => classItem !== HIDDEN_CLASS
