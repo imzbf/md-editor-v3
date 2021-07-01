@@ -30,7 +30,18 @@ export default defineComponent({
             </svg>
           </div>
           <Divider />
-          <Dropdown>
+          <Dropdown
+            overlay={
+              <ul class={`${prefix}-menu`}>
+                <li class={`${prefix}-menu-item`}>一级标题</li>
+                <li class={`${prefix}-menu-item`}>二级标题</li>
+                <li class={`${prefix}-menu-item`}>三级标题</li>
+                <li class={`${prefix}-menu-item`}>四级标题</li>
+                <li class={`${prefix}-menu-item`}>五级标题</li>
+                <li class={`${prefix}-menu-item`}>六级标题</li>
+              </ul>
+            }
+          >
             <div class={`${prefix}-toolbar-item`} title="标题">
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-title"></use>
