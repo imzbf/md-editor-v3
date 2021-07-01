@@ -41,6 +41,33 @@
     overflow: hidden;
   }
 
+  &-menu {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+
+    &-item {
+      list-style: none;
+      font-size: 13px;
+      color: #666;
+      padding: 4px 10px;
+      cursor: pointer;
+
+      &:first-of-type {
+        padding-top: 8px;
+      }
+
+      &:last-of-type {
+        padding-bottom: 8px;
+      }
+      &:hover {
+        background-color: rgb(224, 224, 224);
+      }
+    }
+  }
+
   &-toolbar {
     padding: 4px 12px;
     height: 36px;

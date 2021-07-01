@@ -6,7 +6,7 @@ import Content from './layouts/Content';
 
 import './styles/index.less';
 
-export const prefix: string = 'md-editor';
+export const prefix: string = 'md';
 
 const props = {
   // 主题，支持light和dark
