@@ -1,0 +1,53 @@
+@import './vars';
+
+// 代码样式
+.@{prefix} {
+  pre {
+    position: relative;
+    margin: 20px 10px;
+    border-radius: 5px;
+    box-shadow: #00000055 0px 2px 2px;
+
+    code {
+      padding: 15px;
+      display: block;
+      overflow: auto;
+      background-color: #100f0f;
+      color: #a9b7c6;
+      font-size: 14px;
+      font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+        Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    .copy-button {
+      color: #a9b7c6;
+      position: absolute;
+      font-size: 12px;
+      top: 7px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      background: url(../imgs/pre.png);
+      height: 32px;
+      width: 100%;
+      background-size: 40px;
+      background-repeat: no-repeat;
+      background-color: #282c34;
+      margin-bottom: 0;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      background-position: 10px 10px;
+    }
+
+    * {
+      font-size: 14px;
+    }
+  }
+}
