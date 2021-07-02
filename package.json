@@ -92,5 +92,8 @@
     "*.{html,ts,tsx,md,json}": [
       "prettier"
     ]
+  },
+  "dependencies": {
+    "marked": "^2.1.3"
   }
 }
