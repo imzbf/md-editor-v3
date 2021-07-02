@@ -27,10 +27,16 @@ import { prefix } from '../../Editor';
 export default defineComponent({
   props: {
     trigger: {
-      type: [Array] as PropType<Array<'hover' | 'click'>>
+      type: String as PropType<'hover' | 'click'>,
+      default: 'click'
     },
     overlay: {
-      type: [String, Object] as PropType<string | JSX.Element>
+      type: [String, Object] as PropType<string | JSX.Element>,
+      default: ''
+    },
+    visible: {
+      type: Boolean as PropType<boolean>,
+      default: false
     }
   },
   setup(props, ctx: SetupContext<EmitsOptions>) {
@@ -47,16 +53,13 @@ export default defineComponent({
 
     const triggerHandler = () => {
       const triggerEle: HTMLElement = triggerRef.value;
-
-      console.log(triggerEle.offsetTop);
-
       ctl.visible = !ctl.visible;
     };
 
+    // 显示状态变化后修改某些属性
     watch(
       () => ctl.visible,
       (newV) => {
-        console.log(newV);
         if (newV) {
           ctl.overlayClass = ctl.overlayClass.filter(
             (classItem: string) => classItem !== HIDDEN_CLASS
@@ -67,8 +70,17 @@ export default defineComponent({
       }
     );
 
-    const hiddenHandler = () => {
-      ctl.visible = false;
+    // 点击非内容区域时触发关闭
+    const hiddenHandler = (e: MouseEvent) => {
+      const triggerEle: HTMLElement = triggerRef.value;
+      const overlayEle: HTMLElement = overlayRef.value;
+
+      if (
+        !triggerEle.contains(e.target as HTMLElement) &&
+        !overlayEle.contains(e.target as HTMLElement)
+      ) {
+        ctl.visible = false;
+      }
     };
 
     onMounted(() => {
