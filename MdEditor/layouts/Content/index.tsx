@@ -1,20 +1,34 @@
 import {
   defineComponent,
-  ref,
   computed,
   onMounted,
   Teleport,
   inject,
-  PropType
+  PropType,
+  watch,
+  nextTick
 } from 'vue';
 import { prefix } from '../../Editor';
 import marked from 'marked';
+import copy from 'copy-to-clipboard';
 
 declare global {
   interface Window {
     hljs: any;
   }
 }
+
+const initCopyEntry = () => {
+  document.querySelectorAll(`.${prefix}-preview-wrapper pre`).forEach((pre: Element) => {
+    const copyButton = document.createElement('span');
+    copyButton.setAttribute('class', 'copy-button');
+    copyButton.innerText = '复制代码';
+    copyButton.addEventListener('click', () => {
+      copy((pre.querySelector('code') as HTMLElement).innerText);
+    });
+    pre.appendChild(copyButton);
+  });
+};
 
 export default defineComponent({
   name: 'MDEditorContent',
@@ -43,7 +57,15 @@ export default defineComponent({
           }
         });
       });
+      nextTick(initCopyEntry);
     });
+
+    watch(
+      () => props.value,
+      () => {
+        nextTick(initCopyEntry);
+      }
+    );
 
     return () => (
       <>
