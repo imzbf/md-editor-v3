@@ -51,9 +51,12 @@ export default defineComponent({
     const triggerRef = ref();
     const overlayRef = ref();
 
-    const triggerHandler = () => {
-      const triggerEle: HTMLElement = triggerRef.value;
-      ctl.visible = !ctl.visible;
+    const triggerHandler = (e: MouseEvent, type: 'click' | 'hover' = 'click') => {
+      if (type === 'click') {
+        ctl.visible = !ctl.visible;
+      } else {
+        ctl.visible = true;
+      }
     };
 
     // 显示状态变化后修改某些属性
@@ -95,8 +98,9 @@ export default defineComponent({
       // 设置好正对位置
       ctl.overlayStyle = {
         ...ctl.overlayStyle,
-        top: offsetTop + offsetHeight + 10 + 'px',
-        left: offsetLeft - overlayEle.offsetWidth / 2 + offsetWidth / 2 + 'px'
+        top: offsetTop + offsetHeight + 'px',
+        left: offsetLeft - overlayEle.offsetWidth / 2 + offsetWidth / 2 + 'px',
+        marginTop: '10px'
       };
 
       document.addEventListener('click', hiddenHandler);
@@ -114,7 +118,14 @@ export default defineComponent({
       // 触发器
       const trigger = cloneVNode(
         slotDefault instanceof Array ? slotDefault[0] : slotDefault,
-        { onClick: triggerHandler, ref: triggerRef }
+        {
+          onClick: triggerHandler,
+          // onMouseover: (e: MouseEvent) => triggerHandler(e, 'hover'),
+          // onMouseleave: (e: MouseEvent) => {
+          //   ctl.visible = false;
+          // },
+          ref: triggerRef
+        }
       );
       // 列表内容
       const overlay = cloneVNode(
