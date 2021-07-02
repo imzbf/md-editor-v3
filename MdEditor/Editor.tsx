@@ -1,4 +1,4 @@
-import { CSSProperties, defineComponent, onMounted, PropType, reactive } from 'vue';
+import { CSSProperties, defineComponent, PropType, provide, Teleport } from 'vue';
 import config from './config';
 import { useStyle } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -9,6 +9,10 @@ import './styles/index.less';
 export const prefix: string = 'md';
 
 const props = {
+  value: {
+    type: String as PropType<string>,
+    default: ''
+  },
   // 主题，支持light和dark
   theme: {
     type: String as PropType<'light' | 'dark'>,
@@ -23,43 +27,44 @@ const props = {
   editorStyle: {
     type: [Object, String] as PropType<CSSProperties | string>,
     default: (): CSSProperties => ({
-      height: '300px'
+      height: '500px'
     })
   },
-  // 页面跳转是否清除组件影响，这样会移除向页面添加的内容以及监听事件
-  clearEffect: {
-    type: Boolean,
-    default: false
+  // 可以手动提供highlight.js的cdn链接
+  highlightJs: {
+    type: String as PropType<string>,
+    default: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js'
+  },
+  highlightCss: {
+    type: String as PropType<string>,
+    default:
+      'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css'
+  },
+  onChange: {
+    type: Function as PropType<(e: Event) => void>,
+    default: () => () => {}
   }
 };
-
-let IconFontScript: HTMLScriptElement;
 
 export default defineComponent({
   name: 'MDEditor',
   props,
   setup(props) {
-    const data = reactive({
-      iconLoaded: false
-    });
-
     const style = useStyle(props);
 
-    onMounted(() => {
-      // 放到mounted中执行，防止ssr报错
-      IconFontScript = document.createElement('script');
-      IconFontScript.id = config.iconScriptId;
-      IconFontScript.src = config.iconfontUrl;
-      IconFontScript.addEventListener('load', () => {
-        data.iconLoaded = true;
-      });
-      document.head.appendChild(IconFontScript);
+    // 注入高亮src
+    provide('highlight', {
+      js: props.highlightJs,
+      css: props.highlightCss
     });
 
     return () => (
       <div class={[prefix, props.editorClass]} style={style.editor}>
         <ToolBar />
-        <Content />
+        <Content value={props.value} onChange={props.onChange} />
+        <Teleport to={document.head}>
+          <script src={config.iconfontUrl} />
+        </Teleport>
       </div>
     );
   }
