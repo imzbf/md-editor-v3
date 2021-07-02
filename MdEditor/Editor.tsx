@@ -9,6 +9,10 @@ import './styles/index.less';
 export const prefix: string = 'md';
 
 const props = {
+  value: {
+    type: String as PropType<string>,
+    default: ''
+  },
   // 主题，支持light和dark
   theme: {
     type: String as PropType<'light' | 'dark'>,
@@ -35,6 +39,10 @@ const props = {
     type: String as PropType<string>,
     default:
       'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css'
+  },
+  onChange: {
+    type: Function as PropType<(e: Event) => void>,
+    default: () => () => {}
   }
 };
 
@@ -53,7 +61,7 @@ export default defineComponent({
     return () => (
       <div class={[prefix, props.editorClass]} style={style.editor}>
         <ToolBar />
-        <Content />
+        <Content value={props.value} onChange={props.onChange} />
         <Teleport to={document.head}>
           <script src={config.iconfontUrl} />
         </Teleport>
