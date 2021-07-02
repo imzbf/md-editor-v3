@@ -1,11 +1,12 @@
 @import './vars';
-@import (css) 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap';
+@import './md-preview';
 
 .@{prefix} {
   width: 100%;
   border: 1px solid hsv(0, 0, 90%);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   /* 浏览器滚动条 */
   ::-webkit-scrollbar {
@@ -69,7 +70,7 @@
   }
 
   &-toolbar {
-    padding: 4px 12px;
+    padding: 4px;
     height: 36px;
     border-bottom: 1px solid hsv(0, 0, 90%);
     display: flex;
@@ -112,7 +113,7 @@
       textarea {
         width: 100%;
         height: 100%;
-        padding: 10px;
+        padding: 10px 20px;
         box-sizing: border-box;
         font-size: 14px;
         font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica,
@@ -124,7 +125,7 @@
     }
     .@{prefix}-preview-wrapper {
       flex: 1;
-      padding: 10px;
+      padding: 10px 20px;
     }
   }
 }
