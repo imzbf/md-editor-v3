@@ -17,7 +17,6 @@ import { getSlot } from '../../utils/vue-tsx';
 import './style.less';
 
 interface CtlTypes {
-  visible: boolean;
   overlayClass: Array<string>;
   overlayStyle: CSSProperties;
 }
@@ -37,13 +36,16 @@ export default defineComponent({
     visible: {
       type: Boolean as PropType<boolean>,
       default: false
+    },
+    onChange: {
+      type: Function as PropType<(v: boolean) => void>,
+      default: () => () => {}
     }
   },
   setup(props, ctx: SetupContext<EmitsOptions>) {
     const HIDDEN_CLASS = `${prefix}-dropdown-hidden`;
 
     const ctl = reactive<CtlTypes>({
-      visible: false,
       overlayClass: [`${prefix}-dropdown-overlay`, HIDDEN_CLASS],
       overlayStyle: {}
     });
@@ -53,15 +55,15 @@ export default defineComponent({
 
     const triggerHandler = (e: MouseEvent, type: 'click' | 'hover' = 'click') => {
       if (type === 'click') {
-        ctl.visible = !ctl.visible;
+        props.onChange(!props.visible);
       } else {
-        ctl.visible = true;
+        props.onChange(true);
       }
     };
 
     // 显示状态变化后修改某些属性
     watch(
-      () => ctl.visible,
+      () => props.visible,
       (newV) => {
         if (newV) {
           ctl.overlayClass = ctl.overlayClass.filter(
@@ -82,7 +84,7 @@ export default defineComponent({
         !triggerEle.contains(e.target as HTMLElement) &&
         !overlayEle.contains(e.target as HTMLElement)
       ) {
-        ctl.visible = false;
+        props.onChange(false);
       }
     };
 
