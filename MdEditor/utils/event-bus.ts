@@ -35,7 +35,7 @@ class Bus {
         try {
           item(params);
         } catch (error) {
-          console.error(`${name}监听事件执行异常！`);
+          console.error(`${name}监听事件执行异常！`, error);
         }
       });
     }

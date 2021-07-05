@@ -46,7 +46,7 @@ const props = {
       'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css'
   },
   onChange: {
-    type: Function as PropType<(e: Event) => void>,
+    type: Function as PropType<(v: string) => void>,
     default: () => () => {}
   }
 };

@@ -2,6 +2,8 @@ import { defineComponent } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix } from '../../Editor';
+import bus from '../../utils/event-bus';
+import { ToolDirective } from '../../utils';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -9,7 +11,13 @@ export default defineComponent({
     return () => (
       <div class={`${prefix}-toolbar`}>
         <div class={`${prefix}-toolbar-left`}>
-          <div class={`${prefix}-toolbar-item`} title="加粗">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="加粗"
+            onClick={() => {
+              bus.emit('replace', 'bold' as ToolDirective);
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-bold"></use>
             </svg>

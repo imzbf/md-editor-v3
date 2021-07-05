@@ -7,12 +7,13 @@ import {
   PropType,
   watch,
   nextTick,
-  ref,
-  watchEffect
+  ref
 } from 'vue';
 import { prefix } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
+import bus from '../../utils/event-bus';
+import { ToolDirective, directive2flag } from '../../utils';
 
 declare global {
   interface Window {
@@ -45,13 +46,18 @@ export default defineComponent({
       default: null
     },
     onChange: {
-      type: Function as PropType<(e: Event) => void>,
+      type: Function as PropType<(v: string) => void>,
       default: () => () => {}
     }
   },
   setup(props) {
     const highlightInited = ref<boolean>(props.hljs !== null);
     const highlight = inject('highlight') as { js: string; css: string };
+
+    // 输入框
+    const textAreaRef = ref<HTMLTextAreaElement>();
+    // 输入框选中的内容
+    let selectedText = '';
 
     if (props.hljs) {
       // 提供了hljs，在创建阶段即完成设置
@@ -63,7 +69,22 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      // 复制按钮
       initCopyEntry();
+
+      textAreaRef.value?.addEventListener('select', () => {
+        selectedText = window.getSelection()?.toString() || '';
+      });
+
+      //
+      bus.on({
+        name: 'replace',
+        callback(direct: ToolDirective) {
+          props.onChange(
+            directive2flag(direct, selectedText, textAreaRef.value as HTMLTextAreaElement)
+          );
+        }
+      });
     });
 
     const html = computed(() => {
@@ -96,7 +117,11 @@ export default defineComponent({
       <>
         <div class={`${prefix}-content`}>
           <div class={[`${prefix}-input-wrapper`]}>
-            <textarea value={props.value} onInput={props.onChange} />
+            <textarea
+              ref={textAreaRef}
+              value={props.value}
+              onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
+            />
           </div>
           <div class={`${prefix}-preview-wrapper`} innerHTML={html.value}></div>
         </div>
