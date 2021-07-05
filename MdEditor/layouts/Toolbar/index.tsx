@@ -66,8 +66,16 @@ export default defineComponent({
           <Divider />
           <Dropdown
             visible={visible.title}
+            onChange={(v) => {
+              visible.title = v;
+            }}
             overlay={
-              <ul class={`${prefix}-menu`}>
+              <ul
+                class={`${prefix}-menu`}
+                onClick={() => {
+                  visible.title = false;
+                }}
+              >
                 <li
                   class={`${prefix}-menu-item`}
                   onClick={() => {
