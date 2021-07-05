@@ -1,44 +1,129 @@
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix } from '../../Editor';
+import bus from '../../utils/event-bus';
+import { ToolDirective } from '../../utils';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
   setup() {
+    const visible = reactive({
+      title: false
+    });
+
+    const emitHandler = (direct: ToolDirective) => {
+      bus.emit('replace', direct);
+    };
+
     return () => (
       <div class={`${prefix}-toolbar`}>
         <div class={`${prefix}-toolbar-left`}>
-          <div class={`${prefix}-toolbar-item`} title="加粗">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="加粗"
+            onClick={(e) => {
+              emitHandler('bold');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-bold"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="下划线">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="下划线"
+            onClick={() => {
+              emitHandler('underline');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-underline"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="斜体">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="斜体"
+            onClick={() => {
+              emitHandler('italic');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-italic"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="删除线">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="删除线"
+            onClick={() => {
+              emitHandler('strikeThrough');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-strike-through"></use>
             </svg>
           </div>
           <Divider />
           <Dropdown
+            visible={visible.title}
+            onChange={(v) => {
+              visible.title = v;
+            }}
             overlay={
-              <ul class={`${prefix}-menu`}>
-                <li class={`${prefix}-menu-item`}>一级标题</li>
-                <li class={`${prefix}-menu-item`}>二级标题</li>
-                <li class={`${prefix}-menu-item`}>三级标题</li>
-                <li class={`${prefix}-menu-item`}>四级标题</li>
-                <li class={`${prefix}-menu-item`}>五级标题</li>
-                <li class={`${prefix}-menu-item`}>六级标题</li>
+              <ul
+                class={`${prefix}-menu`}
+                onClick={() => {
+                  visible.title = false;
+                }}
+              >
+                <li
+                  class={`${prefix}-menu-item`}
+                  onClick={() => {
+                    emitHandler('h1');
+                  }}
+                >
+                  一级标题
+                </li>
+                <li
+                  class={`${prefix}-menu-item`}
+                  onClick={() => {
+                    emitHandler('h2');
+                  }}
+                >
+                  二级标题
+                </li>
+                <li
+                  class={`${prefix}-menu-item`}
+                  onClick={() => {
+                    emitHandler('h3');
+                  }}
+                >
+                  三级标题
+                </li>
+                <li
+                  class={`${prefix}-menu-item`}
+                  onClick={() => {
+                    emitHandler('h4');
+                  }}
+                >
+                  四级标题
+                </li>
+                <li
+                  class={`${prefix}-menu-item`}
+                  onClick={() => {
+                    emitHandler('h5');
+                  }}
+                >
+                  五级标题
+                </li>
+                <li
+                  class={`${prefix}-menu-item`}
+                  onClick={() => {
+                    emitHandler('h6');
+                  }}
+                >
+                  六级标题
+                </li>
               </ul>
             }
           >
@@ -48,6 +133,28 @@ export default defineComponent({
               </svg>
             </div>
           </Dropdown>
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="下标"
+            onClick={() => {
+              emitHandler('sub');
+            }}
+          >
+            <svg class={`${prefix}-icon`} aria-hidden="true">
+              <use xlinkHref="#icon-sub"></use>
+            </svg>
+          </div>
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="上标"
+            onClick={() => {
+              emitHandler('sup');
+            }}
+          >
+            <svg class={`${prefix}-icon`} aria-hidden="true">
+              <use xlinkHref="#icon-sup"></use>
+            </svg>
+          </div>
           <div class={`${prefix}-toolbar-item`} title="引用">
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-quote"></use>
