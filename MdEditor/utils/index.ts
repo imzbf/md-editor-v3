@@ -88,7 +88,7 @@ export type ToolDirective =
 
 export const directive2flag = (
   direct: ToolDirective,
-  selectedText: string = '',
+  selectedText = '',
   inputArea: HTMLTextAreaElement
 ): string => {
   let targetValue = '';
@@ -124,6 +124,9 @@ export const directive2flag = (
       case 'sup': {
         targetValue = `<sup>${selectedText}</sup>`;
         break;
+      }
+      case 'codeRow': {
+        targetValue = '`' + selectedText + '`';
       }
     }
   }
