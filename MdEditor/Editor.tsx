@@ -30,6 +30,11 @@ const props = {
       height: '500px'
     })
   },
+  // 如果项目中有使用highlight.js或者没有外网访问权限，可以直接传递实例hljs并且手动导入css
+  hljs: {
+    type: Object,
+    default: null
+  },
   // 可以手动提供highlight.js的cdn链接
   highlightJs: {
     type: String as PropType<string>,
@@ -61,7 +66,7 @@ export default defineComponent({
     return () => (
       <div class={[prefix, props.editorClass]} style={style.editor}>
         <ToolBar />
-        <Content value={props.value} onChange={props.onChange} />
+        <Content hljs={props.hljs} value={props.value} onChange={props.onChange} />
         <Teleport to={document.head}>
           <script src={config.iconfontUrl} />
         </Teleport>

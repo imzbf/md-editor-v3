@@ -40,14 +40,31 @@ export default defineComponent({
       type: String as PropType<string>,
       default: ''
     },
+    hljs: {
+      type: Object,
+      default: null
+    },
     onChange: {
       type: Function as PropType<(e: Event) => void>,
       default: () => () => {}
     }
   },
   setup(props) {
-    const highlightInited = ref<boolean>(false);
+    const highlightInited = ref<boolean>(props.hljs !== null);
     const highlight = inject('highlight') as { js: string; css: string };
+
+    if (props.hljs) {
+      // 提供了hljs，在创建阶段即完成设置
+      marked.setOptions({
+        highlight(code) {
+          return props.hljs.highlightAuto(code).value;
+        }
+      });
+    }
+
+    onMounted(() => {
+      initCopyEntry();
+    });
 
     const html = computed(() => {
       if (highlightInited.value) {
@@ -83,10 +100,12 @@ export default defineComponent({
           </div>
           <div class={`${prefix}-preview-wrapper`} innerHTML={html.value}></div>
         </div>
-        <Teleport to={document.head}>
-          <link rel="stylesheet" href={highlight.css} />
-          <script src={highlight.js} onLoad={highlightLoad} />
-        </Teleport>
+        {props.hljs === null && (
+          <Teleport to={document.head}>
+            <link rel="stylesheet" href={highlight.css} />
+            <script src={highlight.js} onLoad={highlightLoad} />
+          </Teleport>
+        )}
       </>
     );
   }
