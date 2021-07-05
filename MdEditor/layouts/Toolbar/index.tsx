@@ -171,7 +171,13 @@ export default defineComponent({
             </svg>
           </div>
           <Divider />
-          <div class={`${prefix}-toolbar-item`} title="行内代码">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="行内代码"
+            onClick={() => {
+              emitHandler('codeRow');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-code-row"></use>
             </svg>
