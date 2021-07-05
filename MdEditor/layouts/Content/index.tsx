@@ -6,7 +6,9 @@ import {
   inject,
   PropType,
   watch,
-  nextTick
+  nextTick,
+  ref,
+  watchEffect
 } from 'vue';
 import { prefix } from '../../Editor';
 import marked from 'marked';
@@ -18,6 +20,7 @@ declare global {
   }
 }
 
+// 向页面代码块注入复制按钮
 const initCopyEntry = () => {
   document.querySelectorAll(`.${prefix}-preview-wrapper pre`).forEach((pre: Element) => {
     const copyButton = document.createElement('span');
@@ -43,22 +46,27 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const highlightInited = ref<boolean>(false);
     const highlight = inject('highlight') as { js: string; css: string };
 
-    const html = computed((): string => {
-      return marked(props.value);
+    const html = computed(() => {
+      if (highlightInited.value) {
+        return marked(props.value);
+      } else {
+        return '';
+      }
     });
 
-    onMounted(() => {
-      window.addEventListener('load', () => {
-        marked.setOptions({
-          highlight(code) {
-            return window.hljs.highlightAuto(code).value;
-          }
-        });
+    const highlightLoad = () => {
+      marked.setOptions({
+        highlight(code) {
+          return window.hljs.highlightAuto(code).value;
+        }
       });
+
+      highlightInited.value = true;
       nextTick(initCopyEntry);
-    });
+    };
 
     watch(
       () => props.value,
@@ -77,7 +85,7 @@ export default defineComponent({
         </div>
         <Teleport to={document.head}>
           <link rel="stylesheet" href={highlight.css} />
-          <script src={highlight.js} />
+          <script src={highlight.js} onLoad={highlightLoad} />
         </Teleport>
       </>
     );
