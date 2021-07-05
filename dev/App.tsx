@@ -11,11 +11,7 @@ export default defineComponent({
     });
     return () => (
       <>
-        <Editor
-          hljs={hljs}
-          value={md.text}
-          onChange={({ target }) => (md.text = (target as HTMLTextAreaElement).value)}
-        />
+        <Editor hljs={hljs} value={md.text} onChange={(value) => (md.text = value)} />
       </>
     );
   }
