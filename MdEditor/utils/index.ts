@@ -82,19 +82,49 @@ export type ToolDirective =
   | 'code'
   | 'link'
   | 'image'
-  | 'table';
+  | 'table'
+  | 'sub'
+  | 'sup';
 
 export const directive2flag = (
   direct: ToolDirective,
   selectedText: string = '',
   inputArea: HTMLTextAreaElement
 ): string => {
-  console.log(selectedText);
   let targetValue = '';
-  switch (direct) {
-    case 'bold': {
-      targetValue = `**${selectedText}**`;
-      break;
+
+  if (/^h[1-6]{1}$/.test(direct)) {
+    const pix = direct.replace(/^h(\d)/, (_, num) => {
+      return new Array(Number(num)).fill('#', 0, num).join('');
+    });
+
+    targetValue = `${pix} ${selectedText}`;
+  } else {
+    switch (direct) {
+      case 'bold': {
+        targetValue = `**${selectedText}**`;
+        break;
+      }
+      case 'underline': {
+        targetValue = `<u>${selectedText}</u>`;
+        break;
+      }
+      case 'italic': {
+        targetValue = `*${selectedText}*`;
+        break;
+      }
+      case 'strikeThrough': {
+        targetValue = `~${selectedText}~`;
+        break;
+      }
+      case 'sub': {
+        targetValue = `<sub>${selectedText}</sub>`;
+        break;
+      }
+      case 'sup': {
+        targetValue = `<sup>${selectedText}</sup>`;
+        break;
+      }
     }
   }
 

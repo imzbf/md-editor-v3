@@ -76,6 +76,12 @@ export default defineComponent({
         selectedText = window.getSelection()?.toString() || '';
       });
 
+      window.addEventListener('keydown', () => {
+        // 选中删除时，不会触发select事件
+        // 键盘键按下时手动清除记录的选中内容
+        selectedText = '';
+      });
+
       //
       bus.on({
         name: 'replace',
