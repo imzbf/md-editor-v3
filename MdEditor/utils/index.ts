@@ -127,6 +127,19 @@ export const directive2flag = (
       }
       case 'codeRow': {
         targetValue = '`' + selectedText + '`';
+        break;
+      }
+      case 'quote': {
+        targetValue = `> ${selectedText}`;
+        break;
+      }
+      case 'orderedList': {
+        targetValue = `1. ${selectedText}`;
+        break;
+      }
+      case 'unorderedList': {
+        targetValue = `- ${selectedText}`;
+        break;
       }
     }
   }
