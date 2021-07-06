@@ -13,7 +13,7 @@ import { prefix } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
-import { ToolDirective, directive2flag } from '../../utils';
+import { ToolDirective, directive2flag, insert, setPosition } from '../../utils';
 
 declare global {
   interface Window {
@@ -82,6 +82,58 @@ export default defineComponent({
         selectedText = '';
       });
 
+      textAreaRef.value?.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+          const endPoint = textAreaRef.value?.selectionStart as number;
+
+          // 前半部分
+          const prefixStr = textAreaRef.value?.value.substring(0, endPoint);
+          // 后半部分
+          const subStr = textAreaRef.value?.value.substring(endPoint);
+          // 前半部分最后一个换行符位置，用于分割当前行内容
+          const lastIndexBR = prefixStr?.lastIndexOf('\n');
+
+          const enterPressRow = prefixStr?.substring(
+            (lastIndexBR as number) + 1,
+            endPoint
+          ) as string;
+
+          // 是列表
+          if (/^\d+\.\s|^-\s/.test(enterPressRow)) {
+            event.cancelBubble = true;
+            event.preventDefault();
+            event.stopPropagation();
+
+            // 如果列表当前行没有内容，则清空当前行
+            if (/^\d+\.\s+$|^-\s+$/.test(enterPressRow)) {
+              const resetPrefixStr = prefixStr?.replace(
+                new RegExp(enterPressRow + '$'),
+                ''
+              );
+              props.onChange((resetPrefixStr as string) + subStr);
+
+              // 手动定位光标到当前位置
+              setPosition(
+                textAreaRef.value as HTMLTextAreaElement,
+                resetPrefixStr?.length
+              );
+            } else if (/^-\s+.+/.test(enterPressRow)) {
+              // 无序列表存在内容
+              props.onChange(
+                insert(textAreaRef.value as HTMLTextAreaElement, `\n- `, {})
+              );
+            } else {
+              const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);
+
+              const nextOrder = (lastOrderMatch && Number(lastOrderMatch[0]) + 1) || 1;
+              props.onChange(
+                insert(textAreaRef.value as HTMLTextAreaElement, `\n${nextOrder}. `, {})
+              );
+            }
+          }
+        }
+      });
+
       //
       bus.on({
         name: 'replace',
@@ -119,25 +171,27 @@ export default defineComponent({
       }
     );
 
-    return () => (
-      <>
-        <div class={`${prefix}-content`}>
-          <div class={[`${prefix}-input-wrapper`]}>
-            <textarea
-              ref={textAreaRef}
-              value={props.value}
-              onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
-            />
+    return () => {
+      return (
+        <>
+          <div class={`${prefix}-content`}>
+            <div class={[`${prefix}-input-wrapper`]}>
+              <textarea
+                ref={textAreaRef}
+                value={props.value}
+                onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
+              />
+            </div>
+            <div class={`${prefix}-preview-wrapper`} innerHTML={html.value}></div>
           </div>
-          <div class={`${prefix}-preview-wrapper`} innerHTML={html.value}></div>
-        </div>
-        {props.hljs === null && (
-          <Teleport to={document.head}>
-            <link rel="stylesheet" href={highlight.css} />
-            <script src={highlight.js} onLoad={highlightLoad} />
-          </Teleport>
-        )}
-      </>
-    );
+          {props.hljs === null && (
+            <Teleport to={document.head}>
+              <link rel="stylesheet" href={highlight.css} />
+              <script src={highlight.js} onLoad={highlightLoad} />
+            </Teleport>
+          )}
+        </>
+      );
+    };
   }
 });
