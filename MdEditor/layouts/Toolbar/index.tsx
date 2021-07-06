@@ -155,17 +155,35 @@ export default defineComponent({
               <use xlinkHref="#icon-sup"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="引用">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="引用"
+            onClick={() => {
+              emitHandler('quote');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-quote"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="无序列表">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="无序列表"
+            onClick={() => {
+              emitHandler('unorderedList');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-unordered-list"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="有序列表">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="有序列表"
+            onClick={() => {
+              emitHandler('orderedList');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-ordered-list"></use>
             </svg>
