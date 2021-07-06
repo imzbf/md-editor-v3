@@ -31,13 +31,13 @@ export const setPosition = (
  *
  * @param dom 需要插入的input或textarea元素
  * @param tarValue 插入的目标值
- * @param direct 是否直接插入到元素中
+ * @param offset 光标定位偏移
  * @returns 插入后的值
  */
 export const insert = (
   dom: HTMLInputElement | HTMLTextAreaElement,
   tarValue: string,
-  direct = false
+  offset = 0
 ) => {
   // 返回值
   let res = '';
@@ -52,13 +52,9 @@ export const insert = (
     res = prefixVal + tarValue + suffixVal;
 
     // 设置光标位置
-    setPosition(dom, startPos + tarValue.length);
+    setPosition(dom, startPos + tarValue.length + offset);
   } else {
     res += tarValue;
-  }
-
-  if (direct) {
-    dom.value = res;
   }
 
   return res;
@@ -91,7 +87,10 @@ export const directive2flag = (
   selectedText = '',
   inputArea: HTMLTextAreaElement
 ): string => {
+  // 目标值
   let targetValue = '';
+  // 光标偏移量
+  let offset = 0;
 
   if (/^h[1-6]{1}$/.test(direct)) {
     const pix = direct.replace(/^h(\d)/, (_, num) => {
@@ -103,30 +102,37 @@ export const directive2flag = (
     switch (direct) {
       case 'bold': {
         targetValue = `**${selectedText}**`;
+        offset = -2;
         break;
       }
       case 'underline': {
         targetValue = `<u>${selectedText}</u>`;
+        offset = -4;
         break;
       }
       case 'italic': {
         targetValue = `*${selectedText}*`;
+        offset = -1;
         break;
       }
       case 'strikeThrough': {
         targetValue = `~${selectedText}~`;
+        offset = -1;
         break;
       }
       case 'sub': {
         targetValue = `<sub>${selectedText}</sub>`;
+        offset = -6;
         break;
       }
       case 'sup': {
         targetValue = `<sup>${selectedText}</sup>`;
+        offset = -6;
         break;
       }
       case 'codeRow': {
         targetValue = '`' + selectedText + '`';
+        offset = -1;
         break;
       }
       case 'quote': {
@@ -144,5 +150,5 @@ export const directive2flag = (
     }
   }
 
-  return insert(inputArea, targetValue);
+  return insert(inputArea, targetValue, offset);
 };
