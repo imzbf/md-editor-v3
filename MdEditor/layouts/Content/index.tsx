@@ -13,7 +13,7 @@ import { prefix } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
-import { ToolDirective, directive2flag } from '../../utils';
+import { ToolDirective, directive2flag, insert, setPosition } from '../../utils';
 
 declare global {
   interface Window {
@@ -80,6 +80,56 @@ export default defineComponent({
         // 选中删除时，不会触发select事件
         // 键盘键按下时手动清除记录的选中内容
         selectedText = '';
+      });
+
+      textAreaRef.value?.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+          const endPoint = textAreaRef.value?.selectionStart as number;
+
+          // 前半部分
+          const prefixStr = textAreaRef.value?.value.substring(0, endPoint);
+          // 后半部分
+          const subStr = textAreaRef.value?.value.substring(endPoint);
+          // 前半部分最后一个换行符位置，用于分割当前行内容
+          const lastIndexBR = prefixStr?.lastIndexOf('\n');
+
+          const enterPressRow = prefixStr?.substring(
+            (lastIndexBR as number) + 1,
+            endPoint
+          ) as string;
+
+          // 是列表
+          if (/^\d+\.\s|^-\s/.test(enterPressRow)) {
+            event.cancelBubble = true;
+            event.preventDefault();
+            event.stopPropagation();
+
+            // 如果列表当前行没有内容，则清空当前行
+            if (/^\d+\.\s+$|^-\s+$/.test(enterPressRow)) {
+              const resetPrefixStr = prefixStr?.replace(
+                new RegExp(enterPressRow + '$'),
+                ''
+              );
+              props.onChange((resetPrefixStr as string) + subStr);
+
+              // 手动定位光标到当前位置
+              setPosition(
+                textAreaRef.value as HTMLTextAreaElement,
+                resetPrefixStr?.length
+              );
+            } else if (/^-\s+.+/.test(enterPressRow)) {
+              // 无序列表存在内容
+              props.onChange(insert(textAreaRef.value as HTMLTextAreaElement, `\n- `));
+            } else {
+              const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);
+
+              const nextOrder = (lastOrderMatch && Number(lastOrderMatch[0]) + 1) || 1;
+              props.onChange(
+                insert(textAreaRef.value as HTMLTextAreaElement, `\n${nextOrder}. `)
+              );
+            }
+          }
+        }
       });
 
       //
