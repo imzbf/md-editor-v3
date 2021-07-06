@@ -182,6 +182,7 @@ export const directive2flag = (
         targetValue = '```language\n' + selectedText + '\n```\n';
         deviationStart = 3;
         deviationEnd = 11 - targetValue.length;
+        select = true;
         break;
       }
     }
