@@ -1,9 +1,10 @@
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix } from '../../Editor';
 import bus from '../../utils/event-bus';
 import { ToolDirective } from '../../utils';
+import screenfull from 'screenfull';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -15,6 +16,24 @@ export default defineComponent({
     const emitHandler = (direct: ToolDirective) => {
       bus.emit('replace', direct);
     };
+
+    const fullScreen = () => {
+      if (screenfull.isEnabled) {
+        if (screenfull.isFullscreen) {
+          screenfull.exit();
+        } else screenfull.request();
+      } else {
+        console.error('浏览器不支持全屏');
+      }
+    };
+
+    const isFullscreen = ref(false);
+
+    if (screenfull.isEnabled) {
+      screenfull.on('change', () => {
+        isFullscreen.value = !isFullscreen.value;
+      });
+    }
 
     return () => (
       <div class={`${prefix}-toolbar`}>
@@ -249,9 +268,13 @@ export default defineComponent({
               <use xlinkHref="#icon-fangda"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="全屏放大">
+          <div class={`${prefix}-toolbar-item`} title="全屏放大" onClick={fullScreen}>
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-fullScreen"></use>
+              <use
+                xlinkHref={`#icon-${
+                  isFullscreen.value ? 'fullScreen' : 'fullScreen-exit'
+                }`}
+              ></use>
             </svg>
           </div>
 
