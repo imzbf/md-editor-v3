@@ -119,13 +119,15 @@ export default defineComponent({
               );
             } else if (/^-\s+.+/.test(enterPressRow)) {
               // 无序列表存在内容
-              props.onChange(insert(textAreaRef.value as HTMLTextAreaElement, `\n- `));
+              props.onChange(
+                insert(textAreaRef.value as HTMLTextAreaElement, `\n- `, {})
+              );
             } else {
               const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);
 
               const nextOrder = (lastOrderMatch && Number(lastOrderMatch[0]) + 1) || 1;
               props.onChange(
-                insert(textAreaRef.value as HTMLTextAreaElement, `\n${nextOrder}. `)
+                insert(textAreaRef.value as HTMLTextAreaElement, `\n${nextOrder}. `, {})
               );
             }
           }
@@ -169,25 +171,27 @@ export default defineComponent({
       }
     );
 
-    return () => (
-      <>
-        <div class={`${prefix}-content`}>
-          <div class={[`${prefix}-input-wrapper`]}>
-            <textarea
-              ref={textAreaRef}
-              value={props.value}
-              onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
-            />
+    return () => {
+      return (
+        <>
+          <div class={`${prefix}-content`}>
+            <div class={[`${prefix}-input-wrapper`]}>
+              <textarea
+                ref={textAreaRef}
+                value={props.value}
+                onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
+              />
+            </div>
+            <div class={`${prefix}-preview-wrapper`} innerHTML={html.value}></div>
           </div>
-          <div class={`${prefix}-preview-wrapper`} innerHTML={html.value}></div>
-        </div>
-        {props.hljs === null && (
-          <Teleport to={document.head}>
-            <link rel="stylesheet" href={highlight.css} />
-            <script src={highlight.js} onLoad={highlightLoad} />
-          </Teleport>
-        )}
-      </>
-    );
+          {props.hljs === null && (
+            <Teleport to={document.head}>
+              <link rel="stylesheet" href={highlight.css} />
+              <script src={highlight.js} onLoad={highlightLoad} />
+            </Teleport>
+          )}
+        </>
+      );
+    };
   }
 });
