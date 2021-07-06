@@ -3,7 +3,7 @@ import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix } from '../../Editor';
 import bus from '../../utils/event-bus';
-import { ToolDirective } from '../../utils';
+import { goto, ToolDirective } from '../../utils';
 import screenfull from 'screenfull';
 
 export default defineComponent({
@@ -293,7 +293,11 @@ export default defineComponent({
               <use xlinkHref="#icon-help"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="源码">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="源码"
+            onClick={() => goto('https://github.com/imzbf/md-editor-v3')}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-github"></use>
             </svg>
