@@ -200,7 +200,13 @@ export default defineComponent({
               <use xlinkHref="#icon-code-row"></use>
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="代码块">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="代码块"
+            onClick={() => {
+              emitHandler('code');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-code"></use>
             </svg>

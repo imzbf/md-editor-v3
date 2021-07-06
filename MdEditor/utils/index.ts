@@ -32,13 +32,20 @@ export const setPosition = (
  * @param dom 需要插入的input或textarea元素
  * @param tarValue 插入的目标值
  * @param offset 光标定位偏移
+ * @param direct 是否直接插入到元素中
  * @returns 插入后的值
  */
 export const insert = (
   dom: HTMLInputElement | HTMLTextAreaElement,
   tarValue: string,
-  offset = 0
+  params: {
+    deviationStart?: number;
+    deviationEnd?: number;
+    select?: boolean;
+    direct?: boolean;
+  }
 ) => {
+  const { deviationStart = 0, deviationEnd = 0, direct = false, select = false } = params;
   // 返回值
   let res = '';
   if (dom.selectionStart || dom.selectionStart === 0) {
@@ -52,9 +59,18 @@ export const insert = (
     res = prefixVal + tarValue + suffixVal;
 
     // 设置光标位置
-    setPosition(dom, startPos + tarValue.length + offset);
+    setPosition(
+      dom,
+      // 选中值开始位置为设定开始，否者为结束位置
+      select ? startPos + deviationStart : startPos + tarValue.length + deviationEnd,
+      startPos + tarValue.length + deviationEnd
+    );
   } else {
     res += tarValue;
+  }
+
+  if (direct) {
+    dom.value = res;
   }
 
   return res;
@@ -89,8 +105,12 @@ export const directive2flag = (
 ): string => {
   // 目标值
   let targetValue = '';
-  // 光标偏移量
-  let offset = 0;
+  // 光标开始位置偏移量
+  let deviationStart = 0;
+  // 结束位置偏移量
+  let deviationEnd = 0;
+  // 是否选中
+  let select = false;
 
   if (/^h[1-6]{1}$/.test(direct)) {
     const pix = direct.replace(/^h(\d)/, (_, num) => {
@@ -98,57 +118,74 @@ export const directive2flag = (
     });
 
     targetValue = `${pix} ${selectedText}`;
+    deviationStart = pix.length + 1;
   } else {
     switch (direct) {
       case 'bold': {
         targetValue = `**${selectedText}**`;
-        offset = -2;
+        deviationStart = 2;
+        deviationEnd = -2;
         break;
       }
       case 'underline': {
         targetValue = `<u>${selectedText}</u>`;
-        offset = -4;
+        deviationStart = 3;
+        deviationEnd = -4;
         break;
       }
       case 'italic': {
         targetValue = `*${selectedText}*`;
-        offset = -1;
+        deviationStart = 1;
+        deviationEnd = -1;
         break;
       }
       case 'strikeThrough': {
         targetValue = `~${selectedText}~`;
-        offset = -1;
+        deviationStart = 1;
+        deviationEnd = -1;
         break;
       }
       case 'sub': {
         targetValue = `<sub>${selectedText}</sub>`;
-        offset = -6;
+        deviationStart = 5;
+        deviationEnd = -6;
         break;
       }
       case 'sup': {
         targetValue = `<sup>${selectedText}</sup>`;
-        offset = -6;
+        deviationStart = 5;
+        deviationEnd = -6;
         break;
       }
       case 'codeRow': {
         targetValue = '`' + selectedText + '`';
-        offset = -1;
+        deviationStart = 1;
+        deviationEnd = -1;
         break;
       }
       case 'quote': {
         targetValue = `> ${selectedText}`;
+        deviationStart = 2;
         break;
       }
       case 'orderedList': {
         targetValue = `1. ${selectedText}`;
+        deviationStart = 3;
         break;
       }
       case 'unorderedList': {
         targetValue = `- ${selectedText}`;
+        deviationStart = 2;
+        break;
+      }
+      case 'code': {
+        targetValue = '```language\n' + selectedText + '\n```\n';
+        deviationStart = 3;
+        deviationEnd = 11 - targetValue.length;
         break;
       }
     }
   }
 
-  return insert(inputArea, targetValue, offset);
+  return insert(inputArea, targetValue, { deviationStart, deviationEnd, select });
 };
