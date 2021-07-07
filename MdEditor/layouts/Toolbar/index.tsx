@@ -272,7 +272,7 @@ export default defineComponent({
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use
                 xlinkHref={`#icon-${
-                  isFullscreen.value ? 'fullScreen' : 'fullScreen-exit'
+                  isFullscreen.value ? 'fullScreen-exit' : 'fullScreen'
                 }`}
               ></use>
             </svg>
