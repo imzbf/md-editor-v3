@@ -13,7 +13,7 @@ import { prefix } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
-import { ToolDirective, directive2flag, insert, setPosition } from '../../utils';
+import { ToolDirective, directive2flag, insert, setPosition, scrollAuto, compositeKey } from '../../utils';
 
 declare global {
   interface Window {
@@ -47,7 +47,8 @@ export default defineComponent({
     },
     onChange: {
       type: Function as PropType<(v: string) => void>,
-      default: () => () => {}
+      default: () => () => {
+      }
     }
   },
   setup(props) {
@@ -58,6 +59,8 @@ export default defineComponent({
     const textAreaRef = ref<HTMLTextAreaElement>();
     // 输入框选中的内容
     let selectedText = '';
+    // 预览框
+    const previewRef = ref<HTMLDivElement>();
 
     if (props.hljs) {
       // 提供了hljs，在创建阶段即完成设置
@@ -76,10 +79,11 @@ export default defineComponent({
         selectedText = window.getSelection()?.toString() || '';
       });
 
-      window.addEventListener('keydown', () => {
+      window.addEventListener('keydown', (event) => {
         // 选中删除时，不会触发select事件
         // 键盘键按下时手动清除记录的选中内容
         selectedText = '';
+        compositeKey(event);
       });
 
       textAreaRef.value?.addEventListener('keypress', (event) => {
@@ -143,6 +147,9 @@ export default defineComponent({
           );
         }
       });
+
+      //
+      scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
     });
 
     const html = computed(() => {
@@ -167,9 +174,14 @@ export default defineComponent({
     watch(
       () => props.value,
       () => {
-        nextTick(initCopyEntry);
+        nextTick(() => {
+          initCopyEntry
+          scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
+        });
+
       }
     );
+
 
     return () => {
       return (
@@ -179,10 +191,11 @@ export default defineComponent({
               <textarea
                 ref={textAreaRef}
                 value={props.value}
+                onPaste={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
                 onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
               />
             </div>
-            <div class={`${prefix}-preview-wrapper`} innerHTML={html.value} />
+            <div ref={previewRef} class={`${prefix}-preview-wrapper`} innerHTML={html.value} />
           </div>
           {props.hljs === null && (
             <Teleport to={document.head}>
