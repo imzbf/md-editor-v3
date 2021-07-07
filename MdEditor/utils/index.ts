@@ -31,8 +31,7 @@ export const setPosition = (
  *
  * @param dom 需要插入的input或textarea元素
  * @param tarValue 插入的目标值
- * @param offset 光标定位偏移
- * @param direct 是否直接插入到元素中
+ * @param params 光标定位偏移
  * @returns 插入后的值
  */
 export const insert = (

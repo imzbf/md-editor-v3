@@ -182,7 +182,7 @@ export default defineComponent({
                 onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
               />
             </div>
-            <div class={`${prefix}-preview-wrapper`} innerHTML={html.value}></div>
+            <div class={`${prefix}-preview-wrapper`} innerHTML={html.value} />
           </div>
           {props.hljs === null && (
             <Teleport to={document.head}>
