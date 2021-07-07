@@ -1,6 +1,9 @@
 @import './vars';
 @import './md-preview';
 
+@toolBarHeight: 35px;
+@toolBarPadding: 4px;
+
 .@{prefix} {
   width: 100%;
   border: 1px solid hsv(0, 0, 90%);
@@ -9,6 +12,7 @@
   overflow: hidden;
 
   /* 浏览器滚动条 */
+
   ::-webkit-scrollbar {
     width: 6px;
   }
@@ -63,6 +67,7 @@
       &:last-of-type {
         padding-bottom: 8px;
       }
+
       &:hover {
         background-color: rgb(224, 224, 224);
       }
@@ -70,8 +75,8 @@
   }
 
   &-toolbar {
-    padding: 4px;
-    height: 36px;
+    padding: @toolBarPadding;
+    height: @toolBarHeight;
     border-bottom: 1px solid hsv(0, 0, 90%);
     display: flex;
     justify-content: space-between;
@@ -103,12 +108,12 @@
   &-content {
     flex: 1;
     display: flex;
+    height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 2px);
 
     .@{prefix}-input-wrapper {
       flex: 1;
       height: 100%;
       box-sizing: border-box;
-      border-right: 4px solid #ddd;
 
       textarea {
         width: 100%;
@@ -117,15 +122,18 @@
         box-sizing: border-box;
         font-size: 14px;
         font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica,
-          Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
         resize: none;
         border: none;
         outline: none;
+        overflow-y: scroll;
       }
     }
+
     .@{prefix}-preview-wrapper {
       flex: 1;
       padding: 10px 20px;
+      overflow: auto;
     }
   }
 }
