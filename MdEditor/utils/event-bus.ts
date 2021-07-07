@@ -1,14 +1,14 @@
 export interface BusEvent {
   name: string;
-  callback: Function;
+  callback: (p?: any) => any;
 }
 
 class Bus {
   // 事件池
-  pools: { [key: string]: Array<Function> } = {};
+  pools: { [key: string]: Array<(p?: any) => any> } = {};
 
   // 移除事件监听
-  remove(name: string, func: Function) {
+  remove(name: string, func: (p?: any) => any) {
     const events = this.pools[name];
 
     if (events) {
