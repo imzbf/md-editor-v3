@@ -223,3 +223,37 @@ export const goto = (
   aEle.click();
   document.body.removeChild(aEle);
 };
+
+/**
+ * 两块区域同步滚动
+ *
+ * @param pEle 宿主区域
+ * @param cEle 寄主区域
+ */
+export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
+  const pHeight = pEle.clientHeight;
+  const cHeight = cEle.clientHeight;
+
+  const pScrollHeight = pEle.scrollHeight;
+  const cScrollHeight = cEle.scrollHeight;
+
+  // 计算一个高度比
+  const scale = (pScrollHeight - pHeight) / (cScrollHeight - cHeight);
+
+  const scrollHandler = () => {
+    cEle.scrollTo({
+      top: pEle.scrollTop / scale
+    });
+  };
+
+  pEle.removeEventListener('scroll', scrollHandler);
+  pEle.addEventListener('scroll', scrollHandler);
+};
+
+/**
+ * 组合键逻辑处理
+ * @param e 按键事件
+ */
+export const compositeKey = (e: KeyboardEvent) => {
+  console.log(e);
+};
