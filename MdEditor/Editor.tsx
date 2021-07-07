@@ -6,7 +6,7 @@ import Content from './layouts/Content';
 
 import './styles/index.less';
 
-export const prefix: string = 'md';
+export const prefix = 'md';
 
 const props = {
   value: {

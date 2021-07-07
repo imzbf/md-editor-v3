@@ -41,12 +41,12 @@ export default defineComponent({
           <div
             class={`${prefix}-toolbar-item`}
             title="加粗"
-            onClick={(e) => {
+            onClick={() => {
               emitHandler('bold');
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-bold"></use>
+              <use xlinkHref="#icon-bold" />
             </svg>
           </div>
           <div
@@ -57,7 +57,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-underline"></use>
+              <use xlinkHref="#icon-underline" />
             </svg>
           </div>
           <div
@@ -68,7 +68,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-italic"></use>
+              <use xlinkHref="#icon-italic" />
             </svg>
           </div>
           <div
@@ -79,7 +79,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-strike-through"></use>
+              <use xlinkHref="#icon-strike-through" />
             </svg>
           </div>
           <Divider />
@@ -148,7 +148,7 @@ export default defineComponent({
           >
             <div class={`${prefix}-toolbar-item`} title="标题">
               <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-title"></use>
+                <use xlinkHref="#icon-title" />
               </svg>
             </div>
           </Dropdown>
@@ -160,7 +160,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-sub"></use>
+              <use xlinkHref="#icon-sub" />
             </svg>
           </div>
           <div
@@ -171,7 +171,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-sup"></use>
+              <use xlinkHref="#icon-sup" />
             </svg>
           </div>
           <div
@@ -182,7 +182,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-quote"></use>
+              <use xlinkHref="#icon-quote" />
             </svg>
           </div>
           <div
@@ -193,7 +193,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-unordered-list"></use>
+              <use xlinkHref="#icon-unordered-list" />
             </svg>
           </div>
           <div
@@ -204,7 +204,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-ordered-list"></use>
+              <use xlinkHref="#icon-ordered-list" />
             </svg>
           </div>
           <Divider />
@@ -216,7 +216,7 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-code-row"></use>
+              <use xlinkHref="#icon-code-row" />
             </svg>
           </div>
           <div
@@ -227,70 +227,70 @@ export default defineComponent({
             }}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-code"></use>
+              <use xlinkHref="#icon-code" />
             </svg>
           </div>
           <div class={`${prefix}-toolbar-item`} title="链接">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-link"></use>
+              <use xlinkHref="#icon-link" />
             </svg>
           </div>
           <div class={`${prefix}-toolbar-item`} title="图片">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-image"></use>
+              <use xlinkHref="#icon-image" />
             </svg>
           </div>
           <div class={`${prefix}-toolbar-item`} title="表格">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-table"></use>
+              <use xlinkHref="#icon-table" />
             </svg>
           </div>
           <Divider />
           <div class={`${prefix}-toolbar-item`} title="撤回">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-revoke"></use>
+              <use xlinkHref="#icon-revoke" />
             </svg>
           </div>
           <div class={`${prefix}-toolbar-item`} title="取消撤回">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-next"></use>
+              <use xlinkHref="#icon-next" />
             </svg>
           </div>
           <div class={`${prefix}-toolbar-item`} title="保存">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-baocun"></use>
+              <use xlinkHref="#icon-baocun" />
             </svg>
           </div>
         </div>
         <div class={`${prefix}-toolbar-right`}>
           <div class={`${prefix}-toolbar-item`} title="浏览器内全屏">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-fangda"></use>
+              <use xlinkHref="#icon-fangda" />
             </svg>
           </div>
           <div class={`${prefix}-toolbar-item`} title="全屏放大" onClick={fullScreen}>
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use
                 xlinkHref={`#icon-${
-                  isFullscreen.value ? 'fullScreen' : 'fullScreen-exit'
+                  isFullscreen.value ? 'fullScreen-exit' : 'fullScreen'
                 }`}
-              ></use>
+              />
             </svg>
           </div>
 
           <div class={`${prefix}-toolbar-item`} title="分栏">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-sub-column"></use>
+              <use xlinkHref="#icon-sub-column" />
             </svg>
           </div>
           <div class={`${prefix}-toolbar-item`} title="目录">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-mulu"></use>
+              <use xlinkHref="#icon-mulu" />
             </svg>
           </div>
           <div class={`${prefix}-toolbar-item`} title="帮助">
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-help"></use>
+              <use xlinkHref="#icon-help" />
             </svg>
           </div>
           <div
@@ -299,7 +299,7 @@ export default defineComponent({
             onClick={() => goto('https://github.com/imzbf/md-editor-v3')}
           >
             <svg class={`${prefix}-icon`} aria-hidden="true">
-              <use xlinkHref="#icon-github"></use>
+              <use xlinkHref="#icon-github" />
             </svg>
           </div>
         </div>
