@@ -49,8 +49,10 @@
   "eslintConfig": {
     "root": true,
     "env": {
+      "browser": true,
       "node": true
     },
+    "parser": "@typescript-eslint/parser",
     "extends": [
       "plugin:vue/vue3-essential",
       "eslint:recommended",
@@ -58,12 +60,13 @@
       "@vue/prettier",
       "@vue/prettier/@typescript-eslint"
     ],
-    "parserOptions": {
-      "ecmaVersion": 2020
-    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "rules": {
+      "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off"
+      "@typescript-eslint/no-empty-function": "off"
     }
   },
   "prettier": {

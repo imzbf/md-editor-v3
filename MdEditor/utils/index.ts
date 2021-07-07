@@ -31,8 +31,7 @@ export const setPosition = (
  *
  * @param dom 需要插入的input或textarea元素
  * @param tarValue 插入的目标值
- * @param offset 光标定位偏移
- * @param direct 是否直接插入到元素中
+ * @param params 光标定位偏移
  * @returns 插入后的值
  */
 export const insert = (
@@ -223,4 +222,38 @@ export const goto = (
   document.body.appendChild(aEle);
   aEle.click();
   document.body.removeChild(aEle);
+};
+
+/**
+ * 两块区域同步滚动
+ *
+ * @param pEle 宿主区域
+ * @param cEle 寄主区域
+ */
+export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
+  const pHeight = pEle.clientHeight;
+  const cHeight = cEle.clientHeight;
+
+  const pScrollHeight = pEle.scrollHeight;
+  const cScrollHeight = cEle.scrollHeight;
+
+  // 计算一个高度比
+  const scale = (pScrollHeight - pHeight) / (cScrollHeight - cHeight);
+
+  const scrollHandler = () => {
+    cEle.scrollTo({
+      top: pEle.scrollTop / scale
+    });
+  };
+
+  pEle.removeEventListener('scroll', scrollHandler);
+  pEle.addEventListener('scroll', scrollHandler);
+};
+
+/**
+ * 组合键逻辑处理
+ * @param e 按键事件
+ */
+export const compositeKey = (e: KeyboardEvent) => {
+  console.log(e);
 };
