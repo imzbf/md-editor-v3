@@ -175,7 +175,7 @@ export default defineComponent({
       () => props.value,
       () => {
         nextTick(() => {
-          initCopyEntry
+          initCopyEntry;
           scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
         });
 
@@ -191,7 +191,6 @@ export default defineComponent({
               <textarea
                 ref={textAreaRef}
                 value={props.value}
-                onPaste={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
                 onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
               />
             </div>
