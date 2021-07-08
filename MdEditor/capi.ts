@@ -61,7 +61,12 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
           break;
         }
         case 'KeyI': {
-          bus.emit('replace', 'italic' as ToolDirective);
+          if (event.shiftKey) {
+            // ctrl+shift+l触发图片链接
+            bus.emit('replace', 'image' as ToolDirective);
+          } else {
+            bus.emit('replace', 'italic' as ToolDirective);
+          }
           event.preventDefault();
           break;
         }
@@ -128,13 +133,9 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
           break;
         }
         case 'KeyL': {
-          if (event.shiftKey) {
-            // ctrl+shift+l触发图片链接
-            bus.emit('replace', 'image' as ToolDirective);
-          } else {
-            // ctrl+l触发普通链接
-            bus.emit('replace', 'link' as ToolDirective);
-          }
+          // ctrl+l触发普通链接
+          bus.emit('replace', 'link' as ToolDirective);
+
           event.preventDefault();
           break;
         }
