@@ -1,6 +1,7 @@
 import { onMounted, onUnmounted, reactive, CSSProperties, SetupContext } from 'vue';
 import { PropsType } from './Editor';
 import bus from './utils/event-bus';
+import { ToolDirective } from './utils';
 
 export const useStyle = (data: any) => {
   const editor = reactive<CSSProperties>(data.editorStyle);
@@ -24,6 +25,8 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
   });
 
   const keyDownHandler = (event: KeyboardEvent) => {
+    // 按键操作是否会替换内容
+    // let toReplaceValue = false;
     // macos中以meta键位配s键位为保存，windows中如此会被系统默认的事件替代
     if (
       (event.ctrlKey && event.code === 'KeyS') ||
@@ -34,6 +37,11 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
 
       event.stopPropagation();
       event.preventDefault();
+    } else if (
+      (event.ctrlKey && event.code === 'KeyB') ||
+      (event.metaKey && event.code === 'KeyB')
+    ) {
+      bus.emit('replace', 'bold' as ToolDirective);
     }
   };
 
