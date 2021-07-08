@@ -139,11 +139,6 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
           event.preventDefault();
           break;
         }
-        case 'KeyT': {
-          bus.emit('replace', 'table' as ToolDirective);
-          event.preventDefault();
-          break;
-        }
         case 'KeyZ': {
           if (event.shiftKey) {
             // ctrl+shift+z 前进一步

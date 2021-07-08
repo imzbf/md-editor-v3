@@ -184,6 +184,13 @@ export const directive2flag = (
         select = true;
         break;
       }
+      case 'table': {
+        targetValue = '| 表头 | 表头 |\n| - | - |\n| 内容 | 内容 |\n';
+        deviationStart = 2;
+        deviationEnd = 4 - targetValue.length;
+        select = true;
+        break;
+      }
     }
   }
 
