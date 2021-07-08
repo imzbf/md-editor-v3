@@ -240,7 +240,13 @@ export default defineComponent({
               <use xlinkHref="#icon-image" />
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="表格">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="表格"
+            onClick={() => {
+              emitHandler('table');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-table" />
             </svg>
