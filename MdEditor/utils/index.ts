@@ -249,11 +249,3 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
   pEle.removeEventListener('scroll', scrollHandler);
   pEle.addEventListener('scroll', scrollHandler);
 };
-
-/**
- * 组合键逻辑处理
- * @param e 按键事件
- */
-export const compositeKey = (e: KeyboardEvent) => {
-  console.log(e);
-};

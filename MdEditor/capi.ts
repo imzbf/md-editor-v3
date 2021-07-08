@@ -27,21 +27,131 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
   const keyDownHandler = (event: KeyboardEvent) => {
     // 按键操作是否会替换内容
     // let toReplaceValue = false;
-    // macos中以meta键位配s键位为保存，windows中如此会被系统默认的事件替代
-    if (
-      (event.ctrlKey && event.code === 'KeyS') ||
-      (event.metaKey && event.code === 'KeyS')
-    ) {
-      // 触发保存事件
-      bus.emit('onSave', props.value);
 
-      event.stopPropagation();
-      event.preventDefault();
-    } else if (
-      (event.ctrlKey && event.code === 'KeyB') ||
-      (event.metaKey && event.code === 'KeyB')
-    ) {
-      bus.emit('replace', 'bold' as ToolDirective);
+    // macos中以meta键位配s键位为保存，windows中如此会被系统默认的事件替代
+    if (event.ctrlKey || event.metaKey) {
+      console.log(event);
+
+      switch (event.code) {
+        case 'KeyS': {
+          if (event.shiftKey) {
+            // 删除线
+            bus.emit('replace', 'strikeThrough' as ToolDirective);
+          } else {
+            // 触发保存事件
+            bus.emit('onSave', props.value);
+            event.preventDefault();
+          }
+          break;
+        }
+        case 'KeyB': {
+          bus.emit('replace', 'bold' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'KeyU': {
+          if (event.shiftKey) {
+            // ctrl+shift+u触发无需列表
+            bus.emit('replace', 'unorderedList' as ToolDirective);
+          } else {
+            // ctrl+u触发下划线
+            bus.emit('replace', 'underline' as ToolDirective);
+          }
+          event.preventDefault();
+          break;
+        }
+        case 'KeyI': {
+          bus.emit('replace', 'italic' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'Digit1': {
+          bus.emit('replace', 'h1' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'Digit2': {
+          bus.emit('replace', 'h2' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'Digit3': {
+          bus.emit('replace', 'h3' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'Digit4': {
+          bus.emit('replace', 'h4' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'Digit5': {
+          bus.emit('replace', 'h5' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'Digit6': {
+          bus.emit('replace', 'h6' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'ArrowUp': {
+          bus.emit('replace', 'sup' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'ArrowDown': {
+          bus.emit('replace', 'sub' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'KeyQ': {
+          bus.emit('replace', 'quote' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'KeyO': {
+          bus.emit('replace', 'orderedList' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'KeyC': {
+          if (event.shiftKey) {
+            // ctrl+shift+c触发块级代码
+            bus.emit('replace', 'code' as ToolDirective);
+            event.preventDefault();
+          } else if (event.altKey) {
+            // ctrl+alt+c触发行内代码
+            bus.emit('replace', 'codeRow' as ToolDirective);
+            event.preventDefault();
+          }
+          break;
+        }
+        case 'KeyL': {
+          if (event.shiftKey) {
+            // ctrl+shift+l触发图片链接
+            bus.emit('replace', 'image' as ToolDirective);
+          } else {
+            // ctrl+l触发普通链接
+            bus.emit('replace', 'link' as ToolDirective);
+          }
+          event.preventDefault();
+          break;
+        }
+        case 'KeyT': {
+          bus.emit('replace', 'table' as ToolDirective);
+          event.preventDefault();
+          break;
+        }
+        case 'KeyZ': {
+          if (event.shiftKey) {
+            // ctrl+shift+z 前进一步
+          } else {
+            // ctrl+z 后退一步
+          }
+          break;
+        }
+      }
     }
   };
 
