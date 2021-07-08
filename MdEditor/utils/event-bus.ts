@@ -27,7 +27,7 @@ class Bus {
   }
 
   // 触发事件
-  emit(name: string, params: any) {
+  emit(name: string, params?: any) {
     const events = this.pools[name];
 
     if (events) {

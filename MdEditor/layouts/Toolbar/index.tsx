@@ -256,7 +256,13 @@ export default defineComponent({
               <use xlinkHref="#icon-next" />
             </svg>
           </div>
-          <div class={`${prefix}-toolbar-item`} title="保存">
+          <div
+            class={`${prefix}-toolbar-item`}
+            title="保存"
+            onClick={() => {
+              bus.emit('onSave');
+            }}
+          >
             <svg class={`${prefix}-icon`} aria-hidden="true">
               <use xlinkHref="#icon-baocun" />
             </svg>
