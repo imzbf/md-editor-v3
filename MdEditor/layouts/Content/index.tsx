@@ -84,12 +84,6 @@ export default defineComponent({
         selectedText = window.getSelection()?.toString() || '';
       });
 
-      window.addEventListener('keydown', () => {
-        // 选中删除时，不会触发select事件
-        // 键盘键按下时手动清除记录的选中内容
-        selectedText = '';
-      });
-
       textAreaRef.value?.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
           const endPoint = textAreaRef.value?.selectionStart as number;
@@ -142,7 +136,7 @@ export default defineComponent({
         }
       });
 
-      //
+      // 注册指令替换内容事件
       bus.on({
         name: 'replace',
         callback(direct: ToolDirective) {
@@ -151,6 +145,13 @@ export default defineComponent({
           );
         }
       });
+
+      // bus.on({
+      //   name: 'clearSelectedText',
+      //   callback() {
+      //     selectedText = '';
+      //   }
+      // });
 
       //
       scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
@@ -193,7 +194,13 @@ export default defineComponent({
               <textarea
                 ref={textAreaRef}
                 value={props.value}
-                onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
+                onInput={(e) => {
+                  // 先清空保存的选中内容，防止异常现象
+                  selectedText = '';
+
+                  // 触发更新
+                  props.onChange((e.target as HTMLTextAreaElement).value);
+                }}
               />
             </div>
             <div
