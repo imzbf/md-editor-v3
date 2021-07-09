@@ -100,7 +100,8 @@ export type ToolDirective =
 export const directive2flag = (
   direct: ToolDirective,
   selectedText = '',
-  inputArea: HTMLTextAreaElement
+  inputArea: HTMLTextAreaElement,
+  params?: any
 ): string => {
   // 目标值
   let targetValue = '';
@@ -189,6 +190,11 @@ export const directive2flag = (
         deviationStart = 2;
         deviationEnd = 4 - targetValue.length;
         select = true;
+        break;
+      }
+      case 'link': {
+        const { desc, url } = params;
+        targetValue = `[${desc}](${url})`;
         break;
       }
     }
