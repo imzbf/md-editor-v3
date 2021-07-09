@@ -3,6 +3,7 @@ import config from './config';
 import { useKeyBoard, useStyle } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
+import bus from './utils/event-bus';
 
 import './styles/index.less';
 
@@ -62,7 +63,12 @@ const props = {
     default: () => () => {}
   },
   onSave: {
-    type: Function as PropType<(v: string) => void>
+    type: Function as PropType<(v: string) => void>,
+    default: () => () => {}
+  },
+  onUploadImg: {
+    type: Function as PropType<(file: any, callBack: (url: string) => void) => void>,
+    default: () => () => {}
   }
 };
 
@@ -78,6 +84,13 @@ export default defineComponent({
     provide('highlight', {
       js: props.highlightJs,
       css: props.highlightCss
+    });
+
+    bus.on({
+      name: 'uploadImage',
+      callback(files: FileList, callBack: (url: string) => void) {
+        props.onUploadImg && props.onUploadImg(files, callBack);
+      }
     });
 
     return () => (
