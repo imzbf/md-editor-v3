@@ -5,7 +5,7 @@ import { prefix } from '../../Editor';
 import bus from '../../utils/event-bus';
 import { goto, ToolDirective } from '../../utils';
 import screenfull from 'screenfull';
-import Modal from '../../components/Modal';
+import Modals from '../Modals';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -37,10 +37,9 @@ export default defineComponent({
     }
 
     // 链接
-    const linkData = reactive({
-      visible: false,
-      desc: '',
-      url: ''
+    const modalData = reactive<{ type: 'link' | 'img' | 'help'; visible: boolean }>({
+      type: 'link',
+      visible: false
     });
 
     return () => (
@@ -243,14 +242,22 @@ export default defineComponent({
               class={`${prefix}-toolbar-item`}
               title="链接"
               onClick={() => {
-                linkData.visible = true;
+                modalData.type = 'link';
+                modalData.visible = true;
               }}
             >
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-link" />
               </svg>
             </div>
-            <div class={`${prefix}-toolbar-item`} title="图片">
+            <div
+              class={`${prefix}-toolbar-item`}
+              title="图片"
+              onClick={() => {
+                modalData.type = 'img';
+                modalData.visible = true;
+              }}
+            >
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-image" />
               </svg>
@@ -315,7 +322,14 @@ export default defineComponent({
                 <use xlinkHref="#icon-mulu" />
               </svg>
             </div>
-            <div class={`${prefix}-toolbar-item`} title="帮助">
+            <div
+              class={`${prefix}-toolbar-item`}
+              title="帮助"
+              onClick={() => {
+                modalData.type = 'help';
+                modalData.visible = true;
+              }}
+            >
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-help" />
               </svg>
@@ -331,56 +345,36 @@ export default defineComponent({
             </div>
           </div>
         </div>
-        <Modal
-          title="添加链接"
-          visible={linkData.visible}
-          onClosed={() => {
-            linkData.visible = false;
+        <Modals
+          visible={modalData.visible}
+          type={modalData.type}
+          onCancel={() => {
+            modalData.visible = false;
           }}
-        >
-          <div class={`${prefix}-form-item`}>
-            <label class={`${prefix}-lable`} for="link-desc">
-              链接描述：
-            </label>
-            <input
-              class={`${prefix}-input`}
-              id="link-desc"
-              type="text"
-              value={linkData.desc}
-              onChange={(e) => {
-                linkData.desc = (e.target as HTMLInputElement).value;
-              }}
-            />
-          </div>
-          <div class={`${prefix}-form-item`}>
-            <label class={`${prefix}-lable`} for="link-url">
-              链接地址：
-            </label>
-            <input
-              class={`${prefix}-input`}
-              id="link-url"
-              type="text"
-              value={linkData.url}
-              onChange={(e) => {
-                linkData.url = (e.target as HTMLInputElement).value;
-              }}
-            />
-          </div>
-          <div class={`${prefix}-form-item`}>
-            <button
-              class={`${prefix}-btn ${prefix}-btn-row`}
-              onClick={() => {
-                linkData.visible = false;
+          onOk={(data) => {
+            switch (modalData.type) {
+              case 'link': {
                 emitHandler('link', {
-                  desc: linkData.desc,
-                  url: linkData.url
+                  desc: data.desc,
+                  url: data.url
                 });
-              }}
-            >
-              确定
-            </button>
-          </div>
-        </Modal>
+                break;
+              }
+              case 'img': {
+                emitHandler('image', {
+                  desc: data.desc,
+                  url: data.url
+                });
+                break;
+              }
+              default: {
+                console.log('help');
+              }
+            }
+
+            modalData.visible = false;
+          }}
+        />
       </>
     );
   }
