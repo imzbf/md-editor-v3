@@ -17,6 +17,7 @@ import './style.less';
 export type ModalProps = Readonly<{
   title?: string;
   visible?: boolean;
+  width?: number;
   onClosed?: (visible: boolean) => void;
 }>;
 
@@ -29,6 +30,10 @@ export default defineComponent({
     visible: {
       type: Boolean as PropType<boolean>,
       default: false
+    },
+    width: {
+      type: [Number, String] as PropType<number | string>,
+      default: 'auto'
     },
     onClosed: {
       type: Function as PropType<() => void>,
@@ -104,7 +109,12 @@ export default defineComponent({
             <div class={`${prefix}-modal-wrapper`}>
               <div
                 class={modalClass.value}
-                style={{ left: initPos.left, top: initPos.top }}
+                style={{
+                  left: initPos.left,
+                  top: initPos.top,
+                  width:
+                    typeof props.width === 'number' ? `${props.width}px` : props.width
+                }}
                 ref={modalRef}
               >
                 <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
