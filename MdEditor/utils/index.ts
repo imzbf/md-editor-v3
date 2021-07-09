@@ -197,6 +197,10 @@ export const directive2flag = (
         targetValue = `[${desc}](${url})`;
         break;
       }
+      case 'image': {
+        const { desc, url } = params;
+        targetValue = `![${desc}](${url})`;
+      }
     }
   }
 

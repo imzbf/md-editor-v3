@@ -1,5 +1,6 @@
-import { computed, defineComponent, PropType, reactive } from 'vue';
+import { computed, defineComponent, nextTick, PropType, reactive, ref, watch } from 'vue';
 import Modal from '../../components/Modal';
+import bus from '../../utils/event-bus';
 
 import { prefix } from '../../Editor';
 
@@ -47,6 +48,30 @@ export default defineComponent({
       url: ''
     });
 
+    // 上传控件
+    const uploadRef = ref();
+
+    watch(
+      () => props.type,
+      (nValue) => {
+        if (nValue === 'img') {
+          nextTick(() => {
+            (uploadRef.value as HTMLInputElement).addEventListener('change', () => {
+              bus.emit(
+                'uploadImage',
+                (uploadRef.value as HTMLInputElement).files,
+                (url = '') => {
+                  linkData.url = url;
+
+                  props.onOk(linkData);
+                }
+              );
+            });
+          });
+        }
+      }
+    );
+
     return () => (
       <Modal title={title.value} visible={props.visible} onClosed={props.onCancel}>
         {props.type === 'help' ? (
@@ -83,13 +108,31 @@ export default defineComponent({
             </div>
             <div class={`${prefix}-form-item`}>
               <button
-                class={`${prefix}-btn ${prefix}-btn-row`}
+                class={`${prefix}-btn ${props.type === 'link' && prefix + '-btn-row'}`}
                 onClick={() => {
                   props.onOk(linkData);
                 }}
               >
                 确定
               </button>
+              {props.type === 'img' && (
+                <>
+                  <button
+                    class={`${prefix}-btn`}
+                    onClick={() => {
+                      (uploadRef.value as HTMLInputElement).click();
+                    }}
+                  >
+                    上传
+                  </button>
+                  <input
+                    ref={uploadRef}
+                    accept="image/*"
+                    type="file"
+                    style={{ display: 'none' }}
+                  />
+                </>
+              )}
             </div>
           </>
         )}
