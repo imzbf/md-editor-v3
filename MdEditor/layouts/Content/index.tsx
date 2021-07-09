@@ -180,7 +180,7 @@ export default defineComponent({
       () => props.value,
       () => {
         nextTick(() => {
-          initCopyEntry;
+          initCopyEntry();
           scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
         });
       }
