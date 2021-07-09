@@ -42,6 +42,14 @@ export default defineComponent({
       visible: false
     });
 
+    bus.on({
+      name: 'openModals',
+      callback(type) {
+        modalData.type = type;
+        modalData.visible = true;
+      }
+    });
+
     return () => (
       <>
         <div class={`${prefix}-toolbar`}>
