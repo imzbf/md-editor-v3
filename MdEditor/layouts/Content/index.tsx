@@ -139,9 +139,14 @@ export default defineComponent({
       // 注册指令替换内容事件
       bus.on({
         name: 'replace',
-        callback(direct: ToolDirective) {
+        callback(direct: ToolDirective, params: any) {
           props.onChange(
-            directive2flag(direct, selectedText, textAreaRef.value as HTMLTextAreaElement)
+            directive2flag(
+              direct,
+              selectedText,
+              textAreaRef.value as HTMLTextAreaElement,
+              params
+            )
           );
         }
       });
