@@ -30,8 +30,6 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
 
     // macos中以meta键位配s键位为保存，windows中如此会被系统默认的事件替代
     if (event.ctrlKey || event.metaKey) {
-      console.log(event);
-
       switch (event.code) {
         case 'KeyS': {
           if (event.shiftKey) {
