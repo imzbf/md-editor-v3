@@ -61,7 +61,7 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
         case 'KeyI': {
           if (event.shiftKey) {
             // ctrl+shift+l触发图片链接
-            bus.emit('replace', 'image' as ToolDirective);
+            bus.emit('openModals', 'img');
           } else {
             bus.emit('replace', 'italic' as ToolDirective);
           }
@@ -132,7 +132,7 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
         }
         case 'KeyL': {
           // ctrl+l触发普通链接
-          bus.emit('replace', 'link' as ToolDirective);
+          bus.emit('openModals', 'link');
 
           event.preventDefault();
           break;
