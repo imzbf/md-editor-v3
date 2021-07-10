@@ -1,3 +1,5 @@
+// 部分样式来源于其他开源UI库
+
 @import './vars';
 @import './md-preview';
 
@@ -122,7 +124,7 @@
         box-sizing: border-box;
         font-size: 14px;
         font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica,
-        Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+          Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
         resize: none;
         border: none;
         outline: none;
@@ -134,6 +136,67 @@
       flex: 1;
       padding: 10px 20px;
       overflow: auto;
+    }
+  }
+
+  &-form-item {
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  &-lable {
+    font-size: 14px;
+    color: #515a6e;
+  }
+
+  &-input {
+    border-radius: 4px;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    transition: all 0.2s;
+
+    &:focus {
+      border-color: #57a3f3;
+      outline: 0;
+      box-shadow: 0 0 0 2px rgb(45 140 240 / 20%);
+    }
+  }
+
+  &-btn {
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    user-select: none;
+    height: 32px;
+    padding: 0 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.2s linear;
+    color: #515a6e;
+    background-color: #fff;
+    border-color: #dcdee2;
+    margin-left: 10px;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    &:hover {
+      color: #57a3f3;
+      background-color: #fff;
+      border-color: #57a3f3;
+    }
+
+    &-row {
+      width: 100%;
     }
   }
 }
