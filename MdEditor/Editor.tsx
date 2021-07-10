@@ -19,6 +19,7 @@ export type PropsType = Readonly<{
   highlightCss: string;
   onChange: (v: string) => void;
   onSave: (v: string) => void;
+  onUploadImg: (files: FileList, callBack: (urls: string[]) => void) => void;
 }>;
 
 const props = {
@@ -67,7 +68,9 @@ const props = {
     default: () => () => {}
   },
   onUploadImg: {
-    type: Function as PropType<(file: any, callBack: (url: string) => void) => void>,
+    type: Function as PropType<
+      (files: FileList, callBack: (urls: string[]) => void) => void
+    >,
     default: () => () => {}
   }
 };
@@ -88,7 +91,7 @@ export default defineComponent({
 
     bus.on({
       name: 'uploadImage',
-      callback(files: FileList, callBack: (url: string) => void) {
+      callback(files: FileList, callBack: (urls: string[]) => void) {
         props.onUploadImg && props.onUploadImg(files, callBack);
       }
     });
