@@ -100,7 +100,8 @@ export type ToolDirective =
 export const directive2flag = (
   direct: ToolDirective,
   selectedText = '',
-  inputArea: HTMLTextAreaElement
+  inputArea: HTMLTextAreaElement,
+  params?: any
 ): string => {
   // 目标值
   let targetValue = '';
@@ -184,6 +185,22 @@ export const directive2flag = (
         select = true;
         break;
       }
+      case 'table': {
+        targetValue = '| 表头 | 表头 |\n| - | - |\n| 内容 | 内容 |\n';
+        deviationStart = 2;
+        deviationEnd = 4 - targetValue.length;
+        select = true;
+        break;
+      }
+      case 'link': {
+        const { desc, url } = params;
+        targetValue = `[${desc}](${url})`;
+        break;
+      }
+      case 'image': {
+        const { desc, url } = params;
+        targetValue = `![${desc}](${url})`;
+      }
     }
   }
 
@@ -248,12 +265,4 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
 
   pEle.removeEventListener('scroll', scrollHandler);
   pEle.addEventListener('scroll', scrollHandler);
-};
-
-/**
- * 组合键逻辑处理
- * @param e 按键事件
- */
-export const compositeKey = (e: KeyboardEvent) => {
-  console.log(e);
 };

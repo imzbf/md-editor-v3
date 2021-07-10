@@ -1,0 +1,106 @@
+@import '../../styles/vars';
+
+@maskZIndex: 1000;
+
+.@{prefix}-modal-mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: @maskZIndex;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.@{prefix}-modal-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: @maskZIndex + 1;
+  height: 100%;
+
+  .@{prefix}-modal {
+    position: relative;
+    display: inline-block;
+    background-color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    border-radius: 3px;
+
+    &-header {
+      cursor: grab;
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 24px;
+      color: rgba(0, 0, 0, 0.85);
+      border-bottom: 1px solid #f0f0f0;
+
+      .@{prefix}-modal-title {
+        color: rgba(0, 0, 0, 0.85);
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 22px;
+        word-wrap: break-word;
+      }
+      .@{prefix}-modal-close {
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+      }
+    }
+
+    &-body {
+      padding: 24px;
+      font-size: 14px;
+      line-height: 1.5715;
+      word-wrap: break-word;
+    }
+  }
+}
+
+.animation {
+  animation-duration: 0.15s;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.zoom-in {
+  animation-name: zoomIn;
+  .animation();
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.zoom-out {
+  animation-name: zoomOut;
+  .animation();
+}
