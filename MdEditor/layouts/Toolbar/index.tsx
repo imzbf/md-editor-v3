@@ -369,9 +369,14 @@ export default defineComponent({
                 break;
               }
               case 'img': {
-                emitHandler('image', {
-                  desc: data.desc,
-                  url: data.url
+                (data as Array<any>).forEach((item) => {
+                  // 利用事件循环机制，保证两次插入分开进行
+                  setTimeout(() => {
+                    emitHandler('image', {
+                      desc: item.desc,
+                      url: item.url
+                    });
+                  }, 0);
                 });
                 break;
               }

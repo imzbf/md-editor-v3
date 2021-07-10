@@ -199,7 +199,7 @@ export const directive2flag = (
       }
       case 'image': {
         const { desc, url } = params;
-        targetValue = `![${desc}](${url})`;
+        targetValue = `![${desc}](${url})\n`;
       }
     }
   }
