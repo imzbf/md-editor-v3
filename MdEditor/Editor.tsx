@@ -1,12 +1,25 @@
 import { CSSProperties, defineComponent, PropType, provide, Teleport } from 'vue';
 import config from './config';
-import { useStyle } from './capi';
+import { useKeyBoard, useStyle } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
+import bus from './utils/event-bus';
 
 import './styles/index.less';
 
 export const prefix = 'md';
+
+export type PropsType = Readonly<{
+  value: string;
+  theme: 'light' | 'dark';
+  editorClass: string;
+  editorStyle: string | CSSProperties;
+  hljs: Record<string, any>;
+  highlightJs: string;
+  highlightCss: string;
+  onChange: (v: string) => void;
+  onSave: (v: string) => void;
+}>;
 
 const props = {
   value: {
@@ -48,19 +61,36 @@ const props = {
   onChange: {
     type: Function as PropType<(v: string) => void>,
     default: () => () => {}
+  },
+  onSave: {
+    type: Function as PropType<(v: string) => void>,
+    default: () => () => {}
+  },
+  onUploadImg: {
+    type: Function as PropType<(file: any, callBack: (url: string) => void) => void>,
+    default: () => () => {}
   }
 };
 
 export default defineComponent({
   name: 'MDEditor',
   props,
-  setup(props) {
+  setup(props, context) {
     const style = useStyle(props);
+
+    useKeyBoard(props as PropsType, context);
 
     // 注入高亮src
     provide('highlight', {
       js: props.highlightJs,
       css: props.highlightCss
+    });
+
+    bus.on({
+      name: 'uploadImage',
+      callback(files: FileList, callBack: (url: string) => void) {
+        props.onUploadImg && props.onUploadImg(files, callBack);
+      }
     });
 
     return () => (
