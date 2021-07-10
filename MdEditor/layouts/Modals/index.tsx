@@ -60,10 +60,16 @@ export default defineComponent({
               bus.emit(
                 'uploadImage',
                 (uploadRef.value as HTMLInputElement).files,
-                (url = '') => {
-                  linkData.url = url;
+                (urls = ['']) => {
+                  const imgList: Array<{ url: string; desc: string }> = [];
+                  urls.forEach((url) => {
+                    imgList.push({
+                      url,
+                      desc: linkData.desc
+                    });
+                  });
 
-                  props.onOk(linkData);
+                  props.onOk(imgList);
                 }
               );
             });
@@ -129,6 +135,7 @@ export default defineComponent({
                     ref={uploadRef}
                     accept="image/*"
                     type="file"
+                    multiple="true"
                     style={{ display: 'none' }}
                   />
                 </>
