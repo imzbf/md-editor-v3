@@ -13,7 +13,13 @@ import { prefix } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
-import { ToolDirective, directive2flag, insert, setPosition, scrollAuto, compositeKey } from '../../utils';
+import {
+  ToolDirective,
+  directive2flag,
+  insert,
+  setPosition,
+  scrollAuto
+} from '../../utils';
 
 declare global {
   interface Window {
@@ -47,8 +53,7 @@ export default defineComponent({
     },
     onChange: {
       type: Function as PropType<(v: string) => void>,
-      default: () => () => {
-      }
+      default: () => () => {}
     }
   },
   setup(props) {
@@ -77,13 +82,6 @@ export default defineComponent({
 
       textAreaRef.value?.addEventListener('select', () => {
         selectedText = window.getSelection()?.toString() || '';
-      });
-
-      window.addEventListener('keydown', (event) => {
-        // 选中删除时，不会触发select事件
-        // 键盘键按下时手动清除记录的选中内容
-        selectedText = '';
-        compositeKey(event);
       });
 
       textAreaRef.value?.addEventListener('keypress', (event) => {
@@ -138,15 +136,27 @@ export default defineComponent({
         }
       });
 
-      //
+      // 注册指令替换内容事件
       bus.on({
         name: 'replace',
-        callback(direct: ToolDirective) {
+        callback(direct: ToolDirective, params: any) {
           props.onChange(
-            directive2flag(direct, selectedText, textAreaRef.value as HTMLTextAreaElement)
+            directive2flag(
+              direct,
+              selectedText,
+              textAreaRef.value as HTMLTextAreaElement,
+              params
+            )
           );
         }
       });
+
+      // bus.on({
+      //   name: 'clearSelectedText',
+      //   callback() {
+      //     selectedText = '';
+      //   }
+      // });
 
       //
       scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
@@ -175,13 +185,11 @@ export default defineComponent({
       () => props.value,
       () => {
         nextTick(() => {
-          initCopyEntry;
+          initCopyEntry();
           scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
         });
-
       }
     );
-
 
     return () => {
       return (
@@ -191,10 +199,20 @@ export default defineComponent({
               <textarea
                 ref={textAreaRef}
                 value={props.value}
-                onInput={(e) => props.onChange((e.target as HTMLTextAreaElement).value)}
+                onInput={(e) => {
+                  // 先清空保存的选中内容，防止异常现象
+                  selectedText = '';
+
+                  // 触发更新
+                  props.onChange((e.target as HTMLTextAreaElement).value);
+                }}
               />
             </div>
-            <div ref={previewRef} class={`${prefix}-preview-wrapper`} innerHTML={html.value} />
+            <div
+              ref={previewRef}
+              class={`${prefix}-preview-wrapper`}
+              innerHTML={html.value}
+            />
           </div>
           {props.hljs === null && (
             <Teleport to={document.head}>

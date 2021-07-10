@@ -1,6 +1,6 @@
 export interface BusEvent {
   name: string;
-  callback: (p?: any) => any;
+  callback: (p?: any, p2?: any) => any;
 }
 
 class Bus {
@@ -27,13 +27,13 @@ class Bus {
   }
 
   // 触发事件
-  emit(name: string, params: any) {
+  emit(name: string, ...params: any) {
     const events = this.pools[name];
 
     if (events) {
       events.forEach((item) => {
         try {
-          item(params);
+          item(...params);
         } catch (error) {
           console.error(`${name}监听事件执行异常！`, error);
         }
