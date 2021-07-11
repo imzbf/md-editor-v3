@@ -21,6 +21,8 @@ import {
   scrollAuto
 } from '../../utils';
 
+import { useHistory } from './composition';
+
 declare global {
   interface Window {
     hljs: any;
@@ -39,6 +41,12 @@ const initCopyEntry = () => {
     pre.appendChild(copyButton);
   });
 };
+
+export type EditorContentProps = Readonly<{
+  value: string;
+  hljs: Record<string, any>;
+  onChange: (v: string) => void;
+}>;
 
 export default defineComponent({
   name: 'MDEditorContent',
@@ -190,6 +198,8 @@ export default defineComponent({
         });
       }
     );
+
+    useHistory(props);
 
     return () => {
       return (
