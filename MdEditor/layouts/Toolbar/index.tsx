@@ -282,12 +282,24 @@ export default defineComponent({
               </svg>
             </div>
             <Divider />
-            <div class={`${prefix}-toolbar-item`} title="撤回">
+            <div
+              class={`${prefix}-toolbar-item`}
+              title="撤回"
+              onClick={() => {
+                bus.emit('ctrlZ');
+              }}
+            >
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-revoke" />
               </svg>
             </div>
-            <div class={`${prefix}-toolbar-item`} title="取消撤回">
+            <div
+              class={`${prefix}-toolbar-item`}
+              title="取消撤回"
+              onClick={() => {
+                bus.emit('ctrlShiftZ');
+              }}
+            >
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-next" />
               </svg>
