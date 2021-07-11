@@ -1,15 +1,7 @@
-import { onMounted, onUnmounted, reactive, CSSProperties, SetupContext } from 'vue';
+import { onMounted, onUnmounted, SetupContext } from 'vue';
 import { PropsType } from './Editor';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils';
-
-export const useStyle = (data: any) => {
-  const editor = reactive<CSSProperties>(data.editorStyle);
-
-  return {
-    editor
-  };
-};
 
 export const useKeyBoard = (props: PropsType, context: SetupContext) => {
   // 先注册保存事件
