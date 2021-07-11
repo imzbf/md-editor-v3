@@ -20,6 +20,7 @@ export type PropsType = Readonly<{
   onChange: (v: string) => void;
   onSave: (v: string) => void;
   onUploadImg: (files: FileList, callBack: (urls: string[]) => void) => void;
+  historyLength: number;
 }>;
 
 const props = {
@@ -72,6 +73,10 @@ const props = {
       (files: FileList, callBack: (urls: string[]) => void) => void
     >,
     default: () => () => {}
+  },
+  historyLength: {
+    type: Number as PropType<number>,
+    default: 10
   }
 };
 
@@ -88,6 +93,9 @@ export default defineComponent({
       js: props.highlightJs,
       css: props.highlightCss
     });
+
+    // 注入历史设置
+    provide('historyLength', props.historyLength);
 
     bus.on({
       name: 'uploadImage',

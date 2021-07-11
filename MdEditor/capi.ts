@@ -140,9 +140,12 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
         case 'KeyZ': {
           if (event.shiftKey) {
             // ctrl+shift+z 前进一步
+            bus.emit('ctrlShiftZ');
           } else {
             // ctrl+z 后退一步
+            bus.emit('ctrlZ');
           }
+          event.preventDefault();
           break;
         }
       }
