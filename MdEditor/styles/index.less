@@ -8,6 +8,7 @@
 
 .@{prefix} {
   width: 100%;
+  min-height: 400px;
   border: 1px solid hsv(0, 0, 90%);
   display: flex;
   flex-direction: column;
@@ -200,4 +201,13 @@
       width: 100%;
     }
   }
+}
+
+.@{prefix}-fullscreen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: auto;
 }
