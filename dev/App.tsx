@@ -4,13 +4,15 @@ import { mdText } from './data';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 
+import './style.less';
+
 export default defineComponent({
   setup() {
     const md = reactive({
       text: mdText
     });
     return () => (
-      <>
+      <div class="container">
         <Editor
           hljs={hljs}
           value={md.text}
@@ -23,7 +25,7 @@ export default defineComponent({
             ]);
           }}
         />
-      </>
+      </div>
     );
   }
 });

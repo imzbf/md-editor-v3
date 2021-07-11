@@ -1,6 +1,6 @@
 import { CSSProperties, defineComponent, PropType, provide, Teleport } from 'vue';
 import config from './config';
-import { useKeyBoard, useStyle } from './capi';
+import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
 import bus from './utils/event-bus';
@@ -38,13 +38,13 @@ const props = {
     type: String,
     default: ''
   },
-  // 外层扩展样式
-  editorStyle: {
-    type: [Object, String] as PropType<CSSProperties | string>,
-    default: (): CSSProperties => ({
-      height: '500px'
-    })
-  },
+  // TODO 后续设定可行性-外层扩展样式
+  // editorStyle: {
+  //   type: [Object, String] as PropType<CSSProperties | string>,
+  //   default: (): CSSProperties => ({
+  //     height: '500px'
+  //   })
+  // },
   // 如果项目中有使用highlight.js或者没有外网访问权限，可以直接传递实例hljs并且手动导入css
   hljs: {
     type: Object,
@@ -84,8 +84,6 @@ export default defineComponent({
   name: 'MDEditor',
   props,
   setup(props, context) {
-    const style = useStyle(props);
-
     useKeyBoard(props as PropsType, context);
 
     // 注入高亮src
@@ -105,7 +103,7 @@ export default defineComponent({
     });
 
     return () => (
-      <div class={[prefix, props.editorClass]} style={style.editor}>
+      <div class={[prefix, props.editorClass]}>
         <ToolBar />
         <Content hljs={props.hljs} value={props.value} onChange={props.onChange} />
         <Teleport to={document.head}>

@@ -50,6 +50,8 @@ export default defineComponent({
       }
     });
 
+    const pageFullScreen = () => {};
+
     return () => (
       <>
         <div class={`${prefix}-toolbar`}>
@@ -317,7 +319,11 @@ export default defineComponent({
             </div>
           </div>
           <div class={`${prefix}-toolbar-right`}>
-            <div class={`${prefix}-toolbar-item`} title="浏览器内全屏">
+            <div
+              class={`${prefix}-toolbar-item`}
+              title="浏览器内全屏"
+              onClick={pageFullScreen}
+            >
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-fangda" />
               </svg>
