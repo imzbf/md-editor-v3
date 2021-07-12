@@ -78,6 +78,8 @@ export default defineComponent({
     let selectedText = '';
     // 预览框
     const previewRef = ref<HTMLDivElement>();
+    // html代码预览框
+    const htmlRef = ref<HTMLDivElement>();
 
     if (props.hljs) {
       // 提供了hljs，在创建阶段即完成设置
@@ -201,7 +203,7 @@ export default defineComponent({
         nextTick(() => {
           initCopyEntry();
 
-          if (props.setting.column) {
+          if (props.setting.preview) {
             clearScrollAuto = scrollAuto(
               textAreaRef.value as HTMLElement,
               previewRef.value as HTMLElement
@@ -212,7 +214,7 @@ export default defineComponent({
     );
 
     watch(
-      () => props.setting.column,
+      () => props.setting.preview,
       (nVal) => {
         // 分栏发生变化时，显示分栏时注册同步滚动，隐藏是清除同步滚动
         if (nVal) {
@@ -246,15 +248,22 @@ export default defineComponent({
                   // 触发更新
                   props.onChange((e.target as HTMLTextAreaElement).value);
                 }}
-                class={[props.setting.column ? '' : 'textarea-only']}
+                class={[
+                  props.setting.preview || props.setting.html ? '' : 'textarea-only'
+                ]}
               />
             </div>
-            {props.setting.column && (
+            {props.setting.preview && (
               <div
                 ref={previewRef}
                 class={`${prefix}-preview-wrapper`}
                 innerHTML={html.value}
               />
+            )}
+            {props.setting.html && (
+              <div ref={htmlRef} class={`${prefix}-html-wrapper`}>
+                {html.value}
+              </div>
             )}
           </div>
           {props.hljs === null && (
