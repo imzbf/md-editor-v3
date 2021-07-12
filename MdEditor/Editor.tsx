@@ -148,6 +148,7 @@ export default defineComponent({
         class={[
           prefix,
           props.editorClass,
+          props.theme === 'dark' && `${prefix}-dark`,
           setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : ''
         ]}
       >

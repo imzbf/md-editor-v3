@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <editor v-model="text" :preview="true" html pageFullScreen></editor>
+    <editor v-model="text" theme="dark" :preview="true" html pageFullScreen></editor>
   </div>
 </template>
 
