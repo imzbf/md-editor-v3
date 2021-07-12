@@ -1,4 +1,4 @@
-import { defineComponent, PropType, reactive, ref } from 'vue';
+import { defineComponent, PropType, reactive } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix } from '../../Editor';
@@ -10,11 +10,21 @@ import Modals from '../Modals';
 export default defineComponent({
   name: 'MDEditorToolbar',
   props: {
+    fullscreen: {
+      type: Boolean as PropType<boolean>,
+      default: false
+    },
+    fullScreenChanged: {
+      type: Function as PropType<(v?: boolean) => void>,
+      default: () => () => {}
+    },
     pageFullScreen: {
-      type: Boolean as PropType<boolean>
+      type: Boolean as PropType<boolean>,
+      default: false
     },
     pageFullScreenChanged: {
-      type: Function as PropType<() => void>
+      type: Function as PropType<(v?: boolean) => void>,
+      default: () => () => {}
     }
   },
   setup(props) {
@@ -28,22 +38,21 @@ export default defineComponent({
 
     const fullScreen = () => {
       if (screenfull.isEnabled) {
+        props.pageFullScreenChanged(!screenfull.isFullscreen);
+
         if (screenfull.isFullscreen) {
           screenfull.exit();
         } else {
           screenfull.request();
         }
-        props.pageFullScreenChanged && props.pageFullScreenChanged();
       } else {
         console.error('浏览器不支持全屏');
       }
     };
 
-    const isFullscreen = ref(false);
-
     if (screenfull.isEnabled) {
       screenfull.on('change', () => {
-        isFullscreen.value = !isFullscreen.value;
+        props.fullScreenChanged();
       });
     }
 
@@ -328,20 +337,26 @@ export default defineComponent({
             </div>
           </div>
           <div class={`${prefix}-toolbar-right`}>
-            <div
-              class={`${prefix}-toolbar-item`}
-              title="浏览器内全屏"
-              onClick={props.pageFullScreenChanged}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref={`#icon-${props.pageFullScreen ? 'suoxiao' : 'fangda'}`} />
-              </svg>
-            </div>
+            {!props.fullscreen && (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title="浏览器内全屏"
+                onClick={() => {
+                  props.pageFullScreenChanged();
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use
+                    xlinkHref={`#icon-${props.pageFullScreen ? 'suoxiao' : 'fangda'}`}
+                  />
+                </svg>
+              </div>
+            )}
             <div class={`${prefix}-toolbar-item`} title="全屏放大" onClick={fullScreen}>
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use
                   xlinkHref={`#icon-${
-                    isFullscreen.value ? 'fullScreen-exit' : 'fullScreen'
+                    props.fullscreen ? 'fullScreen-exit' : 'fullScreen'
                   }`}
                 />
               </svg>
