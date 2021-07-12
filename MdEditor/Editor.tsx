@@ -18,6 +18,7 @@ export const prefix = 'md';
 
 export type PropsType = Readonly<{
   value: string;
+  'onUpdate:value': () => void;
   theme: 'light' | 'dark';
   editorClass: string;
   editorStyle: string | CSSProperties;
@@ -30,10 +31,19 @@ export type PropsType = Readonly<{
   historyLength: number;
 }>;
 
+export interface SettingType {
+  pageFullScreen: boolean;
+  fullscreen: boolean;
+  column: boolean;
+}
+
 const props = {
   value: {
     type: String as PropType<string>,
     default: ''
+  },
+  'onUpdate:value': {
+    type: Function as PropType<() => void>
   },
   // 主题，支持light和dark
   theme: {
@@ -109,30 +119,31 @@ export default defineComponent({
       }
     });
 
-    const setting = reactive({
+    const setting = reactive<SettingType>({
       pageFullScreen: false,
-      fullscreen: false
+      fullscreen: false,
+      column: true
     });
+
+    const updateSetting = (v: any, k: keyof typeof setting) => {
+      setting[k] = v;
+    };
 
     return () => (
       <div
         class={[
           prefix,
           props.editorClass,
-          setting.pageFullScreen ? `${prefix}-fullscreen` : ''
+          setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : ''
         ]}
       >
-        <ToolBar
-          fullscreen={setting.fullscreen}
-          fullScreenChanged={(v = !setting.fullscreen) => {
-            setting.fullscreen = v;
-          }}
-          pageFullScreen={setting.pageFullScreen}
-          pageFullScreenChanged={(v = !setting.pageFullScreen) => {
-            setting.pageFullScreen = v;
-          }}
+        <ToolBar setting={setting} updateSetting={updateSetting} />
+        <Content
+          hljs={props.hljs}
+          value={props.value}
+          onChange={props.onChange}
+          setting={setting}
         />
-        <Content hljs={props.hljs} value={props.value} onChange={props.onChange} />
         <Teleport to={document.head}>
           <script src={config.iconfontUrl} />
         </Teleport>
