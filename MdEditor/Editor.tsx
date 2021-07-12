@@ -1,4 +1,11 @@
-import { CSSProperties, defineComponent, PropType, provide, ref, Teleport } from 'vue';
+import {
+  CSSProperties,
+  defineComponent,
+  PropType,
+  provide,
+  reactive,
+  Teleport
+} from 'vue';
 import config from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -102,20 +109,27 @@ export default defineComponent({
       }
     });
 
-    const pageFullScreen = ref(false);
+    const setting = reactive({
+      pageFullScreen: false,
+      fullscreen: false
+    });
 
     return () => (
       <div
         class={[
           prefix,
           props.editorClass,
-          pageFullScreen.value ? `${prefix}-fullscreen` : ''
+          setting.pageFullScreen ? `${prefix}-fullscreen` : ''
         ]}
       >
         <ToolBar
-          pageFullScreen={pageFullScreen.value}
-          pageFullScreenChanged={() => {
-            pageFullScreen.value = !pageFullScreen.value;
+          fullscreen={setting.fullscreen}
+          fullScreenChanged={(v = !setting.fullscreen) => {
+            setting.fullscreen = v;
+          }}
+          pageFullScreen={setting.pageFullScreen}
+          pageFullScreenChanged={(v = !setting.pageFullScreen) => {
+            setting.pageFullScreen = v;
           }}
         />
         <Content hljs={props.hljs} value={props.value} onChange={props.onChange} />
