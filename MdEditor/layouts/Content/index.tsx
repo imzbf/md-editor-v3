@@ -173,7 +173,10 @@ export default defineComponent({
       // });
 
       //
-      scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
+      scrollAuto(
+        textAreaRef.value as HTMLElement,
+        (previewRef.value as HTMLElement) || htmlRef.value
+      );
     });
 
     const html = computed(() => {
@@ -206,7 +209,7 @@ export default defineComponent({
           if (props.setting.preview) {
             clearScrollAuto = scrollAuto(
               textAreaRef.value as HTMLElement,
-              previewRef.value as HTMLElement
+              (previewRef.value as HTMLElement) || htmlRef.value
             );
           }
         });
@@ -222,7 +225,7 @@ export default defineComponent({
             // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
             clearScrollAuto = scrollAuto(
               textAreaRef.value as HTMLElement,
-              previewRef.value as HTMLElement
+              (previewRef.value as HTMLElement) || htmlRef.value
             );
           });
         } else {
