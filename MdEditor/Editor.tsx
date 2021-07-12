@@ -17,24 +17,24 @@ export interface SettingType {
 }
 
 export type PropsType = Readonly<{
-  modelValue: string;
+  modelValue?: string;
   // TODO 后续开发
-  theme: 'light' | 'dark';
-  editorClass: string;
+  theme?: 'light' | 'dark';
+  editorClass?: string;
   // 项目中的highlight对象
-  hljs: Record<string, any>;
+  hljs?: Record<string, any>;
   // 外部链接
-  highlightJs: string;
+  highlightJs?: string;
   // 外部链接
-  highlightCss: string;
+  highlightCss?: string;
   // 历史记录限制长度
-  historyLength: number;
-  onChange: (v: string) => void;
-  onSave: (v: string) => void;
-  onUploadImg: (files: FileList, callBack: (urls: string[]) => void) => void;
-  pageFullScreen: boolean;
-  preview: boolean;
-  html: boolean;
+  historyLength?: number;
+  onChange?: (v: string) => void;
+  onSave?: (v: string) => void;
+  onUploadImg?: (files: FileList, callBack: (urls: string[]) => void) => void;
+  pageFullScreen?: boolean;
+  preview?: boolean;
+  html?: boolean;
 }>;
 
 const props = {
