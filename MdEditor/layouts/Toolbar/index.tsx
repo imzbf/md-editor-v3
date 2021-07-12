@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, PropType, reactive, ref } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix } from '../../Editor';
@@ -9,7 +9,15 @@ import Modals from '../Modals';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
-  setup() {
+  props: {
+    pageFullScreen: {
+      type: Boolean as PropType<boolean>
+    },
+    pageFullScreenChanged: {
+      type: Function as PropType<() => void>
+    }
+  },
+  setup(props) {
     const visible = reactive({
       title: false
     });
@@ -49,8 +57,6 @@ export default defineComponent({
         modalData.visible = true;
       }
     });
-
-    const pageFullScreen = () => {};
 
     return () => (
       <>
@@ -322,10 +328,10 @@ export default defineComponent({
             <div
               class={`${prefix}-toolbar-item`}
               title="浏览器内全屏"
-              onClick={pageFullScreen}
+              onClick={props.pageFullScreenChanged}
             >
               <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-fangda" />
+                <use xlinkHref={`#icon-${props.pageFullScreen ? 'suoxiao' : 'fangda'}`} />
               </svg>
             </div>
             <div class={`${prefix}-toolbar-item`} title="全屏放大" onClick={fullScreen}>
