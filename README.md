@@ -4,7 +4,13 @@ Markdown 编辑器，基于 vue3，使用 jsx 语法开发，支持在 tsx 项�
 
 ## 预览图
 
+默认模式下：
+
 ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/65918d53d93b492ca51de2f36e439d83~tplv-k3u1fbpfcp-watermark.image)
+
+暗黑模式下：
+
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/012fb26afac745a79f6d5029de3ecd2b~tplv-k3u1fbpfcp-watermark.image)
 
 ## apis
 
