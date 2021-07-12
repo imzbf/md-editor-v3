@@ -9,9 +9,9 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
     name: 'onSave',
     callback() {
       if (props.onSave) {
-        props.onSave(props.value);
+        props.onSave(props.modelValue);
       } else {
-        context.emit('onSave', props.value);
+        context.emit('onSave', props.modelValue);
       }
     }
   });
@@ -29,7 +29,7 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
             bus.emit('replace', 'strikeThrough' as ToolDirective);
           } else {
             // 触发保存事件
-            bus.emit('onSave', props.value);
+            bus.emit('onSave', props.modelValue);
             event.preventDefault();
           }
           break;
