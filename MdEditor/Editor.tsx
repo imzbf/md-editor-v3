@@ -34,7 +34,8 @@ export type PropsType = Readonly<{
 export interface SettingType {
   pageFullScreen: boolean;
   fullscreen: boolean;
-  column: boolean;
+  preview: boolean;
+  html: boolean;
 }
 
 const props = {
@@ -122,11 +123,17 @@ export default defineComponent({
     const setting = reactive<SettingType>({
       pageFullScreen: false,
       fullscreen: false,
-      column: true
+      preview: true,
+      html: false
     });
 
     const updateSetting = (v: any, k: keyof typeof setting) => {
       setting[k] = v;
+      if (k === 'preview' && setting.preview) {
+        setting.html = false;
+      } else if (k === 'html' && setting.html) {
+        setting.preview = false;
+      }
     };
 
     return () => (
