@@ -1,4 +1,4 @@
-import { CSSProperties, defineComponent, PropType, provide, Teleport } from 'vue';
+import { defineComponent, PropType, provide, reactive, Teleport } from 'vue';
 import config from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -9,22 +9,36 @@ import './styles/index.less';
 
 export const prefix = 'md';
 
+export interface SettingType {
+  pageFullScreen: boolean;
+  fullscreen: boolean;
+  preview: boolean;
+  html: boolean;
+}
+
 export type PropsType = Readonly<{
-  value: string;
-  theme: 'light' | 'dark';
-  editorClass: string;
-  editorStyle: string | CSSProperties;
-  hljs: Record<string, any>;
-  highlightJs: string;
-  highlightCss: string;
-  onChange: (v: string) => void;
-  onSave: (v: string) => void;
-  onUploadImg: (files: FileList, callBack: (urls: string[]) => void) => void;
-  historyLength: number;
+  modelValue?: string;
+  // TODO 后续开发
+  theme?: 'light' | 'dark';
+  editorClass?: string;
+  // 项目中的highlight对象
+  hljs?: Record<string, any>;
+  // 外部链接
+  highlightJs?: string;
+  // 外部链接
+  highlightCss?: string;
+  // 历史记录限制长度
+  historyLength?: number;
+  onChange?: (v: string) => void;
+  onSave?: (v: string) => void;
+  onUploadImg?: (files: FileList, callBack: (urls: string[]) => void) => void;
+  pageFullScreen?: boolean;
+  preview?: boolean;
+  html?: boolean;
 }>;
 
 const props = {
-  value: {
+  modelValue: {
     type: String as PropType<string>,
     default: ''
   },
@@ -60,9 +74,12 @@ const props = {
     default:
       'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css'
   },
+  historyLength: {
+    type: Number as PropType<number>,
+    default: 10
+  },
   onChange: {
-    type: Function as PropType<(v: string) => void>,
-    default: () => () => {}
+    type: Function as PropType<(v: string) => void>
   },
   onSave: {
     type: Function as PropType<(v: string) => void>,
@@ -74,9 +91,17 @@ const props = {
     >,
     default: () => () => {}
   },
-  historyLength: {
-    type: Number as PropType<number>,
-    default: 10
+  pageFullScreen: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  preview: {
+    type: Boolean as PropType<boolean>,
+    default: true
+  },
+  html: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 
@@ -102,10 +127,43 @@ export default defineComponent({
       }
     });
 
+    const setting = reactive<SettingType>({
+      pageFullScreen: props.pageFullScreen,
+      fullscreen: false,
+      preview: props.preview,
+      html: props.preview ? false : props.html
+    });
+
+    const updateSetting = (v: any, k: keyof typeof setting) => {
+      setting[k] = v;
+      if (k === 'preview' && setting.preview) {
+        setting.html = false;
+      } else if (k === 'html' && setting.html) {
+        setting.preview = false;
+      }
+    };
+
     return () => (
-      <div class={[prefix, props.editorClass]}>
-        <ToolBar />
-        <Content hljs={props.hljs} value={props.value} onChange={props.onChange} />
+      <div
+        class={[
+          prefix,
+          props.editorClass,
+          setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : ''
+        ]}
+      >
+        <ToolBar setting={setting} updateSetting={updateSetting} />
+        <Content
+          hljs={props.hljs}
+          value={props.modelValue}
+          onChange={(value: string) => {
+            if (props.onChange) {
+              props.onChange(value);
+            } else {
+              context.emit('update:modelValue', value);
+            }
+          }}
+          setting={setting}
+        />
         <Teleport to={document.head}>
           <script src={config.iconfontUrl} />
         </Teleport>

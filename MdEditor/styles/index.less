@@ -8,7 +8,8 @@
 
 .@{prefix} {
   width: 100%;
-  min-height: 400px;
+  height: 400px;
+  box-sizing: border-box;
   border: 1px solid hsv(0, 0, 90%);
   display: flex;
   flex-direction: column;
@@ -110,13 +111,11 @@
   }
 
   &-content {
-    flex: 1;
     display: flex;
     height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 2px);
 
     .@{prefix}-input-wrapper {
       flex: 1;
-      height: 100%;
       box-sizing: border-box;
 
       textarea {
@@ -131,10 +130,17 @@
         border: none;
         outline: none;
         overflow-y: scroll;
+        color: inherit;
+        background-color: inherit;
+      }
+
+      textarea.textarea-only {
+        overflow-y: auto;
       }
     }
 
-    .@{prefix}-preview-wrapper {
+    .@{prefix}-preview-wrapper,
+    .@{prefix}-html-wrapper {
       flex: 1;
       padding: 10px 20px;
       overflow: auto;
@@ -210,4 +216,5 @@
   bottom: 0;
   left: 0;
   height: auto;
+  z-index: 10000;
 }
