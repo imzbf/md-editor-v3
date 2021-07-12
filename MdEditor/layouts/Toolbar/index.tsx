@@ -1,7 +1,7 @@
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, PropType, reactive } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
-import { prefix } from '../../Editor';
+import { prefix, SettingType } from '../../Editor';
 import bus from '../../utils/event-bus';
 import { goto, ToolDirective } from '../../utils';
 import screenfull from 'screenfull';
@@ -9,9 +9,20 @@ import Modals from '../Modals';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
-  setup() {
+  props: {
+    setting: {
+      type: Object as PropType<SettingType>,
+      default: () => ({})
+    },
+    updateSetting: {
+      type: Function as PropType<(v: boolean, k: keyof SettingType) => void>,
+      default: () => () => {}
+    }
+  },
+  setup(props) {
     const visible = reactive({
-      title: false
+      title: false,
+      menu: false
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
@@ -22,17 +33,17 @@ export default defineComponent({
       if (screenfull.isEnabled) {
         if (screenfull.isFullscreen) {
           screenfull.exit();
-        } else screenfull.request();
+        } else {
+          screenfull.request();
+        }
       } else {
         console.error('浏览器不支持全屏');
       }
     };
 
-    const isFullscreen = ref(false);
-
     if (screenfull.isEnabled) {
       screenfull.on('change', () => {
-        isFullscreen.value = !isFullscreen.value;
+        props.updateSetting(!props.setting.fullscreen, 'fullscreen');
       });
     }
 
@@ -49,8 +60,6 @@ export default defineComponent({
         modalData.visible = true;
       }
     });
-
-    const pageFullScreen = () => {};
 
     return () => (
       <>
@@ -319,36 +328,72 @@ export default defineComponent({
             </div>
           </div>
           <div class={`${prefix}-toolbar-right`}>
-            <div
-              class={`${prefix}-toolbar-item`}
-              title="浏览器内全屏"
-              onClick={pageFullScreen}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-fangda" />
-              </svg>
-            </div>
+            {!props.setting.fullscreen && (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title="浏览器内全屏"
+                onClick={() => {
+                  props.updateSetting(!props.setting.pageFullScreen, 'pageFullScreen');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use
+                    xlinkHref={`#icon-${
+                      props.setting.pageFullScreen ? 'suoxiao' : 'fangda'
+                    }`}
+                  />
+                </svg>
+              </div>
+            )}
             <div class={`${prefix}-toolbar-item`} title="全屏放大" onClick={fullScreen}>
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use
                   xlinkHref={`#icon-${
-                    isFullscreen.value ? 'fullScreen-exit' : 'fullScreen'
+                    props.setting.fullscreen ? 'fullScreen-exit' : 'fullScreen'
                   }`}
                 />
               </svg>
             </div>
 
-            <div class={`${prefix}-toolbar-item`} title="分栏">
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-sub-column" />
-              </svg>
-            </div>
-            <div class={`${prefix}-toolbar-item`} title="目录">
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-mulu" />
-              </svg>
-            </div>
+            {/* <Dropdown
+              visible={visible.menu}
+              onChange={(v) => {
+                visible.menu = v;
+              }}
+              overlay={<div>123</div>}
+            >
+              <div class={`${prefix}-toolbar-item`} title="目录">
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-mulu" />
+                </svg>
+              </div>
+            </Dropdown> */}
+
             <div
+              class={`${prefix}-toolbar-item`}
+              title="预览"
+              onClick={() => {
+                props.updateSetting(!props.setting.preview, 'preview');
+              }}
+            >
+              <svg class={`${prefix}-icon`} aria-hidden="true">
+                <use xlinkHref="#icon-preview" />
+              </svg>
+            </div>
+
+            <div
+              class={`${prefix}-toolbar-item`}
+              title="html代码预览"
+              onClick={() => {
+                props.updateSetting(!props.setting.html, 'html');
+              }}
+            >
+              <svg class={`${prefix}-icon`} aria-hidden="true">
+                <use xlinkHref="#icon-coding" />
+              </svg>
+            </div>
+
+            {/* <div
               class={`${prefix}-toolbar-item`}
               title="帮助"
               onClick={() => {
@@ -359,7 +404,8 @@ export default defineComponent({
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-help" />
               </svg>
-            </div>
+            </div> */}
+
             <div
               class={`${prefix}-toolbar-item`}
               title="源码"

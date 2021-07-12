@@ -9,7 +9,7 @@ import {
   nextTick,
   ref
 } from 'vue';
-import { prefix } from '../../Editor';
+import { prefix, SettingType } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
@@ -62,6 +62,10 @@ export default defineComponent({
     onChange: {
       type: Function as PropType<(v: string) => void>,
       default: () => () => {}
+    },
+    setting: {
+      type: Object as PropType<SettingType>,
+      default: () => ({})
     }
   },
   setup(props) {
@@ -74,6 +78,8 @@ export default defineComponent({
     let selectedText = '';
     // 预览框
     const previewRef = ref<HTMLDivElement>();
+    // html代码预览框
+    const htmlRef = ref<HTMLDivElement>();
 
     if (props.hljs) {
       // 提供了hljs，在创建阶段即完成设置
@@ -167,7 +173,10 @@ export default defineComponent({
       // });
 
       //
-      scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
+      scrollAuto(
+        textAreaRef.value as HTMLElement,
+        (previewRef.value as HTMLElement) || htmlRef.value
+      );
     });
 
     const html = computed(() => {
@@ -189,13 +198,39 @@ export default defineComponent({
       nextTick(initCopyEntry);
     };
 
+    // ------\
+    let clearScrollAuto = () => {};
     watch(
       () => props.value,
       () => {
         nextTick(() => {
           initCopyEntry();
-          scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
+
+          if (props.setting.preview) {
+            clearScrollAuto = scrollAuto(
+              textAreaRef.value as HTMLElement,
+              (previewRef.value as HTMLElement) || htmlRef.value
+            );
+          }
         });
+      }
+    );
+
+    watch(
+      () => props.setting.preview,
+      (nVal) => {
+        // 分栏发生变化时，显示分栏时注册同步滚动，隐藏是清除同步滚动
+        if (nVal) {
+          nextTick(() => {
+            // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
+            clearScrollAuto = scrollAuto(
+              textAreaRef.value as HTMLElement,
+              (previewRef.value as HTMLElement) || htmlRef.value
+            );
+          });
+        } else {
+          clearScrollAuto();
+        }
       }
     );
 
@@ -216,13 +251,23 @@ export default defineComponent({
                   // 触发更新
                   props.onChange((e.target as HTMLTextAreaElement).value);
                 }}
+                class={[
+                  props.setting.preview || props.setting.html ? '' : 'textarea-only'
+                ]}
               />
             </div>
-            <div
-              ref={previewRef}
-              class={`${prefix}-preview-wrapper`}
-              innerHTML={html.value}
-            />
+            {props.setting.preview && (
+              <div
+                ref={previewRef}
+                class={`${prefix}-preview-wrapper`}
+                innerHTML={html.value}
+              />
+            )}
+            {props.setting.html && (
+              <div ref={htmlRef} class={`${prefix}-html-wrapper`}>
+                {html.value}
+              </div>
+            )}
           </div>
           {props.hljs === null && (
             <Teleport to={document.head}>

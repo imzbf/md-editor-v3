@@ -15,7 +15,7 @@ export default defineComponent({
       <div class="container">
         <Editor
           hljs={hljs}
-          value={md.text}
+          modelValue={md.text}
           onChange={(value) => (md.text = value)}
           onUploadImg={(files, callback) => {
             console.log(files);

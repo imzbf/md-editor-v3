@@ -121,7 +121,8 @@ export default defineComponent({
                   <div class={`${prefix}-modal-title`}>{slotTitle || ''}</div>
                   <div
                     class={`${prefix}-modal-close`}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       props.onClosed && props.onClosed();
                     }}
                   >

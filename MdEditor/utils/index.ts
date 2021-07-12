@@ -246,6 +246,7 @@ export const goto = (
  *
  * @param pEle 宿主区域
  * @param cEle 寄主区域
+ * @returns 清除监听的方法
  */
 export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
   const pHeight = pEle.clientHeight;
@@ -265,4 +266,8 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
 
   pEle.removeEventListener('scroll', scrollHandler);
   pEle.addEventListener('scroll', scrollHandler);
+
+  return () => {
+    pEle.removeEventListener('scroll', scrollHandler);
+  };
 };
