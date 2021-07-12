@@ -1,4 +1,4 @@
-import { CSSProperties, defineComponent, PropType, provide, Teleport } from 'vue';
+import { CSSProperties, defineComponent, PropType, provide, ref, Teleport } from 'vue';
 import config from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -102,9 +102,22 @@ export default defineComponent({
       }
     });
 
+    const pageFullScreen = ref(false);
+
     return () => (
-      <div class={[prefix, props.editorClass]}>
-        <ToolBar />
+      <div
+        class={[
+          prefix,
+          props.editorClass,
+          pageFullScreen.value ? `${prefix}-fullscreen` : ''
+        ]}
+      >
+        <ToolBar
+          pageFullScreen={pageFullScreen.value}
+          pageFullScreenChanged={() => {
+            pageFullScreen.value = !pageFullScreen.value;
+          }}
+        />
         <Content hljs={props.hljs} value={props.value} onChange={props.onChange} />
         <Teleport to={document.head}>
           <script src={config.iconfontUrl} />
