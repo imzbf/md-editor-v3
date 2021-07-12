@@ -30,7 +30,10 @@ export default defineComponent({
       if (screenfull.isEnabled) {
         if (screenfull.isFullscreen) {
           screenfull.exit();
-        } else screenfull.request();
+        } else {
+          screenfull.request();
+        }
+        props.pageFullScreenChanged && props.pageFullScreenChanged();
       } else {
         console.error('浏览器不支持全屏');
       }
