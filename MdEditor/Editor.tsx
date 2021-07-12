@@ -17,7 +17,7 @@ export interface SettingType {
 }
 
 export type PropsType = Readonly<{
-  modelValue?: string;
+  modelValue: string;
   // TODO 后续开发
   theme?: 'light' | 'dark';
   editorClass?: string;
@@ -109,7 +109,7 @@ export default defineComponent({
   name: 'MDEditor',
   props,
   setup(props, context) {
-    useKeyBoard(props as PropsType, context);
+    useKeyBoard(props, context);
 
     // 注入高亮src
     provide('highlight', {
