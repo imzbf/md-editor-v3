@@ -9,7 +9,7 @@ import {
   nextTick,
   ref
 } from 'vue';
-import { prefix } from '../../Editor';
+import { prefix, SettingType } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
@@ -62,6 +62,10 @@ export default defineComponent({
     onChange: {
       type: Function as PropType<(v: string) => void>,
       default: () => () => {}
+    },
+    setting: {
+      type: Object as PropType<SettingType>,
+      default: () => ({})
     }
   },
   setup(props) {
@@ -189,13 +193,39 @@ export default defineComponent({
       nextTick(initCopyEntry);
     };
 
+    // ------\
+    let clearScrollAuto = () => {};
     watch(
       () => props.value,
       () => {
         nextTick(() => {
           initCopyEntry();
-          scrollAuto(textAreaRef.value as HTMLElement, previewRef.value as HTMLElement);
+
+          if (props.setting.column) {
+            clearScrollAuto = scrollAuto(
+              textAreaRef.value as HTMLElement,
+              previewRef.value as HTMLElement
+            );
+          }
         });
+      }
+    );
+
+    watch(
+      () => props.setting.column,
+      (nVal) => {
+        // 分栏发生变化时，显示分栏时注册同步滚动，隐藏是清除同步滚动
+        if (nVal) {
+          nextTick(() => {
+            // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
+            clearScrollAuto = scrollAuto(
+              textAreaRef.value as HTMLElement,
+              previewRef.value as HTMLElement
+            );
+          });
+        } else {
+          clearScrollAuto();
+        }
       }
     );
 
@@ -216,13 +246,16 @@ export default defineComponent({
                   // 触发更新
                   props.onChange((e.target as HTMLTextAreaElement).value);
                 }}
+                class={[props.setting.column ? '' : 'textarea-only']}
               />
             </div>
-            <div
-              ref={previewRef}
-              class={`${prefix}-preview-wrapper`}
-              innerHTML={html.value}
-            />
+            {props.setting.column && (
+              <div
+                ref={previewRef}
+                class={`${prefix}-preview-wrapper`}
+                innerHTML={html.value}
+              />
+            )}
           </div>
           {props.hljs === null && (
             <Teleport to={document.head}>
