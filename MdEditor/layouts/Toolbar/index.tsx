@@ -21,7 +21,8 @@ export default defineComponent({
   },
   setup(props) {
     const visible = reactive({
-      title: false
+      title: false,
+      menu: false
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
@@ -354,6 +355,20 @@ export default defineComponent({
               </svg>
             </div>
 
+            {/* <Dropdown
+              visible={visible.menu}
+              onChange={(v) => {
+                visible.menu = v;
+              }}
+              overlay={<div>123</div>}
+            >
+              <div class={`${prefix}-toolbar-item`} title="目录">
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-mulu" />
+                </svg>
+              </div>
+            </Dropdown> */}
+
             <div
               class={`${prefix}-toolbar-item`}
               title="预览"
@@ -378,13 +393,7 @@ export default defineComponent({
               </svg>
             </div>
 
-            <div class={`${prefix}-toolbar-item`} title="目录">
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-mulu" />
-              </svg>
-            </div>
-
-            <div
+            {/* <div
               class={`${prefix}-toolbar-item`}
               title="帮助"
               onClick={() => {
@@ -395,7 +404,8 @@ export default defineComponent({
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-help" />
               </svg>
-            </div>
+            </div> */}
+
             <div
               class={`${prefix}-toolbar-item`}
               title="源码"
