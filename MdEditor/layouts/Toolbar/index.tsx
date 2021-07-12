@@ -356,25 +356,31 @@ export default defineComponent({
 
             <div
               class={`${prefix}-toolbar-item`}
-              title="分栏"
+              title="预览"
               onClick={() => {
-                props.updateSetting(!props.setting.column, 'column');
+                props.updateSetting(!props.setting.preview, 'preview');
               }}
             >
               <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-sub-column" />
+                <use xlinkHref="#icon-preview" />
+              </svg>
+            </div>
+
+            <div
+              class={`${prefix}-toolbar-item`}
+              title="html代码预览"
+              onClick={() => {
+                props.updateSetting(!props.setting.html, 'html');
+              }}
+            >
+              <svg class={`${prefix}-icon`} aria-hidden="true">
+                <use xlinkHref="#icon-coding" />
               </svg>
             </div>
 
             <div class={`${prefix}-toolbar-item`} title="目录">
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-mulu" />
-              </svg>
-            </div>
-
-            <div class={`${prefix}-toolbar-item`} title="html代码预览">
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-coding" />
               </svg>
             </div>
 
