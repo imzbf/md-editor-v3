@@ -55,6 +55,24 @@ export default defineComponent({
 
     const triggerHandler = (e: MouseEvent, type: 'click' | 'hover' = 'click') => {
       if (type === 'click') {
+        const triggerEle: HTMLElement = triggerRef.value;
+        const overlayEle: HTMLElement = overlayRef.value;
+
+        const triggerInfo = triggerEle.getBoundingClientRect();
+
+        const triggerTop = triggerInfo.top;
+        const triggerLeft = triggerInfo.left;
+        const triggerHeight = triggerInfo.height;
+        const triggerWidth = triggerInfo.width;
+
+        // 设置好正对位置
+        ctl.overlayStyle = {
+          ...ctl.overlayStyle,
+          top: triggerTop + triggerHeight + 'px',
+          left: triggerLeft - overlayEle.offsetWidth / 2 + triggerWidth / 2 + 'px',
+          marginTop: '10px'
+        };
+
         props.onChange(!props.visible);
       } else {
         props.onChange(true);
@@ -89,22 +107,6 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      const triggerEle: HTMLElement = triggerRef.value;
-      const overlayEle: HTMLElement = overlayRef.value;
-
-      const offsetTop = triggerEle.offsetTop;
-      const offsetLeft = triggerEle.offsetLeft;
-      const offsetHeight = triggerEle.offsetHeight;
-      const offsetWidth = triggerEle.offsetWidth;
-
-      // 设置好正对位置
-      ctl.overlayStyle = {
-        ...ctl.overlayStyle,
-        top: offsetTop + offsetHeight + 'px',
-        left: offsetLeft - overlayEle.offsetWidth / 2 + offsetWidth / 2 + 'px',
-        marginTop: '10px'
-      };
-
       document.addEventListener('click', hiddenHandler);
     });
 
