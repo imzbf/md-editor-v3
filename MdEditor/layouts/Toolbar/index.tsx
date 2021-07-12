@@ -352,11 +352,19 @@ export default defineComponent({
                 <use xlinkHref="#icon-sub-column" />
               </svg>
             </div>
+
             <div class={`${prefix}-toolbar-item`} title="目录">
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use xlinkHref="#icon-mulu" />
               </svg>
             </div>
+
+            <div class={`${prefix}-toolbar-item`} title="html代码预览">
+              <svg class={`${prefix}-icon`} aria-hidden="true">
+                <use xlinkHref="#icon-coding" />
+              </svg>
+            </div>
+
             <div
               class={`${prefix}-toolbar-item`}
               title="帮助"
