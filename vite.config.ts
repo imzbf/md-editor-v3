@@ -2,6 +2,7 @@ import path from 'path';
 import { UserConfigExport, ConfigEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import nodeService from './vitePlugins/nodeService';
 
 const libBuildOptions = {
   outDir: path.resolve(__dirname, 'lib'),
@@ -36,7 +37,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         '@': path.resolve(__dirname, './dev')
       }
     },
-    plugins: [vue(), vueJsx()],
+    plugins: [vue(), vueJsx(), nodeService()],
     css: {
       modules: {
         localsConvention: 'camelCase' // 默认只支持驼峰，修改为同事支持横线和驼峰
