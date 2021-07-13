@@ -88,8 +88,7 @@ const props = {
   onUploadImg: {
     type: Function as PropType<
       (files: FileList, callBack: (urls: string[]) => void) => void
-    >,
-    default: () => () => {}
+    >
   },
   pageFullScreen: {
     type: Boolean as PropType<boolean>,
@@ -123,7 +122,11 @@ export default defineComponent({
     bus.on({
       name: 'uploadImage',
       callback(files: FileList, callBack: (urls: string[]) => void) {
-        props.onUploadImg && props.onUploadImg(files, callBack);
+        if (props.onUploadImg) {
+          props.onUploadImg(files, callBack);
+        } else {
+          context.emit('onUploadImg', files, callBack);
+        }
       }
     });
 
