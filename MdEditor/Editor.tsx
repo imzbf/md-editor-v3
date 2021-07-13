@@ -162,6 +162,7 @@ export default defineComponent({
 
     return () => (
       <div
+        id={prefix}
         class={[
           prefix,
           props.editorClass,
