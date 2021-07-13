@@ -40,6 +40,10 @@ export default defineComponent({
     onChange: {
       type: Function as PropType<(v: boolean) => void>,
       default: () => () => {}
+    },
+    to: {
+      type: Element as PropType<HTMLElement>,
+      default: () => document.body
     }
   },
   setup(props, ctx: SetupContext<EmitsOptions>) {
@@ -136,7 +140,7 @@ export default defineComponent({
         slotOverlay instanceof Array ? slotOverlay[0] : slotOverlay,
         { class: ctl.overlayClass, style: ctl.overlayStyle, ref: overlayRef }
       );
-      const overlayTo = () => <Teleport to={document.body}>{overlay}</Teleport>;
+      const overlayTo = () => <Teleport to={props.to}>{overlay}</Teleport>;
 
       return [trigger, overlayTo()];
     };

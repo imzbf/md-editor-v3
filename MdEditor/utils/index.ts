@@ -95,7 +95,8 @@ export type ToolDirective =
   | 'image'
   | 'table'
   | 'sub'
-  | 'sup';
+  | 'sup'
+  | 'help';
 
 export const directive2flag = (
   direct: ToolDirective,
