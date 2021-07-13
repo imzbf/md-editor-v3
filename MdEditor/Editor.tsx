@@ -121,11 +121,25 @@ export default defineComponent({
 
     bus.on({
       name: 'uploadImage',
-      callback(files: FileList, callBack: (urls: string[]) => void) {
+      callback(files: FileList, cb: () => void) {
+        const insertHanlder = (urls: Array<string>) => {
+          urls.forEach((url) => {
+            // 利用事件循环机制，保证两次插入分开进行
+            setTimeout(() => {
+              bus.emit('replace', 'image', {
+                desc: '',
+                url
+              });
+            }, 0);
+          });
+
+          cb && cb();
+        };
+
         if (props.onUploadImg) {
-          props.onUploadImg(files, callBack);
+          props.onUploadImg(files, insertHanlder);
         } else {
-          context.emit('onUploadImg', files, callBack);
+          context.emit('onUploadImg', files, insertHanlder);
         }
       }
     });
