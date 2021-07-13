@@ -19,6 +19,7 @@ export type ModalProps = Readonly<{
   visible?: boolean;
   width?: number;
   onClosed?: (visible: boolean) => void;
+  to?: HTMLElement;
 }>;
 
 export default defineComponent({
@@ -38,6 +39,10 @@ export default defineComponent({
     onClosed: {
       type: Function as PropType<() => void>,
       default: () => () => {}
+    },
+    to: {
+      type: Element as PropType<HTMLElement>,
+      default: () => document.body
     }
   },
   setup(props, ctx) {
@@ -103,7 +108,7 @@ export default defineComponent({
       const slotTitle = getSlot({ props, ctx }, 'title');
 
       return (
-        <Teleport to={document.body}>
+        <Teleport to={props.to}>
           <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
             <div class={`${prefix}-modal-mask`} />
             <div class={`${prefix}-modal-wrapper`}>
