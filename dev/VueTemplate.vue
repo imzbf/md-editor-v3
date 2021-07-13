@@ -1,6 +1,13 @@
 <template>
   <div class="container">
-    <editor v-model="text" theme="dark" :preview="true" html pageFullScreen></editor>
+    <editor
+      v-model="text"
+      theme="dark"
+      :preview="true"
+      html
+      pageFullScreen
+      @onUploadImg="onUploadImg"
+    ></editor>
   </div>
 </template>
 
@@ -8,6 +15,7 @@
 import { defineComponent } from 'vue';
 import Editor from '../MdEditor';
 import { mdText } from './data';
+import axios from 'axios';
 
 import './style.less';
 
@@ -20,12 +28,26 @@ export default defineComponent({
     };
   },
   methods: {
-    onUploadImg(files: FileList, callback: (urls: string[]) => void) {
-      console.log(files);
-      callback([
-        'https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/06301522413082599421018280471.png',
-        'https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/06301606102817061001806835437.gif'
-      ]);
+    async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
+      const res = await Promise.all(
+        Array.from(files).map((file) => {
+          return new Promise((rev, rej) => {
+            const form = new FormData();
+            form.append('file', file);
+
+            axios
+              .post('/api/img/upload', form, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then((res) => rev(res))
+              .catch((error) => rej(error));
+          });
+        })
+      );
+
+      callback(res.map((item: any) => item.data.url));
     }
   }
 });

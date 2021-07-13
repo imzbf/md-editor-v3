@@ -8,7 +8,7 @@ import { prefix } from '../../Editor';
 export default defineComponent({
   props: {
     type: {
-      type: String as PropType<'link' | 'img' | 'help'>,
+      type: String as PropType<'link' | 'image' | 'help'>,
       default: 'link'
     },
     visible: {
@@ -22,6 +22,10 @@ export default defineComponent({
     onOk: {
       type: Function as PropType<(data?: any) => void>,
       default: () => () => {}
+    },
+    to: {
+      type: Element as PropType<HTMLElement>,
+      default: () => document.body
     }
   },
 
@@ -30,11 +34,9 @@ export default defineComponent({
       switch (props.type) {
         case 'link': {
           return '添加链接';
-          break;
         }
-        case 'img': {
+        case 'image': {
           return '添加图片';
-          break;
         }
         default: {
           return '使用帮助';
@@ -54,23 +56,13 @@ export default defineComponent({
     watch(
       () => props.type,
       (nValue) => {
-        if (nValue === 'img') {
+        if (nValue === 'image') {
           nextTick(() => {
             (uploadRef.value as HTMLInputElement).addEventListener('change', () => {
               bus.emit(
                 'uploadImage',
                 (uploadRef.value as HTMLInputElement).files,
-                (urls = ['']) => {
-                  const imgList: Array<{ url: string; desc: string }> = [];
-                  urls.forEach((url) => {
-                    imgList.push({
-                      url,
-                      desc: linkData.desc
-                    });
-                  });
-
-                  props.onOk(imgList);
-                }
+                props.onOk
               );
             });
           });
@@ -79,7 +71,12 @@ export default defineComponent({
     );
 
     return () => (
-      <Modal title={title.value} visible={props.visible} onClosed={props.onCancel}>
+      <Modal
+        title={title.value}
+        visible={props.visible}
+        onClosed={props.onCancel}
+        to={props.to}
+      >
         {props.type === 'help' ? (
           <div>帮助</div>
         ) : (
@@ -117,11 +114,13 @@ export default defineComponent({
                 class={`${prefix}-btn ${props.type === 'link' && prefix + '-btn-row'}`}
                 onClick={() => {
                   props.onOk(linkData);
+                  linkData.desc = '';
+                  linkData.url = '';
                 }}
               >
                 确定
               </button>
-              {props.type === 'img' && (
+              {props.type === 'image' && (
                 <>
                   <button
                     class={`${prefix}-btn`}
