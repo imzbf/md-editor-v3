@@ -106,3 +106,33 @@ export default defineComponent({
 </script>
 
 ```
+
+### 上传图片
+
+默认可以选择多张图片，支持粘贴板上传图片。
+
+> 注意：粘贴板上传时，如果是网页上的 gif 图，无法正确上传为 gif 格式！
+
+```js
+async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
+  const res = await Promise.all(
+    Array.from(files).map((file) => {
+      return new Promise((rev, rej) => {
+        const form = new FormData();
+        form.append('file', file);
+
+        axios
+          .post('/api/img/upload', form, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then((res) => rev(res))
+          .catch((error) => rej(error));
+      });
+    })
+  );
+
+  callback(res.map((item: any) => item.data.url));
+}
+```
