@@ -22,6 +22,10 @@ export default defineComponent({
     onOk: {
       type: Function as PropType<(data?: any) => void>,
       default: () => () => {}
+    },
+    to: {
+      type: Element as PropType<HTMLElement>,
+      default: () => document.body
     }
   },
 
@@ -67,7 +71,12 @@ export default defineComponent({
     );
 
     return () => (
-      <Modal title={title.value} visible={props.visible} onClosed={props.onCancel}>
+      <Modal
+        title={title.value}
+        visible={props.visible}
+        onClosed={props.onCancel}
+        to={props.to}
+      >
         {props.type === 'help' ? (
           <div>帮助</div>
         ) : (

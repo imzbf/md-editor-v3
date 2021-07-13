@@ -1,4 +1,4 @@
-import { defineComponent, PropType, reactive } from 'vue';
+import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix, SettingType } from '../../Editor';
@@ -61,6 +61,12 @@ export default defineComponent({
       }
     });
 
+    // 挂载位置
+    const to = ref(document.body);
+    onMounted(() => {
+      to.value = document.getElementById(prefix) as HTMLElement;
+    });
+
     return () => (
       <>
         <div class={`${prefix}-toolbar`}>
@@ -115,6 +121,7 @@ export default defineComponent({
               onChange={(v) => {
                 visible.title = v;
               }}
+              to={to.value}
               overlay={
                 <ul
                   class={`${prefix}-menu`}
@@ -432,6 +439,7 @@ export default defineComponent({
             }
             modalData.visible = false;
           }}
+          to={to.value}
         />
       </>
     );
