@@ -2,7 +2,7 @@
   <div class="container">
     <editor
       v-model="text"
-      theme="light"
+      theme="dark"
       :preview="true"
       html
       pageFullScreen
