@@ -13,7 +13,7 @@ export interface SettingType {
   pageFullScreen: boolean;
   fullscreen: boolean;
   preview: boolean;
-  html: boolean;
+  htmlPreview: boolean;
 }
 
 export type PropsType = Readonly<{
@@ -34,7 +34,7 @@ export type PropsType = Readonly<{
   onUploadImg?: (files: FileList, callBack: (urls: string[]) => void) => void;
   pageFullScreen?: boolean;
   preview?: boolean;
-  html?: boolean;
+  htmlPreview?: boolean;
 }>;
 
 const props = {
@@ -98,7 +98,7 @@ const props = {
     type: Boolean as PropType<boolean>,
     default: true
   },
-  html: {
+  htmlPreview: {
     type: Boolean as PropType<boolean>,
     default: false
   }
@@ -148,14 +148,14 @@ export default defineComponent({
       pageFullScreen: props.pageFullScreen,
       fullscreen: false,
       preview: props.preview,
-      html: props.preview ? false : props.html
+      htmlPreview: props.preview ? false : props.htmlPreview
     });
 
     const updateSetting = (v: any, k: keyof typeof setting) => {
       setting[k] = v;
       if (k === 'preview' && setting.preview) {
-        setting.html = false;
-      } else if (k === 'html' && setting.html) {
+        setting.htmlPreview = false;
+      } else if (k === 'htmlPreview' && setting.htmlPreview) {
         setting.preview = false;
       }
     };
