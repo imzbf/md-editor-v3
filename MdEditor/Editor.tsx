@@ -1,5 +1,10 @@
-import { defineComponent, PropType, provide, reactive, Teleport } from 'vue';
-import config from './config';
+import { computed, defineComponent, PropType, provide, reactive, Teleport } from 'vue';
+import config, {
+  StaticTextDefaultKey,
+  StaticTextDefaultValue,
+  staticTextDefault,
+  ToolbarNames
+} from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
@@ -13,12 +18,12 @@ export interface SettingType {
   pageFullScreen: boolean;
   fullscreen: boolean;
   preview: boolean;
-  html: boolean;
+  htmlPreview: boolean;
 }
 
 export type PropsType = Readonly<{
   modelValue: string;
-  // TODO 后续开发
+  // 内置两种主题，不受外部影响
   theme?: 'light' | 'dark';
   editorClass?: string;
   // 项目中的highlight对象
@@ -32,9 +37,21 @@ export type PropsType = Readonly<{
   onChange?: (v: string) => void;
   onSave?: (v: string) => void;
   onUploadImg?: (files: FileList, callBack: (urls: string[]) => void) => void;
+  // 浏览器内全屏
   pageFullScreen?: boolean;
   preview?: boolean;
-  html?: boolean;
+  htmlPreview?: boolean;
+  // 语言设置，默认只支持了中英文
+  language?: StaticTextDefaultKey | string;
+  // 语言扩展，以标准的形式定义内容，设置language为key值即可替换
+  languageUserDefined?: Array<{ [key: string]: StaticTextDefaultValue }>;
+  // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
+  toolbars?: Array<ToolbarNames>;
+  // prettier 是否开启
+  prettier?: boolean;
+  // prettier CDN链接
+  prettierCDN?: string; // 'https://unpkg.com/prettier@2.3.2/standalone.js'
+  prettierMDCDN?: string; // 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
 }>;
 
 const props = {
@@ -98,9 +115,59 @@ const props = {
     type: Boolean as PropType<boolean>,
     default: true
   },
-  html: {
+  htmlPreview: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  language: {
+    type: String as PropType<StaticTextDefaultKey | string>,
+    default: 'zh-CN'
+  },
+  // 语言扩展，以标准的形式定义内容，设置language为key值即可替换
+  languageUserDefined: {
+    type: Array as PropType<Array<{ [key: string]: StaticTextDefaultValue }>>,
+    default: () => []
+  },
+  // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
+  toolbars: {
+    type: Array as PropType<Array<ToolbarNames>>,
+    default: [
+      'bold',
+      'underline',
+      'italic',
+      'strikeThrough',
+      'title',
+      'sub',
+      'sup',
+      'quote',
+      'unorderedList',
+      'orderedList',
+      'codeRow',
+      'code',
+      'link',
+      'image',
+      'table',
+      'revoke',
+      'next',
+      'save',
+      'pageFullscreen',
+      'fullscreen',
+      'preview',
+      'htmlPreview',
+      'github'
+    ]
+  },
+  prettier: {
+    type: Boolean as PropType<boolean>,
+    default: true
+  },
+  prettierCDN: {
+    type: String as PropType<string>,
+    default: 'https://unpkg.com/prettier@2.3.2/standalone.js'
+  },
+  prettierMDCDN: {
+    type: String as PropType<string>,
+    default: 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
   }
 };
 
@@ -118,6 +185,26 @@ export default defineComponent({
 
     // 注入历史设置
     provide('historyLength', props.historyLength);
+
+    // 注入语言设置
+    const usedLanguageText = computed(() => {
+      const allText: any = {
+        ...staticTextDefault,
+        ...props.languageUserDefined
+      };
+
+      if (allText[props.language]) {
+        return allText[props.language];
+      } else {
+        return staticTextDefault['zh-CN'];
+      }
+    });
+
+    provide('usedLanguageText', usedLanguageText.value);
+    // -end-
+
+    // 注入工具栏
+    provide('toolbars', props.toolbars);
 
     bus.on({
       name: 'uploadImage',
@@ -148,14 +235,14 @@ export default defineComponent({
       pageFullScreen: props.pageFullScreen,
       fullscreen: false,
       preview: props.preview,
-      html: props.preview ? false : props.html
+      htmlPreview: props.preview ? false : props.htmlPreview
     });
 
     const updateSetting = (v: any, k: keyof typeof setting) => {
       setting[k] = v;
       if (k === 'preview' && setting.preview) {
-        setting.html = false;
-      } else if (k === 'html' && setting.html) {
+        setting.htmlPreview = false;
+      } else if (k === 'htmlPreview' && setting.htmlPreview) {
         setting.preview = false;
       }
     };

@@ -1,8 +1,18 @@
-import { computed, defineComponent, nextTick, PropType, reactive, ref, watch } from 'vue';
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  PropType,
+  reactive,
+  ref,
+  watch
+} from 'vue';
 import Modal from '../../components/Modal';
 import bus from '../../utils/event-bus';
 
 import { prefix } from '../../Editor';
+import { StaticTextDefaultValue } from '../../config';
 
 // 链接弹窗\图片弹窗\帮助弹窗
 export default defineComponent({
@@ -30,16 +40,18 @@ export default defineComponent({
   },
 
   setup(props) {
+    const ult = inject('usedLanguageText') as StaticTextDefaultValue;
+
     const title = computed(() => {
       switch (props.type) {
         case 'link': {
-          return '添加链接';
+          return `${ult.linkModalTips?.title}${ult.toolbarTips?.link}`;
         }
         case 'image': {
-          return '添加图片';
+          return `${ult.linkModalTips?.title}${ult.toolbarTips?.image}`;
         }
         default: {
-          return '使用帮助';
+          return '';
         }
       }
     });
@@ -78,14 +90,15 @@ export default defineComponent({
         to={props.to}
       >
         {props.type === 'help' ? (
-          <div>帮助</div>
+          <div></div>
         ) : (
           <>
             <div class={`${prefix}-form-item`}>
               <label class={`${prefix}-lable`} for="link-desc">
-                链接描述：
+                {ult.linkModalTips?.descLable}
               </label>
               <input
+                placeholder={ult.linkModalTips?.descLablePlaceHolder}
                 class={`${prefix}-input`}
                 id="link-desc"
                 type="text"
@@ -97,9 +110,10 @@ export default defineComponent({
             </div>
             <div class={`${prefix}-form-item`}>
               <label class={`${prefix}-lable`} for="link-url">
-                链接地址：
+                {ult.linkModalTips?.urlLable}
               </label>
               <input
+                placeholder={ult.linkModalTips?.UrlLablePlaceHolder}
                 class={`${prefix}-input`}
                 id="link-url"
                 type="text"
@@ -118,7 +132,7 @@ export default defineComponent({
                   linkData.url = '';
                 }}
               >
-                确定
+                {ult.linkModalTips?.buttonOK}
               </button>
               {props.type === 'image' && (
                 <>
@@ -128,7 +142,7 @@ export default defineComponent({
                       (uploadRef.value as HTMLInputElement).click();
                     }}
                   >
-                    上传
+                    {ult.linkModalTips?.buttonUpload}
                   </button>
                   <input
                     ref={uploadRef}

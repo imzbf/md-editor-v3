@@ -6,6 +6,7 @@
       :preview="true"
       html
       pageFullScreen
+      language="en-US"
       @onUploadImg="onUploadImg"
     ></editor>
   </div>

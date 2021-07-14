@@ -18,14 +18,14 @@ export const useHistory = (props: EditorContentProps) => {
   let saveHistoryId = -1;
 
   const history: HistoryDataType = {
-    list: [],
+    list: [props.value],
     userUpdated: true,
     curr: 0
   };
 
   watch(
     () => props.value,
-    (_, oVal) => {
+    (nVal) => {
       clearTimeout(saveHistoryId);
 
       saveHistoryId = <any>setTimeout(() => {
@@ -35,7 +35,7 @@ export const useHistory = (props: EditorContentProps) => {
             history.list.shift();
           }
 
-          history.list.push(oVal);
+          history.list.push(nVal);
           // 下标调整为最后一个位置
           history.curr = history.list.length - 1;
         } else {
@@ -48,7 +48,6 @@ export const useHistory = (props: EditorContentProps) => {
   bus.on({
     name: 'ctrlZ',
     callback() {
-      console.log(history);
       history.userUpdated = false;
       // 倒退一个下标，最多倒退到0
       history.curr = history.curr - 1 < 0 ? 0 : history.curr - 1;

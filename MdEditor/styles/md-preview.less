@@ -1,7 +1,66 @@
 @import './vars';
 
+@codeBkColor: #282c34;
+@codeBkColorDark: #1a1a1a;
+
 // 代码样式
 .@{prefix} {
+  font-size: 16px;
+
+  a {
+    text-decoration: none;
+    color: #2d8cf0;
+    transition: color 0.3s;
+
+    &:hover {
+      color: @primaryColor;
+    }
+  }
+
+  img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid @borderColor;
+    border-radius: 3px;
+  }
+
+  p {
+    font-size: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin: 0;
+    line-height: 26px;
+
+    code {
+      color: #3594f7;
+      background: RGBA(59, 170, 250, 0.1);
+      display: inline-block;
+      padding: 0 4px;
+      border-radius: 2px;
+      height: 21px;
+      line-height: 22px;
+    }
+  }
+
+  blockquote {
+    margin: 20px 0;
+    padding: 1px 20px;
+    line-height: 27px;
+    background-color: @bbkColor;
+    border-left: 5px solid #35b378;
+    display: block;
+  }
+
+  pre,
+  code {
+    font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  }
+
   pre {
     position: relative;
     margin: 20px 10px;
@@ -12,18 +71,15 @@
       padding: 15px;
       display: block;
       overflow: auto;
-      background-color: #100f0f;
+      background-color: @codeBkColor;
       color: #a9b7c6;
       font-size: 14px;
-      font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica,
-        Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
     }
 
     .copy-button {
-      color: #a9b7c6;
+      color: @color;
       position: absolute;
       font-size: 12px;
       top: 9px;
@@ -48,6 +104,65 @@
 
     * {
       font-size: 14px;
+    }
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    tr {
+      &:hover {
+        background-color: @hover;
+      }
+
+      th,
+      td {
+        word-wrap: break-word;
+        padding: 6px 13px;
+        border: 1px solid @borderColor;
+      }
+    }
+  }
+}
+
+.@{prefix}-dark {
+  img {
+    border-color: @borderColorDark;
+  }
+
+  blockquote {
+    background-color: @bbkColorDark;
+  }
+
+  pre {
+    code {
+      background-color: @codeBkColorDark;
+      color: #a9b7c6;
+    }
+
+    .copy-button {
+      color: @colorDark;
+    }
+
+    &::before {
+      background-color: @codeBkColorDark;
+    }
+  }
+
+  table {
+    tr {
+      &:hover {
+        background-color: @hoverdark;
+      }
+
+      th,
+      td {
+        border-color: @borderColorDark;
+      }
     }
   }
 }
