@@ -95,6 +95,7 @@ Markdown 编辑器，基于 vue3，使用 jsx 语法开发，支持在 tsx 项�
 | CTRL + SHIFT + C | 块级代码   | 多行代码块                       | √        |
 | CTRL + SHIFT + I | 图片链接   | `![图片](https://imbf.cc)`       | √        |
 | CTRL + SHIFT + Z | 前进一步   | 触发编辑器内内容前进，与系统无关 | √        |
+| CTRL + SHIFT + F | 美化内容   |                                  | √        |
 | CTRL + ALT + C   | 行内代码   | 行内代码块                       | √        |
 
 ## 演示
