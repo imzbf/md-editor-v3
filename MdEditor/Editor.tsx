@@ -47,6 +47,11 @@ export type PropsType = Readonly<{
   languageUserDefined?: Array<{ [key: string]: StaticTextDefaultValue }>;
   // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
   toolbars?: Array<ToolbarNames>;
+  // prettier 是否开启
+  prettier?: boolean;
+  // prettier CDN链接
+  prettierCDN?: string; // 'https://unpkg.com/prettier@2.3.2/standalone.js'
+  prettierMDCDN?: string; // 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
 }>;
 
 const props = {
@@ -151,6 +156,18 @@ const props = {
       'htmlPreview',
       'github'
     ]
+  },
+  prettier: {
+    type: Boolean as PropType<boolean>,
+    default: true
+  },
+  prettierCDN: {
+    type: String as PropType<string>,
+    default: 'https://unpkg.com/prettier@2.3.2/standalone.js'
+  },
+  prettierMDCDN: {
+    type: String as PropType<string>,
+    default: 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
   }
 };
 
