@@ -1,6 +1,6 @@
 export default {
   iconScriptId: 'md-editor-v3',
-  iconfontUrl: '//at.alicdn.com/t/font_2605852_rqzwhnyoro9.js'
+  iconfontUrl: '//at.alicdn.com/t/font_2605852_w2rq8ip7vg.js'
 };
 
 interface ToolbarTips {
@@ -22,6 +22,7 @@ interface ToolbarTips {
   revoke?: string;
   next?: string;
   save?: string;
+  prettier?: string;
   pageFullscreen?: string;
   fullscreen?: string;
   preview?: string;
@@ -79,6 +80,7 @@ export const staticTextDefault: StaticTextDefault = {
       revoke: '后退',
       next: '前进',
       save: '保存',
+      prettier: '美化',
       pageFullscreen: '浏览器全屏',
       fullscreen: '屏幕全屏',
       preview: '预览',
@@ -123,6 +125,7 @@ export const staticTextDefault: StaticTextDefault = {
       revoke: 'revoke',
       next: 'undo revoke',
       save: 'save',
+      prettier: 'prettier',
       pageFullscreen: 'fullscreen in page',
       fullscreen: 'fullscreen',
       preview: 'preview',

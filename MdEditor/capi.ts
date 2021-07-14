@@ -140,6 +140,14 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
           event.preventDefault();
           break;
         }
+        case 'KeyF': {
+          // ctrl+shift+f 美化内容
+          if (event.shiftKey) {
+            bus.emit('replace', 'prettier');
+            event.preventDefault();
+          }
+          break;
+        }
       }
     }
   };
