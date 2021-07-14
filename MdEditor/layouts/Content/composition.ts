@@ -31,6 +31,10 @@ export const useHistory = (props: EditorContentProps) => {
       saveHistoryId = <any>setTimeout(() => {
         // 如果不是撤销操作，就记录
         if (history.userUpdated) {
+          // 重置撤回之前的记录
+          if (history.curr < history.list.length - 1) {
+            history.list = history.list.slice(0, history.curr + 1);
+          }
           if (history.list.length > historyLength) {
             history.list.shift();
           }
