@@ -392,7 +392,7 @@ export default defineComponent({
               class={`${prefix}-toolbar-item`}
               title="html代码预览"
               onClick={() => {
-                props.updateSetting(!props.setting.html, 'html');
+                props.updateSetting(!props.setting.htmlPreview, 'htmlPreview');
               }}
             >
               <svg class={`${prefix}-icon`} aria-hidden="true">
