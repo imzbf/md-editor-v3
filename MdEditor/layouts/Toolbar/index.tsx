@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
+import { defineComponent, inject, onMounted, PropType, reactive, ref } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix, SettingType } from '../../Editor';
@@ -6,6 +6,7 @@ import bus from '../../utils/event-bus';
 import { goto, ToolDirective } from '../../utils';
 import screenfull from 'screenfull';
 import Modals from '../Modals';
+import { StaticTextDefaultValue } from '../../config';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -20,6 +21,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const ult = inject('usedLanguageText') as StaticTextDefaultValue;
+
     const visible = reactive({
       title: false,
       menu: false
@@ -73,7 +76,7 @@ export default defineComponent({
           <div class={`${prefix}-toolbar-left`}>
             <div
               class={`${prefix}-toolbar-item`}
-              title="加粗"
+              title={ult.toolbarTips?.bold}
               onClick={() => {
                 emitHandler('bold');
               }}
@@ -84,7 +87,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="下划线"
+              title={ult.toolbarTips?.underline}
               onClick={() => {
                 emitHandler('underline');
               }}
@@ -95,7 +98,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="斜体"
+              title={ult.toolbarTips?.italic}
               onClick={() => {
                 emitHandler('italic');
               }}
@@ -106,7 +109,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="删除线"
+              title={ult.toolbarTips?.strikeThrough}
               onClick={() => {
                 emitHandler('strikeThrough');
               }}
@@ -135,7 +138,7 @@ export default defineComponent({
                       emitHandler('h1');
                     }}
                   >
-                    一级标题
+                    {ult.titleItem?.h1}
                   </li>
                   <li
                     class={`${prefix}-menu-item`}
@@ -143,7 +146,7 @@ export default defineComponent({
                       emitHandler('h2');
                     }}
                   >
-                    二级标题
+                    {ult.titleItem?.h2}
                   </li>
                   <li
                     class={`${prefix}-menu-item`}
@@ -151,7 +154,7 @@ export default defineComponent({
                       emitHandler('h3');
                     }}
                   >
-                    三级标题
+                    {ult.titleItem?.h3}
                   </li>
                   <li
                     class={`${prefix}-menu-item`}
@@ -159,7 +162,7 @@ export default defineComponent({
                       emitHandler('h4');
                     }}
                   >
-                    四级标题
+                    {ult.titleItem?.h4}
                   </li>
                   <li
                     class={`${prefix}-menu-item`}
@@ -167,7 +170,7 @@ export default defineComponent({
                       emitHandler('h5');
                     }}
                   >
-                    五级标题
+                    {ult.titleItem?.h5}
                   </li>
                   <li
                     class={`${prefix}-menu-item`}
@@ -175,12 +178,12 @@ export default defineComponent({
                       emitHandler('h6');
                     }}
                   >
-                    六级标题
+                    {ult.titleItem?.h6}
                   </li>
                 </ul>
               }
             >
-              <div class={`${prefix}-toolbar-item`} title="标题">
+              <div class={`${prefix}-toolbar-item`} title={ult.toolbarTips?.title}>
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#icon-title" />
                 </svg>
@@ -188,7 +191,7 @@ export default defineComponent({
             </Dropdown>
             <div
               class={`${prefix}-toolbar-item`}
-              title="下标"
+              title={ult.toolbarTips?.sub}
               onClick={() => {
                 emitHandler('sub');
               }}
@@ -199,7 +202,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="上标"
+              title={ult.toolbarTips?.sup}
               onClick={() => {
                 emitHandler('sup');
               }}
@@ -210,7 +213,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="引用"
+              title={ult.toolbarTips?.quote}
               onClick={() => {
                 emitHandler('quote');
               }}
@@ -221,7 +224,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="无序列表"
+              title={ult.toolbarTips?.unorderedList}
               onClick={() => {
                 emitHandler('unorderedList');
               }}
@@ -232,7 +235,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="有序列表"
+              title={ult.toolbarTips?.orderedList}
               onClick={() => {
                 emitHandler('orderedList');
               }}
@@ -244,7 +247,7 @@ export default defineComponent({
             <Divider />
             <div
               class={`${prefix}-toolbar-item`}
-              title="行内代码"
+              title={ult.toolbarTips?.codeRow}
               onClick={() => {
                 emitHandler('codeRow');
               }}
@@ -255,7 +258,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="代码块"
+              title={ult.toolbarTips?.code}
               onClick={() => {
                 emitHandler('code');
               }}
@@ -266,7 +269,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="链接"
+              title={ult.toolbarTips?.link}
               onClick={() => {
                 modalData.type = 'link';
                 modalData.visible = true;
@@ -278,7 +281,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="图片"
+              title={ult.toolbarTips?.image}
               onClick={() => {
                 modalData.type = 'image';
                 modalData.visible = true;
@@ -290,7 +293,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="表格"
+              title={ult.toolbarTips?.table}
               onClick={() => {
                 emitHandler('table');
               }}
@@ -302,7 +305,7 @@ export default defineComponent({
             <Divider />
             <div
               class={`${prefix}-toolbar-item`}
-              title="撤回"
+              title={ult.toolbarTips?.revoke}
               onClick={() => {
                 bus.emit('ctrlZ');
               }}
@@ -313,7 +316,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="取消撤回"
+              title={ult.toolbarTips?.next}
               onClick={() => {
                 bus.emit('ctrlShiftZ');
               }}
@@ -324,7 +327,7 @@ export default defineComponent({
             </div>
             <div
               class={`${prefix}-toolbar-item`}
-              title="保存"
+              title={ult.toolbarTips?.save}
               onClick={() => {
                 bus.emit('onSave');
               }}
@@ -338,7 +341,7 @@ export default defineComponent({
             {!props.setting.fullscreen && (
               <div
                 class={`${prefix}-toolbar-item`}
-                title="浏览器内全屏"
+                title={ult.toolbarTips?.pageFullscreen}
                 onClick={() => {
                   props.updateSetting(!props.setting.pageFullScreen, 'pageFullScreen');
                 }}
@@ -352,7 +355,11 @@ export default defineComponent({
                 </svg>
               </div>
             )}
-            <div class={`${prefix}-toolbar-item`} title="全屏放大" onClick={fullScreen}>
+            <div
+              class={`${prefix}-toolbar-item`}
+              title={ult.toolbarTips?.fullscreen}
+              onClick={fullScreen}
+            >
               <svg class={`${prefix}-icon`} aria-hidden="true">
                 <use
                   xlinkHref={`#icon-${
@@ -378,7 +385,7 @@ export default defineComponent({
 
             <div
               class={`${prefix}-toolbar-item`}
-              title="预览"
+              title={ult.toolbarTips?.preview}
               onClick={() => {
                 props.updateSetting(!props.setting.preview, 'preview');
               }}
@@ -390,7 +397,7 @@ export default defineComponent({
 
             <div
               class={`${prefix}-toolbar-item`}
-              title="html代码预览"
+              title={ult.toolbarTips?.htmlPreview}
               onClick={() => {
                 props.updateSetting(!props.setting.htmlPreview, 'htmlPreview');
               }}
@@ -415,7 +422,7 @@ export default defineComponent({
 
             <div
               class={`${prefix}-toolbar-item`}
-              title="源码"
+              title={ult.toolbarTips?.github}
               onClick={() => goto('https://github.com/imzbf/md-editor-v3')}
             >
               <svg class={`${prefix}-icon`} aria-hidden="true">
