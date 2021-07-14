@@ -26,78 +26,112 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
         case 'KeyS': {
           if (event.shiftKey) {
             // 删除线
-            bus.emit('replace', 'strikeThrough' as ToolDirective);
+            if (props.toolbars?.includes('strikeThrough')) {
+              bus.emit('replace', 'strikeThrough' as ToolDirective);
+            }
           } else {
             // 触发保存事件
-            bus.emit('onSave', props.modelValue);
-            event.preventDefault();
+            if (props.toolbars?.includes('save')) {
+              bus.emit('onSave', props.modelValue);
+              event.preventDefault();
+            }
           }
           break;
         }
         case 'KeyB': {
-          bus.emit('replace', 'bold' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('bold')) {
+            bus.emit('replace', 'bold' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'KeyU': {
           if (event.shiftKey) {
             // ctrl+shift+u触发无需列表
-            bus.emit('replace', 'unorderedList' as ToolDirective);
+            if (props.toolbars?.includes('unorderedList')) {
+              bus.emit('replace', 'unorderedList' as ToolDirective);
+              event.preventDefault();
+            }
           } else {
             // ctrl+u触发下划线
-            bus.emit('replace', 'underline' as ToolDirective);
+            if (props.toolbars?.includes('underline')) {
+              bus.emit('replace', 'underline' as ToolDirective);
+              event.preventDefault();
+            }
           }
-          event.preventDefault();
+
           break;
         }
         case 'KeyI': {
           if (event.shiftKey) {
             // ctrl+shift+l触发图片链接
-            bus.emit('openModals', 'img');
+            if (props.toolbars?.includes('image')) {
+              bus.emit('openModals', 'img');
+              event.preventDefault();
+            }
           } else {
-            bus.emit('replace', 'italic' as ToolDirective);
+            if (props.toolbars?.includes('italic')) {
+              bus.emit('replace', 'italic' as ToolDirective);
+              event.preventDefault();
+            }
           }
-          event.preventDefault();
+
           break;
         }
         case 'Digit1': {
-          bus.emit('replace', 'h1' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('title')) {
+            bus.emit('replace', 'h1' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'Digit2': {
-          bus.emit('replace', 'h2' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('title')) {
+            bus.emit('replace', 'h2' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'Digit3': {
-          bus.emit('replace', 'h3' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('title')) {
+            bus.emit('replace', 'h3' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'Digit4': {
-          bus.emit('replace', 'h4' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('title')) {
+            bus.emit('replace', 'h4' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'Digit5': {
-          bus.emit('replace', 'h5' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('title')) {
+            bus.emit('replace', 'h5' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'Digit6': {
-          bus.emit('replace', 'h6' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('title')) {
+            bus.emit('replace', 'h6' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'ArrowUp': {
-          bus.emit('replace', 'sup' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('sup')) {
+            bus.emit('replace', 'sup' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'ArrowDown': {
-          bus.emit('replace', 'sub' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('sub')) {
+            bus.emit('replace', 'sub' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'KeyQ': {
@@ -106,38 +140,61 @@ export const useKeyBoard = (props: PropsType, context: SetupContext) => {
           break;
         }
         case 'KeyO': {
-          bus.emit('replace', 'orderedList' as ToolDirective);
-          event.preventDefault();
+          if (props.toolbars?.includes('orderedList')) {
+            bus.emit('replace', 'orderedList' as ToolDirective);
+            event.preventDefault();
+          }
           break;
         }
         case 'KeyC': {
           if (event.shiftKey) {
             // ctrl+shift+c触发块级代码
-            bus.emit('replace', 'code' as ToolDirective);
-            event.preventDefault();
+            if (props.toolbars?.includes('code')) {
+              bus.emit('replace', 'code' as ToolDirective);
+              event.preventDefault();
+            }
           } else if (event.altKey) {
             // ctrl+alt+c触发行内代码
-            bus.emit('replace', 'codeRow' as ToolDirective);
-            event.preventDefault();
+            if (props.toolbars?.includes('codeRow')) {
+              bus.emit('replace', 'codeRow' as ToolDirective);
+              event.preventDefault();
+            }
           }
           break;
         }
         case 'KeyL': {
           // ctrl+l触发普通链接
-          bus.emit('openModals', 'link');
-
-          event.preventDefault();
+          if (props.toolbars?.includes('link')) {
+            bus.emit('openModals', 'link');
+            event.preventDefault();
+          }
           break;
         }
         case 'KeyZ': {
           if (event.shiftKey) {
             // ctrl+shift+z 前进一步
-            bus.emit('ctrlShiftZ');
+            if (props.toolbars?.includes('next')) {
+              bus.emit('ctrlShiftZ');
+              event.preventDefault();
+            }
           } else {
             // ctrl+z 后退一步
-            bus.emit('ctrlZ');
+            if (props.toolbars?.includes('revoke')) {
+              bus.emit('ctrlZ');
+              event.preventDefault();
+            }
           }
-          event.preventDefault();
+
+          break;
+        }
+        case 'KeyF': {
+          // ctrl+shift+f 美化内容
+          if (event.shiftKey) {
+            if (props.toolbars?.includes('prettier')) {
+              bus.emit('replace', 'prettier');
+              event.preventDefault();
+            }
+          }
           break;
         }
       }
