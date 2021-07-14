@@ -1,5 +1,9 @@
-import { defineComponent, PropType, provide, reactive, Teleport } from 'vue';
-import config from './config';
+import { computed, defineComponent, PropType, provide, reactive, Teleport } from 'vue';
+import config, {
+  StaticTextDefaultKey,
+  StaticTextDefaultValue,
+  staticTextDefault
+} from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
@@ -32,9 +36,14 @@ export type PropsType = Readonly<{
   onChange?: (v: string) => void;
   onSave?: (v: string) => void;
   onUploadImg?: (files: FileList, callBack: (urls: string[]) => void) => void;
+  // 浏览器内全屏
   pageFullScreen?: boolean;
   preview?: boolean;
   htmlPreview?: boolean;
+  // 语言设置，默认只支持了中英文
+  language?: StaticTextDefaultKey | string;
+  // 语言扩展，以标准的形式定义内容，设置language为key值即可替换
+  languageUserDefined?: Array<{ [key: string]: StaticTextDefaultValue }>;
 }>;
 
 const props = {
@@ -101,6 +110,15 @@ const props = {
   htmlPreview: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  language: {
+    type: String as PropType<StaticTextDefaultKey | string>,
+    default: 'zh-CN'
+  },
+  // 语言扩展，以标准的形式定义内容，设置language为key值即可替换
+  languageUserDefined: {
+    type: Array as PropType<Array<{ [key: string]: StaticTextDefaultValue }>>,
+    default: () => []
   }
 };
 
@@ -118,6 +136,22 @@ export default defineComponent({
 
     // 注入历史设置
     provide('historyLength', props.historyLength);
+
+    // 注入语言设置
+    const usedLanguageText = computed(() => {
+      const allText: any = {
+        ...staticTextDefault,
+        ...props.languageUserDefined
+      };
+
+      if (allText[props.language]) {
+        return allText[props.language];
+      } else {
+        return staticTextDefault['zh-CN'];
+      }
+    });
+
+    provide('usedLanguageText', usedLanguageText.value);
 
     bus.on({
       name: 'uploadImage',
