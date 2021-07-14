@@ -2,10 +2,11 @@
   <div class="container">
     <editor
       v-model="text"
-      theme="dark"
+      theme="light"
       :preview="true"
       html
       pageFullScreen
+      language="en-US"
       @onUploadImg="onUploadImg"
     ></editor>
   </div>
