@@ -12,6 +12,14 @@ import bus from './utils/event-bus';
 
 import './styles/index.less';
 
+declare global {
+  interface Window {
+    hljs: any;
+    prettier: any;
+    prettierPlugins: any;
+  }
+}
+
 export const prefix = 'md';
 
 export interface SettingType {
@@ -150,6 +158,7 @@ const props = {
       'revoke',
       'next',
       'save',
+      'prettier',
       'pageFullscreen',
       'fullscreen',
       'preview',
@@ -273,6 +282,12 @@ export default defineComponent({
         <Teleport to={document.head}>
           <script src={config.iconfontUrl} />
         </Teleport>
+        {props.prettier && (
+          <Teleport to={document.head}>
+            <script src={props.prettierCDN} />
+            <script src={props.prettierMDCDN} />
+          </Teleport>
+        )}
       </div>
     );
   }
