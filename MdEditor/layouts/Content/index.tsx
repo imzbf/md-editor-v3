@@ -23,12 +23,6 @@ import {
 
 import { useHistory } from './composition';
 
-declare global {
-  interface Window {
-    hljs: any;
-  }
-}
-
 // 向页面代码块注入复制按钮
 const initCopyEntry = () => {
   document.querySelectorAll(`.${prefix}-preview-wrapper pre`).forEach((pre: Element) => {
