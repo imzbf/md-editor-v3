@@ -54,8 +54,8 @@ export default defineComponent({
       overlayStyle: {}
     });
 
-    const triggerRef = ref();
-    const overlayRef = ref();
+    const triggerRef = ref<HTMLElement>(document.body);
+    const overlayRef = ref<HTMLElement>(document.body);
 
     const triggerHandler = (e: MouseEvent, type: 'click' | 'hover' = 'click') => {
       if (type === 'click') {
@@ -64,8 +64,8 @@ export default defineComponent({
 
         const triggerInfo = triggerEle.getBoundingClientRect();
 
-        const triggerTop = triggerInfo.top;
-        const triggerLeft = triggerInfo.left;
+        const triggerTop = triggerEle.offsetTop;
+        const triggerLeft = triggerEle.offsetLeft;
         const triggerHeight = triggerInfo.height;
         const triggerWidth = triggerInfo.width;
 
