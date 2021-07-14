@@ -377,6 +377,19 @@ export default defineComponent({
             )}
           </div>
           <div class={`${prefix}-toolbar-right`}>
+            {toolbars.includes('prettier') && (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.toolbarTips?.prettier}
+                onClick={() => {
+                  emitHandler('prettier');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-prettier" />
+                </svg>
+              </div>
+            )}
             {toolbars.includes('pageFullscreen') && !props.setting.fullscreen && (
               <div
                 class={`${prefix}-toolbar-item`}

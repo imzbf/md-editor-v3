@@ -12,6 +12,14 @@ import bus from './utils/event-bus';
 
 import './styles/index.less';
 
+declare global {
+  interface Window {
+    hljs: any;
+    prettier: any;
+    prettierPlugins: any;
+  }
+}
+
 export const prefix = 'md';
 
 export interface SettingType {
@@ -47,6 +55,11 @@ export type PropsType = Readonly<{
   languageUserDefined?: Array<{ [key: string]: StaticTextDefaultValue }>;
   // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
   toolbars?: Array<ToolbarNames>;
+  // prettier 是否开启
+  prettier?: boolean;
+  // prettier CDN链接
+  prettierCDN?: string; // 'https://unpkg.com/prettier@2.3.2/standalone.js'
+  prettierMDCDN?: string; // 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
 }>;
 
 const props = {
@@ -123,7 +136,7 @@ const props = {
     type: Array as PropType<Array<{ [key: string]: StaticTextDefaultValue }>>,
     default: () => []
   },
-  // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
+  // 工具栏选择显示
   toolbars: {
     type: Array as PropType<Array<ToolbarNames>>,
     default: [
@@ -145,12 +158,25 @@ const props = {
       'revoke',
       'next',
       'save',
+      'prettier',
       'pageFullscreen',
       'fullscreen',
       'preview',
       'htmlPreview',
       'github'
     ]
+  },
+  prettier: {
+    type: Boolean as PropType<boolean>,
+    default: true
+  },
+  prettierCDN: {
+    type: String as PropType<string>,
+    default: 'https://unpkg.com/prettier@2.3.2/standalone.js'
+  },
+  prettierMDCDN: {
+    type: String as PropType<string>,
+    default: 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
   }
 };
 
@@ -256,6 +282,12 @@ export default defineComponent({
         <Teleport to={document.head}>
           <script src={config.iconfontUrl} />
         </Teleport>
+        {props.prettier && (
+          <Teleport to={document.head}>
+            <script src={props.prettierCDN} />
+            <script src={props.prettierMDCDN} />
+          </Teleport>
+        )}
       </div>
     );
   }
