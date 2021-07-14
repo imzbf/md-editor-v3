@@ -26,7 +26,9 @@ Markdown 编辑器，基于 vue3，使用 jsx 语法开发，支持在 tsx 项�
 | historyLength | Number | 10 | 最大记录操作数（太大会占用内存） |
 | pageFullScreen | Boolean | false | 浏览器内全屏 |
 | preview | Boolean | true | 预览模式 |
-| html | Boolean | false | html 预览 |
+| htmlPreview | Boolean | false | html 预览 |
+| language | String | 'zh-CN' | 默认内置中英文，可自行扩展其他语言，同时可覆盖内置的中英文 |
+| languageUserDefined | Array | [] | 通过这里扩展语言，修改 language 值为扩展 key 即可 |
 
 ### 事件绑定
 
