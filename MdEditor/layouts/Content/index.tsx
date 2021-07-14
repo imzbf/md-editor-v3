@@ -252,7 +252,9 @@ export default defineComponent({
                   props.onChange((e.target as HTMLTextAreaElement).value);
                 }}
                 class={[
-                  props.setting.preview || props.setting.html ? '' : 'textarea-only'
+                  props.setting.preview || props.setting.htmlPreview
+                    ? ''
+                    : 'textarea-only'
                 ]}
               />
             </div>
@@ -263,7 +265,7 @@ export default defineComponent({
                 innerHTML={html.value}
               />
             )}
-            {props.setting.html && (
+            {props.setting.htmlPreview && (
               <div ref={htmlRef} class={`${prefix}-html-wrapper`}>
                 {html.value}
               </div>
