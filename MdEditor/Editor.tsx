@@ -2,7 +2,8 @@ import { computed, defineComponent, PropType, provide, reactive, Teleport } from
 import config, {
   StaticTextDefaultKey,
   StaticTextDefaultValue,
-  staticTextDefault
+  staticTextDefault,
+  ToolbarNames
 } from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -22,7 +23,7 @@ export interface SettingType {
 
 export type PropsType = Readonly<{
   modelValue: string;
-  // TODO 后续开发
+  // 内置两种主题，不受外部影响
   theme?: 'light' | 'dark';
   editorClass?: string;
   // 项目中的highlight对象
@@ -44,6 +45,8 @@ export type PropsType = Readonly<{
   language?: StaticTextDefaultKey | string;
   // 语言扩展，以标准的形式定义内容，设置language为key值即可替换
   languageUserDefined?: Array<{ [key: string]: StaticTextDefaultValue }>;
+  // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
+  toolbars?: Array<ToolbarNames>;
 }>;
 
 const props = {
@@ -119,6 +122,35 @@ const props = {
   languageUserDefined: {
     type: Array as PropType<Array<{ [key: string]: StaticTextDefaultValue }>>,
     default: () => []
+  },
+  // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
+  toolbars: {
+    type: Array as PropType<Array<ToolbarNames>>,
+    default: [
+      'bold',
+      'underline',
+      'italic',
+      'strikeThrough',
+      'title',
+      'sub',
+      'sup',
+      'quote',
+      'unorderedList',
+      'orderedList',
+      'codeRow',
+      'code',
+      'link',
+      'image',
+      'table',
+      'revoke',
+      'next',
+      'save',
+      'pageFullscreen',
+      'fullscreen',
+      'preview',
+      'htmlPreview',
+      'github'
+    ]
   }
 };
 
@@ -152,6 +184,10 @@ export default defineComponent({
     });
 
     provide('usedLanguageText', usedLanguageText.value);
+    // -end-
+
+    // 注入工具栏
+    provide('toolbars', props.toolbars);
 
     bus.on({
       name: 'uploadImage',
