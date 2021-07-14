@@ -29,7 +29,37 @@ Markdown 编辑器，基于 vue3，使用 jsx 语法开发，支持在 tsx 项�
 | htmlPreview | Boolean | false | html 预览 |
 | language | String | 'zh-CN' | 默认内置中英文，可自行扩展其他语言，同时可覆盖内置的中英文 |
 | languageUserDefined | Array | [] | 通过这里扩展语言，修改 language 值为扩展 key 即可 |
-| toolbars | Array | [all] | 选择性展示工具栏，可选内容['bold','underline','italic','strikeThrough','title','sub','sup','quote','unorderedList','orderedList','codeRow','code','link','image','table','revoke','next','save','pageFullscreen','fullscreen','preview','htmlPreview','github'] |
+| toolbars | Array | [all] | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
+
+[toolbars]
+
+```js
+[
+  'bold',
+  'underline',
+  'italic',
+  'strikeThrough',
+  'title',
+  'sub',
+  'sup',
+  'quote',
+  'unorderedList',
+  'orderedList',
+  'codeRow',
+  'code',
+  'link',
+  'image',
+  'table',
+  'revoke',
+  'next',
+  'save',
+  'pageFullscreen',
+  'fullscreen',
+  'preview',
+  'htmlPreview',
+  'github'
+];
+```
 
 ### 事件绑定
 
