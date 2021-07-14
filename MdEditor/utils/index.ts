@@ -96,7 +96,8 @@ export type ToolDirective =
   | 'table'
   | 'sub'
   | 'sup'
-  | 'help';
+  | 'help'
+  | 'prettier';
 
 export const directive2flag = (
   direct: ToolDirective,
@@ -120,6 +121,11 @@ export const directive2flag = (
 
     targetValue = `${pix} ${selectedText}`;
     deviationStart = pix.length + 1;
+  } else if (direct === 'prettier') {
+    return window.prettier.format(inputArea.value, {
+      parser: 'markdown',
+      plugins: window.prettierPlugins
+    });
   } else {
     switch (direct) {
       case 'bold': {
