@@ -136,7 +136,7 @@ const props = {
     type: Array as PropType<Array<{ [key: string]: StaticTextDefaultValue }>>,
     default: () => []
   },
-  // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
+  // 工具栏选择显示
   toolbars: {
     type: Array as PropType<Array<ToolbarNames>>,
     default: [
