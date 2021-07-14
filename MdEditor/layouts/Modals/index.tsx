@@ -86,6 +86,7 @@ export default defineComponent({
                 链接描述：
               </label>
               <input
+                placeholder="请输入描述..."
                 class={`${prefix}-input`}
                 id="link-desc"
                 type="text"
@@ -100,6 +101,7 @@ export default defineComponent({
                 链接地址：
               </label>
               <input
+                placeholder="请输入链接..."
                 class={`${prefix}-input`}
                 id="link-url"
                 type="text"
