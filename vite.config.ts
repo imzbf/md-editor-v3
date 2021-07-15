@@ -4,6 +4,9 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import nodeService from './vitePlugins/nodeService';
 
+// https://segmentfault.com/a/1190000040127796
+import dts from 'vite-plugin-dts';
+
 const libBuildOptions = {
   outDir: path.resolve(__dirname, 'lib'),
   lib: {
@@ -37,7 +40,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         '@': path.resolve(__dirname, './dev')
       }
     },
-    plugins: [vue(), vueJsx(), nodeService()],
+    plugins: [vue(), vueJsx(), nodeService(), dts()],
     css: {
       modules: {
         localsConvention: 'camelCase' // 默认只支持驼峰，修改为同事支持横线和驼峰
