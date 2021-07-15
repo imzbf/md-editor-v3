@@ -1,5 +1,148 @@
+@color: #222;
+@colorDark: #999;
+
+@borderColor: #e6e6e6;
+@borderColorDark: #2d2d2d;
+
+@bkColor: #fff;
+@bkColorDark: #000;
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 16px;
+  font-family: 'Varela Round', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/* 浏览器滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track {
+  background-color: #e2e2e2;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-button:vertical {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb:vertical:hover {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+  background-color: rgba(0, 0, 0, 0.38);
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
 .container {
-  width: 1200px;
+  width: 1170px;
   margin: 0 auto;
   position: relative;
+}
+
+.doc {
+  color: @color;
+  background-color: @bkColor;
+  height: 100%;
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h1 {
+      padding: 20px 0;
+    }
+  }
+
+  .preview-actions {
+    margin-top: 20px;
+
+    button {
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      user-select: none;
+      height: 32px;
+      padding: 0 15px;
+      font-size: 14px;
+      border-radius: 4px;
+      transition: all 0.2s linear;
+      color: #515a6e;
+      background-color: @bkColor;
+      border-color: @borderColor;
+      margin-left: 10px;
+
+      &:first-of-type {
+        margin-left: 0;
+      }
+
+      &:hover {
+        color: #57a3f3;
+        background-color: @bkColor;
+        border-color: #57a3f3;
+      }
+    }
+  }
+}
+
+.theme-dark {
+  color: @colorDark;
+  background-color: @bkColorDark;
+
+  .preview-actions {
+    button {
+      color: @colorDark;
+      background-color: @bkColorDark;
+      border-color: @borderColorDark;
+
+      &:hover {
+        background-color: @bkColorDark;
+      }
+    }
+  }
 }
