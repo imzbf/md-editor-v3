@@ -41,6 +41,7 @@ export default defineComponent({
 
   setup(props) {
     const ult = inject('usedLanguageText') as StaticTextDefaultValue;
+    const editorName = inject('editorName');
 
     const title = computed(() => {
       switch (props.type) {
@@ -94,13 +95,13 @@ export default defineComponent({
         ) : (
           <>
             <div class={`${prefix}-form-item`}>
-              <label class={`${prefix}-lable`} for="link-desc">
+              <label class={`${prefix}-lable`} for={`link-desc-${editorName}`}>
                 {ult.linkModalTips?.descLable}
               </label>
               <input
                 placeholder={ult.linkModalTips?.descLablePlaceHolder}
                 class={`${prefix}-input`}
-                id="link-desc"
+                id={`link-desc-${editorName}`}
                 type="text"
                 value={linkData.desc}
                 onChange={(e) => {
@@ -109,13 +110,13 @@ export default defineComponent({
               />
             </div>
             <div class={`${prefix}-form-item`}>
-              <label class={`${prefix}-lable`} for="link-url">
+              <label class={`${prefix}-lable`} for={`link-url-${editorName}`}>
                 {ult.linkModalTips?.urlLable}
               </label>
               <input
                 placeholder={ult.linkModalTips?.UrlLablePlaceHolder}
                 class={`${prefix}-input`}
-                id="link-url"
+                id={`link-url-${editorName}`}
                 type="text"
                 value={linkData.url}
                 onChange={(e) => {
