@@ -1,10 +1,5 @@
 import { computed, defineComponent, PropType, provide, reactive, Teleport } from 'vue';
-import config, {
-  StaticTextDefaultKey,
-  StaticTextDefaultValue,
-  staticTextDefault,
-  ToolbarNames
-} from './config';
+import config, { staticTextDefault } from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
@@ -20,7 +15,61 @@ declare global {
   }
 }
 
-export const prefix = 'md';
+export interface ToolbarTips {
+  bold?: string;
+  underline?: string;
+  italic?: string;
+  strikeThrough?: string;
+  title?: string;
+  sub?: string;
+  sup?: string;
+  quote?: string;
+  unorderedList?: string;
+  orderedList?: string;
+  codeRow?: string;
+  code?: string;
+  link?: string;
+  image?: string;
+  table?: string;
+  revoke?: string;
+  next?: string;
+  save?: string;
+  prettier?: string;
+  pageFullscreen?: string;
+  fullscreen?: string;
+  preview?: string;
+  htmlPreview?: string;
+  github?: string;
+}
+export interface StaticTextDefaultValue {
+  toolbarTips?: ToolbarTips;
+  titleItem?: {
+    h1?: string;
+    h2?: string;
+    h3?: string;
+    h4?: string;
+    h5?: string;
+    h6?: string;
+  };
+  linkModalTips?: {
+    title?: string;
+    descLable?: string;
+    descLablePlaceHolder?: string;
+    urlLable?: string;
+    UrlLablePlaceHolder?: string;
+    buttonOK?: string;
+    buttonUpload?: string;
+  };
+}
+
+export interface StaticTextDefault {
+  'zh-CN': StaticTextDefaultValue;
+  'en-US': StaticTextDefaultValue;
+}
+
+export type StaticTextDefaultKey = keyof StaticTextDefault;
+
+export type ToolbarNames = keyof ToolbarTips;
 
 export interface SettingType {
   pageFullScreen: boolean;
@@ -60,7 +109,11 @@ export type PropsType = Readonly<{
   // prettier CDN链接
   prettierCDN?: string; // 'https://unpkg.com/prettier@2.3.2/standalone.js'
   prettierMDCDN?: string; // 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
+  // 编辑器名称
+  editorName?: string;
 }>;
+
+export const prefix = 'md';
 
 const props = {
   modelValue: {
@@ -177,6 +230,10 @@ const props = {
   prettierMDCDN: {
     type: String as PropType<string>,
     default: 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
+  },
+  editorName: {
+    type: String as PropType<string>,
+    default: 'editor'
   }
 };
 
@@ -214,6 +271,9 @@ export default defineComponent({
 
     // 注入工具栏
     provide('toolbars', props.toolbars);
+
+    // 注入名称
+    provide('editorName', props.editorName);
 
     bus.on({
       name: 'uploadImage',
@@ -258,7 +318,7 @@ export default defineComponent({
 
     return () => (
       <div
-        id={prefix}
+        id={`${prefix}-${props.editorName}`}
         class={[
           prefix,
           props.editorClass,
