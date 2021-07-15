@@ -24,7 +24,7 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/012fb26afac745a79f6d5029de3ecd2b~tplv-k3u1fbpfcp-watermark.image)
 
-主题跟随前往[vue3-admin](https://imzbf.github.io/vue3-admin/#/component/editor)尝试~~
+主题跟随前往[文档页面](https://imzbf.github.io/md-editor-v3)尝试~~
 
 ## apis
 
