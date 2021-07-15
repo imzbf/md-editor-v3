@@ -25,6 +25,8 @@ export default defineComponent({
     const ult = inject('usedLanguageText') as StaticTextDefaultValue;
     // 获取工具栏设置
     const toolbars = inject('toolbars') as Array<ToolbarNames>;
+    // 名称
+    const editorName = inject('editorName');
 
     const visible = reactive({
       title: false,
@@ -70,7 +72,7 @@ export default defineComponent({
     // 挂载位置
     const to = ref(document.body);
     onMounted(() => {
-      to.value = document.getElementById(prefix) as HTMLElement;
+      to.value = document.getElementById(`${prefix}-${editorName}`) as HTMLElement;
     });
 
     return () => (
