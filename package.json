@@ -28,7 +28,7 @@
   "files": [
     "lib"
   ],
-  "types": "./index.d.ts",
+  "types": "./lib/MdEditor/Editor.d.ts",
   "main": "./lib/md-editor-v3.umd.js",
   "module": "./lib/md-editor-v3.es.js",
   "exports": {
