@@ -1,63 +1,9 @@
+import { StaticTextDefault } from './Editor';
+
 export default {
   iconScriptId: 'md-editor-v3',
   iconfontUrl: '//at.alicdn.com/t/font_2605852_w2rq8ip7vg.js'
 };
-
-interface ToolbarTips {
-  bold?: string;
-  underline?: string;
-  italic?: string;
-  strikeThrough?: string;
-  title?: string;
-  sub?: string;
-  sup?: string;
-  quote?: string;
-  unorderedList?: string;
-  orderedList?: string;
-  codeRow?: string;
-  code?: string;
-  link?: string;
-  image?: string;
-  table?: string;
-  revoke?: string;
-  next?: string;
-  save?: string;
-  prettier?: string;
-  pageFullscreen?: string;
-  fullscreen?: string;
-  preview?: string;
-  htmlPreview?: string;
-  github?: string;
-}
-export interface StaticTextDefaultValue {
-  toolbarTips?: ToolbarTips;
-  titleItem?: {
-    h1?: string;
-    h2?: string;
-    h3?: string;
-    h4?: string;
-    h5?: string;
-    h6?: string;
-  };
-  linkModalTips?: {
-    title?: string;
-    descLable?: string;
-    descLablePlaceHolder?: string;
-    urlLable?: string;
-    UrlLablePlaceHolder?: string;
-    buttonOK?: string;
-    buttonUpload?: string;
-  };
-}
-
-export interface StaticTextDefault {
-  'zh-CN': StaticTextDefaultValue;
-  'en-US': StaticTextDefaultValue;
-}
-
-export type StaticTextDefaultKey = keyof StaticTextDefault;
-
-export type ToolbarNames = keyof ToolbarTips;
 
 export const staticTextDefault: StaticTextDefault = {
   'zh-CN': {
