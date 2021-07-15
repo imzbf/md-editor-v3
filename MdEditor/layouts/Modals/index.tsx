@@ -12,7 +12,7 @@ import Modal from '../../components/Modal';
 import bus from '../../utils/event-bus';
 
 import { prefix } from '../../Editor';
-import { StaticTextDefaultValue } from '../../config';
+import { StaticTextDefaultValue } from '../../Editor';
 
 // 链接弹窗\图片弹窗\帮助弹窗
 export default defineComponent({
