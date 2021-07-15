@@ -109,6 +109,8 @@ export type PropsType = Readonly<{
   // prettier CDN链接
   prettierCDN?: string; // 'https://unpkg.com/prettier@2.3.2/standalone.js'
   prettierMDCDN?: string; // 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
+  // 编辑器名称
+  editorName?: string;
 }>;
 
 export const prefix = 'md';
@@ -228,6 +230,10 @@ const props = {
   prettierMDCDN: {
     type: String as PropType<string>,
     default: 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
+  },
+  editorName: {
+    type: String as PropType<string>,
+    default: 'editor'
   }
 };
 
@@ -265,6 +271,9 @@ export default defineComponent({
 
     // 注入工具栏
     provide('toolbars', props.toolbars);
+
+    // 注入名称
+    provide('editorName', props.editorName);
 
     bus.on({
       name: 'uploadImage',
@@ -309,7 +318,7 @@ export default defineComponent({
 
     return () => (
       <div
-        id={prefix}
+        id={`${prefix}-${props.editorName}`}
         class={[
           prefix,
           props.editorClass,
