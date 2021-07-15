@@ -58,6 +58,9 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         }
       }
     },
-    build: mode === 'production' ? libBuildOptions : {}
+    build:
+      mode === 'production'
+        ? libBuildOptions
+        : { outDir: path.resolve(__dirname, 'docs') }
   };
 };
