@@ -45,6 +45,7 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 | prettier | Boolean | true | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone](https://unpkg.com/prettier@2.3.2/standalone.js) |  |
 | prettierMDCDN | String | [parser-markdown](https://unpkg.com/prettier@2.3.2/parser-markdown.js) |
+| editorName | String | 'editor' | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容 |
 
 [toolbars]
 
