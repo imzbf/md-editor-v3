@@ -20,7 +20,8 @@
     ".": {
       "import": "./lib/md-editor-v3.es.js",
       "require": "./lib/md-editor-v3.umd.js"
-    }
+    },
+    "./lib/style.css": "./lib/style.css"
   },
   "license": "MIT",
   "devDependencies": {
