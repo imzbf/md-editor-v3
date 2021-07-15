@@ -1,12 +1,12 @@
 import { defineComponent, inject, onMounted, PropType, reactive, ref } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
-import { prefix, SettingType } from '../../Editor';
+import { prefix } from '../../Editor';
 import bus from '../../utils/event-bus';
 import { goto, ToolDirective } from '../../utils';
 import screenfull from 'screenfull';
 import Modals from '../Modals';
-import { StaticTextDefaultValue, ToolbarNames } from '../../config';
+import { StaticTextDefaultValue, ToolbarNames, SettingType } from '../../Editor';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
