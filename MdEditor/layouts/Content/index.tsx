@@ -9,7 +9,7 @@ import {
   nextTick,
   ref
 } from 'vue';
-import { prefix, SettingType } from '../../Editor';
+import { prefix } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
@@ -20,7 +20,7 @@ import {
   setPosition,
   scrollAuto
 } from '../../utils';
-
+import { SettingType } from '../../Editor';
 import { useHistory } from './composition';
 
 // 向页面代码块注入复制按钮
