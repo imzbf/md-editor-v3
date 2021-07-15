@@ -40,7 +40,14 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         '@': path.resolve(__dirname, './dev')
       }
     },
-    plugins: [vue(), vueJsx(), nodeService(), dts()],
+    plugins: [
+      vue(),
+      vueJsx(),
+      nodeService(),
+      dts({
+        include: './MdEditor/*'
+      })
+    ],
     css: {
       modules: {
         localsConvention: 'camelCase' // 默认只支持驼峰，修改为同事支持横线和驼峰
