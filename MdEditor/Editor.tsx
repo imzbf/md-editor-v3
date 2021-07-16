@@ -1,4 +1,12 @@
-import { computed, defineComponent, PropType, provide, reactive, Teleport } from 'vue';
+import {
+  computed,
+  defineComponent,
+  PropType,
+  provide,
+  reactive,
+  Teleport,
+  watch
+} from 'vue';
 import config, { staticTextDefault } from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -300,6 +308,7 @@ export default defineComponent({
       }
     });
 
+    // ----编辑器设置----
     const setting = reactive<SettingType>({
       pageFullScreen: props.pageFullScreen,
       fullscreen: false,
@@ -315,6 +324,22 @@ export default defineComponent({
         setting.preview = false;
       }
     };
+
+    let bodyOverflowHistory = '';
+    const adjustBody = () => {
+      if (setting.pageFullScreen) {
+        bodyOverflowHistory = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = bodyOverflowHistory;
+      }
+    };
+
+    // 变化是调整一次
+    watch(() => setting.pageFullScreen, adjustBody);
+    // 进入时若默认全屏，调整一次
+    adjustBody();
+    // ----end----
 
     return () => (
       <div
