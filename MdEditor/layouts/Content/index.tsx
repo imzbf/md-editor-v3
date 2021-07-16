@@ -60,6 +60,10 @@ export default defineComponent({
     setting: {
       type: Object as PropType<SettingType>,
       default: () => ({})
+    },
+    onHtmlChanged: {
+      type: Function as PropType<(h: string) => void>,
+      default: () => () => {}
     }
   },
   setup(props) {
@@ -85,9 +89,6 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 复制按钮
-      initCopyEntry();
-
       textAreaRef.value?.addEventListener('select', () => {
         selectedText = window.getSelection()?.toString() || '';
       });
@@ -158,21 +159,9 @@ export default defineComponent({
           );
         }
       });
-
-      // bus.on({
-      //   name: 'clearSelectedText',
-      //   callback() {
-      //     selectedText = '';
-      //   }
-      // });
-
-      //
-      scrollAuto(
-        textAreaRef.value as HTMLElement,
-        (previewRef.value as HTMLElement) || htmlRef.value
-      );
     });
 
+    // ---预览代码---
     const html = computed(() => {
       if (highlightInited.value) {
         return marked(props.value);
@@ -180,6 +169,29 @@ export default defineComponent({
         return '';
       }
     });
+
+    let clearScrollAuto = () => {};
+    watch(
+      () => html.value,
+      (nVal) => {
+        // 变化时调用变化事件
+        props.onHtmlChanged(nVal);
+
+        nextTick(() => {
+          // 更新完毕后判断是否需要重新绑定滚动事件
+          if (props.setting.preview) {
+            clearScrollAuto = scrollAuto(
+              textAreaRef.value as HTMLElement,
+              (previewRef.value as HTMLElement) || htmlRef.value
+            );
+          }
+
+          // 重新设置复制按钮
+          initCopyEntry();
+        });
+      }
+    );
+    // ---end---
 
     const highlightLoad = () => {
       marked.setOptions({
@@ -189,26 +201,7 @@ export default defineComponent({
       });
 
       highlightInited.value = true;
-      nextTick(initCopyEntry);
     };
-
-    // ------\
-    let clearScrollAuto = () => {};
-    watch(
-      () => props.value,
-      () => {
-        nextTick(() => {
-          initCopyEntry();
-
-          if (props.setting.preview) {
-            clearScrollAuto = scrollAuto(
-              textAreaRef.value as HTMLElement,
-              (previewRef.value as HTMLElement) || htmlRef.value
-            );
-          }
-        });
-      }
-    );
 
     watch(
       () => props.setting.preview,
