@@ -7,6 +7,17 @@
 .@{prefix} {
   font-size: 16px;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+    font-weight: normal;
+  }
+
   a {
     text-decoration: none;
     color: #2d8cf0;
@@ -29,11 +40,7 @@
   }
 
   p {
-    font-size: 16px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    margin: 0;
-    line-height: 26px;
+    line-height: 1.6;
 
     code {
       color: #3594f7;
@@ -48,8 +55,8 @@
 
   blockquote {
     margin: 20px 0;
-    padding: 1px 20px;
-    line-height: 27px;
+    padding: 0.5em 1.2em;
+    line-height: 2em;
     background-color: @bbkColor;
     border-left: 5px solid #35b378;
     display: block;
@@ -63,9 +70,10 @@
 
   pre {
     position: relative;
-    margin: 20px 10px;
+    margin: 20px 0;
     border-radius: 5px;
     box-shadow: #00000055 0px 2px 2px;
+    line-height: 1.6;
 
     code {
       padding: 15px;
@@ -73,13 +81,12 @@
       overflow: auto;
       background-color: @codeBkColor;
       color: #a9b7c6;
-      font-size: 14px;
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
     }
 
     .copy-button {
-      color: @color;
+      color: @colorDark;
       position: absolute;
       font-size: 12px;
       top: 9px;
@@ -100,10 +107,6 @@
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
       background-position: 10px 10px;
-    }
-
-    * {
-      font-size: 14px;
     }
   }
 
