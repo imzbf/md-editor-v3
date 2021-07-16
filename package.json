@@ -13,6 +13,7 @@
     "theme",
     "html"
   ],
+  "description": "Markdown编辑器，基于vue3，使用jsx和typescript语法开发，支持切换主题，支持prettier美化文本，支持在tsx项目使用。",
   "author": {
     "name": "zbf",
     "url": "https://imbf.cc"
@@ -117,18 +118,5 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{html,ts,tsx,json}": [
-      "eslint --fix"
-    ],
-    "*.{html,ts,tsx,md,json}": [
-      "prettier"
-    ]
-  }
+  ]
 }
