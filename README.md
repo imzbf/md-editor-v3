@@ -2,6 +2,8 @@
 
 vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 tsx 项目使用。为了减小插入，没有使用`less.modifyVars`方法来切换主题，而采用了替换 class 名称的方式。
 
+文档与在线预览：[传送门](https://imzbf.github.io/md-editor-v3)
+
 ## 功能一览
 
 1. 快捷插入内容工具栏、编辑器浏览器全屏、页面内全屏等；
@@ -23,8 +25,6 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 暗黑模式下：
 
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/012fb26afac745a79f6d5029de3ecd2b~tplv-k3u1fbpfcp-watermark.image)
-
-主题跟随前往[文档页面](https://imzbf.github.io/md-editor-v3)尝试~~
 
 ## apis
 
