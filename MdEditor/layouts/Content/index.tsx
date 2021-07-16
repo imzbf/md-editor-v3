@@ -60,6 +60,10 @@ export default defineComponent({
     setting: {
       type: Object as PropType<SettingType>,
       default: () => ({})
+    },
+    onHtmlChanged: {
+      type: Function as PropType<(h: string) => void>,
+      default: () => () => {}
     }
   },
   setup(props) {
@@ -159,13 +163,6 @@ export default defineComponent({
         }
       });
 
-      // bus.on({
-      //   name: 'clearSelectedText',
-      //   callback() {
-      //     selectedText = '';
-      //   }
-      // });
-
       //
       scrollAuto(
         textAreaRef.value as HTMLElement,
@@ -173,6 +170,7 @@ export default defineComponent({
       );
     });
 
+    // ---预览代码---
     const html = computed(() => {
       if (highlightInited.value) {
         return marked(props.value);
@@ -180,6 +178,9 @@ export default defineComponent({
         return '';
       }
     });
+
+    watch(() => html.value, props.onHtmlChanged);
+    // ---end---
 
     const highlightLoad = () => {
       marked.setOptions({
