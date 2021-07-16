@@ -1,9 +1,8 @@
 import { onMounted, onUnmounted, SetupContext } from 'vue';
-import { PropsType } from './Editor';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils';
 
-export const useKeyBoard = (props: PropsType, context: SetupContext) => {
+export const useKeyBoard = (props: any, context: SetupContext) => {
   // 先注册保存事件
   bus.on({
     name: 'onSave',
