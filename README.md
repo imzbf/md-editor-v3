@@ -113,6 +113,7 @@ export interface StaticTextDefaultValue {
 | onChange | v:String | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
 | onSave | v:String | 保存事件，快捷键与保存按钮均会触发 |
 | onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
+| onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
 
 ### 快捷键
 
