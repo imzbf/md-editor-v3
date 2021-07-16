@@ -7,6 +7,8 @@ import nodeService from './vitePlugins/nodeService';
 // https://segmentfault.com/a/1190000040127796
 import dts from 'vite-plugin-dts';
 
+import { homepage } from './package.json';
+
 const libBuildOptions = {
   outDir: path.resolve(__dirname, 'lib'),
   lib: {
@@ -27,7 +29,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
   console.log('mode：', mode);
 
   return {
-    base: '/',
+    base: mode === 'preview' ? homepage : '/',
     server: {
       host: 'localhost',
       open: true,
