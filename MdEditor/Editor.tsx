@@ -1,4 +1,12 @@
-import { computed, defineComponent, PropType, provide, reactive, Teleport } from 'vue';
+import {
+  computed,
+  defineComponent,
+  PropType,
+  provide,
+  reactive,
+  Teleport,
+  watch
+} from 'vue';
 import config, { staticTextDefault } from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -78,41 +86,6 @@ export interface SettingType {
   htmlPreview: boolean;
 }
 
-export type PropsType = Readonly<{
-  modelValue: string;
-  // 内置两种主题，不受外部影响
-  theme?: 'light' | 'dark';
-  editorClass?: string;
-  // 项目中的highlight对象
-  hljs?: Record<string, any>;
-  // 外部链接
-  highlightJs?: string;
-  // 外部链接
-  highlightCss?: string;
-  // 历史记录限制长度
-  historyLength?: number;
-  onChange?: (v: string) => void;
-  onSave?: (v: string) => void;
-  onUploadImg?: (files: FileList, callBack: (urls: string[]) => void) => void;
-  // 浏览器内全屏
-  pageFullScreen?: boolean;
-  preview?: boolean;
-  htmlPreview?: boolean;
-  // 语言设置，默认只支持了中英文
-  language?: StaticTextDefaultKey | string;
-  // 语言扩展，以标准的形式定义内容，设置language为key值即可替换
-  languageUserDefined?: Array<{ [key: string]: StaticTextDefaultValue }>;
-  // 工具栏选择显示（隐藏项目，功能仍存在，待考究）
-  toolbars?: Array<ToolbarNames>;
-  // prettier 是否开启
-  prettier?: boolean;
-  // prettier CDN链接
-  prettierCDN?: string; // 'https://unpkg.com/prettier@2.3.2/standalone.js'
-  prettierMDCDN?: string; // 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
-  // 编辑器名称
-  editorName?: string;
-}>;
-
 export const prefix = 'md';
 
 const props = {
@@ -130,13 +103,6 @@ const props = {
     type: String,
     default: ''
   },
-  // TODO 后续设定可行性-外层扩展样式
-  // editorStyle: {
-  //   type: [Object, String] as PropType<CSSProperties | string>,
-  //   default: (): CSSProperties => ({
-  //     height: '500px'
-  //   })
-  // },
   // 如果项目中有使用highlight.js或者没有外网访问权限，可以直接传递实例hljs并且手动导入css
   hljs: {
     type: Object,
@@ -234,6 +200,10 @@ const props = {
   editorName: {
     type: String as PropType<string>,
     default: 'editor'
+  },
+  // html变化事件
+  onHtmlChanged: {
+    type: Function as PropType<(h: string) => void>
   }
 };
 
@@ -300,6 +270,7 @@ export default defineComponent({
       }
     });
 
+    // ----编辑器设置----
     const setting = reactive<SettingType>({
       pageFullScreen: props.pageFullScreen,
       fullscreen: false,
@@ -315,6 +286,22 @@ export default defineComponent({
         setting.preview = false;
       }
     };
+
+    let bodyOverflowHistory = '';
+    const adjustBody = () => {
+      if (setting.pageFullScreen) {
+        bodyOverflowHistory = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = bodyOverflowHistory;
+      }
+    };
+
+    // 变化是调整一次
+    watch(() => setting.pageFullScreen, adjustBody);
+    // 进入时若默认全屏，调整一次
+    adjustBody();
+    // ----end----
 
     return () => (
       <div
@@ -338,6 +325,13 @@ export default defineComponent({
             }
           }}
           setting={setting}
+          onHtmlChanged={(html: string) => {
+            if (props.onHtmlChanged) {
+              props.onHtmlChanged(html);
+            } else {
+              context.emit('onHtmlChanged', html);
+            }
+          }}
         />
         <Teleport to={document.head}>
           <script src={config.iconfontUrl} />

@@ -1,6 +1,8 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import Header from './Header';
 import Preview from './Preview';
+import Doc from './Doc';
+
 import './style.less';
 
 export type Theme = 'dark' | 'light';
@@ -10,9 +12,12 @@ export default defineComponent({
     const theme = ref<Theme>('light');
 
     return () => (
-      <div class={['doc', theme.value === 'dark' && 'theme-dark']}>
-        <Header />
-        <Preview theme={theme.value} onChange={(v: Theme) => (theme.value = v)} />
+      <div class={['app', theme.value === 'dark' && 'theme-dark']}>
+        <Header theme={theme.value} onChange={(v: Theme) => (theme.value = v)} />
+        <div class="page-body">
+          <Preview theme={theme.value} onChange={(v: Theme) => (theme.value = v)} />
+          <Doc />
+        </div>
       </div>
     );
   }

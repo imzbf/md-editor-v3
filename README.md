@@ -2,6 +2,8 @@
 
 vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 tsx 项目使用。为了减小插入，没有使用`less.modifyVars`方法来切换主题，而采用了替换 class 名称的方式。
 
+文档与在线预览：[传送门](https://imzbf.github.io/md-editor-v3)
+
 ## 功能一览
 
 1. 快捷插入内容工具栏、编辑器浏览器全屏、页面内全屏等；
@@ -23,8 +25,6 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 暗黑模式下：
 
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/012fb26afac745a79f6d5029de3ecd2b~tplv-k3u1fbpfcp-watermark.image)
-
-主题跟随前往[文档页面](https://imzbf.github.io/md-editor-v3)尝试~~
 
 ## apis
 
@@ -113,6 +113,7 @@ export interface StaticTextDefaultValue {
 | onChange | v:String | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
 | onSave | v:String | 保存事件，快捷键与保存按钮均会触发 |
 | onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
+| onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
 
 ### 快捷键
 
