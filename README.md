@@ -33,6 +33,7 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 | 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | String | '' | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
+| theme | 'light' \| 'dark' | 'light' | 主题切换 |
 | editorClass | String | '' | 编辑器最外层样式 |
 | hljs | Object | null | 项目中使用到了 highlight，可将实例直接传递，生产环境则不会请求 CDN，需要手动导入支持的高亮代码样式 |
 | highlightJs | String | [highlight.js](https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js) | highlightJs CDN |
