@@ -19,7 +19,7 @@ export const staticTextDefault: StaticTextDefault = {
       unorderedList: '无序列表',
       orderedList: '有序列表',
       codeRow: '行内代码',
-      code: '会计代码',
+      code: '块级代码',
       link: '链接',
       image: '图片',
       table: '表格',
