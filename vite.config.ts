@@ -13,7 +13,7 @@ const libBuildOptions = {
   outDir: path.resolve(__dirname, 'lib'),
   lib: {
     entry: path.resolve(__dirname, './MdEditor'),
-    name: 'MdEditor'
+    name: 'MdEditorV3'
   },
   rollupOptions: {
     external: ['vue'],
