@@ -24,6 +24,9 @@ export default defineComponent({
           <Editor
             theme={props.theme}
             modelValue={md.text}
+            onSave={(v) => {
+              localStorage.setItem('XHMPGLJIZTDB', v);
+            }}
             onChange={(value) => (md.text = value)}
             onUploadImg={(files, callback) => {
               console.log(files);

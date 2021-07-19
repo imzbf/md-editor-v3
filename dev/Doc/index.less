@@ -74,6 +74,10 @@
   }
 
   p {
+    margin: 0.5rem;
+    font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
     code {
       color: #3594f7;
       background: RGBA(59, 170, 250, 0.1);
@@ -82,6 +86,91 @@
       border-radius: 2px;
       height: 21px;
       line-height: 22px;
+      font-family: inherit;
+    }
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    tr {
+      &:hover {
+        background-color: @hover;
+      }
+
+      th,
+      td {
+        word-wrap: break-word;
+        padding: 6px 13px;
+        border: 1px solid @borderColor;
+      }
+    }
+  }
+
+  blockquote {
+    margin: 20px 0;
+    padding: 0.5em 1.2em;
+    line-height: 2em;
+    background-color: @bbkColor;
+    border-left: 5px solid #35b378;
+    display: block;
+  }
+
+  ol,
+  ul {
+    margin: 0.6em 0;
+    padding-left: 1.6em;
+
+    li {
+      line-height: 1.6;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: #2d8cf0;
+    transition: color 0.3s;
+
+    &:hover {
+      color: @primaryColor;
+    }
+  }
+}
+
+.theme-dark {
+  blockquote {
+    background-color: @bbkColorDark;
+  }
+
+  pre {
+    code {
+      background-color: @codeBkColorDark;
+      color: #a9b7c6;
+    }
+
+    .copy-button {
+      color: @colorDark;
+    }
+
+    &::before {
+      background-color: @codeBkColorDark;
+    }
+  }
+
+  table {
+    tr {
+      &:hover {
+        background-color: @hoverdark;
+      }
+
+      th,
+      td {
+        border-color: @borderColorDark;
+      }
     }
   }
 }
