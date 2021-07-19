@@ -208,7 +208,7 @@ const props = {
 };
 
 export default defineComponent({
-  name: 'MDEditor',
+  name: 'MdEditorV3',
   props,
   setup(props, context) {
     useKeyBoard(props, context);
