@@ -3,7 +3,7 @@ import { App } from 'vue';
 import Editor from './Editor';
 
 Editor.install = (app: App) => {
-  app.component(Editor.name);
+  app.component(Editor.name, Editor);
 
   return app;
 };

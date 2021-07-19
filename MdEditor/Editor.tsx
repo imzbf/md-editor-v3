@@ -208,7 +208,7 @@ const props = {
 };
 
 export default defineComponent({
-  name: 'MDEditor',
+  name: 'MdEditorV3',
   props,
   setup(props, context) {
     useKeyBoard(props, context);
@@ -289,7 +289,7 @@ export default defineComponent({
 
     let bodyOverflowHistory = '';
     const adjustBody = () => {
-      if (setting.pageFullScreen) {
+      if (setting.pageFullScreen || setting.fullscreen) {
         bodyOverflowHistory = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
       } else {
@@ -298,7 +298,7 @@ export default defineComponent({
     };
 
     // 变化是调整一次
-    watch(() => setting.pageFullScreen, adjustBody);
+    watch(() => [setting.pageFullScreen, setting.fullscreen], adjustBody);
     // 进入时若默认全屏，调整一次
     adjustBody();
     // ----end----
