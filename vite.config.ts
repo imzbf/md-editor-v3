@@ -46,9 +46,10 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       vue(),
       vueJsx(),
       nodeService(),
-      dts({
-        include: './MdEditor/*'
-      })
+      mode === 'production' &&
+        dts({
+          include: './MdEditor/*'
+        })
     ],
     css: {
       modules: {
