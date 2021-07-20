@@ -4,7 +4,7 @@
 @codeBkColorDark: #1a1a1a;
 
 // 代码样式
-.@{prefix} {
+.@{prefix}-preview-wrapper {
   font-size: 16px;
 
   h1,
@@ -15,7 +15,7 @@
   h6 {
     margin-top: 1.5em;
     margin-bottom: 1em;
-    font-weight: normal;
+    font-weight: bold;
   }
 
   a {
@@ -41,6 +41,7 @@
 
   p {
     line-height: 1.6;
+    padding: 0.5rem 0;
 
     code {
       color: #3594f7;
@@ -76,7 +77,7 @@
     line-height: 1.6;
 
     code {
-      padding: 15px;
+      padding: 1em;
       display: block;
       overflow: auto;
       background-color: @codeBkColor;
