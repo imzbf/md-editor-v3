@@ -52,6 +52,10 @@ export default defineComponent({
               ]);
             }}
           />
+          <br />
+          <span class="tips-text">
+            tips：本页上方的编辑器有localstorage保存功能，可手动点击保存触发，编辑器每10秒钟会自己保存一次，可用于一些文档的编辑。下方的文档内容也是使用该编辑器完成~
+          </span>
         </div>
       </div>
     );
