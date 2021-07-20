@@ -31,6 +31,11 @@ const initCopyEntry = () => {
     copyButton.innerText = '复制代码';
     copyButton.addEventListener('click', () => {
       copy((pre.querySelector('code') as HTMLElement).innerText);
+
+      copyButton.innerText = '已复制！';
+      setTimeout(() => {
+        copyButton.innerText = '复制代码';
+      }, 1500);
     });
     pre.appendChild(copyButton);
   });
