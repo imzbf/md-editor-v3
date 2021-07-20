@@ -1,7 +1,7 @@
 export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <p>目前一直在迭代开发，所以尽量安装最新版本。</p>
 <pre><code class="language-shell">yarn <span class="hljs-keyword">add</span> md-editor-v3
-</code></pre>
+</code><span class="copy-button">复制代码</span></pre>
 <p>目前 vue3 已经能很友好的使用 jsx 来开发了，对于一些爱好者（比如作者本身），需要考虑兼容一下。</p>
 <p>两种方式开发上区别在于<strong>vue 模板</strong>能很好的支持<code>vue</code>特性，比如指令，内置的双向绑定等；而<strong>jsx 语法</strong>更偏向于<code>react</code>的理念，开发环境来讲 jsx 如果在支持 ts 的环境下，会更友好一些。</p>
 <h3 id="11-传统开发模式">1.1 传统开发模式</h3>
@@ -11,6 +11,7 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>传统开发模式中使用<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.1.2/lib/style.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"md-editor-v3"</span>&gt;</span>
@@ -30,7 +31,7 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
-</code></pre>
+</code><span class="copy-button">复制代码</span></pre>
 <h3 id="12-模块化的-vue-模板">1.2 模块化的 vue 模板</h3>
 <pre><code class="language-js"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">md-editor</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"text"</span> /&gt;</span>
@@ -52,7 +53,7 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
   }
 });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-</code></pre>
+</code><span class="copy-button">复制代码</span></pre>
 <h3 id="13-模块化的-jsx">1.3 模块化的 jsx</h3>
 <pre><code class="language-js"><span class="hljs-keyword">import</span> { defineComponent, ref } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">MdEditor</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'md-editor-v3'</span>;
@@ -67,7 +68,7 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
     );
   }
 });
-</code></pre>
+</code><span class="copy-button">复制代码</span></pre>
 <h3 id="14-图片上传">1.4 图片上传</h3>
 <p>默认可以选择多张图片，支持截图粘贴板上传图片，支持复制网页图片粘贴上传。</p>
 <blockquote>
@@ -94,11 +95,9 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 
   <span class="hljs-title function_">callback</span>(res.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">item: <span class="hljs-built_in">any</span></span>) =&gt;</span> item.<span class="hljs-property">data</span>.<span class="hljs-property">url</span>));
 }
-</code></pre>
+</code><span class="copy-button">复制代码</span></pre>
 <h2 id="2-props-说明">2. Props 说明</h2>
 <p>这是组件最重要的一部分内容，<code>MdEditorV3</code>的属性参数如下：</p>
-<br>
-
 <table>
 <thead>
 <tr>
@@ -211,8 +210,6 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <td>当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容</td>
 </tr>
 </tbody></table>
-<br>
-
 <blockquote>
 <p>!!! 编辑器内比较大小的扩展均使用了 CDN 链接，在没有外网的情况，请使用扩展属性替换为本地链接，比如：highlightJs = "//xxx.com/highlight.min.js"</p>
 </blockquote>
@@ -225,7 +222,7 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <span class="hljs-string">'加粗'</span>, <span class="hljs-string">'下划线'</span>, <span class="hljs-string">'斜体'</span>, <span class="hljs-string">'删除线'</span>, <span class="hljs-string">'下标'</span>, <span class="hljs-string">'上标'</span>, <span class="hljs-string">'引用'</span>, <span class="hljs-string">'无序列表'</span>,
 <span class="hljs-string">'有序列表'</span>, <span class="hljs-string">'行内代码'</span>, <span class="hljs-string">'块级代码'</span>, <span class="hljs-string">'链接'</span>, <span class="hljs-string">'图片'</span>, <span class="hljs-string">'表格'</span>, <span class="hljs-string">'后退一步'</span>, <span class="hljs-string">'前进一步'</span>, <span class="hljs-string">'保存'</span>，
 <span class="hljs-string">'页面内全屏'</span>, <span class="hljs-string">'屏幕全屏'</span>, <span class="hljs-string">'内容预览'</span>, <span class="hljs-string">'html代码预览'</span>, <span class="hljs-string">'源码地址'</span>
-</code></pre>
+</code><span class="copy-button">复制代码</span></pre>
 <p>自定义语言，可在源码中搜索<code>StaticTextDefaultValue</code>，即可找到类型提示。中文示例（某些字段若不主动提供，可能会造成页面不美观）：</p>
 <pre><code class="language-js">{
     toolbarTips: {
@@ -272,7 +269,7 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
       buttonUpload: <span class="hljs-string">'上传'</span>
     }
   }
-</code></pre>
+</code><span class="copy-button">复制代码</span></pre>
 <h2 id="3-绑定事件">3. 绑定事件</h2>
 <p>目前支持的内容如下：</p>
 <br>
@@ -468,7 +465,7 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 </ul>
 <p>封装的移动元素<a href="https://github.com/imzbf/md-editor-v3/blob/master/MdEditor/utils/dom.ts">代码</a>，优化了正确解绑事件，该方法针对了触发器实现，单一窗口并不通用。</p>
 <h3 id="55-主题模式">5.5 主题模式</h3>
-<p>内置了暗黑和默认模式，两种模式由内部<code>theme</code>属性控制，由于<code>antd</code>中以<code>less</code>修改变量值达到切换主题的方式依赖项较多，并未采用，实现则是最基础的两种主题两种模式的方式。</p>
+<p>内置了暗黑和默认模式，两种模式由内部<code>theme</code>属性控制，由于<code>antd</code>中以<code>less</code>修改变量值达到切换主题的方式依赖项较多，并未采用，实现则是最基础的两种主题两种类名的方式。</p>
 <h2 id="结尾">结尾</h2>
 <p>若有觉得可用的功能或发现编辑器的 Bug，请通过以下方式反馈给我，让我们共同进步。</p>
 <ol>
