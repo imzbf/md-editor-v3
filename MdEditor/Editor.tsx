@@ -287,10 +287,9 @@ export default defineComponent({
       }
     };
 
-    let bodyOverflowHistory = '';
+    let bodyOverflowHistory = document.body.style.overflow;
     const adjustBody = () => {
       if (setting.pageFullScreen || setting.fullscreen) {
-        bodyOverflowHistory = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
       } else {
         document.body.style.overflow = bodyOverflowHistory;
