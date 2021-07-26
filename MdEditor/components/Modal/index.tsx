@@ -110,34 +110,31 @@ export default defineComponent({
       return (
         <Teleport to={props.to}>
           <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
-            <div class={`${prefix}-modal-mask`} />
-            <div class={`${prefix}-modal-wrapper`}>
-              <div
-                class={modalClass.value}
-                style={{
-                  left: initPos.left,
-                  top: initPos.top,
-                  width:
-                    typeof props.width === 'number' ? `${props.width}px` : props.width
-                }}
-                ref={modalRef}
-              >
-                <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
-                  <div class={`${prefix}-modal-title`}>{slotTitle || ''}</div>
-                  <div
-                    class={`${prefix}-modal-close`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      props.onClosed && props.onClosed();
-                    }}
-                  >
-                    <svg class={`${prefix}-icon`} aria-hidden="true">
-                      <use xlinkHref="#icon-close" />
-                    </svg>
-                  </div>
+            <div class={`${prefix}-modal-mask`} onClick={props.onClosed} />
+            <div
+              class={modalClass.value}
+              style={{
+                left: initPos.left,
+                top: initPos.top,
+                width: typeof props.width === 'number' ? `${props.width}px` : props.width
+              }}
+              ref={modalRef}
+            >
+              <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
+                <div class={`${prefix}-modal-title`}>{slotTitle || ''}</div>
+                <div
+                  class={`${prefix}-modal-close`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    props.onClosed && props.onClosed();
+                  }}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-close" />
+                  </svg>
                 </div>
-                <div class={`${prefix}-modal-body`}>{slotDefault}</div>
               </div>
+              <div class={`${prefix}-modal-body`}>{slotDefault}</div>
             </div>
           </div>
         </Teleport>
