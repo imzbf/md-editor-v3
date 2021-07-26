@@ -4,7 +4,7 @@ import { StaticTextDefault } from './Editor';
 export const iconScriptId = 'md-editor-v3';
 
 // 字体链接
-export const iconfontUrl = '//at.alicdn.com/t/font_2605852_4qkz5ulkx8f.js';
+export const iconfontUrl = '//at.alicdn.com/t/font_2605852_w7w8n7lnf8.js';
 
 // 代码高亮cdn链接
 export const highlightUrl = {
