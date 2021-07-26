@@ -30,7 +30,7 @@ export default defineComponent({
 
     const visible = reactive({
       title: false,
-      menu: false
+      catalog: false
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
@@ -392,6 +392,7 @@ export default defineComponent({
                 </svg>
               </div>
             )}
+
             {toolbars.includes('pageFullscreen') && !props.setting.fullscreen && (
               <div
                 class={`${prefix}-toolbar-item`}
@@ -409,6 +410,7 @@ export default defineComponent({
                 </svg>
               </div>
             )}
+
             {toolbars.includes('fullscreen') && (
               <div
                 class={`${prefix}-toolbar-item`}
@@ -425,20 +427,6 @@ export default defineComponent({
               </div>
             )}
 
-            {/* <Dropdown
-              visible={visible.menu}
-              onChange={(v) => {
-                visible.menu = v;
-              }}
-              overlay={<div>123</div>}
-            >
-              <div class={`${prefix}-toolbar-item`} title="目录">
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-mulu" />
-                </svg>
-              </div>
-            </Dropdown> */}
-
             {toolbars.includes('preview') && (
               <div
                 class={`${prefix}-toolbar-item`}
@@ -453,6 +441,21 @@ export default defineComponent({
               </div>
             )}
 
+            <Dropdown
+              visible={visible.catalog}
+              onChange={(v) => {
+                visible.catalog = v;
+              }}
+              overlay={<div>123</div>}
+              to={to.value}
+            >
+              <div class={`${prefix}-toolbar-item`} title="目录">
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-catalog" />
+                </svg>
+              </div>
+            </Dropdown>
+
             {toolbars.includes('htmlPreview') && (
               <div
                 class={`${prefix}-toolbar-item`}
@@ -466,19 +469,6 @@ export default defineComponent({
                 </svg>
               </div>
             )}
-
-            {/* <div
-              class={`${prefix}-toolbar-item`}
-              title="帮助"
-              onClick={() => {
-                modalData.type = 'help';
-                modalData.visible = true;
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-help" />
-              </svg>
-            </div> */}
 
             {toolbars.includes('github') && (
               <div
