@@ -8,6 +8,10 @@ export const keyMove = (
   moveHandler?: (left: number, top: number) => void
 ): (() => void) => {
   const triggerMouseDown = (mdown: MouseEvent) => {
+    if (mdown.target !== trigger) {
+      return;
+    }
+
     const parent: HTMLElement = trigger.parentElement || document.body;
     // 被移动框大小
     const width = parent.offsetWidth;
