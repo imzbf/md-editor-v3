@@ -7,7 +7,13 @@ import {
   Teleport,
   watch
 } from 'vue';
-import config, { staticTextDefault } from './config';
+import {
+  allToolbar,
+  highlightUrl,
+  iconfontUrl,
+  prettierUrl,
+  staticTextDefault
+} from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
@@ -111,12 +117,11 @@ const props = {
   // 可以手动提供highlight.js的cdn链接
   highlightJs: {
     type: String as PropType<string>,
-    default: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js'
+    default: highlightUrl.js
   },
   highlightCss: {
     type: String as PropType<string>,
-    default:
-      'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css'
+    default: highlightUrl.css
   },
   historyLength: {
     type: Number as PropType<number>,
@@ -158,32 +163,7 @@ const props = {
   // 工具栏选择显示
   toolbars: {
     type: Array as PropType<Array<ToolbarNames>>,
-    default: [
-      'bold',
-      'underline',
-      'italic',
-      'strikeThrough',
-      'title',
-      'sub',
-      'sup',
-      'quote',
-      'unorderedList',
-      'orderedList',
-      'codeRow',
-      'code',
-      'link',
-      'image',
-      'table',
-      'revoke',
-      'next',
-      'save',
-      'prettier',
-      'pageFullscreen',
-      'fullscreen',
-      'preview',
-      'htmlPreview',
-      'github'
-    ]
+    default: allToolbar
   },
   prettier: {
     type: Boolean as PropType<boolean>,
@@ -191,11 +171,11 @@ const props = {
   },
   prettierCDN: {
     type: String as PropType<string>,
-    default: 'https://unpkg.com/prettier@2.3.2/standalone.js'
+    default: prettierUrl.main
   },
   prettierMDCDN: {
     type: String as PropType<string>,
-    default: 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
+    default: prettierUrl.markdown
   },
   editorName: {
     type: String as PropType<string>,
@@ -333,7 +313,7 @@ export default defineComponent({
           }}
         />
         <Teleport to={document.head}>
-          <script src={config.iconfontUrl} />
+          <script src={iconfontUrl} />
         </Teleport>
         {props.prettier && (
           <Teleport to={document.head}>

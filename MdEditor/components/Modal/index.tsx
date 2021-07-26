@@ -131,7 +131,9 @@ export default defineComponent({
                       props.onClosed && props.onClosed();
                     }}
                   >
-                    X
+                    <svg class={`${prefix}-icon`} aria-hidden="true">
+                      <use xlinkHref="#icon-close" />
+                    </svg>
                   </div>
                 </div>
                 <div class={`${prefix}-modal-body`}>{slotDefault}</div>

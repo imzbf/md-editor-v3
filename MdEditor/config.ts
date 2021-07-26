@@ -1,9 +1,50 @@
 import { StaticTextDefault } from './Editor';
 
-export default {
-  iconScriptId: 'md-editor-v3',
-  iconfontUrl: '//at.alicdn.com/t/font_2605852_w2rq8ip7vg.js'
+// 编辑器ID
+export const iconScriptId = 'md-editor-v3';
+
+// 字体链接
+export const iconfontUrl = '//at.alicdn.com/t/font_2605852_4qkz5ulkx8f.js';
+
+// 代码高亮cdn链接
+export const highlightUrl = {
+  css: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css',
+  js: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js'
 };
+
+// 美化代码cdn连接
+export const prettierUrl = {
+  main: 'https://unpkg.com/prettier@2.3.2/standalone.js',
+  markdown: 'https://unpkg.com/prettier@2.3.2/parser-markdown.js'
+};
+
+// 所有的编辑器功能点
+export const allToolbar = [
+  'bold',
+  'underline',
+  'italic',
+  'strikeThrough',
+  'title',
+  'sub',
+  'sup',
+  'quote',
+  'unorderedList',
+  'orderedList',
+  'codeRow',
+  'code',
+  'link',
+  'image',
+  'table',
+  'revoke',
+  'next',
+  'save',
+  'prettier',
+  'pageFullscreen',
+  'fullscreen',
+  'preview',
+  'htmlPreview',
+  'github'
+];
 
 export const staticTextDefault: StaticTextDefault = {
   'zh-CN': {
