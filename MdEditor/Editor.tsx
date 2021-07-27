@@ -169,6 +169,11 @@ const props = {
     type: Array as PropType<Array<ToolbarNames>>,
     default: allToolbar
   },
+  // 工具栏选择不显示
+  toolbarsExclude: {
+    type: Array as PropType<Array<ToolbarNames>>,
+    default: []
+  },
   prettier: {
     type: Boolean as PropType<boolean>,
     default: true
@@ -222,9 +227,6 @@ export default defineComponent({
 
     provide('usedLanguageText', usedLanguageText.value);
     // -end-
-
-    // 注入工具栏
-    provide('toolbars', props.toolbars);
 
     // 注入名称
     provide('editorName', props.editorName);
@@ -296,7 +298,12 @@ export default defineComponent({
           setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : ''
         ]}
       >
-        <ToolBar setting={setting} updateSetting={updateSetting} />
+        <ToolBar
+          toolbars={props.toolbars}
+          toolbarsExclude={props.toolbarsExclude}
+          setting={setting}
+          updateSetting={updateSetting}
+        />
         <Content
           hljs={props.hljs}
           value={props.modelValue}
