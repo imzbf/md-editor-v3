@@ -9,7 +9,7 @@ import {
   nextTick,
   ref
 } from 'vue';
-import { prefix } from '../../Editor';
+import { prefix, SettingType, StaticTextDefaultValue } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
@@ -20,26 +20,7 @@ import {
   setPosition,
   scrollAuto
 } from '../../utils';
-import { SettingType } from '../../Editor';
 import { useHistory } from './composition';
-
-// 向页面代码块注入复制按钮
-const initCopyEntry = () => {
-  document.querySelectorAll(`.${prefix}-preview-wrapper pre`).forEach((pre: Element) => {
-    const copyButton = document.createElement('span');
-    copyButton.setAttribute('class', 'copy-button');
-    copyButton.innerText = '复制代码';
-    copyButton.addEventListener('click', () => {
-      copy((pre.querySelector('code') as HTMLElement).innerText);
-
-      copyButton.innerText = '已复制！';
-      setTimeout(() => {
-        copyButton.innerText = '复制代码';
-      }, 1500);
-    });
-    pre.appendChild(copyButton);
-  });
-};
 
 export type EditorContentProps = Readonly<{
   value: string;
@@ -92,6 +73,29 @@ export default defineComponent({
         }
       });
     }
+
+    // 获取语言设置
+    const ult = inject('usedLanguageText') as StaticTextDefaultValue;
+
+    // 向页面代码块注入复制按钮
+    const initCopyEntry = () => {
+      document
+        .querySelectorAll(`.${prefix}-preview-wrapper pre`)
+        .forEach((pre: Element) => {
+          const copyButton = document.createElement('span');
+          copyButton.setAttribute('class', 'copy-button');
+          copyButton.innerText = ult.copyCode?.text || '复制代码';
+          copyButton.addEventListener('click', () => {
+            copy((pre.querySelector('code') as HTMLElement).innerText);
+
+            copyButton.innerText = ult.copyCode?.tips || '已复制';
+            setTimeout(() => {
+              copyButton.innerText = ult.copyCode?.text || '复制代码';
+            }, 1500);
+          });
+          pre.appendChild(copyButton);
+        });
+    };
 
     onMounted(() => {
       textAreaRef.value?.addEventListener('select', () => {

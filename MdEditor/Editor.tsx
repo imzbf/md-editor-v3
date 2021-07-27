@@ -74,6 +74,10 @@ export interface StaticTextDefaultValue {
     buttonOK?: string;
     buttonUpload?: string;
   };
+  copyCode?: {
+    text?: string;
+    tips?: string;
+  };
 }
 
 export interface StaticTextDefault {
