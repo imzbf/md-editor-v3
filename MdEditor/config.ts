@@ -90,6 +90,10 @@ export const staticTextDefault: StaticTextDefault = {
       UrlLablePlaceHolder: '请输入链接...',
       buttonOK: '确定',
       buttonUpload: '上传'
+    },
+    copyCode: {
+      text: '复制代码',
+      tips: '已复制'
     }
   },
   'en-US': {
@@ -135,6 +139,10 @@ export const staticTextDefault: StaticTextDefault = {
       UrlLablePlaceHolder: 'enter a link...',
       buttonOK: 'ok',
       buttonUpload: 'upload'
+    },
+    copyCode: {
+      text: 'copy',
+      tips: 'copied'
     }
   }
 };
