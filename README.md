@@ -86,7 +86,9 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 
 ```ts
 export interface StaticTextDefaultValue {
+  // 工具栏hover title提示
   toolbarTips?: ToolbarTips;
+  // 标题下拉框内容
   titleItem?: {
     h1?: string;
     h2?: string;
@@ -95,6 +97,7 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
+  // 添加链接或图片时弹窗提示
   linkModalTips?: {
     title?: string;
     descLable?: string;
@@ -103,6 +106,11 @@ export interface StaticTextDefaultValue {
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
     buttonUpload?: string;
+  };
+  // 预览代码中复制代码提示
+  copyCode?: {
+    text?: string;
+    tips?: string;
   };
 }
 ```
