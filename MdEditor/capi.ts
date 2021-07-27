@@ -1,8 +1,12 @@
 import { onMounted, onUnmounted, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils';
+import { ToolbarNames } from './Editor';
 
 export const useKeyBoard = (props: any, context: SetupContext) => {
+  const initFunc = (name: ToolbarNames) =>
+    props.toolbars?.includes(name) && !props.toolbarsExclude?.includes(name);
+
   // 先注册保存事件
   bus.on({
     name: 'onSave',
@@ -25,12 +29,12 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         case 'KeyS': {
           if (event.shiftKey) {
             // 删除线
-            if (props.toolbars?.includes('strikeThrough')) {
+            if (initFunc('strikeThrough')) {
               bus.emit('replace', 'strikeThrough' as ToolDirective);
             }
           } else {
             // 触发保存事件
-            if (props.toolbars?.includes('save')) {
+            if (initFunc('save')) {
               bus.emit('onSave', props.modelValue);
               event.preventDefault();
             }
@@ -38,7 +42,7 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
           break;
         }
         case 'KeyB': {
-          if (props.toolbars?.includes('bold')) {
+          if (initFunc('bold')) {
             bus.emit('replace', 'bold' as ToolDirective);
             event.preventDefault();
           }
@@ -47,13 +51,13 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         case 'KeyU': {
           if (event.shiftKey) {
             // ctrl+shift+u触发无需列表
-            if (props.toolbars?.includes('unorderedList')) {
+            if (initFunc('unorderedList')) {
               bus.emit('replace', 'unorderedList' as ToolDirective);
               event.preventDefault();
             }
           } else {
             // ctrl+u触发下划线
-            if (props.toolbars?.includes('underline')) {
+            if (initFunc('underline')) {
               bus.emit('replace', 'underline' as ToolDirective);
               event.preventDefault();
             }
@@ -64,12 +68,12 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         case 'KeyI': {
           if (event.shiftKey) {
             // ctrl+shift+l触发图片链接
-            if (props.toolbars?.includes('image')) {
+            if (initFunc('image')) {
               bus.emit('openModals', 'img');
               event.preventDefault();
             }
           } else {
-            if (props.toolbars?.includes('italic')) {
+            if (initFunc('italic')) {
               bus.emit('replace', 'italic' as ToolDirective);
               event.preventDefault();
             }
@@ -78,56 +82,56 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
           break;
         }
         case 'Digit1': {
-          if (props.toolbars?.includes('title')) {
+          if (initFunc('title')) {
             bus.emit('replace', 'h1' as ToolDirective);
             event.preventDefault();
           }
           break;
         }
         case 'Digit2': {
-          if (props.toolbars?.includes('title')) {
+          if (initFunc('title')) {
             bus.emit('replace', 'h2' as ToolDirective);
             event.preventDefault();
           }
           break;
         }
         case 'Digit3': {
-          if (props.toolbars?.includes('title')) {
+          if (initFunc('title')) {
             bus.emit('replace', 'h3' as ToolDirective);
             event.preventDefault();
           }
           break;
         }
         case 'Digit4': {
-          if (props.toolbars?.includes('title')) {
+          if (initFunc('title')) {
             bus.emit('replace', 'h4' as ToolDirective);
             event.preventDefault();
           }
           break;
         }
         case 'Digit5': {
-          if (props.toolbars?.includes('title')) {
+          if (initFunc('title')) {
             bus.emit('replace', 'h5' as ToolDirective);
             event.preventDefault();
           }
           break;
         }
         case 'Digit6': {
-          if (props.toolbars?.includes('title')) {
+          if (initFunc('title')) {
             bus.emit('replace', 'h6' as ToolDirective);
             event.preventDefault();
           }
           break;
         }
         case 'ArrowUp': {
-          if (props.toolbars?.includes('sup')) {
+          if (initFunc('sup')) {
             bus.emit('replace', 'sup' as ToolDirective);
             event.preventDefault();
           }
           break;
         }
         case 'ArrowDown': {
-          if (props.toolbars?.includes('sub')) {
+          if (initFunc('sub')) {
             bus.emit('replace', 'sub' as ToolDirective);
             event.preventDefault();
           }
@@ -139,7 +143,7 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
           break;
         }
         case 'KeyO': {
-          if (props.toolbars?.includes('orderedList')) {
+          if (initFunc('orderedList')) {
             bus.emit('replace', 'orderedList' as ToolDirective);
             event.preventDefault();
           }
@@ -148,13 +152,13 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         case 'KeyC': {
           if (event.shiftKey) {
             // ctrl+shift+c触发块级代码
-            if (props.toolbars?.includes('code')) {
+            if (initFunc('code')) {
               bus.emit('replace', 'code' as ToolDirective);
               event.preventDefault();
             }
           } else if (event.altKey) {
             // ctrl+alt+c触发行内代码
-            if (props.toolbars?.includes('codeRow')) {
+            if (initFunc('codeRow')) {
               bus.emit('replace', 'codeRow' as ToolDirective);
               event.preventDefault();
             }
@@ -163,7 +167,7 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         }
         case 'KeyL': {
           // ctrl+l触发普通链接
-          if (props.toolbars?.includes('link')) {
+          if (initFunc('link')) {
             bus.emit('openModals', 'link');
             event.preventDefault();
           }
@@ -172,13 +176,13 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         case 'KeyZ': {
           if (event.shiftKey) {
             // ctrl+shift+z 前进一步
-            if (props.toolbars?.includes('next')) {
+            if (initFunc('next')) {
               bus.emit('ctrlShiftZ');
               event.preventDefault();
             }
           } else {
             // ctrl+z 后退一步
-            if (props.toolbars?.includes('revoke')) {
+            if (initFunc('revoke')) {
               bus.emit('ctrlZ');
               event.preventDefault();
             }
@@ -189,7 +193,7 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         case 'KeyF': {
           // ctrl+shift+f 美化内容
           if (event.shiftKey) {
-            if (props.toolbars?.includes('prettier')) {
+            if (initFunc('prettier')) {
               bus.emit('replace', 'prettier');
               event.preventDefault();
             }
