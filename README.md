@@ -45,6 +45,7 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 | language | String | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
 | languageUserDefined | Array | [{key: StaticTextDefaultValue}] | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
 | toolbars | Array | [all] | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
+| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone](https://unpkg.com/prettier@2.3.2/standalone.js) |  |
 | prettierMDCDN | String | [parser-markdown](https://unpkg.com/prettier@2.3.2/parser-markdown.js) |
@@ -107,7 +108,7 @@ export interface StaticTextDefaultValue {
     buttonOK?: string;
     buttonUpload?: string;
   };
-  // 预览代码中复制代码提示
+  // 预览代码中复制代码提示，v1.1.4
   copyCode?: {
     text?: string;
     tips?: string;
