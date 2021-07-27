@@ -11,14 +11,14 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>传统开发模式中使用<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.1.2/lib/style.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.1.4/lib/style.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"md-editor-v3"</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">md-editor-v3</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"text"</span> /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/vue@3.1.5/dist/vue.global.prod.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.1.2/lib/md-editor-v3.umd.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.1.4/lib/md-editor-v3.umd.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
       <span class="hljs-keyword">const</span> <span class="hljs-title class_">App</span> = {
         <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
@@ -98,6 +98,8 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 </code><span class="copy-button">复制代码</span></pre>
 <h2 id="2-props-说明">2. Props 说明</h2>
 <p>这是组件最重要的一部分内容，<code>MdEditorV3</code>的属性参数如下：</p>
+<br>
+
 <table>
 <thead>
 <tr>
@@ -186,6 +188,12 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <td>选择性展示工具栏，可选内容如下<sup>[toolbars]<sup></sup></sup></td>
 </tr>
 <tr>
+<td>toolbarsExclude<sup>v1.1.4</sup></td>
+<td>Array</td>
+<td>[]</td>
+<td>选择性不展示工具栏，内容同<code>toolbars</code></td>
+</tr>
+<tr>
 <td>prettier</td>
 <td>Boolean</td>
 <td>true</td>
@@ -210,6 +218,8 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <td>当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容</td>
 </tr>
 </tbody></table>
+<br>
+
 <blockquote>
 <p>!!! 编辑器内比较大小的扩展均使用了 CDN 链接，在没有外网的情况，请使用扩展属性替换为本地链接，比如：highlightJs = "//xxx.com/highlight.min.js"</p>
 </blockquote>
@@ -267,6 +277,11 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
       UrlLablePlaceHolder: <span class="hljs-string">'请输入链接...'</span>,
       buttonOK: <span class="hljs-string">'确定'</span>,
       buttonUpload: <span class="hljs-string">'上传'</span>
+    },
+    // v1.<span class="hljs-number">1.4</span>新增
+    copyCode: {
+      text: <span class="hljs-string">'复制代码'</span>;
+      tips: <span class="hljs-string">'已复制'</span>;
     }
   }
 </code><span class="copy-button">复制代码</span></pre>
@@ -465,7 +480,7 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 </ul>
 <p>封装的移动元素<a href="https://github.com/imzbf/md-editor-v3/blob/master/MdEditor/utils/dom.ts">代码</a>，优化了正确解绑事件，该方法针对了触发器实现，单一窗口并不通用。</p>
 <h3 id="55-主题模式">5.5 主题模式</h3>
-<p>内置了暗黑和默认模式，两种模式由内部<code>theme</code>属性控制，由于<code>antd</code>中以<code>less</code>修改变量值达到切换主题的方式依赖项较多，并未采用，实现则是最基础的两种主题两种类名的方式。</p>
+<p>内置了暗黑和默认模式，两种模式由内部<code>theme</code>属性控制，由于<code>antd</code>中以<code>less</code>修改变量值达到切换主题的方式依赖项较多，并未采用，实现则是最基础的两种主题两个类名的方式。</p>
 <h2 id="结尾">结尾</h2>
 <p>若有觉得可用的功能或发现编辑器的 Bug，请通过以下方式反馈给我，让我们共同进步。</p>
 <ol>
