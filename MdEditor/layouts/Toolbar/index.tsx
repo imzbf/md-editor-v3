@@ -440,7 +440,7 @@ export default defineComponent({
                 </svg>
               </div>
             )}
-
+            {/* 
             <Dropdown
               visible={visible.catalog}
               onChange={(v) => {
@@ -454,7 +454,7 @@ export default defineComponent({
                   <use xlinkHref="#icon-catalog" />
                 </svg>
               </div>
-            </Dropdown>
+            </Dropdown> */}
 
             {toolbars.includes('htmlPreview') && (
               <div
