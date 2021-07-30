@@ -1,5 +1,8 @@
-export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
-<p>目前一直在迭代开发，所以尽量安装最新版本。</p>
+export default `<blockquote>
+<p>当前最新版本：<strong>v1.2.0</strong></p>
+</blockquote>
+<h2 id="1-基本使用示例">1. 基本使用示例</h2>
+<p>目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：<a href="https://github.com/imzbf/md-editor-v3/releases">releases</a></p>
 <pre><code class="language-shell">yarn <span class="hljs-keyword">add</span> md-editor-v3
 </code><span class="copy-button">复制代码</span></pre>
 <p>目前 vue3 已经能很友好的使用 jsx 来开发了，对于一些爱好者（比如作者本身），需要考虑兼容一下。</p>
@@ -11,14 +14,14 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>传统开发模式中使用<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.1.4/lib/style.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.2.0/lib/style.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"md-editor-v3"</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">md-editor-v3</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"text"</span> /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/vue@3.1.5/dist/vue.global.prod.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.1.4/lib/md-editor-v3.umd.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/md-editor-v3@1.2.0/lib/md-editor-v3.umd.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
       <span class="hljs-keyword">const</span> <span class="hljs-title class_">App</span> = {
         <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
@@ -71,6 +74,9 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 </code><span class="copy-button">复制代码</span></pre>
 <h3 id="14-图片上传">1.4 图片上传</h3>
 <p>默认可以选择多张图片，支持截图粘贴板上传图片，支持复制网页图片粘贴上传。</p>
+<blockquote>
+<p>v1.2.0：图片裁剪上传只支持选择一张图片~，但回调入仍是一个文件数组</p>
+</blockquote>
 <blockquote>
 <p>注意：粘贴板上传时，如果是网页上的 gif 图，无法正确上传为 gif 格式！请保存本地后再手动上传。</p>
 </blockquote>
@@ -217,6 +223,18 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <td>'editor'</td>
 <td>当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容</td>
 </tr>
+<tr>
+<td>cropperCss<sup>v1.2.0</sup></td>
+<td>String</td>
+<td><a href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css">cropper.min.css</a></td>
+<td>cropper css url</td>
+</tr>
+<tr>
+<td>cropperJs<sup>v1.2.0</sup></td>
+<td>String</td>
+<td><a href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js">cropper.min.js</a></td>
+<td>cropper js url</td>
+</tr>
 </tbody></table>
 <br>
 
@@ -276,6 +294,11 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
       urlLable: <span class="hljs-string">'链接地址：'</span>,
       UrlLablePlaceHolder: <span class="hljs-string">'请输入链接...'</span>,
       buttonOK: <span class="hljs-string">'确定'</span>,
+      buttonUpload: <span class="hljs-string">'上传'</span>
+    },
+    // v1.<span class="hljs-number">2.0</span>新增
+    clipModalTips: {
+      title: <span class="hljs-string">'裁剪图片上传'</span>,
       buttonUpload: <span class="hljs-string">'上传'</span>
     },
     // v1.<span class="hljs-number">1.4</span>新增
@@ -481,6 +504,8 @@ export default `<h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <p>封装的移动元素<a href="https://github.com/imzbf/md-editor-v3/blob/master/MdEditor/utils/dom.ts">代码</a>，优化了正确解绑事件，该方法针对了触发器实现，单一窗口并不通用。</p>
 <h3 id="55-主题模式">5.5 主题模式</h3>
 <p>内置了暗黑和默认模式，两种模式由内部<code>theme</code>属性控制，由于<code>antd</code>中以<code>less</code>修改变量值达到切换主题的方式依赖项较多，并未采用，实现则是最基础的两种主题两个类名的方式。</p>
+<h3 id="56-图片裁剪上传">5.6 图片裁剪上传</h3>
+<p>该功能主要依赖<code>cropperjs</code>库，目前不提供该库自定义设置。</p>
 <h2 id="结尾">结尾</h2>
 <p>若有觉得可用的功能或发现编辑器的 Bug，请通过以下方式反馈给我，让我们共同进步。</p>
 <ol>
