@@ -278,3 +278,31 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
     pEle.removeEventListener('scroll', scrollHandler);
   };
 };
+
+/**
+ * 转换base64为file对象
+ * 方法来自网络
+ *
+ * @param base64 Base64
+ * @param fileName 图片名称
+ * @returns
+ */
+export const base642File = (base64: string, fileName = 'image.png') => {
+  const arr = base64.split(',');
+  const regResult = arr[0].match(/:(.*?);/);
+
+  if (regResult) {
+    const mime = regResult[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    const file = new File([u8arr], fileName, { type: mime });
+    return file;
+  }
+
+  return null;
+};
