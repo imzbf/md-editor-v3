@@ -11,7 +11,7 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 3. 支持快捷键插入内容；
 4. 支持使用 prettier 格式化内容（使用 CDN 方式引入，只支持格式化 md 内容，可在代码内设置关闭）；
 5. 支持多语言，支持自行扩展语言；
-6. 支持复制粘贴上传图片；
+6. 支持复制粘贴上传图片，图片裁剪上传；
 7. ...
 
 > 更多功能待后续更新，若有想要的功能未开发，请留言~
@@ -50,6 +50,8 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 | prettierCDN | String | [standalone](https://unpkg.com/prettier@2.3.2/standalone.js) |  |
 | prettierMDCDN | String | [parser-markdown](https://unpkg.com/prettier@2.3.2/parser-markdown.js) |
 | editorName | String | 'editor' | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容 |
+| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | cropper css url |
+| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | cropper js url |
 
 [toolbars]
 
@@ -106,6 +108,11 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
+    buttonUpload?: string;
+  };
+  // 裁剪图片弹窗提示，v1.2.0
+  clipModalTips?: {
+    title?: string;
     buttonUpload?: string;
   };
   // 预览代码中复制代码提示，v1.1.4
