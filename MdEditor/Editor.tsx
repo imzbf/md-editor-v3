@@ -12,7 +12,8 @@ import {
   highlightUrl,
   iconfontUrl,
   prettierUrl,
-  staticTextDefault
+  staticTextDefault,
+  cropperUrl
 } from './config';
 import { useKeyBoard } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -26,6 +27,7 @@ declare global {
     hljs: any;
     prettier: any;
     prettierPlugins: any;
+    Cropper: any;
   }
 }
 
@@ -72,6 +74,11 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
+    buttonUpload?: string;
+    buttonUploadClip?: string;
+  };
+  clipModalTips?: {
+    title?: string;
     buttonUpload?: string;
   };
   copyCode?: {
@@ -193,6 +200,14 @@ const props = {
   // html变化事件
   onHtmlChanged: {
     type: Function as PropType<(h: string) => void>
+  },
+  cropperCss: {
+    type: String as PropType<string>,
+    default: cropperUrl.css
+  },
+  cropperJs: {
+    type: String as PropType<string>,
+    default: cropperUrl.js
   }
 };
 
@@ -332,6 +347,10 @@ export default defineComponent({
             <script src={props.prettierMDCDN} />
           </Teleport>
         )}
+        <Teleport to={document.body}>
+          <link href={props.cropperCss} rel="stylesheet" />
+          <script src={props.cropperJs}></script>
+        </Teleport>
       </div>
     );
   }
