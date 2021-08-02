@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, SetupContext } from 'vue';
+import { inject, onMounted, onUnmounted, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils';
 import { ToolbarNames } from './Editor';
@@ -217,9 +217,11 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
   };
 
   onMounted(() => {
-    window.addEventListener('keydown', keyDownHandler);
+    if (!props.previewOnly) {
+      window.addEventListener('keydown', keyDownHandler);
 
-    document.addEventListener('paste', pasteHandler);
+      document.addEventListener('paste', pasteHandler);
+    }
   });
 
   // 编辑器卸载时移除相应的监听事件
