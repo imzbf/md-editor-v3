@@ -140,8 +140,8 @@
       }
     }
 
-    .@{prefix}-preview-wrapper,
-    .@{prefix}-html-wrapper {
+    .@{prefix}-preview,
+    .@{prefix}-html {
       flex: 1;
       padding: 10px 20px;
       overflow: auto;
@@ -210,6 +210,15 @@
     &-row {
       width: 100%;
     }
+  }
+}
+
+.@{prefix}-previewOnly {
+  border: none;
+  height: auto;
+  .@{prefix}-content {
+    height: 100%;
+
   }
 }
 

@@ -56,6 +56,8 @@ export default defineComponent({
     const highlightInited = ref<boolean>(props.hljs !== null);
     const highlight = inject('highlight') as { js: string; css: string };
 
+    const previewOnly = inject('previewOnly') as boolean;
+
     // 输入框
     const textAreaRef = ref<HTMLTextAreaElement>();
     // 输入框选中的内容
@@ -188,7 +190,7 @@ export default defineComponent({
 
         nextTick(() => {
           // 更新完毕后判断是否需要重新绑定滚动事件
-          if (props.setting.preview) {
+          if (props.setting.preview && !previewOnly) {
             clearScrollAuto = scrollAuto(
               textAreaRef.value as HTMLElement,
               (previewRef.value as HTMLElement) || htmlRef.value
@@ -216,7 +218,7 @@ export default defineComponent({
       () => props.setting.preview,
       (nVal) => {
         // 分栏发生变化时，显示分栏时注册同步滚动，隐藏是清除同步滚动
-        if (nVal) {
+        if (nVal && !previewOnly) {
           nextTick(() => {
             // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
             clearScrollAuto = scrollAuto(
@@ -235,34 +237,32 @@ export default defineComponent({
     return () => {
       return (
         <>
-          <div class={`${prefix}-content`}>
-            <div class={[`${prefix}-input-wrapper`]}>
-              <textarea
-                ref={textAreaRef}
-                value={props.value}
-                onInput={(e) => {
-                  // 先清空保存的选中内容，防止异常现象
-                  selectedText = '';
+          <div class={[`${prefix}-content`]}>
+            {!previewOnly && (
+              <div class={[`${prefix}-input-wrapper`]}>
+                <textarea
+                  ref={textAreaRef}
+                  value={props.value}
+                  onInput={(e) => {
+                    // 先清空保存的选中内容，防止异常现象
+                    selectedText = '';
 
-                  // 触发更新
-                  props.onChange((e.target as HTMLTextAreaElement).value);
-                }}
-                class={[
-                  props.setting.preview || props.setting.htmlPreview
-                    ? ''
-                    : 'textarea-only'
-                ]}
-              />
-            </div>
+                    // 触发更新
+                    props.onChange((e.target as HTMLTextAreaElement).value);
+                  }}
+                  class={[
+                    props.setting.preview || props.setting.htmlPreview
+                      ? ''
+                      : 'textarea-only'
+                  ]}
+                />
+              </div>
+            )}
             {props.setting.preview && (
-              <div
-                ref={previewRef}
-                class={`${prefix}-preview-wrapper`}
-                innerHTML={html.value}
-              />
+              <div ref={previewRef} class={`${prefix}-preview`} innerHTML={html.value} />
             )}
             {props.setting.htmlPreview && (
-              <div ref={htmlRef} class={`${prefix}-html-wrapper`}>
+              <div ref={htmlRef} class={`${prefix}-html`}>
                 {html.value}
               </div>
             )}
