@@ -351,13 +351,13 @@ export default defineComponent({
         <Teleport to={document.head}>
           <script src={iconfontUrl} />
         </Teleport>
-        {props.prettier && !props.preview && (
+        {props.prettier && !props.previewOnly && (
           <Teleport to={document.head}>
             <script src={props.prettierCDN} />
             <script src={props.prettierMDCDN} />
           </Teleport>
         )}
-        {!props.preview && (
+        {!props.previewOnly && (
           <Teleport to={document.body}>
             <link href={props.cropperCss} rel="stylesheet" />
             <script src={props.cropperJs}></script>
