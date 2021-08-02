@@ -1,5 +1,5 @@
 export default `<blockquote>
-<p>当前最新版本：<strong>v1.2.0</strong></p>
+<p>当前最新版本：<strong>v1.3.0</strong></p>
 </blockquote>
 <h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <p>目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：<a href="https://github.com/imzbf/md-editor-v3/releases">releases</a></p>
@@ -174,6 +174,12 @@ export default `<blockquote>
 <td>Boolean</td>
 <td>false</td>
 <td>直接显示 编译后的 html 源代码（选中复制该内容不能完全展示，因为换行符被忽略了，要获取 html 代码请使用下面的监听事件）。</td>
+</tr>
+<tr>
+<td>previewOnly<sup>v1.3.0</sup></td>
+<td>Boolean</td>
+<td>false</td>
+<td>仅预览模式，不显示 bar 和编辑框</td>
 </tr>
 <tr>
 <td>language</td>
