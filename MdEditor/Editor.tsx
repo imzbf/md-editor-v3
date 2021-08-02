@@ -162,6 +162,10 @@ const props = {
     type: Boolean as PropType<boolean>,
     default: false
   },
+  previewOnly: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
   language: {
     type: String as PropType<StaticTextDefaultKey | string>,
     default: 'zh-CN'
@@ -225,6 +229,9 @@ export default defineComponent({
 
     // 注入历史设置
     provide('historyLength', props.historyLength);
+
+    // 注入是否仅预览
+    provide('previewOnly', props.previewOnly);
 
     // 注入语言设置
     const usedLanguageText = computed(() => {
@@ -310,15 +317,18 @@ export default defineComponent({
           prefix,
           props.editorClass,
           props.theme === 'dark' && `${prefix}-dark`,
-          setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : ''
+          setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
+          props.previewOnly && `${prefix}-previewOnly`
         ]}
       >
-        <ToolBar
-          toolbars={props.toolbars}
-          toolbarsExclude={props.toolbarsExclude}
-          setting={setting}
-          updateSetting={updateSetting}
-        />
+        {!props.previewOnly && (
+          <ToolBar
+            toolbars={props.toolbars}
+            toolbarsExclude={props.toolbarsExclude}
+            setting={setting}
+            updateSetting={updateSetting}
+          />
+        )}
         <Content
           hljs={props.hljs}
           value={props.modelValue}
@@ -341,16 +351,18 @@ export default defineComponent({
         <Teleport to={document.head}>
           <script src={iconfontUrl} />
         </Teleport>
-        {props.prettier && (
+        {props.prettier && !props.preview && (
           <Teleport to={document.head}>
             <script src={props.prettierCDN} />
             <script src={props.prettierMDCDN} />
           </Teleport>
         )}
-        <Teleport to={document.body}>
-          <link href={props.cropperCss} rel="stylesheet" />
-          <script src={props.cropperJs}></script>
-        </Teleport>
+        {!props.preview && (
+          <Teleport to={document.body}>
+            <link href={props.cropperCss} rel="stylesheet" />
+            <script src={props.cropperJs}></script>
+          </Teleport>
+        )}
       </div>
     );
   }
