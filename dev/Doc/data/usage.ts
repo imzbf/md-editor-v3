@@ -1,5 +1,5 @@
 export default `<blockquote>
-<p>当前最新版本：<strong>v1.3.0</strong></p>
+<p>当前最新版本：<strong>v1.3.1</strong></p>
 </blockquote>
 <h2 id="1-基本使用示例">1. 基本使用示例</h2>
 <p>目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：<a href="https://github.com/imzbf/md-editor-v3/releases">releases</a></p>
