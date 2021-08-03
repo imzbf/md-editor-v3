@@ -1,33 +1,37 @@
-import { defineComponent, onMounted } from 'vue';
-import './index.less';
-import copy from 'copy-to-clipboard';
-import usage from './data/usage';
+import { defineComponent, onMounted, PropType, ref } from 'vue';
+import Editor from '../../MdEditor';
+import { Theme } from '../App';
+import axios from 'axios';
 
 export default defineComponent({
-  setup() {
-    const initCopyEntry = () => {
-      document.querySelectorAll('.doc-usage pre ').forEach((pre: Element) => {
-        const copyButton = pre.querySelector('.copy-button') as HTMLSpanElement;
-
-        copyButton.addEventListener('click', () => {
-          copy((pre.querySelector('code') as HTMLElement).innerText);
-
-          copyButton.innerText = '已复制！';
-          setTimeout(() => {
-            copyButton.innerText = '复制代码';
-          }, 1500);
-        });
-      });
-    };
+  props: {
+    theme: String as PropType<Theme>
+  },
+  setup(props) {
+    const mdText = ref();
 
     onMounted(() => {
-      initCopyEntry();
-    });
+      axios
+        .get('https://imbf.cc/ui-api/article/97aac9f3')
+        .then((res) => {
+          const { data } = res;
 
+          if (data && data.code === 0) {
+            mdText.value = data.data?.articleContent;
+          } else {
+            throw new Error();
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+
+          mdText.value = '文档读取失败！';
+        });
+    });
     return () => (
       <div class="doc">
         <div class="container">
-          <div class="doc-usage" innerHTML={usage}></div>
+          <Editor theme={props.theme} modelValue={mdText.value} previewOnly />
         </div>
       </div>
     );
