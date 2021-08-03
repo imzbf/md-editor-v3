@@ -94,7 +94,7 @@ export default defineComponent({
         toolbars.includes(name) && !toolbarsExclude.includes(name);
 
       return (
-        <>
+        <div class={`${prefix}-toolbar-wrapper`}>
           <div class={`${prefix}-toolbar`}>
             <div class={`${prefix}-toolbar-left`}>
               {showBar('bold') && (
@@ -518,7 +518,7 @@ export default defineComponent({
             }}
             to={to.value}
           />
-        </>
+        </div>
       );
     };
   }
