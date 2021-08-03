@@ -15,10 +15,10 @@
   flex-direction: column;
   overflow: hidden;
   background-color: @bkColor;
-  font-family: PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia,
+    Times, 'Times New Roman', serif;
 
   /* 浏览器滚动条 */
-
   ::-webkit-scrollbar {
     width: 6px;
   }
@@ -79,35 +79,46 @@
     }
   }
 
-  &-toolbar {
-    padding: @toolBarPadding;
-    height: @toolBarHeight;
-    border-bottom: 1px solid hsv(0, 0, 90%);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  &-toolbar-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
 
-    &-item {
-      height: 24px;
-      display: inline-block;
-      padding: 0 4px;
-      transition: all 0.3s;
-      border-radius: 0;
-      cursor: pointer;
-      list-style: none;
-      user-select: none;
-
-      &:hover {
-        border-radius: 3px;
-        background-color: rgb(230, 230, 230);
-      }
+    &::-webkit-scrollbar {
+      height: 0 !important;
     }
 
-    &-left,
-    &-right {
-      padding: 1px 0;
+    .@{prefix}-toolbar {
+      min-width: 850px;
+      padding: @toolBarPadding;
+      height: @toolBarHeight;
+      border-bottom: 1px solid hsv(0, 0, 90%);
       display: flex;
+      justify-content: space-between;
       align-items: center;
+
+      &-item {
+        height: 24px;
+        display: inline-block;
+        padding: 0 4px;
+        transition: all 0.3s;
+        border-radius: 0;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+
+        &:hover {
+          border-radius: 3px;
+          background-color: rgb(230, 230, 230);
+        }
+      }
+
+      &-left,
+      &-right {
+        padding: 1px 0;
+        display: flex;
+        align-items: center;
+      }
     }
   }
 
@@ -218,7 +229,6 @@
   height: auto;
   .@{prefix}-content {
     height: 100%;
-
   }
 }
 
@@ -237,17 +247,17 @@
   }
 
   // 弹框组件
-    .@{prefix}-modal {
-      background-color: @bkColorDark;
+  .@{prefix}-modal {
+    background-color: @bkColorDark;
+    border-color: @borderColorDark;
+
+    &-header {
       border-color: @borderColorDark;
+      color: @colorDark;
 
-      &-header {
-        border-color: @borderColorDark;
+      .@{prefix}-modal-title {
         color: @colorDark;
-
-        .@{prefix}-modal-title {
-          color: @colorDark;
-        }
+      }
     }
   }
 
@@ -263,7 +273,7 @@
 
     &-item {
       color: @colorDark;
-      
+
       &:hover {
         background-color: @hoverdark;
       }
@@ -275,7 +285,7 @@
   }
 
   .@{prefix}-input,
-  .@{prefix}-btn{
+  .@{prefix}-btn {
     color: @colorDark;
     background-color: @bkColorDark;
     border-color: @borderColorDark;
