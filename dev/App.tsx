@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Header from './Header';
 import Preview from './Preview';
 import Doc from './Doc';
@@ -15,8 +15,8 @@ export default defineComponent({
       <div class={['app', theme.value === 'dark' && 'theme-dark']}>
         <Header theme={theme.value} onChange={(v: Theme) => (theme.value = v)} />
         <div class="page-body">
-          <Preview theme={theme.value} onChange={(v: Theme) => (theme.value = v)} />
-          <Doc />
+          <Preview theme={theme.value} />
+          <Doc theme={theme.value} />
         </div>
       </div>
     );

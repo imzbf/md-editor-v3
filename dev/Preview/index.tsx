@@ -10,11 +10,7 @@ const SAVE_KEY = 'XHMPGLJIZTDB';
 
 export default defineComponent({
   props: {
-    theme: String as PropType<Theme>,
-    onChange: {
-      type: Function as PropType<(v: Theme) => void>,
-      default: () => {}
-    }
+    theme: String as PropType<Theme>
   },
   setup(props) {
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
