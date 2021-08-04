@@ -103,7 +103,7 @@ export const staticTextDefault: StaticTextDefault = {
     },
     copyCode: {
       text: '复制代码',
-      tips: '已复制'
+      tips: '已复制！'
     }
   },
   'en-US': {
