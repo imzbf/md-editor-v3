@@ -30,6 +30,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
 
   return {
     base: mode === 'preview' ? homepage : '/',
+    publicDir: mode === 'production' ? false : './dev/public',
     server: {
       host: 'localhost',
       open: true,
