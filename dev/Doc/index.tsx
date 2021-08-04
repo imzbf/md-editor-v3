@@ -12,7 +12,7 @@ export default defineComponent({
 
     onMounted(() => {
       axios
-        .get('ddd.md')
+        .get('doc.md')
         .then(({ data }) => {
           mdText.value = data;
         })
@@ -25,12 +25,7 @@ export default defineComponent({
     return () => (
       <div class="doc">
         <div class="container">
-          <Editor
-            theme={props.theme}
-            language="en-US"
-            modelValue={mdText.value}
-            previewOnly
-          />
+          <Editor theme={props.theme} modelValue={mdText.value} previewOnly />
         </div>
       </div>
     );
