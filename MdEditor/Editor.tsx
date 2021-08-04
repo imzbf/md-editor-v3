@@ -142,8 +142,7 @@ const props = {
     type: Function as PropType<(v: string) => void>
   },
   onSave: {
-    type: Function as PropType<(v: string) => void>,
-    default: () => () => {}
+    type: Function as PropType<(v: string) => void>
   },
   onUploadImg: {
     type: Function as PropType<
