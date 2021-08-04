@@ -197,10 +197,6 @@ const props = {
     type: String as PropType<string>,
     default: prettierUrl.markdown
   },
-  editorName: {
-    type: String as PropType<string>,
-    default: 'editor'
-  },
   // html变化事件
   onHtmlChanged: {
     type: Function as PropType<(h: string) => void>
@@ -224,6 +220,10 @@ export default defineComponent({
   props,
   setup(props, context) {
     useKeyBoard(props, context);
+
+    // 生成唯一ID
+    const editorId = `mev-${Math.random().toString(36).substr(3)}`;
+    provide('editorId', editorId);
 
     // 注入高亮src
     provide('highlight', {
@@ -253,9 +253,6 @@ export default defineComponent({
 
     provide('usedLanguageText', usedLanguageText.value);
     // -end-
-
-    // 注入名称
-    provide('editorName', props.editorName);
 
     // 监听上传图片
     !props.previewOnly &&
@@ -318,7 +315,7 @@ export default defineComponent({
 
     return () => (
       <div
-        id={`${prefix}-${props.editorName}`}
+        id={editorId}
         class={[
           prefix,
           props.editorClass,
