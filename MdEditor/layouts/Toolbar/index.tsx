@@ -1,4 +1,12 @@
-import { defineComponent, inject, onMounted, PropType, reactive, ref } from 'vue';
+import {
+  ComputedRef,
+  defineComponent,
+  inject,
+  onMounted,
+  PropType,
+  reactive,
+  ref
+} from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix } from '../../Editor';
@@ -34,7 +42,7 @@ export default defineComponent({
     // 获取Id
     const editorId = inject('editorId') as string;
     // 获取语言设置
-    const ult = inject('usedLanguageText') as StaticTextDefaultValue;
+    const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
 
     const visible = reactive({
       title: false,
@@ -99,7 +107,7 @@ export default defineComponent({
               {showBar('bold') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.bold}
+                  title={ult.value.toolbarTips?.bold}
                   onClick={() => {
                     emitHandler('bold');
                   }}
@@ -112,7 +120,7 @@ export default defineComponent({
               {showBar('underline') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.underline}
+                  title={ult.value.toolbarTips?.underline}
                   onClick={() => {
                     emitHandler('underline');
                   }}
@@ -125,7 +133,7 @@ export default defineComponent({
               {showBar('italic') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.italic}
+                  title={ult.value.toolbarTips?.italic}
                   onClick={() => {
                     emitHandler('italic');
                   }}
@@ -138,7 +146,7 @@ export default defineComponent({
               {showBar('strikeThrough') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.strikeThrough}
+                  title={ult.value.toolbarTips?.strikeThrough}
                   onClick={() => {
                     emitHandler('strikeThrough');
                   }}
@@ -169,7 +177,7 @@ export default defineComponent({
                           emitHandler('h1');
                         }}
                       >
-                        {ult.titleItem?.h1}
+                        {ult.value.titleItem?.h1}
                       </li>
                       <li
                         class={`${prefix}-menu-item`}
@@ -177,7 +185,7 @@ export default defineComponent({
                           emitHandler('h2');
                         }}
                       >
-                        {ult.titleItem?.h2}
+                        {ult.value.titleItem?.h2}
                       </li>
                       <li
                         class={`${prefix}-menu-item`}
@@ -185,7 +193,7 @@ export default defineComponent({
                           emitHandler('h3');
                         }}
                       >
-                        {ult.titleItem?.h3}
+                        {ult.value.titleItem?.h3}
                       </li>
                       <li
                         class={`${prefix}-menu-item`}
@@ -193,7 +201,7 @@ export default defineComponent({
                           emitHandler('h4');
                         }}
                       >
-                        {ult.titleItem?.h4}
+                        {ult.value.titleItem?.h4}
                       </li>
                       <li
                         class={`${prefix}-menu-item`}
@@ -201,7 +209,7 @@ export default defineComponent({
                           emitHandler('h5');
                         }}
                       >
-                        {ult.titleItem?.h5}
+                        {ult.value.titleItem?.h5}
                       </li>
                       <li
                         class={`${prefix}-menu-item`}
@@ -209,12 +217,15 @@ export default defineComponent({
                           emitHandler('h6');
                         }}
                       >
-                        {ult.titleItem?.h6}
+                        {ult.value.titleItem?.h6}
                       </li>
                     </ul>
                   }
                 >
-                  <div class={`${prefix}-toolbar-item`} title={ult.toolbarTips?.title}>
+                  <div
+                    class={`${prefix}-toolbar-item`}
+                    title={ult.value.toolbarTips?.title}
+                  >
                     <svg class={`${prefix}-icon`} aria-hidden="true">
                       <use xlinkHref="#icon-title" />
                     </svg>
@@ -224,7 +235,7 @@ export default defineComponent({
               {showBar('sub') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.sub}
+                  title={ult.value.toolbarTips?.sub}
                   onClick={() => {
                     emitHandler('sub');
                   }}
@@ -237,7 +248,7 @@ export default defineComponent({
               {showBar('sup') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.sup}
+                  title={ult.value.toolbarTips?.sup}
                   onClick={() => {
                     emitHandler('sup');
                   }}
@@ -250,7 +261,7 @@ export default defineComponent({
               {showBar('quote') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.quote}
+                  title={ult.value.toolbarTips?.quote}
                   onClick={() => {
                     emitHandler('quote');
                   }}
@@ -263,7 +274,7 @@ export default defineComponent({
               {showBar('unorderedList') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.unorderedList}
+                  title={ult.value.toolbarTips?.unorderedList}
                   onClick={() => {
                     emitHandler('unorderedList');
                   }}
@@ -276,7 +287,7 @@ export default defineComponent({
               {showBar('orderedList') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.orderedList}
+                  title={ult.value.toolbarTips?.orderedList}
                   onClick={() => {
                     emitHandler('orderedList');
                   }}
@@ -290,7 +301,7 @@ export default defineComponent({
               {showBar('codeRow') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.codeRow}
+                  title={ult.value.toolbarTips?.codeRow}
                   onClick={() => {
                     emitHandler('codeRow');
                   }}
@@ -303,7 +314,7 @@ export default defineComponent({
               {showBar('code') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.code}
+                  title={ult.value.toolbarTips?.code}
                   onClick={() => {
                     emitHandler('code');
                   }}
@@ -316,7 +327,7 @@ export default defineComponent({
               {showBar('link') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.link}
+                  title={ult.value.toolbarTips?.link}
                   onClick={() => {
                     modalData.type = 'link';
                     modalData.visible = true;
@@ -330,7 +341,7 @@ export default defineComponent({
               {showBar('image') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.image}
+                  title={ult.value.toolbarTips?.image}
                   onClick={() => {
                     modalData.type = 'image';
                     modalData.visible = true;
@@ -344,7 +355,7 @@ export default defineComponent({
               {showBar('table') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.table}
+                  title={ult.value.toolbarTips?.table}
                   onClick={() => {
                     emitHandler('table');
                   }}
@@ -358,7 +369,7 @@ export default defineComponent({
               {showBar('revoke') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.revoke}
+                  title={ult.value.toolbarTips?.revoke}
                   onClick={() => {
                     bus.emit('ctrlZ');
                   }}
@@ -371,7 +382,7 @@ export default defineComponent({
               {showBar('next') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.next}
+                  title={ult.value.toolbarTips?.next}
                   onClick={() => {
                     bus.emit('ctrlShiftZ');
                   }}
@@ -384,7 +395,7 @@ export default defineComponent({
               {showBar('save') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.save}
+                  title={ult.value.toolbarTips?.save}
                   onClick={() => {
                     bus.emit('onSave');
                   }}
@@ -399,7 +410,7 @@ export default defineComponent({
               {showBar('prettier') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.prettier}
+                  title={ult.value.toolbarTips?.prettier}
                   onClick={() => {
                     emitHandler('prettier');
                   }}
@@ -413,7 +424,7 @@ export default defineComponent({
               {showBar('pageFullscreen') && !props.setting.fullscreen && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.pageFullscreen}
+                  title={ult.value.toolbarTips?.pageFullscreen}
                   onClick={() => {
                     props.updateSetting(!props.setting.pageFullScreen, 'pageFullScreen');
                   }}
@@ -431,7 +442,7 @@ export default defineComponent({
               {showBar('fullscreen') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.fullscreen}
+                  title={ult.value.toolbarTips?.fullscreen}
                   onClick={fullScreen}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
@@ -447,7 +458,7 @@ export default defineComponent({
               {showBar('preview') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.preview}
+                  title={ult.value.toolbarTips?.preview}
                   onClick={() => {
                     props.updateSetting(!props.setting.preview, 'preview');
                   }}
@@ -476,7 +487,7 @@ export default defineComponent({
               {showBar('htmlPreview') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.htmlPreview}
+                  title={ult.value.toolbarTips?.htmlPreview}
                   onClick={() => {
                     props.updateSetting(!props.setting.htmlPreview, 'htmlPreview');
                   }}
@@ -490,7 +501,7 @@ export default defineComponent({
               {showBar('github') && (
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.toolbarTips?.github}
+                  title={ult.value.toolbarTips?.github}
                   onClick={() => goto('https://github.com/imzbf/md-editor-v3')}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">

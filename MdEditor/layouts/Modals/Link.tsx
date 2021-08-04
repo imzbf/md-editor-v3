@@ -1,5 +1,6 @@
 import {
   computed,
+  ComputedRef,
   defineComponent,
   inject,
   nextTick,
@@ -41,16 +42,16 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const ult = inject('usedLanguageText') as StaticTextDefaultValue;
+    const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId');
 
     const title = computed(() => {
       switch (props.type) {
         case 'link': {
-          return `${ult.linkModalTips?.title}${ult.toolbarTips?.link}`;
+          return `${ult.value.linkModalTips?.title}${ult.value.toolbarTips?.link}`;
         }
         case 'image': {
-          return `${ult.linkModalTips?.title}${ult.toolbarTips?.image}`;
+          return `${ult.value.linkModalTips?.title}${ult.value.toolbarTips?.image}`;
         }
         default: {
           return '';
@@ -96,10 +97,10 @@ export default defineComponent({
       >
         <div class={`${prefix}-form-item`}>
           <label class={`${prefix}-lable`} for={`link-desc-${editorId}`}>
-            {ult.linkModalTips?.descLable}
+            {ult.value.linkModalTips?.descLable}
           </label>
           <input
-            placeholder={ult.linkModalTips?.descLablePlaceHolder}
+            placeholder={ult.value.linkModalTips?.descLablePlaceHolder}
             class={`${prefix}-input`}
             id={`link-desc-${editorId}`}
             type="text"
@@ -111,10 +112,10 @@ export default defineComponent({
         </div>
         <div class={`${prefix}-form-item`}>
           <label class={`${prefix}-lable`} for={`link-url-${editorId}`}>
-            {ult.linkModalTips?.urlLable}
+            {ult.value.linkModalTips?.urlLable}
           </label>
           <input
-            placeholder={ult.linkModalTips?.UrlLablePlaceHolder}
+            placeholder={ult.value.linkModalTips?.UrlLablePlaceHolder}
             class={`${prefix}-input`}
             id={`link-url-${editorId}`}
             type="text"
@@ -133,7 +134,7 @@ export default defineComponent({
               linkData.url = '';
             }}
           >
-            {ult.linkModalTips?.buttonOK}
+            {ult.value.linkModalTips?.buttonOK}
           </button>
           {props.type === 'image' && (
             <>
@@ -145,10 +146,10 @@ export default defineComponent({
                   });
                 }}
               >
-                {ult.linkModalTips?.buttonUpload}
+                {ult.value.linkModalTips?.buttonUpload}
               </button>
               <button class={`${prefix}-btn`} onClick={props.onClip}>
-                {ult.linkModalTips?.buttonUploadClip}
+                {ult.value.linkModalTips?.buttonUploadClip}
               </button>
               <input
                 ref={uploadRef}
