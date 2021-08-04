@@ -157,7 +157,7 @@ export const staticTextDefault: StaticTextDefault = {
     },
     copyCode: {
       text: 'Copy',
-      tips: 'Copied'
+      tips: 'Copied!'
     }
   }
 };
