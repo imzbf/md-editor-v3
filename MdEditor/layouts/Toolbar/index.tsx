@@ -31,11 +31,10 @@ export default defineComponent({
     }
   },
   setup(props) {
+    // 获取Id
+    const editorId = inject('editorId') as string;
     // 获取语言设置
     const ult = inject('usedLanguageText') as StaticTextDefaultValue;
-
-    // 名称
-    const editorName = inject('editorName');
 
     const visible = reactive({
       title: false,
@@ -81,7 +80,7 @@ export default defineComponent({
     // 挂载位置
     const to = ref(document.body);
     onMounted(() => {
-      to.value = document.getElementById(`${prefix}-${editorName}`) as HTMLElement;
+      to.value = document.getElementById(editorId) as HTMLElement;
     });
 
     return () => {
