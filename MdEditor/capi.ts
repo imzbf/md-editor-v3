@@ -1,4 +1,4 @@
-import { inject, onMounted, onUnmounted, SetupContext } from 'vue';
+import { onMounted, onUnmounted, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils';
 import { ToolbarNames } from './Editor';
@@ -6,18 +6,6 @@ import { ToolbarNames } from './Editor';
 export const useKeyBoard = (props: any, context: SetupContext) => {
   const initFunc = (name: ToolbarNames) =>
     props.toolbars?.includes(name) && !props.toolbarsExclude?.includes(name);
-
-  // 先注册保存事件
-  bus.on({
-    name: 'onSave',
-    callback() {
-      if (props.onSave) {
-        props.onSave(props.modelValue);
-      } else {
-        context.emit('onSave', props.modelValue);
-      }
-    }
-  });
 
   const keyDownHandler = (event: KeyboardEvent) => {
     // 按键操作是否会替换内容
@@ -229,4 +217,17 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
     window.removeEventListener('keydown', keyDownHandler);
     document.removeEventListener('paste', pasteHandler);
   });
+
+  // 注册保存事件
+  !props.previewOnly &&
+    bus.on({
+      name: 'onSave',
+      callback() {
+        if (props.onSave) {
+          props.onSave(props.modelValue);
+        } else {
+          context.emit('onSave', props.modelValue);
+        }
+      }
+    });
 };
