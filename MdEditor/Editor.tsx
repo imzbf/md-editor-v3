@@ -257,30 +257,32 @@ export default defineComponent({
     // 注入名称
     provide('editorName', props.editorName);
 
-    bus.on({
-      name: 'uploadImage',
-      callback(files: FileList, cb: () => void) {
-        const insertHanlder = (urls: Array<string>) => {
-          urls.forEach((url) => {
-            // 利用事件循环机制，保证两次插入分开进行
-            setTimeout(() => {
-              bus.emit('replace', 'image', {
-                desc: '',
-                url
-              });
-            }, 0);
-          });
+    // 监听上传图片
+    !props.previewOnly &&
+      bus.on({
+        name: 'uploadImage',
+        callback(files: FileList, cb: () => void) {
+          const insertHanlder = (urls: Array<string>) => {
+            urls.forEach((url) => {
+              // 利用事件循环机制，保证两次插入分开进行
+              setTimeout(() => {
+                bus.emit('replace', 'image', {
+                  desc: '',
+                  url
+                });
+              }, 0);
+            });
 
-          cb && cb();
-        };
+            cb && cb();
+          };
 
-        if (props.onUploadImg) {
-          props.onUploadImg(files, insertHanlder);
-        } else {
-          context.emit('onUploadImg', files, insertHanlder);
+          if (props.onUploadImg) {
+            props.onUploadImg(files, insertHanlder);
+          } else {
+            context.emit('onUploadImg', files, insertHanlder);
+          }
         }
-      }
-    });
+      });
 
     // ----编辑器设置----
     const setting = reactive<SettingType>({
@@ -352,9 +354,11 @@ export default defineComponent({
             }
           }}
         />
-        <Teleport to={document.head}>
-          <script src={props.iconfontJs} />
-        </Teleport>
+        {!props.previewOnly && (
+          <Teleport to={document.head}>
+            <script src={props.iconfontJs} />
+          </Teleport>
+        )}
         {props.prettier && !props.previewOnly && (
           <Teleport to={document.head}>
             <script src={props.prettierCDN} />

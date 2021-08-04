@@ -88,7 +88,7 @@ export default defineComponent({
         copyButton.addEventListener('click', () => {
           copy((pre.querySelector('code') as HTMLElement).innerText);
 
-          copyButton.innerText = ult.copyCode?.tips || '已复制';
+          copyButton.innerText = ult.copyCode?.tips || '已复制！';
           setTimeout(() => {
             copyButton.innerText = ult.copyCode?.text || '复制代码';
           }, 1500);
@@ -98,76 +98,78 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      textAreaRef.value?.addEventListener('select', () => {
-        selectedText = window.getSelection()?.toString() || '';
-      });
+      if (!previewOnly) {
+        textAreaRef.value?.addEventListener('select', () => {
+          selectedText = window.getSelection()?.toString() || '';
+        });
 
-      textAreaRef.value?.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-          const endPoint = textAreaRef.value?.selectionStart as number;
+        textAreaRef.value?.addEventListener('keypress', (event) => {
+          if (event.key === 'Enter') {
+            const endPoint = textAreaRef.value?.selectionStart as number;
 
-          // 前半部分
-          const prefixStr = textAreaRef.value?.value.substring(0, endPoint);
-          // 后半部分
-          const subStr = textAreaRef.value?.value.substring(endPoint);
-          // 前半部分最后一个换行符位置，用于分割当前行内容
-          const lastIndexBR = prefixStr?.lastIndexOf('\n');
+            // 前半部分
+            const prefixStr = textAreaRef.value?.value.substring(0, endPoint);
+            // 后半部分
+            const subStr = textAreaRef.value?.value.substring(endPoint);
+            // 前半部分最后一个换行符位置，用于分割当前行内容
+            const lastIndexBR = prefixStr?.lastIndexOf('\n');
 
-          const enterPressRow = prefixStr?.substring(
-            (lastIndexBR as number) + 1,
-            endPoint
-          ) as string;
+            const enterPressRow = prefixStr?.substring(
+              (lastIndexBR as number) + 1,
+              endPoint
+            ) as string;
 
-          // 是列表
-          if (/^\d+\.\s|^-\s/.test(enterPressRow)) {
-            event.cancelBubble = true;
-            event.preventDefault();
-            event.stopPropagation();
+            // 是列表
+            if (/^\d+\.\s|^-\s/.test(enterPressRow)) {
+              event.cancelBubble = true;
+              event.preventDefault();
+              event.stopPropagation();
 
-            // 如果列表当前行没有内容，则清空当前行
-            if (/^\d+\.\s+$|^-\s+$/.test(enterPressRow)) {
-              const resetPrefixStr = prefixStr?.replace(
-                new RegExp(enterPressRow + '$'),
-                ''
-              );
-              props.onChange((resetPrefixStr as string) + subStr);
+              // 如果列表当前行没有内容，则清空当前行
+              if (/^\d+\.\s+$|^-\s+$/.test(enterPressRow)) {
+                const resetPrefixStr = prefixStr?.replace(
+                  new RegExp(enterPressRow + '$'),
+                  ''
+                );
+                props.onChange((resetPrefixStr as string) + subStr);
 
-              // 手动定位光标到当前位置
-              setPosition(
-                textAreaRef.value as HTMLTextAreaElement,
-                resetPrefixStr?.length
-              );
-            } else if (/^-\s+.+/.test(enterPressRow)) {
-              // 无序列表存在内容
-              props.onChange(
-                insert(textAreaRef.value as HTMLTextAreaElement, `\n- `, {})
-              );
-            } else {
-              const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);
+                // 手动定位光标到当前位置
+                setPosition(
+                  textAreaRef.value as HTMLTextAreaElement,
+                  resetPrefixStr?.length
+                );
+              } else if (/^-\s+.+/.test(enterPressRow)) {
+                // 无序列表存在内容
+                props.onChange(
+                  insert(textAreaRef.value as HTMLTextAreaElement, `\n- `, {})
+                );
+              } else {
+                const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);
 
-              const nextOrder = (lastOrderMatch && Number(lastOrderMatch[0]) + 1) || 1;
-              props.onChange(
-                insert(textAreaRef.value as HTMLTextAreaElement, `\n${nextOrder}. `, {})
-              );
+                const nextOrder = (lastOrderMatch && Number(lastOrderMatch[0]) + 1) || 1;
+                props.onChange(
+                  insert(textAreaRef.value as HTMLTextAreaElement, `\n${nextOrder}. `, {})
+                );
+              }
             }
           }
-        }
-      });
+        });
 
-      // 注册指令替换内容事件
-      bus.on({
-        name: 'replace',
-        callback(direct: ToolDirective, params: any) {
-          props.onChange(
-            directive2flag(
-              direct,
-              selectedText,
-              textAreaRef.value as HTMLTextAreaElement,
-              params
-            )
-          );
-        }
-      });
+        // 注册指令替换内容事件
+        bus.on({
+          name: 'replace',
+          callback(direct: ToolDirective, params: any) {
+            props.onChange(
+              directive2flag(
+                direct,
+                selectedText,
+                textAreaRef.value as HTMLTextAreaElement,
+                params
+              )
+            );
+          }
+        });
+      }
     });
 
     // ---预览代码---
@@ -230,7 +232,7 @@ export default defineComponent({
       }
     );
 
-    useHistory(props);
+    !previewOnly && useHistory(props);
 
     return () => {
       return (
