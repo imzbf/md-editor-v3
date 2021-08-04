@@ -212,6 +212,10 @@ const props = {
   cropperJs: {
     type: String as PropType<string>,
     default: cropperUrl.js
+  },
+  iconfontJs: {
+    type: String as PropType<string>,
+    default: iconfontUrl
   }
 };
 
@@ -349,7 +353,7 @@ export default defineComponent({
           }}
         />
         <Teleport to={document.head}>
-          <script src={iconfontUrl} />
+          <script src={props.iconfontJs} />
         </Teleport>
         {props.prettier && !props.previewOnly && (
           <Teleport to={document.head}>
