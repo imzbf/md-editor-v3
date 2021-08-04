@@ -221,6 +221,18 @@ export default defineComponent({
   setup(props, context) {
     useKeyBoard(props, context);
 
+    // 下面的内容不使用响应式（解构会失去响应式能力）
+    const {
+      hljs,
+      previewOnly,
+      iconfontJs,
+      prettier,
+      prettierCDN,
+      prettierMDCDN,
+      cropperCss,
+      cropperJs
+    } = props;
+
     // 生成唯一ID
     const editorId = `mev-${Math.random().toString(36).substr(3)}`;
     provide('editorId', editorId);
@@ -235,7 +247,7 @@ export default defineComponent({
     provide('historyLength', props.historyLength);
 
     // 注入是否仅预览
-    provide('previewOnly', props.previewOnly);
+    provide('previewOnly', previewOnly);
 
     // 注入语言设置
     const usedLanguageText = computed(() => {
@@ -255,7 +267,7 @@ export default defineComponent({
     // -end-
 
     // 监听上传图片
-    !props.previewOnly &&
+    !previewOnly &&
       bus.on({
         name: 'uploadImage',
         callback(files: FileList, cb: () => void) {
@@ -321,10 +333,10 @@ export default defineComponent({
           props.editorClass,
           props.theme === 'dark' && `${prefix}-dark`,
           setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
-          props.previewOnly && `${prefix}-previewOnly`
+          previewOnly && `${prefix}-previewOnly`
         ]}
       >
-        {!props.previewOnly && (
+        {!previewOnly && (
           <ToolBar
             toolbars={props.toolbars}
             toolbarsExclude={props.toolbarsExclude}
@@ -333,7 +345,7 @@ export default defineComponent({
           />
         )}
         <Content
-          hljs={props.hljs}
+          hljs={hljs}
           value={props.modelValue}
           onChange={(value: string) => {
             if (props.onChange) {
@@ -351,21 +363,21 @@ export default defineComponent({
             }
           }}
         />
-        {!props.previewOnly && (
+        {!previewOnly && (
           <Teleport to={document.head}>
-            <script src={props.iconfontJs} />
+            <script src={iconfontJs} />
           </Teleport>
         )}
-        {props.prettier && !props.previewOnly && (
+        {prettier && !previewOnly && (
           <Teleport to={document.head}>
-            <script src={props.prettierCDN} />
-            <script src={props.prettierMDCDN} />
+            <script src={prettierCDN} />
+            <script src={prettierMDCDN} />
           </Teleport>
         )}
-        {!props.previewOnly && (
+        {!previewOnly && (
           <Teleport to={document.body}>
-            <link href={props.cropperCss} rel="stylesheet" />
-            <script src={props.cropperJs}></script>
+            <link href={cropperCss} rel="stylesheet" />
+            <script src={cropperJs}></script>
           </Teleport>
         )}
       </div>
