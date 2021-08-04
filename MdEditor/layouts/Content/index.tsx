@@ -54,6 +54,9 @@ export default defineComponent({
     }
   },
   setup(props) {
+    // ID
+    const editorId = inject('editorId') as string;
+
     const highlightInited = ref<boolean>(props.hljs !== null);
     const highlight = inject('highlight') as { js: string; css: string };
 
@@ -82,20 +85,22 @@ export default defineComponent({
 
     // 向页面代码块注入复制按钮
     const initCopyEntry = () => {
-      document.querySelectorAll(`.${prefix}-preview pre`).forEach((pre: Element) => {
-        const copyButton = document.createElement('span');
-        copyButton.setAttribute('class', 'copy-button');
-        copyButton.innerText = ult.value.copyCode?.text || '复制代码';
-        copyButton.addEventListener('click', () => {
-          copy((pre.querySelector('code') as HTMLElement).innerText);
+      document
+        .querySelectorAll(`#${editorId} .${prefix}-preview pre`)
+        .forEach((pre: Element) => {
+          const copyButton = document.createElement('span');
+          copyButton.setAttribute('class', 'copy-button');
+          copyButton.innerText = ult.value.copyCode?.text || '复制代码';
+          copyButton.addEventListener('click', () => {
+            copy((pre.querySelector('code') as HTMLElement).innerText);
 
-          copyButton.innerText = ult.value.copyCode?.tips || '已复制！';
-          setTimeout(() => {
-            copyButton.innerText = ult.value.copyCode?.text || '复制代码';
-          }, 1500);
+            copyButton.innerText = ult.value.copyCode?.tips || '已复制！';
+            setTimeout(() => {
+              copyButton.innerText = ult.value.copyCode?.text || '复制代码';
+            }, 1500);
+          });
+          pre.appendChild(copyButton);
         });
-        pre.appendChild(copyButton);
-      });
     };
 
     onMounted(() => {
