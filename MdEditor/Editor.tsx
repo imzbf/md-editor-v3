@@ -251,7 +251,7 @@ export default defineComponent({
       }
     });
 
-    provide('usedLanguageText', usedLanguageText.value);
+    provide('usedLanguageText', usedLanguageText);
     // -end-
 
     // 监听上传图片

@@ -7,7 +7,8 @@ import {
   PropType,
   watch,
   nextTick,
-  ref
+  ref,
+  ComputedRef
 } from 'vue';
 import { prefix, SettingType, StaticTextDefaultValue } from '../../Editor';
 import marked from 'marked';
@@ -77,20 +78,20 @@ export default defineComponent({
     }
 
     // 获取语言设置
-    const ult = inject('usedLanguageText') as StaticTextDefaultValue;
+    const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
 
     // 向页面代码块注入复制按钮
     const initCopyEntry = () => {
       document.querySelectorAll(`.${prefix}-preview pre`).forEach((pre: Element) => {
         const copyButton = document.createElement('span');
         copyButton.setAttribute('class', 'copy-button');
-        copyButton.innerText = ult.copyCode?.text || '复制代码';
+        copyButton.innerText = ult.value.copyCode?.text || '复制代码';
         copyButton.addEventListener('click', () => {
           copy((pre.querySelector('code') as HTMLElement).innerText);
 
-          copyButton.innerText = ult.copyCode?.tips || '已复制！';
+          copyButton.innerText = ult.value.copyCode?.tips || '已复制！';
           setTimeout(() => {
-            copyButton.innerText = ult.copyCode?.text || '复制代码';
+            copyButton.innerText = ult.value.copyCode?.text || '复制代码';
           }, 1500);
         });
         pre.appendChild(copyButton);
