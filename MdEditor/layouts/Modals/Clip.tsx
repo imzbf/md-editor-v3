@@ -5,7 +5,8 @@ import {
   ref,
   onMounted,
   reactive,
-  nextTick
+  nextTick,
+  ComputedRef
 } from 'vue';
 import Modal from '../../components/Modal';
 import { StaticTextDefaultValue, prefix } from '../../Editor';
@@ -34,7 +35,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const ult = inject('usedLanguageText') as StaticTextDefaultValue;
+    const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
 
     const uploadRef = ref();
     const uploadImgRef = ref();
@@ -81,7 +82,7 @@ export default defineComponent({
 
     return () => (
       <Modal
-        title={ult.clipModalTips?.title}
+        title={ult.value.clipModalTips?.title}
         visible={props.visible}
         onClosed={props.onCancel}
         to={props.to}
@@ -128,7 +129,7 @@ export default defineComponent({
               reset();
             }}
           >
-            {ult.linkModalTips?.buttonOK}
+            {ult.value.linkModalTips?.buttonOK}
           </button>
         </div>
         <input
