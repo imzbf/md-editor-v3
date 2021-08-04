@@ -1,4 +1,4 @@
-import { defineComponent, reactive, PropType, onMounted, onUnmounted } from 'vue';
+import { defineComponent, reactive, PropType, onMounted, onUnmounted, ref } from 'vue';
 import Editor from '../../MdEditor';
 import { mdText } from '../data';
 import { Theme } from '../App';
@@ -31,12 +31,23 @@ export default defineComponent({
     });
     // -----end-----
 
+    const ddd = ref(true);
+
     return () => (
       <div class="project-preview">
         <div class="container">
+          <button
+            onClick={() => {
+              ddd.value = !ddd.value;
+            }}
+          >
+            点我
+          </button>
+          {JSON.stringify(ddd.value)}
           <Editor
             theme={props.theme}
             modelValue={md.text}
+            prettier={ddd.value}
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);
             }}
