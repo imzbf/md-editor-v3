@@ -1,6 +1,6 @@
 # md-editor-v3
 
-vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 tsx 项目使用。为了减小插入，没有使用`less.modifyVars`方法来切换主题，而采用了替换 class 名称的方式。
+vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 tsx 项目使用。采用了替换 class 名称的方式实现暗黑主题切换。
 
 文档与在线预览：[传送门](https://imzbf.github.io/md-editor-v3)
 
@@ -12,7 +12,8 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 4. 支持使用 prettier 格式化内容（使用 CDN 方式引入，只支持格式化 md 内容，可在代码内设置关闭）；
 5. 支持多语言，支持自行扩展语言；
 6. 支持复制粘贴上传图片，图片裁剪上传；
-7. ...
+7. 支持渲染模式（不显示编辑器，只显示 md 预览内容，无额外监听）
+8. ...
 
 > 更多功能待后续更新，若有想要的功能未开发，请留言~
 
@@ -20,39 +21,42 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 
 默认模式下：
 
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/65918d53d93b492ca51de2f36e439d83~tplv-k3u1fbpfcp-watermark.image)
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6d93b5ac7338479fb7fd0b94ba6e003a~tplv-k3u1fbpfcp-watermark.image)
 
 暗黑模式下：
 
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/012fb26afac745a79f6d5029de3ecd2b~tplv-k3u1fbpfcp-watermark.image)
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45d0ddaead1d48b2843ef16e2065a298~tplv-k3u1fbpfcp-watermark.image)
 
 ## apis
 
 ### props
 
-| 名称 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | String | '' | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
-| theme | 'light' \| 'dark' | 'light' | 主题切换 |
-| editorClass | String | '' | 编辑器最外层样式 |
-| hljs | Object | null | 项目中使用到了 highlight，可将实例直接传递，生产环境则不会请求 CDN，需要手动导入支持的高亮代码样式 |
-| highlightJs | String | [highlight.js](https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js) | highlightJs CDN |
-| highlightCss | String | [atom-one-dark](https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css) | 预览高亮代码样式 |
-| historyLength | Number | 10 | 最大记录操作数（太大会占用内存） |
-| pageFullScreen | Boolean | false | 浏览器内全屏 |
-| preview | Boolean | true | 预览模式 |
-| htmlPreview | Boolean | false | html 预览 |
-| previewOnly<sup>v1.3.0</sup> | Boolean | false | 仅预览模式，不显示 bar 和编辑框 |
-| language | String | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| languageUserDefined | Array | [{key: StaticTextDefaultValue}] | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
-| toolbars | Array | [all] | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
-| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | 选择性不展示工具栏，内容同`toolbars` |
-| prettier | Boolean | true | 是否启用 prettier 优化 md 内容 |
-| prettierCDN | String | [standalone](https://unpkg.com/prettier@2.3.2/standalone.js) |  |
-| prettierMDCDN | String | [parser-markdown](https://unpkg.com/prettier@2.3.2/parser-markdown.js) |
-| editorName | String | 'editor' | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容 |
-| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | cropper css url |
-| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | cropper js url |
+| 名称 | 类型 | 默认值 | 响应式 | 说明 |
+| --- | --- | --- | --- | --- |
+| modelValue | String | '' | √ | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
+| theme | 'light' \| 'dark' | 'light' | √ | 主题切换 |
+| editorClass | String | '' | √ | 编辑器最外层样式 |
+| hljs | Object | null | x | 项目中使用到了 highlight，可将实例直接传递，生产环境则不会请求 CDN，需要手动导入支持的高亮代码样式 |
+| highlightJs | String | [highlight.js](https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js) | x | highlightJs CDN |
+| highlightCss | String | [atom-one-dark](https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css) | x | 预览高亮代码样式 |
+| historyLength | Number | 10 | x | 最大记录操作数（太大会占用内存） |
+| pageFullScreen | Boolean | false | x | 浏览器内全屏 |
+| preview | Boolean | true | x | 预览模式 |
+| htmlPreview | Boolean | false | x | html 预览 |
+| previewOnly<sup>v1.3.0</sup> | Boolean | false | x | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
+| language | String | 'zh-CN' | √ | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
+| languageUserDefined | Array | [{key: StaticTextDefaultValue}] | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
+| toolbars | Array | [all] | √ | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
+| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | 选择性不展示工具栏，内容同`toolbars` |
+| prettier | Boolean | true | x | 是否启用 prettier 优化 md 内容 |
+| prettierCDN | String | [standalone](https://unpkg.com/prettier@2.3.2/standalone.js) | x |  |
+| prettierMDCDN | String | [parser-markdown](https://unpkg.com/prettier@2.3.2/parser-markdown.js) | x |  |
+| editorName<sup>v1.3.2delete</sup> | String | 'editor' | x | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
+| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
+| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
+| iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
+
+> 响应式=x，该属性只支持设置，不支持响应式更新~
 
 [toolbars]
 

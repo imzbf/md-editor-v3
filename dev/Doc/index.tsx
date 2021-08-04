@@ -12,15 +12,9 @@ export default defineComponent({
 
     onMounted(() => {
       axios
-        .get('https://imbf.cc/ui-api/article/97aac9f3')
-        .then((res) => {
-          const { data } = res;
-
-          if (data && data.code === 0) {
-            mdText.value = data.data?.articleContent;
-          } else {
-            throw new Error();
-          }
+        .get('ddd.md')
+        .then(({ data }) => {
+          mdText.value = data;
         })
         .catch((e) => {
           console.log(e);
@@ -31,7 +25,12 @@ export default defineComponent({
     return () => (
       <div class="doc">
         <div class="container">
-          <Editor theme={props.theme} modelValue={mdText.value} previewOnly />
+          <Editor
+            theme={props.theme}
+            language="en-US"
+            modelValue={mdText.value}
+            previewOnly
+          />
         </div>
       </div>
     );
