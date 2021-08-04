@@ -134,26 +134,30 @@ export const staticTextDefault: StaticTextDefault = {
       github: 'source code'
     },
     titleItem: {
-      h1: 'lv1 heading',
-      h2: 'lv2 heading',
-      h3: 'lv3 heading',
-      h4: 'lv4 heading',
-      h5: 'lv5 heading',
-      h6: 'lv6 heading'
+      h1: 'Lv1 Heading',
+      h2: 'Lv2 Heading',
+      h3: 'Lv3 Heading',
+      h4: 'Lv4 Heading',
+      h5: 'Lv5 Heading',
+      h6: 'Lv6 Heading'
     },
     linkModalTips: {
-      title: 'add ',
-      descLable: 'desc:',
-      descLablePlaceHolder: 'enter a description...',
-      urlLable: 'link:',
-      UrlLablePlaceHolder: 'enter a link...',
-      buttonOK: 'ok',
-      buttonUpload: 'upload',
-      buttonUploadClip: 'clip2upload'
+      title: 'Add ',
+      descLable: 'Desc:',
+      descLablePlaceHolder: 'Enter a description...',
+      urlLable: 'Link:',
+      UrlLablePlaceHolder: 'Enter a link...',
+      buttonOK: 'OK',
+      buttonUpload: 'Upload',
+      buttonUploadClip: 'Crop2upload'
+    },
+    clipModalTips: {
+      title: 'Crop Image',
+      buttonUpload: 'Upload'
     },
     copyCode: {
-      text: 'copy',
-      tips: 'copied'
+      text: 'Copy',
+      tips: 'Copied'
     }
   }
 };
