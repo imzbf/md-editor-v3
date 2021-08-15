@@ -1,6 +1,8 @@
-import { watch, inject } from 'vue';
+import { watch, inject, computed, ref } from 'vue';
+import marked from 'marked';
 import bus from '../../utils/event-bus';
 import { EditorContentProps } from './index';
+import { HeadList } from '../../Editor';
 
 interface HistoryDataType {
   // 历史记录列表
@@ -69,4 +71,75 @@ export const useHistory = (props: EditorContentProps) => {
       props.onChange(history.list[history.curr]);
     }
   });
+};
+
+export const useMarked = (props: EditorContentProps) => {
+  const highlightInited = ref(false);
+
+  // 标题数目
+  let count = 0;
+  // 标题列表，扁平结构
+  let headstemp: HeadList[] = [];
+
+  // marked渲染实例
+  const renderer = new marked.Renderer();
+
+  // 标题重构
+  renderer.heading = (text, level) => {
+    headstemp.push({ text, level });
+    count++;
+
+    return `<h${level} id="heading-${count}"><span class="h-text">${text}</span></h${level}>`;
+  };
+
+  marked.setOptions({
+    renderer
+  });
+
+  if (props.hljs) {
+    // 提供了hljs，在创建阶段即完成设置
+    marked.setOptions({
+      highlight: (code) => props.hljs.highlightAuto(code).value
+    });
+  }
+
+  // ---预览代码---
+  const html = computed(() => {
+    // 重置标题说和标题列表
+    count = 0;
+    headstemp = [];
+    const markedContent = marked(props.value);
+
+    // 代码高亮加载完成后再重新编译一次代码
+    if (highlightInited.value) {
+      return markedContent;
+    } else {
+      return markedContent;
+    }
+  });
+
+  // 高亮代码js加载完成后回调
+  const highlightLoad = () => {
+    marked.setOptions({
+      highlight(code) {
+        return window.hljs.highlightAuto(code).value;
+      }
+    });
+
+    highlightInited.value = true;
+  };
+
+  watch(
+    () => html.value,
+    (nVal) => {
+      // 变化时调用变化事件
+      props.onHtmlChanged(nVal);
+      props.onGetCatalog(headstemp);
+    }
+  );
+
+  return {
+    html,
+    highlightLoad
+  };
 };

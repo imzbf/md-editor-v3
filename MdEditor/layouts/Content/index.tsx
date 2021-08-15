@@ -10,7 +10,7 @@ import {
   ref,
   ComputedRef
 } from 'vue';
-import { prefix, SettingType, StaticTextDefaultValue } from '../../Editor';
+import { HeadList, prefix, SettingType, StaticTextDefaultValue } from '../../Editor';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
@@ -21,12 +21,15 @@ import {
   setPosition,
   scrollAuto
 } from '../../utils';
-import { useHistory } from './composition';
+import { useHistory, useMarked } from './composition';
 
 export type EditorContentProps = Readonly<{
   value: string;
   hljs: Record<string, any>;
   onChange: (v: string) => void;
+  setting: SettingType;
+  onHtmlChanged: (h: string) => void;
+  onGetCatalog: (list: HeadList[]) => void;
 }>;
 
 export default defineComponent({
@@ -51,13 +54,17 @@ export default defineComponent({
     onHtmlChanged: {
       type: Function as PropType<(h: string) => void>,
       default: () => () => {}
+    },
+    onGetCatalog: {
+      type: Function as PropType<(list: HeadList[]) => void>,
+      default: () => () => {}
     }
   },
   setup(props) {
     // ID
     const editorId = inject('editorId') as string;
 
-    const highlightInited = ref<boolean>(props.hljs !== null);
+    // const highlightInited = ref<boolean>(props.hljs !== null);
     const highlight = inject('highlight') as { js: string; css: string };
 
     const previewOnly = inject('previewOnly') as boolean;
@@ -71,17 +78,19 @@ export default defineComponent({
     // html代码预览框
     const htmlRef = ref<HTMLDivElement>();
 
-    if (props.hljs) {
-      // 提供了hljs，在创建阶段即完成设置
-      marked.setOptions({
-        highlight(code) {
-          return props.hljs.highlightAuto(code).value;
-        }
-      });
-    }
+    // if (props.hljs) {
+    //   // 提供了hljs，在创建阶段即完成设置
+    //   marked.setOptions({
+    //     highlight(code) {
+    //       return props.hljs.highlightAuto(code).value;
+    //     }
+    //   });
+    // }
 
     // 获取语言设置
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
+
+    const { html, highlightLoad } = useMarked(props);
 
     // 向页面代码块注入复制按钮
     const initCopyEntry = () => {
@@ -179,21 +188,18 @@ export default defineComponent({
     });
 
     // ---预览代码---
-    const html = computed(() => {
-      if (highlightInited.value) {
-        return marked(props.value);
-      } else {
-        return '';
-      }
-    });
+    // const html = computed(() => {
+    //   if (highlightInited.value) {
+    //     return marked(props.value);
+    //   } else {
+    //     return '';
+    //   }
+    // });
 
     let clearScrollAuto = () => {};
     watch(
       () => html.value,
-      (nVal) => {
-        // 变化时调用变化事件
-        props.onHtmlChanged(nVal);
-
+      () => {
         nextTick(() => {
           // 更新完毕后判断是否需要重新绑定滚动事件
           if (props.setting.preview && !previewOnly) {
@@ -210,15 +216,15 @@ export default defineComponent({
     );
     // ---end---
 
-    const highlightLoad = () => {
-      marked.setOptions({
-        highlight(code) {
-          return window.hljs.highlightAuto(code).value;
-        }
-      });
+    // const highlightLoad = () => {
+    //   marked.setOptions({
+    //     highlight(code) {
+    //       return window.hljs.highlightAuto(code).value;
+    //     }
+    //   });
 
-      highlightInited.value = true;
-    };
+    //   highlightInited.value = true;
+    // };
 
     watch(
       () => props.setting.preview,
