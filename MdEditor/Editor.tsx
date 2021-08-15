@@ -105,6 +105,11 @@ export interface SettingType {
 
 export const prefix = 'md';
 
+export interface HeadList {
+  text: string;
+  level: 1 | 2 | 3 | 4 | 5 | 6;
+}
+
 const props = {
   modelValue: {
     type: String as PropType<string>,
@@ -211,6 +216,9 @@ const props = {
   iconfontJs: {
     type: String as PropType<string>,
     default: iconfontUrl
+  },
+  onGetCatalog: {
+    type: Function as PropType<(list: HeadList[]) => void>
   }
 };
 
@@ -359,6 +367,13 @@ export default defineComponent({
               props.onHtmlChanged(html);
             } else {
               context.emit('onHtmlChanged', html);
+            }
+          }}
+          onGetCatalog={(list: HeadList[]) => {
+            if (props.onGetCatalog) {
+              props.onGetCatalog(list);
+            } else {
+              context.emit('onGetCatalog', list);
             }
           }}
         />
