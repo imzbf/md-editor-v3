@@ -77,9 +77,9 @@ export const useMarked = (props: EditorContentProps) => {
   const highlightInited = ref(false);
 
   // 标题数目
-  let count = 0;
+  let count = Number(0);
   // 标题列表，扁平结构
-  let headstemp: HeadList[] = [];
+  let headstemp: HeadList[] = new Array();
 
   // marked渲染实例
   const renderer = new marked.Renderer();
@@ -88,6 +88,8 @@ export const useMarked = (props: EditorContentProps) => {
   renderer.heading = (text, level) => {
     headstemp.push({ text, level });
     count++;
+
+    // Bug marked单实例，count等依赖被共享
 
     return `<h${level} id="heading-${count}"><span class="h-text">${text}</span></h${level}>`;
   };
