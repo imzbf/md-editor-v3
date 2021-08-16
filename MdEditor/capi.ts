@@ -57,7 +57,7 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
           if (event.shiftKey) {
             // ctrl+shift+l触发图片链接
             if (initFunc('image')) {
-              bus.emit('openModals', 'img');
+              bus.emit('openModals', 'image');
               event.preventDefault();
             }
           } else {
