@@ -1,16 +1,11 @@
 import { watch, inject, computed, ref, ComputedRef, nextTick, Ref, onMounted } from 'vue';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
-import bus from '../../utils/event-bus';
 import { EditorContentProps } from './index';
 import { HeadList, StaticTextDefaultValue, prefix } from '../../Editor';
-import {
-  directive2flag,
-  insert,
-  scrollAuto,
-  setPosition,
-  ToolDirective
-} from '../../utils';
+import bus from '../../utils/event-bus';
+import { insert, scrollAuto, setPosition } from '../../utils';
+import { ToolDirective, directive2flag } from '../../utils/content-help';
 
 interface HistoryDataType {
   // 历史记录列表
@@ -237,6 +232,7 @@ export const useAutoScroll = (
 
 export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => {
   const previewOnly = inject('previewOnly') as boolean;
+  const tabWidth = inject('tabWidth') as number;
   const selectedText = ref('');
 
   onMounted(() => {
@@ -300,13 +296,16 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
       // 注册指令替换内容事件
       bus.on({
         name: 'replace',
-        callback(direct: ToolDirective, params: any) {
+        callback(direct: ToolDirective, params = {}) {
           props.onChange(
             directive2flag(
               direct,
               selectedText.value,
               textAreaRef.value as HTMLTextAreaElement,
-              params
+              {
+                ...params,
+                tabWidth
+              }
             )
           );
         }

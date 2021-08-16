@@ -1,6 +1,6 @@
 import { onMounted, onUnmounted, SetupContext } from 'vue';
 import bus from './utils/event-bus';
-import { ToolDirective } from './utils';
+import { ToolDirective } from './utils/content-help';
 import { ToolbarNames } from './Editor';
 
 export const useKeyBoard = (props: any, context: SetupContext) => {
@@ -10,7 +10,6 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
   const keyDownHandler = (event: KeyboardEvent) => {
     // 按键操作是否会替换内容
     // let toReplaceValue = false;
-
     // macos中以meta键位配s键位为保存，windows中如此会被系统默认的事件替代
     if (event.ctrlKey || event.metaKey) {
       switch (event.code) {
@@ -188,6 +187,24 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
           }
           break;
         }
+        case 'KeyT': {
+          // ctrl+shift+alt+t 新增表格
+          if (event.altKey && event.shiftKey) {
+            if (initFunc('table')) {
+              bus.emit('replace', 'table');
+              event.preventDefault();
+            }
+          }
+          break;
+        }
+      }
+    } else if (event.code === 'Tab') {
+      event.preventDefault();
+      // 缩进
+      if (event.shiftKey) {
+        bus.emit('replace', 'shiftTab');
+      } else {
+        bus.emit('replace', 'tab');
       }
     }
   };
