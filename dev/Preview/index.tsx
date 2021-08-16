@@ -35,6 +35,7 @@ export default defineComponent({
       <div class="project-preview">
         <div class="container">
           <Editor
+            editorId="md-prev"
             theme={props.theme}
             modelValue={md.text}
             onSave={(v) => {
