@@ -219,6 +219,10 @@ const props = {
   },
   onGetCatalog: {
     type: Function as PropType<(list: HeadList[]) => void>
+  },
+  editorId: {
+    type: String as PropType<string>,
+    default: () => `mev-${Math.random().toString(36).substr(3)}`
   }
 };
 
@@ -237,11 +241,10 @@ export default defineComponent({
       prettierCDN,
       prettierMDCDN,
       cropperCss,
-      cropperJs
+      cropperJs,
+      editorId
     } = props;
 
-    // 生成唯一ID
-    const editorId = `mev-${Math.random().toString(36).substr(3)}`;
     provide('editorId', editorId);
 
     // 注入高亮src
