@@ -223,6 +223,10 @@ const props = {
   editorId: {
     type: String as PropType<string>,
     default: () => `mev-${Math.random().toString(36).substr(3)}`
+  },
+  tabWidth: {
+    type: Number as PropType<number>,
+    default: 2
   }
 };
 
@@ -242,10 +246,14 @@ export default defineComponent({
       prettierMDCDN,
       cropperCss,
       cropperJs,
-      editorId
+      editorId,
+      tabWidth
     } = props;
 
     provide('editorId', editorId);
+
+    // tab=2space
+    provide('tabWidth', tabWidth);
 
     // 注入高亮src
     provide('highlight', {
