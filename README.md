@@ -55,6 +55,8 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 | cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
 | cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
+| editorId<sup>v1.4.0</sup> | String | random | x | 编辑器唯一标识，非必须项，用于后续支持`ssr`时，防止产生服务端与客户端渲染内容不一致错误提示 |
+| tabWidth<sup>v1.4.0<sup> | Number | 2 | x | 编辑器 TAB 键位等于空格数 |
 
 > 响应式=x，该属性只支持设置，不支持响应式更新~
 
@@ -136,32 +138,38 @@ export interface StaticTextDefaultValue {
 | onSave | v:String | 保存事件，快捷键与保存按钮均会触发 |
 | onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
+| onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | 动态获取`markdown`目录 |
 
 ### 快捷键
 
 主要以`CTRL`搭配对应功能英文单词首字母，冲突项添加`SHIFT`，再冲突替换为`ALT`。
 
-| 键位             | 功能       | 说明                             | 开发标记 |
-| ---------------- | ---------- | -------------------------------- | -------- |
-| CTRL + S         | 保存       | 触发编辑器的`onSave`回调         | √        |
-| CTRL + B         | 加粗       | `**加粗**`                       | √        |
-| CTRL + U         | 下划线     | `<u>下划线</u>`                  | √        |
-| CTRL + I         | 斜体       | `*斜体*`                         | √        |
-| CTRL + 1-6       | 1-6 级标题 | `# 标题`                         | √        |
-| CTRL + ↑         | 上角标     | `<sup>上角标</sup>`              | √        |
-| CTRL + ↓         | 下角标     | `<sub>下角标</sub>`              | √        |
-| CTRL + Q         | 引用       | `> 引用`                         | √        |
-| CTRL + O         | 有序列表   | `1. 有序列表`                    | √        |
-| CTRL + L         | 链接       | `[链接](https://imbf.cc)`        | √        |
-| CTRL + T         | 表格       | `\|表格\|` 放弃开发（无法实现）  | x        |
-| CTRL + Z         | 撤回       | 触发编辑器内内容撤回，与系统无关 | √        |
-| CTRL + SHIFT + S | 删除线     | `~删除线~`                       | √        |
-| CTRL + SHIFT + U | 无序列表   | `- 无序列表`                     | √        |
-| CTRL + SHIFT + C | 块级代码   | 多行代码块                       | √        |
-| CTRL + SHIFT + I | 图片链接   | `![图片](https://imbf.cc)`       | √        |
-| CTRL + SHIFT + Z | 前进一步   | 触发编辑器内内容前进，与系统无关 | √        |
-| CTRL + SHIFT + F | 美化内容   |                                  | √        |
-| CTRL + ALT + C   | 行内代码   | 行内代码块                       | √        |
+| 键位 | 功能 | 说明 | 版本标记 |
+| --- | --- | --- | --- |
+| TAB | 空格 | 通过`tabWidth`属性预设 TAB 键位新增空格长度，默认 2，支持多行 | [v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0) |
+| SHIFT + TAB | 取消空格 | 同上，一次取消两个空格，支持多行 | [v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0) |
+| CTRL + C | 复制 | 选中时复制选中内容，未选中时复制当前行内容 | [v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0) |
+| CTRL + X | 剪切 | 选中时剪切选中内容，未选中时剪切当前行 | [v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0) |
+| CTRL + D | 删除 | 选中时删除选中内容，未选中时删除当前行 | [v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0) |
+| CTRL + S | 保存 | 触发编辑器的`onSave`回调 | v1.0.0 |
+| CTRL + B | 加粗 | `**加粗**` | v1.0.0 |
+| CTRL + U | 下划线 | `<u>下划线</u>` | v1.0.0 |
+| CTRL + I | 斜体 | `*斜体*` | v1.0.0 |
+| CTRL + 1-6 | 1-6 级标题 | `# 标题` | v1.0.0 |
+| CTRL + ↑ | 上角标 | `<sup>上角标</sup>` | v1.0.0 |
+| CTRL + ↓ | 下角标 | `<sub>下角标</sub>` | v1.0.0 |
+| CTRL + Q | 引用 | `> 引用` | v1.0.0 |
+| CTRL + O | 有序列表 | `1. 有序列表` | v1.0.0 |
+| CTRL + L | 链接 | `[链接](https://imbf.cc)` | v1.0.0 |
+| CTRL + Z | 撤回 | 触发编辑器内内容撤回，与系统无关 | v1.0.0 |
+| CTRL + SHIFT + S | 删除线 | `~删除线~` | v1.0.0 |
+| CTRL + SHIFT + U | 无序列表 | `- 无序列表` | v1.0.0 |
+| CTRL + SHIFT + C | 块级代码 | 多行代码块 | v1.0.0 |
+| CTRL + SHIFT + I | 图片链接 | `![图片](https://imbf.cc)` | v1.0.0 |
+| CTRL + SHIFT + Z | 前进一步 | 触发编辑器内内容前进，与系统无关 | v1.0.0 |
+| CTRL + SHIFT + F | 美化内容 |  | v1.0.0 |
+| CTRL + ALT + C | 行内代码 | 行内代码块 | v1.0.0 |
+| CTRL + SHIFT + ALT + T | 表格 | `\|表格\|` | [v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0) |
 
 ## 演示
 
