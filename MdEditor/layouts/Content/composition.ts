@@ -1,8 +1,16 @@
-import { watch, inject, computed, ref } from 'vue';
+import { watch, inject, computed, ref, ComputedRef, nextTick, Ref, onMounted } from 'vue';
 import marked from 'marked';
+import copy from 'copy-to-clipboard';
 import bus from '../../utils/event-bus';
 import { EditorContentProps } from './index';
-import { HeadList } from '../../Editor';
+import { HeadList, StaticTextDefaultValue, prefix } from '../../Editor';
+import {
+  directive2flag,
+  insert,
+  scrollAuto,
+  setPosition,
+  ToolDirective
+} from '../../utils';
 
 interface HistoryDataType {
   // 历史记录列表
@@ -13,6 +21,9 @@ interface HistoryDataType {
   curr: number;
 }
 
+/**
+ * 保存历史记录
+ */
 export const useHistory = (props: EditorContentProps) => {
   const historyLength = inject('historyLength') as number;
 
@@ -73,13 +84,16 @@ export const useHistory = (props: EditorContentProps) => {
   });
 };
 
+/**
+ * markdown编译逻辑
+ */
 export const useMarked = (props: EditorContentProps) => {
   const highlightInited = ref(false);
 
   // 标题数目
-  let count = 0;
+  let count = Number(0);
   // 标题列表，扁平结构
-  let headstemp: HeadList[] = [];
+  let headstemp: HeadList[] = new Array();
 
   // marked渲染实例
   const renderer = new marked.Renderer();
@@ -88,6 +102,8 @@ export const useMarked = (props: EditorContentProps) => {
   renderer.heading = (text, level) => {
     headstemp.push({ text, level });
     count++;
+
+    // Bug marked单实例，count等依赖被共享
 
     return `<h${level} id="heading-${count}"><span class="h-text">${text}</span></h${level}>`;
   };
@@ -141,5 +157,164 @@ export const useMarked = (props: EditorContentProps) => {
   return {
     html,
     highlightLoad
+  };
+};
+
+/**
+ * 自动滚动逻辑
+ */
+export const useAutoScroll = (
+  props: EditorContentProps,
+  html: ComputedRef<string>,
+  textAreaRef: Ref,
+  previewRef: Ref,
+  htmlRef: Ref
+) => {
+  const previewOnly = inject('previewOnly') as boolean;
+  const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
+  const editorId = inject('editorId') as string;
+
+  let clearScrollAuto = () => {};
+
+  // 向页面代码块注入复制按钮
+  const initCopyEntry = () => {
+    document
+      .querySelectorAll(`#${editorId} .${prefix}-preview pre`)
+      .forEach((pre: Element) => {
+        const copyButton = document.createElement('span');
+        copyButton.setAttribute('class', 'copy-button');
+        copyButton.innerText = ult.value.copyCode?.text || '复制代码';
+        copyButton.addEventListener('click', () => {
+          copy((pre.querySelector('code') as HTMLElement).innerText);
+
+          copyButton.innerText = ult.value.copyCode?.tips || '已复制！';
+          setTimeout(() => {
+            copyButton.innerText = ult.value.copyCode?.text || '复制代码';
+          }, 1500);
+        });
+        pre.appendChild(copyButton);
+      });
+  };
+
+  // 编译事件
+  const htmlChanged = () => {
+    nextTick(() => {
+      // 更新完毕后判断是否需要重新绑定滚动事件
+      if (props.setting.preview && !previewOnly) {
+        clearScrollAuto = scrollAuto(
+          textAreaRef.value as HTMLElement,
+          (previewRef.value as HTMLElement) || htmlRef.value
+        );
+      }
+
+      // 重新设置复制按钮
+      initCopyEntry();
+    });
+  };
+
+  watch(() => html.value, htmlChanged);
+
+  watch(
+    () => props.setting.preview,
+    (nVal) => {
+      // 分栏发生变化时，显示分栏时注册同步滚动，隐藏是清除同步滚动
+      if (nVal && !previewOnly) {
+        nextTick(() => {
+          // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
+          clearScrollAuto = scrollAuto(
+            textAreaRef.value as HTMLElement,
+            (previewRef.value as HTMLElement) || htmlRef.value
+          );
+        });
+      } else {
+        clearScrollAuto();
+      }
+    }
+  );
+
+  htmlChanged();
+};
+
+export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => {
+  const previewOnly = inject('previewOnly') as boolean;
+  const selectedText = ref('');
+
+  onMounted(() => {
+    if (!previewOnly) {
+      textAreaRef.value?.addEventListener('select', () => {
+        selectedText.value = window.getSelection()?.toString() || '';
+      });
+
+      textAreaRef.value?.addEventListener('keypress', (event: any) => {
+        if (event.key === 'Enter') {
+          const endPoint = textAreaRef.value?.selectionStart as number;
+
+          // 前半部分
+          const prefixStr = textAreaRef.value?.value.substring(0, endPoint);
+          // 后半部分
+          const subStr = textAreaRef.value?.value.substring(endPoint);
+          // 前半部分最后一个换行符位置，用于分割当前行内容
+          const lastIndexBR = prefixStr?.lastIndexOf('\n');
+
+          const enterPressRow = prefixStr?.substring(
+            (lastIndexBR as number) + 1,
+            endPoint
+          ) as string;
+
+          // 是列表
+          if (/^\d+\.\s|^-\s/.test(enterPressRow)) {
+            event.cancelBubble = true;
+            event.preventDefault();
+            event.stopPropagation();
+
+            // 如果列表当前行没有内容，则清空当前行
+            if (/^\d+\.\s+$|^-\s+$/.test(enterPressRow)) {
+              const resetPrefixStr = prefixStr?.replace(
+                new RegExp(enterPressRow + '$'),
+                ''
+              );
+              props.onChange((resetPrefixStr as string) + subStr);
+
+              // 手动定位光标到当前位置
+              setPosition(
+                textAreaRef.value as HTMLTextAreaElement,
+                resetPrefixStr?.length
+              );
+            } else if (/^-\s+.+/.test(enterPressRow)) {
+              // 无序列表存在内容
+              props.onChange(
+                insert(textAreaRef.value as HTMLTextAreaElement, `\n- `, {})
+              );
+            } else {
+              const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);
+
+              const nextOrder = (lastOrderMatch && Number(lastOrderMatch[0]) + 1) || 1;
+              props.onChange(
+                insert(textAreaRef.value as HTMLTextAreaElement, `\n${nextOrder}. `, {})
+              );
+            }
+          }
+        }
+      });
+
+      // 注册指令替换内容事件
+      bus.on({
+        name: 'replace',
+        callback(direct: ToolDirective, params: any) {
+          props.onChange(
+            directive2flag(
+              direct,
+              selectedText.value,
+              textAreaRef.value as HTMLTextAreaElement,
+              params
+            )
+          );
+        }
+      });
+    }
+  });
+
+  return {
+    selectedText
   };
 };
