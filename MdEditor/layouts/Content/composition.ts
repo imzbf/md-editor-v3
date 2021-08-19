@@ -103,6 +103,10 @@ export const useMarked = (props: EditorContentProps) => {
     return `<h${level} id="heading-${count}"><span class="h-text">${text}</span></h${level}>`;
   };
 
+  renderer.image = (href, _, desc) => {
+    return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
+  };
+
   marked.setOptions({
     renderer
   });
