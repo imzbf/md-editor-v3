@@ -43,6 +43,10 @@ export const directive2flag = (
   let deviationEnd = 0;
   // 是否选中
   let select = false;
+  // 选中前半部分内容
+  let prefixVal = undefined;
+  // 后半部分
+  let subfixVal = undefined;
 
   if (/^h[1-6]{1}$/.test(direct)) {
     const pix = direct.replace(/^h(\d)/, (_, num) => {
@@ -137,25 +141,86 @@ export const directive2flag = (
       case 'image': {
         const { desc, url } = params;
         targetValue = `![${desc}](${url})\n`;
+        break;
       }
       case 'tab': {
         // 缩进
-        // 1. 未选中内容
-        // 2. 选中单行或中间内容
+        // 1. 未选中内容，在当前位置添加两个空格
+        // 2. 选中单行或中间内容，
         // 3. 选中多行
 
-        inputArea.selectionStart;
+        const { tabWidth = 2 } = params;
+        const retract = new Array(tabWidth).fill(' ').join('');
 
         if (selectedText === '') {
-          console.log('未选中内容');
+          targetValue = retract;
         } else if (/\n/.test(selectedText)) {
-          console.log('选中多行');
+          // debugger;
+          // 需要判断前后内容，拼接成完成的多行内容
+          const mdText = inputArea.value;
+          const prefixStr = mdText.substring(0, inputArea.selectionStart);
+          const subfixStr = mdText.substring(inputArea.selectionEnd, mdText.length);
+
+          // 获取前半部分漏下的内容
+          const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
+          const prefixSupply = prefixStr.substring(
+            prefixStrIndexOfLineCode + 1,
+            prefixStr.length
+          );
+
+          // 后半部分
+          const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
+          const subfixSupply = subfixStr.substring(0, subfixStrIndexOfLineCode);
+
+          // 整个待调整的内容
+          const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
+
+          // 分割出每一行，从而给每一行添加缩进
+          const str2AdjustRows = str2adjust.split('\n');
+
+          targetValue = str2AdjustRows
+            .map((strItem) => {
+              return `${retract}${strItem}`;
+            })
+            .join('\n');
+
+          prefixVal = prefixStr.substring(0, prefixStr.length - prefixSupply.length);
+          subfixVal = subfixStr.substring(subfixSupply.length, subfixStr.length);
+
+          // 设置选中内容
+          select = true;
+          // 设置选中开始位置偏移tabWidth宽度
+          deviationStart = tabWidth;
+          // 设置选中结束位置偏移-tabWidth*rows
+          deviationEnd = -tabWidth - prefixSupply.length;
         } else {
-          console.log('选中单行或中间内容');
+          const mdText = inputArea.value;
+          const prefixStr = mdText.substring(0, inputArea.selectionStart);
+
+          if (/\n$/.test(prefixStr)) {
+            // 选择当前行全部内容，给当前行整体添加缩进
+            targetValue = `${retract}${selectedText}`;
+            select = true;
+          } else {
+            // 选中中间部分内容，清空内容添加空格
+            targetValue = retract;
+          }
         }
+
+        break;
+      }
+      case 'shiftTab': {
+        const { tabWidth = 2 } = params;
+        const retract = new Array(tabWidth).fill(' ').join('');
       }
     }
   }
 
-  return insert(inputArea, targetValue, { deviationStart, deviationEnd, select });
+  return insert(inputArea, targetValue, {
+    deviationStart,
+    deviationEnd,
+    select,
+    prefixVal,
+    subfixVal
+  });
 };
