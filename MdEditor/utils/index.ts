@@ -12,6 +12,7 @@ export const setPosition = (
   startPos = 0,
   endPos = startPos
 ): void => {
+  console.log(startPos, endPos);
   if (tarDom.setSelectionRange) {
     // setTimeout必须写，不然setSelectionRange无效
     // https://stackoverflow.com/questions/11723420/chrome-setselectionrange-not-work-in-oninput-handler
@@ -42,20 +43,24 @@ export const insert = (
     deviationEnd?: number;
     select?: boolean;
     direct?: boolean;
+    prefixVal?: string; // 前半部分内容
+    subfixVal?: string; // 后半部分内容
   }
 ) => {
   const { deviationStart = 0, deviationEnd = 0, direct = false, select = false } = params;
+
   // 返回值
   let res = '';
   if (dom.selectionStart || dom.selectionStart === 0) {
     const startPos = dom.selectionStart;
     const endPos = dom.selectionEnd || 0;
 
-    // 前半部分值
-    const prefixVal = dom.value.substring(0, startPos);
-    // 后半部分值
-    const suffixVal = dom.value.substring(endPos, dom.value.length);
-    res = prefixVal + tarValue + suffixVal;
+    let {
+      prefixVal = dom.value.substring(0, startPos),
+      subfixVal = dom.value.substring(endPos, dom.value.length)
+    } = params;
+
+    res = prefixVal + tarValue + subfixVal;
 
     // 设置光标位置
     setPosition(
