@@ -153,8 +153,11 @@ export const directive2flag = (
         const retract = new Array(tabWidth).fill(' ').join('');
 
         if (selectedText === '') {
+          console.log('---未选中');
           targetValue = retract;
         } else if (/\n/.test(selectedText)) {
+          console.log('---选中多行');
+
           // debugger;
           // 需要判断前后内容，拼接成完成的多行内容
           const mdText = inputArea.value;
@@ -191,13 +194,15 @@ export const directive2flag = (
           select = true;
           // 设置选中开始位置偏移tabWidth宽度
           deviationStart = tabWidth;
-          // 设置选中结束位置偏移-tabWidth*rows
-          deviationEnd = -tabWidth - prefixSupply.length;
+          // 设置选中结束位置偏移，由于只选中中间部分，需减去上面补充选择内容和后面补充选择内容的长度
+          deviationEnd = -prefixSupply.length - subfixSupply.length;
         } else {
+          console.log('---选中单行');
+
           const mdText = inputArea.value;
           const prefixStr = mdText.substring(0, inputArea.selectionStart);
 
-          if (/\n$/.test(prefixStr)) {
+          if (/\n$/.test(prefixStr) || prefixStr === '') {
             // 选择当前行全部内容，给当前行整体添加缩进
             targetValue = `${retract}${selectedText}`;
             select = true;
