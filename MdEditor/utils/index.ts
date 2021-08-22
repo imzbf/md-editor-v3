@@ -55,7 +55,7 @@ export const insert = (
     const startPos = dom.selectionStart;
     const endPos = dom.selectionEnd || 0;
 
-    let {
+    const {
       prefixVal = dom.value.substring(0, startPos),
       subfixVal = dom.value.substring(endPos, dom.value.length)
     } = params;

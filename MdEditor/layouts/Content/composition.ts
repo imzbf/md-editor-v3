@@ -88,7 +88,7 @@ export const useMarked = (props: EditorContentProps) => {
   // 标题数目
   let count = Number(0);
   // 标题列表，扁平结构
-  let headstemp: HeadList[] = new Array();
+  let headstemp: HeadList[] = [];
 
   // marked渲染实例
   const renderer = new marked.Renderer();
