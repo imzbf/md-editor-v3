@@ -1,4 +1,4 @@
-import { insert } from '.';
+import { insert, setPosition } from '.';
 
 export type ToolDirective =
   | 'bold'
@@ -216,7 +216,53 @@ export const directive2flag = (
       }
       case 'shiftTab': {
         const { tabWidth = 2 } = params;
-        const retract = new Array(tabWidth).fill(' ').join('');
+
+        console.log('selectedText', selectedText);
+
+        if (selectedText === '') {
+          console.log('---shift-tab，未选中');
+
+          // 未选中任何内容，执行获取当前行，去除行首tabWidth个空格，只到无空格可去除
+          const mdText = inputArea.value;
+          const prefixStr = mdText.substring(0, inputArea.selectionStart);
+          const subfixStr = mdText.substring(inputArea.selectionStart, mdText.length);
+
+          // 前半部分
+          const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
+          const targetRowPrefixStr = prefixStr.substring(
+            prefixStrIndexOfLineCode + 1,
+            prefixStr.length
+          );
+          // 后半部分
+          const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
+          const targetRowSubfixStr = subfixStr.substring(0, subfixStrIndexOfLineCode);
+
+          // 当前所在行内容
+          const str2adjust = `${targetRowPrefixStr}${targetRowSubfixStr}`;
+
+          const normalReg = new RegExp(`^\\s{${tabWidth}}`);
+
+          if (normalReg.test(str2adjust)) {
+            // 以tabWidth个空格开头
+
+            // 拼接内容
+            const prefixStrEndWithLineCode = prefixStr.substring(
+              0,
+              prefixStrIndexOfLineCode + 1
+            );
+            const subfixStrStartWithLineCode = subfixStr.substring(
+              subfixStrIndexOfLineCode,
+              subfixStr.length
+            );
+
+            setPosition(inputArea, prefixStr.length - 2);
+
+            return `${prefixStrEndWithLineCode}${str2adjust.replace(
+              normalReg,
+              ''
+            )}${subfixStrStartWithLineCode}`;
+          }
+        }
       }
     }
   }
