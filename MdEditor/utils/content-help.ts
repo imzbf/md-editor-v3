@@ -215,9 +215,10 @@ export const directive2flag = (
         break;
       }
       case 'shiftTab': {
-        const { tabWidth = 2 } = params;
+        // 当选择内容后使用该快捷键，未及时清空缓存内容，所以该功能直接重新获取选中内容
+        selectedText = window.getSelection()?.toString() || '';
 
-        console.log('selectedText', selectedText);
+        const { tabWidth = 2 } = params;
 
         if (selectedText === '') {
           console.log('---shift-tab，未选中');
@@ -242,25 +243,32 @@ export const directive2flag = (
 
           const normalReg = new RegExp(`^\\s{${tabWidth}}`);
 
+          // 拼接内容
+          // 开头到所在行前端的内容
+          const prefixStrEndWithLineCode = prefixStr.substring(
+            0,
+            prefixStrIndexOfLineCode + 1
+          );
+          // 所在行结尾到文本结尾内容
+          const subfixStrStartWithLineCode = subfixStr.substring(
+            subfixStrIndexOfLineCode,
+            subfixStr.length
+          );
+
           if (normalReg.test(str2adjust)) {
-            // 以tabWidth个空格开头
-
-            // 拼接内容
-            const prefixStrEndWithLineCode = prefixStr.substring(
-              0,
-              prefixStrIndexOfLineCode + 1
-            );
-            const subfixStrStartWithLineCode = subfixStr.substring(
-              subfixStrIndexOfLineCode,
-              subfixStr.length
-            );
-
-            setPosition(inputArea, prefixStr.length - 2);
+            // 以tabWidth或者更多个空格开头
+            setPosition(inputArea, prefixStr.length - tabWidth);
 
             return `${prefixStrEndWithLineCode}${str2adjust.replace(
               normalReg,
               ''
             )}${subfixStrStartWithLineCode}`;
+          } else if (/^\s/.test(str2adjust)) {
+            // 不足但是存在
+            const deletedTabStr = str2adjust.replace(/^\s/, '');
+            setPosition(inputArea, deletedTabStr.length);
+
+            return `${prefixStrEndWithLineCode}${deletedTabStr}${subfixStrStartWithLineCode}`;
           }
         }
       }
