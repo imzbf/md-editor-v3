@@ -44,9 +44,9 @@ export const directive2flag = (
   // 是否选中
   let select = false;
   // 选中前半部分内容
-  let prefixVal = undefined;
+  let prefixVal;
   // 后半部分
-  let subfixVal = undefined;
+  let subfixVal;
 
   if (/^h[1-6]{1}$/.test(direct)) {
     const pix = direct.replace(/^h(\d)/, (_, num) => {
