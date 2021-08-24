@@ -362,6 +362,12 @@ export const directive2flag = (
             return newContent;
           }
         }
+
+        break;
+      }
+      case 'ctrlC': {
+        console.log('----复制');
+        return inputArea.value;
       }
     }
   }
