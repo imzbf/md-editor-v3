@@ -78,9 +78,9 @@
     "vue-tsc": "^0.0.24"
   },
   "eslintConfig": {
-    "root": true,
     "env": {
       "browser": true,
+      "es2021": true,
       "node": true
     },
     "extends": [
@@ -90,11 +90,13 @@
       "@vue/prettier",
       "@vue/prettier/@typescript-eslint"
     ],
+    "parser": "@typescript-eslint/parser",
     "plugins": [
       "@typescript-eslint"
     ],
     "parserOptions": {
-      "ecmaVersion": 2020
+      "ecmaVersion": 12,
+      "sourceType": "module"
     },
     "rules": {
       "@typescript-eslint/explicit-module-boundary-types": "off",

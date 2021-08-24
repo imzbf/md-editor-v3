@@ -7,14 +7,14 @@ import {
   reactive,
   ref
 } from 'vue';
+import screenfull from 'screenfull';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
-import { prefix } from '../../Editor';
+import { prefix, StaticTextDefaultValue, ToolbarNames, SettingType } from '../../Editor';
 import bus from '../../utils/event-bus';
-import { goto, ToolDirective } from '../../utils';
-import screenfull from 'screenfull';
+import { goto } from '../../utils';
 import Modals from '../Modals';
-import { StaticTextDefaultValue, ToolbarNames, SettingType } from '../../Editor';
+import { ToolDirective } from '../../utils/content-help';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -22,12 +22,12 @@ export default defineComponent({
     // 工具栏选择显示
     toolbars: {
       type: Array as PropType<Array<ToolbarNames>>,
-      default: []
+      default: () => []
     },
     // 工具栏选择不显示
     toolbarsExclude: {
       type: Array as PropType<Array<ToolbarNames>>,
-      default: []
+      default: () => []
     },
     setting: {
       type: Object as PropType<SettingType>,
@@ -468,7 +468,7 @@ export default defineComponent({
                   </svg>
                 </div>
               )}
-              {/* 
+              {/*
             <Dropdown
               visible={visible.catalog}
               onChange={(v) => {
