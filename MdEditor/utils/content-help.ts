@@ -257,18 +257,17 @@ export const directive2flag = (
 
         const {
           prefixStr,
-          subfixStr,
           prefixStrEndRow,
           subfixStrEndRow,
           prefixSupply,
           subfixSupply
         } = splitHelp(inputArea);
 
+        const normalReg = new RegExp(`^\\s{${tabWidth}}`);
+
         const notMultiRow = (selected = false) => {
           // 当前所在行内容
           const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
-
-          const normalReg = new RegExp(`^\\s{${tabWidth}}`);
 
           // 拼接内容
           if (normalReg.test(str2adjust)) {
@@ -310,6 +309,48 @@ export const directive2flag = (
           // 选中了多行
 
           console.log('选中多行');
+
+          // 整个待调整的内容
+          const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
+
+          // 分割出每一行，从而给每一行添加缩进
+          const str2AdjustRows = str2adjust.split('\n');
+
+          // 首行减少空格数，用于计算选中开始位置
+          // 总共减少空格数，用于计算选中结束位置
+          let [firstRowDelNum, totalRowDelNum] = [0, 0];
+
+          const str2AdjustRowsMod = str2AdjustRows
+            .map((strItem, index) => {
+              if (normalReg.test(strItem)) {
+                // 以tabWidth或者更多个空格开头
+                if (index === 0) {
+                  firstRowDelNum = tabWidth;
+                }
+
+                totalRowDelNum += tabWidth;
+
+                return strItem.replace(normalReg, '');
+              } else if (/^\s/.test(strItem)) {
+                const deletedTabStr = strItem.replace(/^\s/, '');
+
+                totalRowDelNum += strItem.length - deletedTabStr.length;
+
+                // 不足但是存在
+                return deletedTabStr;
+              }
+
+              return strItem;
+            })
+            .join('\n');
+
+          setPosition(
+            inputArea,
+            inputArea.selectionStart - firstRowDelNum,
+            inputArea.selectionEnd - totalRowDelNum
+          );
+
+          return `${prefixStrEndRow}${str2AdjustRowsMod}${subfixStrEndRow}`;
         } else {
           // 选中的单行或部分吗，表现与未选中一致
 
