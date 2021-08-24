@@ -380,6 +380,28 @@ export const directive2flag = (
 
         return inputArea.value;
       }
+      case 'ctrlX': {
+        const {
+          prefixStrEndRow,
+          subfixStrEndRow,
+          prefixStr,
+          subfixStr,
+          prefixSupply,
+          subfixSupply
+        } = splitHelp(inputArea);
+
+        console.log('裁剪', selectedText);
+        if (selectedText === '') {
+          // 未选中，复制整行
+          copy(`${prefixSupply}${subfixSupply}`);
+          setPosition(inputArea, prefixStrEndRow.length);
+          return `${prefixStrEndRow}${subfixStrEndRow}`;
+        } else {
+          copy(selectedText);
+          setPosition(inputArea, prefixStr.length);
+          return `${prefixStr}${subfixStr}`;
+        }
+      }
     }
   }
 
