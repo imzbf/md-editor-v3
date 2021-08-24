@@ -264,19 +264,18 @@ export const directive2flag = (
           subfixSupply
         } = splitHelp(inputArea);
 
-        if (selectedText === '') {
-          console.log('---shift-tab，未选中');
-
-          // 未选中任何内容，执行获取当前行，去除行首tabWidth个空格，只到无空格可去除
+        const notMultiRow = (selected = false) => {
           // 当前所在行内容
-          const str2adjust = `${prefixSupply}${subfixSupply}`;
+          const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
 
           const normalReg = new RegExp(`^\\s{${tabWidth}}`);
 
           // 拼接内容
           if (normalReg.test(str2adjust)) {
             // 以tabWidth或者更多个空格开头
-            setPosition(inputArea, prefixStr.length - tabWidth);
+            const startPos = prefixStr.length - tabWidth;
+            const endPos = selected ? startPos + selectedText.length : startPos;
+            setPosition(inputArea, startPos, endPos);
 
             return `${prefixStrEndRow}${str2adjust.replace(
               normalReg,
@@ -285,9 +284,41 @@ export const directive2flag = (
           } else if (/^\s/.test(str2adjust)) {
             // 不足但是存在
             const deletedTabStr = str2adjust.replace(/^\s/, '');
-            setPosition(inputArea, deletedTabStr.length);
+            const deletedLength = str2adjust.length - deletedTabStr.length;
+
+            const startPos = inputArea.selectionStart - deletedLength;
+            // 选中了内容，将正确设置结束位置
+            const endPos = selected ? startPos + selectedText.length : startPos;
+            setPosition(inputArea, startPos, endPos);
 
             return `${prefixStrEndRow}${deletedTabStr}${subfixStrEndRow}`;
+          } else {
+            targetValue = selectedText;
+          }
+        };
+
+        if (selectedText === '') {
+          console.log('---shift-tab，未选中');
+
+          // 未选中任何内容，执行获取当前行，去除行首tabWidth个空格，只到无空格可去除
+          const newContent = notMultiRow();
+
+          if (newContent) {
+            return newContent;
+          }
+        } else if (/\n/.test(selectedText)) {
+          // 选中了多行
+
+          console.log('选中多行');
+        } else {
+          // 选中的单行或部分吗，表现与未选中一致
+
+          console.log('选中的单行或部分');
+
+          const newContent = notMultiRow(true);
+
+          if (newContent) {
+            return newContent;
           }
         }
       }
