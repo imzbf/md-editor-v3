@@ -149,6 +149,11 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
               bus.emit('replace', 'codeRow' as ToolDirective);
               event.preventDefault();
             }
+          } else {
+            // 接管复制快捷键
+            event.preventDefault();
+            bus.emit('replace', 'ctrlC');
+            break;
           }
           break;
         }
