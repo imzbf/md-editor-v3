@@ -283,7 +283,7 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
             } else if (/^-\s+.+/.test(enterPressRow)) {
               // 无序列表存在内容
               props.onChange(
-                insert(textAreaRef.value as HTMLTextAreaElement, `\n- `, {})
+                insert(textAreaRef.value as HTMLTextAreaElement, '\n- ', {})
               );
             } else {
               const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);

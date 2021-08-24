@@ -29,6 +29,55 @@ export type ToolDirective =
   | 'ctrlX'
   | 'ctrlD';
 
+/**
+ * 快速获取分割内容
+ *
+ * @param textarea
+ * @returns
+ */
+export const splitHelp = (textarea: HTMLTextAreaElement) => {
+  const text = textarea.value;
+
+  // 选中前半部分
+  const prefixStr = text.substring(0, textarea.selectionStart);
+  // 选中后半部分
+  const subfixStr = text.substring(textarea.selectionEnd, text.length);
+
+  const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
+  // 选中行前所有行
+  const prefixStrEndRow = prefixStr.substring(0, prefixStrIndexOfLineCode + 1);
+
+  const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
+  // 选中行后所有行
+  const subfixStrEndRow = subfixStr.substring(subfixStrIndexOfLineCode, subfixStr.length);
+
+  // 选中当前行前面未选中部分
+  const prefixSupply = prefixStr.substring(
+    prefixStrIndexOfLineCode + 1,
+    prefixStr.length
+  );
+
+  // 选中当前行后面未选中部分
+  const subfixSupply = subfixStr.substring(0, subfixStrIndexOfLineCode);
+
+  return {
+    prefixStr,
+    subfixStr,
+    prefixStrEndRow,
+    subfixStrEndRow,
+    prefixSupply,
+    subfixSupply
+  };
+};
+
+/**
+ *
+ * @param direct 操作指令
+ * @param selectedText 输入框选中的内容记录
+ * @param inputArea 输入框
+ * @param params 自定义参数
+ * @returns string
+ */
 export const directive2flag = (
   direct: ToolDirective,
   selectedText = '',
@@ -44,9 +93,9 @@ export const directive2flag = (
   // 是否选中
   let select = false;
   // 选中前半部分内容
-  let prefixVal = undefined;
+  let prefixVal;
   // 后半部分
-  let subfixVal = undefined;
+  let subfixVal;
 
   if (/^h[1-6]{1}$/.test(direct)) {
     const pix = direct.replace(/^h(\d)/, (_, num) => {
@@ -158,22 +207,8 @@ export const directive2flag = (
         } else if (/\n/.test(selectedText)) {
           console.log('---选中多行');
 
-          // debugger;
-          // 需要判断前后内容，拼接成完成的多行内容
-          const mdText = inputArea.value;
-          const prefixStr = mdText.substring(0, inputArea.selectionStart);
-          const subfixStr = mdText.substring(inputArea.selectionEnd, mdText.length);
-
-          // 获取前半部分漏下的内容
-          const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
-          const prefixSupply = prefixStr.substring(
-            prefixStrIndexOfLineCode + 1,
-            prefixStr.length
-          );
-
-          // 后半部分
-          const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
-          const subfixSupply = subfixStr.substring(0, subfixStrIndexOfLineCode);
+          const { prefixStr, subfixStr, prefixSupply, subfixSupply } =
+            splitHelp(inputArea);
 
           // 整个待调整的内容
           const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
@@ -215,54 +250,124 @@ export const directive2flag = (
         break;
       }
       case 'shiftTab': {
+        // 当选择内容后使用该快捷键，未及时清空缓存内容，所以该功能直接重新获取选中内容
+        selectedText = window.getSelection()?.toString() || '';
+
         const { tabWidth = 2 } = params;
 
-        console.log('selectedText', selectedText);
+        const {
+          prefixStr,
+          prefixStrEndRow,
+          subfixStrEndRow,
+          prefixSupply,
+          subfixSupply
+        } = splitHelp(inputArea);
+
+        const normalReg = new RegExp(`^\\s{${tabWidth}}`);
+
+        const notMultiRow = (selected = false) => {
+          // 当前所在行内容
+          const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
+
+          // 拼接内容
+          if (normalReg.test(str2adjust)) {
+            // 以tabWidth或者更多个空格开头
+            const startPos = prefixStr.length - tabWidth;
+            const endPos = selected ? startPos + selectedText.length : startPos;
+            setPosition(inputArea, startPos, endPos);
+
+            return `${prefixStrEndRow}${str2adjust.replace(
+              normalReg,
+              ''
+            )}${subfixStrEndRow}`;
+          } else if (/^\s/.test(str2adjust)) {
+            // 不足但是存在
+            const deletedTabStr = str2adjust.replace(/^\s/, '');
+            const deletedLength = str2adjust.length - deletedTabStr.length;
+
+            const startPos = inputArea.selectionStart - deletedLength;
+            // 选中了内容，将正确设置结束位置
+            const endPos = selected ? startPos + selectedText.length : startPos;
+            setPosition(inputArea, startPos, endPos);
+
+            return `${prefixStrEndRow}${deletedTabStr}${subfixStrEndRow}`;
+          } else {
+            targetValue = selectedText;
+          }
+        };
 
         if (selectedText === '') {
           console.log('---shift-tab，未选中');
 
           // 未选中任何内容，执行获取当前行，去除行首tabWidth个空格，只到无空格可去除
-          const mdText = inputArea.value;
-          const prefixStr = mdText.substring(0, inputArea.selectionStart);
-          const subfixStr = mdText.substring(inputArea.selectionStart, mdText.length);
+          const newContent = notMultiRow();
 
-          // 前半部分
-          const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
-          const targetRowPrefixStr = prefixStr.substring(
-            prefixStrIndexOfLineCode + 1,
-            prefixStr.length
+          if (newContent) {
+            return newContent;
+          }
+        } else if (/\n/.test(selectedText)) {
+          // 选中了多行
+
+          console.log('选中多行');
+
+          // 整个待调整的内容
+          const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
+
+          // 分割出每一行，从而给每一行添加缩进
+          const str2AdjustRows = str2adjust.split('\n');
+
+          // 首行减少空格数，用于计算选中开始位置
+          // 总共减少空格数，用于计算选中结束位置
+          let [firstRowDelNum, totalRowDelNum] = [0, 0];
+
+          const str2AdjustRowsMod = str2AdjustRows
+            .map((strItem, index) => {
+              if (normalReg.test(strItem)) {
+                // 以tabWidth或者更多个空格开头
+                if (index === 0) {
+                  firstRowDelNum = tabWidth;
+                }
+
+                totalRowDelNum += tabWidth;
+
+                return strItem.replace(normalReg, '');
+              } else if (/^\s/.test(strItem)) {
+                const deletedTabStr = strItem.replace(/^\s/, '');
+
+                totalRowDelNum += strItem.length - deletedTabStr.length;
+
+                // 不足但是存在
+                return deletedTabStr;
+              }
+
+              return strItem;
+            })
+            .join('\n');
+
+          setPosition(
+            inputArea,
+            inputArea.selectionStart - firstRowDelNum,
+            inputArea.selectionEnd - totalRowDelNum
           );
-          // 后半部分
-          const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
-          const targetRowSubfixStr = subfixStr.substring(0, subfixStrIndexOfLineCode);
 
-          // 当前所在行内容
-          const str2adjust = `${targetRowPrefixStr}${targetRowSubfixStr}`;
+          return `${prefixStrEndRow}${str2AdjustRowsMod}${subfixStrEndRow}`;
+        } else {
+          // 选中的单行或部分吗，表现与未选中一致
 
-          const normalReg = new RegExp(`^\\s{${tabWidth}}`);
+          console.log('选中的单行或部分');
 
-          if (normalReg.test(str2adjust)) {
-            // 以tabWidth个空格开头
+          const newContent = notMultiRow(true);
 
-            // 拼接内容
-            const prefixStrEndWithLineCode = prefixStr.substring(
-              0,
-              prefixStrIndexOfLineCode + 1
-            );
-            const subfixStrStartWithLineCode = subfixStr.substring(
-              subfixStrIndexOfLineCode,
-              subfixStr.length
-            );
-
-            setPosition(inputArea, prefixStr.length - 2);
-
-            return `${prefixStrEndWithLineCode}${str2adjust.replace(
-              normalReg,
-              ''
-            )}${subfixStrStartWithLineCode}`;
+          if (newContent) {
+            return newContent;
           }
         }
+
+        break;
+      }
+      case 'ctrlC': {
+        console.log('----复制');
+        return inputArea.value;
       }
     }
   }

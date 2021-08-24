@@ -48,7 +48,6 @@ export const insert = (
   }
 ) => {
   const { deviationStart = 0, deviationEnd = 0, direct = false, select = false } = params;
-
   // 返回值
   let res = '';
   if (dom.selectionStart || dom.selectionStart === 0) {
@@ -132,9 +131,7 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
   const scale = (pScrollHeight - pHeight) / (cScrollHeight - cHeight);
 
   const scrollHandler = () => {
-    cEle.scrollTo({
-      top: pEle.scrollTop / scale
-    });
+    cEle.scrollTo({ top: pEle.scrollTop / scale });
   };
 
   pEle.removeEventListener('scroll', scrollHandler);
