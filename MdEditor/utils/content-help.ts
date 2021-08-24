@@ -29,6 +29,55 @@ export type ToolDirective =
   | 'ctrlX'
   | 'ctrlD';
 
+/**
+ * 快速获取分割内容
+ *
+ * @param textarea
+ * @returns
+ */
+export const splitHelp = (textarea: HTMLTextAreaElement) => {
+  const text = textarea.value;
+
+  // 选中前半部分
+  const prefixStr = text.substring(0, textarea.selectionStart);
+  // 选中后半部分
+  const subfixStr = text.substring(textarea.selectionEnd, text.length);
+
+  const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
+  // 选中行前所有行
+  const prefixStrEndRow = prefixStr.substring(0, prefixStrIndexOfLineCode + 1);
+
+  const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
+  // 选中行后所有行
+  const subfixStrEndRow = subfixStr.substring(subfixStrIndexOfLineCode, subfixStr.length);
+
+  // 选中当前行前面未选中部分
+  const prefixSupply = prefixStr.substring(
+    prefixStrIndexOfLineCode + 1,
+    prefixStr.length
+  );
+
+  // 选中当前行后面未选中部分
+  const subfixSupply = subfixStr.substring(0, subfixStrIndexOfLineCode);
+
+  return {
+    prefixStr,
+    subfixStr,
+    prefixStrEndRow,
+    subfixStrEndRow,
+    prefixSupply,
+    subfixSupply
+  };
+};
+
+/**
+ *
+ * @param direct 操作指令
+ * @param selectedText 输入框选中的内容记录
+ * @param inputArea 输入框
+ * @param params 自定义参数
+ * @returns string
+ */
 export const directive2flag = (
   direct: ToolDirective,
   selectedText = '',
@@ -158,22 +207,8 @@ export const directive2flag = (
         } else if (/\n/.test(selectedText)) {
           console.log('---选中多行');
 
-          // debugger;
-          // 需要判断前后内容，拼接成完成的多行内容
-          const mdText = inputArea.value;
-          const prefixStr = mdText.substring(0, inputArea.selectionStart);
-          const subfixStr = mdText.substring(inputArea.selectionEnd, mdText.length);
-
-          // 获取前半部分漏下的内容
-          const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
-          const prefixSupply = prefixStr.substring(
-            prefixStrIndexOfLineCode + 1,
-            prefixStr.length
-          );
-
-          // 后半部分
-          const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
-          const subfixSupply = subfixStr.substring(0, subfixStrIndexOfLineCode);
+          const { prefixStr, subfixStr, prefixSupply, subfixSupply } =
+            splitHelp(inputArea);
 
           // 整个待调整的内容
           const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
@@ -220,55 +255,39 @@ export const directive2flag = (
 
         const { tabWidth = 2 } = params;
 
+        const {
+          prefixStr,
+          subfixStr,
+          prefixStrEndRow,
+          subfixStrEndRow,
+          prefixSupply,
+          subfixSupply
+        } = splitHelp(inputArea);
+
         if (selectedText === '') {
           console.log('---shift-tab，未选中');
 
           // 未选中任何内容，执行获取当前行，去除行首tabWidth个空格，只到无空格可去除
-          const mdText = inputArea.value;
-          const prefixStr = mdText.substring(0, inputArea.selectionStart);
-          const subfixStr = mdText.substring(inputArea.selectionStart, mdText.length);
-
-          // 前半部分
-          const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
-          const targetRowPrefixStr = prefixStr.substring(
-            prefixStrIndexOfLineCode + 1,
-            prefixStr.length
-          );
-          // 后半部分
-          const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
-          const targetRowSubfixStr = subfixStr.substring(0, subfixStrIndexOfLineCode);
-
           // 当前所在行内容
-          const str2adjust = `${targetRowPrefixStr}${targetRowSubfixStr}`;
+          const str2adjust = `${prefixSupply}${subfixSupply}`;
 
           const normalReg = new RegExp(`^\\s{${tabWidth}}`);
 
           // 拼接内容
-          // 开头到所在行前端的内容
-          const prefixStrEndWithLineCode = prefixStr.substring(
-            0,
-            prefixStrIndexOfLineCode + 1
-          );
-          // 所在行结尾到文本结尾内容
-          const subfixStrStartWithLineCode = subfixStr.substring(
-            subfixStrIndexOfLineCode,
-            subfixStr.length
-          );
-
           if (normalReg.test(str2adjust)) {
             // 以tabWidth或者更多个空格开头
             setPosition(inputArea, prefixStr.length - tabWidth);
 
-            return `${prefixStrEndWithLineCode}${str2adjust.replace(
+            return `${prefixStrEndRow}${str2adjust.replace(
               normalReg,
               ''
-            )}${subfixStrStartWithLineCode}`;
+            )}${subfixStrEndRow}`;
           } else if (/^\s/.test(str2adjust)) {
             // 不足但是存在
             const deletedTabStr = str2adjust.replace(/^\s/, '');
             setPosition(inputArea, deletedTabStr.length);
 
-            return `${prefixStrEndWithLineCode}${deletedTabStr}${subfixStrStartWithLineCode}`;
+            return `${prefixStrEndRow}${deletedTabStr}${subfixStrEndRow}`;
           }
         }
       }
