@@ -1,3 +1,4 @@
+import copy from 'copy-to-clipboard';
 import { insert, setPosition } from '.';
 
 export type ToolDirective =
@@ -367,6 +368,16 @@ export const directive2flag = (
       }
       case 'ctrlC': {
         console.log('----复制');
+
+        const { prefixSupply, subfixSupply } = splitHelp(inputArea);
+
+        if (selectedText === '') {
+          // 未选中，复制整行
+          copy(`${prefixSupply}${subfixSupply}`);
+        } else {
+          copy(selectedText);
+        }
+
         return inputArea.value;
       }
     }
