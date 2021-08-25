@@ -7,9 +7,17 @@ import bus from '../../utils/event-bus';
 import { insert, scrollAuto, setPosition } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
 
+interface HistoryItemType {
+  // 记录内容
+  content: string;
+  // 本次记录鼠标选择内容开始位置
+  startPos: number;
+  // 结束位置
+  endPos: number;
+}
 interface HistoryDataType {
   // 历史记录列表
-  list: Array<string>;
+  list: Array<HistoryItemType>;
   // 是否是手动输入而非撤回
   userUpdated: boolean;
   // 当前记录位置
@@ -19,14 +27,20 @@ interface HistoryDataType {
 /**
  * 保存历史记录
  */
-export const useHistory = (props: EditorContentProps) => {
+export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
   const historyLength = inject('historyLength') as number;
 
   // 防抖ID
   let saveHistoryId = -1;
 
   const history: HistoryDataType = {
-    list: [props.value],
+    list: [
+      {
+        content: props.value,
+        startPos: textAreaRef.value?.selectionStart || 0,
+        endPos: textAreaRef.value?.selectionEnd || 0
+      }
+    ],
     userUpdated: true,
     curr: 0
   };
@@ -35,6 +49,8 @@ export const useHistory = (props: EditorContentProps) => {
     () => props.value,
     (nVal) => {
       clearTimeout(saveHistoryId);
+      const startPos: number = textAreaRef.value?.selectionStart || 0;
+      const endPos: number = textAreaRef.value?.selectionEnd || 0;
 
       saveHistoryId = <any>setTimeout(() => {
         // 如果不是撤销操作，就记录
@@ -47,7 +63,17 @@ export const useHistory = (props: EditorContentProps) => {
             history.list.shift();
           }
 
-          history.list.push(nVal);
+          // 修改保存上次记录选中定位
+          const lastStep = history.list.pop() as HistoryItemType;
+          lastStep.startPos = startPos;
+          lastStep.endPos = endPos;
+
+          Array.prototype.push.call(history.list, lastStep, {
+            content: nVal,
+            startPos,
+            endPos
+          });
+
           // 下标调整为最后一个位置
           history.curr = history.list.length - 1;
         } else {
@@ -63,7 +89,12 @@ export const useHistory = (props: EditorContentProps) => {
       history.userUpdated = false;
       // 倒退一个下标，最多倒退到0
       history.curr = history.curr - 1 < 0 ? 0 : history.curr - 1;
-      props.onChange(history.list[history.curr]);
+
+      const currHistory = history.list[history.curr];
+      props.onChange(currHistory.content);
+
+      // 选中内容
+      setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
     }
   });
 
@@ -74,7 +105,12 @@ export const useHistory = (props: EditorContentProps) => {
       // 前进一个下标，最多倒退到最大下标
       history.curr =
         history.curr + 1 === history.list.length ? history.curr : history.curr + 1;
-      props.onChange(history.list[history.curr]);
+
+      const currHistory = history.list[history.curr];
+      props.onChange(currHistory.content);
+
+      // 选中内容
+      setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
     }
   });
 };
