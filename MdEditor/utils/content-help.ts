@@ -395,7 +395,7 @@ export const directive2flag = (
           // 未选中，复制整行
           copy(`${prefixSupply}${subfixSupply}`);
           setPosition(inputArea, prefixStrEndRow.length);
-          return `${prefixStrEndRow}${subfixStrEndRow}`;
+          return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
         } else {
           copy(selectedText);
           setPosition(inputArea, prefixStr.length);
