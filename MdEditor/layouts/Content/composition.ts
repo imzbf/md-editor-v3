@@ -79,7 +79,7 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
         } else {
           history.userUpdated = true;
         }
-      }, 500);
+      }, 10);
     }
   );
 
