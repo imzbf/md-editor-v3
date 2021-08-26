@@ -205,6 +205,12 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         case 'KeyX': {
           bus.emit('replace', 'ctrlX');
           event.preventDefault();
+          break;
+        }
+        case 'KeyD': {
+          event.preventDefault();
+          bus.emit('replace', 'ctrlD');
+          break;
         }
       }
     } else if (event.code === 'Tab') {
