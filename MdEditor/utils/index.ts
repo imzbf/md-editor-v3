@@ -12,7 +12,6 @@ export const setPosition = (
   startPos = 0,
   endPos = startPos
 ): void => {
-  console.log(startPos, endPos);
   if (tarDom.setSelectionRange) {
     // setTimeout必须写，不然setSelectionRange无效
     // https://stackoverflow.com/questions/11723420/chrome-setselectionrange-not-work-in-oninput-handler
