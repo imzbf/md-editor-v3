@@ -262,15 +262,23 @@ export const directive2flag = (
 
         const normalReg = new RegExp(`^\\s{${tabWidth}}`);
 
-        const notMultiRow = (selected = false) => {
+        /**
+         *
+         * @param selected 是否修改后选中内容
+         * @param row 是否是整行
+         * @returns string
+         */
+        const notMultiRow = (selected = false, row = false) => {
           // 当前所在行内容
           const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
 
           // 拼接内容
           if (normalReg.test(str2adjust)) {
             // 以tabWidth或者更多个空格开头
-            const startPos = prefixStr.length - tabWidth;
-            const endPos = selected ? startPos + selectedText.length : startPos;
+            const startPos = prefixStr.length - (row ? 0 : tabWidth);
+            const endPos = selected
+              ? startPos + selectedText.length - tabWidth
+              : startPos;
             setPosition(inputArea, startPos, endPos);
 
             return `${prefixStrEndRow}${str2adjust.replace(
@@ -282,9 +290,11 @@ export const directive2flag = (
             const deletedTabStr = str2adjust.replace(/^\s/, '');
             const deletedLength = str2adjust.length - deletedTabStr.length;
 
-            const startPos = inputArea.selectionStart - deletedLength;
+            const startPos = inputArea.selectionStart - (row ? 0 : deletedLength);
             // 选中了内容，将正确设置结束位置
-            const endPos = selected ? startPos + selectedText.length : startPos;
+            const endPos = selected
+              ? startPos + selectedText.length - deletedLength
+              : startPos;
             setPosition(inputArea, startPos, endPos);
 
             return `${prefixStrEndRow}${deletedTabStr}${subfixStrEndRow}`;
@@ -347,7 +357,7 @@ export const directive2flag = (
         } else {
           // 选中的单行或部分吗，表现与未选中一致
 
-          const newContent = notMultiRow(true);
+          const newContent = notMultiRow(true, true);
 
           if (newContent) {
             return newContent;
