@@ -389,6 +389,12 @@ export const directive2flag = (
           return `${prefixStr}${subfixStr}`;
         }
       }
+      case 'ctrlD': {
+        // 删除行规则：无论有没有选中，均删除当前行
+        const { prefixStrEndRow, subfixStrEndRow } = splitHelp(inputArea);
+        setPosition(inputArea, prefixStrEndRow.length);
+        return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
+      }
     }
   }
 
