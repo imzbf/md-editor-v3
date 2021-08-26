@@ -57,7 +57,7 @@ export default defineComponent({
     // 自动监听生成md内容
     const { selectedText } = useAutoGenrator(props, textAreaRef);
     // 历史记录
-    !previewOnly && useHistory(props);
+    !previewOnly && useHistory(props, textAreaRef);
 
     return () => {
       return (
