@@ -198,16 +198,14 @@ export const directive2flag = (
         // 1. 未选中内容，在当前位置添加两个空格
         // 2. 选中单行或中间内容，
         // 3. 选中多行
+        selectedText = window.getSelection()?.toString() || '';
 
         const { tabWidth = 2 } = params;
         const retract = new Array(tabWidth).fill(' ').join('');
 
         if (selectedText === '') {
-          console.log('---未选中');
           targetValue = retract;
         } else if (/\n/.test(selectedText)) {
-          console.log('---选中多行');
-
           const { prefixStr, subfixStr, prefixSupply, subfixSupply } =
             splitHelp(inputArea);
 
@@ -233,8 +231,6 @@ export const directive2flag = (
           // 设置选中结束位置偏移，由于只选中中间部分，需减去上面补充选择内容和后面补充选择内容的长度
           deviationEnd = -prefixSupply.length - subfixSupply.length;
         } else {
-          console.log('---选中单行');
-
           const mdText = inputArea.value;
           const prefixStr = mdText.substring(0, inputArea.selectionStart);
 
@@ -266,15 +262,23 @@ export const directive2flag = (
 
         const normalReg = new RegExp(`^\\s{${tabWidth}}`);
 
-        const notMultiRow = (selected = false) => {
+        /**
+         *
+         * @param selected 是否修改后选中内容
+         * @param row 是否是整行
+         * @returns string
+         */
+        const notMultiRow = (selected = false, row = false) => {
           // 当前所在行内容
           const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
 
           // 拼接内容
           if (normalReg.test(str2adjust)) {
             // 以tabWidth或者更多个空格开头
-            const startPos = prefixStr.length - tabWidth;
-            const endPos = selected ? startPos + selectedText.length : startPos;
+            const startPos = prefixStr.length - (row ? 0 : tabWidth);
+            const endPos = selected
+              ? startPos + selectedText.length - tabWidth
+              : startPos;
             setPosition(inputArea, startPos, endPos);
 
             return `${prefixStrEndRow}${str2adjust.replace(
@@ -286,9 +290,11 @@ export const directive2flag = (
             const deletedTabStr = str2adjust.replace(/^\s/, '');
             const deletedLength = str2adjust.length - deletedTabStr.length;
 
-            const startPos = inputArea.selectionStart - deletedLength;
+            const startPos = inputArea.selectionStart - (row ? 0 : deletedLength);
             // 选中了内容，将正确设置结束位置
-            const endPos = selected ? startPos + selectedText.length : startPos;
+            const endPos = selected
+              ? startPos + selectedText.length - deletedLength
+              : startPos;
             setPosition(inputArea, startPos, endPos);
 
             return `${prefixStrEndRow}${deletedTabStr}${subfixStrEndRow}`;
@@ -298,8 +304,6 @@ export const directive2flag = (
         };
 
         if (selectedText === '') {
-          console.log('---shift-tab，未选中');
-
           // 未选中任何内容，执行获取当前行，去除行首tabWidth个空格，只到无空格可去除
           const newContent = notMultiRow();
 
@@ -308,8 +312,6 @@ export const directive2flag = (
           }
         } else if (/\n/.test(selectedText)) {
           // 选中了多行
-
-          console.log('选中多行');
 
           // 整个待调整的内容
           const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
@@ -355,9 +357,7 @@ export const directive2flag = (
         } else {
           // 选中的单行或部分吗，表现与未选中一致
 
-          console.log('选中的单行或部分');
-
-          const newContent = notMultiRow(true);
+          const newContent = notMultiRow(true, true);
 
           if (newContent) {
             return newContent;
@@ -367,8 +367,6 @@ export const directive2flag = (
         break;
       }
       case 'ctrlC': {
-        console.log('----复制');
-
         const { prefixSupply, subfixSupply } = splitHelp(inputArea);
 
         if (selectedText === '') {
@@ -390,17 +388,22 @@ export const directive2flag = (
           subfixSupply
         } = splitHelp(inputArea);
 
-        console.log('裁剪', selectedText);
         if (selectedText === '') {
           // 未选中，复制整行
           copy(`${prefixSupply}${subfixSupply}`);
           setPosition(inputArea, prefixStrEndRow.length);
-          return `${prefixStrEndRow}${subfixStrEndRow}`;
+          return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
         } else {
           copy(selectedText);
           setPosition(inputArea, prefixStr.length);
           return `${prefixStr}${subfixStr}`;
         }
+      }
+      case 'ctrlD': {
+        // 删除行规则：无论有没有选中，均删除当前行
+        const { prefixStrEndRow, subfixStrEndRow } = splitHelp(inputArea);
+        setPosition(inputArea, prefixStrEndRow.length);
+        return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
       }
     }
   }
