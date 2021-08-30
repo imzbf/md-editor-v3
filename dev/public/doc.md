@@ -1,4 +1,4 @@
-> 当前最新版本：[v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0)
+> 当前最新版本：[v1.4.1](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.1)
 
 ## 1. 基本使用示例
 
@@ -22,14 +22,14 @@ yarn add md-editor-v3
   <head>
     <meta charset="UTF-8" />
     <title>传统开发模式中使用</title>
-    <link href="https://cdn.jsdelivr.net/npm/md-editor-v3@1.4.0/lib/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/md-editor-v3@1.4.1/lib/style.css" rel="stylesheet" />
   </head>
   <body>
     <div id="md-editor-v3">
       <md-editor-v3 v-model="text" />
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.1.5/dist/vue.global.prod.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/md-editor-v3@1.4.0/lib/md-editor-v3.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/md-editor-v3@1.4.1/lib/md-editor-v3.umd.js"></script>
     <script>
       const App = {
         data() {
