@@ -1,0 +1,32 @@
+name: doc page publish
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: node env
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: action
+        run: |
+          npm install
+          npm run build:doc
+
+      - name: publish
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: publish
+          folder: dist
