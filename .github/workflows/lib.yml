@@ -11,12 +11,17 @@ jobs:
     name: Build publish lib
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: env
+        uses: actions/setup-node@v1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
-      - run: |
+
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: action
+        run: |
           npm install
           npm run build
           npm publish
