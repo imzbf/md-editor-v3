@@ -88,6 +88,19 @@ export default defineComponent({
       }
     );
 
+    // 关闭时清空内容
+    watch(
+      () => props.visible,
+      (nVal) => {
+        if (!nVal) {
+          setTimeout(() => {
+            linkData.desc = '';
+            linkData.url = '';
+          }, 200);
+        }
+      }
+    );
+
     return () => (
       <Modal
         title={title.value}
