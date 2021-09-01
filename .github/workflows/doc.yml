@@ -23,10 +23,10 @@ jobs:
       - name: action
         run: |
           npm install
-          npm run build:doc
+          npm run build:preview
 
       - name: publish
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          branch: publish
+          branch: docs
           folder: dist
