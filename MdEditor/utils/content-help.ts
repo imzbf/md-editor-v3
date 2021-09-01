@@ -50,7 +50,11 @@ export const splitHelp = (textarea: HTMLTextAreaElement) => {
 
   const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
   // 选中行后所有行
-  const subfixStrEndRow = subfixStr.substring(subfixStrIndexOfLineCode, subfixStr.length);
+  // 如果后面的内容没有换行符，代表该行就是最后一行，即不存在后续行内容
+  const subfixStrEndRow = subfixStr.substring(
+    subfixStrIndexOfLineCode === -1 ? subfixStr.length : subfixStrIndexOfLineCode,
+    subfixStr.length
+  );
 
   // 选中当前行前面未选中部分
   const prefixSupply = prefixStr.substring(
@@ -403,6 +407,7 @@ export const directive2flag = (
         // 删除行规则：无论有没有选中，均删除当前行
         const { prefixStrEndRow, subfixStrEndRow } = splitHelp(inputArea);
         setPosition(inputArea, prefixStrEndRow.length);
+
         return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
       }
     }
