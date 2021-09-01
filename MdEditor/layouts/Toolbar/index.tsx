@@ -50,7 +50,7 @@ export default defineComponent({
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
-      bus.emit('replace', direct, params);
+      bus.emit(editorId, 'replace', direct, params);
     };
 
     const fullScreen = () => {
@@ -77,7 +77,7 @@ export default defineComponent({
       visible: false
     });
 
-    bus.on({
+    bus.on(editorId, {
       name: 'openModals',
       callback(type) {
         modalData.type = type;
@@ -371,7 +371,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.revoke}
                   onClick={() => {
-                    bus.emit('ctrlZ');
+                    bus.emit(editorId, 'ctrlZ');
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
@@ -384,7 +384,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.next}
                   onClick={() => {
-                    bus.emit('ctrlShiftZ');
+                    bus.emit(editorId, 'ctrlShiftZ');
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
@@ -397,7 +397,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.save}
                   onClick={() => {
-                    bus.emit('onSave');
+                    bus.emit(editorId, 'onSave');
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">

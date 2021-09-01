@@ -43,6 +43,8 @@ export default defineComponent({
     const highlight = inject('highlight') as { js: string; css: string };
     const previewOnly = inject('previewOnly') as boolean;
 
+    const editorId = inject('editorId') as string;
+
     // 输入框
     const textAreaRef = ref<HTMLTextAreaElement>();
     // 预览框
@@ -66,6 +68,7 @@ export default defineComponent({
             {!previewOnly && (
               <div class={[`${prefix}-input-wrapper`]}>
                 <textarea
+                  id={`${editorId}-textarea`}
                   ref={textAreaRef}
                   value={props.value}
                   onInput={(e) => {

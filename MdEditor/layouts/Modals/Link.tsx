@@ -43,7 +43,7 @@ export default defineComponent({
   },
   setup(props) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const editorId = inject('editorId');
+    const editorId = inject('editorId') as string;
 
     const title = computed(() => {
       switch (props.type) {
@@ -69,7 +69,12 @@ export default defineComponent({
     const uploadRef = ref();
 
     const uploadHandler = () => {
-      bus.emit('uploadImage', (uploadRef.value as HTMLInputElement).files, props.onOk);
+      bus.emit(
+        editorId,
+        'uploadImage',
+        (uploadRef.value as HTMLInputElement).files,
+        props.onOk
+      );
       // 清空内容，否则无法再次选取同一张图片
       (uploadRef.value as HTMLInputElement).value = '';
     };
@@ -84,6 +89,19 @@ export default defineComponent({
               uploadHandler
             );
           });
+        }
+      }
+    );
+
+    // 关闭时清空内容
+    watch(
+      () => props.visible,
+      (nVal) => {
+        if (!nVal) {
+          setTimeout(() => {
+            linkData.desc = '';
+            linkData.url = '';
+          }, 200);
         }
       }
     );
@@ -128,6 +146,7 @@ export default defineComponent({
         <div class={`${prefix}-form-item`}>
           <button
             class={`${prefix}-btn ${props.type === 'link' && prefix + '-btn-row'}`}
+            type="button"
             onClick={() => {
               props.onOk(linkData);
               linkData.desc = '';
@@ -140,6 +159,7 @@ export default defineComponent({
             <>
               <button
                 class={`${prefix}-btn`}
+                type="button"
                 onClick={() => {
                   nextTick(() => {
                     (uploadRef.value as HTMLInputElement).click();
@@ -148,7 +168,7 @@ export default defineComponent({
               >
                 {ult.value.linkModalTips?.buttonUpload}
               </button>
-              <button class={`${prefix}-btn`} onClick={props.onClip}>
+              <button class={`${prefix}-btn`} type="button" onClick={props.onClip}>
                 {ult.value.linkModalTips?.buttonUploadClip}
               </button>
               <input
