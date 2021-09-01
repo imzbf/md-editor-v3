@@ -1,7 +1,6 @@
 import {
   computed,
   defineComponent,
-  onMounted,
   PropType,
   provide,
   reactive,
@@ -252,6 +251,7 @@ export default defineComponent({
 
     // 构建组件第一步先清空event-bus
     // 由于bus是单一实例，会导致重复创建编辑器时，残留旧的监听任务
+    // 不在卸载组件时清空的原因是，vue新的内容挂载会在旧的内容卸载之前完成
     bus.clear(editorId);
 
     useKeyBoard(props, context);
@@ -348,10 +348,6 @@ export default defineComponent({
     // 进入时若默认全屏，调整一次
     adjustBody();
     // ----end----
-
-    onMounted(() => {
-      console.log(bus);
-    });
 
     return () => (
       <div
