@@ -1,20 +1,23 @@
 import { watch, inject, computed, ref, ComputedRef, nextTick, Ref, onMounted } from 'vue';
 import marked from 'marked';
 import copy from 'copy-to-clipboard';
-import bus from '../../utils/event-bus';
 import { EditorContentProps } from './index';
 import { HeadList, StaticTextDefaultValue, prefix } from '../../Editor';
-import {
-  directive2flag,
-  insert,
-  scrollAuto,
-  setPosition,
-  ToolDirective
-} from '../../utils';
+import bus from '../../utils/event-bus';
+import { insert, scrollAuto, setPosition } from '../../utils';
+import { ToolDirective, directive2flag } from '../../utils/content-help';
 
+interface HistoryItemType {
+  // 记录内容
+  content: string;
+  // 本次记录鼠标选择内容开始位置
+  startPos: number;
+  // 结束位置
+  endPos: number;
+}
 interface HistoryDataType {
   // 历史记录列表
-  list: Array<string>;
+  list: Array<HistoryItemType>;
   // 是否是手动输入而非撤回
   userUpdated: boolean;
   // 当前记录位置
@@ -24,14 +27,20 @@ interface HistoryDataType {
 /**
  * 保存历史记录
  */
-export const useHistory = (props: EditorContentProps) => {
+export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
   const historyLength = inject('historyLength') as number;
 
   // 防抖ID
   let saveHistoryId = -1;
 
   const history: HistoryDataType = {
-    list: [props.value],
+    list: [
+      {
+        content: props.value,
+        startPos: textAreaRef.value?.selectionStart || 0,
+        endPos: textAreaRef.value?.selectionEnd || 0
+      }
+    ],
     userUpdated: true,
     curr: 0
   };
@@ -40,6 +49,8 @@ export const useHistory = (props: EditorContentProps) => {
     () => props.value,
     (nVal) => {
       clearTimeout(saveHistoryId);
+      const startPos: number = textAreaRef.value?.selectionStart || 0;
+      const endPos: number = textAreaRef.value?.selectionEnd || 0;
 
       saveHistoryId = <any>setTimeout(() => {
         // 如果不是撤销操作，就记录
@@ -52,13 +63,23 @@ export const useHistory = (props: EditorContentProps) => {
             history.list.shift();
           }
 
-          history.list.push(nVal);
+          // 修改保存上次记录选中定位
+          const lastStep = history.list.pop() as HistoryItemType;
+          lastStep.startPos = startPos;
+          lastStep.endPos = endPos;
+
+          Array.prototype.push.call(history.list, lastStep, {
+            content: nVal,
+            startPos,
+            endPos
+          });
+
           // 下标调整为最后一个位置
           history.curr = history.list.length - 1;
         } else {
           history.userUpdated = true;
         }
-      }, 500);
+      }, 10);
     }
   );
 
@@ -68,7 +89,12 @@ export const useHistory = (props: EditorContentProps) => {
       history.userUpdated = false;
       // 倒退一个下标，最多倒退到0
       history.curr = history.curr - 1 < 0 ? 0 : history.curr - 1;
-      props.onChange(history.list[history.curr]);
+
+      const currHistory = history.list[history.curr];
+      props.onChange(currHistory.content);
+
+      // 选中内容
+      setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
     }
   });
 
@@ -79,7 +105,12 @@ export const useHistory = (props: EditorContentProps) => {
       // 前进一个下标，最多倒退到最大下标
       history.curr =
         history.curr + 1 === history.list.length ? history.curr : history.curr + 1;
-      props.onChange(history.list[history.curr]);
+
+      const currHistory = history.list[history.curr];
+      props.onChange(currHistory.content);
+
+      // 选中内容
+      setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
     }
   });
 };
@@ -93,7 +124,7 @@ export const useMarked = (props: EditorContentProps) => {
   // 标题数目
   let count = Number(0);
   // 标题列表，扁平结构
-  let headstemp: HeadList[] = new Array();
+  let headstemp: HeadList[] = [];
 
   // marked渲染实例
   const renderer = new marked.Renderer();
@@ -106,6 +137,10 @@ export const useMarked = (props: EditorContentProps) => {
     // Bug marked单实例，count等依赖被共享
 
     return `<h${level} id="heading-${count}"><span class="h-text">${text}</span></h${level}>`;
+  };
+
+  renderer.image = (href, _, desc) => {
+    return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
   };
 
   marked.setOptions({
@@ -237,6 +272,7 @@ export const useAutoScroll = (
 
 export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => {
   const previewOnly = inject('previewOnly') as boolean;
+  const tabWidth = inject('tabWidth') as number;
   const selectedText = ref('');
 
   onMounted(() => {
@@ -283,7 +319,7 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
             } else if (/^-\s+.+/.test(enterPressRow)) {
               // 无序列表存在内容
               props.onChange(
-                insert(textAreaRef.value as HTMLTextAreaElement, `\n- `, {})
+                insert(textAreaRef.value as HTMLTextAreaElement, '\n- ', {})
               );
             } else {
               const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);
@@ -300,13 +336,16 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
       // 注册指令替换内容事件
       bus.on({
         name: 'replace',
-        callback(direct: ToolDirective, params: any) {
+        callback(direct: ToolDirective, params = {}) {
           props.onChange(
             directive2flag(
               direct,
               selectedText.value,
               textAreaRef.value as HTMLTextAreaElement,
-              params
+              {
+                ...params,
+                tabWidth
+              }
             )
           );
         }

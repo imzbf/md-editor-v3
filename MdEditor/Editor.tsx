@@ -223,6 +223,10 @@ const props = {
   editorId: {
     type: String as PropType<string>,
     default: () => `mev-${Math.random().toString(36).substr(3)}`
+  },
+  tabWidth: {
+    type: Number as PropType<number>,
+    default: 2
   }
 };
 
@@ -233,6 +237,7 @@ export default defineComponent({
     useKeyBoard(props, context);
 
     // 下面的内容不使用响应式（解构会失去响应式能力）
+    // eslint-disable-next-line vue/no-setup-props-destructure
     const {
       hljs,
       previewOnly,
@@ -242,10 +247,14 @@ export default defineComponent({
       prettierMDCDN,
       cropperCss,
       cropperJs,
-      editorId
+      editorId,
+      tabWidth
     } = props;
 
     provide('editorId', editorId);
+
+    // tab=2space
+    provide('tabWidth', tabWidth);
 
     // 注入高亮src
     provide('highlight', {
@@ -320,7 +329,7 @@ export default defineComponent({
       }
     };
 
-    let bodyOverflowHistory = document.body.style.overflow;
+    const bodyOverflowHistory = document.body.style.overflow;
     const adjustBody = () => {
       if (setting.pageFullScreen || setting.fullscreen) {
         document.body.style.overflow = 'hidden';
