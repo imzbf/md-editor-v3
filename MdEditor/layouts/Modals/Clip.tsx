@@ -36,6 +36,7 @@ export default defineComponent({
   },
   setup(props) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
+    const editorId = inject('editorId') as string;
 
     const uploadRef = ref();
     const uploadImgRef = ref();
@@ -122,6 +123,7 @@ export default defineComponent({
             onClick={() => {
               const cvs = cropper.getCroppedCanvas();
               bus.emit(
+                editorId,
                 'uploadImage',
                 [base642File(cvs.toDataURL('image/png'))],
                 props.onOk
