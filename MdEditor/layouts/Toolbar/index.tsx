@@ -91,6 +91,17 @@ export default defineComponent({
       to.value = document.getElementById(editorId) as HTMLElement;
     });
 
+    // 监控左边的操作栏
+    const toolbarLeftRef = ref<HTMLDivElement>();
+    onMounted(() => {
+      toolbarLeftRef.value?.addEventListener('mouseover', () => {
+        if (!window.getSelection()?.toString()) {
+          bus.emit(editorId, 'selectTextChange', '');
+        }
+      });
+    });
+    // end
+
     return () => {
       // 获取工具栏设置
       const toolbars = props.toolbars;
@@ -103,7 +114,7 @@ export default defineComponent({
       return (
         <div class={`${prefix}-toolbar-wrapper`}>
           <div class={`${prefix}-toolbar`}>
-            <div class={`${prefix}-toolbar-left`}>
+            <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
               {showBar('bold') && (
                 <div
                   class={`${prefix}-toolbar-item`}
