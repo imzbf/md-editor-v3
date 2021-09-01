@@ -355,6 +355,14 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
     }
   });
 
+  // 注册修改选择内容事件
+  bus.on(editorId, {
+    name: 'selectTextChange',
+    callback(val: string) {
+      selectedText.value = val;
+    }
+  });
+
   return {
     selectedText
   };
