@@ -1,4 +1,4 @@
-import { defineComponent, reactive, PropType, onMounted, onUnmounted, ref } from 'vue';
+import { defineComponent, reactive, PropType, onUnmounted, watch } from 'vue';
 import Editor from '../../MdEditor';
 import { mdText } from '../data';
 import { Theme } from '../App';
@@ -20,11 +20,15 @@ export default defineComponent({
 
     // 自动保存
     let taskId = -1;
-    onMounted(() => {
-      taskId = window.setInterval(() => {
-        localStorage.setItem(SAVE_KEY, md.text);
-      }, 10_000);
-    });
+    watch(
+      () => md.text,
+      () => {
+        clearInterval(taskId);
+        taskId = window.setTimeout(() => {
+          localStorage.setItem(SAVE_KEY, md.text);
+        }, 2_000);
+      }
+    );
 
     onUnmounted(() => {
       clearInterval(taskId);
@@ -35,6 +39,7 @@ export default defineComponent({
       <div class="project-preview">
         <div class="container">
           <Editor
+            editorId="md-prev"
             theme={props.theme}
             modelValue={md.text}
             onSave={(v) => {
@@ -65,7 +70,7 @@ export default defineComponent({
           />
           <br />
           <span class="tips-text">
-            tips：本页上方的编辑器有localstorage保存功能，可手动点击保存触发，编辑器每10秒钟会自己保存一次，可用于一些文档的编辑。下方的文档内容也是使用该编辑器完成~
+            tips：本页上方的编辑器有localstorage保存功能，可手动点击保存触发，每次操作后两秒会自己保存一次，可用于一些文档的编辑。
           </span>
         </div>
       </div>
