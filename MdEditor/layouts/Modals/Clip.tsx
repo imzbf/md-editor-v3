@@ -118,6 +118,7 @@ export default defineComponent({
         <div class={`${prefix}-form-item`}>
           <button
             class={`${prefix}-btn`}
+            type="button"
             onClick={() => {
               const cvs = cropper.getCroppedCanvas();
               bus.emit(

@@ -141,6 +141,7 @@ export default defineComponent({
         <div class={`${prefix}-form-item`}>
           <button
             class={`${prefix}-btn ${props.type === 'link' && prefix + '-btn-row'}`}
+            type="button"
             onClick={() => {
               props.onOk(linkData);
               linkData.desc = '';
@@ -153,6 +154,7 @@ export default defineComponent({
             <>
               <button
                 class={`${prefix}-btn`}
+                type="button"
                 onClick={() => {
                   nextTick(() => {
                     (uploadRef.value as HTMLInputElement).click();
@@ -161,7 +163,7 @@ export default defineComponent({
               >
                 {ult.value.linkModalTips?.buttonUpload}
               </button>
-              <button class={`${prefix}-btn`} onClick={props.onClip}>
+              <button class={`${prefix}-btn`} type="button" onClick={props.onClip}>
                 {ult.value.linkModalTips?.buttonUploadClip}
               </button>
               <input
