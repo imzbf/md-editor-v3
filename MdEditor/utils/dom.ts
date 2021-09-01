@@ -17,8 +17,8 @@ export const keyMove = (
     const width = parent.offsetWidth;
     const height = parent.offsetHeight;
     // 当前页长宽
-    const clientWidth = document.documentElement.clientWidth;
-    const clientHeight = document.documentElement.clientHeight;
+    const { clientWidth } = document.documentElement;
+    const { clientHeight } = document.documentElement;
 
     const x = mdown.offsetX;
     const y = mdown.offsetY;
@@ -34,8 +34,8 @@ export const keyMove = (
       if (moveHandler) {
         moveHandler(tx, ty);
       } else {
-        parent.style.left = tx + 'px';
-        parent.style.top = ty + 'px';
+        parent.style.left = `${tx}px`;
+        parent.style.top = `${ty}px`;
       }
     };
 
