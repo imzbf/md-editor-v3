@@ -234,8 +234,6 @@ export default defineComponent({
   name: 'MdEditorV3',
   props,
   setup(props, context) {
-    useKeyBoard(props, context);
-
     // 下面的内容不使用响应式（解构会失去响应式能力）
     // eslint-disable-next-line vue/no-setup-props-destructure
     const {
@@ -250,6 +248,13 @@ export default defineComponent({
       editorId,
       tabWidth
     } = props;
+
+    // 构建组件第一步先清空event-bus
+    // 由于bus是单一实例，会导致重复创建编辑器时，残留旧的监听任务
+    // 不在卸载组件时清空的原因是，vue新的内容挂载会在旧的内容卸载之前完成
+    bus.clear(editorId);
+
+    useKeyBoard(props, context);
 
     provide('editorId', editorId);
 
@@ -287,14 +292,14 @@ export default defineComponent({
 
     // 监听上传图片
     !previewOnly &&
-      bus.on({
+      bus.on(editorId, {
         name: 'uploadImage',
         callback(files: FileList, cb: () => void) {
           const insertHanlder = (urls: Array<string>) => {
             urls.forEach((url) => {
               // 利用事件循环机制，保证两次插入分开进行
               setTimeout(() => {
-                bus.emit('replace', 'image', {
+                bus.emit(editorId, 'replace', 'image', {
                   desc: '',
                   url
                 });
