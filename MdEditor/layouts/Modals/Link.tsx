@@ -43,7 +43,7 @@ export default defineComponent({
   },
   setup(props) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const editorId = inject('editorId');
+    const editorId = inject('editorId') as string;
 
     const title = computed(() => {
       switch (props.type) {
@@ -69,7 +69,12 @@ export default defineComponent({
     const uploadRef = ref();
 
     const uploadHandler = () => {
-      bus.emit('uploadImage', (uploadRef.value as HTMLInputElement).files, props.onOk);
+      bus.emit(
+        editorId,
+        'uploadImage',
+        (uploadRef.value as HTMLInputElement).files,
+        props.onOk
+      );
       // 清空内容，否则无法再次选取同一张图片
       (uploadRef.value as HTMLInputElement).value = '';
     };
