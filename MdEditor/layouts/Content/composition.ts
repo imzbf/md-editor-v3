@@ -29,6 +29,7 @@ interface HistoryDataType {
  */
 export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
   const historyLength = inject('historyLength') as number;
+  const editorId = inject('editorId') as string;
 
   // 防抖ID
   let saveHistoryId = -1;
@@ -83,7 +84,7 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
     }
   );
 
-  bus.on({
+  bus.on(editorId, {
     name: 'ctrlZ',
     callback() {
       history.userUpdated = false;
@@ -98,7 +99,7 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
     }
   });
 
-  bus.on({
+  bus.on(editorId, {
     name: 'ctrlShiftZ',
     callback() {
       history.userUpdated = false;
@@ -273,6 +274,7 @@ export const useAutoScroll = (
 export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => {
   const previewOnly = inject('previewOnly') as boolean;
   const tabWidth = inject('tabWidth') as number;
+  const editorId = inject('editorId') as string;
   const selectedText = ref('');
 
   onMounted(() => {
@@ -334,7 +336,7 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
       });
 
       // 注册指令替换内容事件
-      bus.on({
+      bus.on(editorId, {
         name: 'replace',
         callback(direct: ToolDirective, params = {}) {
           props.onChange(
@@ -350,6 +352,14 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
           );
         }
       });
+    }
+  });
+
+  // 注册修改选择内容事件
+  bus.on(editorId, {
+    name: 'selectTextChange',
+    callback(val: string) {
+      selectedText.value = val;
     }
   });
 
