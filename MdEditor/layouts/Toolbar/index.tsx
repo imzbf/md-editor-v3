@@ -50,7 +50,7 @@ export default defineComponent({
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
-      bus.emit('replace', direct, params);
+      bus.emit(editorId, 'replace', direct, params);
     };
 
     const fullScreen = () => {
@@ -77,7 +77,7 @@ export default defineComponent({
       visible: false
     });
 
-    bus.on({
+    bus.on(editorId, {
       name: 'openModals',
       callback(type) {
         modalData.type = type;
@@ -91,6 +91,17 @@ export default defineComponent({
       to.value = document.getElementById(editorId) as HTMLElement;
     });
 
+    // 监控左边的操作栏
+    const toolbarLeftRef = ref<HTMLDivElement>();
+    onMounted(() => {
+      toolbarLeftRef.value?.addEventListener('mouseover', () => {
+        if (!window.getSelection()?.toString()) {
+          bus.emit(editorId, 'selectTextChange', '');
+        }
+      });
+    });
+    // end
+
     return () => {
       // 获取工具栏设置
       const toolbars = props.toolbars;
@@ -103,7 +114,7 @@ export default defineComponent({
       return (
         <div class={`${prefix}-toolbar-wrapper`}>
           <div class={`${prefix}-toolbar`}>
-            <div class={`${prefix}-toolbar-left`}>
+            <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
               {showBar('bold') && (
                 <div
                   class={`${prefix}-toolbar-item`}
@@ -371,7 +382,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.revoke}
                   onClick={() => {
-                    bus.emit('ctrlZ');
+                    bus.emit(editorId, 'ctrlZ');
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
@@ -384,7 +395,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.next}
                   onClick={() => {
-                    bus.emit('ctrlShiftZ');
+                    bus.emit(editorId, 'ctrlShiftZ');
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
@@ -397,7 +408,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.save}
                   onClick={() => {
-                    bus.emit('onSave');
+                    bus.emit(editorId, 'onSave');
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
