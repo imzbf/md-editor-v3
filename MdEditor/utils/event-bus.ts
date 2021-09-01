@@ -16,6 +16,11 @@ class Bus {
     }
   }
 
+  // 清空全部事件，由于单一实例，多次注册会被共享内容
+  clear() {
+    this.pools = {};
+  }
+
   // 注册事件监听
   on(event: BusEvent) {
     if (this.pools[event.name] === undefined) {
