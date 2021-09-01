@@ -299,7 +299,7 @@ export default defineComponent({
             urls.forEach((url) => {
               // 利用事件循环机制，保证两次插入分开进行
               setTimeout(() => {
-                bus.emit('replace', 'image', {
+                bus.emit(editorId, 'replace', 'image', {
                   desc: '',
                   url
                 });
