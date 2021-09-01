@@ -4,6 +4,8 @@ vue3 项目下的 Markdown 编辑器，，使用 jsx 语法开发，支持在 ts
 
 文档与在线预览：[传送门](https://imzbf.github.io/md-editor-v3)
 
+在线尝试示例：[传送门](https://stackblitz.com/edit/vue-aleajl)
+
 ## 功能一览
 
 1. 快捷插入内容工具栏、编辑器浏览器全屏、页面内全屏等；
