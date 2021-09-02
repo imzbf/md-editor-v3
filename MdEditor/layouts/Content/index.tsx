@@ -90,9 +90,11 @@ export default defineComponent({
               <div ref={previewRef} class={`${prefix}-preview`} innerHTML={html.value} />
             )}
             {props.setting.htmlPreview && (
-              <div ref={htmlRef} class={`${prefix}-html`}>
-                {html.value}
-              </div>
+              <>
+                <div ref={htmlRef} class={`${prefix}-html`}>
+                  {html.value}
+                </div>
+              </>
             )}
           </div>
           {props.hljs === null && (
