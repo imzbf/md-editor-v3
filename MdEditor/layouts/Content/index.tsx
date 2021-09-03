@@ -42,6 +42,8 @@ export default defineComponent({
   setup(props) {
     const highlight = inject('highlight') as { js: string; css: string };
     const previewOnly = inject('previewOnly') as boolean;
+    // 是否显示行号
+    const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
 
     const editorId = inject('editorId') as string;
 
@@ -87,7 +89,11 @@ export default defineComponent({
               </div>
             )}
             {props.setting.preview && (
-              <div ref={previewRef} class={`${prefix}-preview`} innerHTML={html.value} />
+              <div
+                ref={previewRef}
+                class={[`${prefix}-preview`, showCodeRowNumber && `${prefix}-scrn`]}
+                innerHTML={html.value}
+              />
             )}
             {props.setting.htmlPreview && (
               <>
