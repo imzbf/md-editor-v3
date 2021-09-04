@@ -4,7 +4,7 @@ import copy from 'copy-to-clipboard';
 import { EditorContentProps } from './index';
 import { HeadList, StaticTextDefaultValue, prefix } from '../../Editor';
 import bus from '../../utils/event-bus';
-import { insert, scrollAuto, setPosition } from '../../utils';
+import { insert, scrollAuto, setPosition, generateCodeRowNumber } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
 
 interface HistoryItemType {
@@ -120,6 +120,10 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
  * markdown编译逻辑
  */
 export const useMarked = (props: EditorContentProps) => {
+  // 是否显示行号
+  const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
+
+  // ~~
   const highlightInited = ref(false);
 
   // 标题数目
@@ -151,7 +155,10 @@ export const useMarked = (props: EditorContentProps) => {
   if (props.hljs) {
     // 提供了hljs，在创建阶段即完成设置
     marked.setOptions({
-      highlight: (code) => props.hljs.highlightAuto(code).value
+      highlight: (code) => {
+        const codeHtml = props.hljs.highlightAuto(code).value;
+        return showCodeRowNumber ? generateCodeRowNumber(codeHtml) : codeHtml;
+      }
     });
   }
 
@@ -173,8 +180,9 @@ export const useMarked = (props: EditorContentProps) => {
   // 高亮代码js加载完成后回调
   const highlightLoad = () => {
     marked.setOptions({
-      highlight(code) {
-        return window.hljs.highlightAuto(code).value;
+      highlight: (code) => {
+        const codeHtml = window.hljs.highlightAuto(code).value;
+        return showCodeRowNumber ? generateCodeRowNumber(codeHtml) : codeHtml;
       }
     });
 
