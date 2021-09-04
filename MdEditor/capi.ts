@@ -1,8 +1,8 @@
-import { onMounted, onUnmounted, SetupContext } from 'vue';
+import { computed, onMounted, onUnmounted, provide, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
 import { ToolbarNames } from './Editor';
-
+import { staticTextDefault } from './config';
 export const useKeyBoard = (props: any, context: SetupContext) => {
   const { editorId } = props;
 
@@ -269,4 +269,45 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         }
       }
     });
+};
+
+export const useProvide = (props: any) => {
+  const { previewOnly, editorId, tabWidth, showCodeRowNumber } = props;
+
+  provide('editorId', editorId);
+
+  // tab=2space
+  provide('tabWidth', tabWidth);
+
+  // 注入高亮src
+  provide('highlight', {
+    js: props.highlightJs,
+    css: props.highlightCss
+  });
+
+  // 注入历史设置
+  provide('historyLength', props.historyLength);
+
+  // 注入是否仅预览
+  provide('previewOnly', previewOnly);
+
+  // 注入代码行号控制
+  provide('showCodeRowNumber', showCodeRowNumber);
+
+  // 注入语言设置
+  const usedLanguageText = computed(() => {
+    const allText: any = {
+      ...staticTextDefault,
+      ...props.languageUserDefined
+    };
+
+    if (allText[props.language]) {
+      return allText[props.language];
+    } else {
+      return staticTextDefault['zh-CN'];
+    }
+  });
+
+  provide('usedLanguageText', usedLanguageText);
+  // -end-
 };
