@@ -1,21 +1,6 @@
-import {
-  computed,
-  defineComponent,
-  PropType,
-  provide,
-  reactive,
-  Teleport,
-  watch
-} from 'vue';
-import {
-  allToolbar,
-  highlightUrl,
-  iconfontUrl,
-  prettierUrl,
-  staticTextDefault,
-  cropperUrl
-} from './config';
-import { useKeyBoard } from './capi';
+import { defineComponent, PropType, reactive, Teleport, watch } from 'vue';
+import { allToolbar, highlightUrl, iconfontUrl, prettierUrl, cropperUrl } from './config';
+import { useKeyBoard, useProvide } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
 import bus from './utils/event-bus';
@@ -227,6 +212,11 @@ const props = {
   tabWidth: {
     type: Number as PropType<number>,
     default: 2
+  },
+  // 预览中代码是否显示行号
+  showCodeRowNumber: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 
@@ -245,8 +235,7 @@ export default defineComponent({
       prettierMDCDN,
       cropperCss,
       cropperJs,
-      editorId,
-      tabWidth
+      editorId
     } = props;
 
     // 构建组件第一步先清空event-bus
@@ -254,41 +243,11 @@ export default defineComponent({
     // 不在卸载组件时清空的原因是，vue新的内容挂载会在旧的内容卸载之前完成
     bus.clear(editorId);
 
+    // 快捷键监听
     useKeyBoard(props, context);
 
-    provide('editorId', editorId);
-
-    // tab=2space
-    provide('tabWidth', tabWidth);
-
-    // 注入高亮src
-    provide('highlight', {
-      js: props.highlightJs,
-      css: props.highlightCss
-    });
-
-    // 注入历史设置
-    provide('historyLength', props.historyLength);
-
-    // 注入是否仅预览
-    provide('previewOnly', previewOnly);
-
-    // 注入语言设置
-    const usedLanguageText = computed(() => {
-      const allText: any = {
-        ...staticTextDefault,
-        ...props.languageUserDefined
-      };
-
-      if (allText[props.language]) {
-        return allText[props.language];
-      } else {
-        return staticTextDefault['zh-CN'];
-      }
-    });
-
-    provide('usedLanguageText', usedLanguageText);
-    // -end-
+    // ~~
+    useProvide(props);
 
     // 监听上传图片
     !previewOnly &&

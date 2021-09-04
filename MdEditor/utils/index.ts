@@ -168,3 +168,25 @@ export const base642File = (base64: string, fileName = 'image.png') => {
 
   return null;
 };
+
+/**
+ * 对代码块添加行号
+ *
+ * @param code 代码html内容
+ * @returns string
+ */
+export const generateCodeRowNumber = (code: string) => {
+  if (!code.trim()) {
+    return code;
+  }
+
+  const list = code.split('\n');
+  // 行号html代码拼接列表
+  const rowNumberList = ['<span rn-wrapper aria-hidden="true">'];
+  list.forEach(() => {
+    rowNumberList.push('<span></span>');
+  });
+  rowNumberList.push('</span>');
+
+  return `${code}${rowNumberList.join('')}`;
+};
