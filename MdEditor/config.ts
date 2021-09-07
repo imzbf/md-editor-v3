@@ -23,6 +23,9 @@ export const cropperUrl = {
   js: 'https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js'
 };
 
+export const screenfullUrl =
+  'https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js';
+
 // 所有的编辑器功能点
 export const allToolbar = [
   'bold',
