@@ -272,7 +272,7 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
 };
 
 export const useProvide = (props: any) => {
-  const { previewOnly, editorId, tabWidth, showCodeRowNumber } = props;
+  const { previewOnly, editorId, tabWidth, showCodeRowNumber, Cropper } = props;
 
   provide('editorId', editorId);
 
@@ -309,5 +309,7 @@ export const useProvide = (props: any) => {
   });
 
   provide('usedLanguageText', usedLanguageText);
+
+  provide('Cropper', Cropper);
   // -end-
 };
