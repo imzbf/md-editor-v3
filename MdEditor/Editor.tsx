@@ -190,6 +190,11 @@ const props = {
   onHtmlChanged: {
     type: Function as PropType<(h: string) => void>
   },
+  // 图片裁剪对象
+  Cropper: {
+    type: Function,
+    default: null
+  },
   cropperCss: {
     type: String as PropType<string>,
     default: cropperUrl.css
@@ -233,6 +238,7 @@ export default defineComponent({
       prettier,
       prettierCDN,
       prettierMDCDN,
+      Cropper,
       cropperCss,
       cropperJs,
       editorId
@@ -364,7 +370,7 @@ export default defineComponent({
             <script src={prettierMDCDN} />
           </Teleport>
         )}
-        {!previewOnly && (
+        {!previewOnly && Cropper === null && (
           <Teleport to={document.body}>
             <link href={cropperCss} rel="stylesheet" />
             <script src={cropperJs}></script>
