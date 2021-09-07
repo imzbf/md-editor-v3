@@ -5,9 +5,9 @@ import {
   onMounted,
   PropType,
   reactive,
-  ref
+  ref,
+  Teleport
 } from 'vue';
-import screenfull from 'screenfull';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { prefix, StaticTextDefaultValue, ToolbarNames, SettingType } from '../../Editor';
@@ -15,6 +15,7 @@ import bus from '../../utils/event-bus';
 import { goto } from '../../utils';
 import Modals from '../Modals';
 import { ToolDirective } from '../../utils/content-help';
+import { useSreenfull } from './composition';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -33,6 +34,14 @@ export default defineComponent({
       type: Object as PropType<SettingType>,
       default: () => ({})
     },
+    screenfull: {
+      type: Object,
+      default: null
+    },
+    screenfullJs: {
+      type: String as PropType<string>,
+      default: ''
+    },
     updateSetting: {
       type: Function as PropType<(v: boolean, k: keyof SettingType) => void>,
       default: () => () => {}
@@ -43,6 +52,10 @@ export default defineComponent({
     const editorId = inject('editorId') as string;
     // 获取语言设置
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
+    const previewOnly = inject('previewOnly') as boolean;
+
+    // 全屏功能
+    const { fullScreenHandler, screenfullLoad } = useSreenfull(props);
 
     const visible = reactive({
       title: false,
@@ -52,24 +65,6 @@ export default defineComponent({
     const emitHandler = (direct: ToolDirective, params?: any) => {
       bus.emit(editorId, 'replace', direct, params);
     };
-
-    const fullScreen = () => {
-      if (screenfull.isEnabled) {
-        if (screenfull.isFullscreen) {
-          screenfull.exit();
-        } else {
-          screenfull.request();
-        }
-      } else {
-        console.error('浏览器不支持全屏');
-      }
-    };
-
-    if (screenfull.isEnabled) {
-      screenfull.on('change', () => {
-        props.updateSetting(!props.setting.fullscreen, 'fullscreen');
-      });
-    }
 
     // 链接
     const modalData = reactive<{ type: 'link' | 'image' | 'help'; visible: boolean }>({
@@ -454,7 +449,7 @@ export default defineComponent({
                 <div
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.fullscreen}
-                  onClick={fullScreen}
+                  onClick={fullScreenHandler}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use
@@ -539,6 +534,12 @@ export default defineComponent({
             }}
             to={to.value}
           />
+          {/* 非预览模式且未提供screenfull时请求cdn */}
+          {!previewOnly && props.screenfull === null && (
+            <Teleport to={document.head}>
+              <script src={props.screenfullJs} onLoad={screenfullLoad}></script>
+            </Teleport>
+          )}
         </div>
       );
     };
