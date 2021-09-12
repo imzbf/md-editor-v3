@@ -311,5 +311,8 @@ export const useProvide = (props: any) => {
   provide('usedLanguageText', usedLanguageText);
 
   provide('Cropper', Cropper);
+
+  // 提供预览主题
+  provide('previewTheme', props.previewTheme);
   // -end-
 };
