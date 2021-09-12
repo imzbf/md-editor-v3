@@ -1,5 +1,5 @@
 import { defineComponent, Teleport, inject, PropType, ref } from 'vue';
-import { HeadList, prefix, SettingType } from '../../Editor';
+import { HeadList, prefix, SettingType, PreviewThemes } from '../../Editor';
 import { useAutoGenrator, useAutoScroll, useHistory, useMarked } from './composition';
 
 export type EditorContentProps = Readonly<{
@@ -44,6 +44,8 @@ export default defineComponent({
     const previewOnly = inject('previewOnly') as boolean;
     // 是否显示行号
     const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
+    // 预览主题
+    const previewTheme = inject('previewTheme') as PreviewThemes;
 
     const editorId = inject('editorId') as string;
 
@@ -91,7 +93,11 @@ export default defineComponent({
             {props.setting.preview && (
               <div
                 ref={previewRef}
-                class={[`${prefix}-preview`, showCodeRowNumber && `${prefix}-scrn`]}
+                class={[
+                  `${prefix}-preview`,
+                  `${prefix}-preview-${previewTheme}`,
+                  showCodeRowNumber && `${prefix}-scrn`
+                ]}
                 innerHTML={html.value}
               />
             )}
