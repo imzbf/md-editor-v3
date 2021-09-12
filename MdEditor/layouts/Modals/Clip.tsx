@@ -37,6 +37,8 @@ export default defineComponent({
   setup(props) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;
+    // 传递下来的图片裁剪构造函数
+    let Cropper = inject('Cropper') as any;
 
     const uploadRef = ref();
     const uploadImgRef = ref();
@@ -49,6 +51,8 @@ export default defineComponent({
     let cropper: any = null;
 
     onMounted(() => {
+      Cropper = Cropper || window.Cropper;
+
       (uploadRef.value as HTMLInputElement).addEventListener('change', () => {
         const fileList = (uploadRef.value as HTMLInputElement).files || [];
 
@@ -62,7 +66,7 @@ export default defineComponent({
             data.imgSrc = e.target.result;
 
             nextTick(() => {
-              cropper = new window.Cropper(uploadImgRef.value, {
+              cropper = new Cropper(uploadImgRef.value, {
                 viewMode: 2,
                 preview: `.${prefix}-clip-preview-target`
                 // aspectRatio: 16 / 9,
