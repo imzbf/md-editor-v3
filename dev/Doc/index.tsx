@@ -27,7 +27,12 @@ export default defineComponent({
     return () => (
       <div class="doc">
         <div class="container">
-          <Editor theme={props.theme} modelValue={mdText.value} previewOnly />
+          <Editor
+            theme={props.theme}
+            modelValue={mdText.value}
+            previewOnly
+            showCodeRowNumber
+          />
         </div>
       </div>
     );
