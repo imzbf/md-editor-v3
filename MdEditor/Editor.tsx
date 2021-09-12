@@ -1,5 +1,12 @@
 import { defineComponent, PropType, reactive, Teleport, watch } from 'vue';
-import { allToolbar, highlightUrl, iconfontUrl, prettierUrl, cropperUrl } from './config';
+import {
+  allToolbar,
+  highlightUrl,
+  iconfontUrl,
+  prettierUrl,
+  cropperUrl,
+  screenfullUrl
+} from './config';
 import { useKeyBoard, useProvide } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
@@ -13,6 +20,7 @@ declare global {
     prettier: any;
     prettierPlugins: any;
     Cropper: any;
+    screenfull: any;
   }
 }
 
@@ -190,6 +198,11 @@ const props = {
   onHtmlChanged: {
     type: Function as PropType<(h: string) => void>
   },
+  // 图片裁剪对象
+  Cropper: {
+    type: Function,
+    default: null
+  },
   cropperCss: {
     type: String as PropType<string>,
     default: cropperUrl.css
@@ -217,6 +230,14 @@ const props = {
   showCodeRowNumber: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  screenfull: {
+    type: Object,
+    default: null
+  },
+  screenfullJs: {
+    type: String as PropType<string>,
+    default: screenfullUrl
   }
 };
 
@@ -233,9 +254,12 @@ export default defineComponent({
       prettier,
       prettierCDN,
       prettierMDCDN,
+      Cropper,
       cropperCss,
       cropperJs,
-      editorId
+      editorId,
+      screenfull,
+      screenfullJs
     } = props;
 
     // 构建组件第一步先清空event-bus
@@ -321,6 +345,8 @@ export default defineComponent({
       >
         {!previewOnly && (
           <ToolBar
+            screenfull={screenfull}
+            screenfullJs={screenfullJs}
             toolbars={props.toolbars}
             toolbarsExclude={props.toolbarsExclude}
             setting={setting}
@@ -364,8 +390,8 @@ export default defineComponent({
             <script src={prettierMDCDN} />
           </Teleport>
         )}
-        {!previewOnly && (
-          <Teleport to={document.body}>
+        {!previewOnly && Cropper === null && (
+          <Teleport to={document.head}>
             <link href={cropperCss} rel="stylesheet" />
             <script src={cropperJs}></script>
           </Teleport>
