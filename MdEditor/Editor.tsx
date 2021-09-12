@@ -103,6 +103,8 @@ export interface HeadList {
   level: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
+export type PreviewThemes = 'default' | 'github' | 'vuepress';
+
 const props = {
   modelValue: {
     type: String as PropType<string>,
@@ -238,6 +240,11 @@ const props = {
   screenfullJs: {
     type: String as PropType<string>,
     default: screenfullUrl
+  },
+  // 预览内容样式
+  previewTheme: {
+    type: String as PropType<PreviewThemes>,
+    default: 'default'
   }
 };
 
