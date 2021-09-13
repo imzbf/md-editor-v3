@@ -1,5 +1,14 @@
-.github-style {
+@import '../vars';
+
+@codeBkColor: #282c34;
+@codeBkColorDark: #1a1a1a;
+
+@borderColor: #d9dee4;
+
+// 代码样式
+.@{prefix}-preview-github {
   font-size: 16px;
+  line-height: 1.5;
 
   h1,
   h2,
@@ -7,7 +16,192 @@
   h4,
   h5,
   h6 {
-    margin: 1.4em 0 0.8em 0;
-    font-weight: bold;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  h1 {
+    padding-bottom: 0.3em;
+    font-size: 2em;
+    border-bottom: 1px solid @borderColor;
+  }
+
+  h2 {
+    padding-bottom: 0.3em;
+    font-size: 1.5em;
+    border-bottom: 1px solid @borderColor;
+  }
+
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 1em;
+  }
+
+  h5 {
+    font-size: 0.875em;
+  }
+
+  h6 {
+    font-size: 0.85em;
+    color: rgb(87, 96, 106);
+  }
+
+  a {
+    text-decoration: none;
+    color: rgb(83, 155, 245);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    box-sizing: content-box;
+    background-color: #fff;
+  }
+
+  figcaption {
+    color: #888;
+    text-align: center;
+    font-size: 0.875px;
+    margin-top: 5px;
+  }
+
+  p,
+  blockquote,
+  ul,
+  ol,
+  dl,
+  table,
+  pre,
+  details {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+
+  p {
+    code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: rgba(175, 184, 193, 0.2);
+      border-radius: 6px;
+    }
+  }
+
+  blockquote {
+    padding: 0 1em;
+    color: rgb(87, 96, 106);
+    border-left: 0.25em solid rgb(208, 215, 222);
+  }
+
+  pre,
+  code {
+    font-family: Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  }
+
+  pre {
+    padding: 16px;
+    background-color: rgb(246, 248, 250);
+    border-radius: 6px;
+    overflow: auto;
+
+    .copy-button {
+      display: none;
+    }
+
+    code {
+      font-size: 85%;
+      line-height: 1.45;
+      margin-bottom: 0;
+      word-break: normal;
+      letter-spacing: 2px;
+    }
+  }
+
+  table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    tr {
+      background-color: #fff;
+      border-top: 1px solid rgb(216, 222, 228);
+
+      th,
+      td {
+        padding: 6px 13px;
+        border: 1px solid rgb(208, 215, 222);
+      }
+
+      &:nth-child(2n) {
+        background-color: #f7f8fa;
+      }
+    }
+  }
+
+  ol,
+  ul {
+    padding-left: 2em;
+  }
+}
+
+.@{prefix}-dark {
+  .@{prefix}-preview-github {
+    h1,
+    h2 {
+      border-bottom: 1px solid rgb(55, 62, 71);
+    }
+
+    img {
+      border-color: @borderColorDark;
+    }
+
+    blockquote {
+      border-color: rgb(68, 76, 86);
+      color: rgb(118, 131, 144);
+      background-color: initial;
+    }
+
+    pre {
+      background-color: rgb(45, 51, 59);
+      code {
+        color: #a9b7c6;
+      }
+
+      .copy-button {
+        color: @colorDark;
+      }
+
+      &::before {
+        background-color: @codeBkColorDark;
+      }
+    }
+
+    table {
+      tr {
+        background-color: rgb(34, 39, 46);
+        border-color: rgb(128, 128, 128);
+
+        th,
+        td {
+          border-color: rgb(68, 76, 86);
+        }
+
+        &:nth-child(2n) {
+          background-color: rgb(45, 51, 59);
+        }
+      }
+    }
   }
 }
