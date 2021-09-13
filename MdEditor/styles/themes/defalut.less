@@ -105,7 +105,7 @@
     &::before {
       content: '';
       display: block;
-      background: url(../imgs/pre.png);
+      background: url(../../imgs/pre.png);
       height: 32px;
       width: 100%;
       background-size: 40px;
@@ -151,38 +151,40 @@
 }
 
 .@{prefix}-dark {
-  img {
-    border-color: @borderColorDark;
-  }
-
-  blockquote {
-    background-color: @bbkColorDark;
-  }
-
-  pre {
-    code {
-      background-color: @codeBkColorDark;
-      color: #a9b7c6;
+  .@{prefix}-preview-default {
+    img {
+      border-color: @borderColorDark;
     }
 
-    .copy-button {
-      color: @colorDark;
+    blockquote {
+      background-color: @bbkColorDark;
     }
 
-    &::before {
-      background-color: @codeBkColorDark;
-    }
-  }
-
-  table {
-    tr {
-      &:hover {
-        background-color: @hoverdark;
+    pre {
+      code {
+        background-color: @codeBkColorDark;
+        color: #a9b7c6;
       }
 
-      th,
-      td {
-        border-color: @borderColorDark;
+      .copy-button {
+        color: @colorDark;
+      }
+
+      &::before {
+        background-color: @codeBkColorDark;
+      }
+    }
+
+    table {
+      tr {
+        &:hover {
+          background-color: @hoverdark;
+        }
+
+        th,
+        td {
+          border-color: @borderColorDark;
+        }
       }
     }
   }
