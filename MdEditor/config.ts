@@ -8,7 +8,9 @@ export const iconfontUrl = 'https://at.alicdn.com/t/font_2605852_khjf435c7th.js'
 
 // 代码高亮cdn链接
 export const highlightUrl = {
-  css: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css',
+  atom: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css',
+  github: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/github.css',
+  githubDark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/github-dark.css',
   js: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js'
 };
 
