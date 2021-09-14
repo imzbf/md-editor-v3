@@ -1,4 +1,4 @@
-import { defineComponent, Teleport, inject, PropType, ref } from 'vue';
+import { defineComponent, Teleport, inject, PropType, ref, ComputedRef } from 'vue';
 import { HeadList, prefix, SettingType, PreviewThemes } from '../../Editor';
 import { useAutoGenrator, useAutoScroll, useHistory, useMarked } from './composition';
 
@@ -40,7 +40,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const highlight = inject('highlight') as { js: string; css: string };
+    const highlight = inject('highlight') as ComputedRef<{ js: string; css: string }>;
     const previewOnly = inject('previewOnly') as boolean;
     // 是否显示行号
     const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
@@ -111,8 +111,8 @@ export default defineComponent({
           </div>
           {props.hljs === null && (
             <Teleport to={document.head}>
-              <link rel="stylesheet" href={highlight.css} />
-              <script src={highlight.js} onLoad={highlightLoad} />
+              <link rel="stylesheet" href={highlight.value.css} />
+              <script src={highlight.value.js} onLoad={highlightLoad} />
             </Teleport>
           )}
         </>
