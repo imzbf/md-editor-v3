@@ -131,8 +131,8 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 | theme | 'light' \| 'dark' | 'light' | √ | 主题切换 |
 | editorClass | String | '' | √ | 编辑器最外层样式 |
 | hljs | Object | null | x | 项目中使用到了 highlight，可将实例直接传递，生产环境则不会请求 CDN，需要手动导入支持的高亮代码样式 |
-| highlightJs | String | [highlight.js](https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js) | x | highlightJs CDN |
-| highlightCss | String | [atom-one-dark](https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/atom-one-dark.min.css) | x | 预览高亮代码样式 |
+| highlightJs | String | [highlight.js](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | x | highlightJs CDN |
+| highlightCss | String | [atom-one-dark](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css) | x | 预览高亮代码样式 |
 | historyLength | Number | 10 | x | 最大记录操作数（太大会占用内存） |
 | pageFullScreen | Boolean | false | x | 浏览器内全屏 |
 | preview | Boolean | true | x | 预览模式 |
@@ -143,8 +143,8 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 | toolbars | Array | [all] | √ | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | x | 是否启用 prettier 优化 md 内容 |
-| prettierCDN | String | [standalone](https://unpkg.com/prettier@2.3.2/standalone.js) | x |  |
-| prettierMDCDN | String | [parser-markdown](https://unpkg.com/prettier@2.3.2/parser-markdown.js) | x |  |
+| prettierCDN | String | [standalone](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
+| prettierMDCDN | String | [parser-markdown](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) | x |  |
 | editorName<sup>v1.3.2delete</sup> | String | 'editor' | x | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
 | cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
 | cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
