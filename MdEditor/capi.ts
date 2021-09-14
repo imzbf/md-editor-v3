@@ -2,7 +2,7 @@ import { computed, onMounted, onUnmounted, provide, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
 import { ToolbarNames } from './Editor';
-import { staticTextDefault } from './config';
+import { highlightUrl, staticTextDefault } from './config';
 export const useKeyBoard = (props: any, context: SetupContext) => {
   const { editorId } = props;
 
@@ -272,7 +272,8 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
 };
 
 export const useProvide = (props: any) => {
-  const { previewOnly, editorId, tabWidth, showCodeRowNumber, Cropper } = props;
+  const { previewOnly, editorId, tabWidth, showCodeRowNumber, Cropper, previewTheme } =
+    props;
 
   provide('editorId', editorId);
 
@@ -280,10 +281,33 @@ export const useProvide = (props: any) => {
   provide('tabWidth', tabWidth);
 
   // 注入高亮src
-  provide('highlight', {
-    js: props.highlightJs,
-    css: props.highlightCss
+  const highlightSet = computed(() => {
+    let url = highlightUrl.atom;
+
+    if (props.highlightCss) {
+      // 用户设置为高优先级
+      url = props.highlightCss;
+    } else {
+      // 低优先级，根据全局主题加预览主题判断使用
+      switch (props.previewTheme) {
+        case 'github': {
+          if (props.theme === 'dark') {
+            url = highlightUrl.githubDark;
+          } else {
+            url = highlightUrl.github;
+          }
+
+          break;
+        }
+      }
+    }
+
+    return {
+      js: props.highlightJs,
+      css: url
+    };
   });
+  provide('highlight', highlightSet);
 
   // 注入历史设置
   provide('historyLength', props.historyLength);
@@ -313,6 +337,6 @@ export const useProvide = (props: any) => {
   provide('Cropper', Cropper);
 
   // 提供预览主题
-  provide('previewTheme', props.previewTheme);
+  provide('previewTheme', previewTheme);
   // -end-
 };
