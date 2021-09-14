@@ -30,6 +30,7 @@ export default defineComponent({
           <Editor
             theme={props.theme}
             modelValue={mdText.value}
+            previewTheme="github"
             previewOnly
             showCodeRowNumber
           />
