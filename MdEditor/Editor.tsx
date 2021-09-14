@@ -132,7 +132,7 @@ const props = {
   },
   highlightCss: {
     type: String as PropType<string>,
-    default: highlightUrl.css
+    default: ''
   },
   historyLength: {
     type: Number as PropType<number>,
