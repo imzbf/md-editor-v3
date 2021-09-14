@@ -5,9 +5,8 @@
 
 @borderColor: #d9dee4;
 
-// 代码样式
+// 从github上copy的部分样式
 .@{prefix}-preview-github {
-  font-size: 16px;
   line-height: 1.5;
 
   h1,
@@ -48,12 +47,12 @@
 
   h6 {
     font-size: 0.85em;
-    color: rgb(87, 96, 106);
+    color: #2d3339;
   }
 
   a {
     text-decoration: none;
-    color: rgb(83, 155, 245);
+    color: #539bf5;
 
     &:hover {
       text-decoration: underline;
@@ -63,14 +62,18 @@
   img {
     max-width: 100%;
     box-sizing: content-box;
-    background-color: #fff;
+    background-color: @bkColor;
   }
 
-  figcaption {
-    color: #888;
-    text-align: center;
-    font-size: 0.875px;
-    margin-top: 5px;
+  figure {
+    margin: 0;
+
+    figcaption {
+      color: #888;
+      text-align: center;
+      font-size: 0.875px;
+      margin-top: 5px;
+    }
   }
 
   p,
@@ -90,39 +93,42 @@
       padding: 0.2em 0.4em;
       margin: 0;
       font-size: 85%;
-      background-color: rgba(175, 184, 193, 0.2);
+      background-color: #2d3339;
       border-radius: 6px;
     }
   }
 
   blockquote {
     padding: 0 1em;
-    color: rgb(87, 96, 106);
-    border-left: 0.25em solid rgb(208, 215, 222);
+    color: #57606a;
+    border-left: 0.25em solid #d0d7de;
   }
 
   pre,
   code {
-    font-family: Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
-      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+      sans-serif, 'Segoe UI Symbol';
   }
 
   pre {
-    padding: 16px;
-    background-color: rgb(246, 248, 250);
+    background-color: #f6f8fa;
     border-radius: 6px;
-    overflow: auto;
+    position: relative;
 
     .copy-button {
       display: none;
     }
 
     code {
+      position: relative;
+      display: block;
+      padding: 1em;
       font-size: 85%;
       line-height: 1.45;
       margin-bottom: 0;
       word-break: normal;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
+      overflow: auto;
     }
   }
 
@@ -135,13 +141,13 @@
     border-collapse: collapse;
 
     tr {
-      background-color: #fff;
-      border-top: 1px solid rgb(216, 222, 228);
+      background-color: @bkColor;
+      border-top: 1px solid #d8dee4;
 
       th,
       td {
         padding: 6px 13px;
-        border: 1px solid rgb(208, 215, 222);
+        border: 1px solid #d0d7de;
       }
 
       &:nth-child(2n) {
@@ -153,14 +159,20 @@
   ol,
   ul {
     padding-left: 2em;
+
+    li + li {
+      margin-top: 0.25em;
+    }
   }
 }
 
 .@{prefix}-dark {
   .@{prefix}-preview-github {
+    color: #c9d1d9;
+
     h1,
     h2 {
-      border-bottom: 1px solid rgb(55, 62, 71);
+      border-bottom: 1px solid #373e47;
     }
 
     img {
@@ -168,13 +180,13 @@
     }
 
     blockquote {
-      border-color: rgb(68, 76, 86);
-      color: rgb(118, 131, 144);
+      border-color: #444c56;
+      color: #8b949e;
       background-color: initial;
     }
 
     pre {
-      background-color: rgb(45, 51, 59);
+      background-color: #2d333b;
       code {
         color: #a9b7c6;
       }
@@ -190,16 +202,16 @@
 
     table {
       tr {
-        background-color: rgb(34, 39, 46);
-        border-color: rgb(128, 128, 128);
+        background-color: transparent;
+        border-color: #808080;
 
         th,
         td {
-          border-color: rgb(68, 76, 86);
+          border-color: #30363d;
         }
 
         &:nth-child(2n) {
-          background-color: rgb(45, 51, 59);
+          background-color: #161b22;
         }
       }
     }
