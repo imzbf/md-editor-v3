@@ -8,7 +8,6 @@
 
 // 代码样式
 .@{prefix}-preview-vuepress {
-  font-size: 16px;
   color: @fontColor;
 
   h1,
@@ -93,7 +92,7 @@
   pre,
   code {
     font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+      sans-serif, 'Segoe UI Symbol';
     background-color: #f8f8f8;
     -webkit-font-smoothing: initial;
   }
@@ -108,7 +107,7 @@
       overflow-x: auto;
       color: #525252;
       white-space: pre;
-      padding: 1.2em 1.4em;
+      padding: 1em 1.4em;
       font-size: 0.85rem;
       line-height: 1.6rem;
       display: block;
@@ -150,8 +149,7 @@
   ol,
   ul {
     line-height: 1.6em;
-    margin: 1.2em 0 -1.2em;
-    padding-bottom: 1.2em;
+    margin: 1.2em 0;
     position: relative;
     z-index: 1;
   }
@@ -186,6 +184,7 @@
     }
 
     code {
+      color: #e06c75;
       background-color: @codeBkColorDark;
     }
 
@@ -214,7 +213,7 @@
         }
 
         &:nth-child(2n) {
-          background-color: @codeBkColorDark;
+          background-color: #0c0c0c;
         }
       }
     }
