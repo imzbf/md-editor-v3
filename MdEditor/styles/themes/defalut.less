@@ -124,15 +124,19 @@
     border-collapse: collapse;
 
     tr {
-      &:hover {
-        background-color: @hover;
-      }
-
       th,
       td {
         word-wrap: break-word;
         padding: 6px 13px;
         border: 1px solid @borderColor;
+      }
+
+      &:nth-child(2n) {
+        background-color: #fafafa;
+      }
+
+      &:hover {
+        background-color: @hover;
       }
     }
   }
@@ -175,13 +179,17 @@
 
     table {
       tr {
-        &:hover {
-          background-color: @hoverdark;
-        }
-
         th,
         td {
           border-color: @borderColorDark;
+        }
+
+        &:nth-child(2n) {
+          background-color: #0c0c0c;
+        }
+
+        &:hover {
+          background-color: @hoverdark;
         }
       }
     }
