@@ -131,8 +131,8 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 | theme | 'light' \| 'dark' | 'light' | √ | 主题切换 |
 | editorClass | String | '' | √ | 编辑器最外层样式 |
 | hljs | Object | null | x | 项目中使用到了 highlight，可将实例直接传递，生产环境则不会请求 CDN，需要手动导入支持的高亮代码样式 |
-| highlightJs | String | [highlight.js](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | x | highlightJs CDN |
-| highlightCss | String | [atom-one-dark](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css) | x | 预览高亮代码样式 |
+| highlightJs | String | [highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | x | highlightJs CDN |
+| highlightCss | String | [atom-one-dark@11.2.0](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css) | x | 预览高亮代码样式 |
 | historyLength | Number | 10 | x | 最大记录操作数（太大会占用内存） |
 | pageFullScreen | Boolean | false | x | 浏览器内全屏 |
 | preview | Boolean | true | x | 预览模式 |
@@ -143,14 +143,18 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 | toolbars | Array | [all] | √ | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | x | 是否启用 prettier 优化 md 内容 |
-| prettierCDN | String | [standalone](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
-| prettierMDCDN | String | [parser-markdown](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) | x |  |
+| prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
+| prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) | x |  |
 | editorName<sup>v1.3.2delete</sup> | String | 'editor' | x | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
-| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
-| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
+| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
+| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
 | editorId<sup>[v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0)</sup> | String | random | x | 编辑器唯一标识，非必须项，用于后续支持`ssr`时，防止产生服务端与客户端渲染内容不一致错误提示 |
 | tabWidth<sup>[v1.4.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.0)<sup> | Number | 2 | x | 编辑器 TAB 键位等于空格数 |
+| showCodeRowNumber<sup>[v1.5.0](<(https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)>)</sup> | Boolean | false | x | 代码块显示行号 |
+| screenfull | Object | null | x | 全屏插件实例，项目中有使用可以将其传入，这样编辑器不再会使用 cdn 引入 |
+| screenfullJs | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | x | cdn 链接 |
+| previewTheme | 'default' \| 'github' \| 'vuepress' | 'default' | √ | 预览内容主题 |
 
 > 响应式=x，该属性只支持设置，不支持响应式更新~
 
