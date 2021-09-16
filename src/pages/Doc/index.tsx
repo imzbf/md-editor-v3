@@ -5,6 +5,8 @@ import axios from 'axios';
 import 'md-editor-v3/lib/style.css';
 import './index.less';
 import { version } from '../../../package.json';
+import Catalog from '@/components/Catalog';
+import { Affix } from 'ant-design-vue';
 
 export default defineComponent({
   props: {
@@ -29,7 +31,6 @@ export default defineComponent({
     return () => (
       <div class="container">
         <div class="doc">
-          <div class="catalog">{catalogList.value.map((item) => item.text)}</div>
           <div class="content">
             <Editor
               theme={props.theme}
@@ -41,6 +42,11 @@ export default defineComponent({
                 catalogList.value = arr;
               }}
             />
+          </div>
+          <div class="catalog">
+            <Affix offsetTop={16}>
+              <Catalog heads={catalogList.value} />
+            </Affix>
           </div>
         </div>
       </div>
