@@ -37,7 +37,6 @@ export default defineComponent({
               modelValue={mdText.value}
               previewOnly
               showCodeRowNumber
-              previewTheme="vuepress"
               onGetCatalog={(arr) => {
                 catalogList.value = arr;
               }}
