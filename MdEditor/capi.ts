@@ -1,8 +1,8 @@
-import { onMounted, onUnmounted, SetupContext } from 'vue';
+import { computed, onMounted, onUnmounted, provide, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
 import { ToolbarNames } from './Editor';
-
+import { highlightUrl, staticTextDefault } from './config';
 export const useKeyBoard = (props: any, context: SetupContext) => {
   const { editorId } = props;
 
@@ -269,4 +269,74 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
         }
       }
     });
+};
+
+export const useProvide = (props: any) => {
+  const { previewOnly, editorId, tabWidth, showCodeRowNumber, Cropper, previewTheme } =
+    props;
+
+  provide('editorId', editorId);
+
+  // tab=2space
+  provide('tabWidth', tabWidth);
+
+  // 注入高亮src
+  const highlightSet = computed(() => {
+    let url = highlightUrl.atom;
+
+    if (props.highlightCss) {
+      // 用户设置为高优先级
+      url = props.highlightCss;
+    } else {
+      // 低优先级，根据全局主题加预览主题判断使用
+      switch (props.previewTheme) {
+        case 'github': {
+          if (props.theme === 'dark') {
+            url = highlightUrl.githubDark;
+          } else {
+            url = highlightUrl.github;
+          }
+
+          break;
+        }
+      }
+    }
+
+    return {
+      js: props.highlightJs,
+      css: url
+    };
+  });
+  provide('highlight', highlightSet);
+
+  // 注入历史设置
+  provide('historyLength', props.historyLength);
+
+  // 注入是否仅预览
+  provide('previewOnly', previewOnly);
+
+  // 注入代码行号控制
+  provide('showCodeRowNumber', showCodeRowNumber);
+
+  // 注入语言设置
+  const usedLanguageText = computed(() => {
+    const allText: any = {
+      ...staticTextDefault,
+      ...props.languageUserDefined
+    };
+
+    if (allText[props.language]) {
+      return allText[props.language];
+    } else {
+      return staticTextDefault['zh-CN'];
+    }
+  });
+
+  provide('usedLanguageText', usedLanguageText);
+
+  provide('Cropper', Cropper);
+
+  // 提供预览主题
+  provide('previewTheme', previewTheme);
+  // -end-
 };

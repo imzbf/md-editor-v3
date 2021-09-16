@@ -1,12 +1,10 @@
-@import './vars';
+@import '../vars';
 
 @codeBkColor: #282c34;
 @codeBkColorDark: #1a1a1a;
 
 // 代码样式
-.@{prefix}-preview {
-  font-size: 16px;
-
+.@{prefix}-preview-default {
   h1,
   h2,
   h3,
@@ -69,12 +67,6 @@
     display: block;
   }
 
-  pre,
-  code {
-    font-family: -apple-system, Consolas, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  }
-
   pre {
     position: relative;
     margin: 20px 0;
@@ -83,6 +75,7 @@
     line-height: 1.6;
 
     code {
+      position: relative;
       padding: 1em;
       display: block;
       overflow: auto;
@@ -104,7 +97,7 @@
     &::before {
       content: '';
       display: block;
-      background: url(../imgs/pre.png);
+      background: url(../../imgs/pre.png);
       height: 32px;
       width: 100%;
       background-size: 40px;
@@ -125,15 +118,19 @@
     border-collapse: collapse;
 
     tr {
-      &:hover {
-        background-color: @hover;
-      }
-
       th,
       td {
         word-wrap: break-word;
         padding: 6px 13px;
         border: 1px solid @borderColor;
+      }
+
+      &:nth-child(2n) {
+        background-color: #fafafa;
+      }
+
+      &:hover {
+        background-color: @hover;
       }
     }
   }
@@ -150,38 +147,44 @@
 }
 
 .@{prefix}-dark {
-  img {
-    border-color: @borderColorDark;
-  }
-
-  blockquote {
-    background-color: @bbkColorDark;
-  }
-
-  pre {
-    code {
-      background-color: @codeBkColorDark;
-      color: #a9b7c6;
+  .@{prefix}-preview-default {
+    img {
+      border-color: @borderColorDark;
     }
 
-    .copy-button {
-      color: @colorDark;
+    blockquote {
+      background-color: @bbkColorDark;
     }
 
-    &::before {
-      background-color: @codeBkColorDark;
-    }
-  }
-
-  table {
-    tr {
-      &:hover {
-        background-color: @hoverdark;
+    pre {
+      code {
+        background-color: @codeBkColorDark;
+        color: #a9b7c6;
       }
 
-      th,
-      td {
-        border-color: @borderColorDark;
+      .copy-button {
+        color: @colorDark;
+      }
+
+      &::before {
+        background-color: @codeBkColorDark;
+      }
+    }
+
+    table {
+      tr {
+        th,
+        td {
+          border-color: @borderColorDark;
+        }
+
+        &:nth-child(2n) {
+          background-color: #0c0c0c;
+        }
+
+        &:hover {
+          background-color: @hoverdark;
+        }
       }
     }
   }
