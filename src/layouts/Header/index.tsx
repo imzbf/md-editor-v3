@@ -1,6 +1,7 @@
 import { defineComponent, PropType } from 'vue';
 import './index.less';
 import { Theme } from '../../App';
+import Navigation from '../Navigation';
 
 export default defineComponent({
   props: {
@@ -18,7 +19,8 @@ export default defineComponent({
           <p class="project-desc">
             Markdown编辑器，基于vue3，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等。
           </p>
-          <p class="header-actions">
+          <Navigation />
+          {/* <p class="header-actions">
             <button class="btn btn-header">
               <a
                 href="https://github.com/imzbf/md-editor-v3"
@@ -34,7 +36,7 @@ export default defineComponent({
             <button class="btn btn-header" onClick={() => props.onChange('dark')}>
               暗黑模式
             </button>
-          </p>
+          </p> */}
         </section>
       </header>
     );
