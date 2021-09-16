@@ -1,7 +1,9 @@
 // 部分样式来源于其他开源UI库
 
 @import './vars';
-@import './md-preview';
+@import './themes/defalut';
+@import './themes/github';
+@import './themes/vuepress';
 
 @toolBarHeight: 35px;
 @toolBarPadding: 4px;
@@ -15,12 +17,14 @@
   flex-direction: column;
   overflow: hidden;
   background-color: @bkColor;
-  font-family: PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia,
-    Times, 'Times New Roman', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI',
+    system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji';
 
   /* 浏览器滚动条 */
   ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-corner,
@@ -156,6 +160,47 @@
       flex: 1;
       padding: 10px 20px;
       overflow: auto;
+      font-size: 16px;
+
+      pre,
+      code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+      }
+    }
+
+    // show code row numer，显示代码行号
+    .@{prefix}-scrn {
+      span[rn-wrapper] {
+        position: absolute;
+        pointer-events: none;
+        top: 1em;
+        font-size: 100%;
+        left: 0;
+        width: 3em;
+        letter-spacing: -1px;
+        user-select: none;
+        counter-reset: linenumber;
+
+        & > span {
+          display: block;
+          pointer-events: none;
+          counter-increment: linenumber;
+
+          &::before {
+            color: #999;
+            display: block;
+            padding-right: 0.5em;
+            text-align: right;
+            content: counter(linenumber);
+          }
+        }
+      }
+
+      pre {
+        code {
+          padding-left: 3.5em;
+        }
+      }
     }
   }
 

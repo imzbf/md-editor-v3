@@ -1,21 +1,13 @@
-import {
-  computed,
-  defineComponent,
-  PropType,
-  provide,
-  reactive,
-  Teleport,
-  watch
-} from 'vue';
+import { defineComponent, PropType, reactive, Teleport, watch } from 'vue';
 import {
   allToolbar,
   highlightUrl,
   iconfontUrl,
   prettierUrl,
-  staticTextDefault,
-  cropperUrl
+  cropperUrl,
+  screenfullUrl
 } from './config';
-import { useKeyBoard } from './capi';
+import { useKeyBoard, useProvide } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
 import bus from './utils/event-bus';
@@ -28,6 +20,7 @@ declare global {
     prettier: any;
     prettierPlugins: any;
     Cropper: any;
+    screenfull: any;
   }
 }
 
@@ -110,6 +103,8 @@ export interface HeadList {
   level: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
+export type PreviewThemes = 'default' | 'github' | 'vuepress';
+
 const props = {
   modelValue: {
     type: String as PropType<string>,
@@ -137,7 +132,7 @@ const props = {
   },
   highlightCss: {
     type: String as PropType<string>,
-    default: highlightUrl.css
+    default: ''
   },
   historyLength: {
     type: Number as PropType<number>,
@@ -205,6 +200,11 @@ const props = {
   onHtmlChanged: {
     type: Function as PropType<(h: string) => void>
   },
+  // 图片裁剪对象
+  Cropper: {
+    type: Function,
+    default: null
+  },
   cropperCss: {
     type: String as PropType<string>,
     default: cropperUrl.css
@@ -227,6 +227,24 @@ const props = {
   tabWidth: {
     type: Number as PropType<number>,
     default: 2
+  },
+  // 预览中代码是否显示行号
+  showCodeRowNumber: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  screenfull: {
+    type: Object,
+    default: null
+  },
+  screenfullJs: {
+    type: String as PropType<string>,
+    default: screenfullUrl
+  },
+  // 预览内容样式
+  previewTheme: {
+    type: String as PropType<PreviewThemes>,
+    default: 'default'
   }
 };
 
@@ -243,10 +261,12 @@ export default defineComponent({
       prettier,
       prettierCDN,
       prettierMDCDN,
+      Cropper,
       cropperCss,
       cropperJs,
       editorId,
-      tabWidth
+      screenfull,
+      screenfullJs
     } = props;
 
     // 构建组件第一步先清空event-bus
@@ -254,41 +274,11 @@ export default defineComponent({
     // 不在卸载组件时清空的原因是，vue新的内容挂载会在旧的内容卸载之前完成
     bus.clear(editorId);
 
+    // 快捷键监听
     useKeyBoard(props, context);
 
-    provide('editorId', editorId);
-
-    // tab=2space
-    provide('tabWidth', tabWidth);
-
-    // 注入高亮src
-    provide('highlight', {
-      js: props.highlightJs,
-      css: props.highlightCss
-    });
-
-    // 注入历史设置
-    provide('historyLength', props.historyLength);
-
-    // 注入是否仅预览
-    provide('previewOnly', previewOnly);
-
-    // 注入语言设置
-    const usedLanguageText = computed(() => {
-      const allText: any = {
-        ...staticTextDefault,
-        ...props.languageUserDefined
-      };
-
-      if (allText[props.language]) {
-        return allText[props.language];
-      } else {
-        return staticTextDefault['zh-CN'];
-      }
-    });
-
-    provide('usedLanguageText', usedLanguageText);
-    // -end-
+    // ~~
+    useProvide(props);
 
     // 监听上传图片
     !previewOnly &&
@@ -362,6 +352,8 @@ export default defineComponent({
       >
         {!previewOnly && (
           <ToolBar
+            screenfull={screenfull}
+            screenfullJs={screenfullJs}
             toolbars={props.toolbars}
             toolbarsExclude={props.toolbarsExclude}
             setting={setting}
@@ -405,8 +397,8 @@ export default defineComponent({
             <script src={prettierMDCDN} />
           </Teleport>
         )}
-        {!previewOnly && (
-          <Teleport to={document.body}>
+        {!previewOnly && Cropper === null && (
+          <Teleport to={document.head}>
             <link href={cropperCss} rel="stylesheet" />
             <script src={cropperJs}></script>
           </Teleport>
