@@ -14,10 +14,10 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["dev/*"]
+      "@/*": ["src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "include": ["dev/**/*.ts", "dev/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx"],
   "exclude": ["node_modules"]
 }

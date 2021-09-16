@@ -30,7 +30,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
 
   return {
     base: mode === 'preview' ? homepage : '/',
-    publicDir: mode === 'production' ? false : './dev/public',
+    publicDir: mode === 'production' ? false : './public',
     server: {
       host: 'localhost',
       open: true,
@@ -40,7 +40,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     resolve: {
       alias: {
         // 键必须以斜线开始和结束
-        '@': path.resolve(__dirname, './dev')
+        '@': path.resolve(__dirname, './src')
       }
     },
     plugins: [
