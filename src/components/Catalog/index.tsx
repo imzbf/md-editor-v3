@@ -54,7 +54,7 @@ const Topicfy = defineComponent({
       };
 
       props.heads?.forEach((item) => {
-        add(item.text, item.level);
+        add(item.text.replace(/<\/?[a-z]+>/g, ''), item.level);
       });
       return tocItems;
     });
