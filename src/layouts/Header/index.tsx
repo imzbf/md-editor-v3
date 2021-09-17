@@ -44,15 +44,33 @@ export default defineComponent({
             </button>
             <Dropdown
               trigger="click"
-              placement="bottomLeft"
+              placement="bottomCenter"
               getPopupContainer={() => {
                 return HeaderContainer.value;
               }}
               overlay={
                 <Menu theme={store.state.theme}>
-                  <Menu.Item>默认主题</Menu.Item>
-                  <Menu.Item>Github主题</Menu.Item>
-                  <Menu.Item>Vuepress主题</Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      store.commit('changePreviewTheme', 'default');
+                    }}
+                  >
+                    默认主题
+                  </Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      store.commit('changePreviewTheme', 'github');
+                    }}
+                  >
+                    Github主题
+                  </Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      store.commit('changePreviewTheme', 'vuepress');
+                    }}
+                  >
+                    Vuepress主题
+                  </Menu.Item>
                 </Menu>
               }
               visible={data.previewThemevisible}

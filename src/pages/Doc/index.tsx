@@ -39,7 +39,7 @@ export default defineComponent({
             <Editor
               theme={store.state.theme}
               modelValue={mdText.value}
-              previewTheme="vuepress"
+              previewTheme={store.state.previewTheme}
               previewOnly
               showCodeRowNumber
               onGetCatalog={(arr) => {

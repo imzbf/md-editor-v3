@@ -44,6 +44,7 @@ export default defineComponent({
           <Editor
             editorId="md-prev"
             theme={store.state.theme}
+            previewTheme={store.state.previewTheme}
             modelValue={md.text}
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);

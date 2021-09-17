@@ -1,12 +1,12 @@
 import { STORAGED_STORE_KEY } from '@/config';
 import { createStore } from 'vuex';
+import { PreviewThemes } from 'md-editor-v3';
 
 export type Theme = 'light' | 'dark';
-export type PreviewTheme = 'default' | 'github' | 'vuepress';
 
 export interface StateType {
   theme: Theme;
-  previewTheme: PreviewTheme;
+  previewTheme: PreviewThemes;
 }
 
 const stagedStore = localStorage.getItem(STORAGED_STORE_KEY);
@@ -25,6 +25,9 @@ export default createStore({
   mutations: {
     changeTheme(state: StateType, value: Theme) {
       state.theme = value;
+    },
+    changePreviewTheme(state: StateType, value: PreviewThemes) {
+      state.previewTheme = value;
     }
   }
 });
