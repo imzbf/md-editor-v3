@@ -38,7 +38,8 @@
     "axios": "^0.21.1",
     "md-editor-v3": "^1.4.3",
     "nprogress": "^0.2.0",
-    "vue-router": "^4.0.11"
+    "vue-router": "^4.0.11",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",

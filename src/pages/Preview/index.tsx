@@ -5,6 +5,7 @@ import { Theme } from '../../App';
 import axios from 'axios';
 import 'md-editor-v3/lib/style.css';
 import './index.less';
+import { useStore } from 'vuex';
 
 const SAVE_KEY = 'XHMPGLJIZTDB';
 
@@ -12,7 +13,7 @@ export default defineComponent({
   props: {
     theme: String as PropType<Theme>
   },
-  setup(props) {
+  setup() {
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
     const md = reactive({
       text: storagedText || mdText
@@ -35,12 +36,15 @@ export default defineComponent({
     });
     // -----end-----
 
+    const store = useStore();
+
     return () => (
       <div class="project-preview">
         <div class="container">
           <Editor
             editorId="md-prev"
-            theme={props.theme}
+            theme={store.state.theme}
+            previewTheme={store.state.previewTheme}
             modelValue={md.text}
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);

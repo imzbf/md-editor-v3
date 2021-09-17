@@ -7,12 +7,13 @@ import './index.less';
 import { version } from '../../../package.json';
 import Catalog from '@/components/Catalog';
 import { Affix } from 'ant-design-vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   props: {
     theme: String as PropType<Theme>
   },
-  setup(props) {
+  setup() {
     const mdText = ref();
     const catalogList = ref<Array<HeadList>>([]);
 
@@ -28,13 +29,17 @@ export default defineComponent({
           mdText.value = '文档读取失败！';
         });
     });
+
+    const store = useStore();
+
     return () => (
       <div class="container">
         <div class="doc">
           <div class="content">
             <Editor
-              theme={props.theme}
+              theme={store.state.theme}
               modelValue={mdText.value}
+              previewTheme={store.state.previewTheme}
               previewOnly
               showCodeRowNumber
               onGetCatalog={(arr) => {
