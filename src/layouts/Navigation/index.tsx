@@ -23,7 +23,7 @@ export default defineComponent({
           </RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/docs">
+          <RouterLink to="/demo">
             <svg class="icon" aria-hidden="true">
               <use xlinkHref="#icon-d-demo"></use>
             </svg>
@@ -39,19 +39,19 @@ export default defineComponent({
           </a>
         </li>
         <li class="nav-item">
-          <RouterLink to="/">
+          <RouterLink to="/about">
             <svg class="icon" aria-hidden="true">
               <use xlinkHref="#icon-d-about"></use>
             </svg>
             关于
           </RouterLink>
         </li>
-        <li class="nav-item">
+        {/* <li class="nav-item">
           <svg class="icon" aria-hidden="true">
             <use xlinkHref="#icon-d-en"></use>
           </svg>
           语言
-        </li>
+        </li> */}
       </ul>
     );
   }

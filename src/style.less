@@ -1,5 +1,7 @@
 @import './vars';
 @import '../node_modules/ant-design-vue/lib/back-top/style';
+@import '../node_modules/ant-design-vue/lib/dropdown/style';
+@import '../node_modules/ant-design-vue/lib/menu/style';
 
 body,
 h1,
@@ -115,9 +117,10 @@ body {
   }
 }
 
-.app {
+.docs-page {
   color: @color;
   background-color: @bkColor;
+  min-height: 100vh;
 }
 
 .theme-dark {
@@ -134,5 +137,23 @@ body {
         background-color: @bkColorDark;
       }
     }
+  }
+
+  // 覆盖ant，锚点默认样式
+  .ant-anchor {
+    color: @colorDark;
+
+    .ant-anchor-ink::before {
+      background-color: @borderColorDark;
+    }
+
+    .ant-anchor-link-title {
+      color: @colorDark;
+    }
+  }
+
+  .ant-dropdown-menu-dark {
+    background-color: @bkColorDark;
+    border: 1px solid @borderColorDark;
   }
 }

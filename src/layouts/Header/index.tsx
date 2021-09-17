@@ -1,8 +1,9 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, reactive, ref } from 'vue';
 import './index.less';
 import { Theme } from '../../App';
 import Navigation from '../Navigation';
-
+import { useStore } from 'vuex';
+import { Dropdown, Menu } from 'ant-design-vue';
 export default defineComponent({
   props: {
     theme: String as PropType<Theme>,
@@ -11,32 +12,57 @@ export default defineComponent({
       default: () => {}
     }
   },
-  setup(props) {
+  setup() {
+    const store = useStore();
+
+    const data = reactive({
+      previewThemevisible: false
+    });
+
+    const HeaderContainer = ref();
+
     return () => (
       <header class="page-header">
-        <section class="container">
+        <section class="container" ref={HeaderContainer}>
           <h1 class="project-name">md-editor-v3</h1>
           <p class="project-desc">
             Markdown编辑器，基于vue3，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等。
           </p>
           <Navigation />
-          {/* <p class="header-actions">
-            <button class="btn btn-header">
-              <a
-                href="https://github.com/imzbf/md-editor-v3"
-                target="_blank"
-                title="md-editor-v3"
-              >
-                GitHub源码
-              </a>
-            </button>
-            <button class="btn btn-header" onClick={() => props.onChange('light')}>
+          <p class="header-actions">
+            <button
+              class="btn btn-header"
+              onClick={() => store.commit('changeTheme', 'light')}
+            >
               默认模式
             </button>
-            <button class="btn btn-header" onClick={() => props.onChange('dark')}>
+            <button
+              class="btn btn-header"
+              onClick={() => store.commit('changeTheme', 'dark')}
+            >
               暗黑模式
             </button>
-          </p> */}
+            <Dropdown
+              trigger="click"
+              placement="bottomLeft"
+              getPopupContainer={() => {
+                return HeaderContainer.value;
+              }}
+              overlay={
+                <Menu theme={store.state.theme}>
+                  <Menu.Item>默认主题</Menu.Item>
+                  <Menu.Item>Github主题</Menu.Item>
+                  <Menu.Item>Vuepress主题</Menu.Item>
+                </Menu>
+              }
+              visible={data.previewThemevisible}
+              onVisibleChange={(visible) => {
+                data.previewThemevisible = visible;
+              }}
+            >
+              <button class="btn btn-header">切换预览主题</button>
+            </Dropdown>
+          </p>
         </section>
       </header>
     );
