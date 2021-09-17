@@ -38,6 +38,32 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/Doc')
       }
     ]
+  },
+  {
+    path: '/demo',
+    name: 'Demo',
+    redirect: '/demo/index',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'DemoIndex',
+        component: () => import('@/pages/Demo')
+      }
+    ]
+  },
+  {
+    path: '/about',
+    name: 'About',
+    redirect: '/about/index',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'AboutIndex',
+        component: () => import('@/pages/About')
+      }
+    ]
   }
 ];
 
