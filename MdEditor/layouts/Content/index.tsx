@@ -45,7 +45,7 @@ export default defineComponent({
     // 是否显示行号
     const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
     // 预览主题
-    const previewTheme = inject('previewTheme') as PreviewThemes;
+    const previewTheme = inject<ComputedRef<PreviewThemes>>('previewTheme');
 
     const editorId = inject('editorId') as string;
 
@@ -95,7 +95,7 @@ export default defineComponent({
                 ref={previewRef}
                 class={[
                   `${prefix}-preview`,
-                  `${prefix}-preview-${previewTheme}`,
+                  `${prefix}-preview-${previewTheme?.value}`,
                   showCodeRowNumber && `${prefix}-scrn`
                 ]}
                 innerHTML={html.value}
