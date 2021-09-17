@@ -272,8 +272,7 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
 };
 
 export const useProvide = (props: any) => {
-  const { previewOnly, editorId, tabWidth, showCodeRowNumber, Cropper, previewTheme } =
-    props;
+  const { previewOnly, editorId, tabWidth, showCodeRowNumber, Cropper } = props;
 
   provide('editorId', editorId);
 
@@ -337,6 +336,9 @@ export const useProvide = (props: any) => {
   provide('Cropper', Cropper);
 
   // 提供预览主题
-  provide('previewTheme', previewTheme);
+  provide(
+    'previewTheme',
+    computed(() => props.previewTheme)
+  );
   // -end-
 };
