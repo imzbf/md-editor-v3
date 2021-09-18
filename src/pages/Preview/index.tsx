@@ -2,7 +2,7 @@ import { defineComponent, reactive, PropType, onUnmounted, watch } from 'vue';
 import Editor from 'md-editor-v3';
 import { mdText } from '../../data';
 import { Theme } from '../../App';
-import axios from 'axios';
+import axios from '@/utils/request';
 import './index.less';
 import { useStore } from 'vuex';
 

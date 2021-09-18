@@ -1,7 +1,7 @@
 import { defineComponent, onMounted, PropType, ref } from 'vue';
 import Editor, { HeadList } from 'md-editor-v3';
 import { Theme } from '../../App';
-import axios from 'axios';
+import axios from '@/utils/request';
 import { version } from '../../../package.json';
 import Catalog from '@/components/Catalog';
 import { Affix } from 'ant-design-vue';
