@@ -2,6 +2,8 @@
 @import '../node_modules/ant-design-vue/lib/back-top/style';
 @import '../node_modules/ant-design-vue/lib/dropdown/style';
 @import '../node_modules/ant-design-vue/lib/menu/style';
+@import '../node_modules/ant-design-vue/lib/affix/style';
+@import '../node_modules/ant-design-vue/lib/anchor/style';
 
 body,
 h1,
@@ -124,6 +126,28 @@ body {
 
   .ant-anchor {
     font-size: 1rem;
+  }
+
+  .doc {
+    display: flex;
+    padding: 2rem;
+
+    .catalog {
+      width: 25%;
+
+      .ant-anchor-wrapper {
+        padding-left: 1rem;
+      }
+    }
+
+    .content {
+      width: 75%;
+      padding-right: 1rem;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 
