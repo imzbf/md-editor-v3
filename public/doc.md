@@ -1,7 +1,5 @@
 > 当前最新版本：[${EDITOR_VERSION}](https://github.com/imzbf/md-editor-v3/releases/tag/v${EDITOR_VERSION})，在线尝试示例：[传送门](https://stackblitz.com/edit/vue-aleajl)
 
-> 同系列`react`版本：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
-
 ## 1. Props 说明
 
 这是组件最重要的一部分内容，`MdEditorV3`的属性参数如下：
