@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'index',
         name: 'IndexPage',
         component: () => import('@/pages/Preview'),
-        meta: { title: `${SITE_TITLE_PREFIX} 实例预览` }
+        meta: { title: `${SITE_TITLE_PREFIX} 编辑器展示` }
       }
     ]
   },
@@ -35,7 +35,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'index',
         name: 'DocsIndex',
-        component: () => import('@/pages/Doc')
+        component: () => import('@/pages/Doc'),
+        meta: { title: `${SITE_TITLE_PREFIX} 文档` }
       }
     ]
   },
@@ -48,7 +49,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'index',
         name: 'DemoIndex',
-        component: () => import('@/pages/Demo')
+        component: () => import('@/pages/Demo'),
+        meta: { title: `${SITE_TITLE_PREFIX} 代码演示` }
       }
     ]
   },
@@ -61,7 +63,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'index',
         name: 'AboutIndex',
-        component: () => import('@/pages/About')
+        component: () => import('@/pages/About'),
+        meta: { title: `${SITE_TITLE_PREFIX} 关于` }
       }
     ]
   }
@@ -74,6 +77,7 @@ const router = createRouter({
 
 router.beforeEach(async (to: RouteLocationNormalized, _, next: NavigationGuardNext) => {
   NProgress.start();
+  document.title = to.meta.title as string;
   next();
 });
 router.afterEach(() => {
