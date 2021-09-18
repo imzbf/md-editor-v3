@@ -2,126 +2,7 @@
 
 > 同系列`react`版本：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
-## 1. 基本使用示例
-
-目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：[releases](https://github.com/imzbf/md-editor-v3/releases)
-
-```shell
-yarn add md-editor-v3
-```
-
-目前 vue3 已经能很友好的使用 jsx 来开发了，对于一些爱好者（比如作者本身），需要考虑兼容一下。
-
-两种方式开发上区别在于**vue 模板**能很好的支持`vue`特性，比如指令，内置的双向绑定等；而**jsx 语法**更偏向于`react`的理念，开发环境来讲 jsx 如果在支持 ts 的环境下，会更友好一些。
-
-### 1.1 传统开发模式
-
-通过直接链接生产版本来使用，下面是一个小 demo：
-
-```js
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <title>传统开发模式中使用</title>
-    <link href="https://cdn.jsdelivr.net/npm/md-editor-v3@${EDITOR_VERSION}/lib/style.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="md-editor-v3">
-      <md-editor-v3 v-model="text" />
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.1.5/dist/vue.global.prod.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.js"></script>
-    <script>
-      const App = {
-        data() {
-          return {
-            text: 'Hello Editor!!'
-          };
-        }
-      };
-      Vue.createApp(App).use(MdEditorV3).mount('#md-editor-v3');
-    </script>
-  </body>
-</html>
-```
-
-### 1.2 模块化的 vue 模板
-
-```js
-<template>
-  <md-editor v-model="text" />
-</template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
-export default defineComponent({
-  components: {
-    MdEditor
-  },
-  data() {
-    return {
-      text: ''
-    };
-  }
-});
-</script>
-```
-
-### 1.3 模块化的 jsx
-
-```js
-import { defineComponent, ref } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
-export default defineComponent({
-  name: 'MdEditor',
-  setup() {
-    const text = ref('');
-    return () => (
-      <MdEditor modelValue={text.value} onChange={(v: string) => (text.value = v)} />
-    );
-  }
-});
-```
-
-### 1.4 图片上传
-
-默认可以选择多张图片，支持截图粘贴板上传图片，支持复制网页图片粘贴上传。
-
-> v1.2.0：图片裁剪上传只支持选择一张图片~，但回调入仍是一个文件数组
-
-> 注意：粘贴板上传时，如果是网页上的 gif 图，无法正确上传为 gif 格式！请保存本地后再手动上传。
-
-```js
-async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
-  const res = await Promise.all(
-    Array.from(files).map((file) => {
-      return new Promise((rev, rej) => {
-        const form = new FormData();
-        form.append('file', file);
-
-        axios
-          .post('/api/img/upload', form, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          .then((res) => rev(res))
-          .catch((error) => rej(error));
-      });
-    })
-  );
-
-  callback(res.map((item: any) => item.data.url));
-}
-```
-
-## 2. Props 说明
+## 1. Props 说明
 
 这是组件最重要的一部分内容，`MdEditorV3`的属性参数如下：
 
@@ -148,6 +29,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
 | prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) | x |  |
 | editorName<sup>v1.3.2delete</sup> | String | 'editor' | x | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
+| Cropper<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Function | null | x | 图片裁剪构造函数 |
 | cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
 | cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
@@ -158,7 +40,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 | screenfullJs<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | x | cdn 链接 |
 | previewTheme<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | √ | 预览内容主题 |
 
-> 响应式=x，该属性只支持设置，不支持响应式更新~
+> 响应式=x，该属性只支持设置默认值，不支持响应式更新~
 
 > !!! 编辑器内比较大小的扩展均使用了 CDN 链接，在没有外网的情况，请使用扩展属性替换为本地链接，比如：highlightJs = "//xxx.com/highlight.min.js"
 
@@ -235,7 +117,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
   }
 ```
 
-## 3. 绑定事件
+## 2. 绑定事件
 
 目前支持的内容如下：
 
@@ -251,7 +133,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 
 <br>
 
-## 4. 快捷键使用
+## 3. 快捷键使用
 
 目前除了`CTRL + T`与浏览器冲突意外，其余的都绑定了相应的快捷键。
 
@@ -284,11 +166,11 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 | CTRL + ALT + C | 行内代码 | 行内代码块 | v1.0.0 |
 | CTRL + SHIFT + ALT + T | 表格 | `\|表格\|` | v1.4.0 |
 
-## 5. 开发理念
+## 4. 编辑器实现说明
 
 本节介绍编辑器中部分功能的实现。
 
-### 5.1 编辑区
+### 4.1 编辑区
 
 - 由于不是富文本编辑器，所以采用了`textarea`标签作为编辑区。
 
@@ -297,11 +179,11 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 - 编辑器与工具栏的交互，由于没有 vuex，所以内置了`EventBus`，在不同地方通过这种方式来进行交互。（目前，同一页面嵌入两个编辑器`EventBus`被共享，目前已修复该问题）。
 - 编辑器与快捷键，通过监听每一个按键对应的`ctrl`、`shift`等属性是否为`true`实现，并且均阻止了默认事件触发。在 windows 中以`CTRL`键为主要触发单元，在 MacOS 中以`META`键为主。
 
-### 5.2 组件：**Divider**
+### 4.2 组件：**Divider**
 
 分隔符，应用于工具栏中分隔功能模块，美化作用，实现为以宽为`1px`的元素做衬托。
 
-### 5.3 组件：**Dropdown**
+### 4.3 组件：**Dropdown**
 
 源码：[传送门](https://github.com/imzbf/md-editor-v3/tree/master/MdEditor/components/Dropdown)
 
@@ -311,7 +193,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 
 - 在卸载对应组件时，`onUnmounted`方法会主动卸载绑定事件。
 
-### 5.4 组件：Modal
+### 4.4 组件：Modal
 
 源码：[传送门](https://github.com/imzbf/md-editor-v3/tree/master/MdEditor/components/Modal)
 
@@ -320,22 +202,22 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 
 封装的移动元素[代码](https://github.com/imzbf/md-editor-v3/blob/master/MdEditor/utils/dom.ts)，优化了正确解绑事件，该方法针对了触发器实现，单一窗口并不通用。
 
-### 5.5 主题模式
+### 4.5 主题模式
 
 内置了暗黑和默认模式，两种模式由内部`theme`属性控制，由于`antd`中以`less`修改变量值达到切换主题的方式依赖项较多，并未采用，实现则是最基础的两种主题两个类名的方式。
 
-### 5.6 图片裁剪上传
+### 4.6 图片裁剪上传
 
 该功能主要依赖`cropperjs`库，目前不提供该库自定义设置。
 
-### 5.7 预览主题
+### 4.7 预览主题
 
 内置了`previewTheme`调整预览内容主题，内置了`github`、`vuepress`和默认三种。值得注意的是他们都只设置了基础`markdown`支持的语法内容样式，特殊样式（例如：轮播等）暂未提供。同时`github`主题切换暗黑模式时，会同时替换代码块链接样式。若同页面有嵌入了多个编辑器，会受到影响。
 
-## 结尾
+## 文档结尾
 
-若有觉得可用的功能或发现编辑器的 Bug，请通过以下方式反馈给我，让我们共同进步。
+若有觉得可用的功能或发现编辑器的 Bug，请通过以下方式反馈给我。
 
 1. 邮箱：zbfcqtl@163.com
-2. 博客留言：[imbf.cc](https://imbf.cc)
+2. 博客留言：[imbf.cc](https://imbf.cc/message)
 3. issue 管理：[github issues](https://github.com/imzbf/md-editor-v3/issues)

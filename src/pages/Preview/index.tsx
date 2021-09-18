@@ -3,7 +3,6 @@ import Editor from 'md-editor-v3';
 import { mdText } from '../../data';
 import { Theme } from '../../App';
 import axios from 'axios';
-import 'md-editor-v3/lib/style.css';
 import './index.less';
 import { useStore } from 'vuex';
 
