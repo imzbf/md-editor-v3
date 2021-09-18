@@ -2,9 +2,9 @@ name: doc page publish
 
 on:
   push:
-    branches: [docs]
+    branches: [dev-docs]
   pull_request:
-    branches: [docs]
+    branches: [dev-docs]
 
 jobs:
   publish:
@@ -30,4 +30,3 @@ jobs:
         with:
           branch: docs
           folder: dist
-          target-folder: docs
