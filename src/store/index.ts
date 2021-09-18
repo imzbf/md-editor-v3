@@ -13,7 +13,7 @@ const stagedStore = localStorage.getItem(STORAGED_STORE_KEY);
 
 // export const key: InjectionKey<Store<StateType>> = Symbol();
 
-const state: StateType = stagedStore
+const defaultState: StateType = stagedStore
   ? JSON.parse(stagedStore)
   : {
       theme: 'light',
@@ -21,13 +21,15 @@ const state: StateType = stagedStore
     };
 
 export default createStore({
-  state,
+  state: defaultState,
   mutations: {
     changeTheme(state: StateType, value: Theme) {
       state.theme = value;
+      localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     },
     changePreviewTheme(state: StateType, value: PreviewThemes) {
       state.previewTheme = value;
+      localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     }
   }
 });
