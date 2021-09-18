@@ -29,6 +29,7 @@
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
 | prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) | x |  |
 | editorName<sup>v1.3.2delete</sup> | String | 'editor' | x | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
+| Cropper<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Function | null | x | 图片裁剪构造函数 |
 | cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
 | cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
@@ -215,7 +216,7 @@
 
 ## 文档结尾
 
-若有觉得可用的功能或发现编辑器的 Bug，请通过以下方式反馈给我，让我们共同进步。
+若有觉得可用的功能或发现编辑器的 Bug，请通过以下方式反馈给我。
 
 1. 邮箱：zbfcqtl@163.com
 2. 博客留言：[imbf.cc](https://imbf.cc/message)
