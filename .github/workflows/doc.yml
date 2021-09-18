@@ -30,3 +30,4 @@ jobs:
         with:
           branch: docs
           folder: dist
+          target-folder: docs
