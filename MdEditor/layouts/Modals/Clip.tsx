@@ -3,10 +3,10 @@ import {
   PropType,
   inject,
   ref,
-  onMounted,
   reactive,
   nextTick,
-  ComputedRef
+  ComputedRef,
+  watch
 } from 'vue';
 import Modal from '../../components/Modal';
 import { StaticTextDefaultValue, prefix } from '../../Editor';
@@ -44,40 +44,48 @@ export default defineComponent({
     const uploadImgRef = ref();
 
     const data = reactive({
+      cropperInited: false,
       imgSelected: false,
       imgSrc: ''
     });
 
     let cropper: any = null;
 
-    onMounted(() => {
-      Cropper = Cropper || window.Cropper;
+    watch(
+      () => props.visible,
+      () => {
+        // 显示时构建实例及监听事件
+        if (props.visible && !data.cropperInited) {
+          Cropper = Cropper || window.Cropper;
 
-      (uploadRef.value as HTMLInputElement).addEventListener('change', () => {
-        const fileList = (uploadRef.value as HTMLInputElement).files || [];
+          // 直接定义onchange，防止创建新的实例时遗留事件
+          (uploadRef.value as HTMLInputElement).onchange = () => {
+            const fileList = (uploadRef.value as HTMLInputElement).files || [];
 
-        // 切换模式
-        data.imgSelected = true;
+            // 切换模式
+            data.imgSelected = true;
 
-        if (fileList?.length > 0) {
-          const fileReader = new FileReader();
+            if (fileList?.length > 0) {
+              const fileReader = new FileReader();
 
-          fileReader.onload = (e: any) => {
-            data.imgSrc = e.target.result;
+              fileReader.onload = (e: any) => {
+                data.imgSrc = e.target.result;
 
-            nextTick(() => {
-              cropper = new Cropper(uploadImgRef.value, {
-                viewMode: 2,
-                preview: `.${prefix}-clip-preview-target`
-                // aspectRatio: 16 / 9,
-              });
-            });
+                nextTick(() => {
+                  cropper = new Cropper(uploadImgRef.value, {
+                    viewMode: 2,
+                    preview: `.${prefix}-clip-preview-target`
+                    // aspectRatio: 16 / 9,
+                  });
+                });
+              };
+
+              fileReader.readAsDataURL(fileList[0]);
+            }
           };
-
-          fileReader.readAsDataURL(fileList[0]);
         }
-      });
-    });
+      }
+    );
 
     const reset = () => {
       cropper.destroy();
