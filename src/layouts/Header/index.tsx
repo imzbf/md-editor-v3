@@ -1,4 +1,4 @@
-import { defineComponent, PropType, reactive, ref } from 'vue';
+import { defineComponent, PropType, reactive } from 'vue';
 import './index.less';
 import { Theme } from '../../App';
 import Navigation from '../Navigation';
@@ -19,11 +19,9 @@ export default defineComponent({
       previewThemevisible: false
     });
 
-    const HeaderContainer = ref();
-
     return () => (
       <header class="page-header">
-        <section class="container" ref={HeaderContainer}>
+        <section class="container">
           <h1 class="project-name">md-editor-v3</h1>
           <p class="project-desc">
             Markdown编辑器，基于vue3，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等。
@@ -46,7 +44,7 @@ export default defineComponent({
               trigger="click"
               placement="bottomCenter"
               getPopupContainer={() => {
-                return HeaderContainer.value;
+                return document.querySelector('.docs-page');
               }}
               overlay={
                 <Menu theme={store.state.theme}>
