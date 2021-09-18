@@ -1,6 +1,6 @@
 import { Anchor } from 'ant-design-vue';
-import { computed, defineComponent, PropType } from 'vue';
-
+import { computed, defineComponent, PropType, watch } from 'vue';
+import { debounce } from '@/utils';
 import Recursive, { Head, TocItem } from './Recursive';
 
 const Topicfy = defineComponent({
@@ -58,6 +58,28 @@ const Topicfy = defineComponent({
       });
       return tocItems;
     });
+
+    const moveToHead = debounce(() => {
+      const targetHeadDom = document.querySelector(location.hash);
+
+      if (targetHeadDom) {
+        const scrollLength = (targetHeadDom as HTMLHeadElement).offsetTop + 414;
+
+        window.scrollTo({
+          top: scrollLength,
+          behavior: 'smooth'
+        });
+      }
+    });
+
+    watch(
+      () => props.heads,
+      () => {
+        if (/#heading-\d/.test(location.hash)) {
+          moveToHead();
+        }
+      }
+    );
 
     return () => (
       <Anchor affix={false} showInkInFixed={true}>
