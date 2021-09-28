@@ -20,7 +20,7 @@ export default defineComponent({
     });
 
     const texts = computed(() => {
-      return store.state.lang === 'cn'
+      return store.state.lang === 'zh-CN'
         ? {
             desc: 'Markdown编辑器Vue3版本，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等。',
             defaultTheme: '默认模式',

@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, ref } from 'vue';
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import Editor, { HeadList } from 'md-editor-v3';
 import { Theme } from '../../App';
 import axios from '@/utils/request';
@@ -13,21 +13,23 @@ export default defineComponent({
   setup() {
     const mdText = ref();
     const catalogList = ref<Array<HeadList>>([]);
+    const store = useStore();
 
-    onMounted(() => {
+    const queryMd = () => {
       axios
-        .get('/about.md')
+        .get(`/about-${store.state.lang}.md`)
         .then(({ data }) => {
           mdText.value = (data as string).replace(/\$\{EDITOR_VERSION\}/g, version);
         })
         .catch((e) => {
-          console.log(e);
+          console.error(e);
 
           mdText.value = '文档读取失败！';
         });
-    });
+    };
 
-    const store = useStore();
+    onMounted(queryMd);
+    watch(() => store.state.lang, queryMd);
 
     return () => (
       <div class="container">

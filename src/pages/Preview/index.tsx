@@ -40,8 +40,7 @@ export default defineComponent({
     watch(
       () => store.state.lang,
       (nVal) => {
-        console.log(nVal);
-        if (nVal === 'cn') {
+        if (nVal === 'zh-CN') {
           md.text = storagedText || mdText;
         } else {
           md.text = storagedText || mdEnText;
@@ -54,6 +53,7 @@ export default defineComponent({
         <div class="container">
           <Editor
             editorId="md-prev"
+            language={store.state.lang}
             theme={store.state.theme}
             previewTheme={store.state.previewTheme}
             modelValue={md.text}
@@ -85,7 +85,7 @@ export default defineComponent({
           />
           <br />
           <span class="tips-text">
-            {store.state.lang === 'cn'
+            {store.state.lang === 'zh-CN'
               ? 'Tips：本页上方的编辑器有localstorage保存功能，每次操作后两秒会自己保存一次，可手动点击保存触发，可用于一些文档的编辑。'
               : 'Tips: The editor in this page can save text to localstorage auto after two second, and you can save it by yourself also. Wish this function can be used to edit some temporary document.'}
           </span>

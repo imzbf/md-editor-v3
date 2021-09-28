@@ -4,7 +4,7 @@ import { PreviewThemes } from 'md-editor-v3';
 
 export type Theme = 'light' | 'dark';
 
-export type Lang = 'cn' | 'en';
+export type Lang = 'zh-CN' | 'en-US';
 
 export interface StateType {
   // 主题
@@ -24,7 +24,7 @@ const defaultState: StateType = stagedStore
   : {
       theme: 'light',
       previewTheme: 'default',
-      lang: 'en'
+      lang: 'en-US'
     };
 
 export default createStore({
@@ -39,7 +39,7 @@ export default createStore({
       localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     },
     changeLang(state: StateType) {
-      state.lang = state.lang === 'cn' ? 'en' : 'cn';
+      state.lang = state.lang === 'zh-CN' ? 'en-US' : 'zh-CN';
       localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     }
   }

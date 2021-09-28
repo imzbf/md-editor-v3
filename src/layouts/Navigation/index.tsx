@@ -8,7 +8,7 @@ export default defineComponent({
     const store = useStore();
 
     const linkNames = computed(() => {
-      return store.state.lang === 'cn'
+      return store.state.lang === 'zh-CN'
         ? {
             home: '首页',
             docs: '文档',
