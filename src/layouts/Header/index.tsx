@@ -1,4 +1,4 @@
-import { defineComponent, PropType, reactive } from 'vue';
+import { computed, defineComponent, PropType, reactive } from 'vue';
 import './index.less';
 import { Theme } from '../../App';
 import Navigation from '../Navigation';
@@ -19,26 +19,46 @@ export default defineComponent({
       previewThemevisible: false
     });
 
+    const texts = computed(() => {
+      return store.state.lang === 'cn'
+        ? {
+            desc: 'Markdown编辑器Vue3版本，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等。',
+            defaultTheme: '默认模式',
+            darkTheme: '暗黑模式',
+            previewBtn: '切换预览主题',
+            previewDefaultTheme: '默认主题',
+            previewVuepressTheme: 'Vuepress主题',
+            previewGithubTheme: 'Github主题'
+          }
+        : {
+            desc: 'Markdown Editor for Vue3, developed by jsx and typescript, support different themes、beautify content by prettier.',
+            defaultTheme: 'Default Theme',
+            darkTheme: 'Dark Theme',
+            previewBtn: 'Change Preview Style',
+            previewDefaultTheme: 'Default Style',
+            previewVuepressTheme: 'Vuepress Style',
+            previewGithubTheme: 'Github Style'
+          };
+    });
+
     return () => (
       <header class="page-header">
         <section class="container">
           <h1 class="project-name">md-editor-v3</h1>
-          <p class="project-desc">
-            Markdown编辑器，基于vue3，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等。
-          </p>
+          <p class="project-desc">{texts.value.desc}</p>
           <Navigation />
           <p class="header-actions">
             <button
               class="btn btn-header"
               onClick={() => store.commit('changeTheme', 'light')}
             >
-              默认模式
+              {texts.value.defaultTheme}
             </button>
             <button
               class="btn btn-header"
               onClick={() => store.commit('changeTheme', 'dark')}
             >
-              暗黑模式
+              {texts.value.darkTheme}
             </button>
             <Dropdown
               trigger="click"
@@ -53,21 +73,21 @@ export default defineComponent({
                       store.commit('changePreviewTheme', 'default');
                     }}
                   >
-                    默认主题
+                    {texts.value.previewDefaultTheme}
                   </Menu.Item>
                   <Menu.Item
                     onClick={() => {
                       store.commit('changePreviewTheme', 'github');
                     }}
                   >
-                    Github主题
+                    {texts.value.previewGithubTheme}
                   </Menu.Item>
                   <Menu.Item
                     onClick={() => {
                       store.commit('changePreviewTheme', 'vuepress');
                     }}
                   >
-                    Vuepress主题
+                    {texts.value.previewVuepressTheme}
                   </Menu.Item>
                 </Menu>
               }
@@ -76,7 +96,7 @@ export default defineComponent({
                 data.previewThemevisible = visible;
               }}
             >
-              <button class="btn btn-header">切换预览主题</button>
+              <button class="btn btn-header">{texts.value.previewBtn}</button>
             </Dropdown>
           </p>
         </section>
