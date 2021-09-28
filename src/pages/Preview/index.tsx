@@ -23,7 +23,7 @@ export default defineComponent({
     watch(
       () => md.text,
       () => {
-        clearInterval(taskId);
+        clearTimeout(taskId);
         taskId = window.setTimeout(() => {
           localStorage.setItem(SAVE_KEY, md.text);
         }, 2_000);
@@ -31,7 +31,7 @@ export default defineComponent({
     );
 
     onUnmounted(() => {
-      clearInterval(taskId);
+      clearTimeout(taskId);
     });
     // -----end-----
 
