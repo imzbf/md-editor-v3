@@ -4,9 +4,15 @@ import { PreviewThemes } from 'md-editor-v3';
 
 export type Theme = 'light' | 'dark';
 
+export type Lang = 'cn' | 'en';
+
 export interface StateType {
+  // 主题
   theme: Theme;
+  // 预览主题
   previewTheme: PreviewThemes;
+  // 语言
+  lang: Lang;
 }
 
 const stagedStore = localStorage.getItem(STORAGED_STORE_KEY);
@@ -17,7 +23,8 @@ const defaultState: StateType = stagedStore
   ? JSON.parse(stagedStore)
   : {
       theme: 'light',
-      previewTheme: 'default'
+      previewTheme: 'default',
+      lang: 'en'
     };
 
 export default createStore({
@@ -29,6 +36,10 @@ export default createStore({
     },
     changePreviewTheme(state: StateType, value: PreviewThemes) {
       state.previewTheme = value;
+      localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
+    },
+    changeLang(state: StateType) {
+      state.lang = state.lang === 'cn' ? 'en' : 'cn';
       localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     }
   }

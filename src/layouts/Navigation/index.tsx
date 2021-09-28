@@ -1,17 +1,42 @@
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { RouterLink } from 'vue-router';
 import './index.less';
+import { useStore } from 'vuex';
 
 export default defineComponent({
-  render() {
-    return (
+  setup() {
+    const store = useStore();
+
+    const linkNames = computed(() => {
+      return store.state.lang === 'cn'
+        ? {
+            home: '首页',
+            docs: '文档',
+            demo: '示例',
+            github: '源码',
+            about: '关于',
+            lang: 'English',
+            langIcon: '#icon-d-en'
+          }
+        : {
+            home: 'Home',
+            docs: 'Docs',
+            demo: 'Demo',
+            github: 'Github',
+            about: 'About',
+            lang: '中文',
+            langIcon: '#icon-d-cn'
+          };
+    });
+
+    return () => (
       <ul class="nav-list">
         <li class="nav-item">
           <RouterLink to="/">
             <svg class="icon" aria-hidden="true">
               <use xlinkHref="#icon-d-online"></use>
             </svg>
-            首页
+            {linkNames.value.home}
           </RouterLink>
         </li>
         <li class="nav-item">
@@ -19,7 +44,7 @@ export default defineComponent({
             <svg class="icon" aria-hidden="true">
               <use xlinkHref="#icon-d-docs"></use>
             </svg>
-            文档
+            {linkNames.value.docs}
           </RouterLink>
         </li>
         <li class="nav-item">
@@ -27,7 +52,7 @@ export default defineComponent({
             <svg class="icon" aria-hidden="true">
               <use xlinkHref="#icon-d-demo"></use>
             </svg>
-            示例
+            {linkNames.value.demo}
           </RouterLink>
         </li>
         <li class="nav-item">
@@ -35,7 +60,7 @@ export default defineComponent({
             <svg class="icon" aria-hidden="true">
               <use xlinkHref="#icon-d-github"></use>
             </svg>
-            源码
+            {linkNames.value.github}
           </a>
         </li>
         <li class="nav-item">
@@ -43,15 +68,20 @@ export default defineComponent({
             <svg class="icon" aria-hidden="true">
               <use xlinkHref="#icon-d-about"></use>
             </svg>
-            关于
+            {linkNames.value.about}
           </RouterLink>
         </li>
-        {/* <li class="nav-item">
+        <li
+          class="nav-item"
+          onClick={() => {
+            store.commit('changeLang');
+          }}
+        >
           <svg class="icon" aria-hidden="true">
-            <use xlinkHref="#icon-d-en"></use>
+            <use xlinkHref={linkNames.value.langIcon}></use>
           </svg>
-          语言
-        </li> */}
+          {linkNames.value.lang}
+        </li>
       </ul>
     );
   }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="keywords"
+      content="markdown,editor,vue,vue3,javascript,typescript,jsx,tsx,theme,html"
+    />
+    <meta
+      name="description"
+      content="Markdown编辑器，基于vue3，使用jsx和typescript语法开发，支持切换主题，支持prettier美化文本，支持在tsx项目使用。"
+    />
+    <title>MdEditorV3使用文档</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap"
+      rel="stylesheet"
+    />
+    <script src="//at.alicdn.com/t/font_2818624_fq465myoxk9.js"></script>
+    <script>
+      (function () {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="https://imzbf.github.io/md-editor-v3/assets/index.feb025c9.js"></script>
+    <link rel="modulepreload" href="https://imzbf.github.io/md-editor-v3/assets/vendor.bf895ce6.js">
+    <link rel="stylesheet" href="https://imzbf.github.io/md-editor-v3/assets/index.3807293f.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    
+  </body>
+</html>

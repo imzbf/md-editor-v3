@@ -71,7 +71,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(VITE_BASE as string),
+  history: createWebHistory('/md-editor-v3/'),
   routes
 });
 

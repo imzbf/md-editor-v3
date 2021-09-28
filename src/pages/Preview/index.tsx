@@ -1,6 +1,6 @@
 import { defineComponent, reactive, PropType, onUnmounted, watch } from 'vue';
 import Editor from 'md-editor-v3';
-import { mdText } from '../../data';
+import { mdText, mdEnText } from '../../data';
 import { Theme } from '../../App';
 import axios from '@/utils/request';
 import './index.less';
@@ -36,6 +36,18 @@ export default defineComponent({
     // -----end-----
 
     const store = useStore();
+
+    watch(
+      () => store.state.lang,
+      (nVal) => {
+        console.log(nVal);
+        if (nVal === 'cn') {
+          md.text = storagedText || mdText;
+        } else {
+          md.text = storagedText || mdEnText;
+        }
+      }
+    );
 
     return () => (
       <div class="project-preview">
@@ -73,7 +85,9 @@ export default defineComponent({
           />
           <br />
           <span class="tips-text">
-            tips：本页上方的编辑器有localstorage保存功能，可手动点击保存触发，每次操作后两秒会自己保存一次，可用于一些文档的编辑。
+            {store.state.lang === 'cn'
+              ? 'Tips：本页上方的编辑器有localstorage保存功能，每次操作后两秒会自己保存一次，可手动点击保存触发，可用于一些文档的编辑。'
+              : 'Tips: The editor in this page can save text to localstorage auto after two second, and you can save it by yourself also. Wish this function can be used to edit some temporary document.'}
           </span>
         </div>
       </div>
