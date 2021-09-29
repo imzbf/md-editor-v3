@@ -140,8 +140,7 @@ export const useMarked = (props: EditorContentProps) => {
     count++;
 
     // Bug marked单实例，count等依赖被共享
-
-    return `<h${level} id="heading-${count}"><span class="h-text">${text}</span></h${level}>`;
+    return `<h${level} id="heading-${count}"><a href="#heading-${count}">${text}</a></h${level}>`;
   };
 
   renderer.image = (href, _, desc) => {
@@ -157,7 +156,11 @@ export const useMarked = (props: EditorContentProps) => {
     marked.setOptions({
       highlight: (code) => {
         const codeHtml = props.hljs.highlightAuto(code).value;
-        return showCodeRowNumber ? generateCodeRowNumber(codeHtml) : codeHtml;
+        console.log(123);
+
+        return showCodeRowNumber
+          ? generateCodeRowNumber(codeHtml)
+          : `<span class="code-block">${codeHtml}</span>`;
       }
     });
   }
@@ -182,7 +185,9 @@ export const useMarked = (props: EditorContentProps) => {
     marked.setOptions({
       highlight: (code) => {
         const codeHtml = window.hljs.highlightAuto(code).value;
-        return showCodeRowNumber ? generateCodeRowNumber(codeHtml) : codeHtml;
+        return showCodeRowNumber
+          ? generateCodeRowNumber(codeHtml)
+          : `<span class="code-block">${codeHtml}</span>`;
       }
     });
 
