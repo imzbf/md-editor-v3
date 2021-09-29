@@ -23,7 +23,7 @@ export default defineComponent({
       <div class={['app', theme.value === 'dark' && 'theme-dark']}>
         <Header theme={theme.value} onChange={(v: Theme) => (theme.value = v)} />
         <div class="page-body">
-          <Preview theme={theme.value} />
+          {/* <Preview theme={theme.value} /> */}
           <Doc theme={theme.value} />
         </div>
       </div>

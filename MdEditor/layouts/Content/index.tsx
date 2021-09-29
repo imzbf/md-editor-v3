@@ -95,7 +95,7 @@ export default defineComponent({
                 ref={previewRef}
                 class={[
                   `${prefix}-preview`,
-                  `${prefix}-preview-${previewTheme?.value}`,
+                  `${previewTheme?.value}-theme`,
                   showCodeRowNumber && `${prefix}-scrn`
                 ]}
                 innerHTML={html.value}

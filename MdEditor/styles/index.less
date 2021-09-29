@@ -1,9 +1,9 @@
 // 部分样式来源于其他开源UI库
 
 @import './vars';
-@import './themes/defalut';
-@import './themes/github';
-@import './themes/vuepress';
+// @import './themes/defalut';
+// @import './themes/github';
+// @import './themes/vuepress';
 
 @toolBarHeight: 35px;
 @toolBarPadding: 4px;
@@ -161,47 +161,6 @@
       padding: 10px 20px;
       overflow: auto;
       font-size: 16px;
-
-      pre,
-      code {
-        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-        font-size: 14px;
-      }
-    }
-
-    // show code row numer，显示代码行号
-    .@{prefix}-scrn {
-      span[rn-wrapper] {
-        position: absolute;
-        pointer-events: none;
-        top: 1em;
-        font-size: 100%;
-        left: 0;
-        width: 3em;
-        letter-spacing: -1px;
-        user-select: none;
-        counter-reset: linenumber;
-
-        & > span {
-          display: block;
-          pointer-events: none;
-          counter-increment: linenumber;
-
-          &::before {
-            color: #999;
-            display: block;
-            padding-right: 0.5em;
-            text-align: right;
-            content: counter(linenumber);
-          }
-        }
-      }
-
-      pre {
-        code {
-          padding-left: 3.5em;
-        }
-      }
     }
   }
 
