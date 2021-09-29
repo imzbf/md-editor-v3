@@ -53,6 +53,7 @@
     "@types/node": "^15.12.5",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
+    "@vavt/markdown-theme": "^0.0.2",
     "@vitejs/plugin-vue": "^1.2.3",
     "@vitejs/plugin-vue-jsx": "^1.1.5",
     "@vue/compiler-sfc": "^3.0.5",
@@ -73,8 +74,7 @@
     "vite": "^2.3.8",
     "vite-plugin-dts": "^0.5.2",
     "vue": "^3.2.2",
-    "vue-tsc": "^0.0.24",
-    "@vavt/markdown-theme": "file:../markdown-theme"
+    "vue-tsc": "^0.0.24"
   },
   "eslintConfig": {
     "env": {
