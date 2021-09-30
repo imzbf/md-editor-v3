@@ -1,5 +1,7 @@
 # md-editor-v3
 
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dw/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3)
+
 [English](https://github.com/imzbf/md-editor-v3) \| 中文
 
 vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发，支持在 tsx 项目使用。
@@ -24,9 +26,9 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 
 ## 预览图
 
-![默认模式](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6d93b5ac7338479fb7fd0b94ba6e003a~tplv-k3u1fbpfcp-watermark.image)
-
-![暗黑模式](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45d0ddaead1d48b2843ef16e2065a298~tplv-k3u1fbpfcp-watermark.image)
+| 默认模式 | 暗黑模式 | 仅预览 |
+| --- | --- | --- |
+| ![默认模式](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/800881ba72d74476a36731861e88d4ba~tplv-k3u1fbpfcp-watermark.image) | ![暗黑模式](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/def08468baf14ce3b7086d0a911d1801~tplv-k3u1fbpfcp-watermark.image) | ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1664c4a5404641c4a1080d64bc6c5831~tplv-k3u1fbpfcp-watermark.image) |
 
 ## Apis
 

@@ -14,9 +14,7 @@ import bus from './utils/event-bus';
 
 import './styles/index.less';
 
-import '@vavt/markdown-theme/css/default.css';
-import '@vavt/markdown-theme/css/github.css';
-import '@vavt/markdown-theme/css/vuepress.css';
+import '@vavt/markdown-theme/css/all.css';
 
 declare global {
   interface Window {

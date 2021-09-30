@@ -1,5 +1,7 @@
 # md-editor-v3
 
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dw/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3)
+
 English \| [中文](https://github.com/imzbf/md-editor-v3/blob/master/README-CN.md)
 
 Markdown editor for vue3, developed by `jsx` and `typescript`.
@@ -8,7 +10,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 
 - Use it online：[Go](https://stackblitz.com/edit/vue-aleajl)
 
-- The simple series editor for react：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
+- The same series editor for react：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
 ## Features
 
@@ -25,9 +27,9 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 
 ## Preview
 
-![default theme](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6d93b5ac7338479fb7fd0b94ba6e003a~tplv-k3u1fbpfcp-watermark.image)
-
-![dark theme](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45d0ddaead1d48b2843ef16e2065a298~tplv-k3u1fbpfcp-watermark.image)
+| Default theme | Dark theme | Preview only |
+| --- | --- | --- |
+| ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/316ecb6e9b3b431aa1a6b0d20d9dabac~tplv-k3u1fbpfcp-watermark.image) | ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/611acc4227084ba19875b4b578a01e07~tplv-k3u1fbpfcp-watermark.image) | ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1664c4a5404641c4a1080d64bc6c5831~tplv-k3u1fbpfcp-watermark.image) |
 
 ## Apis
 
