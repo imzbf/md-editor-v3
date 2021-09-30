@@ -6,7 +6,8 @@ import {
   reactive,
   nextTick,
   ComputedRef,
-  watch
+  watch,
+  computed
 } from 'vue';
 import Modal from '../../components/Modal';
 import { StaticTextDefaultValue, prefix } from '../../Editor';
@@ -43,10 +44,15 @@ export default defineComponent({
     const uploadRef = ref();
     const uploadImgRef = ref();
 
+    // 预览框
+    const previewTargetRef = ref();
+
     const data = reactive({
       cropperInited: false,
       imgSelected: false,
-      imgSrc: ''
+      imgSrc: '',
+      // 是否全屏
+      isFullscreen: false
     });
 
     let cropper: any = null;
@@ -87,6 +93,46 @@ export default defineComponent({
       }
     );
 
+    // 图片选择变化时，清除cropper残留样式
+    watch(
+      () => [data.imgSelected],
+      () => {
+        previewTargetRef.value.style = '';
+      }
+    );
+
+    // 全屏变化时，清理cropper
+    watch(
+      () => data.isFullscreen,
+      () => {
+        nextTick(() => {
+          cropper?.destroy();
+          previewTargetRef.value.style = '';
+
+          if (uploadImgRef.value) {
+            cropper = new Cropper(uploadImgRef.value, {
+              viewMode: 2,
+              preview: `.${prefix}-clip-preview-target`
+              // aspectRatio: 16 / 9,
+            });
+          }
+        });
+      }
+    );
+
+    // 弹出层宽度
+    const modalSize = computed(() => {
+      return data.isFullscreen
+        ? {
+            width: '100%',
+            height: '100%'
+          }
+        : {
+            width: '668px',
+            height: '421px'
+          };
+    });
+
     const reset = () => {
       cropper.destroy();
       (uploadRef.value as HTMLInputElement).value = '';
@@ -99,6 +145,12 @@ export default defineComponent({
         visible={props.visible}
         onClosed={props.onCancel}
         to={props.to}
+        showAdjust
+        isFullscreen={data.isFullscreen}
+        onAdjust={(val) => {
+          data.isFullscreen = val;
+        }}
+        {...modalSize.value}
       >
         <div class={`${prefix}-form-item ${prefix}-clip`}>
           <div class={`${prefix}-clip-main`}>
@@ -125,7 +177,7 @@ export default defineComponent({
             )}
           </div>
           <div class={`${prefix}-clip-preview`}>
-            <div class={`${prefix}-clip-preview-target`}></div>
+            <div class={`${prefix}-clip-preview-target`} ref={previewTargetRef}></div>
           </div>
         </div>
         <div class={`${prefix}-form-item`}>
