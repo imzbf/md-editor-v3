@@ -27,9 +27,9 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 
 ## Preview
 
-![default theme](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6d93b5ac7338479fb7fd0b94ba6e003a~tplv-k3u1fbpfcp-watermark.image)
+![default theme](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/316ecb6e9b3b431aa1a6b0d20d9dabac~tplv-k3u1fbpfcp-watermark.image)
 
-![dark theme](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45d0ddaead1d48b2843ef16e2065a298~tplv-k3u1fbpfcp-watermark.image)
+![dark theme](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/611acc4227084ba19875b4b578a01e07~tplv-k3u1fbpfcp-watermark.image)
 
 ## Apis
 
