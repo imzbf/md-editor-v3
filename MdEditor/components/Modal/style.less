@@ -14,15 +14,15 @@
 }
 
 .@{prefix}-modal {
-  display: inline-block;
+  display: block;
   background-color: @bkColor;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   border-radius: 3px;
   border: 1px solid @borderColor;
-
   position: fixed;
   z-index: @maskZIndex + 1;
+  flex-direction: column;
 
   &-header {
     cursor: grab;
@@ -40,20 +40,30 @@
       word-wrap: break-word;
       cursor: text;
     }
-    .@{prefix}-modal-close {
-      cursor: pointer;
-      width: 24px;
-      height: 24px;
-      line-height: 24px;
-      text-align: center;
+
+    .@{prefix}-modal-func {
+      .@{prefix}-modal-adjust,
+      .@{prefix}-modal-close {
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        display: inline-block;
+      }
+
+      .@{prefix}-modal-adjust {
+        padding-right: 10px;
+      }
     }
   }
 
   &-body {
     padding: 24px;
     font-size: 14px;
-    line-height: 1.5715;
     word-wrap: break-word;
+    height: calc(100% - 61px);
+    box-sizing: border-box;
   }
 }
 
