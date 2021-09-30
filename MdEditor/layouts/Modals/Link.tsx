@@ -126,6 +126,7 @@ export default defineComponent({
             onChange={(e) => {
               linkData.desc = (e.target as HTMLInputElement).value;
             }}
+            autocomplete="off"
           />
         </div>
         <div class={`${prefix}-form-item`}>
@@ -141,6 +142,7 @@ export default defineComponent({
             onChange={(e) => {
               linkData.url = (e.target as HTMLInputElement).value;
             }}
+            autocomplete="off"
           />
         </div>
         <div class={`${prefix}-form-item`}>
