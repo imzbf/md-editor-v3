@@ -1,5 +1,7 @@
 # md-editor-v3
 
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dw/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3)
+
 English \| [中文](https://github.com/imzbf/md-editor-v3/blob/master/README-CN.md)
 
 Markdown editor for vue3, developed by `jsx` and `typescript`.
@@ -8,7 +10,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 
 - Use it online：[Go](https://stackblitz.com/edit/vue-aleajl)
 
-- The simple series editor for react：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
+- The same series editor for react：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
 ## Features
 
