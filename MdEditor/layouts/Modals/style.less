@@ -1,12 +1,14 @@
 @import '../../styles/vars';
 
 .@{prefix}-clip {
+  position: relative;
   display: flex;
+  height: calc(100% - 32px);
 
   &-main,
   &-preview {
-    width: 300px;
-    height: 248px;
+    width: 50%;
+    height: 100%;
     border: 1px @borderColor solid;
   }
 
@@ -34,6 +36,7 @@
     .@{prefix}-clip-upload {
       display: flex;
       align-items: center;
+      justify-content: center;
       width: 100%;
       height: 100%;
       cursor: pointer;
