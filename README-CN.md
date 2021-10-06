@@ -255,3 +255,11 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
   callback(res.map((item: any) => item.data.url));
 }
 ```
+
+## 支持
+
+> 可以申请退还，通过上面的联系方式联系（人工核对，请不要恶意操作）
+
+| 支付宝 | 微信 |
+| --- | --- |
+| ![支付宝](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034374527224217786475887.jpeg) | ![微信](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034518598350079764474265.jpeg) |
