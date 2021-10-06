@@ -10,11 +10,11 @@ Now, we can develop vue3 project by `jsx` friendly. Editor is compatible for som
 
 ### 1.1 Traditional development
 
-Use production version in html directly，here is a demo：
+Use production version in html directly：
 
 ```js
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Traditional development</title>
@@ -53,13 +53,9 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
-    return {
-      text: ''
-    };
+    return { text: '' };
   }
 });
 </script>
@@ -89,11 +85,11 @@ Usages of some APIs.
 
 ### 2.1 Change Theme
 
-After `v1.4.3`, 主题分为了编辑器主题（`theme`，称为全局主题）和预览内容主题（`previewTheme`），他们都支持响应式更新，而非只能预设。
+After `v1.4.3`, Themes are divided into editor themes(api: `theme`) and article preview themes(api: `previewTheme`).
 
 #### 2.1.1 Editor Theme
 
-Default support `light` and `dark`.
+Support `light` and `dark` default.
 
 ```js
 <template>
@@ -106,9 +102,7 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -121,7 +115,7 @@ export default defineComponent({
 
 #### 2.1.2 Preview Theme
 
-There are three themes `default`, `github` and `vuepress`. It is useful When you want to show your article directly. Modify `previewTheme`
+There are three themes `default`, `github` and `vuepress`. It is useful When you want to show your article directly. Modify `previewTheme`.
 
 Rules:
 
@@ -139,24 +133,22 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
-      theme: 'github'
+      theme: 'vuepress'
     };
   }
 });
 </script>
 ```
 
-### 2.2 Extension
+### 2.2 Extension component
 
 Extensions highlight, prettier, cropper, screenfull are import from `cdn`. When your project is running offline, replace urls of these extensions. Some Extensions support be injected in development environment.
 
-Demo for `screenfull`
+Demo of `screenfull`
 
 #### 2.2.1 Inject directly
 
@@ -173,9 +165,7 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -188,9 +178,7 @@ export default defineComponent({
 
 #### 2.2.2 Intranet link
 
-对应的 js 文件可以去[https://www.jsdelivr.com/](https://www.jsdelivr.com/)，直接找到对应的文件下载即可。
-
-These extensions
+Get these extension files from [https://www.jsdelivr.com/](https://www.jsdelivr.com/).
 
 ```js
 <template>
@@ -199,15 +187,11 @@ These extensions
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// 引用screenfull
-import screenfull from 'screenfull';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -218,13 +202,13 @@ export default defineComponent({
 </script>
 ```
 
-### 2.3 图片上传
+### 2.3 Upload pictures
 
-默认可以选择多张图片，支持截图粘贴板上传图片，支持复制网页图片粘贴上传。
+By default, you can select multiple pictures. You can paste and upload screenshots and copy web page pictures.
 
-> v1.2.0：图片裁剪上传只支持选择一张图片~，但回调入仍是一个文件数组
+> v1.2.0：Only one image can be selected for image clipping ~，but `onUploadImg` function will receive an array also.
 
-> 注意：粘贴板上传时，如果是网页上的 gif 图，无法正确上传为 gif 格式！请保存本地后再手动上传。
+> Tips: When pasting pictures, if they are GIF graphs, it does not work! Please upload it by file system.
 
 ```js
 async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
@@ -250,99 +234,100 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 }
 ```
 
-### 2.4 语言扩展与替换
+### 2.4 Extension language
 
 ```js
 <template>
-  <md-editor v-model="text" :screenfullJs="screenfull"/>
+  <md-editor
+    v-model="text"
+    :language="language"
+    :languageUserDefined="languageUserDefined"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// 引用screenfull
-import screenfull from 'screenfull';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
-      // 定义语言名称
+      // name
       language: 'my-lang',
-      // 定义语言具体内容
-      languageUserDefined: [{
-          'my-lang': {
-            toolbarTips: {
-              bold: '加粗',
-              underline: '下划线',
-              italic: '斜体',
-              strikeThrough: '删除线',
-              title: '标题',
-              sub: '下标',
-              sup: '上标',
-              quote: '引用',
-              unorderedList: '无序列表',
-              orderedList: '有序列表',
-              codeRow: '行内代码',
-              code: '块级代码',
-              link: '链接',
-              image: '图片',
-              table: '表格',
-              revoke: '后退',
-              next: '前进',
-              save: '保存',
-              prettier: '美化',
-              pageFullscreen: '浏览器全屏',
-              fullscreen: '屏幕全屏',
-              preview: '预览',
-              htmlPreview: 'html代码预览',
-              github: '源码地址'
-            },
-            titleItem: {
-              h1: '一级标题',
-              h2: '二级标题',
-              h3: '三级标题',
-              h4: '四级标题',
-              h5: '五级标题',
-              h6: '六级标题'
-            },
-            linkModalTips: {
-              title: '添加',
-              descLable: '链接描述：',
-              descLablePlaceHolder: '请输入描述...',
-              urlLable: '链接地址：',
-              UrlLablePlaceHolder: '请输入链接...',
-              buttonOK: '确定',
-              buttonUpload: '上传'
-            },
-            clipModalTips: {
-              title: '裁剪图片上传',
-              buttonUpload: '上传'
-            },
-            copyCode: {
-              text: '复制代码';
-              tips: '已复制';
-            }
+      // text
+      languageUserDefined: {
+        'my-lang': {
+          toolbarTips: {
+            bold: '----',
+            underline: 'underline',
+            italic: 'italic',
+            strikeThrough: 'strikeThrough',
+            title: 'title',
+            sub: 'subscript',
+            sup: 'superscript',
+            quote: 'quote',
+            unorderedList: 'unordered list',
+            orderedList: 'ordered list',
+            codeRow: 'inline code',
+            code: 'block-level code',
+            link: 'link',
+            image: 'image',
+            table: 'table',
+            revoke: 'revoke',
+            next: 'undo revoke',
+            save: 'save',
+            prettier: 'prettier',
+            pageFullscreen: 'fullscreen in page',
+            fullscreen: 'fullscreen',
+            preview: 'preview',
+            htmlPreview: 'html preview',
+            github: 'source code'
+          },
+          titleItem: {
+            h1: 'Lv1 Heading',
+            h2: 'Lv2 Heading',
+            h3: 'Lv3 Heading',
+            h4: 'Lv4 Heading',
+            h5: 'Lv5 Heading',
+            h6: 'Lv6 Heading'
+          },
+          linkModalTips: {
+            title: 'Add ',
+            descLable: 'Desc:',
+            descLablePlaceHolder: 'Enter a description...',
+            urlLable: 'Link:',
+            UrlLablePlaceHolder: 'Enter a link...',
+            buttonOK: 'OK',
+            buttonUpload: 'Upload',
+            buttonUploadClip: 'Crop2upload'
+          },
+          clipModalTips: {
+            title: 'Crop Image',
+            buttonUpload: 'Upload'
+          },
+          copyCode: {
+            text: 'Copy',
+            tips: 'Copied!'
           }
         }
-      ]
-    }
+      }
+    };
   }
 });
 </script>
+
 ```
 
-### 2.5 目录获取与展示
+### 2.5 Get catalogue
 
-先通过`onGetCatalog`方法获取到渲染成功后的标题列表：
+Get data list by `onGetCatalog`:
 
 ```js
 <template>
-  <md-editor v-model="text" @onGetCatalog="onGetCatalog"/>
+  <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
 </template>
 
 <script lang="ts">
@@ -351,9 +336,7 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -361,18 +344,18 @@ export default defineComponent({
     };
   },
   methods: {
-    onGetCatalog(list) {
-      // 获取
-      this.catalogList = list
+    onGetCatalog(list: any) {
+      this.catalogList = list;
     }
   }
 });
 </script>
+
 ```
 
-若项目中使用的 ui 库有锚点类似的组件，请继续看下去（案例使用 ant-design-vue 组件库）：
+If there is a component like [`Anchor`](https://2x.antdv.com/components/anchor-cn) in your project, continue.
 
-创建组件`Catalog`，源码地址：[Catalog 源码](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
+Create `Catalog` component, source code: [Catalog](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
 
 ```js
 <template>
@@ -402,19 +385,10 @@ export default defineComponent({
   },
   methods: {
     onGetCatalog(list) {
-      // 获取
       this.catalogList = list
     }
   }
 });
 ```
 
-更详细的实现可以参考本文档的源码！
-
-## 更多
-
-若有觉得可用的功能或发现编辑器的 Bug，或者需要更多的使用 demo，请通过以下方式反馈给我。
-
-1. 邮箱：zbfcqtl@163.com
-2. 博客留言：[imbf.cc](https://imbf.cc/message)
-3. issue 管理：[github issues](https://github.com/imzbf/md-editor-v3/issues)
+## End

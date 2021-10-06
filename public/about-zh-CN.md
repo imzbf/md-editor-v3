@@ -1,5 +1,7 @@
 ## 关于 md-editor-v3
 
+![](https://img.shields.io/github/stars/imzbf/md-editor-v3?style=social) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3)
+
 Markdown 编辑器，vue3 版本，使用 jsx 和 typescript 语法开发，支持切换主题，支持 prettier 美化文本，支持图片粘贴上传，裁剪上传，支持在 tsx 项目使用。
 
 ## 同系列
@@ -16,3 +18,7 @@ Markdown 编辑器，vue3 版本，使用 jsx 和 typescript 语法开发，支�
 ## 支持
 
 > 可以申请退还，通过上面的联系方式联系（人工核对，请不要恶意操作）
+
+| 支付宝 | 微信 |
+| --- | --- |
+| ![支付宝](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034374527224217786475887.jpeg) | ![微信](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034518598350079764474265.jpeg) |

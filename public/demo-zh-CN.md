@@ -55,9 +55,7 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: ''
@@ -108,9 +106,7 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -141,9 +137,7 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -175,9 +169,7 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -199,15 +191,11 @@ export default defineComponent({
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// 引用screenfull
-import screenfull from 'screenfull';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -254,82 +242,82 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 
 ```js
 <template>
-  <md-editor v-model="text" :screenfullJs="screenfull"/>
+  <md-editor
+    v-model="text"
+    :language="language"
+    :languageUserDefined="languageUserDefined"
+  />
 </template>
+
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// 引用screenfull
-import screenfull from 'screenfull';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
       // 定义语言名称
       language: 'my-lang',
       // 定义语言具体内容
-      languageUserDefined: [{
-          'my-lang': {
-            toolbarTips: {
-              bold: '加粗',
-              underline: '下划线',
-              italic: '斜体',
-              strikeThrough: '删除线',
-              title: '标题',
-              sub: '下标',
-              sup: '上标',
-              quote: '引用',
-              unorderedList: '无序列表',
-              orderedList: '有序列表',
-              codeRow: '行内代码',
-              code: '块级代码',
-              link: '链接',
-              image: '图片',
-              table: '表格',
-              revoke: '后退',
-              next: '前进',
-              save: '保存',
-              prettier: '美化',
-              pageFullscreen: '浏览器全屏',
-              fullscreen: '屏幕全屏',
-              preview: '预览',
-              htmlPreview: 'html代码预览',
-              github: '源码地址'
-            },
-            titleItem: {
-              h1: '一级标题',
-              h2: '二级标题',
-              h3: '三级标题',
-              h4: '四级标题',
-              h5: '五级标题',
-              h6: '六级标题'
-            },
-            linkModalTips: {
-              title: '添加',
-              descLable: '链接描述：',
-              descLablePlaceHolder: '请输入描述...',
-              urlLable: '链接地址：',
-              UrlLablePlaceHolder: '请输入链接...',
-              buttonOK: '确定',
-              buttonUpload: '上传'
-            },
-            clipModalTips: {
-              title: '裁剪图片上传',
-              buttonUpload: '上传'
-            },
-            copyCode: {
-              text: '复制代码';
-              tips: '已复制';
-            }
+      languageUserDefined: {
+        'my-lang': {
+          toolbarTips: {
+            bold: '加粗',
+            underline: '下划线',
+            italic: '斜体',
+            strikeThrough: '删除线',
+            title: '标题',
+            sub: '下标',
+            sup: '上标',
+            quote: '引用',
+            unorderedList: '无序列表',
+            orderedList: '有序列表',
+            codeRow: '行内代码',
+            code: '块级代码',
+            link: '链接',
+            image: '图片',
+            table: '表格',
+            revoke: '后退',
+            next: '前进',
+            save: '保存',
+            prettier: '美化',
+            pageFullscreen: '浏览器全屏',
+            fullscreen: '屏幕全屏',
+            preview: '预览',
+            htmlPreview: 'html代码预览',
+            github: '源码地址'
+          },
+          titleItem: {
+            h1: '一级标题',
+            h2: '二级标题',
+            h3: '三级标题',
+            h4: '四级标题',
+            h5: '五级标题',
+            h6: '六级标题'
+          },
+          linkModalTips: {
+            title: '添加',
+            descLable: '链接描述：',
+            descLablePlaceHolder: '请输入描述...',
+            urlLable: '链接地址：',
+            UrlLablePlaceHolder: '请输入链接...',
+            buttonOK: '确定',
+            buttonUpload: '上传'
+          },
+          clipModalTips: {
+            title: '裁剪图片上传',
+            buttonUpload: '上传'
+          },
+          copyCode: {
+            text: '复制代码';
+            tips: '已复制';
           }
         }
-      ]
+      }
     }
   }
 });
@@ -351,9 +339,7 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
-  components: {
-    MdEditor
-  },
+  components: { MdEditor },
   data() {
     return {
       text: '',
@@ -362,7 +348,6 @@ export default defineComponent({
   },
   methods: {
     onGetCatalog(list) {
-      // 获取
       this.catalogList = list
     }
   }
@@ -402,7 +387,6 @@ export default defineComponent({
   },
   methods: {
     onGetCatalog(list) {
-      // 获取
       this.catalogList = list
     }
   }
@@ -411,10 +395,4 @@ export default defineComponent({
 
 更详细的实现可以参考本文档的源码！
 
-## 更多
-
-若有觉得可用的功能或发现编辑器的 Bug，或者需要更多的使用 demo，请通过以下方式反馈给我。
-
-1. 邮箱：zbfcqtl@163.com
-2. 博客留言：[imbf.cc](https://imbf.cc/message)
-3. issue 管理：[github issues](https://github.com/imzbf/md-editor-v3/issues)
+## 结束

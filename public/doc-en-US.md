@@ -16,7 +16,7 @@
 | htmlPreview | Boolean | false | x | Preview html in editor |
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | Only render article content, no toolbar, no edit area |
 | language | String | 'zh-CN' | √ | Build-in language('zh-CN','en-US') |
-| languageUserDefined | Array | [{key: StaticTextDefaultValue}] | √ | Expand language，update `language` api to your key |
+| languageUserDefined<sup>[v1.5.0 changed](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | Expand language，update `language` api to your key |
 | toolbars | Array | [all] | √ | Show some item of toolbars，all keys<sup>[toolbars]<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | Don't show some item of toolbars，all keys`toolbars` |
 | prettier | Boolean | true | x | Use prettier to beautify content or not |
@@ -27,10 +27,10 @@
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | Icon url |
 | editorId<sup>v1.4.0</sup> | String | random | x | Editor id, also the html id, it is used when there are two or more editor and server render in the future |
 | tabWidth<sup>v1.4.0<sup> | Number | 2 | x | One tab eq some space |
-| showCodeRowNumber<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Boolean | false | x | Show row number for code block or not |
-| screenfull<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Object | null | x | Screenfull instance, editor will not insert script of it |
-| screenfullJs<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | x | Screenfull js url |
-| previewTheme<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | √ | Preview themes |
+| showCodeRowNumber<sup>v1.4.3</sup> | Boolean | false | x | Show row number for code block or not |
+| screenfull<sup>v1.4.3</sup> | Object | null | x | Screenfull instance, editor will not insert script of it |
+| screenfullJs<sup><v1.4.3</sup> | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | x | Screenfull js url |
+| previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | √ | Preview themes |
 
 > If responsive is `x`, you can set it's default value once.
 
