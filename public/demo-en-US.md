@@ -1,4 +1,4 @@
-## 1. Basic usage example
+## 1. Basic usage
 
 It has been developing iteratively，so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -7,8 +7,6 @@ yarn add md-editor-v3
 ```
 
 Now, we can develop vue3 project by `jsx` friendly. Editor is compatible for some enthusiasts(like me).
-
-两种方式开发上区别在于**vue 模板**能很好的支持`vue`特性，比如指令，内置的双向绑定等；而**jsx 语法**更偏向于`react`的理念，开发环境来讲 jsx 如果在支持 ts 的环境下，会更友好一些。
 
 ### 1.1 Traditional development
 
@@ -85,17 +83,17 @@ export default defineComponent({
 });
 ```
 
-## 2. 扩展功能
+## 2. Api usage
 
-这里包含了一些编辑器`api`的使用示范
+Usages of some APIs.
 
-### 2.1 主题切换
+### 2.1 Change Theme
 
-在`v1.4.3`版本后，主题分为了编辑器主题（`theme`，称为全局主题）和预览内容主题（`previewTheme`），他们都支持响应式更新，而非只能预设。
+After `v1.4.3`, 主题分为了编辑器主题（`theme`，称为全局主题）和预览内容主题（`previewTheme`），他们都支持响应式更新，而非只能预设。
 
-#### 2.1.1 编辑器主题
+#### 2.1.1 Editor Theme
 
-支持默认和暗夜模式两种
+Default support `light` and `dark`.
 
 ```js
 <template>
@@ -121,14 +119,14 @@ export default defineComponent({
 </script>
 ```
 
-#### 2.1.2 预览主题
+#### 2.1.2 Preview Theme
 
-内置了`default`、`github`、`vuepress`三种主题，在一些直接预览文档内容时使用。并且支持在线切换（修改`previewTheme`即可）。
+There are three themes `default`, `github` and `vuepress`. It is useful When you want to show your article directly. Modify `previewTheme`
 
-样式规则：
+Rules:
 
-- `default`、`vuepress`主题下，切换编辑器全局主题`theme`时，代码样式不会跟随变更；
-- `github`主题下，切换编辑器全局主题`theme`时，代码样式会动态的从`github-light`变为`github-dark`。
+- When `previewTheme` is `default` or `vuepress`, change `theme` api, the style of code will not change;
+- When `github`, the style of code will vary in `github-light` and `github-dark`.
 
 ```js
 <template>
@@ -154,13 +152,13 @@ export default defineComponent({
 </script>
 ```
 
-### 2.2 扩展库替换
+### 2.2 Extension
 
-highlight、prettier、cropper、screenfull 均使用外链引入，在无外网的时候，部分可将项目中已安装的依赖传入，也可以使用下载好的引用。
+Extensions highlight, prettier, cropper, screenfull are import from `cdn`. When your project is running offline, replace urls of these extensions. Some Extensions support be injected in development environment.
 
-演示替换`screenfull`
+Demo for `screenfull`
 
-#### 2.2.1 已安装依赖
+#### 2.2.1 Inject directly
 
 ```js
 <template>
@@ -169,7 +167,7 @@ highlight、prettier、cropper、screenfull 均使用外链引入，在无外网
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// 引用screenfull
+// import screenfull
 import screenfull from 'screenfull';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
@@ -188,9 +186,11 @@ export default defineComponent({
 </script>
 ```
 
-#### 2.2.2 内网链接
+#### 2.2.2 Intranet link
 
 对应的 js 文件可以去[https://www.jsdelivr.com/](https://www.jsdelivr.com/)，直接找到对应的文件下载即可。
+
+These extensions
 
 ```js
 <template>
