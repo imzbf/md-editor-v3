@@ -24,7 +24,7 @@ export default defineComponent({
         <Header theme={theme.value} onChange={(v: Theme) => (theme.value = v)} />
         <div class="page-body">
           <Preview theme={theme.value} />
-          <Doc theme={theme.value} />
+          {/* <Doc theme={theme.value} /> */}
         </div>
       </div>
     );
