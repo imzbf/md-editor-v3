@@ -27,6 +27,10 @@ const defaultState: StateType = stagedStore
       lang: 'en-US'
     };
 
+if (!defaultState.lang) {
+  defaultState.lang = 'en-US';
+}
+
 export default createStore({
   state: defaultState,
   mutations: {
