@@ -187,6 +187,5 @@ export const generateCodeRowNumber = (code: string) => {
     rowNumberList.push('<span></span>');
   });
   rowNumberList.push('</span>');
-
-  return `${code}${rowNumberList.join('')}`;
+  return `<span class="code-block">${code}</span>${rowNumberList.join('')}`;
 };
