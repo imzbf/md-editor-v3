@@ -251,3 +251,11 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
   callback(res.map((item: any) => item.data.url));
 }
 ```
+
+## Support
+
+> Refund can be made through the contact information above(Please do not operate maliciously).
+
+| Alipay | WeChat |
+| --- | --- |
+| ![Alipay](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034374527224217786475887.jpeg) | ![WeChat](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034518598350079764474265.jpeg) |
