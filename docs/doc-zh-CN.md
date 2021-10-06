@@ -10,33 +10,32 @@
 | --- | --- | --- | --- | --- |
 | modelValue | String | '' | √ | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
 | theme | 'light' \| 'dark' | 'light' | √ | 主题切换 |
-| editorClass | String | '' | √ | 编辑器最外层样式 |
-| hljs | Object | null | x | 项目中使用到了 highlight，可将实例直接传递，生产环境则不会请求 CDN，需要手动导入支持的高亮代码样式 |
-| highlightJs | String | [highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | x | highlightJs CDN |
+| editorClass | String | '' | √ | 编辑器类名 |
+| hljs | Object | null | x | highlight 实例，编辑器不会插入对应的`script`，但需要手动导入的高亮代码样式 |
+| highlightJs | String | [highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | x | highlightJs 链接 |
 | highlightCss | String | [atom-one-dark@11.2.0](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css) | x | 预览高亮代码样式 |
 | historyLength | Number | 10 | x | 最大记录操作数（太大会占用内存） |
-| pageFullScreen | Boolean | false | x | 浏览器内全屏 |
-| preview | Boolean | true | x | 预览模式 |
-| htmlPreview | Boolean | false | x | html 预览 |
+| pageFullScreen | Boolean | false | x | 页面内全屏 |
+| preview | Boolean | true | x | 是否预览 |
+| htmlPreview | Boolean | false | x | 是否 html 预览 |
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | String | 'zh-CN' | √ | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| languageUserDefined | Array | [{key: StaticTextDefaultValue}] | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
+| languageUserDefined<sup>[v1.5.0 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
 | toolbars | Array | [all] | √ | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | x | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
 | prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) | x |  |
 | editorName<sup>v1.3.2delete</sup> | String | 'editor' | x | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
-| Cropper<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Function | null | x | 图片裁剪构造函数 |
 | cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
 | cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
 | editorId<sup>v1.4.0</sup> | String | random | x | 编辑器唯一标识，非必须项，用于后续支持`ssr`时，防止产生服务端与客户端渲染内容不一致错误提示 |
 | tabWidth<sup>v1.4.0<sup> | Number | 2 | x | 编辑器 TAB 键位等于空格数 |
-| showCodeRowNumber<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Boolean | false | x | 代码块显示行号 |
-| screenfull<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Object | null | x | 全屏插件实例，项目中有使用可以将其传入，这样编辑器不再会使用 cdn 引入 |
-| screenfullJs<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | x | cdn 链接 |
-| previewTheme<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | √ | 预览内容主题 |
+| showCodeRowNumber<sup>v1.4.3</sup> | Boolean | false | x | 代码块是否显示行号 |
+| screenfull<sup>v1.4.3</sup> | Object | null | x | 全屏插件实例，编辑器不再插入对应的`script` |
+| screenfullJs<sup>v1.4.3</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | x | screenfull js 链接 |
+| previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | √ | 预览内容主题 |
 
 > 响应式=x，该属性只支持设置默认值，不支持响应式更新~
 
@@ -212,10 +211,4 @@
 
 内置了`previewTheme`调整预览内容主题，内置了`github`、`vuepress`和默认三种。值得注意的是他们都只设置了基础`markdown`支持的语法内容样式，特殊样式（例如：轮播等）暂未提供。同时`github`主题切换暗黑模式时，会同时替换代码块链接样式。若同页面有嵌入了多个编辑器，会受到影响。
 
-## 文档结尾
-
-若有觉得可用的功能或发现编辑器的 Bug，请通过以下方式反馈给我。
-
-1. 邮箱：zbfcqtl@163.com
-2. 博客留言：[imbf.cc](https://imbf.cc/message)
-3. issue 管理：[github issues](https://github.com/imzbf/md-editor-v3/issues)
+## 结束
