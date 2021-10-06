@@ -33,7 +33,11 @@ export default defineComponent({
       default: false
     },
     width: {
-      type: [Number, String] as PropType<number | string>,
+      type: String as PropType<string>,
+      default: 'auto'
+    },
+    height: {
+      type: String as PropType<string>,
       default: 'auto'
     },
     onClosed: {
@@ -43,6 +47,18 @@ export default defineComponent({
     to: {
       type: Element as PropType<HTMLElement>,
       default: () => document.body
+    },
+    showAdjust: {
+      type: Boolean as PropType<boolean>,
+      default: false
+    },
+    isFullscreen: {
+      type: Boolean as PropType<boolean>,
+      default: false
+    },
+    onAdjust: {
+      type: Function as PropType<(val: boolean) => void>,
+      default: () => () => {}
     }
   },
   setup(props, ctx) {
@@ -56,15 +72,21 @@ export default defineComponent({
     // 移动元素方法返回清除监听事件方法。
     let keyMoveClear = () => {};
 
-    const initPos = reactive({
-      left: '0px',
-      top: '0px'
+    const state = reactive({
+      initPos: {
+        left: '0px',
+        top: '0px'
+      },
+      historyPos: {
+        left: '0px',
+        top: '0px'
+      }
     });
 
     onMounted(() => {
       keyMoveClear = keyMove(modalHeaderRef.value, (left: number, top: number) => {
-        initPos.left = left + 'px';
-        initPos.top = top + 'px';
+        state.initPos.left = left + 'px';
+        state.initPos.top = top + 'px';
       });
     });
 
@@ -86,8 +108,8 @@ export default defineComponent({
             const halfClientWidth = document.documentElement.clientWidth / 2;
             const halfClientHeight = document.documentElement.clientHeight / 2;
 
-            initPos.left = halfClientWidth - halfWidth + 'px';
-            initPos.top = halfClientHeight - halfHeight + 'px';
+            state.initPos.left = halfClientWidth - halfWidth + 'px';
+            state.initPos.top = halfClientHeight - halfHeight + 'px';
           });
 
           setTimeout(() => {
@@ -114,24 +136,53 @@ export default defineComponent({
             <div
               class={modalClass.value}
               style={{
-                left: initPos.left,
-                top: initPos.top,
-                width: typeof props.width === 'number' ? `${props.width}px` : props.width
+                ...state.initPos,
+                width: props.width,
+                height: props.height
               }}
               ref={modalRef}
             >
               <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
                 <div class={`${prefix}-modal-title`}>{slotTitle || ''}</div>
-                <div
-                  class={`${prefix}-modal-close`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    props.onClosed && props.onClosed();
-                  }}
-                >
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#icon-close" />
-                  </svg>
+                <div class={`${prefix}-modal-func`}>
+                  {props.showAdjust && (
+                    <div
+                      class={`${prefix}-modal-adjust`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+
+                        // 全屏时，保存上次位置
+                        if (!props.isFullscreen) {
+                          state.historyPos = state.initPos;
+                          state.initPos = {
+                            left: '0',
+                            top: '0'
+                          };
+                        } else {
+                          state.initPos = state.historyPos;
+                        }
+
+                        props.onAdjust(!props.isFullscreen);
+                      }}
+                    >
+                      <svg class={`${prefix}-icon`} aria-hidden="true">
+                        <use
+                          xlinkHref={`#icon-${props.isFullscreen ? 'suoxiao' : 'fangda'}`}
+                        />
+                      </svg>
+                    </div>
+                  )}
+                  <div
+                    class={`${prefix}-modal-close`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      props.onClosed && props.onClosed();
+                    }}
+                  >
+                    <svg class={`${prefix}-icon`} aria-hidden="true">
+                      <use xlinkHref="#icon-close" />
+                    </svg>
+                  </div>
                 </div>
               </div>
               <div class={`${prefix}-modal-body`}>{slotDefault}</div>
