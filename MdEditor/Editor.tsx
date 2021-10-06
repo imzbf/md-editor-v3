@@ -173,8 +173,8 @@ const props = {
   },
   // 语言扩展，以标准的形式定义内容，设置language为key值即可替换
   languageUserDefined: {
-    type: Array as PropType<Array<{ [key: string]: StaticTextDefaultValue }>>,
-    default: () => []
+    type: Object as PropType<{ [key: string]: StaticTextDefaultValue }>,
+    default: () => ({})
   },
   // 工具栏选择显示
   toolbars: {
