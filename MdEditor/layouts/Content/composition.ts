@@ -140,7 +140,9 @@ export const useMarked = (props: EditorContentProps) => {
     count++;
 
     // Bug marked单实例，count等依赖被共享
-    return `<h${level} id="heading-${count}"><a href="#heading-${count}">${text}</a></h${level}>`;
+    const { link, id } = props.onGenerateLink(text, count);
+    // return `<h${level} id="heading-${count}"><a href="#heading-${count}">${text}</a></h${level}>`;
+    return `<h${level} id="${id}"><a href="${link}">${text}</a></h${level}>`;
   };
 
   renderer.image = (href, _, desc) => {
@@ -223,7 +225,7 @@ export const useAutoScroll = (
   const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
   const editorId = inject('editorId') as string;
 
-  let clearScrollAuto = () => {};
+  let clearScrollAuto = () => { };
 
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
