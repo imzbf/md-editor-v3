@@ -108,6 +108,10 @@ export interface HeadList {
 export type PreviewThemes = 'default' | 'github' | 'vuepress';
 
 const props = {
+  onGenerateLink: {
+    type: Function as PropType<(text: string, index: number) => { link: string, id: string }>,
+    default: (text: string, index: number) => ({ link: `#heading-${index}`, id: `heading-${index}` })
+  },
   modelValue: {
     type: String as PropType<string>,
     default: ''
@@ -340,7 +344,6 @@ export default defineComponent({
     // 进入时若默认全屏，调整一次
     adjustBody();
     // ----end----
-
     return () => (
       <div
         id={editorId}
@@ -387,6 +390,7 @@ export default defineComponent({
               context.emit('onGetCatalog', list);
             }
           }}
+          onGenerateLink={props.onGenerateLink}
         />
         {!previewOnly && (
           <Teleport to={document.head}>
