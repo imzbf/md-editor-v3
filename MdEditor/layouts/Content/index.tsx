@@ -9,6 +9,7 @@ export type EditorContentProps = Readonly<{
   setting: SettingType;
   onHtmlChanged: (h: string) => void;
   onGetCatalog: (list: HeadList[]) => void;
+  onGenerateLink: (text: string, index: number) => { link: string, id: string };
 }>;
 
 export default defineComponent({
@@ -24,7 +25,7 @@ export default defineComponent({
     },
     onChange: {
       type: Function as PropType<(v: string) => void>,
-      default: () => () => {}
+      default: () => () => { }
     },
     setting: {
       type: Object as PropType<SettingType>,
@@ -32,11 +33,15 @@ export default defineComponent({
     },
     onHtmlChanged: {
       type: Function as PropType<(h: string) => void>,
-      default: () => () => {}
+      default: () => () => { }
     },
     onGetCatalog: {
       type: Function as PropType<(list: HeadList[]) => void>,
-      default: () => () => {}
+      default: () => () => { }
+    },
+    onGenerateLink: {
+      type: Function as PropType<(text: string, index: number) => { link: string, id: string }>,
+      default: (text: string, index: number) => ({ link: `#heading-${index}`, id: `heading-${index}` })
     }
   },
   setup(props) {
