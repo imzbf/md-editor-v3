@@ -1,5 +1,11 @@
 import { defineComponent, Teleport, inject, PropType, ref, ComputedRef } from 'vue';
-import { HeadList, prefix, SettingType, PreviewThemes } from '../../Editor';
+import {
+  HeadList,
+  prefix,
+  SettingType,
+  PreviewThemes,
+  MarkedHeading
+} from '../../Editor';
 import { useAutoGenrator, useAutoScroll, useHistory, useMarked } from './composition';
 
 export type EditorContentProps = Readonly<{
@@ -9,7 +15,8 @@ export type EditorContentProps = Readonly<{
   setting: SettingType;
   onHtmlChanged: (h: string) => void;
   onGetCatalog: (list: HeadList[]) => void;
-  onGenerateLink: (text: string, index: number) => { link: string, id: string };
+  markedHeading: MarkedHeading;
+  // onGenerateLink: (text: string, index: number) => { link: string; id: string };
 }>;
 
 export default defineComponent({
@@ -25,7 +32,7 @@ export default defineComponent({
     },
     onChange: {
       type: Function as PropType<(v: string) => void>,
-      default: () => () => { }
+      default: () => () => {}
     },
     setting: {
       type: Object as PropType<SettingType>,
@@ -33,16 +40,26 @@ export default defineComponent({
     },
     onHtmlChanged: {
       type: Function as PropType<(h: string) => void>,
-      default: () => () => { }
+      default: () => () => {}
     },
     onGetCatalog: {
       type: Function as PropType<(list: HeadList[]) => void>,
-      default: () => () => { }
+      default: () => () => {}
     },
-    onGenerateLink: {
-      type: Function as PropType<(text: string, index: number) => { link: string, id: string }>,
-      default: (text: string, index: number) => ({ link: `#heading-${index}`, id: `heading-${index}` })
+    markedHeading: {
+      type: Function as PropType<MarkedHeading>,
+      default: () => (text: string, level: string) =>
+        `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
     }
+    // onGenerateLink: {
+    //   type: Function as PropType<
+    //     (text: string, index: number) => { link: string; id: string }
+    //   >,
+    //   default: (text: string, index: number) => ({
+    //     link: `#${text}`,
+    //     id: `${index}`
+    //   })
+    // }
   },
   setup(props) {
     const highlight = inject('highlight') as ComputedRef<{ js: string; css: string }>;
