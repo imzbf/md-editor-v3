@@ -1,4 +1,5 @@
 import { defineComponent, PropType, reactive, Teleport, watch } from 'vue';
+import { Slugger } from 'marked';
 import {
   allToolbar,
   highlightUrl,
@@ -107,11 +108,14 @@ export interface HeadList {
 
 export type PreviewThemes = 'default' | 'github' | 'vuepress';
 
+export type MarkedHeading = (
+  text: string,
+  level: 1 | 2 | 3 | 4 | 5 | 6,
+  raw: string,
+  slugger: Slugger
+) => string;
+
 const props = {
-  onGenerateLink: {
-    type: Function as PropType<(text: string, index: number) => { link: string, id: string }>,
-    default: (text: string, index: number) => ({ link: `#heading-${index}`, id: `heading-${index}` })
-  },
   modelValue: {
     type: String as PropType<string>,
     default: ''
@@ -251,7 +255,21 @@ const props = {
   previewTheme: {
     type: String as PropType<PreviewThemes>,
     default: 'default'
+  },
+  markedHeading: {
+    type: Function as PropType<MarkedHeading>,
+    default: (text: string, level: string) =>
+      `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
   }
+  // onGenerateLink: {
+  //   type: Function as PropType<
+  //     (text: string, index: number) => { link: string; id: string }
+  //   >,
+  //   default: (text: string, index: number) => ({
+  //     link: `#heading-${index}`,
+  //     id: `heading-${index}`
+  //   })
+  // }
 };
 
 export default defineComponent({
@@ -390,7 +408,7 @@ export default defineComponent({
               context.emit('onGetCatalog', list);
             }
           }}
-          onGenerateLink={props.onGenerateLink}
+          markedHeading={props.markedHeading}
         />
         {!previewOnly && (
           <Teleport to={document.head}>
