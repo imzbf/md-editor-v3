@@ -115,6 +115,12 @@ export type MarkedHeading = (
   slugger: Slugger
 ) => string;
 
+export type MarkedImage = (
+  href: string | null,
+  title: string | null,
+  text: string
+) => string;
+
 const props = {
   modelValue: {
     type: String as PropType<string>,
@@ -260,6 +266,11 @@ const props = {
     type: Function as PropType<MarkedHeading>,
     default: (text: string, level: string) =>
       `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
+  },
+  markedImage: {
+    type: Function as PropType<MarkedImage>,
+    default: (href: string, _: string, desc: string) =>
+      `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`
   }
   // onGenerateLink: {
   //   type: Function as PropType<
@@ -409,6 +420,7 @@ export default defineComponent({
             }
           }}
           markedHeading={props.markedHeading}
+          markedImage={props.markedImage}
         />
         {!previewOnly && (
           <Teleport to={document.head}>
