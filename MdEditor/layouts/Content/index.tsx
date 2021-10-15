@@ -4,8 +4,7 @@ import {
   prefix,
   SettingType,
   PreviewThemes,
-  MarkedHeading,
-  MarkedImage
+  MarkedHeading
 } from '../../Editor';
 import { useAutoGenrator, useAutoScroll, useHistory, useMarked } from './composition';
 
@@ -17,8 +16,6 @@ export type EditorContentProps = Readonly<{
   onHtmlChanged: (h: string) => void;
   onGetCatalog: (list: HeadList[]) => void;
   markedHeading: MarkedHeading;
-  markedImage: MarkedImage;
-  // onGenerateLink: (text: string, index: number) => { link: string; id: string };
 }>;
 
 export default defineComponent({
@@ -52,21 +49,7 @@ export default defineComponent({
       type: Function as PropType<MarkedHeading>,
       default: () => (text: string, level: string) =>
         `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
-    },
-    markedImage: {
-      type: Function as PropType<MarkedImage>,
-      default: (href: string, _: string, desc: string) =>
-        `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`
     }
-    // onGenerateLink: {
-    //   type: Function as PropType<
-    //     (text: string, index: number) => { link: string; id: string }
-    //   >,
-    //   default: (text: string, index: number) => ({
-    //     link: `#${text}`,
-    //     id: `${index}`
-    //   })
-    // }
   },
   setup(props) {
     const highlight = inject('highlight') as ComputedRef<{ js: string; css: string }>;
