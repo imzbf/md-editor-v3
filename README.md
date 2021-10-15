@@ -146,7 +146,7 @@ export interface StaticTextDefaultValue {
 | onUploadImg | files:FileList, callback:Function | Upload picture event，when picture is uploading the modal will not close，please provide right urls to the callback function |
 | onHtmlChanged | h:String | Compile markdown successful event，you can use it to get the html code |
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | Get catalogue of article |
-| markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
+| markedHeading<sup>[v1.6.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
 | markedImage<sup>[v1.6.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | href: string | null, title: string | null, ext: string | `marked` image renderer methods |
 
 ### Shortcut key
