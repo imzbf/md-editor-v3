@@ -67,12 +67,12 @@ export default defineComponent({
 
               callback(res.map((item: any) => item.data.url));
             }}
-            onGenerateLink={(text, index) => {
-              const id = `MyHeading-${index}`;
-              return {
-                link: `#${id}`, id
-              };
-            }}
+            // onGenerateLink={(text, index) => {
+            //   const id = `MyHeading-${index}`;
+            //   return {
+            //     link: `#${id}`, id
+            //   };
+            // }}
           />
           <br />
           <span class="tips-text">
