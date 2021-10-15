@@ -49,7 +49,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 | htmlPreview | Boolean | false | x | Preview html in editor |
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | Only render article content, no toolbar, no edit area |
 | language | String | 'zh-CN' | √ | Build-in language('zh-CN','en-US') |
-| languageUserDefined<sup>[v1.5.0 changed](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | Expand language，update `language` api to your key |
+| languageUserDefined<sup>v1.5.0 changed</sup> | Object | {key: StaticTextDefaultValue} | √ | Expand language，update `language` api to your key |
 | toolbars | Array | [all] | √ | Show some item of toolbars，all keys<sup>[toolbars]<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | Don't show some item of toolbars，all keys`toolbars` |
 | prettier | Boolean | true | x | Use prettier to beautify content or not |
@@ -140,12 +140,14 @@ export interface StaticTextDefaultValue {
 ### Event
 
 | name | params | description |
-| --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | onChange | v:String | Content changed event(bind to `oninput` of `textarea`) |
 | onSave | v:String | Save Content event，`ctrl+s`and click button will trigger |
 | onUploadImg | files:FileList, callback:Function | Upload picture event，when picture is uploading the modal will not close，please provide right urls to the callback function |
 | onHtmlChanged | h:String | Compile markdown successful event，you can use it to get the html code |
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | Get catalogue of article |
+| markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
+| markedImage<sup>[v1.6.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | href: string | null, title: string | null, ext: string | `marked` image renderer methods |
 
 ### Shortcut key
 
