@@ -126,8 +126,6 @@ export const useMarked = (props: EditorContentProps) => {
   // ~~
   const highlightInited = ref(false);
 
-  // 标题数目
-  // let count = Number(0);
   // 标题列表，扁平结构
   let headstemp: HeadList[] = [];
 
@@ -140,15 +138,10 @@ export const useMarked = (props: EditorContentProps) => {
     headstemp.push({ text, level });
 
     return props.markedHeading(...headProps);
-    // count++;
-
-    // Bug marked单实例，count等依赖被共享
-    // const { link, id } = props.onGenerateLink(text, count);
-    // return `<h${level} id="heading-${count}"><a href="#heading-${count}">${text}</a></h${level}>`;
-    // return `<h${level} id="${id}"><a href="${link}">${text}</a></h${level}>`;
   };
 
-  renderer.image = props.markedImage;
+  renderer.image = (text: string, level: string) =>
+    `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`;
 
   marked.setOptions({
     renderer
