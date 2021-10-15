@@ -23,7 +23,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 - Render article directly(no editor，no event listener, only preview content).
 - Preview themes, support `defalut`、`vuepress`、`github` styles(not identical).
 
-> More features are developing, if you have some ideas or find issues, please tell to me~
+> More features are developing, if you have some ideas or find issues, please tell it to me~
 
 ## Preview
 
