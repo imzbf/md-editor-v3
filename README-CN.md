@@ -19,8 +19,8 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 - 支持快捷键插入内容； 支持使用 prettier 格式化内容（使用 CDN 方式引入，只支持格式化 md 内容，可在代码内设置关闭）；
 - 多语言，支持自行扩展语言；
 - 粘贴上传图片，图片裁剪上传；
-- 仅预览模式（不显示编辑器，只显示 md 预览内容，无额外监听）
-- 预览主题，支持`defalut`、`vuepress`、`github` 样式（不完全相同）
+- 仅预览模式（不显示编辑器，只显示 md 预览内容，无额外监听）；
+- 预览主题，支持`defalut`、`vuepress`、`github` 样式（不完全相同）。
 
 > 更多功能待后续更新，如果你有新的想法或者使用发现有问题，请留言告诉我~
 
@@ -49,7 +49,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | String | 'zh-CN' | √ | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
 | languageUserDefined<sup>[v1.5.0 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
-| toolbars | Array | [all] | √ | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
+| toolbars | Array | [toolbars] | √ | 选择性展示工具栏，可选内容<sup>见下方`toolbars`<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | x | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
@@ -74,6 +74,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
   'bold',
   'underline',
   'italic',
+  '-',
   'strikeThrough',
   'title',
   'sub',
@@ -81,14 +82,17 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
   'quote',
   'unorderedList',
   'orderedList',
+  '-',
   'codeRow',
   'code',
   'link',
   'image',
   'table',
+  '-',
   'revoke',
   'next',
   'save',
+  '=',
   'pageFullscreen',
   'fullscreen',
   'preview',
@@ -96,6 +100,8 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
   'github'
 ];
 ```
+
+> 从 v1.6.0 开始，你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
 
 自定义语言，需要替换的下面的全部内容（某些字段若不主动提供，会造成页面不美观）：
 

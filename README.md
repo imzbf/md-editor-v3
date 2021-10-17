@@ -50,7 +50,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | Only render article content, no toolbar, no edit area |
 | language | String | 'zh-CN' | √ | Build-in language('zh-CN','en-US') |
 | languageUserDefined<sup>v1.5.0 changed</sup> | Object | {key: StaticTextDefaultValue} | √ | Expand language，update `language` api to your key |
-| toolbars | Array | [all] | √ | Show some item of toolbars，all keys<sup>[toolbars]<sup> |
+| toolbars | Array | [toolbars] | √ | Show some item of toolbars，all keys<sup>see `toolbars` below<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | Don't show some item of toolbars，all keys`toolbars` |
 | prettier | Boolean | true | x | Use prettier to beautify content or not |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
@@ -74,6 +74,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
   'bold',
   'underline',
   'italic',
+  '-',
   'strikeThrough',
   'title',
   'sub',
@@ -81,14 +82,17 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
   'quote',
   'unorderedList',
   'orderedList',
+  '-',
   'codeRow',
   'code',
   'link',
   'image',
   'table',
+  '-',
   'revoke',
   'next',
   'save',
+  '=',
   'pageFullscreen',
   'fullscreen',
   'preview',
@@ -96,6 +100,8 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
   'github'
 ];
 ```
+
+> after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
 Expand language，you need to replace all the content here：
 
