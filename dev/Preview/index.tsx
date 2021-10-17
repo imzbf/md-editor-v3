@@ -45,6 +45,7 @@ export default defineComponent({
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);
             }}
+            // toolbars={['bold', 'link', '=', 'prettier', 'link']}
             onChange={(value) => (md.text = value)}
             onUploadImg={async (files: FileList, callback: (urls: string[]) => void) => {
               const res = await Promise.all(
