@@ -52,6 +52,8 @@ export interface ToolbarTips {
   preview?: string;
   htmlPreview?: string;
   github?: string;
+  '-'?: string;
+  '='?: string;
 }
 export interface StaticTextDefaultValue {
   toolbarTips?: ToolbarTips;
