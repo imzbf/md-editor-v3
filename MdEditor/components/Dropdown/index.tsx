@@ -18,6 +18,8 @@ import './style.less';
 interface CtlTypes {
   overlayClass: Array<string>;
   overlayStyle: CSSProperties;
+  triggerHover: boolean;
+  overlayHover: boolean;
 }
 
 import { prefix } from '../../Editor';
@@ -46,13 +48,19 @@ export default defineComponent({
 
     const ctl = reactive<CtlTypes>({
       overlayClass: [`${prefix}-dropdown-overlay`, HIDDEN_CLASS],
-      overlayStyle: {}
+      overlayStyle: {},
+      triggerHover: false,
+      overlayHover: false
     });
 
     const triggerRef = ref();
     const overlayRef = ref();
 
     const triggerHandler = () => {
+      if (props.trigger === 'hover') {
+        ctl.triggerHover = true;
+      }
+
       const triggerEle = triggerRef.value as HTMLElement;
       const overlayEle = overlayRef.value as HTMLElement;
 
@@ -68,10 +76,10 @@ export default defineComponent({
         ...ctl.overlayStyle,
         top: triggerTop + triggerHeight + 'px',
         left: triggerLeft - overlayEle.offsetWidth / 2 + triggerWidth / 2 + 'px',
-        marginTop: '10px'
+        marginTop: '5px'
       };
 
-      props.onChange(!props.visible);
+      props.onChange(true);
     };
 
     // 显示状态变化后修改某些属性
@@ -102,9 +110,20 @@ export default defineComponent({
     };
 
     let hiddenTimer = -1;
-    const leaveHidden = () => {
+    const leaveHidden = (e: MouseEvent) => {
+      if (triggerRef.value === e.target) {
+        ctl.triggerHover = false;
+      } else {
+        ctl.overlayHover = false;
+      }
+
+      clearTimeout(hiddenTimer);
+
+      console.log(ctl.triggerHover, ctl.overlayHover);
       hiddenTimer = window.setTimeout(() => {
-        props.onChange(false);
+        if (!ctl.overlayHover && !ctl.triggerHover) {
+          props.onChange(false);
+        }
       }, 50);
     };
 
@@ -115,11 +134,12 @@ export default defineComponent({
       } else {
         (triggerRef.value as HTMLElement).addEventListener('mouseenter', triggerHandler);
         (triggerRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
-      }
 
-      (overlayRef.value as HTMLElement).addEventListener('mouseenter', () => {
-        clearTimeout(hiddenTimer);
-      });
+        (overlayRef.value as HTMLElement).addEventListener('mouseenter', () => {
+          ctl.overlayHover = true;
+        });
+        (overlayRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
+      }
     });
 
     // 卸载组件时清除监听
@@ -154,9 +174,14 @@ export default defineComponent({
       );
 
       // 列表内容
-      const overlay = cloneVNode(
-        slotOverlay instanceof Array ? slotOverlay[0] : slotOverlay,
-        { class: ctl.overlayClass, style: ctl.overlayStyle, ref: overlayRef }
+      const overlay = (
+        <div
+          class={[`${prefix}-dropdown`, ctl.overlayClass]}
+          style={ctl.overlayStyle}
+          ref={overlayRef}
+        >
+          {slotOverlay instanceof Array ? slotOverlay[0] : slotOverlay}
+        </div>
       );
 
       return [trigger, overlay];

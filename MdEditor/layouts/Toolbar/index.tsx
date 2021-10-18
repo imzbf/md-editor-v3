@@ -70,16 +70,21 @@ export default defineComponent({
     };
 
     // 链接
-    const modalData = reactive<{ type: 'link' | 'image' | 'help'; visible: boolean }>({
+    const modalData = reactive<{
+      type: 'link' | 'image' | 'help';
+      linkVisible: boolean;
+      clipVisible: boolean;
+    }>({
       type: 'link',
-      visible: false
+      linkVisible: false,
+      clipVisible: false
     });
 
     bus.on(editorId, {
       name: 'openModals',
       callback(type) {
         modalData.type = type;
-        modalData.visible = true;
+        modalData.linkVisible = true;
       }
     });
 
@@ -113,6 +118,18 @@ export default defineComponent({
           : excluedBars.slice(moduleSplitIndex, Number.MAX_SAFE_INTEGER);
 
       return [barLeft, barRight];
+    });
+
+    // 上传控件
+    const uploadRef = ref();
+
+    const uploadHandler = () => {
+      bus.emit(editorId, 'uploadImage', (uploadRef.value as HTMLInputElement).files);
+      // 清空内容，否则无法再次选取同一张图片
+      (uploadRef.value as HTMLInputElement).value = '';
+    };
+    onMounted(() => {
+      (uploadRef.value as HTMLInputElement).addEventListener('change', uploadHandler);
     });
 
     const barRender = (barItem: ToolbarNames) => {
@@ -367,7 +384,7 @@ export default defineComponent({
               title={ult.value.toolbarTips?.link}
               onClick={() => {
                 modalData.type = 'link';
-                modalData.visible = true;
+                modalData.linkVisible = true;
               }}
             >
               <svg class={`${prefix}-icon`} aria-hidden="true">
@@ -393,7 +410,8 @@ export default defineComponent({
                   <li
                     class={`${prefix}-menu-item`}
                     onClick={() => {
-                      emitHandler('h1');
+                      modalData.type = 'image';
+                      modalData.linkVisible = true;
                     }}
                   >
                     {ult.value.imgTitleItem?.link}
@@ -401,7 +419,7 @@ export default defineComponent({
                   <li
                     class={`${prefix}-menu-item`}
                     onClick={() => {
-                      emitHandler('h1');
+                      (uploadRef.value as HTMLInputElement).click();
                     }}
                   >
                     {ult.value.imgTitleItem?.upload}
@@ -409,7 +427,7 @@ export default defineComponent({
                   <li
                     class={`${prefix}-menu-item`}
                     onClick={() => {
-                      emitHandler('h2');
+                      modalData.clipVisible = true;
                     }}
                   >
                     {ult.value.imgTitleItem?.clip2upload}
@@ -428,18 +446,6 @@ export default defineComponent({
                 </div>
               }
             </Dropdown>
-            // <div
-            //   class={`${prefix}-toolbar-item`}
-            //   title={ult.value.toolbarTips?.image}
-            //   onClick={() => {
-            //     modalData.type = 'image';
-            //     modalData.visible = true;
-            //   }}
-            // >
-            //   <svg class={`${prefix}-icon`} aria-hidden="true">
-            //     <use xlinkHref="#icon-image" />
-            //   </svg>
-            // </div>
           );
         }
         case 'table': {
@@ -630,11 +636,20 @@ export default defineComponent({
             </Dropdown> */}
             </div>
           </div>
+          <input
+            ref={uploadRef}
+            accept="image/*"
+            type="file"
+            multiple={true}
+            style={{ display: 'none' }}
+          />
           <Modals
-            visible={modalData.visible}
+            linkVisible={modalData.linkVisible}
+            clipVisible={modalData.clipVisible}
             type={modalData.type}
             onCancel={() => {
-              modalData.visible = false;
+              modalData.linkVisible = false;
+              modalData.clipVisible = false;
             }}
             onOk={(data) => {
               if (data) {
@@ -643,7 +658,8 @@ export default defineComponent({
                   url: data.url
                 });
               }
-              modalData.visible = false;
+              modalData.linkVisible = false;
+              modalData.clipVisible = false;
             }}
           />
           {/* 非预览模式且未提供screenfull时请求cdn */}
