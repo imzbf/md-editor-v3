@@ -99,7 +99,7 @@ export const staticTextDefault: StaticTextDefault = {
     imgTitleItem: {
       link: '添加链接',
       upload: '上传图片',
-      clip2upload: '裁减上传'
+      clip2upload: '裁剪上传'
     },
     linkModalTips: {
       title: '添加',
@@ -107,9 +107,7 @@ export const staticTextDefault: StaticTextDefault = {
       descLablePlaceHolder: '请输入描述...',
       urlLable: '链接地址：',
       UrlLablePlaceHolder: '请输入链接...',
-      buttonOK: '确定',
-      buttonUpload: '上传',
-      buttonUploadClip: '裁剪上传'
+      buttonOK: '确定'
     },
     clipModalTips: {
       title: '裁剪图片上传',
@@ -156,7 +154,7 @@ export const staticTextDefault: StaticTextDefault = {
       h6: 'Lv6 Heading'
     },
     imgTitleItem: {
-      link: 'Add Link',
+      link: 'Add Img Link',
       upload: 'Upload Img',
       clip2upload: 'Clip Upload'
     },
@@ -166,9 +164,7 @@ export const staticTextDefault: StaticTextDefault = {
       descLablePlaceHolder: 'Enter a description...',
       urlLable: 'Link:',
       UrlLablePlaceHolder: 'Enter a link...',
-      buttonOK: 'OK',
-      buttonUpload: 'Upload',
-      buttonUploadClip: 'Crop2upload'
+      buttonOK: 'OK'
     },
     clipModalTips: {
       title: 'Crop Image',

@@ -3,14 +3,11 @@ import {
   ComputedRef,
   defineComponent,
   inject,
-  nextTick,
   PropType,
   reactive,
-  ref,
   watch
 } from 'vue';
 import Modal from '../../components/Modal';
-import bus from '../../utils/event-bus';
 
 import { prefix, StaticTextDefaultValue } from '../../Editor';
 
@@ -62,34 +59,6 @@ export default defineComponent({
       url: ''
     });
 
-    // 上传控件
-    const uploadRef = ref();
-
-    const uploadHandler = () => {
-      bus.emit(
-        editorId,
-        'uploadImage',
-        (uploadRef.value as HTMLInputElement).files,
-        props.onOk
-      );
-      // 清空内容，否则无法再次选取同一张图片
-      (uploadRef.value as HTMLInputElement).value = '';
-    };
-
-    watch(
-      () => props.type,
-      (nValue) => {
-        if (nValue === 'image') {
-          nextTick(() => {
-            (uploadRef.value as HTMLInputElement).addEventListener(
-              'change',
-              uploadHandler
-            );
-          });
-        }
-      }
-    );
-
     // 关闭时清空内容
     watch(
       () => props.visible,
@@ -139,7 +108,7 @@ export default defineComponent({
         </div>
         <div class={`${prefix}-form-item`}>
           <button
-            class={`${prefix}-btn ${props.type === 'link' && prefix + '-btn-row'}`}
+            class={[`${prefix}-btn`, `${prefix}-btn-row`]}
             type="button"
             onClick={() => {
               props.onOk(linkData);
@@ -149,31 +118,6 @@ export default defineComponent({
           >
             {ult.value.linkModalTips?.buttonOK}
           </button>
-          {props.type === 'image' && (
-            <>
-              <button
-                class={`${prefix}-btn`}
-                type="button"
-                onClick={() => {
-                  nextTick(() => {
-                    (uploadRef.value as HTMLInputElement).click();
-                  });
-                }}
-              >
-                {ult.value.linkModalTips?.buttonUpload}
-              </button>
-              <button class={`${prefix}-btn`} type="button" onClick={props.onClip}>
-                {ult.value.linkModalTips?.buttonUploadClip}
-              </button>
-              <input
-                ref={uploadRef}
-                accept="image/*"
-                type="file"
-                multiple={true}
-                style={{ display: 'none' }}
-              />
-            </>
-          )}
         </div>
       </Modal>
     );
