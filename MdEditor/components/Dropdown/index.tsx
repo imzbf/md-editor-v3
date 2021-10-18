@@ -101,8 +101,11 @@ export default defineComponent({
       }
     };
 
+    let hiddenTimer = -1;
     const leaveHidden = () => {
-      props.onChange(false);
+      hiddenTimer = window.setTimeout(() => {
+        props.onChange(false);
+      }, 50);
     };
 
     onMounted(() => {
@@ -113,6 +116,10 @@ export default defineComponent({
         (triggerRef.value as HTMLElement).addEventListener('mouseenter', triggerHandler);
         (triggerRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
       }
+
+      (overlayRef.value as HTMLElement).addEventListener('mouseenter', () => {
+        clearTimeout(hiddenTimer);
+      });
     });
 
     // 卸载组件时清除监听
