@@ -47,7 +47,7 @@ export default defineComponent({
     const HIDDEN_CLASS = `${prefix}-dropdown-hidden`;
 
     const ctl = reactive<CtlTypes>({
-      overlayClass: [`${prefix}-dropdown-overlay`, HIDDEN_CLASS],
+      overlayClass: [HIDDEN_CLASS],
       overlayStyle: {},
       triggerHover: false,
       overlayHover: false
@@ -75,8 +75,7 @@ export default defineComponent({
       ctl.overlayStyle = {
         ...ctl.overlayStyle,
         top: triggerTop + triggerHeight + 'px',
-        left: triggerLeft - overlayEle.offsetWidth / 2 + triggerWidth / 2 + 'px',
-        marginTop: '5px'
+        left: triggerLeft - overlayEle.offsetWidth / 2 + triggerWidth / 2 + 'px'
       };
 
       props.onChange(true);
@@ -164,11 +163,6 @@ export default defineComponent({
       const trigger = cloneVNode(
         slotDefault instanceof Array ? slotDefault[0] : slotDefault,
         {
-          // onClick: triggerHandler,
-          // onMouseover: (e: MouseEvent) => triggerHandler(e, 'hover'),
-          // onMouseleave: (e: MouseEvent) => {
-          //   ctl.visible = false;
-          // },
           ref: triggerRef
         }
       );
@@ -180,7 +174,9 @@ export default defineComponent({
           style={ctl.overlayStyle}
           ref={overlayRef}
         >
-          {slotOverlay instanceof Array ? slotOverlay[0] : slotOverlay}
+          <div class={`${prefix}-dropdown-overlay`}>
+            {slotOverlay instanceof Array ? slotOverlay[0] : slotOverlay}
+          </div>
         </div>
       );
 
