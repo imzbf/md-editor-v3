@@ -3,7 +3,6 @@ import {
   PropType,
   SetupContext,
   EmitsOptions,
-  Teleport,
   cloneVNode,
   reactive,
   CSSProperties,
@@ -40,10 +39,6 @@ export default defineComponent({
     onChange: {
       type: Function as PropType<(v: boolean) => void>,
       default: () => () => {}
-    },
-    to: {
-      type: Element as PropType<HTMLElement>,
-      default: () => document.body
     }
   },
   setup(props, ctx: SetupContext<EmitsOptions>) {
@@ -54,13 +49,13 @@ export default defineComponent({
       overlayStyle: {}
     });
 
-    const triggerRef = ref<HTMLElement>(document.body);
-    const overlayRef = ref<HTMLElement>(document.body);
+    const triggerRef = ref();
+    const overlayRef = ref();
 
     const triggerHandler = (e: MouseEvent, type: 'click' | 'hover' = 'click') => {
       if (type === 'click') {
-        const triggerEle: HTMLElement = triggerRef.value;
-        const overlayEle: HTMLElement = overlayRef.value;
+        const triggerEle = triggerRef.value as HTMLElement;
+        const overlayEle = overlayRef.value as HTMLElement;
 
         const triggerInfo = triggerEle.getBoundingClientRect();
 
@@ -140,9 +135,8 @@ export default defineComponent({
         slotOverlay instanceof Array ? slotOverlay[0] : slotOverlay,
         { class: ctl.overlayClass, style: ctl.overlayStyle, ref: overlayRef }
       );
-      const overlayTo = () => <Teleport to={props.to}>{overlay}</Teleport>;
 
-      return [trigger, overlayTo()];
+      return [trigger, overlay];
     };
   }
 });

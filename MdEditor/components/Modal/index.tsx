@@ -1,7 +1,6 @@
 import {
   defineComponent,
   PropType,
-  Teleport,
   ref,
   onMounted,
   onUnmounted,
@@ -44,10 +43,7 @@ export default defineComponent({
       type: Function as PropType<() => void>,
       default: () => () => {}
     },
-    to: {
-      type: Element as PropType<HTMLElement>,
-      default: () => document.body
-    },
+
     showAdjust: {
       type: Boolean as PropType<boolean>,
       default: false
@@ -130,65 +126,63 @@ export default defineComponent({
       const slotTitle = getSlot({ props, ctx }, 'title');
 
       return (
-        <Teleport to={props.to}>
-          <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
-            <div class={`${prefix}-modal-mask`} onClick={props.onClosed} />
-            <div
-              class={modalClass.value}
-              style={{
-                ...state.initPos,
-                width: props.width,
-                height: props.height
-              }}
-              ref={modalRef}
-            >
-              <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
-                <div class={`${prefix}-modal-title`}>{slotTitle || ''}</div>
-                <div class={`${prefix}-modal-func`}>
-                  {props.showAdjust && (
-                    <div
-                      class={`${prefix}-modal-adjust`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-
-                        // 全屏时，保存上次位置
-                        if (!props.isFullscreen) {
-                          state.historyPos = state.initPos;
-                          state.initPos = {
-                            left: '0',
-                            top: '0'
-                          };
-                        } else {
-                          state.initPos = state.historyPos;
-                        }
-
-                        props.onAdjust(!props.isFullscreen);
-                      }}
-                    >
-                      <svg class={`${prefix}-icon`} aria-hidden="true">
-                        <use
-                          xlinkHref={`#icon-${props.isFullscreen ? 'suoxiao' : 'fangda'}`}
-                        />
-                      </svg>
-                    </div>
-                  )}
+        <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
+          <div class={`${prefix}-modal-mask`} onClick={props.onClosed} />
+          <div
+            class={modalClass.value}
+            style={{
+              ...state.initPos,
+              width: props.width,
+              height: props.height
+            }}
+            ref={modalRef}
+          >
+            <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
+              <div class={`${prefix}-modal-title`}>{slotTitle || ''}</div>
+              <div class={`${prefix}-modal-func`}>
+                {props.showAdjust && (
                   <div
-                    class={`${prefix}-modal-close`}
+                    class={`${prefix}-modal-adjust`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      props.onClosed && props.onClosed();
+
+                      // 全屏时，保存上次位置
+                      if (!props.isFullscreen) {
+                        state.historyPos = state.initPos;
+                        state.initPos = {
+                          left: '0',
+                          top: '0'
+                        };
+                      } else {
+                        state.initPos = state.historyPos;
+                      }
+
+                      props.onAdjust(!props.isFullscreen);
                     }}
                   >
                     <svg class={`${prefix}-icon`} aria-hidden="true">
-                      <use xlinkHref="#icon-close" />
+                      <use
+                        xlinkHref={`#icon-${props.isFullscreen ? 'suoxiao' : 'fangda'}`}
+                      />
                     </svg>
                   </div>
+                )}
+                <div
+                  class={`${prefix}-modal-close`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    props.onClosed && props.onClosed();
+                  }}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-close" />
+                  </svg>
                 </div>
               </div>
-              <div class={`${prefix}-modal-body`}>{slotDefault}</div>
             </div>
+            <div class={`${prefix}-modal-body`}>{slotDefault}</div>
           </div>
-        </Teleport>
+        </div>
       );
     };
   }
