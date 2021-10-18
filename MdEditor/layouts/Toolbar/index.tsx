@@ -81,12 +81,6 @@ export default defineComponent({
       }
     });
 
-    // 挂载位置
-    const to = ref(document.body);
-    onMounted(() => {
-      to.value = document.getElementById(editorId) as HTMLElement;
-    });
-
     // 监控左边的操作栏
     const toolbarLeftRef = ref<HTMLDivElement>();
     onMounted(() => {
@@ -191,7 +185,6 @@ export default defineComponent({
               onChange={(v) => {
                 visible.title = v;
               }}
-              to={to.value}
               overlay={
                 <ul
                   class={`${prefix}-menu`}
@@ -600,11 +593,10 @@ export default defineComponent({
               }
               modalData.visible = false;
             }}
-            to={to.value}
           />
           {/* 非预览模式且未提供screenfull时请求cdn */}
           {!previewOnly && props.screenfull === null && (
-            <Teleport to={document.head}>
+            <Teleport to="head">
               <script src={props.screenfullJs} onLoad={screenfullLoad}></script>
             </Teleport>
           )}
