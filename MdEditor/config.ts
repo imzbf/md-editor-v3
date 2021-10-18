@@ -96,6 +96,11 @@ export const staticTextDefault: StaticTextDefault = {
       h5: '五级标题',
       h6: '六级标题'
     },
+    imgTitleItem: {
+      link: '添加链接',
+      upload: '上传图片',
+      clip2upload: '裁减上传'
+    },
     linkModalTips: {
       title: '添加',
       descLable: '链接描述：',
@@ -149,6 +154,11 @@ export const staticTextDefault: StaticTextDefault = {
       h4: 'Lv4 Heading',
       h5: 'Lv5 Heading',
       h6: 'Lv6 Heading'
+    },
+    imgTitleItem: {
+      link: 'Add Link',
+      upload: 'Upload Img',
+      clip2upload: 'Clip Upload'
     },
     linkModalTips: {
       title: 'Add ',
