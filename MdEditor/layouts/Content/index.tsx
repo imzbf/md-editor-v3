@@ -122,7 +122,7 @@ export default defineComponent({
             )}
           </div>
           {props.hljs === null && (
-            <Teleport to={document.head}>
+            <Teleport to="head">
               <link rel="stylesheet" href={highlight.value.css} />
               <script src={highlight.value.js} onLoad={highlightLoad} />
             </Teleport>

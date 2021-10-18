@@ -29,10 +29,6 @@ export default defineComponent({
     onOk: {
       type: Function as PropType<(data?: any) => void>,
       default: () => () => {}
-    },
-    to: {
-      type: Element as PropType<HTMLElement>,
-      default: () => document.body
     }
   },
   setup(props) {
@@ -144,7 +140,6 @@ export default defineComponent({
         title={ult.value.clipModalTips?.title}
         visible={props.visible}
         onClosed={props.onCancel}
-        to={props.to}
         showAdjust
         isFullscreen={data.isFullscreen}
         onAdjust={(val) => {
