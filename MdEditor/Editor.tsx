@@ -77,8 +77,6 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
-    buttonUpload?: string;
-    buttonUploadClip?: string;
   };
   clipModalTips?: {
     title?: string;
