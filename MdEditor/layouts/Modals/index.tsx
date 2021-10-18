@@ -21,10 +21,6 @@ export default defineComponent({
     onOk: {
       type: Function as PropType<(data?: any) => void>,
       default: () => () => {}
-    },
-    to: {
-      type: Element as PropType<HTMLElement>,
-      default: () => document.body
     }
   },
 
@@ -63,7 +59,6 @@ export default defineComponent({
           visible={modelVisible.clip}
           onOk={props.onOk}
           onCancel={props.onCancel}
-          to={props.to}
         />
       </>
     );
