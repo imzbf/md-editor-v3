@@ -117,13 +117,11 @@ export default defineComponent({
       }
 
       clearTimeout(hiddenTimer);
-
-      console.log(ctl.triggerHover, ctl.overlayHover);
       hiddenTimer = window.setTimeout(() => {
         if (!ctl.overlayHover && !ctl.triggerHover) {
           props.onChange(false);
         }
-      }, 50);
+      }, 10);
     };
 
     onMounted(() => {
