@@ -60,7 +60,9 @@ export default defineComponent({
 
     const visible = reactive({
       title: false,
-      catalog: false
+      catalog: false,
+      // 图片上传下拉
+      image: false
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
@@ -376,18 +378,68 @@ export default defineComponent({
         }
         case 'image': {
           return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.image}
-              onClick={() => {
-                modalData.type = 'image';
-                modalData.visible = true;
+            <Dropdown
+              visible={visible.image}
+              onChange={(v) => {
+                visible.image = v;
               }}
+              overlay={
+                <ul
+                  class={`${prefix}-menu`}
+                  onClick={() => {
+                    visible.title = false;
+                  }}
+                >
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('h1');
+                    }}
+                  >
+                    {ult.value.imgTitleItem?.link}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('h1');
+                    }}
+                  >
+                    {ult.value.imgTitleItem?.upload}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('h2');
+                    }}
+                  >
+                    {ult.value.imgTitleItem?.clip2upload}
+                  </li>
+                </ul>
+              }
             >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-image" />
-              </svg>
-            </div>
+              {
+                <div
+                  class={`${prefix}-toolbar-item`}
+                  title={ult.value.toolbarTips?.image}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-image" />
+                  </svg>
+                </div>
+              }
+            </Dropdown>
+            // <div
+            //   class={`${prefix}-toolbar-item`}
+            //   title={ult.value.toolbarTips?.image}
+            //   onClick={() => {
+            //     modalData.type = 'image';
+            //     modalData.visible = true;
+            //   }}
+            // >
+            //   <svg class={`${prefix}-icon`} aria-hidden="true">
+            //     <use xlinkHref="#icon-image" />
+            //   </svg>
+            // </div>
           );
         }
         case 'table': {
