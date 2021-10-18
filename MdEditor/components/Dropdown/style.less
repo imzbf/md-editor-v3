@@ -2,29 +2,20 @@
 
 .@{prefix}-dropdown {
   overflow: hidden;
-  position: relative;
   box-sizing: border-box;
-
-  &-overlay {
-    position: absolute;
-    transition: all 0.3s;
-    opacity: 1;
-    z-index: 10000;
-    background-color: @bkColor;
-  }
+  position: absolute;
+  transition: all 0.3s;
+  opacity: 1;
+  z-index: 10000;
+  background-color: @bkColor;
+  // }
 
   &-hidden {
     opacity: 0;
     z-index: -10000;
   }
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: -1000;
+  &-overlay {
+    margin-top: 6px;
   }
 }
