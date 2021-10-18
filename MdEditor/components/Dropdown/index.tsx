@@ -26,7 +26,7 @@ export default defineComponent({
   props: {
     trigger: {
       type: String as PropType<'hover' | 'click'>,
-      default: 'click'
+      default: 'hover'
     },
     overlay: {
       type: [String, Object] as PropType<string | JSX.Element>,
@@ -52,30 +52,26 @@ export default defineComponent({
     const triggerRef = ref();
     const overlayRef = ref();
 
-    const triggerHandler = (e: MouseEvent, type: 'click' | 'hover' = 'click') => {
-      if (type === 'click') {
-        const triggerEle = triggerRef.value as HTMLElement;
-        const overlayEle = overlayRef.value as HTMLElement;
+    const triggerHandler = () => {
+      const triggerEle = triggerRef.value as HTMLElement;
+      const overlayEle = overlayRef.value as HTMLElement;
 
-        const triggerInfo = triggerEle.getBoundingClientRect();
+      const triggerInfo = triggerEle.getBoundingClientRect();
 
-        const triggerTop = triggerEle.offsetTop;
-        const triggerLeft = triggerEle.offsetLeft;
-        const triggerHeight = triggerInfo.height;
-        const triggerWidth = triggerInfo.width;
+      const triggerTop = triggerEle.offsetTop;
+      const triggerLeft = triggerEle.offsetLeft;
+      const triggerHeight = triggerInfo.height;
+      const triggerWidth = triggerInfo.width;
 
-        // 设置好正对位置
-        ctl.overlayStyle = {
-          ...ctl.overlayStyle,
-          top: triggerTop + triggerHeight + 'px',
-          left: triggerLeft - overlayEle.offsetWidth / 2 + triggerWidth / 2 + 'px',
-          marginTop: '10px'
-        };
+      // 设置好正对位置
+      ctl.overlayStyle = {
+        ...ctl.overlayStyle,
+        top: triggerTop + triggerHeight + 'px',
+        left: triggerLeft - overlayEle.offsetWidth / 2 + triggerWidth / 2 + 'px',
+        marginTop: '10px'
+      };
 
-        props.onChange(!props.visible);
-      } else {
-        props.onChange(true);
-      }
+      props.onChange(!props.visible);
     };
 
     // 显示状态变化后修改某些属性
@@ -93,7 +89,7 @@ export default defineComponent({
     );
 
     // 点击非内容区域时触发关闭
-    const hiddenHandler = (e: MouseEvent) => {
+    const clickHidden = (e: MouseEvent) => {
       const triggerEle: HTMLElement = triggerRef.value;
       const overlayEle: HTMLElement = overlayRef.value;
 
@@ -105,13 +101,32 @@ export default defineComponent({
       }
     };
 
+    const leaveHidden = () => {
+      props.onChange(false);
+    };
+
     onMounted(() => {
-      document.addEventListener('click', hiddenHandler);
+      if (props.trigger === 'click') {
+        (triggerRef.value as HTMLElement).addEventListener('click', triggerHandler);
+        document.addEventListener('click', clickHidden);
+      } else {
+        (triggerRef.value as HTMLElement).addEventListener('mouseenter', triggerHandler);
+        (triggerRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
+      }
     });
 
-    // 卸载组件时清除副作用
+    // 卸载组件时清除监听
     onUnmounted(() => {
-      document.removeEventListener('click', hiddenHandler);
+      if (props.trigger === 'click') {
+        (triggerRef.value as HTMLElement).removeEventListener('click', triggerHandler);
+        document.removeEventListener('click', clickHidden);
+      } else {
+        (triggerRef.value as HTMLElement).removeEventListener(
+          'mouseenter',
+          triggerHandler
+        );
+        (triggerRef.value as HTMLElement).removeEventListener('mouseleave', leaveHidden);
+      }
     });
 
     return () => {
@@ -122,7 +137,7 @@ export default defineComponent({
       const trigger = cloneVNode(
         slotDefault instanceof Array ? slotDefault[0] : slotDefault,
         {
-          onClick: triggerHandler,
+          // onClick: triggerHandler,
           // onMouseover: (e: MouseEvent) => triggerHandler(e, 'hover'),
           // onMouseleave: (e: MouseEvent) => {
           //   ctl.visible = false;
@@ -130,6 +145,7 @@ export default defineComponent({
           ref: triggerRef
         }
       );
+
       // 列表内容
       const overlay = cloneVNode(
         slotOverlay instanceof Array ? slotOverlay[0] : slotOverlay,
