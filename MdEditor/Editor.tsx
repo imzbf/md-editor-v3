@@ -65,6 +65,11 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
+  imgTitleItem?: {
+    link: string;
+    upload: string;
+    clip2upload: string;
+  };
   linkModalTips?: {
     title?: string;
     descLable?: string;
