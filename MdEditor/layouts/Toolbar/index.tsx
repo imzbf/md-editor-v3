@@ -60,7 +60,9 @@ export default defineComponent({
 
     const visible = reactive({
       title: false,
-      catalog: false
+      catalog: false,
+      // 图片上传下拉
+      image: false
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
@@ -79,12 +81,6 @@ export default defineComponent({
         modalData.type = type;
         modalData.visible = true;
       }
-    });
-
-    // 挂载位置
-    const to = ref(document.body);
-    onMounted(() => {
-      to.value = document.getElementById(editorId) as HTMLElement;
     });
 
     // 监控左边的操作栏
@@ -191,7 +187,6 @@ export default defineComponent({
               onChange={(v) => {
                 visible.title = v;
               }}
-              to={to.value}
               overlay={
                 <ul
                   class={`${prefix}-menu`}
@@ -383,18 +378,68 @@ export default defineComponent({
         }
         case 'image': {
           return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.image}
-              onClick={() => {
-                modalData.type = 'image';
-                modalData.visible = true;
+            <Dropdown
+              visible={visible.image}
+              onChange={(v) => {
+                visible.image = v;
               }}
+              overlay={
+                <ul
+                  class={`${prefix}-menu`}
+                  onClick={() => {
+                    visible.title = false;
+                  }}
+                >
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('h1');
+                    }}
+                  >
+                    {ult.value.imgTitleItem?.link}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('h1');
+                    }}
+                  >
+                    {ult.value.imgTitleItem?.upload}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('h2');
+                    }}
+                  >
+                    {ult.value.imgTitleItem?.clip2upload}
+                  </li>
+                </ul>
+              }
             >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-image" />
-              </svg>
-            </div>
+              {
+                <div
+                  class={`${prefix}-toolbar-item`}
+                  title={ult.value.toolbarTips?.image}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-image" />
+                  </svg>
+                </div>
+              }
+            </Dropdown>
+            // <div
+            //   class={`${prefix}-toolbar-item`}
+            //   title={ult.value.toolbarTips?.image}
+            //   onClick={() => {
+            //     modalData.type = 'image';
+            //     modalData.visible = true;
+            //   }}
+            // >
+            //   <svg class={`${prefix}-icon`} aria-hidden="true">
+            //     <use xlinkHref="#icon-image" />
+            //   </svg>
+            // </div>
           );
         }
         case 'table': {
@@ -600,11 +645,10 @@ export default defineComponent({
               }
               modalData.visible = false;
             }}
-            to={to.value}
           />
           {/* 非预览模式且未提供screenfull时请求cdn */}
           {!previewOnly && props.screenfull === null && (
-            <Teleport to={document.head}>
+            <Teleport to="head">
               <script src={props.screenfullJs} onLoad={screenfullLoad}></script>
             </Teleport>
           )}

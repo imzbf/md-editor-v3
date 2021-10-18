@@ -32,10 +32,7 @@ export default defineComponent({
       type: Function as PropType<(data?: any) => void>,
       default: () => () => {}
     },
-    to: {
-      type: Element as PropType<HTMLElement>,
-      default: () => document.body
-    },
+
     onClip: {
       type: Function as PropType<() => void>,
       default: () => () => {}
@@ -107,12 +104,7 @@ export default defineComponent({
     );
 
     return () => (
-      <Modal
-        title={title.value}
-        visible={props.visible}
-        onClosed={props.onCancel}
-        to={props.to}
-      >
+      <Modal title={title.value} visible={props.visible} onClosed={props.onCancel}>
         <div class={`${prefix}-form-item`}>
           <label class={`${prefix}-lable`} for={`link-desc-${editorId}`}>
             {ult.value.linkModalTips?.descLable}
