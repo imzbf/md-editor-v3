@@ -276,7 +276,7 @@ export const useAutoScroll = (
     }
   );
 
-  htmlChanged();
+  onMounted(htmlChanged);
 };
 
 export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => {
