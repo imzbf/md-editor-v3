@@ -17,8 +17,8 @@
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | Only render article content, no toolbar, no edit area |
 | language | String | 'zh-CN' | √ | Build-in language('zh-CN','en-US') |
 | languageUserDefined<sup>[v1.5.0 changed](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | Expand language，update `language` api to your key |
-| toolbars | Array | [all] | √ | Show some item of toolbars，all keys<sup>[toolbars]<sup> |
-| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | Don't show some item of toolbars，all keys`toolbars` |
+| toolbars<sup>[v1.6.0 updated](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | Array | [all] | √ | Show some item of toolbars，all keys<sup>see `toolbars` below<sup> |
+| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | Don't show some item of toolbars，all keys<sup>see `toolbars` below<sup> |
 | prettier | Boolean | true | x | Use prettier to beautify content or not |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
 | prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) | x |  |
@@ -43,20 +43,24 @@
   'bold',
   'underline',
   'italic',
+  '-',
   'strikeThrough',
   'sub',
   'sup',
   'quote',
   'unorderedList',
   'orderedList',
+  '-',
   'codeRow',
   'code',
   'link',
   'image',
   'table',
+  '-',
   'revoke',
   'next',
   'save',
+  '=',
   'pageFullscreen',
   'fullscreen',
   'preview',
@@ -66,6 +70,8 @@
 ```
 
 Expand language, search `StaticTextDefaultValue` in source code, you can get the tips. English example: (you need to replace all the content here)
+
+> after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
 ```js
 {

@@ -20,8 +20,8 @@
 | htmlPreview | Boolean | false | x | 是否 html 预览 |
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | String | 'zh-CN' | √ | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| languageUserDefined<sup>[v1.5.0 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
-| toolbars | Array | [all] | √ | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
+| languageUserDefined<sup>v1.5.0 更新</sup> | Object | {key: StaticTextDefaultValue} | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
+| toolbars<sup>[v1.6.0 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | Array | [all] | √ | 选择性展示工具栏，可选内容<sup>见下方`toolbars`<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | x | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
@@ -44,9 +44,9 @@
 **工具栏选项**
 
 ```js
-'bold', 'underline', 'italic', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList',
-'orderedList', 'codeRow', 'code', 'link', 'image', 'table', 'revoke', 'next', 'save',
-'pageFullscreen', 'fullscreen', 'preview', 'htmlPreview', 'github'
+'bold', 'underline', 'italic', '-', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList',
+'orderedList', '-', 'codeRow', 'code', 'link', 'image', 'table', '-', 'revoke', 'next', 'save',
+'=', 'pageFullscreen', 'fullscreen', 'preview', 'htmlPreview', 'github'
 
 // 对应功能名称
 '加粗', '下划线', '斜体', '删除线', '下标', '上标', '引用', '无序列表',
@@ -55,6 +55,8 @@
 ```
 
 自定义语言，可在源码中搜索`StaticTextDefaultValue`，即可找到类型提示。中文示例（某些字段若不主动提供，可能会造成页面不美观）：
+
+> 从 v1.6.0 开始，你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
 
 ```js
 {
