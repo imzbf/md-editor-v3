@@ -42,6 +42,10 @@ export default defineComponent({
               language={store.state.lang}
               modelValue={mdText.value}
               previewTheme={store.state.previewTheme}
+              markedHeading={(text, level) => {
+                const keyText = text.replace(' ', '-');
+                return `<h${level} id="${keyText}"><a href="#${keyText}">${text}</a></h${level}>`;
+              }}
               previewOnly
               showCodeRowNumber
               onGetCatalog={(arr) => {
