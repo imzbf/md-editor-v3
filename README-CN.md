@@ -1,6 +1,6 @@
 # md-editor-v3
 
-![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dw/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/-ssr-brightgreen)
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
 
 [English](https://github.com/imzbf/md-editor-v3) \| 中文
 
@@ -8,7 +8,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 
 - 文档与在线预览：[传送门](https://imzbf.github.io/md-editor-v3)
 
-- 在线尝试示例：[传送门](https://stackblitz.com/edit/vue-aleajl)
+- 在线尝试示例：[传送门](https://codesandbox.io/s/epic-bird-2znqo)
 
 - 同系列`react`版本：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
@@ -120,6 +120,12 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
+  // v1.6.0
+  imgTitleItem?: {
+    link: string;
+    upload: string;
+    clip2upload: string;
+  };
   // 添加链接或图片时弹窗提示
   linkModalTips?: {
     title?: string;
@@ -128,7 +134,6 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
-    buttonUpload?: string;
   };
   // 裁剪图片弹窗提示，v1.2.0
   clipModalTips?: {
