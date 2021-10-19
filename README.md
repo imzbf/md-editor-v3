@@ -1,14 +1,14 @@
 # md-editor-v3
 
-![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/-ssr-brightgreen)
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
 
-English \| [中文](https://github.com/imzbf/md-editor-v3/blob/master/README-CN.md)
+English \| [中文](https://github.com/imzbf/md-editor-v3/blob/dev/README-CN.md)
 
 Markdown editor for vue3, developed by `jsx` and `typescript`.
 
 - Documentation and demo：[Go](https://imzbf.github.io/md-editor-v3)
 
-- Use it online：[Go](https://stackblitz.com/edit/vue-aleajl)
+- Use it online：[Go](https://codesandbox.io/s/epic-bird-2znqo)
 
 - The same series editor for react：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
@@ -120,6 +120,12 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
+  // v1.6.0
+  imgTitleItem?: {
+    link: string;
+    upload: string;
+    clip2upload: string;
+  };
   // The modal tips of add link or upload picture
   linkModalTips?: {
     title?: string;
@@ -128,7 +134,6 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
-    buttonUpload?: string;
   };
   // The modal tips of clip the picture，v1.2.0
   clipModalTips?: {
