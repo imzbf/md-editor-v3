@@ -1,4 +1,4 @@
-import{E as C,a as f}from"./request.4828bd4b.js";import{d as v,r as h,w as d,o as x,u as g,c as t}from"./vendor.9872ac3d.js";const m=`## md-editor-v3
+import{E as C,a as f}from"./request.ad504d55.js";import{d as v,r as h,w as d,o as x,u as g,c as t}from"./vendor.a0b4d419.js";const m=`## md-editor-v3
 
 Markdown \u7F16\u8F91\u5668\uFF0C\u57FA\u4E8E vue3\uFF0C\u4F7F\u7528 jsx \u548C typescript \u8BED\u6CD5\u5F00\u53D1\uFF0C\u652F\u6301\u5207\u6362\u4E3B\u9898\u3001prettier \u7F8E\u5316\u6587\u672C\u7B49\u3002
 
