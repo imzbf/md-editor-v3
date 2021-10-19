@@ -1,4 +1,4 @@
-> The latest version：[${EDITOR_VERSION}](https://github.com/imzbf/md-editor-v3/releases/tag/v${EDITOR_VERSION})，Use it online：[Go](https://stackblitz.com/edit/vue-aleajl)
+> The latest version：[${EDITOR_VERSION}](https://github.com/imzbf/md-editor-v3/releases/tag/v${EDITOR_VERSION})，Use it online：[Go](https://codesandbox.io/s/epic-bird-2znqo)
 
 ## 1. Apis
 
