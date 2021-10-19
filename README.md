@@ -120,6 +120,12 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
+  // v1.6.0
+  imgTitleItem?: {
+    link: string;
+    upload: string;
+    clip2upload: string;
+  };
   // The modal tips of add link or upload picture
   linkModalTips?: {
     title?: string;
@@ -128,7 +134,6 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
-    buttonUpload?: string;
   };
   // The modal tips of clip the picture，v1.2.0
   clipModalTips?: {
