@@ -140,9 +140,9 @@ export const useMarked = (props: EditorContentProps) => {
     return props.markedHeading(...headProps);
   };
 
-  renderer.image = (text: string, level: string) =>
-    `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`;
-
+  renderer.image = (href, _, desc) => {
+    return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
+  };
   marked.setOptions({
     renderer
   });
