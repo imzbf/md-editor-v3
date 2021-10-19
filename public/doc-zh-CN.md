@@ -43,6 +43,8 @@
 
 **工具栏选项**
 
+> 从 v1.6.0 开始，你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
+
 ```js
 'bold', 'underline', 'italic', '-', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList',
 'orderedList', '-', 'codeRow', 'code', 'link', 'image', 'table', '-', 'revoke', 'next', 'save',
@@ -55,8 +57,6 @@
 ```
 
 自定义语言，可在源码中搜索`StaticTextDefaultValue`，即可找到类型提示。中文示例（某些字段若不主动提供，可能会造成页面不美观）：
-
-> 从 v1.6.0 开始，你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
 
 ```js
 {
@@ -94,14 +94,19 @@
       h5: '五级标题',
       h6: '六级标题'
     },
+    // v1.6.0
+    imgTitleItem: {
+      link: '添加链接',
+      upload: '上传图片',
+      clip2upload: '裁剪上传'
+    },
     linkModalTips: {
       title: '添加',
       descLable: '链接描述：',
       descLablePlaceHolder: '请输入描述...',
       urlLable: '链接地址：',
       UrlLablePlaceHolder: '请输入链接...',
-      buttonOK: '确定',
-      buttonUpload: '上传'
+      buttonOK: '确定'
     },
     // v1.2.0新增
     clipModalTips: {
@@ -129,6 +134,7 @@
 | onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog<sup>v1.4.0 | list: HeadList[] | 动态获取`markdown`目录 |
+| markedHeading<sup>[v1.6.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
 
 <br>
 
