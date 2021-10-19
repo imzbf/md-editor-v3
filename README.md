@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
 
-English \| [中文](https://github.com/imzbf/md-editor-v3/blob/master/README-CN.md)
+English \| [中文](https://github.com/imzbf/md-editor-v3/blob/dev/README-CN.md)
 
 Markdown editor for vue3, developed by `jsx` and `typescript`.
 
