@@ -120,6 +120,12 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
+  // v1.6.0
+  imgTitleItem?: {
+    link: string;
+    upload: string;
+    clip2upload: string;
+  };
   // 添加链接或图片时弹窗提示
   linkModalTips?: {
     title?: string;
@@ -128,7 +134,6 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
-    buttonUpload?: string;
   };
   // 裁剪图片弹窗提示，v1.2.0
   clipModalTips?: {
