@@ -15,12 +15,12 @@ const Topicfy = defineComponent({
       const tocItems: TocItem[] = [];
 
       // 标题计数器
-      let count = 0;
+      // let count = 0;
 
       const add = (text: string, level: number) => {
-        count++;
+        // count++;
 
-        const item = { anchor: `heading-${count}`, level, text };
+        const item = { anchor: text.replace(' ', '-'), level, text };
 
         if (tocItems.length === 0) {
           // 第一个 item 直接 push
@@ -60,7 +60,9 @@ const Topicfy = defineComponent({
     });
 
     const moveToHead = debounce(() => {
-      const targetHeadDom = document.querySelector(location.hash);
+      const targetHeadDom = document.querySelector(
+        decodeURIComponent(location.hash).replace(' ', '-')
+      );
 
       if (targetHeadDom) {
         const scrollLength = (targetHeadDom as HTMLHeadElement).offsetTop + 414;
@@ -72,14 +74,7 @@ const Topicfy = defineComponent({
       }
     });
 
-    watch(
-      () => props.heads,
-      () => {
-        if (/#heading-\d/.test(location.hash)) {
-          moveToHead();
-        }
-      }
-    );
+    watch(() => props.heads, moveToHead);
 
     return () => (
       <Anchor affix={false} showInkInFixed={true}>

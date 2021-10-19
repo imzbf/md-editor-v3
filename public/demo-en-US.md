@@ -1,4 +1,4 @@
-## 1. Basic usage
+## Basic usage
 
 It has been developing iteratively，so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -8,7 +8,7 @@ yarn add md-editor-v3
 
 Now, we can develop vue3 project by `jsx` friendly. Editor is compatible for some enthusiasts(like me).
 
-### 1.1 Traditional development
+### Traditional development
 
 Use production version in html directly：
 
@@ -40,7 +40,7 @@ Use production version in html directly：
 </html>
 ```
 
-### 1.2 Vue template
+### Vue template
 
 ```js
 <template>
@@ -61,7 +61,7 @@ export default defineComponent({
 </script>
 ```
 
-### 1.3 Jsx module
+### Jsx module
 
 ```js
 import { defineComponent, ref } from 'vue';
@@ -79,15 +79,15 @@ export default defineComponent({
 });
 ```
 
-## 2. Api usage
+## Api usage
 
 Usages of some APIs.
 
-### 2.1 Change Theme
+### Change Theme
 
 After `v1.4.3`, Themes are divided into editor themes(api: `theme`) and article preview themes(api: `previewTheme`).
 
-#### 2.1.1 Editor Theme
+#### Editor Theme
 
 Support `light` and `dark` default.
 
@@ -113,7 +113,7 @@ export default defineComponent({
 </script>
 ```
 
-#### 2.1.2 Preview Theme
+#### Preview Theme
 
 There are three themes `default`, `github` and `vuepress`. It is useful When you want to show your article directly. Modify `previewTheme`.
 
@@ -144,13 +144,13 @@ export default defineComponent({
 </script>
 ```
 
-### 2.2 Extension component
+### Extension component
 
 Extensions highlight, prettier, cropper, screenfull are import from `cdn`. When your project is running offline, replace urls of these extensions. Some Extensions support be injected in development environment.
 
 Demo of `screenfull`
 
-#### 2.2.1 Inject directly
+#### Inject directly
 
 ```js
 <template>
@@ -176,7 +176,7 @@ export default defineComponent({
 </script>
 ```
 
-#### 2.2.2 Intranet link
+#### Intranet link
 
 Get these extension files from [https://www.jsdelivr.com/](https://www.jsdelivr.com/).
 
@@ -202,7 +202,7 @@ export default defineComponent({
 </script>
 ```
 
-### 2.3 Upload pictures
+### Upload pictures
 
 By default, you can select multiple pictures. You can paste and upload screenshots and copy web page pictures.
 
@@ -234,7 +234,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 }
 ```
 
-### 2.4 Extension language
+### Extension language
 
 ```js
 <template>
@@ -294,6 +294,11 @@ export default defineComponent({
             h5: 'Lv5 Heading',
             h6: 'Lv6 Heading'
           },
+          imgTitleItem: {
+            link: 'Add Img Link',
+            upload: 'Upload Img',
+            clip2upload: 'Clip Upload'
+          },
           linkModalTips: {
             title: 'Add ',
             descLable: 'Desc:',
@@ -301,8 +306,6 @@ export default defineComponent({
             urlLable: 'Link:',
             UrlLablePlaceHolder: 'Enter a link...',
             buttonOK: 'OK',
-            buttonUpload: 'Upload',
-            buttonUploadClip: 'Crop2upload'
           },
           clipModalTips: {
             title: 'Crop Image',
@@ -321,7 +324,7 @@ export default defineComponent({
 
 ```
 
-### 2.5 Get catalogue
+### Get catalogue
 
 Get data list by `onGetCatalog`:
 
@@ -387,6 +390,32 @@ export default defineComponent({
     onGetCatalog(list) {
       this.catalogList = list
     }
+  }
+});
+```
+
+### define toolbar
+
+> after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
+
+```js
+<template>
+  <md-editor v-model="text" :toolbars="toolbars" />
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+export default defineComponent({
+  components: {
+    MdEditor
+  },
+  data() {
+    return {
+      toolbars: ['italic', 'underline', '-', 'bold', '=', 'github'],
+    };
   }
 });
 ```
