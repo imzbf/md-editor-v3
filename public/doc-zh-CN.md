@@ -20,8 +20,8 @@
 | htmlPreview | Boolean | false | x | 是否 html 预览 |
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | String | 'zh-CN' | √ | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| languageUserDefined<sup>[v1.5.0 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
-| toolbars | Array | [all] | √ | 选择性展示工具栏，可选内容如下<sup>[toolbars]<sup> |
+| languageUserDefined<sup>v1.5.0 更新</sup> | Object | {key: StaticTextDefaultValue} | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
+| toolbars<sup>[v1.6.0 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | Array | [all] | √ | 选择性展示工具栏，可选内容<sup>见下方`toolbars`<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | x | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
@@ -43,10 +43,12 @@
 
 **工具栏选项**
 
+> 从 v1.6.0 开始，你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
+
 ```js
-'bold', 'underline', 'italic', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList',
-'orderedList', 'codeRow', 'code', 'link', 'image', 'table', 'revoke', 'next', 'save',
-'pageFullscreen', 'fullscreen', 'preview', 'htmlPreview', 'github'
+'bold', 'underline', 'italic', '-', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList',
+'orderedList', '-', 'codeRow', 'code', 'link', 'image', 'table', '-', 'revoke', 'next', 'save',
+'=', 'pageFullscreen', 'fullscreen', 'preview', 'htmlPreview', 'github'
 
 // 对应功能名称
 '加粗', '下划线', '斜体', '删除线', '下标', '上标', '引用', '无序列表',
@@ -92,14 +94,19 @@
       h5: '五级标题',
       h6: '六级标题'
     },
+    // v1.6.0
+    imgTitleItem: {
+      link: '添加链接',
+      upload: '上传图片',
+      clip2upload: '裁剪上传'
+    },
     linkModalTips: {
       title: '添加',
       descLable: '链接描述：',
       descLablePlaceHolder: '请输入描述...',
       urlLable: '链接地址：',
       UrlLablePlaceHolder: '请输入链接...',
-      buttonOK: '确定',
-      buttonUpload: '上传'
+      buttonOK: '确定'
     },
     // v1.2.0新增
     clipModalTips: {
@@ -127,6 +134,7 @@
 | onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog<sup>v1.4.0 | list: HeadList[] | 动态获取`markdown`目录 |
+| markedHeading<sup>[v1.6.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
 
 <br>
 
