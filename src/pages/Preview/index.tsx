@@ -60,6 +60,7 @@ export default defineComponent({
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);
             }}
+            markedHeading={(text, level) => `<h${level}>${text}</h${level}>`}
             onChange={(value) => (md.text = value)}
             onUploadImg={async (files: FileList, callback: (urls: string[]) => void) => {
               const res = await Promise.all(
