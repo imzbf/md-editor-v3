@@ -1,4 +1,4 @@
-import { defineComponent, PropType, reactive, watch } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import LinkModal from './Link';
 import ClipModal from './Clip';
@@ -10,7 +10,11 @@ export default defineComponent({
       type: String as PropType<'link' | 'image' | 'help'>,
       default: 'link'
     },
-    visible: {
+    linkVisible: {
+      type: Boolean as PropType<boolean>,
+      default: false
+    },
+    clipVisible: {
       type: Boolean as PropType<boolean>,
       default: false
     },
@@ -21,49 +25,22 @@ export default defineComponent({
     onOk: {
       type: Function as PropType<(data?: any) => void>,
       default: () => () => {}
-    },
-    to: {
-      type: Element as PropType<HTMLElement>,
-      default: () => document.body
     }
   },
 
   setup(props) {
-    const modelVisible = reactive({
-      link: false,
-      clip: false
-    });
-
-    // 跟随外层状态
-    watch(
-      () => props.visible,
-      (nVal) => {
-        modelVisible.link = nVal;
-
-        // 关闭时同步关闭裁剪弹窗
-        if (!nVal) {
-          modelVisible.clip = nVal;
-        }
-      }
-    );
-
     return () => (
       <>
         <LinkModal
-          {...props}
-          visible={modelVisible.link}
-          onClip={() => {
-            // 关闭链接弹窗
-            modelVisible.link = false;
-            // 打开裁剪上传弹窗
-            modelVisible.clip = true;
-          }}
-        />
-        <ClipModal
-          visible={modelVisible.clip}
+          type={props.type}
+          visible={props.linkVisible}
           onOk={props.onOk}
           onCancel={props.onCancel}
-          to={props.to}
+        />
+        <ClipModal
+          visible={props.clipVisible}
+          onOk={props.onOk}
+          onCancel={props.onCancel}
         />
       </>
     );
