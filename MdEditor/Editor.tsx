@@ -1,4 +1,5 @@
-import { defineComponent, PropType, reactive, Teleport, watch } from 'vue';
+import { defineComponent, PropType, reactive, onMounted, Teleport, watch } from 'vue';
+import { Slugger } from 'marked';
 import {
   allToolbar,
   highlightUrl,
@@ -51,6 +52,8 @@ export interface ToolbarTips {
   preview?: string;
   htmlPreview?: string;
   github?: string;
+  '-'?: string;
+  '='?: string;
 }
 export interface StaticTextDefaultValue {
   toolbarTips?: ToolbarTips;
@@ -62,6 +65,11 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
+  imgTitleItem?: {
+    link: string;
+    upload: string;
+    clip2upload: string;
+  };
   linkModalTips?: {
     title?: string;
     descLable?: string;
@@ -69,8 +77,6 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
-    buttonUpload?: string;
-    buttonUploadClip?: string;
   };
   clipModalTips?: {
     title?: string;
@@ -106,6 +112,13 @@ export interface HeadList {
 }
 
 export type PreviewThemes = 'default' | 'github' | 'vuepress';
+
+export type MarkedHeading = (
+  text: string,
+  level: 1 | 2 | 3 | 4 | 5 | 6,
+  raw: string,
+  slugger: Slugger
+) => string;
 
 const props = {
   modelValue: {
@@ -247,6 +260,11 @@ const props = {
   previewTheme: {
     type: String as PropType<PreviewThemes>,
     default: 'default'
+  },
+  markedHeading: {
+    type: Function as PropType<MarkedHeading>,
+    default: (text: string, level: string) =>
+      `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
   }
 };
 
@@ -326,7 +344,9 @@ export default defineComponent({
       }
     };
 
-    const bodyOverflowHistory = document.body.style.overflow;
+    // 将在客户端挂载时获取该样式
+    let bodyOverflowHistory = '';
+
     const adjustBody = () => {
       if (setting.pageFullScreen || setting.fullscreen) {
         document.body.style.overflow = 'hidden';
@@ -338,9 +358,11 @@ export default defineComponent({
     // 变化是调整一次
     watch(() => [setting.pageFullScreen, setting.fullscreen], adjustBody);
     // 进入时若默认全屏，调整一次
-    adjustBody();
+    onMounted(() => {
+      bodyOverflowHistory = document.body.style.overflow;
+      adjustBody();
+    });
     // ----end----
-
     return () => (
       <div
         id={editorId}
@@ -387,20 +409,21 @@ export default defineComponent({
               context.emit('onGetCatalog', list);
             }
           }}
+          markedHeading={props.markedHeading}
         />
         {!previewOnly && (
-          <Teleport to={document.head}>
+          <Teleport to="head">
             <script src={iconfontJs} />
           </Teleport>
         )}
         {prettier && !previewOnly && (
-          <Teleport to={document.head}>
+          <Teleport to="head">
             <script src={prettierCDN} />
             <script src={prettierMDCDN} />
           </Teleport>
         )}
         {!previewOnly && Cropper === null && (
-          <Teleport to={document.head}>
+          <Teleport to="head">
             <link href={cropperCss} rel="stylesheet" />
             <script src={cropperJs}></script>
           </Teleport>

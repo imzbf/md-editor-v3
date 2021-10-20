@@ -1,6 +1,6 @@
 # md-editor-v3
 
-![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dw/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3)
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
 
 English \| [中文](https://github.com/imzbf/md-editor-v3/blob/master/README-CN.md)
 
@@ -23,7 +23,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 - Render article directly(no editor，no event listener, only preview content).
 - Preview themes, support `defalut`、`vuepress`、`github` styles(not identical).
 
-> More features are developing, if you have some ideas or find issues, please tell to me~
+> More features are developing, if you have some ideas or find issues, please tell it to me~
 
 ## Preview
 
@@ -49,8 +49,8 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 | htmlPreview | Boolean | false | x | Preview html in editor |
 | previewOnly<sup>v1.3.0</sup> | Boolean | false | x | Only render article content, no toolbar, no edit area |
 | language | String | 'zh-CN' | √ | Build-in language('zh-CN','en-US') |
-| languageUserDefined<sup>[v1.5.0 changed](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | Expand language，update `language` api to your key |
-| toolbars | Array | [all] | √ | Show some item of toolbars，all keys<sup>[toolbars]<sup> |
+| languageUserDefined<sup>v1.5.0 changed</sup> | Object | {key: StaticTextDefaultValue} | √ | Expand language，update `language` api to your key |
+| toolbars | Array | [toolbars] | √ | Show some item of toolbars，all keys<sup>see `toolbars` below<sup> |
 | toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | Don't show some item of toolbars，all keys`toolbars` |
 | prettier | Boolean | true | x | Use prettier to beautify content or not |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
@@ -74,6 +74,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
   'bold',
   'underline',
   'italic',
+  '-',
   'strikeThrough',
   'title',
   'sub',
@@ -81,14 +82,17 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
   'quote',
   'unorderedList',
   'orderedList',
+  '-',
   'codeRow',
   'code',
   'link',
   'image',
   'table',
+  '-',
   'revoke',
   'next',
   'save',
+  '=',
   'pageFullscreen',
   'fullscreen',
   'preview',
@@ -96,6 +100,8 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
   'github'
 ];
 ```
+
+> after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
 Expand language，you need to replace all the content here：
 
@@ -114,6 +120,12 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
+  // v1.6.0
+  imgTitleItem?: {
+    link: string;
+    upload: string;
+    clip2upload: string;
+  };
   // The modal tips of add link or upload picture
   linkModalTips?: {
     title?: string;
@@ -122,7 +134,6 @@ export interface StaticTextDefaultValue {
     urlLable?: string;
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
-    buttonUpload?: string;
   };
   // The modal tips of clip the picture，v1.2.0
   clipModalTips?: {
@@ -146,6 +157,7 @@ export interface StaticTextDefaultValue {
 | onUploadImg | files:FileList, callback:Function | Upload picture event，when picture is uploading the modal will not close，please provide right urls to the callback function |
 | onHtmlChanged | h:String | Compile markdown successful event，you can use it to get the html code |
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | Get catalogue of article |
+| markedHeading<sup>[v1.6.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
 
 ### Shortcut key
 
