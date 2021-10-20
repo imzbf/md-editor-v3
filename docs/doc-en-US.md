@@ -1,6 +1,6 @@
 > The latest version：[${EDITOR_VERSION}](https://github.com/imzbf/md-editor-v3/releases/tag/v${EDITOR_VERSION})，Use it online：[Go](https://codesandbox.io/s/epic-bird-2znqo)
 
-## 1. Apis
+## Apis
 
 | name | type | default | responsive | description |
 | --- | --- | --- | --- | --- |
@@ -134,7 +134,7 @@ Expand language, search `StaticTextDefaultValue` in source code, you can get the
 }
 ```
 
-## 2. Event
+## Event
 
 | name | params | description |
 | --- | --- | --- |
@@ -145,7 +145,7 @@ Expand language, search `StaticTextDefaultValue` in source code, you can get the
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | Get catalogue of article |
 | markedHeading<sup>[v1.6.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
 
-## 3. Shortcut key
+## Shortcut key
 
 | key | function | description | support |
 | --- | --- | --- | --- |

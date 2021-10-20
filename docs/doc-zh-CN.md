@@ -1,6 +1,6 @@
 > 当前最新版本：[${EDITOR_VERSION}](https://github.com/imzbf/md-editor-v3/releases/tag/v${EDITOR_VERSION})，在线尝试示例：[传送门](https://codesandbox.io/s/epic-bird-2znqo)
 
-## 1. Props 说明
+## Props 说明
 
 这是组件最重要的一部分内容，`MdEditorV3`的属性参数如下：
 
@@ -121,7 +121,7 @@
   }
 ```
 
-## 2. 绑定事件
+## 绑定事件
 
 目前支持的内容如下：
 
@@ -138,7 +138,7 @@
 
 <br>
 
-## 3. 快捷键使用
+## 快捷键使用
 
 目前除了`CTRL + T`与浏览器冲突意外，其余的都绑定了相应的快捷键。
 
@@ -171,11 +171,11 @@
 | CTRL + ALT + C | 行内代码 | 行内代码块 | v1.0.0 |
 | CTRL + SHIFT + ALT + T | 表格 | `\|表格\|` | v1.4.0 |
 
-## 4. 编辑器实现说明
+## 编辑器实现说明
 
 本节介绍编辑器中部分功能的实现。
 
-### 4.1 编辑区
+### 编辑区
 
 - 由于不是富文本编辑器，所以采用了`textarea`标签作为编辑区。
 
@@ -184,11 +184,11 @@
 - 编辑器与工具栏的交互，由于没有 vuex，所以内置了`EventBus`，在不同地方通过这种方式来进行交互。（目前，同一页面嵌入两个编辑器`EventBus`被共享，目前已修复该问题）。
 - 编辑器与快捷键，通过监听每一个按键对应的`ctrl`、`shift`等属性是否为`true`实现，并且均阻止了默认事件触发。在 windows 中以`CTRL`键为主要触发单元，在 MacOS 中以`META`键为主。
 
-### 4.2 组件：**Divider**
+### 组件 Divider
 
 分隔符，应用于工具栏中分隔功能模块，美化作用，实现为以宽为`1px`的元素做衬托。
 
-### 4.3 组件：**Dropdown**
+### 组件 Dropdown
 
 源码：[传送门](https://github.com/imzbf/md-editor-v3/tree/master/MdEditor/components/Dropdown)
 
@@ -198,7 +198,7 @@
 
 - 在卸载对应组件时，`onUnmounted`方法会主动卸载绑定事件。
 
-### 4.4 组件：Modal
+### 组件 Modal
 
 源码：[传送门](https://github.com/imzbf/md-editor-v3/tree/master/MdEditor/components/Modal)
 
@@ -207,15 +207,15 @@
 
 封装的移动元素[代码](https://github.com/imzbf/md-editor-v3/blob/master/MdEditor/utils/dom.ts)，优化了正确解绑事件，该方法针对了触发器实现，单一窗口并不通用。
 
-### 4.5 主题模式
+### 主题模式
 
 内置了暗黑和默认模式，两种模式由内部`theme`属性控制，由于`antd`中以`less`修改变量值达到切换主题的方式依赖项较多，并未采用，实现则是最基础的两种主题两个类名的方式。
 
-### 4.6 图片裁剪上传
+### 图片裁剪上传
 
 该功能主要依赖`cropperjs`库，目前不提供该库自定义设置。
 
-### 4.7 预览主题
+### 预览主题
 
 内置了`previewTheme`调整预览内容主题，内置了`github`、`vuepress`和默认三种。值得注意的是他们都只设置了基础`markdown`支持的语法内容样式，特殊样式（例如：轮播等）暂未提供。同时`github`主题切换暗黑模式时，会同时替换代码块链接样式。若同页面有嵌入了多个编辑器，会受到影响。
 
