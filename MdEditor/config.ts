@@ -34,20 +34,24 @@ export const allToolbar = [
   'underline',
   'italic',
   'strikeThrough',
+  '-',
   'title',
   'sub',
   'sup',
   'quote',
   'unorderedList',
   'orderedList',
+  '-',
   'codeRow',
   'code',
   'link',
   'image',
   'table',
+  '-',
   'revoke',
   'next',
   'save',
+  '=',
   'prettier',
   'pageFullscreen',
   'fullscreen',
@@ -92,15 +96,18 @@ export const staticTextDefault: StaticTextDefault = {
       h5: '五级标题',
       h6: '六级标题'
     },
+    imgTitleItem: {
+      link: '添加链接',
+      upload: '上传图片',
+      clip2upload: '裁剪上传'
+    },
     linkModalTips: {
       title: '添加',
       descLable: '链接描述：',
       descLablePlaceHolder: '请输入描述...',
       urlLable: '链接地址：',
       UrlLablePlaceHolder: '请输入链接...',
-      buttonOK: '确定',
-      buttonUpload: '上传',
-      buttonUploadClip: '裁剪上传'
+      buttonOK: '确定'
     },
     clipModalTips: {
       title: '裁剪图片上传',
@@ -146,15 +153,18 @@ export const staticTextDefault: StaticTextDefault = {
       h5: 'Lv5 Heading',
       h6: 'Lv6 Heading'
     },
+    imgTitleItem: {
+      link: 'Add Img Link',
+      upload: 'Upload Img',
+      clip2upload: 'Clip Upload'
+    },
     linkModalTips: {
       title: 'Add ',
       descLable: 'Desc:',
       descLablePlaceHolder: 'Enter a description...',
       urlLable: 'Link:',
       UrlLablePlaceHolder: 'Enter a link...',
-      buttonOK: 'OK',
-      buttonUpload: 'Upload',
-      buttonUploadClip: 'Crop2upload'
+      buttonOK: 'OK'
     },
     clipModalTips: {
       title: 'Crop Image',

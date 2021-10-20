@@ -1,5 +1,11 @@
 import { defineComponent, Teleport, inject, PropType, ref, ComputedRef } from 'vue';
-import { HeadList, prefix, SettingType, PreviewThemes } from '../../Editor';
+import {
+  HeadList,
+  prefix,
+  SettingType,
+  PreviewThemes,
+  MarkedHeading
+} from '../../Editor';
 import { useAutoGenrator, useAutoScroll, useHistory, useMarked } from './composition';
 
 export type EditorContentProps = Readonly<{
@@ -9,6 +15,7 @@ export type EditorContentProps = Readonly<{
   setting: SettingType;
   onHtmlChanged: (h: string) => void;
   onGetCatalog: (list: HeadList[]) => void;
+  markedHeading: MarkedHeading;
 }>;
 
 export default defineComponent({
@@ -37,6 +44,11 @@ export default defineComponent({
     onGetCatalog: {
       type: Function as PropType<(list: HeadList[]) => void>,
       default: () => () => {}
+    },
+    markedHeading: {
+      type: Function as PropType<MarkedHeading>,
+      default: () => (text: string, level: string) =>
+        `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
     }
   },
   setup(props) {
@@ -110,7 +122,7 @@ export default defineComponent({
             )}
           </div>
           {props.hljs === null && (
-            <Teleport to={document.head}>
+            <Teleport to="head">
               <link rel="stylesheet" href={highlight.value.css} />
               <script src={highlight.value.js} onLoad={highlightLoad} />
             </Teleport>

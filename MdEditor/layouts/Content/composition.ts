@@ -126,8 +126,6 @@ export const useMarked = (props: EditorContentProps) => {
   // ~~
   const highlightInited = ref(false);
 
-  // 标题数目
-  let count = Number(0);
   // 标题列表，扁平结构
   let headstemp: HeadList[] = [];
 
@@ -135,18 +133,16 @@ export const useMarked = (props: EditorContentProps) => {
   const renderer = new marked.Renderer();
 
   // 标题重构
-  renderer.heading = (text, level) => {
+  renderer.heading = (...headProps) => {
+    const [text, level] = headProps;
     headstemp.push({ text, level });
-    count++;
 
-    // Bug marked单实例，count等依赖被共享
-    return `<h${level} id="heading-${count}"><a href="#heading-${count}">${text}</a></h${level}>`;
+    return props.markedHeading(...headProps);
   };
 
   renderer.image = (href, _, desc) => {
     return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
   };
-
   marked.setOptions({
     renderer
   });
@@ -156,7 +152,6 @@ export const useMarked = (props: EditorContentProps) => {
     marked.setOptions({
       highlight: (code) => {
         const codeHtml = props.hljs.highlightAuto(code).value;
-        console.log(123);
 
         return showCodeRowNumber
           ? generateCodeRowNumber(codeHtml)
@@ -168,7 +163,7 @@ export const useMarked = (props: EditorContentProps) => {
   // ---预览代码---
   const html = computed(() => {
     // 重置标题说和标题列表
-    count = 0;
+    // count = 0;
     headstemp = [];
     const markedContent = marked(props.value);
 
@@ -281,7 +276,7 @@ export const useAutoScroll = (
     }
   );
 
-  htmlChanged();
+  onMounted(htmlChanged);
 };
 
 export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => {
