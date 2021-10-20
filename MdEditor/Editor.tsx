@@ -1,5 +1,5 @@
 import { defineComponent, PropType, reactive, onMounted, Teleport, watch } from 'vue';
-import { Slugger } from 'marked';
+
 import {
   allToolbar,
   highlightUrl,
@@ -113,11 +113,21 @@ export interface HeadList {
 
 export type PreviewThemes = 'default' | 'github' | 'vuepress';
 
+// marked heading方法
 export type MarkedHeading = (
   text: string,
   level: 1 | 2 | 3 | 4 | 5 | 6,
   raw: string,
-  slugger: Slugger
+  // marked@2.1.3
+  slugger: {
+    seen: { [slugValue: string]: number };
+    slug(
+      value: string,
+      options?: {
+        dryrun: boolean;
+      }
+    ): string;
+  }
 ) => string;
 
 const props = {
