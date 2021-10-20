@@ -49,7 +49,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       nodeService(),
       mode === 'production' &&
         dts({
-          include: './MdEditor/*'
+          include: './MdEditor/Editor.tsx'
         })
     ],
     css: {
