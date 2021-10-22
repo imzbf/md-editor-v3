@@ -1,4 +1,12 @@
-import { defineComponent, PropType, reactive, onMounted, Teleport, watch } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  reactive,
+  onMounted,
+  Teleport,
+  watch,
+  onBeforeUnmount
+} from 'vue';
 
 import {
   allToolbar,
@@ -299,11 +307,6 @@ export default defineComponent({
       screenfullJs
     } = props;
 
-    // 构建组件第一步先清空event-bus
-    // 由于bus是单一实例，会导致重复创建编辑器时，残留旧的监听任务
-    // 不在卸载组件时清空的原因是，vue新的内容挂载会在旧的内容卸载之前完成
-    bus.clear(editorId);
-
     // 快捷键监听
     useKeyBoard(props, context);
 
@@ -373,6 +376,12 @@ export default defineComponent({
       adjustBody();
     });
     // ----end----
+
+    // 卸载组件前清空全部事件监听
+    onBeforeUnmount(() => {
+      bus.clear(editorId);
+    });
+
     return () => (
       <div
         id={editorId}
