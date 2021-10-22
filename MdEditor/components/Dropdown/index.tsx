@@ -9,7 +9,7 @@ import {
   watch,
   ref,
   onMounted,
-  onUnmounted
+  onBeforeUnmount
 } from 'vue';
 import { getSlot } from '../../utils/vue-tsx';
 
@@ -140,7 +140,7 @@ export default defineComponent({
     });
 
     // 卸载组件时清除监听
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       if (props.trigger === 'click') {
         (triggerRef.value as HTMLElement).removeEventListener('click', triggerHandler);
         document.removeEventListener('click', clickHidden);
