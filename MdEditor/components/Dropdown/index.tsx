@@ -81,6 +81,10 @@ export default defineComponent({
       props.onChange(true);
     };
 
+    const overlayHandler = () => {
+      ctl.overlayHover = true;
+    };
+
     // 显示状态变化后修改某些属性
     watch(
       () => props.visible,
@@ -132,9 +136,7 @@ export default defineComponent({
         (triggerRef.value as HTMLElement).addEventListener('mouseenter', triggerHandler);
         (triggerRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
 
-        (overlayRef.value as HTMLElement).addEventListener('mouseenter', () => {
-          ctl.overlayHover = true;
-        });
+        (overlayRef.value as HTMLElement).addEventListener('mouseenter', overlayHandler);
         (overlayRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
       }
     });
@@ -150,6 +152,13 @@ export default defineComponent({
           triggerHandler
         );
         (triggerRef.value as HTMLElement).removeEventListener('mouseleave', leaveHidden);
+
+        // 同时移除内容区域监听
+        (overlayRef.value as HTMLElement).removeEventListener(
+          'mouseenter',
+          overlayHandler
+        );
+        (overlayRef.value as HTMLElement).removeEventListener('mouseleave', leaveHidden);
       }
     });
 
