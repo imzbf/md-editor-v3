@@ -51,18 +51,19 @@ export default defineComponent({
 
                 nextTick(() => {
                   debounce(() => {
-                    const targetHeadDom = document.querySelector(
-                      decodeURIComponent(location.hash).replace(' ', '-')
-                    );
+                    const selector = decodeURIComponent(location.hash).replace(' ', '-');
 
-                    if (targetHeadDom) {
-                      const scrollLength =
-                        (targetHeadDom as HTMLHeadElement).offsetTop + 414;
+                    if (selector) {
+                      const targetHeadDom = document.querySelector(selector);
+                      if (targetHeadDom) {
+                        const scrollLength =
+                          (targetHeadDom as HTMLHeadElement).offsetTop + 414;
 
-                      window.scrollTo({
-                        top: scrollLength,
-                        behavior: 'smooth'
-                      });
+                        window.scrollTo({
+                          top: scrollLength,
+                          behavior: 'smooth'
+                        });
+                      }
                     }
                   })();
                 });
