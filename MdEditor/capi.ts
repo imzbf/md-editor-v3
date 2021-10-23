@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted, provide, SetupContext } from 'vue';
+import { computed, onMounted, onBeforeUnmount, provide, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
 import { ToolbarNames } from './Editor';
@@ -246,29 +246,29 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
   onMounted(() => {
     if (!props.previewOnly) {
       window.addEventListener('keydown', keyDownHandler);
-
       document.addEventListener('paste', pasteHandler);
+
+      // 注册保存事件
+      bus.on(editorId, {
+        name: 'onSave',
+        callback() {
+          if (props.onSave) {
+            props.onSave(props.modelValue);
+          } else {
+            context.emit('onSave', props.modelValue);
+          }
+        }
+      });
     }
   });
 
   // 编辑器卸载时移除相应的监听事件
-  onUnmounted(() => {
-    window.removeEventListener('keydown', keyDownHandler);
-    document.removeEventListener('paste', pasteHandler);
+  onBeforeUnmount(() => {
+    if (!props.previewOnly) {
+      window.removeEventListener('keydown', keyDownHandler);
+      document.removeEventListener('paste', pasteHandler);
+    }
   });
-
-  // 注册保存事件
-  !props.previewOnly &&
-    bus.on(editorId, {
-      name: 'onSave',
-      callback() {
-        if (props.onSave) {
-          props.onSave(props.modelValue);
-        } else {
-          context.emit('onSave', props.modelValue);
-        }
-      }
-    });
 };
 
 export const useProvide = (props: any) => {
