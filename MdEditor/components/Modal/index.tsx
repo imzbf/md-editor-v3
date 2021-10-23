@@ -3,7 +3,7 @@ import {
   PropType,
   ref,
   onMounted,
-  onUnmounted,
+  onBeforeUnmount,
   reactive,
   watch,
   nextTick
@@ -86,7 +86,7 @@ export default defineComponent({
       });
     });
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       keyMoveClear();
     });
 
