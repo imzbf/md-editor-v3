@@ -24,9 +24,11 @@ class Bus {
 
   // 注册事件监听
   on(race: string, event: BusEvent) {
-    if (this.pools[race] === undefined) {
+    if (!this.pools[race]) {
       this.pools[race] = {};
-    } else if (this.pools[race][event.name] === undefined) {
+    }
+
+    if (!this.pools[race][event.name]) {
       this.pools[race][event.name] = [];
     }
 
