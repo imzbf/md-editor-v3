@@ -255,7 +255,7 @@ const props = {
   },
   editorId: {
     type: String as PropType<string>,
-    default: () => `mev-${Math.random().toString(36).substr(3)}`
+    default: 'md-editor-v3'
   },
   tabWidth: {
     type: Number as PropType<number>,
