@@ -255,7 +255,7 @@ const props = {
   },
   editorId: {
     type: String as PropType<string>,
-    default: () => `mev-${Math.random().toString(36).substr(3)}`
+    default: 'md-editor-v3'
   },
   tabWidth: {
     type: Number as PropType<number>,
@@ -313,33 +313,6 @@ export default defineComponent({
     // ~~
     useProvide(props);
 
-    // 监听上传图片
-    !previewOnly &&
-      bus.on(editorId, {
-        name: 'uploadImage',
-        callback(files: FileList, cb: () => void) {
-          const insertHanlder = (urls: Array<string>) => {
-            urls.forEach((url) => {
-              // 利用事件循环机制，保证两次插入分开进行
-              setTimeout(() => {
-                bus.emit(editorId, 'replace', 'image', {
-                  desc: '',
-                  url
-                });
-              }, 0);
-            });
-
-            cb && cb();
-          };
-
-          if (props.onUploadImg) {
-            props.onUploadImg(files, insertHanlder);
-          } else {
-            context.emit('onUploadImg', files, insertHanlder);
-          }
-        }
-      });
-
     // ----编辑器设置----
     const setting = reactive<SettingType>({
       pageFullScreen: props.pageFullScreen,
@@ -372,6 +345,34 @@ export default defineComponent({
     watch(() => [setting.pageFullScreen, setting.fullscreen], adjustBody);
     // 进入时若默认全屏，调整一次
     onMounted(() => {
+      // 监听上传图片
+      if (!previewOnly) {
+        bus.on(editorId, {
+          name: 'uploadImage',
+          callback(files: FileList, cb: () => void) {
+            const insertHanlder = (urls: Array<string>) => {
+              urls.forEach((url) => {
+                // 利用事件循环机制，保证两次插入分开进行
+                setTimeout(() => {
+                  bus.emit(editorId, 'replace', 'image', {
+                    desc: '',
+                    url
+                  });
+                }, 0);
+              });
+
+              cb && cb();
+            };
+
+            if (props.onUploadImg) {
+              props.onUploadImg(files, insertHanlder);
+            } else {
+              context.emit('onUploadImg', files, insertHanlder);
+            }
+          }
+        });
+      }
+
       bodyOverflowHistory = document.body.style.overflow;
       adjustBody();
     });
@@ -395,6 +396,7 @@ export default defineComponent({
       >
         {!previewOnly && (
           <ToolBar
+            prettier={prettier}
             screenfull={screenfull}
             screenfullJs={screenfullJs}
             toolbars={props.toolbars}
