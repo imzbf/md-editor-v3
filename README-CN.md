@@ -34,38 +34,36 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 
 ### Props
 
-| 名称 | 类型 | 默认值 | 响应式 | 说明 |
-| --- | --- | --- | --- | --- |
-| modelValue | String | '' | √ | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
-| theme | 'light' \| 'dark' | 'light' | √ | 主题切换 |
-| editorClass | String | '' | √ | 编辑器类名 |
-| hljs | Object | null | x | highlight 实例，编辑器不会插入对应的`script`，但需要手动导入的高亮代码样式 |
-| highlightJs | String | [highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | x | highlightJs 链接 |
-| highlightCss | String | [atom-one-dark@11.2.0](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css) | x | 预览高亮代码样式 |
-| historyLength | Number | 10 | x | 最大记录操作数（太大会占用内存） |
-| pageFullScreen | Boolean | false | x | 页面内全屏 |
-| preview | Boolean | true | x | 是否预览 |
-| htmlPreview | Boolean | false | x | 是否 html 预览 |
-| previewOnly<sup>v1.3.0</sup> | Boolean | false | x | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
-| language | String | 'zh-CN' | √ | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| languageUserDefined<sup>[v1.5.0 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.5.0)</sup> | Object | {key: StaticTextDefaultValue} | √ | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
-| toolbars | Array | [toolbars] | √ | 选择性展示工具栏，可选内容<sup>见下方`toolbars`<sup> |
-| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | √ | 选择性不展示工具栏，内容同`toolbars` |
-| prettier | Boolean | true | x | 是否启用 prettier 优化 md 内容 |
-| prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) | x |  |
-| prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) | x |  |
-| editorName<sup>v1.3.2delete</sup> | String | 'editor' | x | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
-| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | x | cropper css url |
-| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | x | cropper js url |
-| iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
-| editorId<sup>v1.4.0</sup> | String | random | x | 编辑器唯一标识，非必须项，用于后续支持`ssr`时，防止产生服务端与客户端渲染内容不一致错误提示 |
-| tabWidth<sup>v1.4.0<sup> | Number | 2 | x | 编辑器 TAB 键位等于空格数 |
-| showCodeRowNumber<sup>v1.4.3</sup> | Boolean | false | x | 代码块是否显示行号 |
-| screenfull<sup>v1.4.3</sup> | Object | null | x | 全屏插件实例，编辑器不再插入对应的`script` |
-| screenfullJs<sup>v1.4.3</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | x | screenfull js 链接 |
-| previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | √ | 预览内容主题 |
-
-> 响应式=x，该属性只支持设置默认值，不支持响应式更新~
+| 名称 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | String | '' | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
+| theme | 'light' \| 'dark' | 'light' | 主题切换 |
+| editorClass | String | '' | 编辑器类名 |
+| hljs | Object | null | highlight 实例，编辑器不会插入对应的`script`，但需要手动导入的高亮代码样式 |
+| highlightJs | String | [highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | highlightJs 链接 |
+| highlightCss | String | [atom-one-dark@11.2.0](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css) | 预览高亮代码样式 |
+| historyLength | Number | 10 | 最大记录操作数（太大会占用内存） |
+| pageFullScreen | Boolean | false | 页面内全屏 |
+| preview | Boolean | true | 是否预览 |
+| htmlPreview | Boolean | false | 是否 html 预览 |
+| previewOnly<sup>v1.3.0</sup> | Boolean | false | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
+| language | String | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
+| languageUserDefined<sup>[v1.5.0 更新]</sup> | Object | {key: StaticTextDefaultValue} | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
+| toolbars | Array | [toolbars] | 选择性展示工具栏，可选内容<sup>见下方`toolbars`<sup> |
+| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | 选择性不展示工具栏，内容同`toolbars` |
+| prettier | Boolean | true | 是否启用 prettier 优化 md 内容 |
+| prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
+| prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) |  |
+| editorName<sup>v1.3.2delete</sup> | String | 'editor' | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
+| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | cropper css url |
+| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | cropper js url |
+| iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
+| editorId<sup>[v1.6.4 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.4)</sup> | String | md-editor-v3 | 编辑器唯一标识，非必须项，当相同页面存在两个编辑器时，请务必区别该属性 |
+| tabWidth<sup>v1.4.0<sup> | Number | 2 | 编辑器 TAB 键位等于空格数 |
+| showCodeRowNumber<sup>v1.4.3</sup> | Boolean | false | 代码块是否显示行号 |
+| screenfull<sup>v1.4.3</sup> | Object | null | 全屏插件实例，编辑器不再插入对应的`script` |
+| screenfullJs<sup>v1.4.3</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | screenfull js 链接 |
+| previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | 预览内容主题 |
 
 [toolbars]
 
@@ -157,7 +155,7 @@ export interface StaticTextDefaultValue {
 | onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | 动态获取`markdown`目录 |
-| markedHeading<sup>[v1.6.0](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.0)</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
+| markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
 
 ### 快捷键
 
@@ -267,11 +265,3 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
   callback(res.map((item: any) => item.data.url));
 }
 ```
-
-## 支持
-
-> 可以申请退还，通过上面的联系方式联系（人工核对，请不要恶意操作）
-
-| 支付宝 | 微信 |
-| --- | --- |
-| ![支付宝](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034374527224217786475887.jpeg) | ![微信](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034518598350079764474265.jpeg) |
