@@ -28,8 +28,13 @@ interface HistoryDataType {
  * 保存历史记录
  */
 export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
+  const previewOnly = inject('previewOnly') as boolean;
   const historyLength = inject('historyLength') as number;
   const editorId = inject('editorId') as string;
+
+  if (previewOnly) {
+    return;
+  }
 
   // 防抖ID
   let saveHistoryId = -1;
@@ -84,35 +89,37 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
     }
   );
 
-  bus.on(editorId, {
-    name: 'ctrlZ',
-    callback() {
-      history.userUpdated = false;
-      // 倒退一个下标，最多倒退到0
-      history.curr = history.curr - 1 < 0 ? 0 : history.curr - 1;
+  onMounted(() => {
+    bus.on(editorId, {
+      name: 'ctrlZ',
+      callback() {
+        history.userUpdated = false;
+        // 倒退一个下标，最多倒退到0
+        history.curr = history.curr - 1 < 0 ? 0 : history.curr - 1;
 
-      const currHistory = history.list[history.curr];
-      props.onChange(currHistory.content);
+        const currHistory = history.list[history.curr];
+        props.onChange(currHistory.content);
 
-      // 选中内容
-      setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
-    }
-  });
+        // 选中内容
+        setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
+      }
+    });
 
-  bus.on(editorId, {
-    name: 'ctrlShiftZ',
-    callback() {
-      history.userUpdated = false;
-      // 前进一个下标，最多倒退到最大下标
-      history.curr =
-        history.curr + 1 === history.list.length ? history.curr : history.curr + 1;
+    bus.on(editorId, {
+      name: 'ctrlShiftZ',
+      callback() {
+        history.userUpdated = false;
+        // 前进一个下标，最多倒退到最大下标
+        history.curr =
+          history.curr + 1 === history.list.length ? history.curr : history.curr + 1;
 
-      const currHistory = history.list[history.curr];
-      props.onChange(currHistory.content);
+        const currHistory = history.list[history.curr];
+        props.onChange(currHistory.content);
 
-      // 选中内容
-      setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
-    }
+        // 选中内容
+        setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
+      }
+    });
   });
 };
 
