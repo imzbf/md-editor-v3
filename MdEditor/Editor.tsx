@@ -396,6 +396,7 @@ export default defineComponent({
       >
         {!previewOnly && (
           <ToolBar
+            prettier={prettier}
             screenfull={screenfull}
             screenfullJs={screenfullJs}
             toolbars={props.toolbars}

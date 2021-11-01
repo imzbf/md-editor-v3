@@ -21,6 +21,9 @@ import { useSreenfull } from './composition';
 export default defineComponent({
   name: 'MDEditorToolbar',
   props: {
+    prettier: {
+      type: Boolean as PropType<boolean>
+    },
     // 工具栏选择显示
     toolbars: {
       type: Array as PropType<Array<ToolbarNames>>,
@@ -510,7 +513,7 @@ export default defineComponent({
           );
         }
         case 'prettier': {
-          return (
+          return props.prettier ? (
             <div
               class={`${prefix}-toolbar-item`}
               title={ult.value.toolbarTips?.prettier}
@@ -522,6 +525,8 @@ export default defineComponent({
                 <use xlinkHref="#icon-prettier" />
               </svg>
             </div>
+          ) : (
+            ''
           );
         }
         case 'pageFullscreen': {
