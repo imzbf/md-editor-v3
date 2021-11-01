@@ -80,17 +80,18 @@ export default defineComponent({
       clipVisible: false
     });
 
-    bus.on(editorId, {
-      name: 'openModals',
-      callback(type) {
-        modalData.type = type;
-        modalData.linkVisible = true;
-      }
-    });
-
     // 监控左边的操作栏
     const toolbarLeftRef = ref<HTMLDivElement>();
     onMounted(() => {
+      // 打开弹窗监听事件
+      bus.on(editorId, {
+        name: 'openModals',
+        callback(type) {
+          modalData.type = type;
+          modalData.linkVisible = true;
+        }
+      });
+
       toolbarLeftRef.value?.addEventListener('mouseover', () => {
         if (!window.getSelection()?.toString()) {
           bus.emit(editorId, 'selectTextChange', '');
