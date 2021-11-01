@@ -16,11 +16,3 @@ Markdown 编辑器，vue3 版本，使用 jsx 和 typescript 语法开发，支�
 1. 邮箱：zbfcqtl@163.com
 2. 博客留言：[imbf.cc](https://imbf.cc/message)
 3. issue 管理：[github issues](https://github.com/imzbf/md-editor-v3/issues)
-
-## 支持
-
-> 可以申请退还，通过上面的联系方式联系（人工核对，请不要恶意操作）
-
-| 支付宝 | 微信 |
-| --- | --- |
-| ![支付宝](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034374527224217786475887.jpeg) | ![微信](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034518598350079764474265.jpeg) |
