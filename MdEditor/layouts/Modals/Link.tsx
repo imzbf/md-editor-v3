@@ -28,11 +28,6 @@ export default defineComponent({
     onOk: {
       type: Function as PropType<(data?: any) => void>,
       default: () => () => {}
-    },
-
-    onClip: {
-      type: Function as PropType<() => void>,
-      default: () => () => {}
     }
   },
   setup(props) {
