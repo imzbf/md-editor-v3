@@ -91,6 +91,22 @@ export default defineComponent({
     });
 
     watch(
+      () => props.isFullscreen,
+      (nVal) => {
+        console.log(123);
+        // 全屏时不允许拖动元素
+        if (nVal) {
+          keyMoveClear();
+        } else {
+          keyMoveClear = keyMove(modalHeaderRef.value, (left: number, top: number) => {
+            state.initPos.left = left + 'px';
+            state.initPos.top = top + 'px';
+          });
+        }
+      }
+    );
+
+    watch(
       () => props.visible,
       (nVal) => {
         if (nVal) {
@@ -138,49 +154,49 @@ export default defineComponent({
             ref={modalRef}
           >
             <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
-              <div class={`${prefix}-modal-title`}>{slotTitle || ''}</div>
-              <div class={`${prefix}-modal-func`}>
-                {props.showAdjust && (
-                  <div
-                    class={`${prefix}-modal-adjust`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-
-                      // 全屏时，保存上次位置
-                      if (!props.isFullscreen) {
-                        state.historyPos = state.initPos;
-                        state.initPos = {
-                          left: '0',
-                          top: '0'
-                        };
-                      } else {
-                        state.initPos = state.historyPos;
-                      }
-
-                      props.onAdjust(!props.isFullscreen);
-                    }}
-                  >
-                    <svg class={`${prefix}-icon`} aria-hidden="true">
-                      <use
-                        xlinkHref={`#icon-${props.isFullscreen ? 'suoxiao' : 'fangda'}`}
-                      />
-                    </svg>
-                  </div>
-                )}
+              {slotTitle || ''}
+            </div>
+            <div class={`${prefix}-modal-body`}>{slotDefault}</div>
+            <div class={`${prefix}-modal-func`}>
+              {props.showAdjust && (
                 <div
-                  class={`${prefix}-modal-close`}
+                  class={`${prefix}-modal-adjust`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    props.onClosed && props.onClosed();
+
+                    // 全屏时，保存上次位置
+                    if (!props.isFullscreen) {
+                      state.historyPos = state.initPos;
+                      state.initPos = {
+                        left: '0',
+                        top: '0'
+                      };
+                    } else {
+                      state.initPos = state.historyPos;
+                    }
+
+                    props.onAdjust(!props.isFullscreen);
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#icon-close" />
+                    <use
+                      xlinkHref={`#icon-${props.isFullscreen ? 'suoxiao' : 'fangda'}`}
+                    />
                   </svg>
                 </div>
+              )}
+              <div
+                class={`${prefix}-modal-close`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  props.onClosed && props.onClosed();
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-close" />
+                </svg>
               </div>
             </div>
-            <div class={`${prefix}-modal-body`}>{slotDefault}</div>
           </div>
         </div>
       );
