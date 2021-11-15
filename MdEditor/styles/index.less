@@ -97,6 +97,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-sizing: content-box;
 
       &-item {
         height: 24px;
@@ -125,7 +126,7 @@
 
   &-content {
     display: flex;
-    height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 2px);
+    height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 1px);
 
     .@{prefix}-input-wrapper {
       flex: 1;
@@ -164,6 +165,10 @@
   &-form-item {
     margin-bottom: 14px;
     text-align: center;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 
   &-lable {

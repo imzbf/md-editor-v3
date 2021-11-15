@@ -21,6 +21,9 @@ import { useSreenfull } from './composition';
 export default defineComponent({
   name: 'MDEditorToolbar',
   props: {
+    prettier: {
+      type: Boolean as PropType<boolean>
+    },
     // 工具栏选择显示
     toolbars: {
       type: Array as PropType<Array<ToolbarNames>>,
@@ -80,17 +83,18 @@ export default defineComponent({
       clipVisible: false
     });
 
-    bus.on(editorId, {
-      name: 'openModals',
-      callback(type) {
-        modalData.type = type;
-        modalData.linkVisible = true;
-      }
-    });
-
     // 监控左边的操作栏
     const toolbarLeftRef = ref<HTMLDivElement>();
     onMounted(() => {
+      // 打开弹窗监听事件
+      bus.on(editorId, {
+        name: 'openModals',
+        callback(type) {
+          modalData.type = type;
+          modalData.linkVisible = true;
+        }
+      });
+
       toolbarLeftRef.value?.addEventListener('mouseover', () => {
         if (!window.getSelection()?.toString()) {
           bus.emit(editorId, 'selectTextChange', '');
@@ -509,7 +513,7 @@ export default defineComponent({
           );
         }
         case 'prettier': {
-          return (
+          return props.prettier ? (
             <div
               class={`${prefix}-toolbar-item`}
               title={ult.value.toolbarTips?.prettier}
@@ -521,6 +525,8 @@ export default defineComponent({
                 <use xlinkHref="#icon-prettier" />
               </svg>
             </div>
+          ) : (
+            ''
           );
         }
         case 'pageFullscreen': {
