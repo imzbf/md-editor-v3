@@ -30,32 +30,13 @@
     justify-content: space-between;
     padding: 10px 24px;
     color: @color;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    word-wrap: break-word;
+    user-select: none;
     border-bottom: 1px solid @borderColor;
-
-    .@{prefix}-modal-title {
-      color: @color;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 22px;
-      word-wrap: break-word;
-      cursor: text;
-    }
-
-    .@{prefix}-modal-func {
-      .@{prefix}-modal-adjust,
-      .@{prefix}-modal-close {
-        cursor: pointer;
-        width: 24px;
-        height: 24px;
-        line-height: 24px;
-        text-align: center;
-        display: inline-block;
-      }
-
-      .@{prefix}-modal-adjust {
-        padding-right: 10px;
-      }
-    }
+    position: relative;
   }
 
   &-body {
@@ -64,6 +45,26 @@
     word-wrap: break-word;
     height: calc(100% - 61px);
     box-sizing: border-box;
+  }
+
+  .@{prefix}-modal-func {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    .@{prefix}-modal-adjust,
+    .@{prefix}-modal-close {
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .@{prefix}-modal-adjust {
+      padding-right: 10px;
+    }
   }
 }
 
