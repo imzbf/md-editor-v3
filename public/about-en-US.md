@@ -16,11 +16,3 @@ Markdown editor for vue3, developed by jsx and typescript, dark theme、beautify
 1. Email：zbfcqtl@163.com
 2. My blog：[imbf.cc](https://imbf.cc/message)
 3. Github issue：[github issues](https://github.com/imzbf/md-editor-v3/issues)
-
-## Support
-
-> Refund can be made through the contact information above(Please do not operate maliciously).
-
-| Alipay | WeChat |
-| --- | --- |
-| ![Alipay](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034374527224217786475887.jpeg) | ![WeChat](https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/10061034518598350079764474265.jpeg) |
