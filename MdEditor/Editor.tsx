@@ -5,7 +5,8 @@ import {
   onMounted,
   Teleport,
   watch,
-  onBeforeUnmount
+  onBeforeUnmount,
+  CSSProperties
 } from 'vue';
 
 import {
@@ -283,6 +284,10 @@ const props = {
     type: Function as PropType<MarkedHeading>,
     default: (text: string, level: string) =>
       `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
+  },
+  style: {
+    type: Object as PropType<CSSProperties | string>,
+    default: () => ({})
   }
 };
 
@@ -393,6 +398,7 @@ export default defineComponent({
           setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
           previewOnly && `${prefix}-previewOnly`
         ]}
+        style={props.style}
       >
         {!previewOnly && (
           <ToolBar
