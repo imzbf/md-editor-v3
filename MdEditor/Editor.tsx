@@ -144,8 +144,7 @@ export type MarkedHeading = (
 
 export type MarkedHeadingId = (text: string, level: number) => string;
 
-const markedHeadingId: MarkedHeadingId = (text, level) =>
-  `l${level}-${btoa(encodeURIComponent(text))}`;
+const markedHeadingId: MarkedHeadingId = (text) => text;
 
 const props = {
   modelValue: {
