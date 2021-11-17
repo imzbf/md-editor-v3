@@ -64,8 +64,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 | screenfull<sup>v1.4.3</sup> | Object | null | Screenfull instance, editor will not insert script of it |
 | screenfullJs<sup><v1.4.3</sup> | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | Screenfull js url |
 | previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | Preview themes |
-
-> If responsive is `x`, you can set it's default value once.
+| style | CSSProperties | {} | Editor's inline style |
 
 [toolbars]
 
