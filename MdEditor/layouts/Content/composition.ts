@@ -151,7 +151,8 @@ export const useMarked = (props: EditorContentProps) => {
     return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
   };
   marked.setOptions({
-    renderer
+    renderer,
+    breaks: true
   });
 
   if (props.hljs) {
