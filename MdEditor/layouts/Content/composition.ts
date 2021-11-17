@@ -129,7 +129,7 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
 export const useMarked = (props: EditorContentProps) => {
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
-
+  const editorId = inject('editorId') as string;
   // ~~
   const highlightInited = ref(false);
 
@@ -201,7 +201,11 @@ export const useMarked = (props: EditorContentProps) => {
     (nVal) => {
       // 变化时调用变化事件
       props.onHtmlChanged(nVal);
+      // 传递标题
       props.onGetCatalog(headstemp);
+
+      // 生成目录
+      bus.emit(editorId, 'catalogChanged', headstemp);
     }
   );
 
