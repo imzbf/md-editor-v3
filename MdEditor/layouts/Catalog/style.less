@@ -1,0 +1,69 @@
+@import '../../styles/vars';
+
+.@{prefix}-catalog {
+  position: absolute;
+  overflow: auto;
+  top: 44px;
+  right: 0;
+  height: calc(100% - 44px);
+  background-color: #f6f6f6;
+  border-left: 1px solid @borderColor;
+  width: 200px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: 'tnum';
+
+  &-link {
+    padding: 5px 0 5px 8px;
+    line-height: 1.2;
+
+    span {
+      position: relative;
+      overflow: hidden;
+      color: @color;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      transition: color 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        color: #73d13d;
+      }
+    }
+
+    & > & {
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      &:first-of-type {
+        padding-top: 10px;
+      }
+
+      &:last-of-type {
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.@{prefix}-dark {
+  .@{prefix}-catalog {
+    background-color: @bkColorDark;
+    border-left-color: @borderColorDark;
+
+    &-link {
+      span {
+        color: @colorDark;
+
+        &:hover {
+          color: #73d13d;
+        }
+      }
+    }
+  }
+}
