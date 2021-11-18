@@ -64,6 +64,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | screenfull<sup>v1.4.3</sup> | Object | null | 全屏插件实例，编辑器不再插入对应的`script` |
 | screenfullJs<sup>v1.4.3</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | screenfull js 链接 |
 | previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | 预览内容主题 |
+| style<sup>v1.4.3</sup> | CSSProperties | {} | 编辑器内联样式 |
 
 [toolbars]
 

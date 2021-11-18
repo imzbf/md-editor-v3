@@ -5,7 +5,9 @@ import {
   onMounted,
   Teleport,
   watch,
-  onBeforeUnmount
+  onBeforeUnmount,
+  CSSProperties,
+  computed
 } from 'vue';
 
 import {
@@ -19,6 +21,7 @@ import {
 import { useKeyBoard, useProvide } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
+import Catalog from './layouts/Catalog';
 import bus from './utils/event-bus';
 
 import './styles/index.less';
@@ -59,6 +62,7 @@ export interface ToolbarTips {
   fullscreen?: string;
   preview?: string;
   htmlPreview?: string;
+  catalog?: string;
   github?: string;
   '-'?: string;
   '='?: string;
@@ -137,6 +141,10 @@ export type MarkedHeading = (
     ): string;
   }
 ) => string;
+
+export type MarkedHeadingId = (text: string, level: number) => string;
+
+const markedHeadingId: MarkedHeadingId = (text) => text;
 
 const props = {
   modelValue: {
@@ -281,8 +289,19 @@ const props = {
   },
   markedHeading: {
     type: Function as PropType<MarkedHeading>,
-    default: (text: string, level: string) =>
-      `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
+    default: (text: string, level: number) => {
+      // 我们默认同一级别的标题，你不会定义两个相同的
+      const id = markedHeadingId(text, level);
+      return `<h${level} id="${id}"><a href="#${id}">${text}</a></h${level}>`;
+    }
+  },
+  style: {
+    type: Object as PropType<CSSProperties | string>,
+    default: () => ({})
+  },
+  markedHeadingId: {
+    type: Function as PropType<MarkedHeadingId>,
+    default: markedHeadingId
   }
 };
 
@@ -383,6 +402,12 @@ export default defineComponent({
       bus.clear(editorId);
     });
 
+    const catalogShow = computed(() => {
+      return (
+        !props.toolbarsExclude.includes('catalog') && props.toolbars.includes('catalog')
+      );
+    });
+
     return () => (
       <div
         id={editorId}
@@ -393,6 +418,7 @@ export default defineComponent({
           setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
           previewOnly && `${prefix}-previewOnly`
         ]}
+        style={props.style}
       >
         {!previewOnly && (
           <ToolBar
@@ -432,6 +458,7 @@ export default defineComponent({
           }}
           markedHeading={props.markedHeading}
         />
+        {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
         {!previewOnly && (
           <Teleport to="head">
             <script src={iconfontJs} />
