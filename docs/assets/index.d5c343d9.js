@@ -1,14 +1,14 @@
-import{E as C,a as f}from"./request.b95ecff8.js";import{d as h,r as v,w as m,o as x,u as g,c as t}from"./vendor.11c5e889.js";const p=`## md-editor-v3
+import{E as m,a as l}from"./request.83203f0a.js";import{d as E,r as C,u as c,w as f,c as e}from"./vendor.43cfc309.js";const a=`## \u{1F632} md-editor-v3
 
-Markdown \u7F16\u8F91\u5668\uFF0C\u57FA\u4E8E vue3\uFF0C\u4F7F\u7528 jsx \u548C typescript \u8BED\u6CD5\u5F00\u53D1\uFF0C\u652F\u6301\u5207\u6362\u4E3B\u9898\u3001prettier \u7F8E\u5316\u6587\u672C\u7B49\u3002
+Markdown \u7F16\u8F91\u5668\uFF0C\u57FA\u4E8E react\uFF0C\u4F7F\u7528 jsx \u548C typescript \u8BED\u6CD5\u5F00\u53D1\uFF0C\u652F\u6301\u5207\u6362\u4E3B\u9898\u3001prettier \u7F8E\u5316\u6587\u672C\u7B49\u3002
 
-## \u57FA\u672C\u6F14\u793A
+### \u{1F916} \u57FA\u672C\u6F14\u793A
 
 **\u52A0\u7C97**\uFF0C<u>\u4E0B\u5212\u7EBF</u>\uFF0C_\u659C\u4F53_\uFF0C~\u5220\u9664\u7EBF~\uFF0C\u4E0A\u6807<sup>26</sup>\uFF0C\u4E0B\u6807<sub>[1]</sub>\uFF0C\`inline code\`\uFF0C[\u8D85\u94FE\u63A5](https://imbf.cc)
 
-> \u5F15\u7528\uFF1A\u8FD9\u662F\u4E00\u6BB5\u5F15\u7528
+> \u5F15\u7528\uFF1A\u4E16\u754C\u4E0A\u6CA1\u6709\u7EDD\u5BF9\uFF0C\u53EA\u6709\u76F8\u5BF9
 
-## \u4EE3\u7801\u6F14\u793A
+## \u{1F917} \u4EE3\u7801\u6F14\u793A
 
 \`\`\`js
 import { defineComponent, ref } from "vue";
@@ -28,13 +28,13 @@ export default defineComponent({
 \`\`\`
 
 
-## \u6587\u672C\u6F14\u793A
+## \u{1F5A8} \u6587\u672C\u6F14\u793A
 
 
 \u4F9D\u7167\u666E\u6717\u514B\u957F\u5EA6\u8FD9\u9879\u5355\u4F4D\uFF0C\u76EE\u524D\u53EF\u89C2\u6D4B\u7684\u5B87\u5B99\u7684\u76F4\u5F84\u4F30\u8BA1\u503C\uFF08\u76F4\u5F84\u7EA6 930 \u4EBF\u5149\u5E74\uFF0C\u5373 8.8 \xD7 10<sup>26</sup> \u7C73\uFF09\u5373\u4E3A 5.4 \xD7 10<sup>61</sup>\u500D\u666E\u6717\u514B\u957F\u5EA6\u3002\u800C\u53EF\u89C2\u6D4B\u5B87\u5B99\u4F53\u79EF\u5219\u4E3A 8.4 \xD7 10<sup>184</sup>\u7ACB\u65B9\u666E\u6717\u514B\u957F\u5EA6\uFF08\u666E\u6717\u514B\u4F53\u79EF\uFF09\u3002
 
 
-## \u8868\u683C\u6F14\u793A
+## \u{1F4C8} \u8868\u683C\u6F14\u793A
 
 
 | \u6635\u79F0 | \u733F\u9F84\uFF08\u5E74\uFF09 | \u6765\u81EA      |
@@ -42,18 +42,18 @@ export default defineComponent({
 | \u4E4B\u95F4 | 3          | \u4E2D\u56FD-\u91CD\u5E86 |
 
 
-## \u5360\u4E2A\u5751@\uFF01
-`,B=`## md-editor-v3
+## \u2618\uFE0F \u5360\u4E2A\u5751@\uFF01
+`,h=`## \u{1F632} md-editor-v3
 
 Markdown Editor for Vue3, developed by jsx and typescript, support different themes\u3001beautify content by prettier.
 
-## Base
+### \u{1F916} Base
 
 **bold**, <u>underline</u>, _italic_, ~line-through~, superscript<sup>26</sup>\uFF0Csubscript<sub>[1]</sub>\uFF0C\`inline code\`\uFF0C[link](https://imbf.cc)
 
 > quote\uFF1Ahahaha
 
-## Demo
+## \u{1F917} Demo
 
 \`\`\`js
 import { defineComponent, ref } from "vue";
@@ -73,13 +73,13 @@ export default defineComponent({
 \`\`\`
 
 
-## Text
+## \u{1F5A8} Text
 
 
 The Old Man and the Sea served to reinvigorate Hemingway's literary reputation and prompted a reexamination of his entire body of work.
 
 
-## Table
+## \u{1F4C8} Table
 
 
 | nickname | age | from      |
@@ -87,5 +87,5 @@ The Old Man and the Sea served to reinvigorate Hemingway's literary reputation a
 | zhijian | 3          | China ChongQing |
 
 
-## em... 
-`;const F="XHMPGLJIZTDB";var b=h({props:{theme:String},setup(){const a=localStorage.getItem(F)||"",e=v({text:a||p});let r=-1;m(()=>e.text,()=>{clearTimeout(r),r=window.setTimeout(()=>{localStorage.setItem(F,e.text)},2e3)}),x(()=>{clearTimeout(r)});const n=g();return m(()=>n.state.lang,u=>{u==="zh-CN"?e.text=a||p:e.text=a||B}),()=>t("div",{class:"project-preview"},[t("div",{class:"container"},[t(C,{editorId:"md-prev",language:n.state.lang,theme:n.state.theme,previewTheme:n.state.previewTheme,modelValue:e.text,onSave:u=>{localStorage.setItem(F,u)},markedHeading:(u,o)=>`<h${o}>${u}</h${o}>`,onChange:u=>e.text=u,onUploadImg:async(u,o)=>{const l=await Promise.all(Array.from(u).map(s=>new Promise((c,E)=>{const d=new FormData;d.append("file",s),f.post("/api/img/upload",d,{headers:{"Content-Type":"multipart/form-data"}}).then(i=>c(i)).catch(i=>E(i))})));o(l.map(s=>s.data.url))}},null),t("br",null,null),t("span",{class:"tips-text"},[n.state.lang==="zh-CN"?"Tips\uFF1A\u672C\u9875\u4E0A\u65B9\u7684\u7F16\u8F91\u5668\u6709localstorage\u4FDD\u5B58\u529F\u80FD\uFF0C\u6BCF\u6B21\u64CD\u4F5C\u540E\u4E24\u79D2\u4F1A\u81EA\u5DF1\u4FDD\u5B58\u4E00\u6B21\uFF0C\u53EF\u624B\u52A8\u70B9\u51FB\u4FDD\u5B58\u89E6\u53D1\uFF0C\u53EF\u7528\u4E8E\u4E00\u4E9B\u6587\u6863\u7684\u7F16\u8F91\u3002":"Tips: The editor in this page will save text to localstorage auto, and you can save text by yourself also. Wish this function can be used to edit some temporary document."])])])}});export{b as default};
+## \u2618\uFE0F em... 
+`;var A=E({props:{theme:String},setup(){const t=C({text:a}),u=c();return f(()=>u.state.lang,n=>{n==="zh-CN"?t.text=a:t.text=h}),()=>e("div",{class:"project-preview"},[e("div",{class:"container"},[e(m,{editorId:"md-prev",language:u.state.lang,theme:u.state.theme,previewTheme:u.state.previewTheme,modelValue:t.text,onChange:n=>t.text=n,onUploadImg:async(n,s)=>{const i=await Promise.all(Array.from(n).map(F=>new Promise((d,p)=>{const o=new FormData;o.append("file",F),l.post("/api/img/upload",o,{headers:{"Content-Type":"multipart/form-data"}}).then(r=>d(r)).catch(r=>p(r))})));s(i.map(F=>F.data.url))}},null),e("br",null,null),e("span",{class:"tips-text"},[u.state.lang==="zh-CN"?"Tips\uFF1A\u672C\u9875\u5C55\u793A\u7F16\u8F91\u5668localstorage\u5B58\u50A8\u529F\u80FD\u5DF2\u79FB\u9664\uFF01":"Tips: The editor in this page can not save text to localstorage now!"])])])}});export{A as default};

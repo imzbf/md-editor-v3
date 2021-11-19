@@ -8,8 +8,7 @@ Markdown 编辑器，vue3 版本，使用 jsx 和 typescript 语法开发，支�
 
 ## 同系列
 
-- react 版本，[md-editor-rt](https://github.com/imzbf/md-editor-rt)，更新比较缓慢（作者有点忙）
-- angular 版本，小伙伴开发中
+- react 版本，[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
 ## 反馈联系
 
