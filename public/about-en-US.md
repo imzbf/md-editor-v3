@@ -8,8 +8,7 @@ Markdown editor for vue3, developed by jsx and typescript, dark theme、beautify
 
 ## Same series
 
-- For react，[md-editor-rt](https://github.com/imzbf/md-editor-rt)，update slowly（I'm a little busy!）
-- For angular，developing.
+- For react，[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
 ## Connect
 

@@ -1,6 +1,8 @@
-## 基本使用示例
+## 😁 基本使用示例
 
 目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：[releases](https://github.com/imzbf/md-editor-v3/releases)
+
+### 🤖 安装
 
 ```shell
 yarn add md-editor-v3
@@ -10,7 +12,7 @@ yarn add md-editor-v3
 
 两种方式开发上区别在于**vue 模板**能很好的支持`vue`特性，比如指令，内置的双向绑定等；而**jsx 语法**更偏向于`react`的理念，开发环境来讲 jsx 如果在支持 ts 的环境下，会更友好一些。
 
-### 传统开发模式
+### 🤓 传统开发模式
 
 通过直接链接生产版本来使用，下面是一个小 demo：
 
@@ -42,7 +44,7 @@ yarn add md-editor-v3
 </html>
 ```
 
-### 模块化的 vue 模板
+### 🥱 模块化的 vue 模板
 
 ```js
 <template>
@@ -65,7 +67,7 @@ export default defineComponent({
 </script>
 ```
 
-### 模块化的 jsx
+### 🤗 模块化的 jsx
 
 ```js
 import { defineComponent, ref } from 'vue';
@@ -83,15 +85,15 @@ export default defineComponent({
 });
 ```
 
-## 扩展功能
+## 🥂 扩展功能
 
 这里包含了一些编辑器`api`的使用示范
 
-### 主题切换
+### 🍦 主题切换
 
 在`v1.4.3`版本后，主题分为了编辑器主题（`theme`，称为全局主题）和预览内容主题（`previewTheme`），他们都支持响应式更新，而非只能预设。
 
-#### 编辑器主题
+#### 🍧 编辑器主题
 
 支持默认和暗夜模式两种
 
@@ -117,7 +119,7 @@ export default defineComponent({
 </script>
 ```
 
-#### 预览主题
+#### 🍡 预览主题
 
 内置了`default`、`github`、`vuepress`三种主题，在一些直接预览文档内容时使用。并且支持在线切换（修改`previewTheme`即可）。
 
@@ -148,13 +150,13 @@ export default defineComponent({
 </script>
 ```
 
-### 扩展库替换
+### 🛠 扩展库替换
 
 highlight、prettier、cropper、screenfull 均使用外链引入，在无外网的时候，部分可将项目中已安装的依赖传入，也可以使用下载好的引用。
 
 演示替换`screenfull`
 
-#### 已安装依赖
+#### ⚰️ 已安装依赖
 
 ```js
 <template>
@@ -180,7 +182,7 @@ export default defineComponent({
 </script>
 ```
 
-#### 内网链接
+#### 📡 内网链接
 
 对应的 js 文件可以去[https://www.jsdelivr.com/](https://www.jsdelivr.com/)，直接找到对应的文件下载即可。
 
@@ -206,7 +208,7 @@ export default defineComponent({
 </script>
 ```
 
-### 图片上传
+### 📷 图片上传
 
 默认可以选择多张图片，支持截图粘贴板上传图片，支持复制网页图片粘贴上传。
 
@@ -238,7 +240,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 }
 ```
 
-### 语言扩展与替换
+### 🏳️‍🌈 语言扩展与替换
 
 ```js
 <template>
@@ -289,6 +291,7 @@ export default defineComponent({
             fullscreen: '屏幕全屏',
             preview: '预览',
             htmlPreview: 'html代码预览',
+            catalog: '目录',
             github: '源码地址'
           },
           titleItem: {
@@ -328,7 +331,7 @@ export default defineComponent({
 </script>
 ```
 
-### 目录获取与展示
+### 📄 目录获取与展示
 
 先通过`onGetCatalog`方法获取到渲染成功后的标题列表：
 
@@ -397,7 +400,7 @@ export default defineComponent({
 });
 ```
 
-### 调整工具栏
+### 🪚 调整工具栏
 
 从`v1.6.0`开始，支持调整工具栏内容顺序和分割符了。
 
@@ -425,4 +428,4 @@ export default defineComponent({
 
 更详细的实现可以参考本文档的源码！
 
-## 结束
+## 🧻 结束
