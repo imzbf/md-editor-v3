@@ -597,6 +597,22 @@ export default defineComponent({
             </div>
           );
         }
+        case 'catalog': {
+          return (
+            <div
+              class={`${prefix}-toolbar-item`}
+              title={ult.value.toolbarTips?.catalog}
+              onClick={() => {
+                bus.emit(editorId, 'catalogShow');
+              }}
+              key="bar-catalog"
+            >
+              <svg class={`${prefix}-icon`} aria-hidden="true">
+                <use xlinkHref="#icon-catalog" />
+              </svg>
+            </div>
+          );
+        }
         case 'github': {
           return (
             <div
@@ -623,24 +639,7 @@ export default defineComponent({
             <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
               {LeftBar}
             </div>
-            <div class={`${prefix}-toolbar-right`}>
-              {RightBar}
-              {/*
-            <Dropdown
-              visible={visible.catalog}
-              onChange={(v) => {
-                visible.catalog = v;
-              }}
-              overlay={<div>123</div>}
-              to={to.value}
-            >
-              <div class={`${prefix}-toolbar-item`} title="目录">
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-catalog" />
-                </svg>
-              </div>
-            </Dropdown> */}
-            </div>
+            <div class={`${prefix}-toolbar-right`}>{RightBar}</div>
           </div>
           <input
             ref={uploadRef}

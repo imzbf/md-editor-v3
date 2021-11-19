@@ -8,10 +8,6 @@ export const keyMove = (
   moveHandler?: (left: number, top: number) => void
 ): (() => void) => {
   const triggerMouseDown = (mdown: MouseEvent) => {
-    if (mdown.target !== trigger) {
-      return;
-    }
-
     const parent: HTMLElement = trigger.parentElement || document.body;
     // 被移动框大小
     const width = parent.offsetWidth;
@@ -24,10 +20,8 @@ export const keyMove = (
     const y = mdown.offsetY;
 
     const mouseMoveHandler = (e: MouseEvent) => {
-      let tx =
-        (e.pageX || e.clientX + document.body.scrollLeft - document.body.clientLeft) - x;
-      let ty =
-        (e.pageY || e.clientY + document.body.scrollTop - document.body.clientTop) - y;
+      let tx = e.x + document.body.scrollLeft - document.body.clientLeft - x;
+      let ty = e.y + document.body.scrollTop - document.body.clientTop - y;
       tx = tx < 1 ? 1 : tx < clientWidth - width - 1 ? tx : clientWidth - width - 1;
       ty = ty < 1 ? 1 : ty < clientHeight - height - 1 ? ty : clientHeight - height - 1;
 
@@ -43,9 +37,9 @@ export const keyMove = (
 
     const mouseUpHandler = () => {
       document.removeEventListener('mousemove', mouseMoveHandler);
-      trigger.removeEventListener('mouseup', mouseUpHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
-    trigger.addEventListener('mouseup', mouseUpHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   };
 
   trigger.addEventListener('mousedown', triggerMouseDown);
