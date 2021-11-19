@@ -364,41 +364,120 @@ export default defineComponent({
 
 若项目中使用的 ui 库有锚点类似的组件，请继续看下去（案例使用 ant-design-vue 组件库）：
 
-创建组件`Catalog`，源码地址：[Catalog 源码](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
+#### 🚥 生成目录导航
+
+我们需要创建`Catalog`组件和`CatalogLink`组件来展示我们的目录（本案例中，约定了子目录最大高度为`300px`）
+
+**Catalog.vue**
 
 ```js
 <template>
-  <div>
-    <md-editor v-model="text" @onGetCatalog="onGetCatalog"/>
-    <catalog :heads="catalogList" />
-  </div>
+  <Anchor :affix="false" :showInkInFixed="false">
+    <CatalogLink v-for="item of catalogs" :key="item.text" :tocItem="item" />
+  </Anchor>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+<script setup lang="ts">
+import { Anchor } from 'ant-design-vue';
+import { computed, PropType, defineProps } from 'vue';
+import CatalogLink from './CatalogLink.vue';
+import './style.less';
 
-import Catalog from '@/Catalog';
+export interface TocItem {
+  text: string;
+  level: number;
+  children?: Array<TocItem>;
+}
 
-export default defineComponent({
-  components: {
-    MdEditor,
-    Catalog
-  },
-  data() {
-    return {
-      text: '',
-      catalogList: []
-    };
-  },
-  methods: {
-    onGetCatalog(list) {
-      this.catalogList = list
-    }
+const props = defineProps({
+  heads: {
+    type: Array as PropType<Array<any>>
   }
 });
+
+const catalogs = computed(() => {
+  const tocItems: TocItem[] = [];
+
+  props.heads?.forEach(({ text, level }) => {
+    const item = { level, text };
+
+    if (tocItems.length === 0) {
+      // 第一个 item 直接 push
+      tocItems.push(item);
+    } else {
+      let lastItem = tocItems[tocItems.length - 1]; // 最后一个 item
+
+      if (item.level > lastItem.level) {
+        // item 是 lastItem 的 children
+        for (let i = lastItem.level + 1; i <= 6; i++) {
+          const { children } = lastItem;
+          if (!children) {
+            // 如果 children 不存在
+            lastItem.children = [item];
+            break;
+          }
+
+          lastItem = children[children.length - 1]; // 重置 lastItem 为 children 的最后一个 item
+
+          if (item.level <= lastItem.level) {
+            // item level 小于或等于 lastItem level 都视为与 children 同级
+            children.push(item);
+            break;
+          }
+        }
+      } else {
+        // 置于最顶级
+        tocItems.push(item);
+      }
+    }
+  });
+  return tocItems;
+});
+</script>
 ```
+
+**CatalogLink.vue**
+
+```js
+<template>
+  <Link :href="`#${tocItem.text}`" :title="tocItem.text">
+    <div v-if="tocItem.children" class="catalog-container">
+      <CatalogLink
+        v-for="item of tocItem.children"
+        :key="`${item.level}-${item.text}`"
+        :tocItem="item"
+      />
+    </div>
+  </Link>
+</template>
+
+<script setup lang="ts">
+import { Anchor } from 'ant-design-vue';
+import { defineProps, PropType } from 'vue';
+
+const { Link } = Anchor;
+import { TocItem } from './';
+
+const { tocItem } = defineProps({
+  tocItem: {
+    type: Object as PropType<TocItem>,
+    default: () => ({})
+  }
+});
+</script>
+```
+
+**style.css**
+
+```css
+.catalog-container {
+  max-height: 300px;
+  overflow: auto;
+}
+```
+
+- `vue`模板源码：[Catalog 源码](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog/index.vue)，你完全可以在此文档项目调试该组件！
+- `tsx`版本源码地址：[Catalog 源码](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
 
 ### 🪚 调整工具栏
 
@@ -428,4 +507,6 @@ export default defineComponent({
 
 更详细的实现可以参考本文档的源码！
 
-## 🧻 结束
+## 🧻 编辑此页面
+
+[demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)
