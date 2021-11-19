@@ -1,6 +1,8 @@
-## Basic usage
+## 😁 Basic usage
 
 It has been developing iteratively，so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
+
+### 🤖 Install
 
 ```shell
 yarn add md-editor-v3
@@ -8,7 +10,7 @@ yarn add md-editor-v3
 
 Now, we can develop vue3 project by `jsx` friendly. Editor is compatible for some enthusiasts(like me).
 
-### Traditional development
+### 🤓 Traditional development
 
 Use production version in html directly:
 
@@ -40,7 +42,7 @@ Use production version in html directly:
 </html>
 ```
 
-### Vue template
+### 🥱 Vue template
 
 ```js
 <template>
@@ -61,7 +63,7 @@ export default defineComponent({
 </script>
 ```
 
-### Jsx module
+### 🤗 Jsx module
 
 ```js
 import { defineComponent, ref } from 'vue';
@@ -79,15 +81,15 @@ export default defineComponent({
 });
 ```
 
-## Api usage
+## 🥂 Api usage
 
 Usages of some APIs.
 
-### Change Theme
+### 🍦 Change Theme
 
 After `v1.4.3`, Themes are divided into editor themes(api: `theme`) and article preview themes(api: `previewTheme`).
 
-#### Editor Theme
+#### 🍧 Editor Theme
 
 Support `light` and `dark` default.
 
@@ -113,7 +115,7 @@ export default defineComponent({
 </script>
 ```
 
-#### Preview Theme
+#### 🍡 Preview Theme
 
 There are three themes `default`, `github` and `vuepress`. It is useful When you want to show your article directly. Modify `previewTheme`.
 
@@ -144,13 +146,13 @@ export default defineComponent({
 </script>
 ```
 
-### Extension component
+### 🛠 Extension component
 
 Extensions highlight, prettier, cropper, screenfull are import from `cdn`. When your project is running offline, replace urls of these extensions. Some Extensions support be injected in development environment.
 
 Demo of `screenfull`
 
-#### Inject directly
+#### ⚰️ Inject directly
 
 ```js
 <template>
@@ -176,7 +178,7 @@ export default defineComponent({
 </script>
 ```
 
-#### Intranet link
+#### 📡 Intranet link
 
 Get these extension files from [https://www.jsdelivr.com/](https://www.jsdelivr.com/).
 
@@ -202,7 +204,7 @@ export default defineComponent({
 </script>
 ```
 
-### Upload pictures
+### 📷 Upload pictures
 
 By default, you can select multiple pictures. You can paste and upload screenshots and copy web page pictures.
 
@@ -234,7 +236,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 }
 ```
 
-### Extension language
+### 🏳️‍🌈 Extension language
 
 ```js
 <template>
@@ -325,7 +327,7 @@ export default defineComponent({
 
 ```
 
-### Get catalogue
+### 📄 Get catalogue
 
 Get data list by `onGetCatalog`:
 
@@ -395,7 +397,7 @@ export default defineComponent({
 });
 ```
 
-### define toolbar
+### 🪚 Define toolbar
 
 > after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
@@ -421,4 +423,4 @@ export default defineComponent({
 });
 ```
 
-## End
+## 🧻 End
