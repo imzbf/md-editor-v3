@@ -361,41 +361,114 @@ export default defineComponent({
 
 If there is a component like [`Anchor`](https://2x.antdv.com/components/anchor-cn) in your project, continue.
 
-Create `Catalog` component, source code: [Catalog](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
+#### 🚥 Generate catalogs
+
+We need create `Catalog` component and `CatalogLink` component to finish this function.
+
+**Catalog.vue**
 
 ```js
 <template>
-  <div>
-    <md-editor v-model="text" @onGetCatalog="onGetCatalog"/>
-    <catalog :heads="catalogList" />
-  </div>
+  <Anchor :affix="false" :showInkInFixed="false">
+    <CatalogLink v-for="item of catalogs" :key="item.text" :tocItem="item" />
+  </Anchor>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+<script setup lang="ts">
+import { Anchor } from 'ant-design-vue';
+import { computed, PropType, defineProps } from 'vue';
+import CatalogLink from './CatalogLink.vue';
+import './style.less';
 
-import Catalog from '@/Catalog';
+export interface TocItem {
+  text: string;
+  level: number;
+  children?: Array<TocItem>;
+}
 
-export default defineComponent({
-  components: {
-    MdEditor,
-    Catalog
-  },
-  data() {
-    return {
-      text: '',
-      catalogList: []
-    };
-  },
-  methods: {
-    onGetCatalog(list) {
-      this.catalogList = list
-    }
+const props = defineProps({
+  heads: {
+    type: Array as PropType<Array<any>>
   }
 });
+
+const catalogs = computed(() => {
+  const tocItems: TocItem[] = [];
+
+  props.heads?.forEach(({ text, level }) => {
+    const item = { level, text };
+
+    if (tocItems.length === 0) {
+      tocItems.push(item);
+    } else {
+      let lastItem = tocItems[tocItems.length - 1];
+
+      if (item.level > lastItem.level) {
+        for (let i = lastItem.level + 1; i <= 6; i++) {
+          const { children } = lastItem;
+          if (!children) {
+            lastItem.children = [item];
+            break;
+          }
+
+          lastItem = children[children.length - 1];
+          if (item.level <= lastItem.level) {
+            children.push(item);
+            break;
+          }
+        }
+      } else {
+        tocItems.push(item);
+      }
+    }
+  });
+  return tocItems;
+});
+</script>
 ```
+
+**CatalogLink.vue**
+
+```js
+<template>
+  <Link :href="`#${tocItem.text}`" :title="tocItem.text">
+    <div v-if="tocItem.children" class="catalog-container">
+      <CatalogLink
+        v-for="item of tocItem.children"
+        :key="`${item.level}-${item.text}`"
+        :tocItem="item"
+      />
+    </div>
+  </Link>
+</template>
+
+<script setup lang="ts">
+import { Anchor } from 'ant-design-vue';
+import { defineProps, PropType } from 'vue';
+
+const { Link } = Anchor;
+import { TocItem } from './';
+
+const { tocItem } = defineProps({
+  tocItem: {
+    type: Object as PropType<TocItem>,
+    default: () => ({})
+  }
+});
+</script>
+```
+
+**style.css**
+
+```css
+.catalog-container {
+  max-height: 300px;
+  overflow: auto;
+}
+```
+
+- `Vue Template`: [Source code](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog/index.vue)
+- `Tsx`: [Source code](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
 
 ### 🪚 Define toolbar
 
@@ -423,4 +496,6 @@ export default defineComponent({
 });
 ```
 
-## 🧻 End
+## 🧻 Edit this page
+
+[demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)

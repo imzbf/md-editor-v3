@@ -10,7 +10,7 @@ export interface TocItem {
   children?: Array<TocItem>;
 }
 
-const Topicfy = defineComponent({
+const Catalog = defineComponent({
   props: {
     // 解析得到的标题列表
     heads: {
@@ -85,4 +85,4 @@ const Topicfy = defineComponent({
   }
 });
 
-export default Topicfy;
+export default Catalog;
