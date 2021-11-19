@@ -289,6 +289,7 @@ export default defineComponent({
             fullscreen: '屏幕全屏',
             preview: '预览',
             htmlPreview: 'html代码预览',
+            catalog: '目录',
             github: '源码地址'
           },
           titleItem: {

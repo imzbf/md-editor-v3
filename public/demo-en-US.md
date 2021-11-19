@@ -10,7 +10,7 @@ Now, we can develop vue3 project by `jsx` friendly. Editor is compatible for som
 
 ### Traditional development
 
-Use production version in html directly：
+Use production version in html directly:
 
 ```js
 <!DOCTYPE html>
@@ -206,7 +206,7 @@ export default defineComponent({
 
 By default, you can select multiple pictures. You can paste and upload screenshots and copy web page pictures.
 
-> v1.2.0：Only one image can be selected for image clipping ~，but `onUploadImg` function will receive an array also.
+> v1.2.0: Only one image can be selected for image clipping ~，but `onUploadImg` function will receive an array also.
 
 > Tips: When pasting pictures, if they are GIF graphs, it does not work! Please upload it by file system.
 
@@ -284,6 +284,7 @@ export default defineComponent({
             fullscreen: 'fullscreen',
             preview: 'preview',
             htmlPreview: 'html preview',
+            catalog: 'catalog',
             github: 'source code'
           },
           titleItem: {
