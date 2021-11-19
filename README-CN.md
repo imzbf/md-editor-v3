@@ -64,7 +64,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | screenfull<sup>v1.4.3</sup> | Object | null | 全屏插件实例，编辑器不再插入对应的`script` |
 | screenfullJs<sup>v1.4.3</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | screenfull js 链接 |
 | previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | 预览内容主题 |
-| style<sup>v1.4.3</sup> | CSSProperties | {} | 编辑器内联样式 |
+| style<sup>v1.7.0</sup> | CSSProperties | {} | 编辑器内联样式 |
 
 [toolbars]
 
@@ -96,6 +96,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
   'fullscreen',
   'preview',
   'htmlPreview',
+  'catalog',
   'github'
 ];
 ```
@@ -157,6 +158,9 @@ export interface StaticTextDefaultValue {
 | onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | 动态获取`markdown`目录 |
 | markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
+| markedHeadingId<sup>v1.7.0</sup> | (text: string, level: number) => string | 标题`ID`计算方式 |
+
+> 如果你重写了`markedHeading`方法，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
 ### 快捷键
 
