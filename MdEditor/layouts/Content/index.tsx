@@ -105,6 +105,7 @@ export default defineComponent({
             {props.setting.preview && (
               <div
                 ref={previewRef}
+                id={`${prefix}-preview`}
                 class={[
                   `${prefix}-preview`,
                   `${previewTheme?.value}-theme`,

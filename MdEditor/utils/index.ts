@@ -129,15 +129,46 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
   // 计算一个高度比
   const scale = (pScrollHeight - pHeight) / (cScrollHeight - cHeight);
 
-  const scrollHandler = () => {
-    cEle.scrollTo({ top: pEle.scrollTop / scale });
+  // 注册一个防抖监听事件函数
+  const addEvent = debounce(() => {
+    // 宿主绑定事件
+    pEle.removeEventListener('scroll', scrollHandler);
+    pEle.addEventListener('scroll', scrollHandler);
+
+    // 寄主绑定事件
+    cEle.removeEventListener('scroll', scrollHandler);
+    cEle.addEventListener('scroll', scrollHandler);
+  }, 50);
+
+  const scrollHandler = (e: Event) => {
+    if (e.target === pEle) {
+      // 清除寄主监听
+      cEle.removeEventListener('scroll', scrollHandler);
+      cEle.scrollTo({
+        top: pEle.scrollTop / scale
+        // behavior: 'smooth'
+      });
+
+      addEvent();
+    } else {
+      // 清除宿主监听
+      pEle.removeEventListener('scroll', scrollHandler);
+
+      pEle.scrollTo({
+        top: cEle.scrollTop * scale
+        // behavior: 'smooth'
+      });
+
+      addEvent();
+    }
   };
 
-  pEle.removeEventListener('scroll', scrollHandler);
-  pEle.addEventListener('scroll', scrollHandler);
+  // 主动监听
+  addEvent();
 
   return () => {
     pEle.removeEventListener('scroll', scrollHandler);
+    cEle.removeEventListener('scroll', scrollHandler);
   };
 };
 
@@ -188,4 +219,26 @@ export const generateCodeRowNumber = (code: string) => {
   });
   rowNumberList.push('</span>');
   return `<span class="code-block">${code}</span>${rowNumberList.join('')}`;
+};
+
+/**
+ * 防抖方法封装
+ *
+ * @param fn 目标方法
+ * @param ms 防抖延迟
+ * @returns
+ */
+export const debounce = (fn: (...params: Array<any>) => any, ms = 200) => {
+  let timer = 0;
+
+  return (...params: Array<any>) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = window.setTimeout(() => {
+      fn.apply(this, params);
+      timer = 0;
+    }, ms);
+  };
 };
