@@ -61,7 +61,6 @@ export default defineComponent({
               {texts.value.darkTheme}
             </button>
             <Dropdown
-              trigger="click"
               placement="bottomCenter"
               getPopupContainer={() => {
                 return document.querySelector('.docs-page');
