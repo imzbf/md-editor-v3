@@ -57,6 +57,7 @@ export const allToolbar = [
   'fullscreen',
   'preview',
   'htmlPreview',
+  'catalog',
   'github'
 ];
 
@@ -86,6 +87,7 @@ export const staticTextDefault: StaticTextDefault = {
       fullscreen: '屏幕全屏',
       preview: '预览',
       htmlPreview: 'html代码预览',
+      catalog: '目录',
       github: '源码地址'
     },
     titleItem: {
@@ -143,6 +145,7 @@ export const staticTextDefault: StaticTextDefault = {
       fullscreen: 'fullscreen',
       preview: 'preview',
       htmlPreview: 'html preview',
+      catalog: 'catalog',
       github: 'source code'
     },
     titleItem: {
