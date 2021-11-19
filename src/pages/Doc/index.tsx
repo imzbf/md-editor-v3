@@ -43,11 +43,7 @@ export default defineComponent({
               previewTheme={store.state.previewTheme}
               previewOnly
               showCodeRowNumber
-              markedHeading={(text, level) => {
-                const keyText = text.replace(' ', '-');
-                return `<h${level} id="${keyText}"><a href="#${keyText}">${text}</a></h${level}>`;
-              }}
-              onGetCatalog={(arr) => {
+              onGetCatalog={(arr: any[]) => {
                 catalogList.value = arr;
               }}
             />
