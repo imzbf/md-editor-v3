@@ -58,10 +58,10 @@ const Topicfy = defineComponent({
     });
 
     const moveToHead = debounce(() => {
-      const selector = decodeURIComponent(location.hash).replace(' ', '-');
+      const selector = decodeURIComponent(location.hash).replace('#', '');
 
       if (selector) {
-        const targetHeadDom = document.querySelector(selector);
+        const targetHeadDom = document.getElementById(selector);
         if (targetHeadDom) {
           const scrollLength = (targetHeadDom as HTMLHeadElement).offsetTop + 414;
 
