@@ -327,6 +327,58 @@ export default defineComponent({
 
 ```
 
+### 🛬 Modify head structure
+
+Use `markedHeading` to modify head structure, after `v1.7.2`, if there are some content about `markdown`(like: link..）, editor will display them first.
+
+> Document of `markedHeading` is the same as `heading` in [marked.js](https://marked.js.org/using_pro#renderer).
+
+- Demand: open link in new window.
+
+- Demo:
+
+```js
+
+<template>
+  <md-editor v-model="text" @markedHeading="markedHeading" />
+</template>
+
+<script>
+import { defineComponent } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+export default defineComponent({
+  components: { MdEditor },
+  data() {
+    return {
+      text: ''
+    };
+  },
+  methods: {
+    markedHeading(text, level, raw) {
+      // You can not use markedHeadingId method directly, but It's really simple.
+      // If the ID you defined is not equal to `raw`(your title), be sure to tell the editor the algorithm for generating the ID by `marketheadingid`.
+      // If not, the Catalog will not go right.
+      const id = raw;
+
+      if (/<a.*>.*<\/a>/.test(text)) {
+        return `<h${level} id="${id}">${text.replace(
+          /(?<=\<a.*)>(?=.*<\/a>)/,
+          ' target="_blank">'
+        )}</h${level}>`;
+      } else if (text !== raw) {
+        return `<h${level} id="${id}">${text}</h${level}>`;
+      } else {
+        return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
+      }
+    }
+  }
+});
+</script>
+
+```
+
 ### 📄 Get catalogue
 
 Get data list by `onGetCatalog`:
