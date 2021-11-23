@@ -331,6 +331,56 @@ export default defineComponent({
 </script>
 ```
 
+### 🛬 自定义目录结构
+
+编辑器提供了`markedHeading`，用来自定义标题的结构，在`v1.7.2`版本之后，标题中如果包含了`markdown`内容（比如：链接等），将会优先展示这些内容。
+
+> `markedHeading`的入参请参考[marked.js](https://marked.js.org/using_pro#renderer)中的`heading`。
+
+需求：在标题中存在外链时，点击打开新窗口。
+
+实现：
+
+```js
+<template>
+  <md-editor v-model="text" @markedHeading="markedHeading" />
+</template>
+
+<script>
+import { defineComponent } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+export default defineComponent({
+  components: { MdEditor },
+  data() {
+    return {
+      text: ''
+    };
+  },
+  methods: {
+    markedHeading(text, level, raw) {
+      // 你不能直接调用默认的markedHeadingId，但是它很简单
+      // 如果你的id与raw不相同，请一定记得将你的生成方法通过markedHeadingId告诉编辑器
+      // 否则编辑器默认的目录定位功能无法正确使用
+      const id = raw;
+
+      if (/<a.*>.*<\/a>/.test(text)) {
+        return `<h${level} id="${id}">${text.replace(
+          /(?<=\<a.*)>(?=.*<\/a>)/,
+          ' target="_blank">'
+        )}</h${level}>`;
+      } else if (text !== raw) {
+        return `<h${level} id="${id}">${text}</h${level}>`;
+      } else {
+        return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
+      }
+    }
+  }
+});
+</script>
+```
+
 ### 📄 目录获取与展示
 
 先通过`onGetCatalog`方法获取到渲染成功后的标题列表：
