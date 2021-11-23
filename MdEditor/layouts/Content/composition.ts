@@ -141,8 +141,8 @@ export const useMarked = (props: EditorContentProps) => {
 
   // 标题重构
   renderer.heading = (...headProps) => {
-    const [text, level] = headProps;
-    headstemp.push({ text, level });
+    const [, level, raw] = headProps;
+    headstemp.push({ text: raw, level });
 
     return props.markedHeading(...headProps);
   };
