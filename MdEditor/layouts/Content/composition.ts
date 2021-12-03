@@ -257,10 +257,12 @@ export const useAutoScroll = (
     nextTick(() => {
       // 更新完毕后判断是否需要重新绑定滚动事件
       if (props.setting.preview && !previewOnly) {
-        clearScrollAuto = scrollAuto(
-          textAreaRef.value as HTMLElement,
-          (previewRef.value as HTMLElement) || htmlRef.value
-        );
+        setTimeout(() => {
+          clearScrollAuto = scrollAuto(
+            textAreaRef.value as HTMLElement,
+            (previewRef.value as HTMLElement) || htmlRef.value
+          );
+        }, 0);
       }
 
       // 重新设置复制按钮
