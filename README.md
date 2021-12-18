@@ -58,13 +58,13 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 | cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | Cropper css url |
 | cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | Cropper js url |
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | Icon url |
-| editorId<sup>[v1.6.4 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.4)</sup> | String | md-editor-v3 | Editor id, also the html id, it is used when there are more than two editors |
+| editorId<sup>[v1.6.4 updated](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.4)</sup> | String | md-editor-v3 | Editor id, also the html id, it is used when there are more than two editors |
 | tabWidth<sup>v1.4.0<sup> | Number | 2 | One tab eq some space |
 | showCodeRowNumber<sup>v1.4.3</sup> | Boolean | false | Show row number for code block or not |
 | screenfull<sup>v1.4.3</sup> | Object | null | Screenfull instance, editor will not insert script of it |
 | screenfullJs<sup><v1.4.3</sup> | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | Screenfull js url |
 | previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | Preview themes |
-| style | CSSProperties | {} | Editor's inline style |
+| style<sup>v1.7.0</sup> | CSSProperties | {} | Editor's inline style |
 
 [toolbars]
 
@@ -96,6 +96,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
   'fullscreen',
   'preview',
   'htmlPreview',
+  'catalog',
   'github'
 ];
 ```
@@ -157,6 +158,9 @@ export interface StaticTextDefaultValue {
 | onHtmlChanged | h:String | Compile markdown successful event，you can use it to get the html code |
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | Get catalogue of article |
 | markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
+| markedHeadingId<sup>v1.7.0</sup> | (text: string, level: number) => string | title `ID` generator |
+
+> If `markedHeading` is overridden, be sure to tell the editor the algorithm for generating the title ID by `marketheadingid`.
 
 ### Shortcut key
 
