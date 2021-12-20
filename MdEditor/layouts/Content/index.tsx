@@ -133,6 +133,7 @@ export default defineComponent({
                       ? ''
                       : 'textarea-only'
                   ]}
+                  placeholder={props.placeholder}
                 />
               </div>
             )}
