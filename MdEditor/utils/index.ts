@@ -120,15 +120,6 @@ export const goto = (
  * @returns 清除监听的方法
  */
 export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
-  const pHeight = pEle.clientHeight;
-  const cHeight = cEle.clientHeight;
-
-  const pScrollHeight = pEle.scrollHeight;
-  const cScrollHeight = cEle.scrollHeight;
-
-  // 计算一个高度比
-  const scale = (pScrollHeight - pHeight) / (cScrollHeight - cHeight);
-
   // 注册一个防抖监听事件函数
   const addEvent = debounce(() => {
     // 宿主绑定事件
@@ -141,6 +132,14 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
   }, 50);
 
   const scrollHandler = (e: Event) => {
+    const pHeight = pEle.clientHeight;
+    const cHeight = cEle.clientHeight;
+
+    const pScrollHeight = pEle.scrollHeight;
+    const cScrollHeight = cEle.scrollHeight;
+    // 计算一个高度比
+    const scale = (pScrollHeight - pHeight) / (cScrollHeight - cHeight);
+
     if (e.target === pEle) {
       // 清除寄主监听
       cEle.removeEventListener('scroll', scrollHandler);
