@@ -1,11 +1,23 @@
-import { watch, inject, computed, ref, ComputedRef, nextTick, Ref, onMounted } from 'vue';
-import marked from 'marked';
+import {
+  watch,
+  inject,
+  computed,
+  ref,
+  ComputedRef,
+  nextTick,
+  Ref,
+  reactive,
+  onMounted,
+  onBeforeUnmount
+} from 'vue';
+import { marked } from 'marked';
 import copy from 'copy-to-clipboard';
 import { EditorContentProps } from './index';
-import { HeadList, StaticTextDefaultValue, prefix } from '../../Editor';
+import { HeadList, StaticTextDefaultValue, prefix, MarkedHeading } from '../../Editor';
 import bus from '../../utils/event-bus';
 import { insert, scrollAuto, setPosition, generateCodeRowNumber } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
+import { appendHandler } from '../../utils/dom';
 
 interface HistoryItemType {
   // 记录内容
@@ -126,7 +138,7 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
 /**
  * markdown编译逻辑
  */
-export const useMarked = (props: EditorContentProps) => {
+export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const editorId = inject('editorId') as string;
@@ -134,20 +146,60 @@ export const useMarked = (props: EditorContentProps) => {
   const highlightInited = ref(false);
 
   // 标题列表，扁平结构
-  let headstemp: HeadList[] = [];
+  let heads: HeadList[] = [];
 
   // marked渲染实例
-  const renderer = new marked.Renderer();
+  const renderer: any = new marked.Renderer();
 
   // 标题重构
-  renderer.heading = (...headProps) => {
+  renderer.heading = ((...headProps) => {
     const [, level, raw] = headProps;
-    headstemp.push({ text: raw, level });
+    heads.push({ text: raw, level });
 
     return props.markedHeading(...headProps);
+  }) as MarkedHeading;
+
+  renderer.defaultCode = renderer.code;
+
+  renderer.code = (code: string, language: string, isEscaped: boolean) => {
+    if (!props.noMermaid && language === 'mermaid') {
+      const idRand = `${prefix}-mermaid-${Date.now().toString(36)}`;
+
+      try {
+        let svgCode = '';
+        // 服务端渲染，如果提供了mermaid，就生成svg
+        if (props.mermaid) {
+          svgCode = props.mermaid.mermaidAPI.render(idRand, code);
+        }
+
+        // 没有提供，则判断window对象是否可用，不可用则反回待解析的结构，在页面引入后再解析
+        if (typeof window !== 'undefined' && window.mermaid) {
+          svgCode = window.mermaid.mermaidAPI.render(idRand, code);
+        } else {
+          // 这块代码不会正确展示在页面上
+          svgCode = `<div class="mermaid">${code}</div>`;
+        }
+
+        return `<div class="${prefix}-mermaid">${svgCode}</div>`;
+      } catch (error) {
+        if (typeof document !== 'undefined') {
+          const errorDom = document.querySelector(`#${idRand}`);
+
+          if (errorDom) {
+            const errorSvg = errorDom.outerHTML;
+            errorDom.parentElement?.remove();
+            return errorSvg;
+          }
+        }
+
+        return '';
+      }
+    }
+
+    return renderer.defaultCode(code, language, isEscaped);
   };
 
-  renderer.image = (href, _, desc) => {
+  renderer.image = (href: string, _: string, desc: string) => {
     return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
   };
   marked.setOptions({
@@ -172,15 +224,18 @@ export const useMarked = (props: EditorContentProps) => {
   const html = computed(() => {
     // 重置标题说和标题列表
     // count = 0;
-    headstemp = [];
+    heads = [];
     const markedContent = marked(props.value);
 
+    // 在高亮加载完成后、mermaid状态变化后重新mark一次
+    // OPTIMIZATION：如有优化方案请提出建议~
+    highlightInited.value;
+    mermaidData.reRender;
+    mermaidData.mermaidInited;
+
     // 代码高亮加载完成后再重新编译一次代码
-    if (highlightInited.value) {
-      return markedContent;
-    } else {
-      return markedContent;
-    }
+
+    return markedContent;
   });
 
   // 高亮代码js加载完成后回调
@@ -203,10 +258,10 @@ export const useMarked = (props: EditorContentProps) => {
       // 变化时调用变化事件
       props.onHtmlChanged(nVal);
       // 传递标题
-      props.onGetCatalog(headstemp);
+      props.onGetCatalog(heads);
 
       // 生成目录
-      bus.emit(editorId, 'catalogChanged', headstemp);
+      bus.emit(editorId, 'catalogChanged', heads);
     }
   );
 
@@ -388,4 +443,55 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
   return {
     selectedText
   };
+};
+
+export const useMermaid = (props: EditorContentProps) => {
+  const theme = inject('theme') as ComputedRef<string>;
+
+  const mermaidData = reactive({
+    reRender: false,
+    mermaidInited: !!props.mermaid
+  });
+
+  watch(
+    () => theme.value,
+    () => {
+      if (!props.noMermaid && window.mermaid) {
+        window.mermaid.initialize({
+          theme: theme.value === 'dark' ? 'dark' : 'default'
+        });
+
+        mermaidData.reRender = !mermaidData.reRender;
+      }
+    }
+  );
+
+  let mermaidScript: HTMLScriptElement;
+  onMounted(() => {
+    // 引入mermaid
+    if (!props.noMermaid && props.mermaid) {
+      window.mermaid = props.mermaid;
+    } else if (!props.noMermaid && !props.mermaid) {
+      mermaidScript = document.createElement('script');
+
+      mermaidScript.src = props.mermaidJs;
+      mermaidScript.onload = () => {
+        mermaidData.mermaidInited = true;
+        window.mermaid.initialize({
+          logLevel: import.meta.env.MODE === 'development' ? 'Error' : 'Fatal'
+        });
+      };
+      mermaidScript.id = `${prefix}-mermaid`;
+
+      appendHandler(mermaidScript);
+    }
+  });
+
+  onBeforeUnmount(() => {
+    if (!props.noMermaid && !props.mermaid && mermaidScript) {
+      mermaidScript.remove();
+    }
+  });
+
+  return mermaidData;
 };
