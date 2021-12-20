@@ -189,9 +189,33 @@ export const directive2flag = (
         break;
       }
       case 'table': {
-        targetValue = '| 表头 | 表头 |\n| - | - |\n| 内容 | 内容 |\n';
+        targetValue = '|';
+        // '| col | col |\n| - | - |\n| content | content |\n'
+
+        const { selectedShape = { x: 1, y: 1 } } = params;
+        const { x, y } = selectedShape;
+
+        // 添加表头
+        for (let i = 0; i <= y; i++) {
+          targetValue += ' col |';
+        }
+
+        // 添加分隔
+        targetValue += '\n|';
+        for (let i = 0; i <= y; i++) {
+          targetValue += ' - |';
+        }
+
+        // 添加内容
+        for (let row = 0; row <= x; row++) {
+          targetValue += '\n|';
+          for (let col = 0; col <= y; col++) {
+            targetValue += ' content |';
+          }
+        }
+
         deviationStart = 2;
-        deviationEnd = 4 - targetValue.length;
+        deviationEnd = 5 - targetValue.length;
         select = true;
         break;
       }
