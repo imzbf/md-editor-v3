@@ -485,6 +485,7 @@ export default defineComponent({
             toolbarsExclude={props.toolbarsExclude}
             setting={setting}
             updateSetting={updateSetting}
+            tableShape={props.tableShape}
           />
         )}
         <Content
