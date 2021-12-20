@@ -35,13 +35,13 @@
 ### 🧸 highlightJs
 
 - **类型**：`String`
-- **默认值**：[highlight.js@11.2.0](//unpkg.com/@highlightjs/cdn-assets@11.2.0/highlight.min.js)
+- **默认值**：[highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js)
 - **说明**：highlightJs 链接。
 
 ### 🧸 highlightCss
 
 - **类型**：`String`
-- **默认值**：[atom-one-dark@11.2.0](//unpkg.com/highlight.js@11.2.0/styles/atom-one-dark.css)
+- **默认值**：[atom-one-dark@11.2.0](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css)
 - **说明**：预览高亮代码样式。
 
 ### 🤏🏼 historyLength
@@ -209,13 +209,13 @@ export interface StaticTextDefaultValue {
 ### 🪒 prettierCDN
 
 - **类型**：`String`
-- **默认值**：[standalone@2.4.0](//unpkg.com/prettier@2.4.0/standalone.js)
+- **默认值**：[standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js)
 - **说明**：
 
 ### 🪒 prettierMDCDN
 
 - **类型**：`String`
-- **默认值**：[parser-markdown@2.4.0](//unpkg.com/prettier@2.4.0/parser-markdown.js)
+- **默认值**：[parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js)
 - **说明**：
 
 ### ✂️ Cropper
@@ -227,13 +227,13 @@ export interface StaticTextDefaultValue {
 ### ✂️ cropperCss
 
 - **类型**：`String`
-- **默认值**：[cropper.min.css@1.5.12](//unpkg.com/cropperjs@1.5.12/dist/cropper.min.css)
+- **默认值**：[cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css)
 - **说明**：裁剪扩展库 css。
 
 ### ✂️ cropperJs
 
 - **类型**：`String`
-- **默认值**：[cropper.min.js@1.5.12](//unpkg.com/cropperjs@1.5.12/dist/cropper.min.js)
+- **默认值**：[cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js)
 - **说明**：裁剪扩展库 js。
 
 ### 👻 iconfontJs
@@ -269,7 +269,7 @@ export interface StaticTextDefaultValue {
 ### 🖥 screenfullJs
 
 - **类型**：`String`
-- **默认值**：[5.1.0](//unpkg.com/screenfull@5.1.0/dist/screenfull.js)
+- **默认值**：[5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js)
 - **说明**：screenfull js 链接。
 
 ### 🔦 previewTheme
@@ -315,7 +315,7 @@ import mermaid from 'mermaid'
 ### 📉 mermaidJs
 
 - **类型**：`String`
-- **默认值**：[mermaid@8.13.5](//unpkg.com/mermaid@8.13.5/dist/mermaid.min.js)
+- **默认值**：[mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js)
 - **版本**：`>= 1.8.0`
 - **说明**：mermaidJs 链接。
 
