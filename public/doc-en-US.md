@@ -37,13 +37,13 @@
 ### 🧸 highlightJs
 
 - **type**: `String`
-- **default**: [highlight.js@11.2.0](//unpkg.com/@highlightjs/cdn-assets@11.2.0/highlight.min.js)
+- **default**: [highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js)
 - **description**: HighlightJs url.
 
 ### 🧸 highlightCss
 
 - **type**: `String`
-- **default**: [atom-one-dark@11.2.0](//unpkg.com/highlight.js@11.2.0/styles/atom-one-dark.css)
+- **default**: [atom-one-dark@11.2.0](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css)
 - **description**: `Highlight` code style url.
 
 ### 🤏🏼 historyLength
@@ -220,13 +220,13 @@ You can sort the toolbar as you like, split tools by `'-'`, the left and right t
 ### 🪒 prettierCDN
 
 - **type**: `String`
-- **default**: [standalone@2.4.0](//unpkg.com/prettier@2.4.0/standalone.js)
+- **default**: [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js)
 - **description**:
 
 ### 🪒 prettierMDCDN
 
 - **type**: `String`
-- **default**: [parser-markdown@2.4.0](//unpkg.com/prettier@2.4.0/parser-markdown.js)
+- **default**: [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js)
 - **description**:
 
 ### ✂️ Cropper
@@ -238,13 +238,13 @@ You can sort the toolbar as you like, split tools by `'-'`, the left and right t
 ### ✂️ cropperCss
 
 - **type**: `String`
-- **default**: [cropper.min.css@1.5.12](//unpkg.com/cropperjs@1.5.12/dist/cropper.min.css)
+- **default**: [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css)
 - **description**: Cropper css url.
 
 ### ✂️ cropperJs
 
 - **type**: `String`
-- **default**: [cropper.min.js@1.5.12](//unpkg.com/cropperjs@1.5.12/dist/cropper.min.js)
+- **default**: [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js)
 - **description**: Cropper js url.
 
 ### 👻 iconfontJs
@@ -280,7 +280,7 @@ You can sort the toolbar as you like, split tools by `'-'`, the left and right t
 ### 🖥 screenfullJs
 
 - **type**: `String`
-- **default**: [5.1.0](//unpkg.com/screenfull@5.1.0/dist/screenfull.js)
+- **default**: [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js)
 - **description**: Screenfull js url.
 
 ### 🔦 previewTheme

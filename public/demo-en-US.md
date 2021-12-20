@@ -548,7 +548,7 @@ export default defineComponent({
 });
 ```
 
-## 🔒 xss 防范
+## 🔒 xss
 
 after`1.3.0`, please use `sanitize` to sanitize `html`. eg: `sanitize-html`
 
