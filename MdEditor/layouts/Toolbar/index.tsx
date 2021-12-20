@@ -65,7 +65,9 @@ export default defineComponent({
       title: false,
       catalog: false,
       // 图片上传下拉
-      image: false
+      image: false,
+      // mermaid
+      mermaid: false
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
@@ -624,6 +626,99 @@ export default defineComponent({
                 <use xlinkHref="#icon-github" />
               </svg>
             </div>
+          );
+        }
+        case 'mermaid': {
+          return (
+            <Dropdown
+              visible={visible.mermaid}
+              onChange={(v) => {
+                visible.mermaid = v;
+              }}
+              overlay={
+                <ul
+                  class={`${prefix}-menu`}
+                  onClick={() => {
+                    visible.mermaid = false;
+                  }}
+                >
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('flow');
+                    }}
+                  >
+                    {ult.value.mermaid?.flow}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('sequence');
+                    }}
+                  >
+                    {ult.value.mermaid?.sequence}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('gantt');
+                    }}
+                  >
+                    {ult.value.mermaid?.gantt}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('class');
+                    }}
+                  >
+                    {ult.value.mermaid?.class}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('state');
+                    }}
+                  >
+                    {ult.value.mermaid?.state}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('pie');
+                    }}
+                  >
+                    {ult.value.mermaid?.pie}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('relationship');
+                    }}
+                  >
+                    {ult.value.mermaid?.relationship}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('journey');
+                    }}
+                  >
+                    {ult.value.mermaid?.journey}
+                  </li>
+                </ul>
+              }
+              key="bar-mermaid"
+            >
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.mermaid}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-mermaid" />
+                </svg>
+              </div>
+            </Dropdown>
           );
         }
       }
