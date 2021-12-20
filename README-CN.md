@@ -21,6 +21,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 - 粘贴上传图片，图片裁剪上传；
 - 仅预览模式（不显示编辑器，只显示 md 预览内容，无额外监听）；
 - 预览主题，支持`defalut`、`vuepress`、`github` 样式（不完全相同）。
+- `mermaid`绘图（>=1.8.0）。
 
 > 更多功能待后续更新，如果你有新的想法或者使用发现有问题，请留言告诉我~
 
@@ -28,7 +29,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 
 | 默认模式 | 暗黑模式 | 仅预览 |
 | --- | --- | --- |
-| ![默认模式](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/800881ba72d74476a36731861e88d4ba~tplv-k3u1fbpfcp-watermark.image) | ![暗黑模式](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/def08468baf14ce3b7086d0a911d1801~tplv-k3u1fbpfcp-watermark.image) | ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1664c4a5404641c4a1080d64bc6c5831~tplv-k3u1fbpfcp-watermark.image) |
+| ![默认模式](https://imzbf.github.io/md-editor-v3/imgs/preview-light.png) | ![暗黑模式](https://imzbf.github.io/md-editor-v3/imgs/preview-dark.png) | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-previewOnly.png) |
 
 ## Apis
 
@@ -54,7 +55,6 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | prettier | Boolean | true | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
 | prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) |  |
-| editorName<sup>v1.3.2delete</sup> | String | 'editor' | 当在同一页面放置了多个编辑器，最好提供该属性以区别某些带有 ID 的内容，v1.3.2 后版本编辑器自动生成唯一 ID，不再需要手动设置 |
 | cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | cropper css url |
 | cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | cropper js url |
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
@@ -65,6 +65,11 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | screenfullJs<sup>v1.4.3</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | screenfull js 链接 |
 | previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | 预览内容主题 |
 | style<sup>v1.7.0</sup> | CSSProperties | {} | 编辑器内联样式 |
+| tableShape<sup>v1.8.0</sup> | [Number, Number] | [6, 4] | 标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数。 |
+| mermaid<sup>v1.8.0</sup> | Object | undefined | 图表库`mermaid`实例 |
+| mermaidJs<sup>v1.8.0</sup> | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | mermaidJs 链接 |
+| noMermaid<sup>v1.8.0</sup> | Boolean | false | 如果你不希望使用图表展示内容，可以设置关闭 |
+| placeholder<sup>v1.8.0</sup> | String | '' |  |
 
 [toolbars]
 
@@ -87,6 +92,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
   'link',
   'image',
   'table',
+  'mermaid',
   '-',
   'revoke',
   'next',
@@ -108,6 +114,37 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 [StaticTextDefaultValue]
 
 ```ts
+export interface ToolbarTips {
+  bold?: string;
+  underline?: string;
+  italic?: string;
+  strikeThrough?: string;
+  title?: string;
+  sub?: string;
+  sup?: string;
+  quote?: string;
+  unorderedList?: string;
+  orderedList?: string;
+  codeRow?: string;
+  code?: string;
+  link?: string;
+  image?: string;
+  table?: string;
+  mermaid?: string;
+  revoke?: string;
+  next?: string;
+  save?: string;
+  prettier?: string;
+  pageFullscreen?: string;
+  fullscreen?: string;
+  catalog?: string;
+  preview?: string;
+  htmlPreview?: string;
+  github?: string;
+  '-'?: string;
+  '='?: string;
+}
+
 export interface StaticTextDefaultValue {
   // 工具栏hover title提示
   toolbarTips?: ToolbarTips;
@@ -145,6 +182,25 @@ export interface StaticTextDefaultValue {
     text?: string;
     tips?: string;
   };
+  // v1.8.0
+  mermaid?: {
+    // 流程图
+    flow?: string;
+    // 时序图
+    sequence?: string;
+    // 甘特图
+    gantt?: string;
+    // 类图
+    class?: string;
+    // 状态图
+    state?: string;
+    // 饼图
+    pie?: string;
+    // 关系图
+    relationship?: string;
+    // 旅程图
+    journey?: string;
+  };
 }
 ```
 
@@ -159,6 +215,7 @@ export interface StaticTextDefaultValue {
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | 动态获取`markdown`目录 |
 | markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
 | markedHeadingId<sup>v1.7.0</sup> | (text: string, level: number) => string | 标题`ID`计算方式 |
+| sanitize<sup>v1.8.0</sup> | (html: string) => string | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 
 > 如果你重写了`markedHeading`方法，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
