@@ -548,6 +548,37 @@ export default defineComponent({
 });
 ```
 
+## 🔒 xss 防范
+
+after`1.3.0`, please use `sanitize` to sanitize `html`. eg: `sanitize-html`
+
+```js
+// install
+yarn add sanitize-html
+
+<template>
+  <MdEditor :sanitize="sanitize" />;
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+// 使用
+import sanitizeHtml from 'sanitize-html';
+
+
+export default defineComponent({
+  components: {
+    MdEditor
+  },
+  methods: {
+    sanitize(html) { return sanitizeHtml(html) }
+  }
+});
+</script>
+```
+
 ## 🧻 Edit this page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)

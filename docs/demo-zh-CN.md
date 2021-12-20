@@ -553,6 +553,38 @@ export default defineComponent({
     };
   }
 });
+</script>
+```
+
+## 🔒 xss 防范
+
+在`1.8.0`之后，通过`sanitize`事件，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
+
+```js
+// 安装
+yarn add sanitize-html
+
+<template>
+  <MdEditor :sanitize="sanitize" />;
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+// 使用
+import sanitizeHtml from 'sanitize-html';
+
+
+export default defineComponent({
+  components: {
+    MdEditor
+  },
+  methods: {
+    sanitize(html) { return sanitizeHtml(html) }
+  }
+});
+</script>
 ```
 
 更详细的实现可以参考本文档的源码！
