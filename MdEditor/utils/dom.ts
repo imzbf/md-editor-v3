@@ -49,3 +49,10 @@ export const keyMove = (
     trigger.removeEventListener('mousedown', triggerMouseDown);
   };
 };
+
+export const appendHandler = (ele: HTMLElement) => {
+  // 判断页面上是否已经存在该内容
+  if (!document.getElementById(ele.id)) {
+    document.head.appendChild(ele);
+  }
+};
