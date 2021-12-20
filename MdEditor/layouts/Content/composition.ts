@@ -225,7 +225,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     // 重置标题说和标题列表
     // count = 0;
     heads = [];
-    const markedContent = marked(props.value);
+    const _html = marked(props.value);
 
     // 在高亮加载完成后、mermaid状态变化后重新mark一次
     // OPTIMIZATION：如有优化方案请提出建议~
@@ -233,9 +233,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     mermaidData.reRender;
     mermaidData.mermaidInited;
 
-    // 代码高亮加载完成后再重新编译一次代码
-
-    return markedContent;
+    return props.sanitize(_html);
   });
 
   // 高亮代码js加载完成后回调
