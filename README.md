@@ -4,7 +4,7 @@
 
 English \| [中文](https://github.com/imzbf/md-editor-v3/blob/dev/README-CN.md)
 
-Markdown editor for vue3, developed by `jsx` and `typescript`.
+Markdown editor for vue3, developed in `jsx` and `typescript`.
 
 - Documentation and demo：[Go](https://imzbf.github.io/md-editor-v3)
 
@@ -71,6 +71,10 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 | mermaidJs<sup>v1.8.0</sup> | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | mermaidJs url |
 | noMermaid<sup>v1.8.0</sup> | Boolean | false | do not use mermaid |
 | placeholder<sup>v1.8.0</sup> | String | '' |  |
+| katex<sup>v1.9.0</sup> | Object | undefined | `katex` instance(you need import css by yourself.) |
+| katexJs<sup>v1.9.0</sup> | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | katexJs url |
+| katexCss<sup>v1.9.0</sup> | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | katexCss url |
+| noKatex<sup>v1.9.0</sup> | Boolean | false | do not use katex |
 
 [toolbars]
 
