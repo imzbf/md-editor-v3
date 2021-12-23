@@ -205,3 +205,6 @@ export const staticTextDefault: StaticTextDefault = {
 
 export const mermaidUrl =
   'https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js';
+
+export const katexJsUrl = 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js';
+export const katexCssUrl = 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css';

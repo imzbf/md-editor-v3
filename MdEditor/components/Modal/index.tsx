@@ -93,7 +93,6 @@ export default defineComponent({
     watch(
       () => props.isFullscreen,
       (nVal) => {
-        console.log(123);
         // 全屏时不允许拖动元素
         if (nVal) {
           keyMoveClear();
