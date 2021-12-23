@@ -36,7 +36,9 @@ export type ToolDirective =
   | 'state'
   | 'pie'
   | 'relationship'
-  | 'journey';
+  | 'journey'
+  | 'katexInline'
+  | 'katexBlock';
 
 /**
  * 快速获取分割内容
@@ -492,6 +494,20 @@ export const directive2flag = (
       case 'journey': {
         targetValue = `\`\`\`mermaid\njourney\n  title My working day\n  section Go to work\n    Make tea: 5: Me\n    Go upstairs: 3: Me\n    Do work: 1: Me, Cat\n  section Go home\n    Go downstairs: 5: Me\n    Sit down: 5: Me\n\`\`\`\n`;
         deviationStart = 2;
+        break;
+      }
+      // 行内公式
+      case 'katexInline': {
+        targetValue = '$$';
+        deviationStart = 1;
+        deviationEnd = -1;
+        break;
+      }
+      // 行内公式
+      case 'katexBlock': {
+        targetValue = '$$\n\n$$\n';
+        deviationStart = 1;
+        deviationEnd = -4;
         break;
       }
     }

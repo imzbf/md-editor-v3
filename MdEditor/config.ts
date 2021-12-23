@@ -4,7 +4,7 @@ import { StaticTextDefault } from './Editor';
 export const iconScriptId = 'md-editor-v3';
 
 // 字体链接
-export const iconfontUrl = '//at.alicdn.com/t/font_2605852_ihjkm7wo1y.js';
+export const iconfontUrl = '//at.alicdn.com/t/font_2605852_pqekijay2ij.js';
 
 // 代码高亮cdn链接
 export const highlightUrl = {
@@ -48,6 +48,7 @@ export const allToolbar = [
   'image',
   'table',
   'mermaid',
+  'katex',
   '-',
   'revoke',
   'next',
@@ -81,6 +82,7 @@ export const staticTextDefault: StaticTextDefault = {
       image: '图片',
       table: '表格',
       mermaid: 'mermaid图',
+      katex: '公式',
       revoke: '后退',
       next: '前进',
       save: '保存',
@@ -130,6 +132,10 @@ export const staticTextDefault: StaticTextDefault = {
       pie: '饼图',
       relationship: '关系图',
       journey: '旅程图'
+    },
+    katex: {
+      inline: '行内公式',
+      block: '块级公式'
     }
   },
   'en-US': {
@@ -150,6 +156,7 @@ export const staticTextDefault: StaticTextDefault = {
       image: 'image',
       table: 'table',
       mermaid: 'mermaid',
+      katex: 'formula',
       revoke: 'revoke',
       next: 'undo revoke',
       save: 'save',
@@ -199,6 +206,10 @@ export const staticTextDefault: StaticTextDefault = {
       pie: 'pie',
       relationship: 'relationship',
       journey: 'journey'
+    },
+    katex: {
+      inline: 'inline',
+      block: 'block'
     }
   }
 };
