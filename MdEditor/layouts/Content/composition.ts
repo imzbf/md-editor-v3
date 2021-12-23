@@ -18,6 +18,7 @@ import bus from '../../utils/event-bus';
 import { insert, scrollAuto, setPosition, generateCodeRowNumber } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
 import { appendHandler } from '../../utils/dom';
+import kaTexExtensions from '../../utils/katex';
 
 interface HistoryItemType {
   // 记录内容
@@ -206,6 +207,16 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     renderer,
     breaks: true
   });
+
+  // 当提供了katex而且没有设置不使用katex，直接扩展组件
+  if (props.katex && !props.noKatex) {
+    marked.use({
+      extensions: [
+        kaTexExtensions.inline(prefix, props.katex),
+        kaTexExtensions.block(prefix, props.katex)
+      ]
+    });
+  }
 
   if (props.hljs) {
     // 提供了hljs，在创建阶段即完成设置

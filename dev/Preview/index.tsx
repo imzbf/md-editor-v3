@@ -3,6 +3,8 @@ import Editor from '../../MdEditor';
 import { mdText } from '../data';
 import { Theme } from '../App';
 import axios from 'axios';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 import './index.less';
 
@@ -42,6 +44,7 @@ export default defineComponent({
             editorId="md-prev"
             theme={props.theme}
             modelValue={md.text}
+            katex={katex}
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);
             }}
