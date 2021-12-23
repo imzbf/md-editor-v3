@@ -1,6 +1,8 @@
-## 基本使用示例
+## 😁 基本使用示例
 
 目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：[releases](https://github.com/imzbf/md-editor-v3/releases)
+
+### 🤖 安装
 
 ```shell
 yarn add md-editor-v3
@@ -10,7 +12,7 @@ yarn add md-editor-v3
 
 两种方式开发上区别在于**vue 模板**能很好的支持`vue`特性，比如指令，内置的双向绑定等；而**jsx 语法**更偏向于`react`的理念，开发环境来讲 jsx 如果在支持 ts 的环境下，会更友好一些。
 
-### 传统开发模式
+### 🤓 传统开发模式
 
 通过直接链接生产版本来使用，下面是一个小 demo：
 
@@ -42,7 +44,7 @@ yarn add md-editor-v3
 </html>
 ```
 
-### 模块化的 vue 模板
+### 🥱 模块化的 vue 模板
 
 ```js
 <template>
@@ -65,7 +67,7 @@ export default defineComponent({
 </script>
 ```
 
-### 模块化的 jsx
+### 🤗 模块化的 jsx
 
 ```js
 import { defineComponent, ref } from 'vue';
@@ -83,15 +85,15 @@ export default defineComponent({
 });
 ```
 
-## 扩展功能
+## 🥂 扩展功能
 
 这里包含了一些编辑器`api`的使用示范
 
-### 主题切换
+### 🍦 主题切换
 
 在`v1.4.3`版本后，主题分为了编辑器主题（`theme`，称为全局主题）和预览内容主题（`previewTheme`），他们都支持响应式更新，而非只能预设。
 
-#### 编辑器主题
+#### 🍧 编辑器主题
 
 支持默认和暗夜模式两种
 
@@ -117,7 +119,7 @@ export default defineComponent({
 </script>
 ```
 
-#### 预览主题
+#### 🍡 预览主题
 
 内置了`default`、`github`、`vuepress`三种主题，在一些直接预览文档内容时使用。并且支持在线切换（修改`previewTheme`即可）。
 
@@ -148,13 +150,13 @@ export default defineComponent({
 </script>
 ```
 
-### 扩展库替换
+### 🛠 扩展库替换
 
 highlight、prettier、cropper、screenfull 均使用外链引入，在无外网的时候，部分可将项目中已安装的依赖传入，也可以使用下载好的引用。
 
 演示替换`screenfull`
 
-#### 已安装依赖
+#### ⚰️ 已安装依赖
 
 ```js
 <template>
@@ -180,7 +182,7 @@ export default defineComponent({
 </script>
 ```
 
-#### 内网链接
+#### 📡 内网链接
 
 对应的 js 文件可以去[https://www.jsdelivr.com/](https://www.jsdelivr.com/)，直接找到对应的文件下载即可。
 
@@ -206,7 +208,7 @@ export default defineComponent({
 </script>
 ```
 
-### 图片上传
+### 📷 图片上传
 
 默认可以选择多张图片，支持截图粘贴板上传图片，支持复制网页图片粘贴上传。
 
@@ -238,7 +240,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 }
 ```
 
-### 语言扩展与替换
+### 🏳️‍🌈 语言扩展与替换
 
 ```js
 <template>
@@ -281,6 +283,8 @@ export default defineComponent({
             link: '链接',
             image: '图片',
             table: '表格',
+            mermaid: 'mermaid图',
+            katex: '公式',
             revoke: '后退',
             next: '前进',
             save: '保存',
@@ -289,6 +293,7 @@ export default defineComponent({
             fullscreen: '屏幕全屏',
             preview: '预览',
             htmlPreview: 'html代码预览',
+            catalog: '目录',
             github: '源码地址'
           },
           titleItem: {
@@ -319,6 +324,20 @@ export default defineComponent({
           copyCode: {
             text: '复制代码';
             tips: '已复制';
+          },
+          mermaid: {
+            flow: '流程图',
+            sequence: '时序图',
+            gantt: '甘特图',
+            class: '类图',
+            state: '状态图',
+            pie: '饼图',
+            relationship: '关系图',
+            journey: '旅程图'
+          },
+          katex: {
+            inline: '行内公式',
+            block: '块级公式'
           }
         }
       }
@@ -328,7 +347,57 @@ export default defineComponent({
 </script>
 ```
 
-### 目录获取与展示
+### 🛬 自定义目录结构
+
+编辑器提供了`markedHeading`，用来自定义标题的结构，在`v1.7.2`版本之后，标题中如果包含了`markdown`内容（比如：链接等），将会优先展示这些内容。
+
+> `markedHeading`的入参请参考[marked.js](https://marked.js.org/using_pro#renderer)中的`heading`。
+
+需求：在标题中存在外链时，点击打开新窗口。
+
+实现：
+
+```js
+<template>
+  <md-editor v-model="text" @markedHeading="markedHeading" />
+</template>
+
+<script>
+import { defineComponent } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+export default defineComponent({
+  components: { MdEditor },
+  data() {
+    return {
+      text: ''
+    };
+  },
+  methods: {
+    markedHeading(text, level, raw) {
+      // 你不能直接调用默认的markedHeadingId，但是它很简单
+      // 如果你的id与raw不相同，请一定记得将你的生成方法通过markedHeadingId告诉编辑器
+      // 否则编辑器默认的目录定位功能无法正确使用
+      const id = raw;
+
+      if (/<a.*>.*<\/a>/.test(text)) {
+        return `<h${level} id="${id}">${text.replace(
+          /(?<=\<a.*)>(?=.*<\/a>)/,
+          ' target="_blank">'
+        )}</h${level}>`;
+      } else if (text !== raw) {
+        return `<h${level} id="${id}">${text}</h${level}>`;
+      } else {
+        return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
+      }
+    }
+  }
+});
+</script>
+```
+
+### 📄 目录获取与展示
 
 先通过`onGetCatalog`方法获取到渲染成功后的标题列表：
 
@@ -361,43 +430,122 @@ export default defineComponent({
 
 若项目中使用的 ui 库有锚点类似的组件，请继续看下去（案例使用 ant-design-vue 组件库）：
 
-创建组件`Catalog`，源码地址：[Catalog 源码](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
+#### 🚥 生成目录导航
+
+我们需要创建`Catalog`组件和`CatalogLink`组件来展示我们的目录（本案例中，约定了子目录最大高度为`300px`）
+
+**Catalog.vue**
 
 ```js
 <template>
-  <div>
-    <md-editor v-model="text" @onGetCatalog="onGetCatalog"/>
-    <catalog :heads="catalogList" />
-  </div>
+  <Anchor :affix="false" :showInkInFixed="false">
+    <CatalogLink v-for="item of catalogs" :key="item.text" :tocItem="item" />
+  </Anchor>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+<script setup lang="ts">
+import { Anchor } from 'ant-design-vue';
+import { computed, PropType, defineProps } from 'vue';
+import CatalogLink from './CatalogLink.vue';
+import './style.less';
 
-import Catalog from '@/Catalog';
+export interface TocItem {
+  text: string;
+  level: number;
+  children?: Array<TocItem>;
+}
 
-export default defineComponent({
-  components: {
-    MdEditor,
-    Catalog
-  },
-  data() {
-    return {
-      text: '',
-      catalogList: []
-    };
-  },
-  methods: {
-    onGetCatalog(list) {
-      this.catalogList = list
-    }
+const props = defineProps({
+  heads: {
+    type: Array as PropType<Array<any>>
   }
 });
+
+const catalogs = computed(() => {
+  const tocItems: TocItem[] = [];
+
+  props.heads?.forEach(({ text, level }) => {
+    const item = { level, text };
+
+    if (tocItems.length === 0) {
+      // 第一个 item 直接 push
+      tocItems.push(item);
+    } else {
+      let lastItem = tocItems[tocItems.length - 1]; // 最后一个 item
+
+      if (item.level > lastItem.level) {
+        // item 是 lastItem 的 children
+        for (let i = lastItem.level + 1; i <= 6; i++) {
+          const { children } = lastItem;
+          if (!children) {
+            // 如果 children 不存在
+            lastItem.children = [item];
+            break;
+          }
+
+          lastItem = children[children.length - 1]; // 重置 lastItem 为 children 的最后一个 item
+
+          if (item.level <= lastItem.level) {
+            // item level 小于或等于 lastItem level 都视为与 children 同级
+            children.push(item);
+            break;
+          }
+        }
+      } else {
+        // 置于最顶级
+        tocItems.push(item);
+      }
+    }
+  });
+  return tocItems;
+});
+</script>
 ```
 
-### 调整工具栏
+**CatalogLink.vue**
+
+```js
+<template>
+  <Link :href="`#${tocItem.text}`" :title="tocItem.text">
+    <div v-if="tocItem.children" class="catalog-container">
+      <CatalogLink
+        v-for="item of tocItem.children"
+        :key="`${item.level}-${item.text}`"
+        :tocItem="item"
+      />
+    </div>
+  </Link>
+</template>
+
+<script setup lang="ts">
+import { Anchor } from 'ant-design-vue';
+import { defineProps, PropType } from 'vue';
+
+const { Link } = Anchor;
+import { TocItem } from './';
+
+const { tocItem } = defineProps({
+  tocItem: {
+    type: Object as PropType<TocItem>,
+    default: () => ({})
+  }
+});
+</script>
+```
+
+**style.css**
+
+```css
+.catalog-container {
+  max-height: 300px;
+  overflow: auto;
+}
+```
+
+- `vue`模板源码：[Catalog 源码](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog/index.vue)，你完全可以在此文档项目调试该组件！
+- `tsx`版本源码地址：[Catalog 源码](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
+
+### 🪚 调整工具栏
 
 从`v1.6.0`开始，支持调整工具栏内容顺序和分割符了。
 
@@ -421,8 +569,42 @@ export default defineComponent({
     };
   }
 });
+</script>
+```
+
+## 🔒 xss 防范
+
+在`1.8.0`之后，通过`sanitize`事件，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
+
+```js
+// 安装
+yarn add sanitize-html
+
+<template>
+  <MdEditor :sanitize="sanitize" />;
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+// 使用
+import sanitizeHtml from 'sanitize-html';
+
+
+export default defineComponent({
+  components: {
+    MdEditor
+  },
+  methods: {
+    sanitize(html) { return sanitizeHtml(html) }
+  }
+});
+</script>
 ```
 
 更详细的实现可以参考本文档的源码！
 
-## 结束
+## 🧻 编辑此页面
+
+[demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)

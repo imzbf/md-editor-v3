@@ -1,26 +1,28 @@
 import { Anchor } from 'ant-design-vue';
 import { computed, defineComponent, PropType, watch } from 'vue';
 import { debounce } from '@/utils';
-import Recursive, { Head, TocItem } from './Recursive';
+import CatalogLink from './CatalogLink';
+import './style.less';
 
-const Topicfy = defineComponent({
+export interface TocItem {
+  text: string;
+  level: number;
+  children?: Array<TocItem>;
+}
+
+const Catalog = defineComponent({
   props: {
     // 解析得到的标题列表
     heads: {
-      type: Array as PropType<Array<Head>>
+      type: Array as PropType<Array<any>>
     }
   },
   setup(props) {
-    const topics = computed(() => {
+    const catalogs = computed(() => {
       const tocItems: TocItem[] = [];
 
-      // 标题计数器
-      // let count = 0;
-
-      const add = (text: string, level: number) => {
-        // count++;
-
-        const item = { anchor: text.replace(' ', '-'), level, text };
+      props.heads?.forEach(({ text, level }) => {
+        const item = { level, text };
 
         if (tocItems.length === 0) {
           // 第一个 item 直接 push
@@ -51,39 +53,36 @@ const Topicfy = defineComponent({
             tocItems.push(item);
           }
         }
-      };
-
-      props.heads?.forEach((item) => {
-        add(item.text.replace(/<\/?[a-z]+>/g, ''), item.level);
       });
       return tocItems;
     });
 
     const moveToHead = debounce(() => {
-      const targetHeadDom = document.querySelector(
-        decodeURIComponent(location.hash).replace(' ', '-')
-      );
+      const selector = decodeURIComponent(location.hash).replace('#', '');
 
-      if (targetHeadDom) {
-        const scrollLength = (targetHeadDom as HTMLHeadElement).offsetTop + 414;
+      if (selector) {
+        const targetHeadDom = document.getElementById(selector);
+        if (targetHeadDom) {
+          const scrollLength = (targetHeadDom as HTMLHeadElement).offsetTop + 414;
 
-        window.scrollTo({
-          top: scrollLength,
-          behavior: 'smooth'
-        });
+          window.scrollTo({
+            top: scrollLength,
+            behavior: 'smooth'
+          });
+        }
       }
     });
 
     watch(() => props.heads, moveToHead);
 
     return () => (
-      <Anchor affix={false} showInkInFixed={true}>
-        {topics.value.map((item) => (
-          <Recursive key={item.anchor} tocItem={item} />
+      <Anchor affix={false} showInkInFixed={false}>
+        {catalogs.value.map((item) => (
+          <CatalogLink key={item.text} tocItem={item} />
         ))}
       </Anchor>
     );
   }
 });
 
-export default Topicfy;
+export default Catalog;

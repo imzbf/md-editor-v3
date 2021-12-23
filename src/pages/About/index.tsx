@@ -1,10 +1,9 @@
-import { defineComponent, nextTick, onMounted, PropType, ref, watch } from 'vue';
-import Editor, { HeadList } from 'md-editor-v3';
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
+import Editor from 'md-editor-v3';
 import { Theme } from '../../App';
 import axios from '@/utils/request';
 import { version } from '../../../package.json';
 import { useStore } from 'vuex';
-import { debounce } from '@/utils';
 
 export default defineComponent({
   name: 'PageAbout',
@@ -13,7 +12,6 @@ export default defineComponent({
   },
   setup() {
     const mdText = ref();
-    const catalogList = ref<Array<HeadList>>([]);
     const store = useStore();
 
     const queryMd = () => {
@@ -42,31 +40,6 @@ export default defineComponent({
               previewTheme={store.state.previewTheme}
               previewOnly
               showCodeRowNumber
-              markedHeading={(text, level) => {
-                const keyText = text.replace(' ', '-');
-                return `<h${level} id="${keyText}"><a href="#${keyText}">${text}</a></h${level}>`;
-              }}
-              onGetCatalog={(arr) => {
-                catalogList.value = arr;
-
-                nextTick(() => {
-                  debounce(() => {
-                    const targetHeadDom = document.querySelector(
-                      decodeURIComponent(location.hash).replace(' ', '-')
-                    );
-
-                    if (targetHeadDom) {
-                      const scrollLength =
-                        (targetHeadDom as HTMLHeadElement).offsetTop + 414;
-
-                      window.scrollTo({
-                        top: scrollLength,
-                        behavior: 'smooth'
-                      });
-                    }
-                  })();
-                });
-              }}
             />
           </div>
         </div>
