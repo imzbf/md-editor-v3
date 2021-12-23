@@ -264,7 +264,6 @@
   &-katex-block {
     text-align: center;
     margin: 20px;
-    display: block;
   }
 }
 
@@ -385,10 +384,17 @@
   z-index: 10000;
 }
 
-.mermaid {
+.mermaid,
+.@{prefix}-katex-inline,
+.@{prefix}-katex-block {
   display: none;
 }
 
-.mermaid[data-processed] {
+.mermaid[data-processed],
+.@{prefix}-katex-inline[data-processed] {
   display: initial;
+}
+
+.@{prefix}-katex-block[data-processed] {
+  display: block;
 }

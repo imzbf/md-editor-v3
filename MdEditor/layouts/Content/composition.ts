@@ -210,8 +210,8 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     breaks: true
   });
 
-  // 当提供了katex而且没有设置不使用katex，直接扩展组件
-  if (props.katex && !props.noKatex) {
+  // 当没有设置不使用katex，直接扩展组件
+  if (!props.noKatex) {
     marked.use({
       extensions: [
         kaTexExtensions.inline(prefix, props.katex),
@@ -287,13 +287,6 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
       katexScript.src = props.katexJs;
       katexScript.onload = () => {
-        marked.use({
-          extensions: [
-            kaTexExtensions.inline(prefix, window.katex),
-            kaTexExtensions.block(prefix, window.katex)
-          ]
-        });
-
         katexInited.value = true;
       };
       katexScript.id = `${prefix}-katex`;
