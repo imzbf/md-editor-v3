@@ -23,6 +23,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - Render article directly(no editor，no event listener, only preview content).
 - Preview themes, support `defalut`、`vuepress`、`github` styles(not identical).
 - `mermaid`(>=1.3.0).
+- `katex` mathematical formula（>=1.9.0）.
 
 > More features are developing, if you have some ideas or find issues, please tell it to me~
 
@@ -98,6 +99,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
   'image',
   'table',
   'mermaid',
+  'katex',
   '-',
   'revoke',
   'next',
@@ -136,6 +138,7 @@ export interface ToolbarTips {
   image?: string;
   table?: string;
   mermaid?: string;
+  katex?: string;
   revoke?: string;
   next?: string;
   save?: string;
@@ -197,6 +200,13 @@ export interface StaticTextDefaultValue {
     pie?: string;
     relationship?: string;
     journey?: string;
+  };
+  // 1.9.0
+  katex?: {
+    // formula inline
+    inline: string;
+    // formula block
+    block: string;
   };
 }
 ```
