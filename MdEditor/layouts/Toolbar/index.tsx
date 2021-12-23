@@ -17,6 +17,7 @@ import { goto } from '../../utils';
 import Modals from '../Modals';
 import { ToolDirective } from '../../utils/content-help';
 import { useSreenfull } from './composition';
+import TableShape from './TableShape';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -49,6 +50,10 @@ export default defineComponent({
     updateSetting: {
       type: Function as PropType<(v: boolean, k: keyof SettingType) => void>,
       default: () => () => {}
+    },
+    tableShape: {
+      type: Array as PropType<Array<number>>,
+      default: () => [6, 4]
     }
   },
   setup(props) {
@@ -65,7 +70,11 @@ export default defineComponent({
       title: false,
       catalog: false,
       // 图片上传下拉
-      image: false
+      image: false,
+      // 表格预选
+      table: false,
+      // mermaid
+      mermaid: false
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
@@ -454,17 +463,27 @@ export default defineComponent({
         }
         case 'table': {
           return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.table}
-              onClick={() => {
-                emitHandler('table');
+            <Dropdown
+              visible={visible.table}
+              onChange={(v) => {
+                visible.table = v;
               }}
+              key="bar-table"
+              overlay={
+                <TableShape
+                  tableShape={props.tableShape}
+                  onSelected={(selectedShape) => {
+                    emitHandler('table', { selectedShape });
+                  }}
+                />
+              }
             >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-table" />
-              </svg>
-            </div>
+              <div class={`${prefix}-toolbar-item`} title={ult.value.toolbarTips?.table}>
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-table" />
+                </svg>
+              </div>
+            </Dropdown>
           );
         }
         case 'revoke': {
@@ -624,6 +643,99 @@ export default defineComponent({
                 <use xlinkHref="#icon-github" />
               </svg>
             </div>
+          );
+        }
+        case 'mermaid': {
+          return (
+            <Dropdown
+              visible={visible.mermaid}
+              onChange={(v) => {
+                visible.mermaid = v;
+              }}
+              overlay={
+                <ul
+                  class={`${prefix}-menu`}
+                  onClick={() => {
+                    visible.mermaid = false;
+                  }}
+                >
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('flow');
+                    }}
+                  >
+                    {ult.value.mermaid?.flow}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('sequence');
+                    }}
+                  >
+                    {ult.value.mermaid?.sequence}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('gantt');
+                    }}
+                  >
+                    {ult.value.mermaid?.gantt}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('class');
+                    }}
+                  >
+                    {ult.value.mermaid?.class}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('state');
+                    }}
+                  >
+                    {ult.value.mermaid?.state}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('pie');
+                    }}
+                  >
+                    {ult.value.mermaid?.pie}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('relationship');
+                    }}
+                  >
+                    {ult.value.mermaid?.relationship}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('journey');
+                    }}
+                  >
+                    {ult.value.mermaid?.journey}
+                  </li>
+                </ul>
+              }
+              key="bar-mermaid"
+            >
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.mermaid}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-mermaid" />
+                </svg>
+              </div>
+            </Dropdown>
           );
         }
       }

@@ -16,7 +16,10 @@ import {
   iconfontUrl,
   prettierUrl,
   cropperUrl,
-  screenfullUrl
+  screenfullUrl,
+  mermaidUrl,
+  katexJsUrl,
+  katexCssUrl
 } from './config';
 import { useKeyBoard, useProvide } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -35,6 +38,7 @@ declare global {
     prettierPlugins: any;
     Cropper: any;
     screenfull: any;
+    mermaid: any;
   }
 }
 
@@ -54,6 +58,7 @@ export interface ToolbarTips {
   link?: string;
   image?: string;
   table?: string;
+  mermaid?: string;
   revoke?: string;
   next?: string;
   save?: string;
@@ -97,6 +102,24 @@ export interface StaticTextDefaultValue {
   copyCode?: {
     text?: string;
     tips?: string;
+  };
+  mermaid?: {
+    // 流程图
+    flow?: string;
+    // 时序图
+    sequence?: string;
+    // 甘特图
+    gantt?: string;
+    // 类图
+    class?: string;
+    // 状态图
+    state?: string;
+    // 饼图
+    pie?: string;
+    // 关系图
+    relationship?: string;
+    // 旅程图
+    journey?: string;
   };
 }
 
@@ -308,6 +331,53 @@ const props = {
   markedHeadingId: {
     type: Function as PropType<MarkedHeadingId>,
     default: markedHeadingId
+  },
+  // 表格预设格子数
+  tableShape: {
+    type: Array as PropType<Array<number>>,
+    default: () => [6, 4]
+  },
+  // mermaid实例
+  mermaid: {
+    type: Object
+  },
+  // mermaid script链接
+  mermaidJs: {
+    type: String as PropType<string>,
+    default: mermaidUrl
+  },
+  // 不使用该功能
+  noMermaid: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  // 不能保证文本正确的情况，在marked编译md文本后通过该方法处理
+  // 推荐DOMPurify、sanitize-html
+  sanitize: {
+    type: Function as PropType<(html: string) => string>,
+    default: (html: string) => html
+  },
+  placeholder: {
+    type: String as PropType<string>,
+    default: ''
+  },
+  katex: {
+    type: Object
+  },
+  // katex script链接
+  katexJs: {
+    type: String as PropType<string>,
+    default: katexJsUrl
+  },
+  // katex css链接
+  katexCss: {
+    type: String as PropType<string>,
+    default: katexCssUrl
+  },
+  // 不使用该函数功能
+  noKatex: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 
@@ -435,6 +505,7 @@ export default defineComponent({
             toolbarsExclude={props.toolbarsExclude}
             setting={setting}
             updateSetting={updateSetting}
+            tableShape={props.tableShape}
           />
         )}
         <Content
@@ -463,6 +534,15 @@ export default defineComponent({
             }
           }}
           markedHeading={props.markedHeading}
+          mermaid={props.mermaid}
+          mermaidJs={props.mermaidJs}
+          noMermaid={props.noMermaid}
+          sanitize={props.sanitize}
+          placeholder={props.placeholder}
+          katex={props.katex}
+          katexJs={props.katexJs}
+          katexCss={props.katexCss}
+          noKatex={props.noKatex}
         />
         {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
         {!previewOnly && (
