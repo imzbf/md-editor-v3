@@ -28,7 +28,15 @@ export type ToolDirective =
   | 'shiftTab'
   | 'ctrlC'
   | 'ctrlX'
-  | 'ctrlD';
+  | 'ctrlD'
+  | 'flow'
+  | 'sequence'
+  | 'gantt'
+  | 'class'
+  | 'state'
+  | 'pie'
+  | 'relationship'
+  | 'journey';
 
 /**
  * 快速获取分割内容
@@ -181,9 +189,33 @@ export const directive2flag = (
         break;
       }
       case 'table': {
-        targetValue = '| 表头 | 表头 |\n| - | - |\n| 内容 | 内容 |\n';
+        targetValue = '|';
+        // '| col | col |\n| - | - |\n| content | content |\n'
+
+        const { selectedShape = { x: 1, y: 1 } } = params;
+        const { x, y } = selectedShape;
+
+        // 添加表头
+        for (let i = 0; i <= y; i++) {
+          targetValue += ' col |';
+        }
+
+        // 添加分隔
+        targetValue += '\n|';
+        for (let i = 0; i <= y; i++) {
+          targetValue += ' - |';
+        }
+
+        // 添加内容
+        for (let row = 0; row <= x; row++) {
+          targetValue += '\n|';
+          for (let col = 0; col <= y; col++) {
+            targetValue += ' content |';
+          }
+        }
+
         deviationStart = 2;
-        deviationEnd = 4 - targetValue.length;
+        deviationEnd = 5 - targetValue.length;
         select = true;
         break;
       }
@@ -409,6 +441,58 @@ export const directive2flag = (
         setPosition(inputArea, prefixStrEndRow.length);
 
         return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
+      }
+      // 流程图
+      case 'flow': {
+        targetValue = `\`\`\`mermaid\nflowchart TD \n  Start --> Stop\n\`\`\`\n`;
+        deviationStart = 2;
+        break;
+      }
+      // 时序图
+      case 'sequence': {
+        targetValue = `\`\`\`mermaid\nsequenceDiagram\n  A->>B: hello!\n  B-->>A: hi!\n  A-)B: bye!\n\`\`\`\n`;
+        deviationStart = 2;
+        break;
+      }
+      // 甘特图
+      case 'gantt': {
+        targetValue = `\`\`\`mermaid\ngantt\ntitle A Gantt Diagram\ndateFormat  YYYY-MM-DD\nsection Section\nA task  :a1, 2014-01-01, 30d\nAnother task  :after a1, 20d\n\`\`\`\n`;
+        deviationStart = 2;
+        break;
+      }
+      // 类图
+      case 'class': {
+        targetValue = `\`\`\`mermaid\nclassDiagram\n  class Animal\n  Vehicle <|-- Car\n\`\`\`\n`;
+        deviationStart = 2;
+        break;
+      }
+
+      // 状态图
+      case 'state': {
+        targetValue = `\`\`\`mermaid\nstateDiagram-v2\n  s1 --> s2\n\`\`\`\n`;
+        deviationStart = 2;
+        break;
+      }
+
+      // 饼图
+      case 'pie': {
+        targetValue = `\`\`\`mermaid\npie title Pets adopted by volunteers\n  "Dogs" : 386\n  "Cats" : 85\n  "Rats" : 15\n\`\`\`\n`;
+        deviationStart = 2;
+        break;
+      }
+
+      // 关系图
+      case 'relationship': {
+        targetValue = `\`\`\`mermaid\nerDiagram\n  CAR ||--o{ NAMED-DRIVER : allows\n  PERSON ||--o{ NAMED-DRIVER : is\n\`\`\`\n`;
+        deviationStart = 2;
+        break;
+      }
+
+      // 旅程图
+      case 'journey': {
+        targetValue = `\`\`\`mermaid\njourney\n  title My working day\n  section Go to work\n    Make tea: 5: Me\n    Go upstairs: 3: Me\n    Do work: 1: Me, Cat\n  section Go home\n    Go downstairs: 5: Me\n    Sit down: 5: Me\n\`\`\`\n`;
+        deviationStart = 2;
+        break;
       }
     }
   }

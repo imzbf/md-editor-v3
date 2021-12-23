@@ -4,7 +4,7 @@
 
 English \| [中文](https://github.com/imzbf/md-editor-v3/blob/dev/README-CN.md)
 
-Markdown editor for vue3, developed by `jsx` and `typescript`.
+Markdown editor for vue3, developed in `jsx` and `typescript`.
 
 - Documentation and demo：[Go](https://imzbf.github.io/md-editor-v3)
 
@@ -22,6 +22,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 - Upload picture, paste or clip the picture and upload it.
 - Render article directly(no editor，no event listener, only preview content).
 - Preview themes, support `defalut`、`vuepress`、`github` styles(not identical).
+- `mermaid`(>=1.3.0).
 
 > More features are developing, if you have some ideas or find issues, please tell it to me~
 
@@ -29,7 +30,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 
 | Default theme | Dark theme | Preview only |
 | --- | --- | --- |
-| ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/316ecb6e9b3b431aa1a6b0d20d9dabac~tplv-k3u1fbpfcp-watermark.image) | ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/611acc4227084ba19875b4b578a01e07~tplv-k3u1fbpfcp-watermark.image) | ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1664c4a5404641c4a1080d64bc6c5831~tplv-k3u1fbpfcp-watermark.image) |
+| ![](https://imzbf.github.io/md-editor-v3/imgs/preview-light.png) | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-dark.png) | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-previewOnly.png) |
 
 ## Apis
 
@@ -65,6 +66,15 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
 | screenfullJs<sup><v1.4.3</sup> | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | Screenfull js url |
 | previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | Preview themes |
 | style<sup>v1.7.0</sup> | CSSProperties | {} | Editor's inline style |
+| tableShape<sup>v1.8.0</sup> | [Number, Number] | [6, 4] | Preset the size of the table, [columns, rows]. |
+| mermaid<sup>v1.8.0</sup> | Object | undefined | `mermaid` instance |
+| mermaidJs<sup>v1.8.0</sup> | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | mermaidJs url |
+| noMermaid<sup>v1.8.0</sup> | Boolean | false | do not use mermaid |
+| placeholder<sup>v1.8.0</sup> | String | '' |  |
+| katex<sup>v1.9.0</sup> | Object | undefined | `katex` instance(you need import css by yourself.) |
+| katexJs<sup>v1.9.0</sup> | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | katexJs url |
+| katexCss<sup>v1.9.0</sup> | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | katexCss url |
+| noKatex<sup>v1.9.0</sup> | Boolean | false | do not use katex |
 
 [toolbars]
 
@@ -87,6 +97,7 @@ Markdown editor for vue3, developed by `jsx` and `typescript`.
   'link',
   'image',
   'table',
+  'mermaid',
   '-',
   'revoke',
   'next',
@@ -108,6 +119,37 @@ Expand language，you need to replace all the content here：
 [StaticTextDefaultValue]
 
 ```ts
+export interface ToolbarTips {
+  bold?: string;
+  underline?: string;
+  italic?: string;
+  strikeThrough?: string;
+  title?: string;
+  sub?: string;
+  sup?: string;
+  quote?: string;
+  unorderedList?: string;
+  orderedList?: string;
+  codeRow?: string;
+  code?: string;
+  link?: string;
+  image?: string;
+  table?: string;
+  mermaid?: string;
+  revoke?: string;
+  next?: string;
+  save?: string;
+  prettier?: string;
+  pageFullscreen?: string;
+  fullscreen?: string;
+  catalog?: string;
+  preview?: string;
+  htmlPreview?: string;
+  github?: string;
+  '-'?: string;
+  '='?: string;
+}
+
 export interface StaticTextDefaultValue {
   // Toolbar hover tips(html title)
   toolbarTips?: ToolbarTips;
@@ -145,6 +187,17 @@ export interface StaticTextDefaultValue {
     text?: string;
     tips?: string;
   };
+  // 1.8.0
+  mermaid?: {
+    flow?: string;
+    sequence?: string;
+    gantt?: string;
+    class?: string;
+    state?: string;
+    pie?: string;
+    relationship?: string;
+    journey?: string;
+  };
 }
 ```
 
@@ -159,6 +212,7 @@ export interface StaticTextDefaultValue {
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | Get catalogue of article |
 | markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
 | markedHeadingId<sup>v1.7.0</sup> | (text: string, level: number) => string | title `ID` generator |
+| sanitize | (html: string) => string | Sanitize the html, prevent XSS. |
 
 > If `markedHeading` is overridden, be sure to tell the editor the algorithm for generating the title ID by `marketheadingid`.
 

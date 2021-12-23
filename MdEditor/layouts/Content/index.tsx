@@ -6,7 +6,13 @@ import {
   PreviewThemes,
   MarkedHeading
 } from '../../Editor';
-import { useAutoGenrator, useAutoScroll, useHistory, useMarked } from './composition';
+import {
+  useAutoGenrator,
+  useAutoScroll,
+  useHistory,
+  useMarked,
+  useMermaid
+} from './composition';
 
 export type EditorContentProps = Readonly<{
   value: string;
@@ -16,6 +22,20 @@ export type EditorContentProps = Readonly<{
   onHtmlChanged: (h: string) => void;
   onGetCatalog: (list: HeadList[]) => void;
   markedHeading: MarkedHeading;
+  // mermaid实例
+  mermaid?: any;
+  // mermaid script链接
+  mermaidJs: string;
+  // 不使用该功能
+  noMermaid?: boolean;
+  sanitize: (html: string) => string;
+  placeholder: string;
+  // katex实例
+  katex?: any;
+  // katex script链接
+  katexJs: string;
+  katexCss: string;
+  noKatex?: boolean;
 }>;
 
 export default defineComponent({
@@ -49,6 +69,43 @@ export default defineComponent({
       type: Function as PropType<MarkedHeading>,
       default: () => (text: string, level: string) =>
         `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
+    },
+    mermaid: {
+      type: Object
+    },
+    mermaidJs: {
+      type: String as PropType<string>,
+      default: ''
+    },
+    noMermaid: {
+      type: Boolean as PropType<boolean>,
+      default: false
+    },
+    sanitize: {
+      type: Function as PropType<(html: string) => string>,
+      default: (html: string) => html
+    },
+    placeholder: {
+      type: String as PropType<string>,
+      default: ''
+    },
+    katex: {
+      type: Object
+    },
+    // katex script链接
+    katexJs: {
+      type: String as PropType<string>,
+      default: ''
+    },
+    // katex css链接
+    katexCss: {
+      type: String as PropType<string>,
+      default: ''
+    },
+    // 不使用该函数功能
+    noKatex: {
+      type: Boolean as PropType<boolean>,
+      default: false
     }
   },
   setup(props) {
@@ -67,9 +124,10 @@ export default defineComponent({
     const previewRef = ref<HTMLDivElement>();
     // html代码预览框
     const htmlRef = ref<HTMLDivElement>();
-
-    // 翻译md
-    const { html, highlightLoad } = useMarked(props);
+    // mermaid图表
+    const mermaidData = useMermaid(props);
+    // markdown => html
+    const { html, highlightLoad } = useMarked(props, mermaidData);
     // 自动滚动
     useAutoScroll(props, html, textAreaRef, previewRef, htmlRef);
     // 自动监听生成md内容
@@ -99,6 +157,7 @@ export default defineComponent({
                       ? ''
                       : 'textarea-only'
                   ]}
+                  placeholder={props.placeholder}
                 />
               </div>
             )}
