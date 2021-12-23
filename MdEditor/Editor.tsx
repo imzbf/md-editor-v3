@@ -17,7 +17,9 @@ import {
   prettierUrl,
   cropperUrl,
   screenfullUrl,
-  mermaidUrl
+  mermaidUrl,
+  katexJsUrl,
+  katexCssUrl
 } from './config';
 import { useKeyBoard, useProvide } from './capi';
 import ToolBar from './layouts/Toolbar';
@@ -358,6 +360,24 @@ const props = {
   placeholder: {
     type: String as PropType<string>,
     default: ''
+  },
+  katex: {
+    type: Object
+  },
+  // katex script链接
+  katexJs: {
+    type: String as PropType<string>,
+    default: katexJsUrl
+  },
+  // katex css链接
+  katexCss: {
+    type: String as PropType<string>,
+    default: katexCssUrl
+  },
+  // 不使用该函数功能
+  noKatex: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 
@@ -519,6 +539,10 @@ export default defineComponent({
           noMermaid={props.noMermaid}
           sanitize={props.sanitize}
           placeholder={props.placeholder}
+          katex={props.katex}
+          katexJs={props.katexJs}
+          katexCss={props.katexCss}
+          noKatex={props.noKatex}
         />
         {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
         {!previewOnly && (
