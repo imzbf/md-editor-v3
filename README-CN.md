@@ -70,6 +70,10 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | mermaidJs<sup>v1.8.0</sup> | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | mermaidJs 链接 |
 | noMermaid<sup>v1.8.0</sup> | Boolean | false | 如果你不希望使用图表展示内容，可以设置关闭 |
 | placeholder<sup>v1.8.0</sup> | String | '' |  |
+| katex<sup>v1.9.0</sup> | Object | undefined | `katex` 实例，这种方式你需要自行引入 css |
+| katexJs<sup>v1.9.0</sup> | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | katexJs 链接 |
+| katexCss<sup>v1.9.0</sup> | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | katexCss 链接 |
+| noKatex<sup>v1.9.0</sup> | Boolean | false | 不使用 katex 展示数学公式 |
 
 [toolbars]
 
