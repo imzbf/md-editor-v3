@@ -20,8 +20,9 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 - 多语言，支持自行扩展语言；
 - 粘贴上传图片，图片裁剪上传；
 - 仅预览模式（不显示编辑器，只显示 md 预览内容，无额外监听）；
-- 预览主题，支持`defalut`、`vuepress`、`github` 样式（不完全相同）。
-- `mermaid`绘图（>=1.8.0）。
+- 预览主题，支持`defalut`、`vuepress`、`github` 样式（不完全相同）；
+- `mermaid`绘图（>=1.8.0）；
+- `katex`数学公式（>=1.9.0）。
 
 > 更多功能待后续更新，如果你有新的想法或者使用发现有问题，请留言告诉我~
 
@@ -97,6 +98,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
   'image',
   'table',
   'mermaid',
+  'katex',
   '-',
   'revoke',
   'next',
@@ -135,6 +137,7 @@ export interface ToolbarTips {
   image?: string;
   table?: string;
   mermaid?: string;
+  katex?: string;
   revoke?: string;
   next?: string;
   save?: string;
@@ -204,6 +207,12 @@ export interface StaticTextDefaultValue {
     relationship?: string;
     // 旅程图
     journey?: string;
+  };
+  katex?: {
+    // 行内公式
+    inline: string;
+    // 块级公式
+    block: string;
   };
 }
 ```
