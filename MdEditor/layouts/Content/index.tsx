@@ -30,6 +30,12 @@ export type EditorContentProps = Readonly<{
   noMermaid?: boolean;
   sanitize: (html: string) => string;
   placeholder: string;
+  // katex实例
+  katex?: any;
+  // katex script链接
+  katexJs: string;
+  katexCss: string;
+  noKatex?: boolean;
 }>;
 
 export default defineComponent({
@@ -82,6 +88,24 @@ export default defineComponent({
     placeholder: {
       type: String as PropType<string>,
       default: ''
+    },
+    katex: {
+      type: Object
+    },
+    // katex script链接
+    katexJs: {
+      type: String as PropType<string>,
+      default: ''
+    },
+    // katex css链接
+    katexCss: {
+      type: String as PropType<string>,
+      default: ''
+    },
+    // 不使用该函数功能
+    noKatex: {
+      type: Boolean as PropType<boolean>,
+      default: false
     }
   },
   setup(props) {

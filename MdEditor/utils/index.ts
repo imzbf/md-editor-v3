@@ -20,7 +20,7 @@ export const setPosition = (
       tarDom.focus();
     }, 0);
   } else {
-    console.log('无法重置光标位置！');
+    console.log('can not reset position!');
   }
 };
 
