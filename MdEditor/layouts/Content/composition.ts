@@ -145,6 +145,8 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   const editorId = inject('editorId') as string;
   // ~~
   const highlightInited = ref(false);
+  // katex是否加载完成
+  const katexInited = ref(false);
 
   // 标题列表，扁平结构
   let heads: HeadList[] = [];
@@ -243,6 +245,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     highlightInited.value;
     mermaidData.reRender;
     mermaidData.mermaidInited;
+    katexInited.value;
 
     return props.sanitize(_html);
   });
@@ -273,6 +276,42 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
       bus.emit(editorId, 'catalogChanged', heads);
     }
   );
+
+  let katexScript: HTMLScriptElement;
+  let katexLink: HTMLLinkElement;
+
+  onMounted(() => {
+    // 标签引入katex
+    if (!props.noKatex && !props.katex) {
+      katexScript = document.createElement('script');
+
+      katexScript.src = props.katexJs;
+      katexScript.onload = () => {
+        marked.use({
+          extensions: [
+            kaTexExtensions.inline(prefix, window.katex),
+            kaTexExtensions.block(prefix, window.katex)
+          ]
+        });
+
+        katexInited.value = true;
+      };
+      katexScript.id = `${prefix}-katex`;
+
+      katexLink = document.createElement('link');
+      katexLink.rel = 'stylesheet';
+      katexLink.href = props.katexCss;
+      katexLink.id = `${prefix}-katexCss`;
+
+      appendHandler(katexScript);
+      appendHandler(katexLink);
+    }
+  });
+
+  onBeforeUnmount(() => {
+    katexScript && katexScript.remove();
+    katexLink && katexLink.remove();
+  });
 
   return {
     html,
