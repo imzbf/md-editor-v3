@@ -74,7 +74,8 @@ export default defineComponent({
       // 表格预选
       table: false,
       // mermaid
-      mermaid: false
+      mermaid: false,
+      katex: false
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
@@ -733,6 +734,51 @@ export default defineComponent({
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#icon-mermaid" />
+                </svg>
+              </div>
+            </Dropdown>
+          );
+        }
+        case 'katex': {
+          return (
+            <Dropdown
+              visible={visible.katex}
+              onChange={(v) => {
+                visible.katex = v;
+              }}
+              overlay={
+                <ul
+                  class={`${prefix}-menu`}
+                  onClick={() => {
+                    visible.katex = false;
+                  }}
+                >
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('katexInline');
+                    }}
+                  >
+                    {ult.value.katex?.inline}
+                  </li>
+                  <li
+                    class={`${prefix}-menu-item`}
+                    onClick={() => {
+                      emitHandler('katexBlock');
+                    }}
+                  >
+                    {ult.value.katex?.block}
+                  </li>
+                </ul>
+              }
+              key="bar-katex"
+            >
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.mermaid}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-formula" />
                 </svg>
               </div>
             </Dropdown>
