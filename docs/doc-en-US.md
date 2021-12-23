@@ -106,6 +106,7 @@ export interface ToolbarTips {
   image?: string;
   table?: string;
   mermaid?: string;
+  katex?: string;
   revoke?: string;
   next?: string;
   save?: string;
@@ -161,6 +162,13 @@ export interface StaticTextDefaultValue {
     relationship?: string;
     journey?: string;
   };
+    // 1.9.0
+  katex?: {
+    // formula inline
+    inline: string;
+    // formula block
+    block: string;
+  };
 }
 ```
 
@@ -191,6 +199,7 @@ You can sort the toolbar as you like, split tools by `'-'`, the left and right t
   'image',
   'table',
   'mermaid',
+  'katex',
   '-',
   'revoke',
   'next',
@@ -339,7 +348,7 @@ import mermaid from 'mermaid'
 - **type**: `Boolean`
 - **default**: `false`
 - **version**: `>= 1.8.0`
-- **description**: do not want to use `mermaid`, set it to `true`.
+- **description**: Do not want to use `mermaid`, set it to `true`.
 
 ```js
 <Editor noMermaid />
@@ -353,6 +362,53 @@ import mermaid from 'mermaid'
 - **description**: em-\_-！
 
 > !!! Plug-in units are import from `unpkg.com`, if your project does not run on line, please use your local url to replace. eg: highlightJs = "//127.0.0.1/highlight.min.js".
+
+### 📐 katex
+
+- **类型**: `katex`
+- **默认值**: `undefined`
+- **版本**: `>= 1.9.0`
+- **说明**: Instance of `katex`, if you provide it, editor in browser will not download `katex`.
+
+```js
+import katex from 'katex'
+
+//
+<Editor katex={katex}>
+```
+
+### 📐 katexJs
+
+- **类型**: `String`
+- **默认值**: [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js)
+- **版本**: `>= 1.9.0`
+- **说明**: katexJs url.
+
+```js
+<Editor katexJs="/lib/katex.min.js" />
+```
+
+### 📐 katexCss
+
+- **类型**: `String`
+- **默认值**: [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css)
+- **版本**: `>= 1.9.0`
+- **说明**: katexCss url.
+
+```js
+<Editor katexCss="/lib/katex.min.css" />
+```
+
+### ☝️ noKatex
+
+- **类型**: `Boolean`
+- **默认值**: `false`
+- **版本**: `>= 1.9.0`
+- **说明**: Do not want to use `katex`, set it to `true`.
+
+```js
+<Editor noKatex />
+```
 
 <br>
 <hr>
