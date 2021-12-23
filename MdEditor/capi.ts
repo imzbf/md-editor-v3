@@ -279,6 +279,11 @@ export const useProvide = (props: any) => {
   // tab=2space
   provide('tabWidth', tabWidth);
 
+  provide(
+    'theme',
+    computed(() => props.theme)
+  );
+
   // 注入高亮src
   const highlightSet = computed(() => {
     let url = highlightUrl.atom;
