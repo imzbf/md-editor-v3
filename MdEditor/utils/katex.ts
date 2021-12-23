@@ -20,11 +20,15 @@ export default {
         }
       },
       renderer(token: any) {
-        const html = katex.renderToString(token.text, {
-          throwOnError: false
-        });
+        if (katex || window.katex) {
+          const html = (katex || window.katex).renderToString(token.text, {
+            throwOnError: false
+          });
 
-        return `<span class="${prefix}-katex-block">${html}</span>`;
+          return `<span class="${prefix}-katex-block" data-processed>${html}</span>`;
+        } else {
+          return `<span class="${prefix}-katex-block">${token.text}</span>`;
+        }
       }
     };
   },
@@ -49,11 +53,15 @@ export default {
         }
       },
       renderer(token: any) {
-        const html = katex.renderToString(token.text, {
-          throwOnError: false
-        });
+        if (katex || window.katex) {
+          const html = (katex || window.katex).renderToString(token.text, {
+            throwOnError: false
+          });
 
-        return `<span class="${prefix}-katex-inline">${html}</span>`;
+          return `<span class="${prefix}-katex-inline" data-processed>${html}</span>`;
+        } else {
+          return `<span class="${prefix}-katex-inline">${token.text}</span>`;
+        }
       }
     };
   }
