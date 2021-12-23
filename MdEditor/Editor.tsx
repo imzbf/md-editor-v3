@@ -59,6 +59,7 @@ export interface ToolbarTips {
   image?: string;
   table?: string;
   mermaid?: string;
+  katex?: string;
   revoke?: string;
   next?: string;
   save?: string;
@@ -120,6 +121,10 @@ export interface StaticTextDefaultValue {
     relationship?: string;
     // 旅程图
     journey?: string;
+  };
+  katex?: {
+    inline: string;
+    block: string;
   };
 }
 
