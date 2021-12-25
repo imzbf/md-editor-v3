@@ -162,7 +162,7 @@ export interface StaticTextDefaultValue {
     relationship?: string;
     journey?: string;
   };
-    // 1.9.0
+  // 1.9.0
   katex?: {
     // formula inline
     inline: string;
@@ -365,10 +365,10 @@ import mermaid from 'mermaid'
 
 ### 📐 katex
 
-- **类型**: `katex`
-- **默认值**: `undefined`
-- **版本**: `>= 1.9.0`
-- **说明**: Instance of `katex`, if you provide it, editor in browser will not download `katex`.
+- **type**: `katex`
+- **default**: `undefined`
+- **version**: `>= 1.9.0`
+- **description**: Instance of `katex`, if you provide it, editor in browser will not download `katex`.
 
 ```js
 import katex from 'katex'
@@ -379,10 +379,10 @@ import katex from 'katex'
 
 ### 📐 katexJs
 
-- **类型**: `String`
-- **默认值**: [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js)
-- **版本**: `>= 1.9.0`
-- **说明**: katexJs url.
+- **type**: `String`
+- **default**: [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js)
+- **version**: `>= 1.9.0`
+- **description**: katexJs url.
 
 ```js
 <Editor katexJs="/lib/katex.min.js" />
@@ -390,10 +390,10 @@ import katex from 'katex'
 
 ### 📐 katexCss
 
-- **类型**: `String`
-- **默认值**: [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css)
-- **版本**: `>= 1.9.0`
-- **说明**: katexCss url.
+- **type**: `String`
+- **default**: [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css)
+- **version**: `>= 1.9.0`
+- **description**: katexCss url.
 
 ```js
 <Editor katexCss="/lib/katex.min.css" />
@@ -401,10 +401,10 @@ import katex from 'katex'
 
 ### ☝️ noKatex
 
-- **类型**: `Boolean`
-- **默认值**: `false`
-- **版本**: `>= 1.9.0`
-- **说明**: Do not want to use `katex`, set it to `true`.
+- **type**: `Boolean`
+- **default**: `false`
+- **version**: `>= 1.9.0`
+- **description**: Do not want to use `katex`, set it to `true`.
 
 ```js
 <Editor noKatex />
