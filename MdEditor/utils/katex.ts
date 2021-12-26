@@ -20,8 +20,10 @@ export default {
         }
       },
       renderer(token: any) {
-        if (katex || window.katex) {
-          const html = (katex || window.katex).renderToString(token.text, {
+        const _katex = katex || (typeof window !== 'undefined' && window.katex);
+
+        if (_katex) {
+          const html = _katex.renderToString(token.text, {
             throwOnError: false
           });
 
@@ -53,8 +55,10 @@ export default {
         }
       },
       renderer(token: any) {
-        if (katex || window.katex) {
-          const html = (katex || window.katex).renderToString(token.text, {
+        const _katex = katex || (typeof window !== 'undefined' && window.katex);
+
+        if (_katex) {
+          const html = _katex.renderToString(token.text, {
             throwOnError: false
           });
 
