@@ -174,9 +174,8 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
         if (props.mermaid) {
           svgCode = props.mermaid.mermaidAPI.render(idRand, code);
         }
-
         // 没有提供，则判断window对象是否可用，不可用则反回待解析的结构，在页面引入后再解析
-        if (typeof window !== 'undefined' && window.mermaid) {
+        else if (typeof window !== 'undefined' && window.mermaid) {
           svgCode = window.mermaid.mermaidAPI.render(idRand, code);
         } else {
           // 这块代码不会正确展示在页面上
@@ -494,37 +493,44 @@ export const useMermaid = (props: EditorContentProps) => {
     mermaidInited: !!props.mermaid
   });
 
-  watch(
-    () => theme.value,
-    () => {
-      if (!props.noMermaid && window.mermaid) {
+  const reSetMermaidTheme = () => {
+    if (!props.noMermaid) {
+      // 提供了外部实例
+      if (props.mermaid) {
+        props.mermaid.initialize({
+          theme: theme.value === 'dark' ? 'dark' : 'default'
+        });
+      } else if (window.mermaid) {
         window.mermaid.initialize({
           theme: theme.value === 'dark' ? 'dark' : 'default'
         });
-
-        mermaidData.reRender = !mermaidData.reRender;
       }
+
+      mermaidData.reRender = !mermaidData.reRender;
     }
-  );
+  };
+
+  watch(() => theme.value, reSetMermaidTheme);
 
   let mermaidScript: HTMLScriptElement;
   onMounted(() => {
     // 引入mermaid
-    if (!props.noMermaid && props.mermaid) {
-      window.mermaid = props.mermaid;
-    } else if (!props.noMermaid && !props.mermaid) {
+    if (!props.noMermaid && !props.mermaid) {
       mermaidScript = document.createElement('script');
 
       mermaidScript.src = props.mermaidJs;
       mermaidScript.onload = () => {
-        mermaidData.mermaidInited = true;
         window.mermaid.initialize({
+          theme: theme.value === 'dark' ? 'dark' : 'default',
           logLevel: import.meta.env.MODE === 'development' ? 'Error' : 'Fatal'
         });
+        mermaidData.mermaidInited = true;
       };
       mermaidScript.id = `${prefix}-mermaid`;
 
       appendHandler(mermaidScript);
+    } else if (!props.noMermaid) {
+      reSetMermaidTheme();
     }
   });
 
