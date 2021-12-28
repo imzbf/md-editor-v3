@@ -104,6 +104,7 @@ export interface ToolbarTips {
   image?: string;
   table?: string;
   mermaid?: string;
+  katex?: string;
   revoke?: string;
   next?: string;
   save?: string;
@@ -172,6 +173,13 @@ export interface StaticTextDefaultValue {
     // 旅程图
     journey?: string;
   };
+  // 1.9.0
+  katex?: {
+    // 行内公式
+    inline: string;
+    // 块级公式
+    block: string;
+  };
 }
 ```
 
@@ -184,14 +192,62 @@ export interface StaticTextDefaultValue {
 你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
 
 ```js
-'bold', 'underline', 'italic', '-', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList',
-'orderedList', '-', 'codeRow', 'code', 'link', 'image', 'table', 'mermaid', '-', 'revoke', 'next', 'save',
-'=', 'pageFullscreen', 'fullscreen', 'preview', 'htmlPreview', 'catalog', 'github'
+'bold',
+  'underline',
+  'italic',
+  '-',
+  'strikeThrough',
+  'sub',
+  'sup',
+  'quote',
+  'unorderedList',
+  'orderedList',
+  '-',
+  'codeRow',
+  'code',
+  'link',
+  'image',
+  'table',
+  'mermaid',
+  'katex',
+  '-',
+  'revoke',
+  'next',
+  'save',
+  '=',
+  'pageFullscreen',
+  'fullscreen',
+  'preview',
+  'htmlPreview',
+  'catalog',
+  'github';
 
 // 对应功能名称
-'加粗', '下划线', '斜体', '删除线', '下标', '上标', '引用', '无序列表',
-'有序列表', '行内代码', '块级代码', '链接', '图片', '表格', '图表', '后退一步', '前进一步', '保存'，
-'页面内全屏', '屏幕全屏', '内容预览', 'html代码预览', '目录', '源码地址'
+'加粗',
+  '下划线',
+  '斜体',
+  '删除线',
+  '下标',
+  '上标',
+  '引用',
+  '无序列表',
+  '有序列表',
+  '行内代码',
+  '块级代码',
+  '链接',
+  '图片',
+  '表格',
+  '图表',
+  '公式',
+  '后退一步',
+  '前进一步',
+  '保存',
+  '页面内全屏',
+  '屏幕全屏',
+  '内容预览',
+  'html代码预览',
+  '目录',
+  '源码地址';
 ```
 
 ### 🧱 toolbarsExclude
@@ -340,6 +396,53 @@ import mermaid from 'mermaid'
 - **默认值**：`''`
 - **版本**：`>= 1.8.0`
 - **说明**：啊这-\_-！
+
+### 📐 katex
+
+- **类型**：`katex`
+- **默认值**：`undefined`
+- **版本**：`>= 1.9.0`
+- **说明**：数学公式`katex`实例，当项目中有使用或者希望在服务端渲染返回内容中携带正确的公式时，提供该实例，客户端将不再不会使用 cdn 资源。
+
+```js
+import katex from 'katex'
+
+//
+<Editor katex={katex}>
+```
+
+### 📐 katexJs
+
+- **类型**：`String`
+- **默认值**：[katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js)
+- **版本**：`>= 1.9.0`
+- **说明**：katexJs 链接。
+
+```js
+<Editor katexJs="/lib/katex.min.js" />
+```
+
+### 📐 katexCss
+
+- **类型**：`String`
+- **默认值**：[katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css)
+- **版本**：`>= 1.9.0`
+- **说明**：katexCss 链接。
+
+```js
+<Editor katexCss="/lib/katex.min.css" />
+```
+
+### ☝️ noKatex
+
+- **类型**：`Boolean`
+- **默认值**：`false`
+- **版本**：`>= 1.9.0`
+- **说明**：如果你不希望使用数学公式展示内容，可以设置关闭。
+
+```js
+<Editor noKatex />
+```
 
 <br>
 <hr>
