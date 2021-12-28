@@ -92,7 +92,7 @@ export const goto = (
   }
 ) => {
   if (!url) {
-    console.warn('无效的链接！');
+    console.warn('error link!');
   }
 
   const aEle = document.createElement('a');
@@ -162,13 +162,13 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
     }
   };
 
-  // 主动监听
-  addEvent();
-
-  return () => {
-    pEle.removeEventListener('scroll', scrollHandler);
-    cEle.removeEventListener('scroll', scrollHandler);
-  };
+  return [
+    addEvent,
+    () => {
+      pEle.removeEventListener('scroll', scrollHandler);
+      cEle.removeEventListener('scroll', scrollHandler);
+    }
+  ];
 };
 
 /**
