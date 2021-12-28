@@ -140,7 +140,7 @@ export default defineComponent({
         <>
           <div class={[`${prefix}-content`]}>
             {!previewOnly && (
-              <div class={[`${prefix}-input-wrapper`]}>
+              <div class={`${prefix}-input-wrapper`}>
                 <textarea
                   id={`${editorId}-textarea`}
                   ref={textAreaRef}
@@ -161,24 +161,33 @@ export default defineComponent({
                 />
               </div>
             )}
+
             {props.setting.preview && (
               <div
+                class={`${prefix}-preview-wrapper`}
                 ref={previewRef}
-                id={`${prefix}-preview`}
-                class={[
-                  `${prefix}-preview`,
-                  `${previewTheme?.value}-theme`,
-                  showCodeRowNumber && `${prefix}-scrn`
-                ]}
-                innerHTML={html.value}
-              />
+                key="content-preview-wrapper"
+              >
+                <div
+                  id={`${prefix}-preview`}
+                  class={[
+                    `${prefix}-preview`,
+                    `${previewTheme?.value}-theme`,
+                    showCodeRowNumber && `${prefix}-scrn`
+                  ]}
+                  innerHTML={html.value}
+                />
+              </div>
             )}
+
             {props.setting.htmlPreview && (
-              <>
-                <div ref={htmlRef} class={`${prefix}-html`}>
-                  {html.value}
-                </div>
-              </>
+              <div
+                class={`${prefix}-preview-wrapper`}
+                ref={htmlRef}
+                key="html-preview-wrapper"
+              >
+                <div class={`${prefix}-html`}>{html.value}</div>
+              </div>
             )}
           </div>
           {props.hljs === null && (
