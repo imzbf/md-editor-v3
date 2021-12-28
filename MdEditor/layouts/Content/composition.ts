@@ -360,10 +360,8 @@ export const useAutoScroll = (
     nextTick(() => {
       // 更新完毕后判断是否需要重新绑定滚动事件
       if (props.setting.preview && !previewOnly) {
-        setTimeout(() => {
-          clearScrollAuto();
-          initScrollAuto();
-        }, 0);
+        clearScrollAuto();
+        initScrollAuto();
       }
 
       // 重新设置复制按钮
@@ -375,6 +373,7 @@ export const useAutoScroll = (
     // 分栏发生变化时，显示分栏时注册同步滚动，隐藏是清除同步滚动
     if (nVal && !previewOnly) {
       nextTick(() => {
+        clearScrollAuto();
         // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
         [initScrollAuto, clearScrollAuto] = scrollAuto(
           textAreaRef.value as HTMLElement,
@@ -382,8 +381,6 @@ export const useAutoScroll = (
         );
         initScrollAuto();
       });
-    } else {
-      clearScrollAuto();
     }
   };
 
