@@ -1,4 +1,4 @@
-import{E as m,a as l}from"./request.b4fb12fb.js";import{d as E,r as C,u as c,w as f,c as e}from"./vendor.55f3de52.js";const a=`## \u{1F632} md-editor-v3
+import{E as m,a as l}from"./request.8cf116b8.js";import{d as E,r as C,u as c,w as f,c as e}from"./vendor.40be9010.js";const a=`## \u{1F632} md-editor-v3
 
 Markdown \u7F16\u8F91\u5668\uFF0C\u57FA\u4E8E react\uFF0C\u4F7F\u7528 jsx \u548C typescript \u8BED\u6CD5\u5F00\u53D1\uFF0C\u652F\u6301\u5207\u6362\u4E3B\u9898\u3001prettier \u7F8E\u5316\u6587\u672C\u7B49\u3002
 
@@ -42,7 +42,13 @@ export default defineComponent({
 | \u4E4B\u95F4 | 3          | \u4E2D\u56FD-\u91CD\u5E86 |
 
 
-## \u2618\uFE0F \u5360\u4E2A\u5751@\uFF01
+ ## \u{1F4CF} \u516C\u5F0F 
+
+$$
+\\sqrt[3]{x}
+$$
+
+ ## \u2618\uFE0F \u5360\u4E2A\u5751@\uFF01
 `,h=`## \u{1F632} md-editor-v3
 
 Markdown Editor for Vue3, developed by jsx and typescript, support different themes\u3001beautify content by prettier.
@@ -87,5 +93,11 @@ The Old Man and the Sea served to reinvigorate Hemingway's literary reputation a
 | zhijian | 3          | China ChongQing |
 
 
-## \u2618\uFE0F em... 
+  \u{1F4CF} \u516C\u5F0F 
+
+$$
+\\sqrt[3]{x}
+$$
+
+ ## \u2618\uFE0F em... 
 `;var A=E({props:{theme:String},setup(){const t=C({text:a}),u=c();return f(()=>u.state.lang,n=>{n==="zh-CN"?t.text=a:t.text=h}),()=>e("div",{class:"project-preview"},[e("div",{class:"container"},[e(m,{editorId:"md-prev",language:u.state.lang,theme:u.state.theme,previewTheme:u.state.previewTheme,modelValue:t.text,onChange:n=>t.text=n,onUploadImg:async(n,s)=>{const i=await Promise.all(Array.from(n).map(F=>new Promise((d,p)=>{const o=new FormData;o.append("file",F),l.post("/api/img/upload",o,{headers:{"Content-Type":"multipart/form-data"}}).then(r=>d(r)).catch(r=>p(r))})));s(i.map(F=>F.data.url))}},null),e("br",null,null),e("span",{class:"tips-text"},[u.state.lang==="zh-CN"?"Tips\uFF1A\u672C\u9875\u5C55\u793A\u7F16\u8F91\u5668localstorage\u5B58\u50A8\u529F\u80FD\u5DF2\u79FB\u9664\uFF01":"Tips: The editor in this page can not save text to localstorage now!"])])])}});export{A as default};

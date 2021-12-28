@@ -283,6 +283,8 @@ export default defineComponent({
             link: '链接',
             image: '图片',
             table: '表格',
+            mermaid: 'mermaid图',
+            katex: '公式',
             revoke: '后退',
             next: '前进',
             save: '保存',
@@ -322,6 +324,20 @@ export default defineComponent({
           copyCode: {
             text: '复制代码';
             tips: '已复制';
+          },
+          mermaid: {
+            flow: '流程图',
+            sequence: '时序图',
+            gantt: '甘特图',
+            class: '类图',
+            state: '状态图',
+            pie: '饼图',
+            relationship: '关系图',
+            journey: '旅程图'
+          },
+          katex: {
+            inline: '行内公式',
+            block: '块级公式'
           }
         }
       }

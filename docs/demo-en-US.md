@@ -278,6 +278,8 @@ export default defineComponent({
             link: 'link',
             image: 'image',
             table: 'table',
+            mermaid: 'mermaid',
+            katex: 'formula',
             revoke: 'revoke',
             next: 'undo revoke',
             save: 'save',
@@ -317,6 +319,20 @@ export default defineComponent({
           copyCode: {
             text: 'Copy',
             tips: 'Copied!'
+          },
+          mermaid: {
+            flow: 'flow',
+            sequence: 'sequence',
+            gantt: 'gantt',
+            class: 'class',
+            state: 'state',
+            pie: 'pie',
+            relationship: 'relationship',
+            journey: 'journey'
+          },
+          katex: {
+            inline: 'inline',
+            block: 'block'
           }
         }
       }
@@ -548,7 +564,7 @@ export default defineComponent({
 });
 ```
 
-## 🔒 xss 防范
+## 🔒 xss
 
 after`1.3.0`, please use `sanitize` to sanitize `html`. eg: `sanitize-html`
 
