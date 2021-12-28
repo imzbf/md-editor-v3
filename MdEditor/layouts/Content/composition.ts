@@ -326,6 +326,7 @@ export const useAutoScroll = (
   const editorId = inject('editorId') as string;
 
   let clearScrollAuto = () => {};
+  let initScrollAuto = () => {};
 
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
@@ -347,16 +348,21 @@ export const useAutoScroll = (
       });
   };
 
+  onMounted(() => {
+    [initScrollAuto, clearScrollAuto] = scrollAuto(
+      textAreaRef.value as HTMLElement,
+      (previewRef.value as HTMLElement) || htmlRef.value
+    );
+  });
+
   // 编译事件
   const htmlChanged = () => {
     nextTick(() => {
       // 更新完毕后判断是否需要重新绑定滚动事件
       if (props.setting.preview && !previewOnly) {
         setTimeout(() => {
-          clearScrollAuto = scrollAuto(
-            textAreaRef.value as HTMLElement,
-            (previewRef.value as HTMLElement) || htmlRef.value
-          );
+          clearScrollAuto();
+          initScrollAuto();
         }, 0);
       }
 
@@ -365,25 +371,25 @@ export const useAutoScroll = (
     });
   };
 
-  watch(() => html.value, htmlChanged);
-
-  watch(
-    () => props.setting.preview,
-    (nVal) => {
-      // 分栏发生变化时，显示分栏时注册同步滚动，隐藏是清除同步滚动
-      if (nVal && !previewOnly) {
-        nextTick(() => {
-          // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
-          clearScrollAuto = scrollAuto(
-            textAreaRef.value as HTMLElement,
-            (previewRef.value as HTMLElement) || htmlRef.value
-          );
-        });
-      } else {
-        clearScrollAuto();
-      }
+  const settingPreviewChanged = (nVal: boolean) => {
+    // 分栏发生变化时，显示分栏时注册同步滚动，隐藏是清除同步滚动
+    if (nVal && !previewOnly) {
+      nextTick(() => {
+        // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
+        [initScrollAuto, clearScrollAuto] = scrollAuto(
+          textAreaRef.value as HTMLElement,
+          (previewRef.value as HTMLElement) || htmlRef.value
+        );
+        initScrollAuto();
+      });
+    } else {
+      clearScrollAuto();
     }
-  );
+  };
+
+  watch(() => html.value, htmlChanged);
+  watch(() => props.setting.preview, settingPreviewChanged);
+  watch(() => props.setting.htmlPreview, settingPreviewChanged);
 
   onMounted(htmlChanged);
 };
