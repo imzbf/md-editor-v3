@@ -11,13 +11,14 @@ import {
 } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
-import { prefix, StaticTextDefaultValue, ToolbarNames, SettingType } from '../../Editor';
+import { StaticTextDefaultValue, ToolbarNames, SettingType } from '../../type';
 import bus from '../../utils/event-bus';
 import { goto } from '../../utils';
 import Modals from '../Modals';
 import { ToolDirective } from '../../utils/content-help';
 import { useSreenfull } from './composition';
 import TableShape from './TableShape';
+import { prefix } from '../../config';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
