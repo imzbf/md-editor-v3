@@ -9,7 +9,8 @@ import {
 } from 'vue';
 import Modal from '../../components/Modal';
 
-import { prefix, StaticTextDefaultValue } from '../../Editor';
+import { StaticTextDefaultValue } from '../../type';
+import { prefix } from '../../config';
 
 export default defineComponent({
   props: {

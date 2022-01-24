@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 
 import './index.less';
 
-import { prefix } from '../../Editor';
+import { prefix } from '../../config';
 
 export default defineComponent({
   setup() {

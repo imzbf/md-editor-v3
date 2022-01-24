@@ -13,7 +13,8 @@ import {
 import { marked } from 'marked';
 import copy from 'copy-to-clipboard';
 import { EditorContentProps } from './index';
-import { HeadList, StaticTextDefaultValue, prefix, MarkedHeading } from '../../Editor';
+import { HeadList, StaticTextDefaultValue, MarkedHeading } from '../../type';
+import { prefix } from '../../config';
 import bus from '../../utils/event-bus';
 import { insert, scrollAuto, setPosition, generateCodeRowNumber } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';

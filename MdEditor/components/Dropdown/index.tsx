@@ -22,7 +22,7 @@ interface CtlTypes {
   overlayHover: boolean;
 }
 
-import { prefix } from '../../Editor';
+import { prefix } from '../../config';
 
 export default defineComponent({
   props: {

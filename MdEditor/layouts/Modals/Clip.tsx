@@ -10,7 +10,8 @@ import {
   computed
 } from 'vue';
 import Modal from '../../components/Modal';
-import { StaticTextDefaultValue, prefix } from '../../Editor';
+import { StaticTextDefaultValue } from '../../type';
+import { prefix } from '../../config';
 import { base642File } from '../../utils';
 import bus from '../../utils/event-bus';
 
