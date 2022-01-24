@@ -545,3 +545,33 @@ export const useMermaid = (props: EditorContentProps) => {
 
   return mermaidData;
 };
+
+export const usePasteUpload = (textAreaRef: Ref) => {
+  const editorId = inject('editorId') as string;
+  const previewOnly = inject('previewOnly') as boolean;
+
+  // 粘贴板上传
+  const pasteHandler = (e: ClipboardEvent) => {
+    console.log(e, 'pasteHandler');
+    if (e.clipboardData && e.clipboardData.files.length > 0) {
+      const file = e.clipboardData.files[0];
+
+      if (/image\/.*/.test(file.type)) {
+        bus.emit(editorId, 'uploadImage', [file]);
+        e.preventDefault();
+      }
+    }
+  };
+
+  onMounted(() => {
+    if (!previewOnly) {
+      textAreaRef.value.addEventListener('paste', pasteHandler);
+    }
+  });
+
+  onBeforeUnmount(() => {
+    if (!previewOnly) {
+      textAreaRef.value.removeEventListener('paste', pasteHandler);
+    }
+  });
+};
