@@ -1,11 +1,5 @@
 import { defineComponent, Teleport, inject, PropType, ref, ComputedRef } from 'vue';
-import {
-  HeadList,
-  prefix,
-  SettingType,
-  PreviewThemes,
-  MarkedHeading
-} from '../../Editor';
+import { HeadList, SettingType, PreviewThemes, MarkedHeading } from '../../type';
 import {
   useAutoGenrator,
   useAutoScroll,
@@ -14,6 +8,7 @@ import {
   useMermaid,
   usePasteUpload
 } from './composition';
+import { prefix } from '../../config';
 
 export type EditorContentProps = Readonly<{
   value: string;

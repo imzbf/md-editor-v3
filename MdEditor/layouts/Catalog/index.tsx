@@ -1,6 +1,7 @@
 import { inject, reactive, onMounted, computed, defineComponent, PropType } from 'vue';
 import bus from '../../utils/event-bus';
-import { prefix, HeadList, MarkedHeadingId } from '../../Editor';
+import { HeadList, MarkedHeadingId } from '../../type';
+import { prefix } from '../../config';
 import CatalogLink from './CatalogLink';
 import './style.less';
 

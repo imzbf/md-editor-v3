@@ -1,5 +1,5 @@
 import { defineComponent, PropType, reactive } from 'vue';
-import { prefix } from '../../Editor';
+import { prefix } from '../../config';
 
 interface HoverData {
   x: number;

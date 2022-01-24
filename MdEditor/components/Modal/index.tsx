@@ -8,7 +8,7 @@ import {
   watch,
   nextTick
 } from 'vue';
-import { prefix } from '../../Editor';
+import { prefix } from '../../config';
 import { getSlot } from '../../utils/vue-tsx';
 import { keyMove } from '../../utils/dom';
 import './style.less';
