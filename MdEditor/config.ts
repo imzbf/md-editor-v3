@@ -1,4 +1,6 @@
-import { StaticTextDefault } from './Editor';
+import { StaticTextDefault } from './type';
+
+export const prefix = 'md';
 
 // 编辑器ID
 export const iconScriptId = 'md-editor-v3';

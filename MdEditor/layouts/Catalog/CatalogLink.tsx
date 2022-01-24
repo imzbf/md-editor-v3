@@ -1,5 +1,6 @@
 import { TocItem } from './index';
-import { MarkedHeadingId, prefix } from '../../Editor';
+import { MarkedHeadingId } from '../../type';
+import { prefix } from '../../config';
 import { defineComponent, PropType } from 'vue';
 
 export interface CatalogLinkProps {

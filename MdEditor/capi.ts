@@ -1,7 +1,7 @@
 import { computed, onMounted, onBeforeUnmount, provide, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
-import { ToolbarNames } from './Editor';
+import { ToolbarNames } from './type';
 import { highlightUrl, staticTextDefault } from './config';
 
 export const useKeyBoard = (props: any, context: SetupContext) => {
