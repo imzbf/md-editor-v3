@@ -11,7 +11,8 @@ import {
   useAutoScroll,
   useHistory,
   useMarked,
-  useMermaid
+  useMermaid,
+  usePasteUpload
 } from './composition';
 
 export type EditorContentProps = Readonly<{
@@ -134,6 +135,8 @@ export default defineComponent({
     const { selectedText } = useAutoGenrator(props, textAreaRef);
     // 历史记录
     useHistory(props, textAreaRef);
+    // 粘贴上传
+    usePasteUpload(textAreaRef);
 
     return () => {
       return (

@@ -3,6 +3,7 @@ import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
 import { ToolbarNames } from './Editor';
 import { highlightUrl, staticTextDefault } from './config';
+
 export const useKeyBoard = (props: any, context: SetupContext) => {
   const { editorId } = props;
 
@@ -231,22 +232,9 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
     }
   };
 
-  // 粘贴板上传
-  const pasteHandler = (e: ClipboardEvent) => {
-    if (e.clipboardData && e.clipboardData.files.length > 0) {
-      const file = e.clipboardData.files[0];
-
-      if (/image\/.*/.test(file.type)) {
-        bus.emit(editorId, 'uploadImage', [file]);
-        e.preventDefault();
-      }
-    }
-  };
-
   onMounted(() => {
     if (!props.previewOnly) {
       window.addEventListener('keydown', keyDownHandler);
-      document.addEventListener('paste', pasteHandler);
 
       // 注册保存事件
       bus.on(editorId, {
@@ -266,7 +254,6 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
   onBeforeUnmount(() => {
     if (!props.previewOnly) {
       window.removeEventListener('keydown', keyDownHandler);
-      document.removeEventListener('paste', pasteHandler);
     }
   });
 };
