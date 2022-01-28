@@ -32,6 +32,7 @@ export type EditorContentProps = Readonly<{
   katexJs: string;
   katexCss: string;
   noKatex?: boolean;
+  extensions?: Array<any>;
 }>;
 
 export default defineComponent({
@@ -102,6 +103,9 @@ export default defineComponent({
     noKatex: {
       type: Boolean as PropType<boolean>,
       default: false
+    },
+    extensions: {
+      type: Array as PropType<Array<any>>
     }
   },
   setup(props) {
