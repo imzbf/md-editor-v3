@@ -103,7 +103,7 @@ export interface StaticTextDefault {
 
 export type StaticTextDefaultKey = keyof StaticTextDefault;
 
-export type ToolbarNames = keyof ToolbarTips;
+export type ToolbarNames = keyof ToolbarTips | number;
 
 export interface SettingType {
   pageFullScreen: boolean;
