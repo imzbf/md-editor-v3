@@ -7,7 +7,8 @@ import {
   PropType,
   reactive,
   ref,
-  Teleport
+  Teleport,
+  VNode
 } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
@@ -18,7 +19,7 @@ import Modals from '../Modals';
 import { ToolDirective } from '../../utils/content-help';
 import { useSreenfull } from './composition';
 import TableShape from './TableShape';
-import { prefix } from '../../config';
+import { allToolbar, prefix } from '../../config';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -55,6 +56,9 @@ export default defineComponent({
     tableShape: {
       type: Array as PropType<Array<number>>,
       default: () => [6, 4]
+    },
+    defToolbars: {
+      type: Object as PropType<VNode>
     }
   },
   setup(props) {
@@ -148,643 +152,657 @@ export default defineComponent({
     });
 
     const barRender = (barItem: ToolbarNames) => {
-      switch (barItem) {
-        case '-': {
-          return <Divider />;
-        }
-        case 'bold': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.bold}
-              onClick={() => {
-                emitHandler('bold');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-bold" />
-              </svg>
-            </div>
-          );
-        }
-        case 'underline': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.underline}
-              onClick={() => {
-                emitHandler('underline');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-underline" />
-              </svg>
-            </div>
-          );
-        }
-        case 'italic': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.italic}
-              onClick={() => {
-                emitHandler('italic');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-italic" />
-              </svg>
-            </div>
-          );
-        }
-        case 'strikeThrough': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.strikeThrough}
-              onClick={() => {
-                emitHandler('strikeThrough');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-strike-through" />
-              </svg>
-            </div>
-          );
-        }
-        case 'title': {
-          return (
-            <Dropdown
-              visible={visible.title}
-              onChange={(v) => {
-                visible.title = v;
-              }}
-              overlay={
-                <ul
-                  class={`${prefix}-menu`}
-                  onClick={() => {
-                    visible.title = false;
-                  }}
-                >
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('h1');
-                    }}
-                  >
-                    {ult.value.titleItem?.h1}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('h2');
-                    }}
-                  >
-                    {ult.value.titleItem?.h2}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('h3');
-                    }}
-                  >
-                    {ult.value.titleItem?.h3}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('h4');
-                    }}
-                  >
-                    {ult.value.titleItem?.h4}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('h5');
-                    }}
-                  >
-                    {ult.value.titleItem?.h5}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('h6');
-                    }}
-                  >
-                    {ult.value.titleItem?.h6}
-                  </li>
-                </ul>
-              }
-            >
-              <div class={`${prefix}-toolbar-item`} title={ult.value.toolbarTips?.title}>
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-title" />
-                </svg>
-              </div>
-            </Dropdown>
-          );
-        }
-        case 'sub': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.sub}
-              onClick={() => {
-                emitHandler('sub');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-sub" />
-              </svg>
-            </div>
-          );
-        }
-        case 'sup': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.sup}
-              onClick={() => {
-                emitHandler('sup');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-sup" />
-              </svg>
-            </div>
-          );
-        }
-        case 'quote': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.quote}
-              onClick={() => {
-                emitHandler('quote');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-quote" />
-              </svg>
-            </div>
-          );
-        }
-
-        case 'unorderedList': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.unorderedList}
-              onClick={() => {
-                emitHandler('unorderedList');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-unordered-list" />
-              </svg>
-            </div>
-          );
-        }
-        case 'orderedList': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.orderedList}
-              onClick={() => {
-                emitHandler('orderedList');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-ordered-list" />
-              </svg>
-            </div>
-          );
-        }
-
-        case 'codeRow': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.codeRow}
-              onClick={() => {
-                emitHandler('codeRow');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-code-row" />
-              </svg>
-            </div>
-          );
-        }
-        case 'code': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.code}
-              onClick={() => {
-                emitHandler('code');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-code" />
-              </svg>
-            </div>
-          );
-        }
-        case 'link': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.link}
-              onClick={() => {
-                modalData.type = 'link';
-                modalData.linkVisible = true;
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-link" />
-              </svg>
-            </div>
-          );
-        }
-        case 'image': {
-          return (
-            <Dropdown
-              visible={visible.image}
-              onChange={(v) => {
-                visible.image = v;
-              }}
-              overlay={
-                <ul
-                  class={`${prefix}-menu`}
-                  onClick={() => {
-                    visible.title = false;
-                  }}
-                >
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      modalData.type = 'image';
-                      modalData.linkVisible = true;
-                    }}
-                  >
-                    {ult.value.imgTitleItem?.link}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      (uploadRef.value as HTMLInputElement).click();
-                    }}
-                  >
-                    {ult.value.imgTitleItem?.upload}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      modalData.clipVisible = true;
-                    }}
-                  >
-                    {ult.value.imgTitleItem?.clip2upload}
-                  </li>
-                </ul>
-              }
-            >
-              {
-                <div
-                  class={`${prefix}-toolbar-item`}
-                  title={ult.value.toolbarTips?.image}
-                >
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#icon-image" />
-                  </svg>
-                </div>
-              }
-            </Dropdown>
-          );
-        }
-        case 'table': {
-          return (
-            <Dropdown
-              visible={visible.table}
-              onChange={(v) => {
-                visible.table = v;
-              }}
-              key="bar-table"
-              overlay={
-                <TableShape
-                  tableShape={props.tableShape}
-                  onSelected={(selectedShape) => {
-                    emitHandler('table', { selectedShape });
-                  }}
-                />
-              }
-            >
-              <div class={`${prefix}-toolbar-item`} title={ult.value.toolbarTips?.table}>
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-table" />
-                </svg>
-              </div>
-            </Dropdown>
-          );
-        }
-        case 'revoke': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.revoke}
-              onClick={() => {
-                bus.emit(editorId, 'ctrlZ');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-revoke" />
-              </svg>
-            </div>
-          );
-        }
-        case 'next': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.next}
-              onClick={() => {
-                bus.emit(editorId, 'ctrlShiftZ');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-next" />
-              </svg>
-            </div>
-          );
-        }
-        case 'save': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.save}
-              onClick={() => {
-                bus.emit(editorId, 'onSave');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-baocun" />
-              </svg>
-            </div>
-          );
-        }
-        case 'prettier': {
-          return props.prettier ? (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.prettier}
-              onClick={() => {
-                emitHandler('prettier');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-prettier" />
-              </svg>
-            </div>
-          ) : (
-            ''
-          );
-        }
-        case 'pageFullscreen': {
-          return (
-            !props.setting.fullscreen && (
+      if (allToolbar.includes(barItem as string)) {
+        switch (barItem) {
+          case '-': {
+            return <Divider />;
+          }
+          case 'bold': {
+            return (
               <div
                 class={`${prefix}-toolbar-item`}
-                title={ult.value.toolbarTips?.pageFullscreen}
+                title={ult.value.toolbarTips?.bold}
                 onClick={() => {
-                  props.updateSetting(!props.setting.pageFullScreen, 'pageFullScreen');
+                  emitHandler('bold');
                 }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-bold" />
+                </svg>
+              </div>
+            );
+          }
+          case 'underline': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.underline}
+                onClick={() => {
+                  emitHandler('underline');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-underline" />
+                </svg>
+              </div>
+            );
+          }
+          case 'italic': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.italic}
+                onClick={() => {
+                  emitHandler('italic');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-italic" />
+                </svg>
+              </div>
+            );
+          }
+          case 'strikeThrough': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.strikeThrough}
+                onClick={() => {
+                  emitHandler('strikeThrough');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-strike-through" />
+                </svg>
+              </div>
+            );
+          }
+          case 'title': {
+            return (
+              <Dropdown
+                visible={visible.title}
+                onChange={(v) => {
+                  visible.title = v;
+                }}
+                overlay={
+                  <ul
+                    class={`${prefix}-menu`}
+                    onClick={() => {
+                      visible.title = false;
+                    }}
+                  >
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('h1');
+                      }}
+                    >
+                      {ult.value.titleItem?.h1}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('h2');
+                      }}
+                    >
+                      {ult.value.titleItem?.h2}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('h3');
+                      }}
+                    >
+                      {ult.value.titleItem?.h3}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('h4');
+                      }}
+                    >
+                      {ult.value.titleItem?.h4}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('h5');
+                      }}
+                    >
+                      {ult.value.titleItem?.h5}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('h6');
+                      }}
+                    >
+                      {ult.value.titleItem?.h6}
+                    </li>
+                  </ul>
+                }
+              >
+                <div
+                  class={`${prefix}-toolbar-item`}
+                  title={ult.value.toolbarTips?.title}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-title" />
+                  </svg>
+                </div>
+              </Dropdown>
+            );
+          }
+          case 'sub': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.sub}
+                onClick={() => {
+                  emitHandler('sub');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-sub" />
+                </svg>
+              </div>
+            );
+          }
+          case 'sup': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.sup}
+                onClick={() => {
+                  emitHandler('sup');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-sup" />
+                </svg>
+              </div>
+            );
+          }
+          case 'quote': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.quote}
+                onClick={() => {
+                  emitHandler('quote');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-quote" />
+                </svg>
+              </div>
+            );
+          }
+
+          case 'unorderedList': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.unorderedList}
+                onClick={() => {
+                  emitHandler('unorderedList');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-unordered-list" />
+                </svg>
+              </div>
+            );
+          }
+          case 'orderedList': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.orderedList}
+                onClick={() => {
+                  emitHandler('orderedList');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-ordered-list" />
+                </svg>
+              </div>
+            );
+          }
+
+          case 'codeRow': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.codeRow}
+                onClick={() => {
+                  emitHandler('codeRow');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-code-row" />
+                </svg>
+              </div>
+            );
+          }
+          case 'code': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.code}
+                onClick={() => {
+                  emitHandler('code');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-code" />
+                </svg>
+              </div>
+            );
+          }
+          case 'link': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.link}
+                onClick={() => {
+                  modalData.type = 'link';
+                  modalData.linkVisible = true;
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-link" />
+                </svg>
+              </div>
+            );
+          }
+          case 'image': {
+            return (
+              <Dropdown
+                visible={visible.image}
+                onChange={(v) => {
+                  visible.image = v;
+                }}
+                overlay={
+                  <ul
+                    class={`${prefix}-menu`}
+                    onClick={() => {
+                      visible.title = false;
+                    }}
+                  >
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        modalData.type = 'image';
+                        modalData.linkVisible = true;
+                      }}
+                    >
+                      {ult.value.imgTitleItem?.link}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        (uploadRef.value as HTMLInputElement).click();
+                      }}
+                    >
+                      {ult.value.imgTitleItem?.upload}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        modalData.clipVisible = true;
+                      }}
+                    >
+                      {ult.value.imgTitleItem?.clip2upload}
+                    </li>
+                  </ul>
+                }
+              >
+                {
+                  <div
+                    class={`${prefix}-toolbar-item`}
+                    title={ult.value.toolbarTips?.image}
+                  >
+                    <svg class={`${prefix}-icon`} aria-hidden="true">
+                      <use xlinkHref="#icon-image" />
+                    </svg>
+                  </div>
+                }
+              </Dropdown>
+            );
+          }
+          case 'table': {
+            return (
+              <Dropdown
+                visible={visible.table}
+                onChange={(v) => {
+                  visible.table = v;
+                }}
+                key="bar-table"
+                overlay={
+                  <TableShape
+                    tableShape={props.tableShape}
+                    onSelected={(selectedShape) => {
+                      emitHandler('table', { selectedShape });
+                    }}
+                  />
+                }
+              >
+                <div
+                  class={`${prefix}-toolbar-item`}
+                  title={ult.value.toolbarTips?.table}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-table" />
+                  </svg>
+                </div>
+              </Dropdown>
+            );
+          }
+          case 'revoke': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.revoke}
+                onClick={() => {
+                  bus.emit(editorId, 'ctrlZ');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-revoke" />
+                </svg>
+              </div>
+            );
+          }
+          case 'next': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.next}
+                onClick={() => {
+                  bus.emit(editorId, 'ctrlShiftZ');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-next" />
+                </svg>
+              </div>
+            );
+          }
+          case 'save': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.save}
+                onClick={() => {
+                  bus.emit(editorId, 'onSave');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-baocun" />
+                </svg>
+              </div>
+            );
+          }
+          case 'prettier': {
+            return props.prettier ? (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.prettier}
+                onClick={() => {
+                  emitHandler('prettier');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-prettier" />
+                </svg>
+              </div>
+            ) : (
+              ''
+            );
+          }
+          case 'pageFullscreen': {
+            return (
+              !props.setting.fullscreen && (
+                <div
+                  class={`${prefix}-toolbar-item`}
+                  title={ult.value.toolbarTips?.pageFullscreen}
+                  onClick={() => {
+                    props.updateSetting(!props.setting.pageFullScreen, 'pageFullScreen');
+                  }}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use
+                      xlinkHref={`#icon-${
+                        props.setting.pageFullScreen ? 'suoxiao' : 'fangda'
+                      }`}
+                    />
+                  </svg>
+                </div>
+              )
+            );
+          }
+          case 'fullscreen': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.fullscreen}
+                onClick={fullScreenHandler}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use
                     xlinkHref={`#icon-${
-                      props.setting.pageFullScreen ? 'suoxiao' : 'fangda'
+                      props.setting.fullscreen ? 'fullScreen-exit' : 'fullScreen'
                     }`}
                   />
                 </svg>
               </div>
-            )
-          );
-        }
-        case 'fullscreen': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.fullscreen}
-              onClick={fullScreenHandler}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use
-                  xlinkHref={`#icon-${
-                    props.setting.fullscreen ? 'fullScreen-exit' : 'fullScreen'
-                  }`}
-                />
-              </svg>
-            </div>
-          );
-        }
-        case 'preview': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.preview}
-              onClick={() => {
-                props.updateSetting(!props.setting.preview, 'preview');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-preview" />
-              </svg>
-            </div>
-          );
-        }
-        case 'htmlPreview': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.htmlPreview}
-              onClick={() => {
-                props.updateSetting(!props.setting.htmlPreview, 'htmlPreview');
-              }}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-coding" />
-              </svg>
-            </div>
-          );
-        }
-        case 'catalog': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.catalog}
-              onClick={() => {
-                bus.emit(editorId, 'catalogShow');
-              }}
-              key="bar-catalog"
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-catalog" />
-              </svg>
-            </div>
-          );
-        }
-        case 'github': {
-          return (
-            <div
-              class={`${prefix}-toolbar-item`}
-              title={ult.value.toolbarTips?.github}
-              onClick={() => goto('https://github.com/imzbf/md-editor-v3')}
-            >
-              <svg class={`${prefix}-icon`} aria-hidden="true">
-                <use xlinkHref="#icon-github" />
-              </svg>
-            </div>
-          );
-        }
-        case 'mermaid': {
-          return (
-            <Dropdown
-              visible={visible.mermaid}
-              onChange={(v) => {
-                visible.mermaid = v;
-              }}
-              overlay={
-                <ul
-                  class={`${prefix}-menu`}
-                  onClick={() => {
-                    visible.mermaid = false;
-                  }}
-                >
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('flow');
-                    }}
-                  >
-                    {ult.value.mermaid?.flow}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('sequence');
-                    }}
-                  >
-                    {ult.value.mermaid?.sequence}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('gantt');
-                    }}
-                  >
-                    {ult.value.mermaid?.gantt}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('class');
-                    }}
-                  >
-                    {ult.value.mermaid?.class}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('state');
-                    }}
-                  >
-                    {ult.value.mermaid?.state}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('pie');
-                    }}
-                  >
-                    {ult.value.mermaid?.pie}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('relationship');
-                    }}
-                  >
-                    {ult.value.mermaid?.relationship}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('journey');
-                    }}
-                  >
-                    {ult.value.mermaid?.journey}
-                  </li>
-                </ul>
-              }
-              key="bar-mermaid"
-            >
+            );
+          }
+          case 'preview': {
+            return (
               <div
                 class={`${prefix}-toolbar-item`}
-                title={ult.value.toolbarTips?.mermaid}
+                title={ult.value.toolbarTips?.preview}
+                onClick={() => {
+                  props.updateSetting(!props.setting.preview, 'preview');
+                }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-mermaid" />
+                  <use xlinkHref="#icon-preview" />
                 </svg>
               </div>
-            </Dropdown>
-          );
-        }
-        case 'katex': {
-          return (
-            <Dropdown
-              visible={visible.katex}
-              onChange={(v) => {
-                visible.katex = v;
-              }}
-              overlay={
-                <ul
-                  class={`${prefix}-menu`}
-                  onClick={() => {
-                    visible.katex = false;
-                  }}
-                >
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('katexInline');
-                    }}
-                  >
-                    {ult.value.katex?.inline}
-                  </li>
-                  <li
-                    class={`${prefix}-menu-item`}
-                    onClick={() => {
-                      emitHandler('katexBlock');
-                    }}
-                  >
-                    {ult.value.katex?.block}
-                  </li>
-                </ul>
-              }
-              key="bar-katex"
-            >
+            );
+          }
+          case 'htmlPreview': {
+            return (
               <div
                 class={`${prefix}-toolbar-item`}
-                title={ult.value.toolbarTips?.mermaid}
+                title={ult.value.toolbarTips?.htmlPreview}
+                onClick={() => {
+                  props.updateSetting(!props.setting.htmlPreview, 'htmlPreview');
+                }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-formula" />
+                  <use xlinkHref="#icon-coding" />
                 </svg>
               </div>
-            </Dropdown>
-          );
+            );
+          }
+          case 'catalog': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.catalog}
+                onClick={() => {
+                  bus.emit(editorId, 'catalogShow');
+                }}
+                key="bar-catalog"
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-catalog" />
+                </svg>
+              </div>
+            );
+          }
+          case 'github': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.github}
+                onClick={() => goto('https://github.com/imzbf/md-editor-v3')}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-github" />
+                </svg>
+              </div>
+            );
+          }
+          case 'mermaid': {
+            return (
+              <Dropdown
+                visible={visible.mermaid}
+                onChange={(v) => {
+                  visible.mermaid = v;
+                }}
+                overlay={
+                  <ul
+                    class={`${prefix}-menu`}
+                    onClick={() => {
+                      visible.mermaid = false;
+                    }}
+                  >
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('flow');
+                      }}
+                    >
+                      {ult.value.mermaid?.flow}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('sequence');
+                      }}
+                    >
+                      {ult.value.mermaid?.sequence}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('gantt');
+                      }}
+                    >
+                      {ult.value.mermaid?.gantt}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('class');
+                      }}
+                    >
+                      {ult.value.mermaid?.class}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('state');
+                      }}
+                    >
+                      {ult.value.mermaid?.state}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('pie');
+                      }}
+                    >
+                      {ult.value.mermaid?.pie}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('relationship');
+                      }}
+                    >
+                      {ult.value.mermaid?.relationship}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('journey');
+                      }}
+                    >
+                      {ult.value.mermaid?.journey}
+                    </li>
+                  </ul>
+                }
+                key="bar-mermaid"
+              >
+                <div
+                  class={`${prefix}-toolbar-item`}
+                  title={ult.value.toolbarTips?.mermaid}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-mermaid" />
+                  </svg>
+                </div>
+              </Dropdown>
+            );
+          }
+          case 'katex': {
+            return (
+              <Dropdown
+                visible={visible.katex}
+                onChange={(v) => {
+                  visible.katex = v;
+                }}
+                overlay={
+                  <ul
+                    class={`${prefix}-menu`}
+                    onClick={() => {
+                      visible.katex = false;
+                    }}
+                  >
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('katexInline');
+                      }}
+                    >
+                      {ult.value.katex?.inline}
+                    </li>
+                    <li
+                      class={`${prefix}-menu-item`}
+                      onClick={() => {
+                        emitHandler('katexBlock');
+                      }}
+                    >
+                      {ult.value.katex?.block}
+                    </li>
+                  </ul>
+                }
+                key="bar-katex"
+              >
+                <div
+                  class={`${prefix}-toolbar-item`}
+                  title={ult.value.toolbarTips?.mermaid}
+                >
+                  <svg class={`${prefix}-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-formula" />
+                  </svg>
+                </div>
+              </Dropdown>
+            );
+          }
         }
+      } else if (props.defToolbars && props.defToolbars.children instanceof Array) {
+        const defItem = props.defToolbars.children[barItem as number];
+
+        return defItem || '';
+      } else {
+        return '';
       }
     };
 

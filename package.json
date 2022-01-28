@@ -1,6 +1,6 @@
 {
   "name": "md-editor-v3",
-  "version": "1.10.0-test",
+  "version": "1.10.0",
   "keywords": [
     "vue",
     "vue3",
@@ -29,7 +29,7 @@
   "files": [
     "lib"
   ],
-  "types": "./lib/MdEditor/Editor.d.ts",
+  "types": "./lib/MdEditor/index.d.ts",
   "main": "./lib/md-editor-v3.umd.js",
   "module": "./lib/md-editor-v3.es.js",
   "exports": {
