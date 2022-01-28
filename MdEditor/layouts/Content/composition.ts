@@ -561,7 +561,6 @@ export const usePasteUpload = (textAreaRef: Ref) => {
 
   // 粘贴板上传
   const pasteHandler = (e: ClipboardEvent) => {
-    console.log(e, 'pasteHandler');
     if (e.clipboardData && e.clipboardData.files.length > 0) {
       const file = e.clipboardData.files[0];
 
