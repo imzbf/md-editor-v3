@@ -41,6 +41,7 @@ import {
 
 import './styles/index.less';
 import '@vavt/markdown-theme/css/all.css';
+import { getSlot } from './utils/vue-tsx';
 
 export const markedHeadingId: MarkedHeadingId = (text) => text;
 
@@ -253,6 +254,9 @@ const props = {
   noKatex: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  defToolbars: {
+    type: [String, Object] as PropType<string | JSX.Element>
   }
 };
 
@@ -359,85 +363,90 @@ export default defineComponent({
       );
     });
 
-    return () => (
-      <div
-        id={editorId}
-        class={[
-          prefix,
-          props.editorClass,
-          props.theme === 'dark' && `${prefix}-dark`,
-          setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
-          previewOnly && `${prefix}-previewOnly`
-        ]}
-        style={props.style}
-      >
-        {!previewOnly && (
-          <ToolBar
-            prettier={prettier}
-            screenfull={screenfull}
-            screenfullJs={screenfullJs}
-            toolbars={props.toolbars}
-            toolbarsExclude={props.toolbarsExclude}
+    return () => {
+      const defToolbars = getSlot({ props, ctx: context }, 'defToolbars');
+
+      return (
+        <div
+          id={editorId}
+          class={[
+            prefix,
+            props.editorClass,
+            props.theme === 'dark' && `${prefix}-dark`,
+            setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
+            previewOnly && `${prefix}-previewOnly`
+          ]}
+          style={props.style}
+        >
+          {!previewOnly && (
+            <ToolBar
+              prettier={prettier}
+              screenfull={screenfull}
+              screenfullJs={screenfullJs}
+              toolbars={props.toolbars}
+              toolbarsExclude={props.toolbarsExclude}
+              setting={setting}
+              updateSetting={updateSetting}
+              tableShape={props.tableShape}
+              defToolbars={defToolbars}
+            />
+          )}
+          <Content
+            hljs={hljs}
+            value={props.modelValue}
+            onChange={(value: string) => {
+              if (props.onChange) {
+                props.onChange(value);
+              } else {
+                context.emit('update:modelValue', value);
+              }
+            }}
             setting={setting}
-            updateSetting={updateSetting}
-            tableShape={props.tableShape}
+            onHtmlChanged={(html: string) => {
+              if (props.onHtmlChanged) {
+                props.onHtmlChanged(html);
+              } else {
+                context.emit('onHtmlChanged', html);
+              }
+            }}
+            onGetCatalog={(list: HeadList[]) => {
+              if (props.onGetCatalog) {
+                props.onGetCatalog(list);
+              } else {
+                context.emit('onGetCatalog', list);
+              }
+            }}
+            markedHeading={props.markedHeading}
+            mermaid={props.mermaid}
+            mermaidJs={props.mermaidJs}
+            noMermaid={props.noMermaid}
+            sanitize={props.sanitize}
+            placeholder={props.placeholder}
+            katex={props.katex}
+            katexJs={props.katexJs}
+            katexCss={props.katexCss}
+            noKatex={props.noKatex}
           />
-        )}
-        <Content
-          hljs={hljs}
-          value={props.modelValue}
-          onChange={(value: string) => {
-            if (props.onChange) {
-              props.onChange(value);
-            } else {
-              context.emit('update:modelValue', value);
-            }
-          }}
-          setting={setting}
-          onHtmlChanged={(html: string) => {
-            if (props.onHtmlChanged) {
-              props.onHtmlChanged(html);
-            } else {
-              context.emit('onHtmlChanged', html);
-            }
-          }}
-          onGetCatalog={(list: HeadList[]) => {
-            if (props.onGetCatalog) {
-              props.onGetCatalog(list);
-            } else {
-              context.emit('onGetCatalog', list);
-            }
-          }}
-          markedHeading={props.markedHeading}
-          mermaid={props.mermaid}
-          mermaidJs={props.mermaidJs}
-          noMermaid={props.noMermaid}
-          sanitize={props.sanitize}
-          placeholder={props.placeholder}
-          katex={props.katex}
-          katexJs={props.katexJs}
-          katexCss={props.katexCss}
-          noKatex={props.noKatex}
-        />
-        {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
-        {!previewOnly && (
-          <Teleport to="head">
-            <script src={iconfontJs} />
-          </Teleport>
-        )}
-        {prettier && !previewOnly && (
-          <Teleport to="head">
-            <script src={prettierCDN} />
-            <script src={prettierMDCDN} />
-          </Teleport>
-        )}
-        {!previewOnly && Cropper === null && (
-          <Teleport to="head">
-            <link href={cropperCss} rel="stylesheet" />
-            <script src={cropperJs}></script>
-          </Teleport>
-        )}
-      </div>
-    );
+          {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
+          {!previewOnly && (
+            <Teleport to="head">
+              <script src={iconfontJs} />
+            </Teleport>
+          )}
+          {prettier && !previewOnly && (
+            <Teleport to="head">
+              <script src={prettierCDN} />
+              <script src={prettierMDCDN} />
+            </Teleport>
+          )}
+          {!previewOnly && Cropper === null && (
+            <Teleport to="head">
+              <link href={cropperCss} rel="stylesheet" />
+              <script src={cropperJs}></script>
+            </Teleport>
+          )}
+        </div>
+      );
+    };
   }
 });
