@@ -257,6 +257,10 @@ const props = {
   },
   defToolbars: {
     type: [String, Object] as PropType<string | JSX.Element>
+  },
+  // 自定义marked扩展，只支持预设
+  extensions: {
+    type: Array as PropType<Array<any>>
   }
 };
 
@@ -426,6 +430,7 @@ export default defineComponent({
             katexJs={props.katexJs}
             katexCss={props.katexCss}
             noKatex={props.noKatex}
+            extensions={props.extensions}
           />
           {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
           {!previewOnly && (

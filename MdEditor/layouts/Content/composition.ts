@@ -205,6 +205,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   renderer.image = (href: string, _: string, desc: string) => {
     return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
   };
+
   marked.setOptions({
     renderer,
     breaks: true
@@ -230,6 +231,13 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
           ? generateCodeRowNumber(codeHtml)
           : `<span class="code-block">${codeHtml}</span>`;
       }
+    });
+  }
+
+  // 自定义的marked扩展
+  if (props.extensions instanceof Array && props.extensions.length > 0) {
+    marked.use({
+      extensions: props.extensions
     });
   }
 
