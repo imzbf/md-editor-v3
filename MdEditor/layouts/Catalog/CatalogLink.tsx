@@ -32,7 +32,7 @@ const CatalogLink = defineComponent({
           if (targetHeadEle) {
             const scrollLength = targetHeadEle.offsetTop;
 
-            previewEle?.scrollTo({
+            previewEle?.parentElement?.scrollTo({
               top: scrollLength,
               behavior: 'smooth'
             });
