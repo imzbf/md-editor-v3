@@ -38,7 +38,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 ### Props
 
 | name | type | default | description |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | modelValue | String | '' | Markdown content，use `v-model` in vue template |
 | theme | 'light' \| 'dark' | 'light' | Change editor theme |
 | editorClass | String | '' |  |
@@ -52,7 +52,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 | previewOnly | Boolean | false | Only render article content, no toolbar, no edit area |
 | language | String | 'zh-CN' | Build-in language('zh-CN','en-US') |
 | languageUserDefined | Object | {key: StaticTextDefaultValue} | Expand language，update `language` api to your key |
-| toolbars | Array | [toolbars] | Show some item of toolbars，all keys<sup>see `toolbars` below<sup> |
+| toolbars | Array | [toolbars] | Show some item of toolbars，all keys<sup>see `toolbars` below</sup> |
 | toolbarsExclude | Array | [] | Don't show some item of toolbars，all keys`toolbars` |
 | prettier | Boolean | true | Use prettier to beautify content or not |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
@@ -76,8 +76,8 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 | katexJs | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | KatexJs url |
 | katexCss | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | KatexCss url |
 | noKatex | Boolean | false | Do not use katex |
-| defToolbars | Array<DropdownToolbar | NormalToolbar> | null | Customize Toolbar, for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars) and [emoji](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
-| extensions | Array<Object> | null | [marked](https://marked.js.org/using_pro#extensions) extensions |
+| defToolbars | Array<DropdownToolbar \| NormalToolbar> | null | Customize Toolbar, for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars) and [emoji](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
+| extensions | Array | [] | [marked](https://marked.js.org/using_pro#extensions) extensions |
 
 mark and emoji extensions
 
