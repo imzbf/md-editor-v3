@@ -24,7 +24,7 @@ export default defineComponent({
 
       return (
         <div class={`${prefix}-toolbar-item`} title={props.title} onClick={props.onClick}>
-          <Trigger />
+          {Trigger}
         </div>
       );
     };
