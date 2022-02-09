@@ -797,7 +797,13 @@ export default defineComponent({
             );
           }
         }
+      } else if (props.defToolbars instanceof Array) {
+        // vue3模板，插槽内容永远是个数组对象
+        const defItem = props.defToolbars[barItem as number];
+
+        return defItem || '';
       } else if (props.defToolbars && props.defToolbars.children instanceof Array) {
+        // jsx语法，<></>包裹下，defToolbars是包裹插槽内容的对象
         const defItem = props.defToolbars.children[barItem as number];
 
         return defItem || '';
