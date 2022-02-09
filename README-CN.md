@@ -37,7 +37,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 ### Props
 
 | 名称 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | modelValue | String | '' | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
 | theme | 'light' \| 'dark' | 'light' | 主题切换 |
 | editorClass | String | '' | 编辑器类名 |
@@ -48,33 +48,39 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | pageFullScreen | Boolean | false | 页面内全屏 |
 | preview | Boolean | true | 是否预览 |
 | htmlPreview | Boolean | false | 是否 html 预览 |
-| previewOnly<sup>v1.3.0</sup> | Boolean | false | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
+| previewOnly | Boolean | false | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | String | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| languageUserDefined<sup>[v1.5.0 更新]</sup> | Object | {key: StaticTextDefaultValue} | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
+| languageUserDefined | Object | {key: StaticTextDefaultValue} | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
 | toolbars | Array | [toolbars] | 选择性展示工具栏，可选内容<sup>见下方`toolbars`<sup> |
-| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | 选择性不展示工具栏，内容同`toolbars` |
+| toolbarsExclude | Array | [] | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
 | prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) |  |
-| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | cropper css url |
-| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | cropper js url |
-| iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
-| editorId<sup>[v1.6.4 更新](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.4)</sup> | String | md-editor-v3 | 编辑器唯一标识，非必须项，当相同页面存在两个编辑器时，请务必区别该属性 |
-| tabWidth<sup>v1.4.0<sup> | Number | 2 | 编辑器 TAB 键位等于空格数 |
-| showCodeRowNumber<sup>v1.4.3</sup> | Boolean | false | 代码块是否显示行号 |
-| screenfull<sup>v1.4.3</sup> | Object | null | 全屏插件实例，编辑器不再插入对应的`script` |
-| screenfullJs<sup>v1.4.3</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | screenfull js 链接 |
-| previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | 预览内容主题 |
-| style<sup>v1.7.0</sup> | CSSProperties | {} | 编辑器内联样式 |
-| tableShape<sup>v1.8.0</sup> | [Number, Number] | [6, 4] | 标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数。 |
-| mermaid<sup>v1.8.0</sup> | Object | undefined | 图表库`mermaid`实例 |
-| mermaidJs<sup>v1.8.0</sup> | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | mermaidJs 链接 |
-| noMermaid<sup>v1.8.0</sup> | Boolean | false | 如果你不希望使用图表展示内容，可以设置关闭 |
-| placeholder<sup>v1.8.0</sup> | String | '' |  |
-| katex<sup>v1.9.0</sup> | Object | undefined | `katex` 实例，这种方式你需要自行引入 css |
-| katexJs<sup>v1.9.0</sup> | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | katexJs 链接 |
-| katexCss<sup>v1.9.0</sup> | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | katexCss 链接 |
-| noKatex<sup>v1.9.0</sup> | Boolean | false | 不使用 katex 展示数学公式 |
+| cropperCss | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | cropper css url |
+| cropperJs | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | cropper js url |
+| iconfontJs | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
+| editorId | String | md-editor-v3 | 编辑器唯一标识，非必须项，当相同页面存在两个编辑器时，请务必区别该属性 |
+| tabWidth | Number | 2 | 编辑器 TAB 键位等于空格数 |
+| showCodeRowNumber | Boolean | false | 代码块是否显示行号 |
+| screenfull | Object | null | 全屏插件实例，编辑器不再插入对应的`script` |
+| screenfullJs | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | screenfull js 链接 |
+| previewTheme | 'default' \| 'github' \| 'vuepress' | 'default' | 预览内容主题 |
+| style | CSSProperties | {} | 编辑器内联样式 |
+| tableShape | [Number, Number] | [6, 4] | 标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数。 |
+| mermaid | Object | undefined | 图表库`mermaid`实例 |
+| mermaidJs | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | mermaidJs 链接 |
+| noMermaid | Boolean | false | 如果你不希望使用图表展示内容，可以设置关闭 |
+| placeholder | String | '' |  |
+| katex | Object | undefined | `katex` 实例，这种方式你需要自行引入 css |
+| katexJs | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | katexJs 链接 |
+| katexCss | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | katexCss 链接 |
+| noKatex | Boolean | false | 不使用 katex 展示数学公式 |
+| defToolbars | Array<DropdownToolbar | NormalToolbar> | null | 自定义工具栏，具体使用请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars)和[emoji 示例](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
+| extensions | Array<Object> | null | 编辑器依赖的[marked](https://marked.js.org/using_pro#extensions)扩展 |
+
+简单的标记和表情扩展预览
+
+![mark and Emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
 [toolbars]
 
@@ -114,6 +120,8 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 ```
 
 > 从 v1.6.0 开始，你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
+
+> 从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范），更多请参考[文档]()。
 
 自定义语言，需要替换的下面的全部内容（某些字段若不主动提供，会造成页面不美观）：
 
@@ -225,10 +233,10 @@ export interface StaticTextDefaultValue {
 | onSave | v:String | 保存事件，快捷键与保存按钮均会触发 |
 | onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
-| onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | 动态获取`markdown`目录 |
-| markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
-| markedHeadingId<sup>v1.7.0</sup> | (text: string, level: number) => string | 标题`ID`计算方式 |
-| sanitize<sup>v1.8.0</sup> | (html: string) => string | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
+| onGetCatalog | list: HeadList[] | 动态获取`markdown`目录 |
+| markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
+| markedHeadingId | (text: string, level: number) => string | 标题`ID`计算方式 |
+| sanitize | (html: string) => string | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 
 > 如果你重写了`markedHeading`方法，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
