@@ -18,3 +18,5 @@ export default Editor as typeof Editor & {
   readonly NormalToolbar: typeof NormalToolbar;
   readonly DropdownToolbar: typeof DropdownToolbar;
 };
+
+export * from './type';
