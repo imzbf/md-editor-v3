@@ -8,6 +8,8 @@ import { useStore } from 'vuex';
 
 import { emojis } from './data';
 
+import MarkExtension from '@/utils/marked-mark';
+
 export default defineComponent({
   props: {
     theme: String as PropType<Theme>
@@ -30,6 +32,53 @@ export default defineComponent({
         }
       }
     );
+
+    const markHandler = () => {
+      // 获取输入框
+      const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
+      // 获取选中的内容
+      const selection = window.getSelection()?.toString();
+      // 获取鼠标位置
+      const endPoint = textarea.selectionStart;
+
+      // 生成标记文本
+      const markStr = `@${selection}@`;
+
+      // 根据鼠标位置分割旧文本
+      // 前半部分
+      const prefixStr = textarea.value.substring(0, endPoint);
+      // 后半部分
+      const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
+
+      data.text = `${prefixStr}${markStr}${suffixStr}`;
+
+      setTimeout(() => {
+        textarea.setSelectionRange(endPoint, markStr.length + endPoint);
+        textarea.focus();
+      }, 0);
+    };
+
+    const emojiHandler = (emoji: string) => {
+      // 获取输入框
+      const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
+      // 获取选中的内容
+      const selection = window.getSelection()?.toString();
+      // 获取鼠标位置
+      const endPoint = textarea.selectionStart;
+
+      // 根据鼠标位置分割旧文本
+      // 前半部分
+      const prefixStr = textarea.value.substring(0, endPoint);
+      // 后半部分
+      const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
+
+      data.text = `${prefixStr}${emoji}${suffixStr}`;
+
+      setTimeout(() => {
+        textarea.setSelectionRange(endPoint, endPoint + 1);
+        textarea.focus();
+      }, 0);
+    };
 
     return () => (
       <div class="project-preview">
@@ -83,6 +132,7 @@ export default defineComponent({
               'mermaid',
               'katex',
               0,
+              1,
               '-',
               'revoke',
               'next',
@@ -98,6 +148,15 @@ export default defineComponent({
             ]}
             defToolbars={
               <>
+                <Editor.NormalToolbar
+                  title="标记"
+                  trigger={
+                    <svg class="md-icon" aria-hidden="true">
+                      <use xlinkHref="#icon-mark"></use>
+                    </svg>
+                  }
+                  onClick={markHandler}
+                ></Editor.NormalToolbar>
                 <Editor.DropdownToolbar
                   visible={data.emojiVisible}
                   onChange={(visible) => {
@@ -108,20 +167,28 @@ export default defineComponent({
                       <div class="emoji-container">
                         <ol class="emojis">
                           {emojis.map((emoji, index) => (
-                            <li key={`emoji-${index}`}>{emoji}</li>
+                            <li
+                              key={`emoji-${index}`}
+                              onClick={() => {
+                                emojiHandler(emoji);
+                              }}
+                            >
+                              {emoji}
+                            </li>
                           ))}
                         </ol>
                       </div>
                     </>
                   }
                   trigger={
-                    <svg class="icon" aria-hidden="true">
+                    <svg class="md-icon" aria-hidden="true">
                       <use xlinkHref="#icon-emoji"></use>
                     </svg>
                   }
                 ></Editor.DropdownToolbar>
               </>
             }
+            extensions={[MarkExtension]}
           />
           <br />
           <span class="tips-text">
