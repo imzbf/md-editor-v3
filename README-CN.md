@@ -37,7 +37,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 ### Props
 
 | 名称 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | modelValue | String | '' | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
 | theme | 'light' \| 'dark' | 'light' | 主题切换 |
 | editorClass | String | '' | 编辑器类名 |
@@ -51,7 +51,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | previewOnly | Boolean | false | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | String | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
 | languageUserDefined | Object | {key: StaticTextDefaultValue} | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
-| toolbars | Array | [toolbars] | 选择性展示工具栏，可选内容<sup>见下方`toolbars`<sup> |
+| toolbars | Array | [toolbars] | 选择性展示工具栏，可选内容<sup>见下方`toolbars`</sup> |
 | toolbarsExclude | Array | [] | 选择性不展示工具栏，内容同`toolbars` |
 | prettier | Boolean | true | 是否启用 prettier 优化 md 内容 |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
@@ -75,8 +75,8 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | katexJs | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | katexJs 链接 |
 | katexCss | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | katexCss 链接 |
 | noKatex | Boolean | false | 不使用 katex 展示数学公式 |
-| defToolbars | Array<DropdownToolbar | NormalToolbar> | null | 自定义工具栏，具体使用请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars)和[emoji 示例](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
-| extensions | Array<Object> | null | 编辑器依赖的[marked](https://marked.js.org/using_pro#extensions)扩展 |
+| defToolbars | Array<DropdownToolbar \| NormalToolbar> | null | 自定义工具栏，具体使用请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars)和[emoji 示例](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
+| extensions | Array | [] | 编辑器依赖的[marked](https://marked.js.org/using_pro#extensions)扩展 |
 
 简单的标记和表情扩展预览
 
