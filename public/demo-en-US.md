@@ -564,6 +564,243 @@ export default defineComponent({
 });
 ```
 
+### 💪 Customize Toolbar
+
+There are examples of `mark` and `emoji`.
+
+```vue
+<template>
+  <div class="project-preview">
+    <div class="container">
+      <Editor
+        editorId="md-prev"
+        v-model="data.text"
+        :toolbars="[
+          'bold',
+          'underline',
+          'italic',
+          'strikeThrough',
+          '-',
+          'title',
+          'sub',
+          'sup',
+          'quote',
+          'unorderedList',
+          'orderedList',
+          '-',
+          'codeRow',
+          'code',
+          'link',
+          'image',
+          'table',
+          'mermaid',
+          'katex',
+          0,
+          1,
+          '-',
+          'revoke',
+          'next',
+          'save',
+          '=',
+          'prettier',
+          'pageFullscreen',
+          'fullscreen',
+          'preview',
+          'htmlPreview',
+          'catalog',
+          'github'
+        ]"
+        :extensions="[MarkExtension]"
+      >
+        <template #defToolbars>
+          <Editor.NormalToolbar title="mark" @click="markHandler">
+            <template #trigger>
+              <svg class="md-icon" aria-hidden="true">
+                <use xlink:href="#icon-mark"></use>
+              </svg>
+            </template>
+          </Editor.NormalToolbar>
+          <Editor.DropdownToolbar
+            title="emoji"
+            :visible="data.emojiVisible"
+            :onChange="emojiVisibleChanged"
+          >
+            <template #overlay>
+              <div class="emoji-container">
+                <ol class="emojis">
+                  <li
+                    v-for="(emoji, index) of emojis"
+                    :key="`emoji-${index}`"
+                    @click="emojiHandler(emoji)"
+                    v-text="emoji"
+                  ></li>
+                </ol>
+              </div>
+            </template>
+            <template #trigger>
+              <svg class="md-icon" aria-hidden="true">
+                <use xlink:href="#icon-emoji"></use>
+              </svg>
+            </template>
+          </Editor.DropdownToolbar>
+        </template>
+      </Editor>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import Editor from 'md-editor-v3';
+import './index.less';
+
+import { emojis } from './data';
+// refer to marked extension
+import MarkExtension from '../../utils/marked-mark';
+
+const data = reactive({
+  text: mdText,
+  emojiVisible: false
+});
+
+const markHandler = () => {
+  const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
+  const selection = window.getSelection()?.toString();
+  const endPoint = textarea.selectionStart;
+
+  const markStr = `@${selection}@`;
+
+  const prefixStr = textarea.value.substring(0, endPoint);
+  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
+
+  data.text = `${prefixStr}${markStr}${suffixStr}`;
+
+  setTimeout(() => {
+    textarea.setSelectionRange(endPoint, markStr.length + endPoint);
+    textarea.focus();
+  }, 0);
+};
+
+const emojiHandler = (emoji: string) => {
+  const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
+  const selection = window.getSelection()?.toString();
+  const endPoint = textarea.selectionStart;
+
+  const prefixStr = textarea.value.substring(0, endPoint);
+  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
+
+  data.text = `${prefixStr}${emoji}${suffixStr}`;
+
+  setTimeout(() => {
+    textarea.setSelectionRange(endPoint, endPoint + 1);
+    textarea.focus();
+  }, 0);
+};
+
+const emojiVisibleChanged = (visible) => {
+  data.emojiVisible = visible;
+};
+</script>
+```
+
+**data.ts**
+
+```js
+export const emojis = [
+  '😀',
+  '😃',
+  '😄',
+  '😁',
+  '😆',
+  '😅',
+  '😂',
+  '🤣',
+  '🥲',
+  '🤔',
+  '😊',
+  '😇',
+  '🙂',
+  '🙃',
+  '😉',
+  '😌',
+  '😍',
+  '🥰',
+  '😘',
+  '😗',
+  '😙',
+  '😚',
+  '😋',
+  '😛',
+  '😝',
+  '😜',
+  '🤪',
+  '🤨',
+  '🧐',
+  '🤓',
+  '😎',
+  '🥸',
+  '🤩',
+  '🥳',
+  '😏',
+  '😒',
+  '😞',
+  '😔',
+  '😟',
+  '😕',
+  '🙁',
+  '☹️',
+  '😣',
+  '😖',
+  '😫',
+  '😩',
+  '🥺',
+  '😢',
+  '😭',
+  '😤',
+  '😠',
+  '😡',
+  '🤬',
+  '🤯',
+  '😳'
+];
+```
+
+> Get more emojis, go to [https://getemoji.com/](https://getemoji.com/).
+
+To get complete code, refer to [template.vue](https://github.com/imzbf/md-editor-v3/blob/docs/src/pages/Preview/template.vue).
+
+![mark and Emoji extension](/md-editor-v3/imgs/mark_emoji.gif)
+
+### 🪡 marked extension
+
+Simple example of converting `@hello@` to `<mark>hello</mark>`.
+
+```js
+export default {
+  name: 'MarkExtension',
+  level: 'inline',
+  start: (text: string) => text.match(/@[^@]/)?.index,
+  tokenizer(text: string) {
+    const reg = /^@([^@]*)@/;
+    const match = reg.exec(text);
+
+    if (match) {
+      const token = {
+        type: 'MarkExtension',
+        raw: match[0],
+        text: match[1].trim(),
+        tokens: []
+      };
+
+      return token;
+    }
+  },
+  renderer(token: any) {
+    return `<mark>${token.text}</mark>`;
+  }
+};
+```
+
 ## 🔒 xss
 
 after`1.3.0`, please use `sanitize` to sanitize `html`. eg: `sanitize-html`

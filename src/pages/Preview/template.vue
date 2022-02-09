@@ -46,7 +46,7 @@
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
-          <Editor.NormalToolbar title="标记" @click="markHandler">
+          <Editor.NormalToolbar title="mark" @click="markHandler">
             <template #trigger>
               <svg class="md-icon" aria-hidden="true">
                 <use xlink:href="#icon-mark"></use>
@@ -54,6 +54,7 @@
             </template>
           </Editor.NormalToolbar>
           <Editor.DropdownToolbar
+            title="emoji"
             :visible="data.emojiVisible"
             :onChange="emojiVisibleChanged"
           >
