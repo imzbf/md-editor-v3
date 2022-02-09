@@ -6,7 +6,7 @@ English \| [中文](https://github.com/imzbf/md-editor-v3/blob/dev/README-CN.md)
 
 Markdown editor for vue3, developed in `jsx` and `typescript`.
 
-- Documentation and demo：[Go](https://imzbf.github.io/md-editor-v3)
+- Documentation and example：[Go](https://imzbf.github.io/md-editor-v3)
 
 - Use it online：[Go](https://codesandbox.io/s/epic-bird-2znqo)
 
@@ -38,7 +38,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 ### Props
 
 | name | type | default | description |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | modelValue | String | '' | Markdown content，use `v-model` in vue template |
 | theme | 'light' \| 'dark' | 'light' | Change editor theme |
 | editorClass | String | '' |  |
@@ -49,33 +49,39 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 | pageFullScreen | Boolean | false | Screenfull in web page |
 | preview | Boolean | true | Preview content in editor |
 | htmlPreview | Boolean | false | Preview html in editor |
-| previewOnly<sup>v1.3.0</sup> | Boolean | false | Only render article content, no toolbar, no edit area |
+| previewOnly | Boolean | false | Only render article content, no toolbar, no edit area |
 | language | String | 'zh-CN' | Build-in language('zh-CN','en-US') |
-| languageUserDefined<sup>v1.5.0 changed</sup> | Object | {key: StaticTextDefaultValue} | Expand language，update `language` api to your key |
+| languageUserDefined | Object | {key: StaticTextDefaultValue} | Expand language，update `language` api to your key |
 | toolbars | Array | [toolbars] | Show some item of toolbars，all keys<sup>see `toolbars` below<sup> |
-| toolbarsExclude<sup>v1.1.4</sup> | Array | [] | Don't show some item of toolbars，all keys`toolbars` |
+| toolbarsExclude | Array | [] | Don't show some item of toolbars，all keys`toolbars` |
 | prettier | Boolean | true | Use prettier to beautify content or not |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
 | prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) |  |
-| cropperCss<sup>v1.2.0</sup> | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | Cropper css url |
-| cropperJs<sup>v1.2.0</sup> | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | Cropper js url |
-| iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | Icon url |
-| editorId<sup>[v1.6.4 updated](https://github.com/imzbf/md-editor-v3/releases/tag/v1.6.4)</sup> | String | md-editor-v3 | Editor id, also the html id, it is used when there are more than two editors |
-| tabWidth<sup>v1.4.0<sup> | Number | 2 | One tab eq some space |
-| showCodeRowNumber<sup>v1.4.3</sup> | Boolean | false | Show row number for code block or not |
-| screenfull<sup>v1.4.3</sup> | Object | null | Screenfull instance, editor will not insert script of it |
-| screenfullJs<sup><v1.4.3</sup> | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | Screenfull js url |
-| previewTheme<sup>v1.4.3</sup> | 'default' \| 'github' \| 'vuepress' | 'default' | Preview themes |
-| style<sup>v1.7.0</sup> | CSSProperties | {} | Editor's inline style |
-| tableShape<sup>v1.8.0</sup> | [Number, Number] | [6, 4] | Preset the size of the table, [columns, rows]. |
-| mermaid<sup>v1.8.0</sup> | Object | undefined | `mermaid` instance |
-| mermaidJs<sup>v1.8.0</sup> | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | mermaidJs url |
-| noMermaid<sup>v1.8.0</sup> | Boolean | false | do not use mermaid |
-| placeholder<sup>v1.8.0</sup> | String | '' |  |
-| katex<sup>v1.9.0</sup> | Object | undefined | `katex` instance(you need import css by yourself.) |
-| katexJs<sup>v1.9.0</sup> | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | katexJs url |
-| katexCss<sup>v1.9.0</sup> | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | katexCss url |
-| noKatex<sup>v1.9.0</sup> | Boolean | false | do not use katex |
+| cropperCss | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | Cropper css url |
+| cropperJs | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | Cropper js url |
+| iconfontJs | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | Icon url |
+| editorId | String | md-editor-v3 | Editor id, also the html id, it is used when there are more than two editors |
+| tabWidth | Number | 2 | One tab eq some space |
+| showCodeRowNumber | Boolean | false | Show row number for code block or not |
+| screenfull | Object | null | Screenfull instance, editor will not insert script of it |
+| screenfullJs | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | Screenfull js url |
+| previewTheme | 'default' \| 'github' \| 'vuepress' | 'default' | Preview themes |
+| style | CSSProperties | {} | Editor's inline style |
+| tableShape | [Number, Number] | [6, 4] | Preset the size of the table, [columns, rows]. |
+| mermaid | Object | undefined | `mermaid` instance |
+| mermaidJs | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | MermaidJs url |
+| noMermaid | Boolean | false | Do not use mermaid |
+| placeholder | String | '' |  |
+| katex | Object | undefined | `katex` instance(you need import css by yourself.) |
+| katexJs | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | KatexJs url |
+| katexCss | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | KatexCss url |
+| noKatex | Boolean | false | Do not use katex |
+| defToolbars | Array<DropdownToolbar | NormalToolbar> | null | Customize Toolbar, for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars) and [emoji](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
+| extensions | Array<Object> | null | [marked](https://marked.js.org/using_pro#extensions) extensions |
+
+mark and emoji extensions
+
+![mark and Emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
 [toolbars]
 
@@ -114,7 +120,9 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 ];
 ```
 
-> after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
+> After v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
+
+> After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to[docs]().
 
 Expand language，you need to replace all the content here：
 
@@ -219,9 +227,9 @@ export interface StaticTextDefaultValue {
 | onSave | v:String | Save Content event，`ctrl+s`and click button will trigger |
 | onUploadImg | files:FileList, callback:Function | Upload picture event，when picture is uploading the modal will not close，please provide right urls to the callback function |
 | onHtmlChanged | h:String | Compile markdown successful event，you can use it to get the html code |
-| onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | Get catalogue of article |
-| markedHeading<sup>v1.6.0</sup> | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
-| markedHeadingId<sup>v1.7.0</sup> | (text: string, level: number) => string | title `ID` generator |
+| onGetCatalog | list: HeadList[] | Get catalogue of article |
+| markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
+| markedHeadingId | (text: string, level: number) => string | title `ID` generator |
 | sanitize | (html: string) => string | Sanitize the html, prevent XSS. |
 
 > If `markedHeading` is overridden, be sure to tell the editor the algorithm for generating the title ID by `marketheadingid`.
@@ -255,7 +263,7 @@ export interface StaticTextDefaultValue {
 | CTRL + ALT + C | code row |  | v1.0.0 |
 | CTRL + SHIFT + ALT + T | table | `\|table\|` | v1.4.0 |
 
-## Simple demo
+## Simple example
 
 ### Jsx module
 
