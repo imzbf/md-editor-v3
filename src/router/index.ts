@@ -9,8 +9,6 @@ import NProgress from 'nprogress';
 import Layout from '@/layouts';
 import { SITE_TITLE_PREFIX } from '@/config';
 
-const VITE_BASE = import.meta.env.VITE_BASE;
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -21,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'index',
         name: 'IndexPage',
-        component: () => import('@/pages/Preview'),
+        component: () => import('@/pages/Preview/template.vue'),
         meta: { title: `${SITE_TITLE_PREFIX} 编辑器展示` }
       }
     ]
