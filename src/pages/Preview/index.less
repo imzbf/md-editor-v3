@@ -6,4 +6,67 @@
   .tips-text {
     color: #777;
   }
+
+  .emoji-container {
+    border-radius: 3px;
+    border: 1px solid #e6e6e6;
+  }
+
+  .emojis {
+    position: relative;
+    width: 363px;
+    margin: 10px;
+    padding: 0;
+    background-color: #fff;
+
+    li {
+      cursor: pointer;
+      float: left;
+      border: 1px solid #e8e8e8;
+      height: 24px;
+      width: 28px;
+      overflow: hidden;
+      margin: -1px 0 0 -1px;
+      padding: 4px 2px;
+      text-align: center;
+      list-style: none;
+      z-index: 11;
+
+      &:hover {
+        position: relative;
+        border: 1px solid #63a35c;
+        z-index: 12;
+      }
+    }
+
+    &::after {
+      content: '';
+      clear: left;
+      display: block;
+    }
+
+    * {
+      user-select: none;
+    }
+  }
+}
+
+.theme-dark {
+  .project-preview {
+    .emoji-container {
+      border-color: #2d2d2d;
+    }
+
+    .emojis {
+      background-color: inherit;
+
+      li {
+        border-color: #2d2d2d;
+
+        &:hover {
+          border: 1px solid #497744;
+        }
+      }
+    }
+  }
 }
