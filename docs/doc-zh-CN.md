@@ -191,7 +191,7 @@ export interface StaticTextDefaultValue {
 
 你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
 
-从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范），更多请参考[文档]()。
+从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范），更多请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#💪%20defToolbars)。
 
 ```js
 'bold',
@@ -472,7 +472,7 @@ import katex from 'katex'
 
 - 普通扩展
 
-这里展示将选中的内容使用`@`包裹，完整可用的示例请参考[mark 标记示例]()。
+这里展示将选中的内容使用`@`包裹，完整可用的示例请参考[mark 标记示例](https://imzbf.github.io/md-editor-v3/demo/index#%F0%9F%92%AA%20Customize%20Toolbar)。
 
 ```vue
 <template>
@@ -538,7 +538,7 @@ const markHandler = () => {
 
 - 下拉扩展
 
-这里展示下拉框选择的扩展，完整可用的示例请参考[emoji 示例]()。
+这里展示下拉框选择的扩展，完整可用的示例请参考[emoji 示例](https://imzbf.github.io/md-editor-v3/demo/index#%F0%9F%92%AA%20Customize%20Toolbar)。
 
 ```vue
 <template>
