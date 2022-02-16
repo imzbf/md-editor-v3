@@ -562,12 +562,17 @@ export const usePasteUpload = (textAreaRef: Ref) => {
   // 粘贴板上传
   const pasteHandler = (e: ClipboardEvent) => {
     if (e.clipboardData && e.clipboardData.files.length > 0) {
-      const file = e.clipboardData.files[0];
+      const { files } = e.clipboardData;
 
-      if (/image\/.*/.test(file.type)) {
-        bus.emit(editorId, 'uploadImage', [file]);
-        e.preventDefault();
-      }
+      bus.emit(
+        editorId,
+        'uploadImage',
+        Array.from(files).filter((file) => {
+          return /image\/.*/.test(file.type);
+        })
+      );
+
+      e.preventDefault();
     }
   };
 
