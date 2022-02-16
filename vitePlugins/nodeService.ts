@@ -3,7 +3,7 @@ import multiparty from 'multiparty';
 import fs from 'fs';
 import path from 'path';
 
-const LOCAL_IMG_PATH = path.resolve(__dirname, '../temp.local');
+const LOCAL_IMG_PATH = path.resolve(__dirname, '../dev/public/temp.local');
 
 export default (): Plugin => {
   return {
@@ -19,14 +19,16 @@ export default (): Plugin => {
             uploadDir: LOCAL_IMG_PATH
           });
 
-          form.parse(req, (_, __, files) => {});
+          form.parse(req, (err, fields, files) => {
+            const filename = files.file[0].path.match(/(?<=temp\.local\\).*\..*/);
 
-          res.end(
-            JSON.stringify({
-              code: 0,
-              url: 'https://art-1252753142.cos.ap-chengdu.myqcloud.com/2021/06301522413082599421018280471.png'
-            })
-          );
+            res.end(
+              JSON.stringify({
+                code: 0,
+                url: `/temp.local/${filename}`
+              })
+            );
+          });
         } else {
           next();
         }
