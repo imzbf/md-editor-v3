@@ -329,14 +329,9 @@ export default defineComponent({
           name: 'uploadImage',
           callback(files: FileList, cb: () => void) {
             const insertHanlder = (urls: Array<string>) => {
-              urls.forEach((url) => {
-                // 利用事件循环机制，保证两次插入分开进行
-                setTimeout(() => {
-                  bus.emit(editorId, 'replace', 'image', {
-                    desc: '',
-                    url
-                  });
-                }, 0);
+              bus.emit(editorId, 'replace', 'image', {
+                desc: '',
+                urls
               });
 
               cb && cb();
