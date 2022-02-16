@@ -227,8 +227,16 @@ export const directive2flag = (
         break;
       }
       case 'image': {
-        const { desc, url } = params;
-        targetValue = `![${desc}](${url})\n`;
+        const { desc, url, urls } = params;
+
+        if (urls instanceof Array) {
+          targetValue = urls.reduce((pVal, url) => {
+            return pVal + `![${desc}](${url})\n`;
+          }, '');
+        } else {
+          targetValue = `![${desc}](${url})\n`;
+        }
+
         break;
       }
       case 'tab': {
