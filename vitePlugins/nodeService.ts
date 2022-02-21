@@ -20,12 +20,12 @@ export default (): Plugin => {
           });
 
           form.parse(req, (err, fields, files) => {
-            const filename = files.file[0].path.match(/(?<=temp\.local\\).*\..*/);
+            const filename = files.file[0].path.split('md-editor-v3/dev/public')[1];
 
             res.end(
               JSON.stringify({
                 code: 0,
-                url: `/temp.local/${filename}`
+                url: filename
               })
             );
           });
