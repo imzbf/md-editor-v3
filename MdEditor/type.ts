@@ -137,3 +137,5 @@ export type MarkedHeading = (
 ) => string;
 
 export type MarkedHeadingId = (text: string, level: number) => string;
+
+export type MarkedImage = (href: string, title: string, desc: string) => string;
