@@ -9,6 +9,7 @@ import {
   usePasteUpload
 } from './composition';
 import { prefix } from '../../config';
+import { MarkedImage } from '../../type';
 
 export type EditorContentProps = Readonly<{
   value: string;
@@ -33,6 +34,7 @@ export type EditorContentProps = Readonly<{
   katexCss: string;
   noKatex?: boolean;
   extensions?: Array<any>;
+  markedImage: MarkedImage;
 }>;
 
 export default defineComponent({
@@ -64,8 +66,7 @@ export default defineComponent({
     },
     markedHeading: {
       type: Function as PropType<MarkedHeading>,
-      default: () => (text: string, level: string) =>
-        `<h${level} id="${text}"><a href="#${text}">${text}</a></h${level}>`
+      default: () => ''
     },
     mermaid: {
       type: Object
@@ -106,6 +107,10 @@ export default defineComponent({
     },
     extensions: {
       type: Array as PropType<Array<any>>
+    },
+    markedImage: {
+      type: Function as PropType<MarkedImage>,
+      default: () => ''
     }
   },
   setup(props) {

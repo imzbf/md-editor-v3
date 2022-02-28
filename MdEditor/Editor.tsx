@@ -36,7 +36,8 @@ import {
   PreviewThemes,
   MarkedHeading,
   MarkedHeadingId,
-  SettingType
+  SettingType,
+  MarkedImage
 } from './type';
 
 import './styles/index.less';
@@ -261,6 +262,12 @@ const props = {
   // 自定义marked扩展，只支持预设
   extensions: {
     type: Array as PropType<Array<any>>
+  },
+  markedImage: {
+    type: Function as PropType<MarkedImage>,
+    default: (href: string, _: string, desc: string) => {
+      return `<img src="${href}" alt="${desc}">`;
+    }
   }
 };
 
@@ -426,6 +433,7 @@ export default defineComponent({
             katexCss={props.katexCss}
             noKatex={props.noKatex}
             extensions={props.extensions}
+            markedImage={props.markedImage}
           />
           {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
           {!previewOnly && (
