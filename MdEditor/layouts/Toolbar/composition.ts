@@ -1,6 +1,9 @@
-import { onMounted } from 'vue';
+import { onMounted, onBeforeMount, inject } from 'vue';
+import { prefix } from '../../config';
+import { appendHandler } from '../../utils/dom';
 
 export const useSreenfull = (props: any) => {
+  const previewOnly = inject('previewOnly') as boolean;
   // eslint-disable-next-line vue/no-setup-props-destructure
   let { screenfull } = props;
 
@@ -28,13 +31,30 @@ export const useSreenfull = (props: any) => {
     }
   };
 
+  let removeEle = () => {};
+
   onMounted(() => {
     if (screenfull && screenfull.isEnabled) {
       screenfull.on('change', () => {
         props.updateSetting(!props.setting.fullscreen, 'fullscreen');
       });
     }
+
+    if (!previewOnly && props.screenfull === null) {
+      const screenScript = document.createElement('script');
+      screenScript.src = props.screenfullJs;
+      screenScript.addEventListener('load', screenfullLoad);
+      screenScript.id = `${prefix}-screenfull`;
+
+      appendHandler(screenScript);
+
+      removeEle = () => {
+        screenScript.remove();
+      };
+    }
   });
 
-  return { fullScreenHandler, screenfullLoad };
+  onBeforeMount(removeEle);
+
+  return { fullScreenHandler };
 };

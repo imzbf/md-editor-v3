@@ -7,7 +7,6 @@ import {
   PropType,
   reactive,
   ref,
-  Teleport,
   VNode
 } from 'vue';
 import Divider from '../../components/Divider';
@@ -66,10 +65,9 @@ export default defineComponent({
     const editorId = inject('editorId') as string;
     // 获取语言设置
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const previewOnly = inject('previewOnly') as boolean;
 
     // 全屏功能
-    const { fullScreenHandler, screenfullLoad } = useSreenfull(props);
+    const { fullScreenHandler } = useSreenfull(props);
 
     const visible = reactive({
       title: false,
@@ -850,12 +848,6 @@ export default defineComponent({
               modalData.clipVisible = false;
             }}
           />
-          {/* 非预览模式且未提供screenfull时请求cdn */}
-          {!previewOnly && props.screenfull === null && (
-            <Teleport to="head">
-              <script src={props.screenfullJs} onLoad={screenfullLoad}></script>
-            </Teleport>
-          )}
         </div>
       );
     };

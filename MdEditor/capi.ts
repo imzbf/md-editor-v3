@@ -2,7 +2,8 @@ import { computed, onMounted, onBeforeUnmount, provide, SetupContext } from 'vue
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
 import { ToolbarNames } from './type';
-import { highlightUrl, staticTextDefault } from './config';
+import { appendHandler } from './utils/dom';
+import { prefix, highlightUrl, staticTextDefault } from './config';
 
 export const useKeyBoard = (props: any, context: SetupContext) => {
   const { editorId } = props;
@@ -259,12 +260,12 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
 };
 
 export const useProvide = (props: any) => {
-  const { previewOnly, editorId, tabWidth, showCodeRowNumber, Cropper } = props;
+  const { editorId } = props;
 
   provide('editorId', editorId);
 
   // tab=2space
-  provide('tabWidth', tabWidth);
+  provide('tabWidth', props.tabWidth);
 
   provide(
     'theme',
@@ -304,10 +305,10 @@ export const useProvide = (props: any) => {
   provide('historyLength', props.historyLength);
 
   // 注入是否仅预览
-  provide('previewOnly', previewOnly);
+  provide('previewOnly', props.previewOnly);
 
   // 注入代码行号控制
-  provide('showCodeRowNumber', showCodeRowNumber);
+  provide('showCodeRowNumber', props.showCodeRowNumber);
 
   // 注入语言设置
   const usedLanguageText = computed(() => {
@@ -325,7 +326,7 @@ export const useProvide = (props: any) => {
 
   provide('usedLanguageText', usedLanguageText);
 
-  provide('Cropper', Cropper);
+  provide('Cropper', props.Cropper);
 
   // 提供预览主题
   provide(
@@ -333,4 +334,76 @@ export const useProvide = (props: any) => {
     computed(() => props.previewTheme)
   );
   // -end-
+};
+
+export const useExpansion = (props: any) => {
+  // 这部分内容同样不需要响应式更新
+  const {
+    iconfontJs,
+    prettier,
+    prettierCDN,
+    prettierMDCDN,
+    previewOnly,
+    cropperCss,
+    cropperJs
+  } = props;
+
+  let removeEle = () => {};
+
+  onMounted(() => {
+    // 图标
+    const iconfontScript = document.createElement('script');
+    iconfontScript.src = iconfontJs;
+    iconfontScript.id = `${prefix}-icon`;
+
+    // prettier
+    const prettierScript = document.createElement('script');
+    const prettierMDScript = document.createElement('script');
+
+    prettierScript.src = prettierCDN;
+    prettierScript.id = `${prefix}-prettier`;
+
+    prettierMDScript.src = prettierMDCDN;
+    prettierMDScript.id = `${prefix}-prettierMD`;
+
+    // 裁剪图片
+    const cropperLink = document.createElement('link');
+    cropperLink.rel = 'stylesheet';
+    cropperLink.href = cropperCss;
+    cropperLink.id = `${prefix}-cropperCss`;
+
+    const cropperScript = document.createElement('script');
+    cropperScript.src = cropperJs;
+    cropperScript.id = `${prefix}-cropper`;
+
+    // 非仅预览模式才添加扩展
+    if (!previewOnly) {
+      appendHandler(iconfontScript);
+
+      if (!props.Cropper) {
+        appendHandler(cropperLink);
+        appendHandler(cropperScript);
+      }
+
+      if (prettier) {
+        appendHandler(prettierScript);
+        appendHandler(prettierMDScript);
+      }
+    }
+
+    removeEle = () => {
+      if (!previewOnly) {
+        iconfontScript.remove();
+        cropperLink.remove();
+        cropperScript.remove();
+
+        if (prettier) {
+          prettierScript.remove();
+          prettierMDScript.remove();
+        }
+      }
+    };
+  });
+
+  onBeforeUnmount(removeEle);
 };
