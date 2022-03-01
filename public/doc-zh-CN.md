@@ -715,6 +715,16 @@ const markedHeading = (text, level, raw) => {
 - **类型**：`(text: string, level: number) => string`
 - **说明**：标题`ID`计算方式。
 
+```vue
+<template>
+  <md-editor :marked-heading-id="hId" />
+</template>
+
+<script setup>
+const hId = (text) => text;
+</script>
+```
+
 ### 🔒 sanitize
 
 - **类型**：`(html: string) => string`
@@ -722,11 +732,16 @@ const markedHeading = (text, level, raw) => {
 
 > 使用`sanitize-html`演示
 
-```js
+```vue
+<template>
+  <md-editor :sanitize="sanitize" />
+</template>
+
+<script setup>
 import sanitizeHtml from 'sanitize-html';
 
-//
-<Editor sanitize={(html) => sanitizeHtml(html)} />;
+const sanitize = (html) => sanitizeHtml(html);
+</script>
 ```
 
 就是这么简单。
