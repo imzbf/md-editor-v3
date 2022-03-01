@@ -696,6 +696,20 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 
 > 如果你重写了`markedHeading`方法，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
+！！非常注意！！Vue 模板语法中，请通过:绑定方法，它不是一个单纯的事件。
+
+```vue
+<template>
+  <md-editor class="body" v-model="mdText" :marked-heading="markedHeading" preview-only />
+</template>
+
+<script setup>
+const markedHeading = (text, level, raw) => {
+  return `<h${level} id="${raw}">${text}</h${level}>`;
+};
+</script>
+```
+
 ### 🎈 markedHeadingId
 
 - **类型**：`(text: string, level: number) => string`

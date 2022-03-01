@@ -354,9 +354,8 @@ Use `markedHeading` to modify head structure, after `v1.7.2`, if there are some 
 - Demo:
 
 ```js
-
 <template>
-  <md-editor v-model="text" @markedHeading="markedHeading" />
+  <md-editor v-model="text" :marked-heading="markedHeading" />
 </template>
 
 <script>
@@ -392,7 +391,6 @@ export default defineComponent({
   }
 });
 </script>
-
 ```
 
 ### 📄 Get catalogue

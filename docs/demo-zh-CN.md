@@ -359,7 +359,7 @@ export default defineComponent({
 
 ```js
 <template>
-  <md-editor v-model="text" @markedHeading="markedHeading" />
+  <md-editor v-model="text" :marked-heading="markedHeading" />
 </template>
 
 <script>
