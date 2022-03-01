@@ -648,6 +648,18 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 
 > If `markedHeading` is overridden, be sure to tell the editor the algorithm for generating the title ID by `marketheadingid`.
 
+```vue
+<template>
+  <md-editor class="body" v-model="mdText" :marked-heading="markedHeading" preview-only />
+</template>
+
+<script setup>
+const markedHeading = (text, level, raw) => {
+  return `<h${level} id="${raw}">${text}</h${level}>`;
+};
+</script>
+```
+
 ### 🎈 markedHeadingId
 
 - **type**: `(text: string, level: number) => string`
