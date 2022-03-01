@@ -1,4 +1,4 @@
-import { defineComponent, Teleport, inject, PropType, ref, ComputedRef } from 'vue';
+import { defineComponent, inject, PropType, ref, ComputedRef } from 'vue';
 import { HeadList, SettingType, PreviewThemes, MarkedHeading } from '../../type';
 import {
   useAutoGenrator,
@@ -114,7 +114,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const highlight = inject('highlight') as ComputedRef<{ js: string; css: string }>;
     const previewOnly = inject('previewOnly') as boolean;
     // 是否显示行号
     const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
@@ -132,7 +131,7 @@ export default defineComponent({
     // mermaid图表
     const mermaidData = useMermaid(props);
     // markdown => html
-    const { html, highlightLoad } = useMarked(props, mermaidData);
+    const { html } = useMarked(props, mermaidData);
     // 自动滚动
     useAutoScroll(props, html, textAreaRef, previewRef, htmlRef);
     // 自动监听生成md内容
@@ -197,12 +196,6 @@ export default defineComponent({
               </div>
             )}
           </div>
-          {props.hljs === null && (
-            <Teleport to="head">
-              <link rel="stylesheet" href={highlight.value.css} />
-              <script src={highlight.value.js} onLoad={highlightLoad} />
-            </Teleport>
-          )}
         </>
       );
     };
