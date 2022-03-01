@@ -1,4 +1,4 @@
-> The latest version：[${EDITOR_VERSION}](https://github.com/imzbf/md-editor-v3/releases/tag/v${EDITOR_VERSION})，Use it online：[Go](https://codesandbox.io/s/epic-bird-2znqo).
+> The latest version: [${EDITOR_VERSION}](https://github.com/imzbf/md-editor-v3/releases/tag/v${EDITOR_VERSION}), Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## 🤯 Props
 
@@ -180,6 +180,8 @@ export interface StaticTextDefaultValue {
 
 You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
+After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to[docs](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars).
+
 ```js
 [
   'bold',
@@ -240,8 +242,8 @@ You can sort the toolbar as you like, split tools by `'-'`, the left and right t
 
 ### ✂️ Cropper
 
-- **type**：`Object`
-- **default**：`undefined`
+- **type**: `Object`
+- **default**: `undefined`
 - **description**: Instance of Cropper.
 
 ### ✂️ cropperCss
@@ -337,7 +339,7 @@ import mermaid from 'mermaid'
 - **type**: `String`
 - **default**: [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js)
 - **version**: `>= 1.8.0`
-- **description**: MermaidJs url。
+- **description**: MermaidJs url.
 
 ```js
 <Editor mermaidJs="/lib/mermaid.min.js" />
@@ -409,6 +411,181 @@ import katex from 'katex'
 ```js
 <Editor noKatex />
 ```
+
+### 💪 defToolbars
+
+- **type**: `Array<VNode>`
+- **default**: `[]`
+- **version**: `>= 1.10.0`
+- **description**: Customize Toolbar, and there are two types to choose from. `NormalToolbar` and `DropdownToolbar`. To display them, put index of `defToolbars` into `toolbars`(this is not standard).
+
+**Editor.NormalToolbar** Props
+
+- **title**: `String`, hover tips.
+- **trigger**: `VNode`, trigger dom, it will be displayed in the toolbar area also, it is usually an icon.
+- **onClick**: `(e: MouseEvent) => void`, trigger click event.
+
+**Editor.DropdownToolbar** Props
+
+- **title**: `String`, hover tips.
+- **visible**: `Boolean`, visible of dropdown.
+- **onChange**: `(visible: boolean) => void`, visible changed event.
+- **trigger**: `VNode`, trigger dom, it will be displayed in the toolbar area also, it is usually an icon.
+- **overlay**: `VNode`, content of dropdown.
+
+<br>
+<hr>
+
+- NormalToolbar
+
+For a complete example, please refer to [mark example](https://imzbf.github.io/md-editor-v3/demo/index#%F0%9F%92%AA%20Customize%20Toolbar).
+
+```vue
+<template>
+  <Editor
+    editorId="md-prev"
+    v-model="data.text"
+    :toolbars="['bold', 'underline', 'italic', 0]"
+  >
+    <template #defToolbars>
+      <Editor.NormalToolbar title="mark" @click="markHandler">
+        <template #trigger>
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-mark"></use>
+          </svg>
+        </template>
+      </Editor.NormalToolbar>
+    </template>
+  </Editor>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import Editor from 'md-editor-v3';
+
+const data = reactive({
+  text: '# NormalToolbar'
+});
+
+const markHandler = () => {
+  const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
+  const selection = window.getSelection()?.toString();
+  const endPoint = textarea.selectionStart;
+  const markStr = `@${selection}@`;
+
+  const prefixStr = textarea.value.substring(0, endPoint);
+  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
+
+  data.text = `${prefixStr}${markStr}${suffixStr}`;
+
+  // use setTimeout to prevent setSelectionRange error.
+  setTimeout(() => {
+    textarea.setSelectionRange(endPoint, markStr.length + endPoint);
+    textarea.focus();
+  }, 0);
+};
+</script>
+```
+
+![NormalToolbar](/md-editor-v3/imgs/normal-toolbar.gif)
+
+<br>
+
+- DropdownToolbar
+
+For a complete example, please refer to [emoji example](https://imzbf.github.io/md-editor-v3/demo/index#%F0%9F%92%AA%20Customize%20Toolbar).
+
+```vue
+<template>
+  <Editor
+    editorId="md-prev"
+    v-model="data.text"
+    :toolbars="['bold', 'underline', 'italic', 0]"
+  >
+    <template #defToolbars>
+      <Editor.DropdownToolbar
+        title="emoji"
+        :visible="data.emojiVisible"
+        :onChange="emojiVisibleChanged"
+      >
+        <template #overlay>
+          <ul>
+            <li @click="markHandler(1)">menu 1</li>
+            <li @click="markHandler(2)">menu 2</li>
+          </ul>
+        </template>
+        <template #trigger>
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-emoji"></use>
+          </svg>
+        </template>
+      </Editor.DropdownToolbar>
+    </template>
+  </Editor>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import Editor from 'md-editor-v3';
+
+const data = reactive({
+  text: '# DropdownToolbar',
+  emojiVisible: false
+});
+
+const markHandler = (num: number) => {
+  alert(num);
+};
+
+const emojiVisibleChanged = (visible) => {
+  data.emojiVisible = visible;
+};
+</script>
+```
+
+![DropdownToolbar](/md-editor-v3/imgs/dropdown-toolbar.gif)
+
+### 🪡 extensions
+
+- **type**: `Array<Object>`
+- **default**: `[]`
+- **description**: [marked](https://marked.js.org/using_pro#extensions) extensions.
+
+`mark` example, for a complete example, please refer to [marked extensions](https://marked.js.org/using_pro#extensions).
+
+```vue
+<template>
+  <Editor :extensions="[MarkExtension]" />
+</template>
+
+<script setup lang="ts">
+const MarkExtension = {
+  name: 'MarkExtension',
+  level: 'inline',
+  start: (text: string) => text.match(/@[^@]/)?.index,
+  tokenizer(text: string) {
+    const reg = /^@([^@]*)@/;
+    const match = reg.exec(text);
+
+    if (match) {
+      const token = {
+        type: 'MarkExtension',
+        raw: match[0],
+        text: match[1].trim(),
+        tokens: []
+      };
+
+      return token;
+    }
+  },
+  renderer(token: any) {
+    return `<mark>${token.text}</mark>`;
+  }
+};
+</script>
+```
+
+This is an example of converting `@hello@` to `<mark>hello</mark>`.
 
 <br>
 <hr>

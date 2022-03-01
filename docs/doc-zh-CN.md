@@ -191,6 +191,8 @@ export interface StaticTextDefaultValue {
 
 你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
 
+从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范），更多请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#💪%20defToolbars)。
+
 ```js
 'bold',
   'underline',
@@ -443,6 +445,193 @@ import katex from 'katex'
 ```js
 <Editor noKatex />
 ```
+
+### 💪 defToolbars
+
+- **类型**：`Array<VNode>`
+- **默认值**：`[]`
+- **版本**：`>= 1.10.0`
+- **说明**：自定义工具栏插槽，通过使用内置的`NormalToolbar`普通点击触发事件组件，和`DropdownToolbar`下拉点击触发事件组件进行扩展。将`defToolbars`插槽中的组件下标穿插在`toolbars`实现展示（这并不规范）
+
+**Editor.NormalToolbar** Props 说明
+
+- **title**: `String`，hover 提示。
+- **trigger**：`VNode`，触发点击，同时展示在工具栏中，通常是一个图标。
+- **onClick**： `(e: MouseEvent) => void`，trigger 点击事件。
+
+**Editor.DropdownToolbar** Props 说明
+
+- **title**: `String`，hover 提示。
+- **visible**：`Boolean`，下拉框状态。
+- **onChange**： `(visible: boolean) => void`，trigger 点击事件。
+- **trigger**：`VNode`，触发点击，同时展示在工具栏中，通常是一个图标。
+- **overlay**：`VNode`，下拉框中的内容。
+
+<br>
+<hr>
+
+- 普通扩展
+
+这里展示将选中的内容使用`@`包裹，完整可用的示例请参考[mark 标记示例](https://imzbf.github.io/md-editor-v3/demo/index#%F0%9F%92%AA%20Customize%20Toolbar)。
+
+```vue
+<template>
+  <Editor
+    editorId="md-prev"
+    v-model="data.text"
+    :toolbars="['bold', 'underline', 'italic', 0]"
+  >
+    <template #defToolbars>
+      <Editor.NormalToolbar title="标记" @click="markHandler">
+        <template #trigger>
+          <!--这里的内容将被展示在工具栏中-->
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-mark"></use>
+          </svg>
+        </template>
+      </Editor.NormalToolbar>
+    </template>
+  </Editor>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import Editor from 'md-editor-v3';
+
+const data = reactive({
+  text: '# 普通扩展演示'
+});
+
+const markHandler = () => {
+  // 获取输入框
+  const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
+  // 获取选中的内容
+  const selection = window.getSelection()?.toString();
+  // 获取鼠标位置
+  const endPoint = textarea.selectionStart;
+
+  // 生成标记文本
+  const markStr = `@${selection}@`;
+
+  // 根据鼠标位置分割旧文本
+  // 前半部分
+  const prefixStr = textarea.value.substring(0, endPoint);
+  // 后半部分
+  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
+
+  data.text = `${prefixStr}${markStr}${suffixStr}`;
+
+  // setTimeout
+  // 作用一是textarea文本更新后执行，加上nextTick更加靠谱
+  // 作用二是防止setSelectionRange失效
+  setTimeout(() => {
+    textarea.setSelectionRange(endPoint, markStr.length + endPoint);
+    textarea.focus();
+  }, 0);
+};
+</script>
+```
+
+![普通扩展工具栏](/md-editor-v3/imgs/normal-toolbar.gif)
+
+<br>
+
+- 下拉扩展
+
+这里展示下拉框选择的扩展，完整可用的示例请参考[emoji 示例](https://imzbf.github.io/md-editor-v3/demo/index#%F0%9F%92%AA%20Customize%20Toolbar)。
+
+```vue
+<template>
+  <Editor
+    editorId="md-prev"
+    v-model="data.text"
+    :toolbars="['bold', 'underline', 'italic', 0]"
+  >
+    <template #defToolbars>
+      <Editor.DropdownToolbar
+        title="emoji"
+        :visible="data.emojiVisible"
+        :onChange="emojiVisibleChanged"
+      >
+        <template #overlay>
+          <ul>
+            <li @click="markHandler(1)">菜单一</li>
+            <li @click="markHandler(2)">菜单二</li>
+          </ul>
+        </template>
+        <template #trigger>
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-emoji"></use>
+          </svg>
+        </template>
+      </Editor.DropdownToolbar>
+    </template>
+  </Editor>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import Editor from 'md-editor-v3';
+
+const data = reactive({
+  text: '# 下拉扩展演示',
+  emojiVisible: false
+});
+
+const markHandler = (num: number) => {
+  // 参考普通扩展
+  alert(num);
+};
+
+const emojiVisibleChanged = (visible) => {
+  data.emojiVisible = visible;
+};
+</script>
+```
+
+![下拉扩展工具栏](/md-editor-v3/imgs/dropdown-toolbar.gif)
+
+### 🪡 extensions
+
+- **类型**：`Array<Object>`
+- **默认值**：`[]`
+- **说明**：编辑器依赖的[marked](https://marked.js.org/using_pro#extensions)扩展。
+
+一个简单的`mark`示例，更加复杂的功能请参考[marked](https://marked.js.org/using_pro#extensions)扩展文档。
+
+```vue
+<template>
+  <Editor :extensions="[MarkExtension]" />
+</template>
+
+<script setup lang="ts">
+const MarkExtension = {
+  name: 'MarkExtension',
+  level: 'inline',
+  start: (text: string) => text.match(/@[^@]/)?.index,
+  tokenizer(text: string) {
+    const reg = /^@([^@]*)@/;
+    const match = reg.exec(text);
+
+    if (match) {
+      const token = {
+        type: 'MarkExtension',
+        raw: match[0],
+        text: match[1].trim(),
+        tokens: []
+      };
+
+      return token;
+    }
+  },
+  renderer(token: any) {
+    return `<mark>${token.text}</mark>`;
+  }
+};
+</script>
+```
+
+该扩展的作用是将`@hello@`转换成`<mark>hello</mark>`。
 
 <br>
 <hr>
