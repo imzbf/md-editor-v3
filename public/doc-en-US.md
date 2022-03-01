@@ -180,7 +180,7 @@ export interface StaticTextDefaultValue {
 
 You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
-After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to[docs]().
+After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to[docs](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars).
 
 ```js
 [
@@ -438,7 +438,7 @@ import katex from 'katex'
 
 - NormalToolbar
 
-For a complete example, please refer to [mark example]().
+For a complete example, please refer to [mark example](https://imzbf.github.io/md-editor-v3/demo/index#%F0%9F%92%AA%20Customize%20Toolbar).
 
 ```vue
 <template>
@@ -493,7 +493,7 @@ const markHandler = () => {
 
 - DropdownToolbar
 
-For a complete example, please refer to [emoji example]().
+For a complete example, please refer to [emoji example](https://imzbf.github.io/md-editor-v3/demo/index#%F0%9F%92%AA%20Customize%20Toolbar).
 
 ```vue
 <template>
@@ -647,6 +647,18 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 - **description**: `marked` head renderer method.
 
 > If `markedHeading` is overridden, be sure to tell the editor the algorithm for generating the title ID by `marketheadingid`.
+
+```vue
+<template>
+  <md-editor class="body" v-model="mdText" :marked-heading="markedHeading" preview-only />
+</template>
+
+<script setup>
+const markedHeading = (text, level, raw) => {
+  return `<h${level} id="${raw}">${text}</h${level}>`;
+};
+</script>
+```
 
 ### 🎈 markedHeadingId
 
