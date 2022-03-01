@@ -144,6 +144,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const editorId = inject('editorId') as string;
+  const highlight = inject('highlight') as ComputedRef<{ js: string; css: string }>;
   // ~~
   const highlightInited = ref(false);
   // katex是否加载完成
@@ -283,13 +284,12 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     }
   );
 
-  let katexScript: HTMLScriptElement;
-  let katexLink: HTMLLinkElement;
+  const needRemoveEleList: HTMLElement[] = [];
 
   onMounted(() => {
     // 标签引入katex
     if (!props.noKatex && !props.katex) {
-      katexScript = document.createElement('script');
+      const katexScript = document.createElement('script');
 
       katexScript.src = props.katexJs;
       katexScript.onload = () => {
@@ -297,24 +297,43 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
       };
       katexScript.id = `${prefix}-katex`;
 
-      katexLink = document.createElement('link');
+      const katexLink = document.createElement('link');
       katexLink.rel = 'stylesheet';
       katexLink.href = props.katexCss;
       katexLink.id = `${prefix}-katexCss`;
 
       appendHandler(katexScript);
       appendHandler(katexLink);
+
+      needRemoveEleList.push(katexLink);
+      needRemoveEleList.push(katexScript);
+    }
+
+    if (props.hljs === null) {
+      const highlightLink = document.createElement('link');
+      highlightLink.rel = 'stylesheet';
+      highlightLink.href = highlight.value.css;
+      highlightLink.id = `${prefix}-hlCss`;
+
+      const highlightScript = document.createElement('script');
+      highlightScript.src = highlight.value.js;
+      highlightScript.onload = highlightLoad;
+      highlightScript.id = `${prefix}-hljs`;
+
+      appendHandler(highlightLink);
+      appendHandler(highlightScript);
+
+      needRemoveEleList.push(highlightLink);
+      needRemoveEleList.push(highlightScript);
     }
   });
 
   onBeforeUnmount(() => {
-    katexScript && katexScript.remove();
-    katexLink && katexLink.remove();
+    needRemoveEleList.forEach((item) => item.remove());
   });
 
   return {
-    html,
-    highlightLoad
+    html
   };
 };
 
