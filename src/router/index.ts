@@ -65,6 +65,20 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: `${SITE_TITLE_PREFIX} 关于` }
       }
     ]
+  },
+  {
+    path: '/template',
+    name: 'Template',
+    redirect: '/template/index',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'TemplateIndex',
+        component: () => import('@/pages/Template/index.vue'),
+        meta: { title: `${SITE_TITLE_PREFIX} 模板` }
+      }
+    ]
   }
 ];
 
