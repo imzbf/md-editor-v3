@@ -665,6 +665,16 @@ const markedHeading = (text, level, raw) => {
 - **type**: `(text: string, level: number) => string`
 - **description**: Title `ID` generator.
 
+```vue
+<template>
+  <md-editor :marked-heading-id="hId" />
+</template>
+
+<script setup>
+const hId = (text) => text;
+</script>
+```
+
 ### 🔒 sanitize
 
 - **type**: `(html: string) => string`
@@ -672,11 +682,16 @@ const markedHeading = (text, level, raw) => {
 
 > Use `sanitize-html`
 
-```js
+```vue
+<template>
+  <md-editor :sanitize="sanitize" />
+</template>
+
+<script setup>
 import sanitizeHtml from 'sanitize-html';
 
-//
-<Editor sanitize={(html) => sanitizeHtml(html)} />;
+const sanitize = (html) => sanitizeHtml(html);
+</script>
 ```
 
 ## 🪡 Shortcut key
