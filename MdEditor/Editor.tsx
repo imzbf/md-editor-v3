@@ -3,7 +3,6 @@ import {
   PropType,
   reactive,
   onMounted,
-  Teleport,
   watch,
   onBeforeUnmount,
   CSSProperties,
@@ -22,7 +21,7 @@ import {
   katexJsUrl,
   katexCssUrl
 } from './config';
-import { useKeyBoard, useProvide } from './capi';
+import { useKeyBoard, useProvide, useExpansion } from './capi';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
 import Catalog from './layouts/Catalog';
@@ -275,28 +274,16 @@ export default defineComponent({
   name: 'MdEditorV3',
   props,
   setup(props, context) {
-    // 下面的内容不使用响应式（解构会失去响应式能力）
+    // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
     // eslint-disable-next-line vue/no-setup-props-destructure
-    const {
-      hljs,
-      previewOnly,
-      iconfontJs,
-      prettier,
-      prettierCDN,
-      prettierMDCDN,
-      Cropper,
-      cropperCss,
-      cropperJs,
-      editorId,
-      screenfull,
-      screenfullJs
-    } = props;
+    const { editorId } = props;
 
     // 快捷键监听
     useKeyBoard(props, context);
-
-    // ~~
+    // provide 部分prop
     useProvide(props);
+    // 插入扩展的外链
+    useExpansion(props);
 
     // ----编辑器设置----
     const setting = reactive<SettingType>({
@@ -331,7 +318,7 @@ export default defineComponent({
     // 进入时若默认全屏，调整一次
     onMounted(() => {
       // 监听上传图片
-      if (!previewOnly) {
+      if (!props.previewOnly) {
         bus.on(editorId, {
           name: 'uploadImage',
           callback(files: FileList, cb: () => void) {
@@ -380,15 +367,15 @@ export default defineComponent({
             props.editorClass,
             props.theme === 'dark' && `${prefix}-dark`,
             setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
-            previewOnly && `${prefix}-previewOnly`
+            props.previewOnly && `${prefix}-previewOnly`
           ]}
           style={props.style}
         >
-          {!previewOnly && (
+          {!props.previewOnly && (
             <ToolBar
-              prettier={prettier}
-              screenfull={screenfull}
-              screenfullJs={screenfullJs}
+              prettier={props.prettier}
+              screenfull={props.screenfull}
+              screenfullJs={props.screenfullJs}
               toolbars={props.toolbars}
               toolbarsExclude={props.toolbarsExclude}
               setting={setting}
@@ -398,7 +385,7 @@ export default defineComponent({
             />
           )}
           <Content
-            hljs={hljs}
+            hljs={props.hljs}
             value={props.modelValue}
             onChange={(value: string) => {
               if (props.onChange) {
@@ -436,23 +423,6 @@ export default defineComponent({
             markedImage={props.markedImage}
           />
           {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
-          {!previewOnly && (
-            <Teleport to="head">
-              <script src={iconfontJs} />
-            </Teleport>
-          )}
-          {prettier && !previewOnly && (
-            <Teleport to="head">
-              <script src={prettierCDN} />
-              <script src={prettierMDCDN} />
-            </Teleport>
-          )}
-          {!previewOnly && Cropper === null && (
-            <Teleport to="head">
-              <link href={cropperCss} rel="stylesheet" />
-              <script src={cropperJs}></script>
-            </Teleport>
-          )}
         </div>
       );
     };
