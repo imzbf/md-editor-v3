@@ -50,9 +50,15 @@ export const keyMove = (
   };
 };
 
-export const appendHandler = (ele: HTMLElement) => {
-  // 判断页面上是否已经存在该内容
-  if (!document.getElementById(ele.id)) {
+export const appendHandler = (ele: HTMLElement, checkKey = '') => {
+  const insertedEle = document.getElementById(ele.id);
+
+  if (!insertedEle) {
     document.head.appendChild(ele);
+  } else if (checkKey !== '' && ele.onload instanceof Function) {
+    // 已存在且需要校验
+    if (Reflect.get(window, checkKey)) {
+      ele.onload(new Event('load'));
+    }
   }
 };
