@@ -20,7 +20,9 @@ export default (): Plugin => {
           });
 
           form.parse(req, (err, fields, files) => {
-            const filename = files.file[0].path.split('md-editor-v3/dev/public')[1];
+            const filename = files.file[0].path
+              .replace(/\\/g, '/')
+              .split('md-editor-v3/dev/public')[1];
 
             res.end(
               JSON.stringify({
