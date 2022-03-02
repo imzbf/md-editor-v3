@@ -205,6 +205,13 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
   renderer.image = props.markedImage;
 
+  renderer.listitem = (text: string, task: boolean) => {
+    if (task) {
+      return `<li class="li-task">${text}</li>`;
+    }
+    return `<li>${text}</li>`;
+  };
+
   marked.setOptions({
     renderer,
     breaks: true
