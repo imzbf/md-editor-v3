@@ -151,7 +151,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   const katexInited = ref(false);
 
   // 标题列表，扁平结构
-  let heads: HeadList[] = [];
+  const heads = ref<HeadList[]>([]);
 
   // marked渲染实例
   const renderer: any = new marked.Renderer();
@@ -159,7 +159,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   // 标题重构
   renderer.heading = ((...headProps) => {
     const [, level, raw] = headProps;
-    heads.push({ text: raw, level });
+    heads.value.push({ text: raw, level });
 
     return props.markedHeading(...headProps);
   }) as MarkedHeading;
@@ -244,7 +244,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   const html = computed(() => {
     // 重置标题说和标题列表
     // count = 0;
-    heads = [];
+    heads.value = [];
     const _html = marked(props.value);
 
     // 在高亮加载完成后、mermaid状态变化后重新mark一次
@@ -256,6 +256,9 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
     return props.sanitize(_html);
   });
+
+  // 首次主动调用
+  props.onHtmlChanged(html.value);
 
   // 高亮代码js加载完成后回调
   const highlightLoad = () => {
@@ -271,19 +274,20 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     highlightInited.value = true;
   };
 
+  watch(() => html.value, props.onHtmlChanged);
+
   watch(
-    () => html.value,
-    (nVal) => {
-      // 变化时调用变化事件
-      props.onHtmlChanged(nVal);
+    () => heads.value,
+    (list) => {
       // 传递标题
-      props.onGetCatalog(heads);
+      props.onGetCatalog(list);
 
       // 生成目录
-      bus.emit(editorId, 'catalogChanged', heads);
+      bus.emit(editorId, 'catalogChanged', list);
     }
   );
 
+  // =====插入依赖扩展=====
   const needRemoveEleList: HTMLElement[] = [];
 
   onMounted(() => {
