@@ -56,9 +56,12 @@ export const appendHandler = (ele: HTMLElement, checkKey = '') => {
   if (!insertedEle) {
     document.head.appendChild(ele);
   } else if (checkKey !== '' && ele.onload instanceof Function) {
-    // 已存在且需要校验
     if (Reflect.get(window, checkKey)) {
+      // 实例已存在，直接触发load事件
       ele.onload(new Event('load'));
+    } else {
+      // 实例不存在，将load事件挂载到已插入的节点上
+      insertedEle.addEventListener('load', ele.onload);
     }
   }
 };
