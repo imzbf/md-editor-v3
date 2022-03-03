@@ -7,6 +7,7 @@ import DropdownToolbar from './DropdownToolbar';
 Editor.install = (app: App) => {
   app.component(Editor.name, Editor);
   app.component(NormalToolbar.name, NormalToolbar);
+  app.component(DropdownToolbar.name, DropdownToolbar);
 
   return app;
 };
