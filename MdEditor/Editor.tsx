@@ -285,6 +285,10 @@ export default defineComponent({
     // 插入扩展的外链
     useExpansion(props);
 
+    const state = reactive({
+      catalogVisible: false
+    });
+
     // ----编辑器设置----
     const setting = reactive<SettingType>({
       pageFullScreen: props.pageFullScreen,
@@ -342,6 +346,14 @@ export default defineComponent({
 
       bodyOverflowHistory = document.body.style.overflow;
       adjustBody();
+
+      //
+      bus.on(editorId, {
+        name: 'catalogShow',
+        callback: () => {
+          state.catalogVisible = !state.catalogVisible;
+        }
+      });
     });
     // ----end----
 
@@ -422,7 +434,16 @@ export default defineComponent({
             extensions={props.extensions}
             markedImage={props.markedImage}
           />
-          {catalogShow.value && <Catalog markedHeadingId={props.markedHeadingId} />}
+          {catalogShow.value && (
+            <Catalog
+              style={{
+                display: state.catalogVisible ? 'block' : 'none'
+              }}
+              class={`${prefix}-catalog-editor`}
+              editorId={editorId}
+              markedHeadingId={props.markedHeadingId}
+            />
+          )}
         </div>
       );
     };
