@@ -60,8 +60,8 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 | cropperCss | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | Cropper css url |
 | cropperJs | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | Cropper js url |
 | iconfontJs | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | Icon url |
-| editorId | String | md-editor-v3 | Editor id, also the html id, it is used when there are more than two editors |
-| tabWidth | Number | 2 | One tab eq some space |
+| editorId | String | md-editor-v3 | Editor's id, the html's id also, it is used when there are more than two editors in the same page. |
+| tabWidth | Number | 2 | One tab eq some spaces |
 | showCodeRowNumber | Boolean | false | Show row number for code block or not |
 | screenfull | Object | null | Screenfull instance, editor will not insert script of it |
 | screenfullJs | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | Screenfull js url |
@@ -72,7 +72,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 | mermaidJs | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | MermaidJs url |
 | noMermaid | Boolean | false | Do not use mermaid |
 | placeholder | String | '' |  |
-| katex | Object | undefined | `katex` instance(you need import css by yourself.) |
+| katex | Object | undefined | `katex` instance(You need import css by yourself) |
 | katexJs | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | KatexJs url |
 | katexCss | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | KatexCss url |
 | noKatex | Boolean | false | Do not use katex |
@@ -224,7 +224,7 @@ export interface StaticTextDefaultValue {
 | name | params | description |
 | --- | --- | --- |
 | onChange | v:String | Content changed event(bind to `oninput` of `textarea`) |
-| onSave | v:String | Save Content event，`ctrl+s`and click button will trigger |
+| onSave | v:String | Save content event，`ctrl+s`and click button will trigger |
 | onUploadImg | files:FileList, callback:Function | Upload picture event，when picture is uploading the modal will not close，please provide right urls to the callback function |
 | onHtmlChanged | h:String | Compile markdown successful event，you can use it to get the html code |
 | onGetCatalog | list: HeadList[] | Get catalogue of article |
