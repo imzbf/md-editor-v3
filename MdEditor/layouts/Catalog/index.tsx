@@ -24,6 +24,11 @@ const Catalog = defineComponent({
     markedHeadingId: {
       type: Function as PropType<MarkedHeadingId>,
       default: (text: string) => text
+    },
+    // 指定滚动的容器，选择器需带上对应的符号，默认预览框
+    scrollElement: {
+      type: [String, HTMLElement] as PropType<string | HTMLElement>,
+      default: `#${prefix}-preview`
     }
   },
   setup(props) {
@@ -37,8 +42,6 @@ const Catalog = defineComponent({
       list: [],
       show: false
     });
-
-    console.log('editorId', editorId);
 
     // 重构的列表
     const catalogs = computed(() => {
@@ -98,6 +101,7 @@ const Catalog = defineComponent({
               markedHeadingId={props.markedHeadingId}
               tocItem={item}
               key={item.text}
+              scrollElement={props.scrollElement}
             />
           );
         })}
