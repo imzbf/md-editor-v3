@@ -1,4 +1,4 @@
-import { inject, reactive, onMounted, computed, defineComponent, PropType } from 'vue';
+import { reactive, onMounted, computed, defineComponent, PropType } from 'vue';
 import bus from '../../utils/event-bus';
 import { HeadList, MarkedHeadingId } from '../../type';
 import { prefix } from '../../config';
@@ -12,15 +12,23 @@ export interface TocItem {
 }
 
 const Catalog = defineComponent({
+  name: 'Catalog',
   props: {
+    editorId: {
+      type: String as PropType<string>
+    },
+    class: {
+      type: String,
+      default: ''
+    },
     markedHeadingId: {
       type: Function as PropType<MarkedHeadingId>,
-      default: () => {}
+      default: (text: string) => text
     }
   },
   setup(props) {
     // 获取Id
-    const editorId = inject('editorId') as string;
+    const editorId = props.editorId as string;
 
     const state = reactive<{
       list: HeadList[];
@@ -29,6 +37,8 @@ const Catalog = defineComponent({
       list: [],
       show: false
     });
+
+    console.log('editorId', editorId);
 
     // 重构的列表
     const catalogs = computed(() => {
@@ -78,31 +88,21 @@ const Catalog = defineComponent({
           state.list = _list;
         }
       });
-
-      bus.on(editorId, {
-        name: 'catalogShow',
-        callback: () => {
-          state.show = !state.show;
-        }
-      });
     });
 
-    return () =>
-      state.show ? (
-        <div class={`${prefix}-catalog`}>
-          {catalogs.value.map((item) => {
-            return (
-              <CatalogLink
-                markedHeadingId={props.markedHeadingId}
-                tocItem={item}
-                key={item.text}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        ''
-      );
+    return () => (
+      <div class={`${prefix}-catalog ${props.class}`}>
+        {catalogs.value.map((item) => {
+          return (
+            <CatalogLink
+              markedHeadingId={props.markedHeadingId}
+              tocItem={item}
+              key={item.text}
+            />
+          );
+        })}
+      </div>
+    );
   }
 });
 
