@@ -235,6 +235,7 @@ export interface StaticTextDefaultValue {
 | markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | :marked-heading="xxx" | `marked`转换 md 文本标题的方法 |
 | markedHeadingId | (text: string, level: number) => string | :marked-heading-id="xxx" | 标题`ID`计算方式 |
 | sanitize | (html: string) => string | :sanitize="xxx" | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
+| markedImage | (href: string, title: string, desc: string) => string | :marked-image="xxx" | 覆盖默认生成图片的 html 元素结构 |
 
 > 如果你重写了`markedHeading`方法，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 

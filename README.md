@@ -228,7 +228,8 @@ export interface StaticTextDefaultValue {
 | onGetCatalog | list: HeadList[] | @onGetCatalog="xxx" | Get catalogue of article |
 | markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | :marked-heading="xxx" | `marked` head renderer methods |
 | markedHeadingId | (text: string, level: number) => string | :marked-heading-id="xxx" | title `ID` generator |
-| sanitize | (html: string) => string | :sanitize="xxx" | Sanitize the html, prevent XSS. |
+| sanitize | (html: string) => string | :sanitize="xxx" | Sanitize the html, prevent XSS |
+| markedImage | (href: string, title: string, desc: string) => string | :marked-image="xxx" | Overrides the html element structure of the default generated picture |
 
 > If `markedHeading` is overridden, be sure to tell the editor the algorithm for generating the title ID by `marketheadingid`.
 
