@@ -170,12 +170,13 @@ export default defineComponent({
 
             {props.setting.preview && (
               <div
+                id={`${editorId}-preview-wrapper`}
                 class={`${prefix}-preview-wrapper`}
                 ref={previewRef}
                 key="content-preview-wrapper"
               >
                 <div
-                  id={`${prefix}-preview`}
+                  id={`${editorId}-preview`}
                   class={[
                     `${prefix}-preview`,
                     `${previewTheme?.value}-theme`,
