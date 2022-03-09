@@ -20,7 +20,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - Beautify your content by `prettier`(only for markdown content, not the code and other text).
 - Multi-language, build-in Chinese and English(default: Chinese).
 - Upload picture, paste or clip the picture and upload it.
-- Render article directly(no editor，no event listener, only preview content).
+- Render article directly(no editor, no event listener, only preview content).
 - Preview themes, support `defalut`、`vuepress`、`github` styles(not identical).
 - `mermaid`(>=1.8.0).
 - `katex` mathematical formula（>=1.9.0）.
@@ -37,7 +37,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| modelValue | String | '' | Markdown content，use `v-model` in vue template |
+| modelValue | String | '' | Markdown content, use `v-model` in vue template |
 | theme | 'light' \| 'dark' | 'light' | Change editor theme |
 | editorClass | String | '' |  |
 | hljs | Object | null | `Highlight` instance, editor will not insert script of it, but you need to import `highlight` code style by yourself |
@@ -49,17 +49,17 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 | htmlPreview | Boolean | false | Preview html in editor |
 | previewOnly | Boolean | false | Only render article content, no toolbar, no edit area |
 | language | String | 'zh-CN' | Build-in language('zh-CN','en-US') |
-| languageUserDefined | Object | {key: StaticTextDefaultValue} | Expand language，update `language` api to your key |
-| toolbars | Array | [toolbars] | Show some item of toolbars，all keys<sup>see `toolbars` below</sup> |
-| toolbarsExclude | Array | [] | Don't show some item of toolbars，all keys`toolbars` |
+| languageUserDefined | Object | {key: StaticTextDefaultValue} | Expand language, update `language` api to your key |
+| toolbars | Array | [toolbars] | Show some item of toolbars, all keys<sup>see `toolbars` below</sup> |
+| toolbarsExclude | Array | [] | Don't show some item of toolbars, all keys`toolbars` |
 | prettier | Boolean | true | Use prettier to beautify content or not |
 | prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
 | prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) |  |
 | cropperCss | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | Cropper css url |
 | cropperJs | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | Cropper js url |
 | iconfontJs | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | Icon url |
-| editorId | String | md-editor-v3 | Editor id, also the html id, it is used when there are more than two editors |
-| tabWidth | Number | 2 | One tab eq some space |
+| editorId | String | md-editor-v3 | Editor's id, the html's id also, it is used when there are more than two editors in the same page. |
+| tabWidth | Number | 2 | One tab eq some spaces |
 | showCodeRowNumber | Boolean | false | Show row number for code block or not |
 | screenfull | Object | null | Screenfull instance, editor will not insert script of it |
 | screenfullJs | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | Screenfull js url |
@@ -70,7 +70,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 | mermaidJs | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | MermaidJs url |
 | noMermaid | Boolean | false | Do not use mermaid |
 | placeholder | String | '' |  |
-| katex | Object | undefined | `katex` instance(you need import css by yourself.) |
+| katex | Object | undefined | `katex` instance(You need import css by yourself) |
 | katexJs | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | KatexJs url |
 | katexCss | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | KatexCss url |
 | noKatex | Boolean | false | Do not use katex |
@@ -122,7 +122,7 @@ mark and emoji extensions
 
 > After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to[docs]().
 
-Expand language，you need to replace all the content here：
+Expand language, you need to replace all the content here：
 
 [StaticTextDefaultValue]
 
@@ -186,12 +186,12 @@ export interface StaticTextDefaultValue {
     UrlLablePlaceHolder?: string;
     buttonOK?: string;
   };
-  // The modal tips of clip the picture，v1.2.0
+  // The modal tips of clip the picture, v1.2.0
   clipModalTips?: {
     title?: string;
     buttonUpload?: string;
   };
-  // Copy code tips，v1.1.4
+  // Copy code tips, v1.1.4
   copyCode?: {
     text?: string;
     tips?: string;
@@ -222,9 +222,9 @@ export interface StaticTextDefaultValue {
 | name | params | usage | description |
 | --- | --- | --- | --- |
 | onChange | v:string | @onChange="xxx" | Content changed event(bind to `oninput` of `textarea`) |
-| onSave | v:string | @onSave="xxx" | Save Content event，`ctrl+s`and click button will trigger |
-| onUploadImg | files:FileList, callback:Function | @onUploadImg="xxx" | Upload picture event，when picture is uploading the modal will not close，please provide right urls to the callback function |
-| onHtmlChanged | h:string | @onHtmlChanged="xxx" | Compile markdown successful event，you can use it to get the html code |
+| onSave | v:string | @onSave="xxx" | Save content event, `ctrl+s`and click button will trigger |
+| onUploadImg | files:FileList, callback:Function | @onUploadImg="xxx" | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
+| onHtmlChanged | h:string | @onHtmlChanged="xxx" | Compile markdown successful event, you can use it to get the html code |
 | onGetCatalog | list: HeadList[] | @onGetCatalog="xxx" | Get catalogue of article |
 | markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | :marked-heading="xxx" | `marked` head renderer methods |
 | markedHeadingId | (text: string, level: number) => string | :marked-heading-id="xxx" | title `ID` generator |
@@ -263,7 +263,7 @@ export interface StaticTextDefaultValue {
 
 ## Internal components
 
-Before 1.x, they are used as attributes of the editor component，eg: `Editor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
+Before 1.x, they are used as attributes of the editor component, eg: `Editor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
 
 ### NormalToolbar
 
@@ -342,7 +342,7 @@ export default defineComponent({
 
 ### Upload picture
 
-> Tips：When you paste and upload GIF，it will upload a static picture. So you should upload it by file system!
+> Tips：When you paste and upload GIF, it will upload a static picture. So you should upload it by file system!
 
 ```js
 async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
