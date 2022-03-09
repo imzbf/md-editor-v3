@@ -665,16 +665,6 @@ const markedHeading = (text, level, raw) => {
 - **type**: `(text: string, level: number) => string`
 - **description**: Title `ID` generator.
 
-```vue
-<template>
-  <md-editor :marked-heading-id="hId" />
-</template>
-
-<script setup>
-const hId = (text) => text;
-</script>
-```
-
 ### 🔒 sanitize
 
 - **type**: `(html: string) => string`
@@ -682,15 +672,37 @@ const hId = (text) => text;
 
 > Use `sanitize-html`
 
+```js
+import sanitizeHtml from 'sanitize-html';
+
+//
+<Editor sanitize={(html) => sanitizeHtml(html)} />;
+```
+
+### 🖼 markedImage
+
+- **type**: `(href: string, title: string, desc: string) => string`
+- **description**: Overrides the html element structure of the default generated picture.
+
+Default way:
+
+```
+(href: string, _: string, desc: string) => {
+  return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
+}
+```
+
+usage:
+
 ```vue
 <template>
-  <md-editor :sanitize="sanitize" />
+  <md-editor :marked-image="markedImage" />
 </template>
 
 <script setup>
-import sanitizeHtml from 'sanitize-html';
-
-const sanitize = (html) => sanitizeHtml(html);
+const markedImage = (href: string, _: string, desc: string) => {
+  return `<img src="${href}" alt="${desc}">`;
+};
 </script>
 ```
 
@@ -722,6 +734,102 @@ const sanitize = (html) => sanitizeHtml(html);
 | CTRL + SHIFT + F | Beautify |  |
 | CTRL + ALT + C | code row |  |
 | CTRL + SHIFT + ALT + T | table | `\|table\|` |
+
+## 🪤 Internal components
+
+Before 1.x, they are used as attributes of the editor component, eg: `Editor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
+
+### 🐣 NormalToolbar
+
+`Editor.NormalToolbar`
+
+- `title`: `string`, not necessary, the tips when hover toolbar;
+- `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar;
+- `onClick`: `(e: MouseEvent) => void`, necessary.
+
+usage:
+
+```vue
+<template>
+  <Editor v-model="text">
+    <template #defToolbars>
+      <Editor.NormalToolbar title="mark" @click="callback">
+        <template #trigger>
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-mark"></use>
+          </svg>
+        </template>
+      </Editor.NormalToolbar>
+    </template>
+  </Editor>
+</template>
+```
+
+### 🐼 DropdownToolbar
+
+`Editor.DropdownToolbar`
+
+- `title`: `string`, not necessary, the tips when hover toolbar;
+- `visible`: `boolean`, necessary;
+- `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar;
+- `onChange`: `(visible: boolean) => void`, necessary;
+- `overlay`: `string | JSX.Element`, necessary, contents in the drop-down box.
+
+usage:
+
+```vue
+<template>
+  <Editor v-model="text">
+    <template #defToolbars>
+      <Editor.DropdownToolbar
+        title="emoji"
+        :visible="data.emojiVisible"
+        :onChange="emojiVisibleChanged"
+      >
+        <template #overlay>
+          <div class="emoji-container">
+            <ol class="emojis">
+              <li
+                v-for="(emoji, index) of emojis"
+                :key="`emoji-${index}`"
+                @click="emojiHandler(emoji)"
+                v-text="emoji"
+              ></li>
+            </ol>
+          </div>
+        </template>
+        <template #trigger>
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-emoji"></use>
+          </svg>
+        </template>
+      </Editor.DropdownToolbar>
+    </template>
+  </Editor>
+</template>
+```
+
+### 🐻 Catalogue
+
+`Editor.Catalog`
+
+- `editorId`: `string`, necessary, editor's `editorId`, used to register listening events;
+- `class`: `string`, not necessary;
+- `markedHeadingId`: `MarkedHeadingId`, not necessary, same as editor;
+- `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
+
+usage:
+
+```vue
+<template>
+  <Editor v-model="text" editorId="my-editor" previewOnly />
+  <Editor.Catalog editorId="my-editor" :scrollElement="scrollElement" />
+</template>
+
+<script setup>
+const scrollElement = document.documentElement;
+</script>
+```
 
 ## ✍️ Edit this page
 

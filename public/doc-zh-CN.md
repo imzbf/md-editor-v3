@@ -715,16 +715,6 @@ const markedHeading = (text, level, raw) => {
 - **类型**：`(text: string, level: number) => string`
 - **说明**：标题`ID`计算方式。
 
-```vue
-<template>
-  <md-editor :marked-heading-id="hId" />
-</template>
-
-<script setup>
-const hId = (text) => text;
-</script>
-```
-
 ### 🔒 sanitize
 
 - **类型**：`(html: string) => string`
@@ -732,21 +722,43 @@ const hId = (text) => text;
 
 > 使用`sanitize-html`演示
 
-```vue
-<template>
-  <md-editor :sanitize="sanitize" />
-</template>
-
-<script setup>
+```js
 import sanitizeHtml from 'sanitize-html';
 
-const sanitize = (html) => sanitizeHtml(html);
-</script>
+//
+<Editor sanitize={(html) => sanitizeHtml(html)} />;
 ```
 
 就是这么简单。
 
 > 为什么不内置到编辑器：由于类似编辑器大多属于自行处理文本，自身即可确认内容是否安全，并不需要该功能。
+
+### 🖼 markedImage
+
+- **类型**：`(href: string, title: string, desc: string) => string`
+- **说明**：覆盖默认生成图片的 html 元素结构。
+
+内部的生成方法：
+
+```
+(href: string, _: string, desc: string) => {
+  return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
+}
+```
+
+使用方式：
+
+```vue
+<template>
+  <md-editor :marked-image="markedImage" />
+</template>
+
+<script setup>
+const markedImage = (href: string, _: string, desc: string) => {
+  return `<img src="${href}" alt="${desc}">`;
+};
+</script>
+```
 
 ## 🪡 快捷键
 
@@ -778,6 +790,98 @@ const sanitize = (html) => sanitizeHtml(html);
 | CTRL + SHIFT + F | 美化内容 |  |
 | CTRL + ALT + C | 行内代码 | 行内代码块 |
 | CTRL + SHIFT + ALT + T | 表格 | `\|表格\|` |
+
+## 🪤 内置组件
+
+1.x 版本扩展组件作为编辑器组件的属性值来使用，例如：`Editor.DropdownToolbar`。使用参考：[文档页面](https://imzbf.github.io/md-editor-v3)
+
+### 🐣 NormalToolbar
+
+`Editor.NormalToolbar`
+
+- `title`: `string`，非必须，作为工具栏上的 hover 提示；
+- `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上；
+- `onClick`: `(e: MouseEvent) => void`，必须，点击事件。
+
+```vue
+<template>
+  <Editor v-model="text">
+    <template #defToolbars>
+      <Editor.NormalToolbar title="mark" @click="callback">
+        <template #trigger>
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-mark"></use>
+          </svg>
+        </template>
+      </Editor.NormalToolbar>
+    </template>
+  </Editor>
+</template>
+```
+
+### 🐼 DropdownToolbar
+
+`Editor.DropdownToolbar`
+
+- `title`: `string`，非必须，作为工具栏上的 hover 提示；
+- `visible`: `boolean`，必须，下拉状态；
+- `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上；
+- `onChange`: `(visible: boolean) => void`，必须，状态变化事件；
+- `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
+
+```vue
+<template>
+  <Editor v-model="text">
+    <template #defToolbars>
+      <Editor.DropdownToolbar
+        title="emoji"
+        :visible="data.emojiVisible"
+        :onChange="emojiVisibleChanged"
+      >
+        <template #overlay>
+          <div class="emoji-container">
+            <ol class="emojis">
+              <li
+                v-for="(emoji, index) of emojis"
+                :key="`emoji-${index}`"
+                @click="emojiHandler(emoji)"
+                v-text="emoji"
+              ></li>
+            </ol>
+          </div>
+        </template>
+        <template #trigger>
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-emoji"></use>
+          </svg>
+        </template>
+      </Editor.DropdownToolbar>
+    </template>
+  </Editor>
+</template>
+```
+
+可运行代码参考示例中的[自定义工具栏](http://localhost:3344/md-editor-v3/demo/index#%F0%9F%92%AA%20%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F)
+
+### 🐻 Catalog
+
+`Editor.Catalog`
+
+- `editorId`: `string`，必须，对应编辑器的`editorId`，在内部注册目录变化监听事件；
+- `class`: `string`，非必须，目录组件最外层类名；
+- `markedHeadingId`: `MarkedHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同；
+- `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`
+
+```vue
+<template>
+  <Editor v-model="text" editorId="my-editor" previewOnly />
+  <Editor.Catalog editorId="my-editor" :scrollElement="scrollElement" />
+</template>
+
+<script setup>
+const scrollElement = document.documentElement;
+</script>
+```
 
 ## ✍️ 编辑此页面
 
