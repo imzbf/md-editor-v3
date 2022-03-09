@@ -20,7 +20,7 @@ const CatalogLink = defineComponent({
     },
     scrollElement: {
       type: [String, HTMLElement] as PropType<string | HTMLElement>,
-      default: `#${prefix}-preview`
+      default: ''
     }
   },
   setup(props) {
@@ -31,24 +31,25 @@ const CatalogLink = defineComponent({
           e.stopPropagation();
           const id = props.markedHeadingId(props.tocItem.text, props.tocItem.level);
           const targetHeadEle = document.getElementById(id);
-          const previewEle =
+          const scrollContainer =
             props.scrollElement instanceof HTMLElement
               ? props.scrollElement
               : document.querySelector(props.scrollElement);
 
-          if (targetHeadEle && previewEle) {
+          if (targetHeadEle && scrollContainer) {
             let par = targetHeadEle.offsetParent as HTMLElement;
             let offsetTop = targetHeadEle.offsetTop;
 
-            if (par?.nodeName.toLowerCase() !== 'body') {
-              while (par) {
-                // 循环获取当前对象与body的高度
+            // 滚动容器包含父级offser标准元素
+            if (scrollContainer.contains(par)) {
+              while (par && scrollContainer != par) {
+                // 循环获取当前对象与相对的top高度
                 offsetTop += par?.offsetTop;
                 par = par?.offsetParent as HTMLElement;
               }
             }
 
-            previewEle?.scrollTo({
+            scrollContainer?.scrollTo({
               top: offsetTop,
               behavior: 'smooth'
             });
