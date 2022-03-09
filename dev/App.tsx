@@ -19,7 +19,9 @@ export default defineComponent({
             style={{
               width: '200px',
               padding: '10px',
-              border: '1px solid #666'
+              border: '1px solid #666',
+              position: 'fixed',
+              right: '10px'
             }}
           >
             <Editor.Catalog editorId="md-prev" scrollElement={document.documentElement} />
