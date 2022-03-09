@@ -24,8 +24,6 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 - `mermaid`绘图（>=1.8.0）；
 - `katex`数学公式（>=1.9.0）。
 
-> 更多功能待后续更新，如果你有新的想法或者使用发现有问题，请留言告诉我~
-
 ## 预览图
 
 | 默认模式 | 暗黑模式 | 仅预览 |
@@ -227,16 +225,16 @@ export interface StaticTextDefaultValue {
 
 ### 事件绑定
 
-| 名称 | 入参 | 说明 |
-| --- | --- | --- |
-| onChange | v:String | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
-| onSave | v:String | 保存事件，快捷键与保存按钮均会触发 |
-| onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
-| onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
-| onGetCatalog | list: HeadList[] | 动态获取`markdown`目录 |
-| markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | `marked`转换 md 文本标题的方法 |
-| markedHeadingId | (text: string, level: number) => string | 标题`ID`计算方式 |
-| sanitize | (html: string) => string | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
+| 名称 | 入参 | 使用 | 说明 |
+| --- | --- | --- | --- |
+| onChange | v:string | @onChange="xxx" | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
+| onSave | v:string | @onSave="xxx" | 保存事件，快捷键与保存按钮均会触发 |
+| onUploadImg | files:FileList, callback:Function | @onUploadImg="xxx" | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
+| onHtmlChanged | h:string | @onHtmlChanged="xxx" | html 变化回调事件，用于获取预览 html 代码 |
+| onGetCatalog | list: HeadList[] | @onGetCatalog="xxx" | 动态获取`markdown`目录 |
+| markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | :marked-heading="xxx" | `marked`转换 md 文本标题的方法 |
+| markedHeadingId | (text: string, level: number) => string | :marked-heading-id="xxx" | 标题`ID`计算方式 |
+| sanitize | (html: string) => string | :sanitize="xxx" | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 
 > 如果你重写了`markedHeading`方法，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
@@ -271,9 +269,40 @@ export interface StaticTextDefaultValue {
 | CTRL + ALT + C | 行内代码 | 行内代码块 | v1.0.0 |
 | CTRL + SHIFT + ALT + T | 表格 | `\|表格\|` | v1.4.0 |
 
-## 演示
+## 使用内部组件
 
-### jsx 语法项目
+1.x 版本扩展组件作为编辑器组件的属性值来使用，例如：`Editor.DropdownToolbar`。使用参考：[文档页面](https://imzbf.github.io/md-editor-v3)
+
+### 普通扩展工具栏
+
+`Editor.NormalToolbar`
+
+- `title`: `string`，非必须，作为工具栏上的 hover 提示；
+- `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上；
+- `onClick`: `(e: MouseEvent) => void`，必须，点击事件。
+
+### 下拉扩展工具栏
+
+`Editor.DropdownToolbar`
+
+- `title`: `string`，非必须，作为工具栏上的 hover 提示；
+- `visible`: `boolean`，必须，下拉状态；
+- `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上；
+- `onChange`: `(visible: boolean) => void`，必须，状态变化事件；
+- `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
+
+### 目录导航
+
+`Editor.Catalog`
+
+- `editorId`: `string`，必须，对应编辑器的`editorId`，在内部注册目录变化监听事件；
+- `class`: `string`，非必须，目录组件最外层类名；
+- `markedHeadingId`: `MarkedHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同；
+- `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`
+
+## 部分示例
+
+### Jsx 语法项目
 
 ```js
 import { defineComponent, reactive } from 'vue';
@@ -294,7 +323,7 @@ export default defineComponent({
 });
 ```
 
-### vue 模板项目
+### Vue 模板项目
 
 ```js
 <template>

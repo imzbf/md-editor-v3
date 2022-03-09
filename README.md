@@ -25,8 +25,6 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - `mermaid`(>=1.8.0).
 - `katex` mathematical formula（>=1.9.0）.
 
-> More features are developing, if you have some ideas or find issues, please tell me~
-
 ## Preview
 
 | Default theme | Dark theme | Preview only |
@@ -221,16 +219,16 @@ export interface StaticTextDefaultValue {
 
 ### Event
 
-| name | params | description |
-| --- | --- | --- |
-| onChange | v:String | Content changed event(bind to `oninput` of `textarea`) |
-| onSave | v:String | Save Content event，`ctrl+s`and click button will trigger |
-| onUploadImg | files:FileList, callback:Function | Upload picture event，when picture is uploading the modal will not close，please provide right urls to the callback function |
-| onHtmlChanged | h:String | Compile markdown successful event，you can use it to get the html code |
-| onGetCatalog | list: HeadList[] | Get catalogue of article |
-| markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | `marked` head renderer methods |
-| markedHeadingId | (text: string, level: number) => string | title `ID` generator |
-| sanitize | (html: string) => string | Sanitize the html, prevent XSS. |
+| name | params | usage | description |
+| --- | --- | --- | --- |
+| onChange | v:string | @onChange="xxx" | Content changed event(bind to `oninput` of `textarea`) |
+| onSave | v:string | @onSave="xxx" | Save Content event，`ctrl+s`and click button will trigger |
+| onUploadImg | files:FileList, callback:Function | @onUploadImg="xxx" | Upload picture event，when picture is uploading the modal will not close，please provide right urls to the callback function |
+| onHtmlChanged | h:string | @onHtmlChanged="xxx" | Compile markdown successful event，you can use it to get the html code |
+| onGetCatalog | list: HeadList[] | @onGetCatalog="xxx" | Get catalogue of article |
+| markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | :marked-heading="xxx" | `marked` head renderer methods |
+| markedHeadingId | (text: string, level: number) => string | :marked-heading-id="xxx" | title `ID` generator |
+| sanitize | (html: string) => string | :sanitize="xxx" | Sanitize the html, prevent XSS. |
 
 > If `markedHeading` is overridden, be sure to tell the editor the algorithm for generating the title ID by `marketheadingid`.
 
@@ -263,7 +261,38 @@ export interface StaticTextDefaultValue {
 | CTRL + ALT + C | code row |  | v1.0.0 |
 | CTRL + SHIFT + ALT + T | table | `\|table\|` | v1.4.0 |
 
-## Simple example
+## Internal components
+
+Before 1.x, they are used as attributes of the editor component，eg: `Editor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
+
+### NormalToolbar
+
+`Editor.NormalToolbar`
+
+- `title`: `string`, not necessary, the tips when hover toolbar;
+- `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar;
+- `onClick`: `(e: MouseEvent) => void`, necessary.
+
+### DropdownToolbar
+
+`Editor.DropdownToolbar`
+
+- `title`: `string`, not necessary, the tips when hover toolbar;
+- `visible`: `boolean`, necessary;
+- `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar;
+- `onChange`: `(visible: boolean) => void`, necessary;
+- `overlay`: `string | JSX.Element`, necessary, contents in the drop-down box.
+
+### Catalogue
+
+`Editor.Catalog`
+
+- `editorId`: `string`, necessary, editor's `editorId`, used to register listening events;
+- `class`: `string`, not necessary;
+- `markedHeadingId`: `MarkedHeadingId`, not necessary, same as editor;
+- `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
+
+## Some examples
 
 ### Jsx module
 
