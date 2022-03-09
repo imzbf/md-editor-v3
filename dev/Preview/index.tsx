@@ -44,7 +44,6 @@ export default defineComponent({
           <Editor
             editorId="md-prev"
             theme={props.theme}
-            previewOnly
             modelValue={md.text}
             // katex={katex}
             onSave={(v) => {

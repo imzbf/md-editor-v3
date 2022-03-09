@@ -26,9 +26,9 @@ const Catalog = defineComponent({
       default: (text: string) => text
     },
     // 指定滚动的容器，选择器需带上对应的符号，默认预览框
+    // 元素必须定位！！！！！！
     scrollElement: {
-      type: [String, HTMLElement] as PropType<string | HTMLElement>,
-      default: `#${prefix}-preview`
+      type: [String, HTMLElement] as PropType<string | HTMLElement>
     }
   },
   setup(props) {
@@ -38,9 +38,11 @@ const Catalog = defineComponent({
     const state = reactive<{
       list: HeadList[];
       show: boolean;
+      scrollElement: string | HTMLElement;
     }>({
       list: [],
-      show: false
+      show: false,
+      scrollElement: props.scrollElement || `#${editorId}-preview-wrapper`
     });
 
     // 重构的列表
@@ -101,7 +103,7 @@ const Catalog = defineComponent({
               markedHeadingId={props.markedHeadingId}
               tocItem={item}
               key={item.text}
-              scrollElement={props.scrollElement}
+              scrollElement={state.scrollElement}
             />
           );
         })}
