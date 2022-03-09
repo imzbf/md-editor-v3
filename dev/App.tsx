@@ -22,7 +22,7 @@ export default defineComponent({
               border: '1px solid #666'
             }}
           >
-            <Editor.Catalog editorId="md-prev" />
+            <Editor.Catalog editorId="md-prev" scrollElement={document.documentElement} />
           </div>
           <Preview theme={theme.value} />
         </div>
