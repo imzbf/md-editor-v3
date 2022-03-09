@@ -17,6 +17,10 @@ const CatalogLink = defineComponent({
     markedHeadingId: {
       type: Function as PropType<MarkedHeadingId>,
       default: () => {}
+    },
+    scrollElement: {
+      type: [String, HTMLElement] as PropType<string | HTMLElement>,
+      default: `#${prefix}-preview`
     }
   },
   setup(props) {
@@ -27,13 +31,25 @@ const CatalogLink = defineComponent({
           e.stopPropagation();
           const id = props.markedHeadingId(props.tocItem.text, props.tocItem.level);
           const targetHeadEle = document.getElementById(id);
-          const previewEle = document.getElementById(`${prefix}-preview`);
+          const previewEle =
+            props.scrollElement instanceof HTMLElement
+              ? props.scrollElement
+              : document.querySelector(props.scrollElement);
 
-          if (targetHeadEle) {
-            const scrollLength = targetHeadEle.offsetTop;
+          if (targetHeadEle && previewEle) {
+            let par = targetHeadEle.offsetParent as HTMLElement;
+            let offsetTop = targetHeadEle.offsetTop;
 
-            previewEle?.parentElement?.scrollTo({
-              top: scrollLength,
+            if (par?.nodeName.toLowerCase() !== 'body') {
+              while (par) {
+                // 循环获取当前对象与body的高度
+                offsetTop += par?.offsetTop;
+                par = par?.offsetParent as HTMLElement;
+              }
+            }
+
+            previewEle?.scrollTo({
+              top: offsetTop,
               behavior: 'smooth'
             });
           }
@@ -46,6 +62,7 @@ const CatalogLink = defineComponent({
               markedHeadingId={props.markedHeadingId}
               key={item.text}
               tocItem={item}
+              scrollElement={props.scrollElement}
             />
           ))}
       </div>
