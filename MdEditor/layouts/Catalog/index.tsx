@@ -1,6 +1,6 @@
 import { reactive, onMounted, computed, defineComponent, PropType } from 'vue';
 import bus from '../../utils/event-bus';
-import { HeadList, MarkedHeadingId } from '../../type';
+import { HeadList, MarkedHeadingId, Themes } from '../../type';
 import { prefix } from '../../config';
 import CatalogLink from './CatalogLink';
 import './style.less';
@@ -29,6 +29,10 @@ const Catalog = defineComponent({
     // 元素必须定位！！！！！！
     scrollElement: {
       type: [String, HTMLElement] as PropType<string | HTMLElement>
+    },
+    theme: {
+      type: String as PropType<Themes>,
+      default: 'light'
     }
   },
   setup(props) {
@@ -96,7 +100,9 @@ const Catalog = defineComponent({
     });
 
     return () => (
-      <div class={`${prefix}-catalog ${props.class}`}>
+      <div
+        class={`${prefix}-catalog${props.theme === 'dark' ? '-dark' : ''} ${props.class}`}
+      >
         {catalogs.value.map((item) => {
           return (
             <CatalogLink
