@@ -112,6 +112,8 @@ export interface SettingType {
   htmlPreview: boolean;
 }
 
+export type Themes = 'light' | 'dark';
+
 export type PreviewThemes = 'default' | 'github' | 'vuepress';
 
 export interface HeadList {
