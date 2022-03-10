@@ -68,7 +68,7 @@
     "highlight.js": "^11.0.1",
     "katex": "^0.15.1",
     "less": "^4.1.1",
-    "marked": "^4.0.7",
+    "marked": "^4.0.12",
     "mermaid": "^8.13.6",
     "multiparty": "^4.2.2",
     "prettier": "^2.3.2",
