@@ -40,6 +40,18 @@ export default defineComponent({
 
     return () => (
       <div class="project-preview">
+        <div
+          style={{
+            width: '200px',
+            padding: '10px',
+            border: '1px solid #666',
+            position: 'fixed',
+            right: '10px',
+            top: '170px'
+          }}
+        >
+          <Editor.Catalog editorId="md-prev" theme={props.theme} />
+        </div>
         <div class="container">
           <Editor
             editorId="md-prev"

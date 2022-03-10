@@ -36,7 +36,8 @@ import {
   MarkedHeading,
   MarkedHeadingId,
   SettingType,
-  MarkedImage
+  MarkedImage,
+  Themes
 } from './type';
 
 import './styles/index.less';
@@ -52,7 +53,7 @@ const props = {
   },
   // 主题，支持light和dark
   theme: {
-    type: String as PropType<'light' | 'dark'>,
+    type: String as PropType<Themes>,
     default: 'light'
   },
   // 外层扩展类名
@@ -436,6 +437,7 @@ export default defineComponent({
           />
           {catalogShow.value && (
             <Catalog
+              theme={props.theme}
               style={{
                 display: state.catalogVisible ? 'block' : 'none'
               }}
