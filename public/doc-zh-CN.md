@@ -870,15 +870,28 @@ const markedImage = (href: string, _: string, desc: string) => {
 - `editorId`: `string`，必须，对应编辑器的`editorId`，在内部注册目录变化监听事件；
 - `class`: `string`，非必须，目录组件最外层类名；
 - `markedHeadingId`: `MarkedHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同；
-- `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`
+- `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`；
+- `theme`: 'light' | 'dark'，非必须，当需要切换主题时提供，同编辑器的`theme`。
 
 ```vue
 <template>
-  <Editor v-model="text" editorId="my-editor" previewOnly />
-  <Editor.Catalog editorId="my-editor" :scrollElement="scrollElement" />
+  <Editor v-model="state.text" :editorId="state.id" :theme="state.theme" previewOnly />
+  <Editor.Catalog
+    :editorId="state.id"
+    :scrollElement="scrollElement"
+    :theme="state.theme"
+  />
 </template>
 
 <script setup>
+import { reactive } from 'vue';
+
+const state = reactive({
+  theme: 'dark',
+  text: '标题',
+  id: 'my-editor'
+});
+
 const scrollElement = document.documentElement;
 </script>
 ```

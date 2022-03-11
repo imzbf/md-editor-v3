@@ -816,17 +816,30 @@ usage:
 - `editorId`: `string`, necessary, editor's `editorId`, used to register listening events;
 - `class`: `string`, not necessary;
 - `markedHeadingId`: `MarkedHeadingId`, not necessary, same as editor;
-- `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
+- `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`;
+- `theme`: 'light' | 'dark', not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
 
 usage:
 
 ```vue
 <template>
-  <Editor v-model="text" editorId="my-editor" previewOnly />
-  <Editor.Catalog editorId="my-editor" :scrollElement="scrollElement" />
+  <Editor v-model="state.text" :editorId="state.id" :theme="state.theme" previewOnly />
+  <Editor.Catalog
+    :editorId="state.id"
+    :scrollElement="scrollElement"
+    :theme="state.theme"
+  />
 </template>
 
 <script setup>
+import { reactive } from 'vue';
+
+const state = reactive({
+  theme: 'dark',
+  text: '# head',
+  id: 'my-editor'
+});
+
 const scrollElement = document.documentElement;
 </script>
 ```
