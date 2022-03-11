@@ -339,6 +339,16 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     }
   });
 
+  // 添加目录主动触发接收监听
+  onMounted(() => {
+    bus.on(editorId, {
+      name: 'pushCatalog',
+      callback() {
+        bus.emit(editorId, 'catalogChanged', heads.value);
+      }
+    });
+  });
+
   onBeforeUnmount(() => {
     needRemoveEleList.forEach((item) => item.remove());
   });

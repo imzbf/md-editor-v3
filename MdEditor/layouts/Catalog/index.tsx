@@ -97,6 +97,9 @@ const Catalog = defineComponent({
           state.list = _list;
         }
       });
+
+      // 主动触发一次接收
+      bus.emit(editorId, 'pushCatalog');
     });
 
     return () => (
