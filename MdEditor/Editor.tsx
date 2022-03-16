@@ -405,6 +405,7 @@ export default defineComponent({
                 props.onChange(value);
               } else {
                 context.emit('update:modelValue', value);
+                context.emit('onChange', value);
               }
             }}
             setting={setting}
