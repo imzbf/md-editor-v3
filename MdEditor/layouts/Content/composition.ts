@@ -295,8 +295,6 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   );
 
   // =====插入依赖扩展=====
-  const needRemoveEleList: HTMLElement[] = [];
-
   onMounted(() => {
     // 标签引入katex
     if (!props.noKatex && !props.katex) {
@@ -315,9 +313,6 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
       appendHandler(katexScript, 'katex');
       appendHandler(katexLink);
-
-      needRemoveEleList.push(katexLink);
-      needRemoveEleList.push(katexScript);
     }
 
     if (props.hljs === null) {
@@ -333,9 +328,6 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
       appendHandler(highlightLink);
       appendHandler(highlightScript, 'hljs');
-
-      needRemoveEleList.push(highlightLink);
-      needRemoveEleList.push(highlightScript);
     }
   });
 
@@ -347,10 +339,6 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
         bus.emit(editorId, 'catalogChanged', heads.value);
       }
     });
-  });
-
-  onBeforeUnmount(() => {
-    needRemoveEleList.forEach((item) => item.remove());
   });
 
   return {
@@ -581,12 +569,6 @@ export const useMermaid = (props: EditorContentProps) => {
       appendHandler(mermaidScript, 'mermaid');
     } else if (!props.noMermaid) {
       reSetMermaidTheme();
-    }
-  });
-
-  onBeforeUnmount(() => {
-    if (!props.noMermaid && !props.mermaid && mermaidScript) {
-      mermaidScript.remove();
     }
   });
 
