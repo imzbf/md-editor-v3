@@ -387,8 +387,6 @@ export const useExpansion = (props: any) => {
     cropperJs
   } = props;
 
-  let removeEle = () => {};
-
   onMounted(() => {
     // 图标
     const iconfontScript = document.createElement('script');
@@ -429,20 +427,5 @@ export const useExpansion = (props: any) => {
         appendHandler(prettierMDScript);
       }
     }
-
-    removeEle = () => {
-      if (!previewOnly) {
-        iconfontScript.remove();
-        cropperLink.remove();
-        cropperScript.remove();
-
-        if (prettier) {
-          prettierScript.remove();
-          prettierMDScript.remove();
-        }
-      }
-    };
   });
-
-  onBeforeUnmount(removeEle);
 };
