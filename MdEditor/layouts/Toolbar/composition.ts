@@ -1,4 +1,4 @@
-import { onMounted, onBeforeMount, inject } from 'vue';
+import { onMounted, inject } from 'vue';
 import { prefix } from '../../config';
 import { appendHandler } from '../../utils/dom';
 
@@ -31,8 +31,6 @@ export const useSreenfull = (props: any) => {
     }
   };
 
-  let removeEle = () => {};
-
   onMounted(() => {
     if (screenfull && screenfull.isEnabled) {
       screenfull.on('change', () => {
@@ -47,14 +45,8 @@ export const useSreenfull = (props: any) => {
       screenScript.id = `${prefix}-screenfull`;
 
       appendHandler(screenScript);
-
-      removeEle = () => {
-        screenScript.remove();
-      };
     }
   });
-
-  onBeforeMount(removeEle);
 
   return { fullScreenHandler };
 };
