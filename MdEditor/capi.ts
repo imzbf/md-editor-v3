@@ -134,9 +134,23 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
           break;
         }
         case 'KeyQ': {
+          if (event.key === 'a') {
+            (event.target as HTMLTextAreaElement).select();
+            return;
+          }
+
           bus.emit(editorId, 'replace', 'quote' as ToolDirective);
           event.preventDefault();
           break;
+        }
+        case 'KeyA': {
+          if (event.key === 'q') {
+            bus.emit(editorId, 'replace', 'quote' as ToolDirective);
+            event.preventDefault();
+            break;
+          } else {
+            return;
+          }
         }
         case 'KeyO': {
           if (initFunc('orderedList')) {
@@ -175,6 +189,10 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
           break;
         }
         case 'KeyZ': {
+          if (event.key === 'w') {
+            return;
+          }
+
           if (event.shiftKey) {
             // ctrl+shift+z 前进一步
             if (initFunc('next')) {
@@ -190,6 +208,27 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
           }
 
           break;
+        }
+        case 'KeyW': {
+          if (event.key === 'z') {
+            if (event.shiftKey) {
+              // ctrl+shift+z 前进一步
+              if (initFunc('next')) {
+                bus.emit(editorId, 'ctrlShiftZ');
+                event.preventDefault();
+              }
+            } else {
+              // ctrl+z 后退一步
+              if (initFunc('revoke')) {
+                bus.emit(editorId, 'ctrlZ');
+                event.preventDefault();
+              }
+            }
+
+            break;
+          } else {
+            return;
+          }
         }
         case 'KeyF': {
           // ctrl+shift+f 美化内容
