@@ -54,7 +54,7 @@
     "@types/node": "^15.12.5",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
-    "@vavt/markdown-theme": "^0.0.7",
+    "@vavt/markdown-theme": "^0.0.8",
     "@vitejs/plugin-vue": "^1.2.3",
     "@vitejs/plugin-vue-jsx": "^1.1.5",
     "@vue/compiler-sfc": "^3.0.5",
