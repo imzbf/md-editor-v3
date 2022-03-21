@@ -1,4 +1,4 @@
-name: npm publish
+name: Npm Publish
 
 on:
   push:
@@ -8,19 +8,19 @@ on:
 
 jobs:
   publish:
-    name: Build publish lib
+    name: Build And Publish
     runs-on: ubuntu-latest
     steps:
-      - name: env
+      - name: Get Node
         uses: actions/setup-node@v1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
 
-      - name: checkout
+      - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: action
+      - name: Build2Publish
         run: |
           npm install
           npm run build
