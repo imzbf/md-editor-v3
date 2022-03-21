@@ -7,8 +7,6 @@ import nodeService from './vitePlugins/nodeService';
 // https://segmentfault.com/a/1190000040127796
 import dts from 'vite-plugin-dts';
 
-import { homepage } from './package.json';
-
 const libBuildOptions = {
   outDir: path.resolve(__dirname, 'lib'),
   lib: {
@@ -29,7 +27,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
   console.log('mode：', mode);
 
   return {
-    base: mode === 'preview' ? homepage : '/',
+    base: '/',
     publicDir: mode === 'production' ? false : './dev/public',
     server: {
       host: 'localhost',
@@ -39,14 +37,13 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     },
     resolve: {
       alias: {
-        // 键必须以斜线开始和结束
         '@': path.resolve(__dirname, './dev')
       }
     },
     plugins: [
       vue(),
       vueJsx(),
-      nodeService(),
+      mode === 'production' && nodeService(),
       mode === 'production' &&
         dts({
           include: [
