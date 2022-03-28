@@ -785,7 +785,7 @@ export default defineComponent({
               >
                 <div
                   class={`${prefix}-toolbar-item`}
-                  title={ult.value.toolbarTips?.mermaid}
+                  title={ult.value.toolbarTips?.katex}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use xlinkHref="#icon-formula" />

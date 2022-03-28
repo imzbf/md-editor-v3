@@ -84,7 +84,7 @@ export const staticTextDefault: StaticTextDefault = {
       image: '图片',
       table: '表格',
       mermaid: 'mermaid图',
-      katex: '公式',
+      katex: 'katex公式',
       revoke: '后退',
       next: '前进',
       save: '保存',
