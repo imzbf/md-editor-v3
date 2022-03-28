@@ -24,7 +24,8 @@ export default {
 
         if (_katex) {
           const html = _katex.renderToString(token.text, {
-            throwOnError: false
+            throwOnError: false,
+            displayMode: true
           });
 
           return `<span class="${prefix}-katex-block" data-processed>${html}</span>`;
