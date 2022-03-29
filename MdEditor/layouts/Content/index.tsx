@@ -35,6 +35,7 @@ export type EditorContentProps = Readonly<{
   noKatex?: boolean;
   extensions?: Array<any>;
   markedImage: MarkedImage;
+  openLinkInNewTab?: boolean;
 }>;
 
 export default defineComponent({
@@ -111,6 +112,10 @@ export default defineComponent({
     markedImage: {
       type: Function as PropType<MarkedImage>,
       default: () => ''
+    },
+    openLinkInNewTab:{
+      type:Boolean as PropType<boolean>,
+      default:false
     }
   },
   setup(props) {

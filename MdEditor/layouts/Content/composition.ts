@@ -10,7 +10,7 @@ import {
   onMounted,
   onBeforeUnmount
 } from 'vue';
-import { marked } from 'marked';
+import { marked,Tokenizer } from 'marked';
 import copy from 'copy-to-clipboard';
 import { EditorContentProps } from './index';
 import { HeadList, StaticTextDefaultValue, MarkedHeading } from '../../type';
@@ -20,7 +20,6 @@ import { insert, scrollAuto, setPosition, generateCodeRowNumber } from '../../ut
 import { ToolDirective, directive2flag } from '../../utils/content-help';
 import { appendHandler } from '../../utils/dom';
 import kaTexExtensions from '../../utils/katex';
-
 interface HistoryItemType {
   // 记录内容
   content: string;
@@ -202,7 +201,15 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
     return renderer.defaultCode(code, language, isEscaped);
   };
-
+  renderer.defaultLink = renderer.link;
+  renderer.link = (href: string, title: string, text: string) => {
+    if (props.openLinkInNewTab) {
+      // see https://github.com/markedjs/marked/blob/56ac1982ce06d002c36ea216c04f63a601f25a6d/src/Renderer.js#L136
+      return `<a title="${title}" target='_blank' href='${href}'>${text}</a>`;
+    } else {
+      return renderer.defaultLink(href, title, text);
+    }
+  };
   renderer.image = props.markedImage;
 
   renderer.listitem = (text: string, task: boolean) => {

@@ -153,6 +153,7 @@ async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
 | iconfontJs<sup>v1.3.2</sup> | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | x | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
 | editorId<sup>v1.4.0</sup> | String | random | x | 编辑器唯一标识，非必须项，用于后续支持`ssr`时，防止产生服务端与客户端渲染内容不一致错误提示 |
 | tabWidth<sup>v1.4.0<sup> | Number | 2 | x | 编辑器 TAB 键位等于空格数 |
+| openLinkInNewTab | Boolean | false | x | 是否在新的标签页打开链接 |
 | showCodeRowNumber<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Boolean | false | x | 代码块显示行号 |
 | screenfull<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | Object | null | x | 全屏插件实例，项目中有使用可以将其传入，这样编辑器不再会使用 cdn 引入 |
 | screenfullJs<sup>[v1.4.3](https://github.com/imzbf/md-editor-v3/releases/tag/v1.4.3)</sup> | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | x | cdn 链接 |

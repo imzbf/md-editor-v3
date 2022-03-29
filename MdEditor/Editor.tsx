@@ -106,6 +106,7 @@ const props = {
     type: Boolean as PropType<boolean>,
     default: false
   },
+
   language: {
     type: String as PropType<StaticTextDefaultKey | string>,
     default: 'zh-CN'
@@ -268,6 +269,10 @@ const props = {
     default: (href: string, _: string, desc: string) => {
       return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
     }
+  },
+  openLinkInNewTab: {
+    type: Boolean,
+    default: false
   }
 };
 
@@ -435,6 +440,7 @@ export default defineComponent({
             noKatex={props.noKatex}
             extensions={props.extensions}
             markedImage={props.markedImage}
+            openLinkInNewTab={props.openLinkInNewTab}
           />
           {catalogShow.value && (
             <Catalog
