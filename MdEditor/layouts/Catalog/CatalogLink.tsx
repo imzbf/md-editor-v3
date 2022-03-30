@@ -19,7 +19,7 @@ const CatalogLink = defineComponent({
       default: () => {}
     },
     scrollElement: {
-      type: [String, HTMLElement] as PropType<string | HTMLElement>,
+      type: [String, Object] as PropType<string | HTMLElement>,
       default: ''
     }
   },
