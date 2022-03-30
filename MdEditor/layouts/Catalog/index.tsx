@@ -28,7 +28,7 @@ const Catalog = defineComponent({
     // 指定滚动的容器，选择器需带上对应的符号，默认预览框
     // 元素必须定位！！！！！！
     scrollElement: {
-      type: [String, HTMLElement] as PropType<string | HTMLElement>
+      type: [String, Object] as PropType<string | HTMLElement>
     },
     theme: {
       type: String as PropType<Themes>,
