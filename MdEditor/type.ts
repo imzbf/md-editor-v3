@@ -1,3 +1,5 @@
+import { Renderer } from 'marked';
+
 declare global {
   interface Window {
     hljs: any;
@@ -122,22 +124,31 @@ export interface HeadList {
 }
 
 // marked heading方法
-export type MarkedHeading = (
-  text: string,
-  level: 1 | 2 | 3 | 4 | 5 | 6,
-  raw: string,
-  // marked@2.1.3
-  slugger: {
-    seen: { [slugValue: string]: number };
-    slug(
-      value: string,
-      options?: {
-        dryrun: boolean;
-      }
-    ): string;
-  }
-) => string;
+// export type MarkedHeading = (
+//   text: string,
+//   level: 1 | 2 | 3 | 4 | 5 | 6,
+//   raw: string,
+//   // marked@2.1.3
+//   slugger: {
+//     seen: { [slugValue: string]: number };
+//     slug(
+//       value: string,
+//       options?: {
+//         dryrun: boolean;
+//       }
+//     ): string;
+//   }
+// ) => string;
 
 export type MarkedHeadingId = (text: string, level: number) => string;
 
-export type MarkedImage = (href: string, title: string, desc: string) => string;
+// export type MarkedImage = (href: string, title: string, desc: string) => string;
+
+export interface ConfigOption {
+  // 修改marked默认行为
+  markedRenderer?: (renderer: Renderer) => Renderer;
+  // 扩展marked支持自定义编译markdown
+  markedExtensions?: Array<any>;
+}
+
+export type Config = (options: ConfigOption) => void;

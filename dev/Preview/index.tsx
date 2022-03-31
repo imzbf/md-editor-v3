@@ -8,6 +8,20 @@ import axios from 'axios';
 
 import './index.less';
 
+Editor.config({
+  markedRenderer(renderer) {
+    renderer.link = (href, title, text) => {
+      return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
+    };
+
+    renderer.image = (href: string, _: string, desc: string) => {
+      return `<img src="${href}" alt="${desc}">`;
+    };
+
+    return renderer;
+  }
+});
+
 const SAVE_KEY = 'XHMPGLJIZTDB';
 
 export default defineComponent({
