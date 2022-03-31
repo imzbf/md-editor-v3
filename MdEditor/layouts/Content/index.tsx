@@ -1,5 +1,11 @@
 import { defineComponent, inject, PropType, ref, ComputedRef } from 'vue';
-import { HeadList, SettingType, PreviewThemes, MarkedHeading } from '../../type';
+import {
+  HeadList,
+  SettingType,
+  PreviewThemes,
+  MarkedHeadingId,
+  ConfigOption
+} from '../../type';
 import {
   useAutoGenrator,
   useAutoScroll,
@@ -9,7 +15,6 @@ import {
   usePasteUpload
 } from './composition';
 import { prefix } from '../../config';
-import { MarkedImage } from '../../type';
 
 export type EditorContentProps = Readonly<{
   value: string;
@@ -18,7 +23,7 @@ export type EditorContentProps = Readonly<{
   setting: SettingType;
   onHtmlChanged: (h: string) => void;
   onGetCatalog: (list: HeadList[]) => void;
-  markedHeading: MarkedHeading;
+  markedHeadingId: MarkedHeadingId;
   // mermaid实例
   mermaid?: any;
   // mermaid script链接
@@ -33,8 +38,7 @@ export type EditorContentProps = Readonly<{
   katexJs: string;
   katexCss: string;
   noKatex?: boolean;
-  extensions?: Array<any>;
-  markedImage: MarkedImage;
+  extension: ConfigOption;
 }>;
 
 export default defineComponent({
@@ -64,8 +68,8 @@ export default defineComponent({
       type: Function as PropType<(list: HeadList[]) => void>,
       default: () => () => {}
     },
-    markedHeading: {
-      type: Function as PropType<MarkedHeading>,
+    markedHeadingId: {
+      type: Function as PropType<MarkedHeadingId>,
       default: () => ''
     },
     mermaid: {
@@ -105,12 +109,9 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       default: false
     },
-    extensions: {
-      type: Array as PropType<Array<any>>
-    },
-    markedImage: {
-      type: Function as PropType<MarkedImage>,
-      default: () => ''
+    extension: {
+      type: Object as PropType<ConfigOption>,
+      default: () => ({})
     }
   },
   setup(props) {
