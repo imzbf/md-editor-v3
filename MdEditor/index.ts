@@ -5,6 +5,8 @@ import NormalToolbar from './NormalToolbar';
 import DropdownToolbar from './DropdownToolbar';
 import Catalog from './layouts/Catalog';
 
+import configFn from './extensions/config';
+
 Editor.install = (app: App) => {
   app.component(Editor.name, Editor);
   app.component(NormalToolbar.name, NormalToolbar);
@@ -18,10 +20,13 @@ Editor.NormalToolbar = NormalToolbar;
 Editor.DropdownToolbar = DropdownToolbar;
 Editor.Catalog = Catalog;
 
+Editor.config = configFn;
+
 export default Editor as typeof Editor & {
   readonly NormalToolbar: typeof NormalToolbar;
   readonly DropdownToolbar: typeof DropdownToolbar;
   readonly Catalog: typeof Catalog;
+  readonly config: typeof configFn;
 };
 
 export * from './type';
