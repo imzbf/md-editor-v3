@@ -33,10 +33,10 @@ import {
   ToolbarNames,
   HeadList,
   PreviewThemes,
-  MarkedHeading,
+  // MarkedHeading,
   MarkedHeadingId,
   SettingType,
-  MarkedImage,
+  // MarkedImage,
   Themes
 } from './type';
 
@@ -187,20 +187,20 @@ const props = {
     type: String as PropType<PreviewThemes>,
     default: 'default'
   },
-  markedHeading: {
-    type: Function as PropType<MarkedHeading>,
-    default: (text: string, level: number, raw: string) => {
-      // 我们默认同一级别的标题，你不会定义两个相同的
-      const id = markedHeadingId(raw, level);
+  // markedHeading: {
+  //   type: Function as PropType<MarkedHeading>,
+  //   default: (text: string, level: number, raw: string) => {
+  //     // 我们默认同一级别的标题，你不会定义两个相同的
+  //     const id = markedHeadingId(raw, level);
 
-      // 如果标题有markdown语法内容，会按照该语法添加标题，而不再自定义，但是仍然支持目录定位
-      if (text !== raw) {
-        return `<h${level} id="${id}">${text}</h${level}>`;
-      } else {
-        return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
-      }
-    }
-  },
+  //     // 如果标题有markdown语法内容，会按照该语法添加标题，而不再自定义，但是仍然支持目录定位
+  //     if (text !== raw) {
+  //       return `<h${level} id="${id}">${text}</h${level}>`;
+  //     } else {
+  //       return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
+  //     }
+  //   }
+  // },
   style: {
     type: Object as PropType<CSSProperties | string>,
     default: () => ({})
@@ -258,20 +258,20 @@ const props = {
   },
   defToolbars: {
     type: [String, Object] as PropType<string | JSX.Element>
-  },
-  // 自定义marked扩展，只支持预设
-  extensions: {
-    type: Array as PropType<Array<any>>
-  },
-  markedImage: {
-    type: Function as PropType<MarkedImage>,
-    default: (href: string, _: string, desc: string) => {
-      return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
-    }
   }
+  // 自定义marked扩展，只支持预设
+  // extensions: {
+  //   type: Array as PropType<Array<any>>
+  // }
+  // markedImage: {
+  //   type: Function as PropType<MarkedImage>,
+  //   default: (href: string, _: string, desc: string) => {
+  //     return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
+  //   }
+  // }
 };
 
-export default defineComponent({
+const Editor = defineComponent({
   name: 'MdEditorV3',
   props,
   setup(props, context) {
@@ -423,7 +423,7 @@ export default defineComponent({
                 context.emit('onGetCatalog', list);
               }
             }}
-            markedHeading={props.markedHeading}
+            markedHeadingId={props.markedHeadingId}
             mermaid={props.mermaid}
             mermaidJs={props.mermaidJs}
             noMermaid={props.noMermaid}
@@ -433,8 +433,9 @@ export default defineComponent({
             katexJs={props.katexJs}
             katexCss={props.katexCss}
             noKatex={props.noKatex}
-            extensions={props.extensions}
-            markedImage={props.markedImage}
+            // extensions={props.extensions}
+            // markedImage={props.markedImage}
+            extension={Editor.extension}
           />
           {catalogShow.value && (
             <Catalog
@@ -452,3 +453,5 @@ export default defineComponent({
     };
   }
 });
+
+export default Editor;

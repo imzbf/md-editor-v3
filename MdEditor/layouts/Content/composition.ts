@@ -13,7 +13,7 @@ import {
 import { marked } from 'marked';
 import copy from 'copy-to-clipboard';
 import { EditorContentProps } from './index';
-import { HeadList, StaticTextDefaultValue, MarkedHeading } from '../../type';
+import { HeadList, StaticTextDefaultValue } from '../../type';
 import { prefix } from '../../config';
 import bus from '../../utils/event-bus';
 import { insert, scrollAuto, setPosition, generateCodeRowNumber } from '../../utils';
@@ -154,18 +154,10 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   const heads = ref<HeadList[]>([]);
 
   // marked渲染实例
-  const renderer: any = new marked.Renderer();
+  let renderer = new marked.Renderer();
 
-  // 标题重构
-  renderer.heading = ((...headProps) => {
-    const [, level, raw] = headProps;
-    heads.value.push({ text: raw, level });
-
-    return props.markedHeading(...headProps);
-  }) as MarkedHeading;
-
-  renderer.defaultCode = renderer.code;
-
+  // 代码
+  const defaultCode = renderer.code;
   renderer.code = (code: string, language: string, isEscaped: boolean) => {
     if (!props.noMermaid && language === 'mermaid') {
       const idRand = `${prefix}-mermaid-${Date.now().toString(36)}`;
@@ -200,16 +192,52 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
       }
     }
 
-    return renderer.defaultCode(code, language, isEscaped);
+    return defaultCode.call(renderer, code, language, isEscaped);
   };
 
-  renderer.image = props.markedImage;
+  // 图片
+  renderer.image = (href: string, _: string, desc: string) => {
+    return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
+  };
 
+  // 列表
   renderer.listitem = (text: string, task: boolean) => {
     if (task) {
       return `<li class="li-task">${text}</li>`;
     }
     return `<li>${text}</li>`;
+  };
+
+  // 保存默认heading
+  const heading = renderer.heading;
+
+  if (props.extension.markedRenderer instanceof Function) {
+    renderer = props.extension.markedRenderer(renderer);
+  }
+
+  // 判断是否有重写heading
+  const newHeading = renderer.heading;
+  const isNewHeading = heading !== newHeading;
+
+  // 标题
+  renderer.heading = (text, level, raw, slugger) => {
+    heads.value.push({ text: raw, level });
+
+    // 如果heading被重写了，使用新的heading
+    if (isNewHeading) {
+      return newHeading.call(renderer, text, level, raw, slugger);
+    }
+
+    // return props.markedHeading(...headProps);
+    // 我们默认同一级别的标题，你不会定义两个相同的
+    const id = props.markedHeadingId(raw, level);
+
+    // 如果标题有markdown语法内容，会按照该语法添加标题，而不再自定义，但是仍然支持目录定位
+    if (text !== raw) {
+      return `<h${level} id="${id}">${text}</h${level}>`;
+    } else {
+      return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
+    }
   };
 
   marked.setOptions({
@@ -241,9 +269,12 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   }
 
   // 自定义的marked扩展
-  if (props.extensions instanceof Array && props.extensions.length > 0) {
+  if (
+    props.extension.markedExtensions instanceof Array &&
+    props.extension.markedExtensions.length > 0
+  ) {
     marked.use({
-      extensions: props.extensions
+      extensions: props.extension.markedExtensions
     });
   }
 
