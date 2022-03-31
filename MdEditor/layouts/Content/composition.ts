@@ -384,10 +384,12 @@ export const useAutoScroll = (
   };
 
   onMounted(() => {
-    [initScrollAuto, clearScrollAuto] = scrollAuto(
-      textAreaRef.value as HTMLElement,
-      (previewRef.value as HTMLElement) || htmlRef.value
-    );
+    if (previewRef.value || htmlRef.value) {
+      [initScrollAuto, clearScrollAuto] = scrollAuto(
+        textAreaRef.value as HTMLElement,
+        (previewRef.value as HTMLElement) || htmlRef.value
+      );
+    }
   });
 
   // 编译事件
