@@ -1,7 +1,7 @@
 import { defineComponent, PropType } from 'vue';
-import { prefix } from './config';
-import { getSlot } from './utils/vue-tsx';
-import Dropdown from './components/Dropdown';
+import { prefix } from '../config';
+import { getSlot } from '../utils/vue-tsx';
+import Dropdown from '../components/Dropdown';
 
 export default defineComponent({
   name: 'DropdownToolbar',

@@ -1,11 +1,12 @@
 import { onMounted, inject } from 'vue';
 import { prefix } from '../../config';
 import { appendHandler } from '../../utils/dom';
+import { ConfigOption } from '../../type';
 
 export const useSreenfull = (props: any) => {
   const previewOnly = inject('previewOnly') as boolean;
-  // eslint-disable-next-line vue/no-setup-props-destructure
-  let { screenfull } = props;
+  const extension = inject('extension') as ConfigOption;
+  let screenfull = extension.editorExtensions?.screenfull?.instance;
 
   const fullScreenHandler = () => {
     if (screenfull.isEnabled) {

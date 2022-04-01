@@ -13,8 +13,8 @@ import {
 import { marked } from 'marked';
 import copy from 'copy-to-clipboard';
 import { EditorContentProps } from './index';
-import { HeadList, StaticTextDefaultValue } from '../../type';
-import { prefix } from '../../config';
+import { HeadList, StaticTextDefaultValue, ConfigOption } from '../../type';
+import { prefix, katexUrl, mermaidUrl } from '../../config';
 import bus from '../../utils/event-bus';
 import { insert, scrollAuto, setPosition, generateCodeRowNumber } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
@@ -141,11 +141,22 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
  * markdown编译逻辑
  */
 export const useMarked = (props: EditorContentProps, mermaidData: any) => {
-  const { markedRenderer, markedExtensions, markedOptions } = props.extension;
+  const { markedRenderer, markedExtensions, markedOptions, editorExtensions } = inject(
+    'extension'
+  ) as ConfigOption;
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const editorId = inject('editorId') as string;
-  const highlight = inject('highlight') as ComputedRef<{ js: string; css: string }>;
+  const highlightUrl = inject('highlight') as ComputedRef<{ js: string; css: string }>;
+
+  // 获取相应的扩展实例
+  const highlightIns = editorExtensions?.highlight?.instance;
+  const mermaidIns = editorExtensions?.mermaid?.instance;
+  const katexIns = editorExtensions?.katex?.instance;
+
+  // 获取相应的扩展配置链接
+  const katexConf = editorExtensions?.katex;
+
   // ~~
   const highlightInited = ref(false);
   // katex是否加载完成
@@ -166,8 +177,8 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
       try {
         let svgCode = '';
         // 服务端渲染，如果提供了mermaid，就生成svg
-        if (props.mermaid) {
-          svgCode = props.mermaid.mermaidAPI.render(idRand, code);
+        if (mermaidIns) {
+          svgCode = mermaidIns.mermaidAPI.render(idRand, code);
         }
         // 没有提供，则判断window对象是否可用，不可用则反回待解析的结构，在页面引入后再解析
         else if (typeof window !== 'undefined' && window.mermaid) {
@@ -251,17 +262,17 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   if (!props.noKatex) {
     marked.use({
       extensions: [
-        kaTexExtensions.inline(prefix, props.katex),
-        kaTexExtensions.block(prefix, props.katex)
+        kaTexExtensions.inline(prefix, katexIns),
+        kaTexExtensions.block(prefix, katexIns)
       ]
     });
   }
 
-  if (props.hljs) {
+  if (highlightIns) {
     // 提供了hljs，在创建阶段即完成设置
     marked.setOptions({
       highlight: (code) => {
-        const codeHtml = props.hljs.highlightAuto(code).value;
+        const codeHtml = highlightIns.highlightAuto(code).value;
 
         return showCodeRowNumber
           ? generateCodeRowNumber(codeHtml)
@@ -327,10 +338,10 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   // =====插入依赖扩展=====
   onMounted(() => {
     // 标签引入katex
-    if (!props.noKatex && !props.katex) {
+    if (!props.noKatex && !katexIns) {
       const katexScript = document.createElement('script');
 
-      katexScript.src = props.katexJs;
+      katexScript.src = katexConf?.js || katexUrl.js;
       katexScript.onload = () => {
         katexInited.value = true;
       };
@@ -338,21 +349,21 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
       const katexLink = document.createElement('link');
       katexLink.rel = 'stylesheet';
-      katexLink.href = props.katexCss;
+      katexLink.href = katexConf?.css || katexUrl.css;
       katexLink.id = `${prefix}-katexCss`;
 
       appendHandler(katexScript, 'katex');
       appendHandler(katexLink);
     }
 
-    if (props.hljs === null) {
+    if (!highlightIns) {
       const highlightLink = document.createElement('link');
       highlightLink.rel = 'stylesheet';
-      highlightLink.href = highlight.value.css;
+      highlightLink.href = highlightUrl.value.css;
       highlightLink.id = `${prefix}-hlCss`;
 
       const highlightScript = document.createElement('script');
-      highlightScript.src = highlight.value.js;
+      highlightScript.src = highlightUrl.value.js;
       highlightScript.onload = highlightLoad;
       highlightScript.id = `${prefix}-hljs`;
 
@@ -557,17 +568,19 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
 
 export const useMermaid = (props: EditorContentProps) => {
   const theme = inject('theme') as ComputedRef<string>;
+  const { editorExtensions } = inject('extension') as ConfigOption;
+  const mermaidConf = editorExtensions?.mermaid;
 
   const mermaidData = reactive({
     reRender: false,
-    mermaidInited: !!props.mermaid
+    mermaidInited: !!mermaidConf?.instance
   });
 
   const reSetMermaidTheme = () => {
     if (!props.noMermaid) {
       // 提供了外部实例
-      if (props.mermaid) {
-        props.mermaid.initialize({
+      if (mermaidConf?.instance) {
+        mermaidConf.instance.initialize({
           theme: theme.value === 'dark' ? 'dark' : 'default'
         });
       } else if (window.mermaid) {
@@ -585,10 +598,10 @@ export const useMermaid = (props: EditorContentProps) => {
   let mermaidScript: HTMLScriptElement;
   onMounted(() => {
     // 引入mermaid
-    if (!props.noMermaid && !props.mermaid) {
+    if (!props.noMermaid && !mermaidConf?.instance) {
       mermaidScript = document.createElement('script');
 
-      mermaidScript.src = props.mermaidJs;
+      mermaidScript.src = mermaidConf?.js || mermaidUrl;
       mermaidScript.onload = () => {
         window.mermaid.initialize({
           theme: theme.value === 'dark' ? 'dark' : 'default',

@@ -1,11 +1,11 @@
 import { App } from 'vue';
 
 import Editor from './Editor';
-import NormalToolbar from './NormalToolbar';
-import DropdownToolbar from './DropdownToolbar';
+import NormalToolbar from './extensions/NormalToolbar';
+import DropdownToolbar from './extensions/DropdownToolbar';
 import Catalog from './layouts/Catalog';
 
-import configFn from './extensions/config';
+import configFn from './utils/config';
 
 Editor.install = (app: App) => {
   app.component(Editor.name, Editor);
@@ -19,7 +19,6 @@ Editor.install = (app: App) => {
 Editor.NormalToolbar = NormalToolbar;
 Editor.DropdownToolbar = DropdownToolbar;
 Editor.Catalog = Catalog;
-
 Editor.config = configFn;
 
 export default Editor as typeof Editor & {

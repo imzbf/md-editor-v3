@@ -9,19 +9,8 @@ import {
   computed
 } from 'vue';
 
-import {
-  prefix,
-  allToolbar,
-  highlightUrl,
-  iconfontUrl,
-  prettierUrl,
-  cropperUrl,
-  screenfullUrl,
-  mermaidUrl,
-  katexJsUrl,
-  katexCssUrl
-} from './config';
-import { useKeyBoard, useProvide, useExpansion } from './capi';
+import { prefix, allToolbar } from './config';
+import { useKeyBoard, useProvide, useExpansion } from './composition';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
 import Catalog from './layouts/Catalog';
@@ -62,19 +51,19 @@ const props = {
     default: ''
   },
   // 如果项目中有使用highlight.js或者没有外网访问权限，可以直接传递实例hljs并且手动导入css
-  hljs: {
-    type: Object,
-    default: null
-  },
+  // hljs: {
+  //   type: Object,
+  //   default: null
+  // },
   // 可以手动提供highlight.js的cdn链接
-  highlightJs: {
-    type: String as PropType<string>,
-    default: highlightUrl.js
-  },
-  highlightCss: {
-    type: String as PropType<string>,
-    default: ''
-  },
+  // highlightJs: {
+  //   type: String as PropType<string>,
+  //   default: highlightUrl.js
+  // },
+  // highlightCss: {
+  //   type: String as PropType<string>,
+  //   default: ''
+  // },
   historyLength: {
     type: Number as PropType<number>,
     default: 10
@@ -125,39 +114,39 @@ const props = {
     type: Array as PropType<Array<ToolbarNames>>,
     default: []
   },
-  prettier: {
+  noPrettier: {
     type: Boolean as PropType<boolean>,
-    default: true
+    default: false
   },
-  prettierCDN: {
-    type: String as PropType<string>,
-    default: prettierUrl.main
-  },
-  prettierMDCDN: {
-    type: String as PropType<string>,
-    default: prettierUrl.markdown
-  },
+  // prettierCDN: {
+  //   type: String as PropType<string>,
+  //   default: prettierUrl.main
+  // },
+  // prettierMDCDN: {
+  //   type: String as PropType<string>,
+  //   default: prettierUrl.markdown
+  // },
   // html变化事件
   onHtmlChanged: {
     type: Function as PropType<(h: string) => void>
   },
   // 图片裁剪对象
-  Cropper: {
-    type: Function,
-    default: null
-  },
-  cropperCss: {
-    type: String as PropType<string>,
-    default: cropperUrl.css
-  },
-  cropperJs: {
-    type: String as PropType<string>,
-    default: cropperUrl.js
-  },
-  iconfontJs: {
-    type: String as PropType<string>,
-    default: iconfontUrl
-  },
+  // Cropper: {
+  //   type: Function,
+  //   default: null
+  // },
+  // cropperCss: {
+  //   type: String as PropType<string>,
+  //   default: cropperUrl.css
+  // },
+  // cropperJs: {
+  //   type: String as PropType<string>,
+  //   default: cropperUrl.js
+  // },
+  // iconfontJs: {
+  //   type: String as PropType<string>,
+  //   default: iconfontUrl
+  // },
   onGetCatalog: {
     type: Function as PropType<(list: HeadList[]) => void>
   },
@@ -174,14 +163,14 @@ const props = {
     type: Boolean as PropType<boolean>,
     default: false
   },
-  screenfull: {
-    type: Object,
-    default: null
-  },
-  screenfullJs: {
-    type: String as PropType<string>,
-    default: screenfullUrl
-  },
+  // screenfull: {
+  //   type: Object,
+  //   default: null
+  // },
+  // screenfullJs: {
+  //   type: String as PropType<string>,
+  //   default: screenfullUrl
+  // },
   // 预览内容样式
   previewTheme: {
     type: String as PropType<PreviewThemes>,
@@ -215,14 +204,14 @@ const props = {
     default: () => [6, 4]
   },
   // mermaid实例
-  mermaid: {
-    type: Object
-  },
-  // mermaid script链接
-  mermaidJs: {
-    type: String as PropType<string>,
-    default: mermaidUrl
-  },
+  // mermaid: {
+  //   type: Object
+  // },
+  // // mermaid script链接
+  // mermaidJs: {
+  //   type: String as PropType<string>,
+  //   default: mermaidUrl
+  // },
   // 不使用该功能
   noMermaid: {
     type: Boolean as PropType<boolean>,
@@ -238,19 +227,19 @@ const props = {
     type: String as PropType<string>,
     default: ''
   },
-  katex: {
-    type: Object
-  },
+  // katex: {
+  //   type: Object
+  // },
   // katex script链接
-  katexJs: {
-    type: String as PropType<string>,
-    default: katexJsUrl
-  },
-  // katex css链接
-  katexCss: {
-    type: String as PropType<string>,
-    default: katexCssUrl
-  },
+  // katexJs: {
+  //   type: String as PropType<string>,
+  //   default: katexJsUrl
+  // },
+  // // katex css链接
+  // katexCss: {
+  //   type: String as PropType<string>,
+  //   default: katexCssUrl
+  // },
   // 不使用该函数功能
   noKatex: {
     type: Boolean as PropType<boolean>,
@@ -282,9 +271,9 @@ const Editor = defineComponent({
     // 快捷键监听
     useKeyBoard(props, context);
     // provide 部分prop
-    useProvide(props);
+    useProvide(props, Editor.extension);
     // 插入扩展的外链
-    useExpansion(props);
+    useExpansion(props, Editor.extension);
 
     const state = reactive({
       catalogVisible: false
@@ -386,9 +375,9 @@ const Editor = defineComponent({
         >
           {!props.previewOnly && (
             <ToolBar
-              prettier={props.prettier}
-              screenfull={props.screenfull}
-              screenfullJs={props.screenfullJs}
+              noPrettier={props.noPrettier}
+              // screenfull={props.screenfull}
+              // screenfullJs={props.screenfullJs}
               toolbars={props.toolbars}
               toolbarsExclude={props.toolbarsExclude}
               setting={setting}
@@ -398,7 +387,7 @@ const Editor = defineComponent({
             />
           )}
           <Content
-            hljs={props.hljs}
+            // hljs={props.hljs}
             value={props.modelValue}
             onChange={(value: string) => {
               if (props.onChange) {
@@ -424,18 +413,17 @@ const Editor = defineComponent({
               }
             }}
             markedHeadingId={props.markedHeadingId}
-            mermaid={props.mermaid}
-            mermaidJs={props.mermaidJs}
+            // mermaid={props.mermaid}
+            // mermaidJs={props.mermaidJs}
             noMermaid={props.noMermaid}
             sanitize={props.sanitize}
             placeholder={props.placeholder}
-            katex={props.katex}
-            katexJs={props.katexJs}
-            katexCss={props.katexCss}
+            // katex={props.katex}
+            // katexJs={props.katexJs}
+            // katexCss={props.katexCss}
             noKatex={props.noKatex}
             // extensions={props.extensions}
             // markedImage={props.markedImage}
-            extension={Editor.extension}
           />
           {catalogShow.value && (
             <Catalog

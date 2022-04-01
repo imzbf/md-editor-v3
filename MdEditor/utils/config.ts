@@ -1,5 +1,3 @@
-// import { Renderer } from 'marked';
-
 import Editor from '../Editor';
 import { Config } from '../type';
 
@@ -8,7 +6,8 @@ const config: Config = function (
   option = {
     markedRenderer: (r) => r,
     markedExtensions: [],
-    markedOptions: {}
+    markedOptions: {},
+    editorExtensions: {}
   }
 ) {
   Reflect.defineProperty(this, 'extension', {
