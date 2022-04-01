@@ -7,7 +7,8 @@ const config: Config = function (
   this: typeof Editor,
   option = {
     markedRenderer: (r) => r,
-    markedExtensions: []
+    markedExtensions: [],
+    markedOptions: {}
   }
 ) {
   Reflect.defineProperty(this, 'extension', {

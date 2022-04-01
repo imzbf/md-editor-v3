@@ -1,4 +1,4 @@
-import { Renderer } from 'marked';
+import { marked, Renderer } from 'marked';
 
 declare global {
   interface Window {
@@ -145,10 +145,24 @@ export type MarkedHeadingId = (text: string, level: number) => string;
 // export type MarkedImage = (href: string, title: string, desc: string) => string;
 
 export interface ConfigOption {
-  // 修改marked默认行为
+  /**
+   * 覆盖编辑器默认的renderer属性
+   * @see https://marked.js.org/using_pro#renderer
+   */
   markedRenderer?: (renderer: Renderer) => Renderer;
-  // 扩展marked支持自定义编译markdown
-  markedExtensions?: Array<any>;
+  /**
+   * 自定义 marked 扩展
+   * @see https://marked.js.org/using_pro#extensions
+   */
+  markedExtensions?: Array<marked.TokenizerExtension & marked.RendererExtension>;
+  /**
+   * 自定义 marked option，不推荐在这么覆盖renderer，这会导致内部逻辑混乱！
+   * @see https://marked.js.org/using_advanced#options
+   */
+  markedOptions?: marked.MarkedOptions;
 }
 
+/**
+ * 扩展编辑器内部功能，包括marked和一些内部依赖实例，如highlight、cropper等
+ */
 export type Config = (options: ConfigOption) => void;
