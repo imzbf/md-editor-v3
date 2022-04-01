@@ -46,11 +46,13 @@
     "build:preview": "vue-tsc --noEmit && vite build --mode=preview",
     "serve": "vite preview"
   },
+  "dependencies": {
+    "@types/marked": "^4.0.3"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "@types/katex": "^0.11.1",
-    "@types/marked": "^4.0.1",
     "@types/node": "^15.12.5",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
