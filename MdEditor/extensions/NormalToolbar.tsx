@@ -1,6 +1,6 @@
 import { defineComponent, PropType } from 'vue';
-import { prefix } from './config';
-import { getSlot } from './utils/vue-tsx';
+import { prefix } from '../config';
+import { getSlot } from '../utils/vue-tsx';
 
 export default defineComponent({
   name: 'NormalToolbar',

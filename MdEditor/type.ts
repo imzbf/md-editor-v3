@@ -160,6 +160,41 @@ export interface ConfigOption {
    * @see https://marked.js.org/using_advanced#options
    */
   markedOptions?: marked.MarkedOptions;
+  /**
+   * 编辑器内部依赖库
+   */
+  editorExtensions?: {
+    highlight?: {
+      instance?: any;
+      js?: string;
+      atom?: string;
+      github?: string;
+      githubDark?: string;
+    };
+    prettier?: {
+      standaloneJs?: string;
+      parserMarkdownJs?: string;
+    };
+    cropper?: {
+      instance?: any;
+      js?: string;
+      css?: string;
+    };
+    iconfont?: string;
+    screenfull?: {
+      instance?: any;
+      js?: string;
+    };
+    mermaid?: {
+      instance?: any;
+      js?: string;
+    };
+    katex?: {
+      instance?: any;
+      js?: string;
+      css?: string;
+    };
+  };
 }
 
 /**

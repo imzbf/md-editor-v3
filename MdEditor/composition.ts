@@ -1,9 +1,16 @@
 import { computed, onMounted, onBeforeUnmount, provide, SetupContext } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
-import { ToolbarNames } from './type';
+import { ToolbarNames, ConfigOption } from './type';
 import { appendHandler } from './utils/dom';
-import { prefix, highlightUrl, staticTextDefault } from './config';
+import {
+  prefix,
+  staticTextDefault,
+  iconfontUrl,
+  prettierUrl,
+  cropperUrl,
+  highlightUrl
+} from './config';
 
 export const useKeyBoard = (props: any, context: SetupContext) => {
   const { editorId } = props;
@@ -298,8 +305,9 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
   });
 };
 
-export const useProvide = (props: any) => {
+export const useProvide = (props: any, extension: ConfigOption) => {
   const { editorId } = props;
+  const highlightConfig = extension?.editorExtensions?.highlight;
 
   provide('editorId', editorId);
 
@@ -312,33 +320,31 @@ export const useProvide = (props: any) => {
   );
 
   // 注入高亮src
-  const highlightSet = computed(() => {
-    let url = highlightUrl.atom;
+  provide(
+    'highlight',
+    computed(() => {
+      // 优先配置
+      let url = highlightConfig?.atom || highlightUrl.atom;
 
-    if (props.highlightCss) {
-      // 用户设置为高优先级
-      url = props.highlightCss;
-    } else {
-      // 低优先级，根据全局主题加预览主题判断使用
+      // 根据预览主题判定合理切换
       switch (props.previewTheme) {
         case 'github': {
           if (props.theme === 'dark') {
-            url = highlightUrl.githubDark;
+            url = highlightConfig?.githubDark || highlightUrl.githubDark;
           } else {
-            url = highlightUrl.github;
+            url = highlightConfig?.github || highlightUrl.github;
           }
 
           break;
         }
       }
-    }
 
-    return {
-      js: props.highlightJs,
-      css: url
-    };
-  });
-  provide('highlight', highlightSet);
+      return {
+        js: highlightConfig?.js || highlightUrl.js,
+        css: url
+      };
+    })
+  );
 
   // 注入历史设置
   provide('historyLength', props.historyLength);
@@ -365,64 +371,69 @@ export const useProvide = (props: any) => {
 
   provide('usedLanguageText', usedLanguageText);
 
-  provide('Cropper', props.Cropper);
+  // provide('Cropper', props.Cropper);
 
   // 提供预览主题
   provide(
     'previewTheme',
     computed(() => props.previewTheme)
   );
+
+  // config extension
+  provide('extension', extension);
   // -end-
 };
 
-export const useExpansion = (props: any) => {
-  // 这部分内容同样不需要响应式更新
+export const useExpansion = (props: any, extension: ConfigOption) => {
+  // 这部分内容只配置，不需要响应式更新
   const {
-    iconfontJs,
-    prettier,
-    prettierCDN,
-    prettierMDCDN,
-    previewOnly,
-    cropperCss,
-    cropperJs
+    // iconfontJs,
+    noPrettier,
+    // prettierCDN,
+    // prettierMDCDN,
+    previewOnly
+    // cropperCss,
+    // cropperJs
   } = props;
 
   onMounted(() => {
     // 图标
     const iconfontScript = document.createElement('script');
-    iconfontScript.src = iconfontJs;
+    iconfontScript.src = extension.editorExtensions?.iconfont || iconfontUrl;
     iconfontScript.id = `${prefix}-icon`;
 
     // prettier
     const prettierScript = document.createElement('script');
     const prettierMDScript = document.createElement('script');
 
-    prettierScript.src = prettierCDN;
+    prettierScript.src =
+      extension.editorExtensions?.prettier?.parserMarkdownJs || prettierUrl.main;
     prettierScript.id = `${prefix}-prettier`;
 
-    prettierMDScript.src = prettierMDCDN;
+    prettierMDScript.src =
+      extension.editorExtensions?.prettier?.parserMarkdownJs || prettierUrl.markdown;
     prettierMDScript.id = `${prefix}-prettierMD`;
 
     // 裁剪图片
     const cropperLink = document.createElement('link');
     cropperLink.rel = 'stylesheet';
-    cropperLink.href = cropperCss;
+    cropperLink.href = extension.editorExtensions?.cropper?.css || cropperUrl.css;
     cropperLink.id = `${prefix}-cropperCss`;
 
     const cropperScript = document.createElement('script');
-    cropperScript.src = cropperJs;
+    cropperScript.src = extension.editorExtensions?.cropper?.js || cropperUrl.js;
     cropperScript.id = `${prefix}-cropper`;
 
     // 非仅预览模式才添加扩展
     if (!previewOnly) {
       appendHandler(iconfontScript);
 
-      if (!props.Cropper) {
+      if (!extension.editorExtensions?.cropper?.instance) {
         appendHandler(cropperLink);
         appendHandler(cropperScript);
       }
 
-      if (prettier) {
+      if (!noPrettier) {
         appendHandler(prettierScript);
         appendHandler(prettierMDScript);
       }

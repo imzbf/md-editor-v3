@@ -23,7 +23,7 @@ import { allToolbar, prefix } from '../../config';
 export default defineComponent({
   name: 'MDEditorToolbar',
   props: {
-    prettier: {
+    noPrettier: {
       type: Boolean as PropType<boolean>
     },
     // 工具栏选择显示
@@ -543,7 +543,7 @@ export default defineComponent({
             );
           }
           case 'prettier': {
-            return props.prettier ? (
+            return !props.noPrettier ? (
               <div
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.prettier}

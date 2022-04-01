@@ -1,11 +1,5 @@
 import { defineComponent, inject, PropType, ref, ComputedRef } from 'vue';
-import {
-  HeadList,
-  SettingType,
-  PreviewThemes,
-  MarkedHeadingId,
-  ConfigOption
-} from '../../type';
+import { HeadList, SettingType, PreviewThemes, MarkedHeadingId } from '../../type';
 import {
   useAutoGenrator,
   useAutoScroll,
@@ -18,27 +12,16 @@ import { prefix } from '../../config';
 
 export type EditorContentProps = Readonly<{
   value: string;
-  hljs: Record<string, any>;
   onChange: (v: string) => void;
   setting: SettingType;
   onHtmlChanged: (h: string) => void;
   onGetCatalog: (list: HeadList[]) => void;
   markedHeadingId: MarkedHeadingId;
-  // mermaid实例
-  mermaid?: any;
-  // mermaid script链接
-  mermaidJs: string;
   // 不使用该功能
   noMermaid?: boolean;
   sanitize: (html: string) => string;
   placeholder: string;
-  // katex实例
-  katex?: any;
-  // katex script链接
-  katexJs: string;
-  katexCss: string;
   noKatex?: boolean;
-  extension: ConfigOption;
 }>;
 
 export default defineComponent({
@@ -47,10 +30,6 @@ export default defineComponent({
     value: {
       type: String as PropType<string>,
       default: ''
-    },
-    hljs: {
-      type: Object,
-      default: null
     },
     onChange: {
       type: Function as PropType<(v: string) => void>,
@@ -72,13 +51,6 @@ export default defineComponent({
       type: Function as PropType<MarkedHeadingId>,
       default: () => ''
     },
-    mermaid: {
-      type: Object
-    },
-    mermaidJs: {
-      type: String as PropType<string>,
-      default: ''
-    },
     noMermaid: {
       type: Boolean as PropType<boolean>,
       default: false
@@ -91,27 +63,10 @@ export default defineComponent({
       type: String as PropType<string>,
       default: ''
     },
-    katex: {
-      type: Object
-    },
-    // katex script链接
-    katexJs: {
-      type: String as PropType<string>,
-      default: ''
-    },
-    // katex css链接
-    katexCss: {
-      type: String as PropType<string>,
-      default: ''
-    },
     // 不使用该函数功能
     noKatex: {
       type: Boolean as PropType<boolean>,
       default: false
-    },
-    extension: {
-      type: Object as PropType<ConfigOption>,
-      default: () => ({})
     }
   },
   setup(props) {
