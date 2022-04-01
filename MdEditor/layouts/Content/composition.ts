@@ -141,6 +141,7 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
  * markdown编译逻辑
  */
 export const useMarked = (props: EditorContentProps, mermaidData: any) => {
+  const { markedRenderer, markedExtensions, markedOptions } = props.extension;
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const editorId = inject('editorId') as string;
@@ -157,8 +158,8 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   let renderer = new marked.Renderer();
 
   // 代码
-  const defaultCode = renderer.code;
-  renderer.code = (code: string, language: string, isEscaped: boolean) => {
+  const markedCode = renderer.code;
+  renderer.code = (code, language, isEscaped) => {
     if (!props.noMermaid && language === 'mermaid') {
       const idRand = `${prefix}-mermaid-${Date.now().toString(36)}`;
 
@@ -192,12 +193,12 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
       }
     }
 
-    return defaultCode.call(renderer, code, language, isEscaped);
+    return markedCode.call(renderer, code, language, isEscaped);
   };
 
   // 图片
-  renderer.image = (href: string, _: string, desc: string) => {
-    return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
+  renderer.image = (href, title, desc) => {
+    return `<figure><img src="${href}" alt="${desc}" title="${title}"><figcaption>${desc}</figcaption></figure>`;
   };
 
   // 列表
@@ -209,15 +210,15 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   };
 
   // 保存默认heading
-  const heading = renderer.heading;
+  const markedheading = renderer.heading;
 
-  if (props.extension.markedRenderer instanceof Function) {
-    renderer = props.extension.markedRenderer(renderer);
+  if (markedRenderer instanceof Function) {
+    renderer = markedRenderer(renderer);
   }
 
   // 判断是否有重写heading
   const newHeading = renderer.heading;
-  const isNewHeading = heading !== newHeading;
+  const isNewHeading = markedheading !== newHeading;
 
   // 标题
   renderer.heading = (text, level, raw, slugger) => {
@@ -242,7 +243,8 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
   marked.setOptions({
     renderer,
-    breaks: true
+    breaks: true,
+    ...markedOptions
   });
 
   // 当没有设置不使用katex，直接扩展组件
@@ -269,12 +271,9 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   }
 
   // 自定义的marked扩展
-  if (
-    props.extension.markedExtensions instanceof Array &&
-    props.extension.markedExtensions.length > 0
-  ) {
+  if (markedExtensions instanceof Array && markedExtensions.length > 0) {
     marked.use({
-      extensions: props.extension.markedExtensions
+      extensions: markedExtensions
     });
   }
 
