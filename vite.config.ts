@@ -49,11 +49,11 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
           include: [
             './MdEditor/type.ts',
             './MdEditor/Editor.tsx',
-            './MdEditor/NormalToolbar.tsx',
-            './MdEditor/DropdownToolbar.tsx',
-            './MdEditor/layouts/Catalog/index.tsx',
+            './MdEditor/extensions/NormalToolbar.tsx',
+            './MdEditor/extensions/DropdownToolbar.tsx',
+            './MdEditor/extensions/Catalog/index.tsx',
             './MdEditor/index.ts',
-            './MdEditor/extensions/config.ts'
+            './MdEditor/utils/config.ts'
           ]
         })
     ],
