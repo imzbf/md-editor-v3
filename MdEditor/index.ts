@@ -3,7 +3,7 @@ import { App } from 'vue';
 import Editor from './Editor';
 import NormalToolbar from './extensions/NormalToolbar';
 import DropdownToolbar from './extensions/DropdownToolbar';
-import Catalog from './layouts/Catalog';
+import Catalog from './extensions/Catalog';
 
 import configFn from './utils/config';
 

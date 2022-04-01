@@ -13,7 +13,7 @@ import { prefix, allToolbar } from './config';
 import { useKeyBoard, useProvide, useExpansion } from './composition';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
-import Catalog from './layouts/Catalog';
+import Catalog from './extensions/Catalog';
 import bus from './utils/event-bus';
 
 import {
