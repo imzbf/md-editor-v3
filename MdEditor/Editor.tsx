@@ -46,7 +46,7 @@ const props = {
     default: 'light'
   },
   // 外层扩展类名
-  editorClass: {
+  class: {
     type: String,
     default: ''
   },
@@ -366,7 +366,7 @@ const Editor = defineComponent({
           id={editorId}
           class={[
             prefix,
-            props.editorClass,
+            props.class,
             props.theme === 'dark' && `${prefix}-dark`,
             setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
             props.previewOnly && `${prefix}-previewOnly`
