@@ -1,3 +1,5 @@
+import { splitKatexValue } from '.';
+
 export default {
   block(prefix: string, katex: any) {
     return {
@@ -5,10 +7,8 @@ export default {
       level: 'block',
       start: (text: string) => text.match(/\n\$\$\n/)?.index,
       tokenizer(text: string) {
-        const reg = /^\$\$\n(((\\\$)*[^$]*)*)\$\$\n?/;
-        const match = reg.exec(text);
-
-        if (match) {
+        if (/^\$\$\n/.test(text)) {
+          const match = splitKatexValue(text, '$$');
           const token = {
             type: 'KaTexBlockExtension',
             raw: match[0],
@@ -39,12 +39,11 @@ export default {
     return {
       name: 'KaTexInlineExtension',
       level: 'inline',
-      start: (text: string) => text.match(/\$[^\n]/)?.index,
+      start: (text: string) => text.match(/\$[^\n]*/)?.index,
       tokenizer(text: string) {
-        const reg = /^\$(((\\\$)*[^$]*)*)\$/;
-        const match = reg.exec(text);
+        if (/^\$[^\n]*/.test(text)) {
+          const match = splitKatexValue(text);
 
-        if (match) {
           const token = {
             type: 'KaTexInlineExtension',
             raw: match[0],

@@ -241,3 +241,24 @@ export const debounce = (fn: (...params: Array<any>) => any, ms = 200) => {
     }, ms);
   };
 };
+
+export const splitKatexValue = (str: string, key = '$'): Array<string> => {
+  const arr = str.split(key);
+  let regText = key;
+  let text = '';
+
+  for (let i = 1; i < arr.length; i++) {
+    // 以\结尾的添加到文本中
+    if (/\\$/.test(arr[i])) {
+      regText += arr[i] + '$';
+      text += arr[i] + '$';
+    } else {
+      regText += arr[i] + key;
+      text += arr[i];
+
+      break;
+    }
+  }
+
+  return [regText, text];
+};
