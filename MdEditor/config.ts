@@ -6,7 +6,7 @@ export const prefix = 'md';
 export const iconScriptId = 'md-editor-v3';
 
 // 字体链接
-export const iconfontUrl = '//at.alicdn.com/t/font_2605852_pqekijay2ij.js';
+export const iconfontUrl = 'https://at.alicdn.com/t/font_2605852_pqekijay2ij.js';
 
 // 代码高亮cdn链接
 export const highlightUrl = {
