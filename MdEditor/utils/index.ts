@@ -141,13 +141,24 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
     const scale = (pScrollHeight - pHeight) / (cScrollHeight - cHeight);
 
     if (e.target === pEle) {
-      // 输入框padding-top=10px，当在底部输入内容时，会产生不友好的交互，默认将其滚动到底部
-      if (pEle.offsetHeight + pEle.scrollTop + 10 === pScrollHeight) {
+      // 输入框padding-top=12px，当在底部输入内容时，会产生不友好的交互，默认将其滚动到底部
+      if (pEle.offsetHeight + pEle.scrollTop + 12 >= pScrollHeight) {
+        // 清除寄主监听
+        cEle.removeEventListener('scroll', scrollHandler);
+        pEle.removeEventListener('scroll', scrollHandler);
+
         pEle.scrollTo({
           top: pScrollHeight
         });
+
+        cEle.scrollTo({
+          top: cScrollHeight
+        });
+
+        addEvent();
         return;
       }
+
       // 清除寄主监听
       cEle.removeEventListener('scroll', scrollHandler);
 
