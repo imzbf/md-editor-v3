@@ -21,11 +21,17 @@
 }
 
 .@{prefix}-catalog {
+  & > &-link {
+    padding: 5px 8px;
+  }
+
   &-link {
     padding: 5px 0 5px 8px;
     line-height: 1.2;
 
     span {
+      display: inline-block;
+      width: 100%;
       position: relative;
       overflow: hidden;
       color: @color;
@@ -57,6 +63,10 @@
 .@{prefix}-catalog-dark {
   background-color: @bkColorDark;
   border-left-color: @borderColorDark;
+
+  & > .@{prefix}-catalog-link {
+    padding: 5px 8px;
+  }
 
   .@{prefix}-catalog-link {
     span {
