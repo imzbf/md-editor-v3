@@ -56,7 +56,7 @@ const CatalogLink = defineComponent({
           }
         }}
       >
-        <span>{props.tocItem.text}</span>
+        <span title={props.tocItem.text}>{props.tocItem.text}</span>
         {props.tocItem.children &&
           props.tocItem.children.map((item) => (
             <CatalogLink
