@@ -253,20 +253,16 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     });
   }
 
-  const html = ref('');
+  const html = ref(props.sanitize(marked(props.value || '')));
 
-  const sourceMarkHtml = () => {
+  const markHtml = debounce(() => {
     heads.value = [];
     const _html = props.sanitize(marked(props.value || ''));
     html.value = _html;
 
     props.onHtmlChanged(_html);
-  };
+  });
 
-  const markHtml = debounce(sourceMarkHtml);
-
-  // 初始调用
-  sourceMarkHtml();
   // 监听调用
   watch(
     [
