@@ -19,7 +19,7 @@ const CatalogLink = defineComponent({
       default: () => {}
     },
     scrollElement: {
-      type: [String, Object] as PropType<string | HTMLElement>,
+      type: [String, Object] as PropType<string | Element>,
       default: ''
     }
   },
@@ -32,7 +32,7 @@ const CatalogLink = defineComponent({
           const id = props.markedHeadingId(props.tocItem.text, props.tocItem.level);
           const targetHeadEle = document.getElementById(id);
           const scrollContainer =
-            props.scrollElement instanceof HTMLElement
+            props.scrollElement instanceof Element
               ? props.scrollElement
               : document.querySelector(props.scrollElement);
 
