@@ -28,7 +28,7 @@ const Catalog = defineComponent({
     // 指定滚动的容器，选择器需带上对应的符号，默认预览框
     // 元素必须定位！！！！！！
     scrollElement: {
-      type: [String, Object] as PropType<string | HTMLElement>
+      type: [String, Object] as PropType<string | Element>
     },
     theme: {
       type: String as PropType<Themes>,
@@ -42,7 +42,7 @@ const Catalog = defineComponent({
     const state = reactive<{
       list: HeadList[];
       show: boolean;
-      scrollElement: string | HTMLElement;
+      scrollElement: string | Element;
     }>({
       list: [],
       show: false,
