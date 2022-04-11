@@ -261,7 +261,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     html.value = _html;
 
     props.onHtmlChanged(_html);
-  });
+  }, 500);
 
   // 监听调用
   watch(
