@@ -40,7 +40,7 @@ export default defineComponent({
         <div class="doc">
           <div class="content">
             <Editor
-              editorId="doc-preview"
+              editorId="demo-preview"
               theme={store.state.theme}
               language={store.state.lang}
               modelValue={mdText.value}
@@ -56,7 +56,7 @@ export default defineComponent({
             <Affix offsetTop={16}>
               {/* <Catalog heads={catalogList.value} /> */}
               <Catalog
-                editorId="doc-preview"
+                editorId="demo-preview"
                 theme={store.state.theme}
                 scrollElement={document.documentElement}
               />
