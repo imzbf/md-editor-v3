@@ -3,9 +3,11 @@ import Editor, { HeadList } from 'md-editor-v3';
 import { Theme } from '../../App';
 import axios from '@/utils/request';
 import { version } from '../../../package.json';
-import Catalog from '@/components/Catalog';
+// import Catalog from '@/components/Catalog';
 import { Affix } from 'ant-design-vue';
 import { useStore } from 'vuex';
+
+const Catalog = Editor.Catalog;
 
 export default defineComponent({
   props: {
@@ -37,6 +39,7 @@ export default defineComponent({
         <div class="doc">
           <div class="content">
             <Editor
+              editorId="doc-preview"
               theme={store.state.theme}
               language={store.state.lang}
               modelValue={mdText.value}
@@ -50,7 +53,12 @@ export default defineComponent({
           </div>
           <div class="catalog">
             <Affix offsetTop={16}>
-              <Catalog heads={catalogList.value} />
+              {/* <Catalog heads={catalogList.value} /> */}
+              <Catalog
+                editorId="doc-preview"
+                theme={store.state.theme}
+                scrollElement={document.documentElement}
+              />
             </Affix>
           </div>
         </div>
