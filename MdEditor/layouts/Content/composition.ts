@@ -219,7 +219,6 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   };
 
   marked.setOptions({
-    renderer,
     breaks: true
   });
 
@@ -253,11 +252,11 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     });
   }
 
-  const html = ref(props.sanitize(marked(props.value || '')));
+  const html = ref(props.sanitize(marked(props.value || '', { renderer })));
 
   const markHtml = debounce(() => {
     heads.value = [];
-    const _html = props.sanitize(marked(props.value || ''));
+    const _html = props.sanitize(marked(props.value || '', { renderer }));
     html.value = _html;
 
     props.onHtmlChanged(_html);
