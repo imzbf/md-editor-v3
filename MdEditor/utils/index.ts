@@ -143,6 +143,7 @@ export const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement) => {
     if (e.target === pEle) {
       // 清除寄主监听
       cEle.removeEventListener('scroll', scrollHandler);
+
       cEle.scrollTo({
         top: pEle.scrollTop / scale
         // behavior: 'smooth'

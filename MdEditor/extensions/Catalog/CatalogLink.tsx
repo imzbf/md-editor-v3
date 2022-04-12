@@ -19,7 +19,7 @@ const CatalogLink = defineComponent({
       default: () => {}
     },
     scrollElement: {
-      type: [String, Object] as PropType<string | HTMLElement>,
+      type: [String, Object] as PropType<string | Element>,
       default: ''
     }
   },
@@ -32,7 +32,7 @@ const CatalogLink = defineComponent({
           const id = props.markedHeadingId(props.tocItem.text, props.tocItem.level);
           const targetHeadEle = document.getElementById(id);
           const scrollContainer =
-            props.scrollElement instanceof HTMLElement
+            props.scrollElement instanceof Element
               ? props.scrollElement
               : document.querySelector(props.scrollElement);
 
@@ -56,16 +56,18 @@ const CatalogLink = defineComponent({
           }
         }}
       >
-        <span>{props.tocItem.text}</span>
-        {props.tocItem.children &&
-          props.tocItem.children.map((item) => (
-            <CatalogLink
-              markedHeadingId={props.markedHeadingId}
-              key={item.text}
-              tocItem={item}
-              scrollElement={props.scrollElement}
-            />
-          ))}
+        <span title={props.tocItem.text}>{props.tocItem.text}</span>
+        <div class={`${prefix}-catalog-wrapper`}>
+          {props.tocItem.children &&
+            props.tocItem.children.map((item) => (
+              <CatalogLink
+                markedHeadingId={props.markedHeadingId}
+                key={item.text}
+                tocItem={item}
+                scrollElement={props.scrollElement}
+              />
+            ))}
+        </div>
       </div>
     );
   }
