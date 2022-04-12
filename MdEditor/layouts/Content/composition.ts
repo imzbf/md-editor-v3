@@ -1,14 +1,14 @@
 import {
   watch,
   inject,
-  computed,
   ref,
   ComputedRef,
   nextTick,
   Ref,
   reactive,
   onMounted,
-  onBeforeUnmount
+  onBeforeUnmount,
+  toRef
 } from 'vue';
 import { marked } from 'marked';
 import copy from 'copy-to-clipboard';
@@ -16,7 +16,13 @@ import { EditorContentProps } from './index';
 import { HeadList, StaticTextDefaultValue, ConfigOption } from '../../type';
 import { prefix, katexUrl, mermaidUrl } from '../../config';
 import bus from '../../utils/event-bus';
-import { insert, scrollAuto, setPosition, generateCodeRowNumber } from '../../utils';
+import {
+  insert,
+  scrollAuto,
+  setPosition,
+  generateCodeRowNumber,
+  debounce
+} from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
 import { appendHandler } from '../../utils/dom';
 import kaTexExtensions from '../../utils/katex';
@@ -253,7 +259,6 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   };
 
   marked.setOptions({
-    renderer,
     breaks: true,
     ...markedOptions
   });
@@ -288,25 +293,27 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     });
   }
 
-  // ---预览代码---
-  const html = computed(() => {
-    // 重置标题说和标题列表
-    // count = 0;
+  const html = ref(props.sanitize(marked(props.value || '', { renderer })));
+
+  const markHtml = debounce(() => {
     heads.value = [];
-    const _html = marked(props.value || '');
+    const _html = props.sanitize(marked(props.value || '', { renderer }));
+    html.value = _html;
 
-    // 在高亮加载完成后、mermaid状态变化后重新mark一次
-    // OPTIMIZATION：如有优化方案请提出建议~
-    highlightInited.value;
-    mermaidData.reRender;
-    mermaidData.mermaidInited;
-    katexInited.value;
+    props.onHtmlChanged(_html);
+  }, 500);
 
-    return props.sanitize(_html);
-  });
-
-  // 首次主动调用
-  props.onHtmlChanged(html.value);
+  // 监听调用
+  watch(
+    [
+      highlightInited,
+      toRef(mermaidData, 'reRender'),
+      toRef(mermaidData, 'mermaidInited'),
+      katexInited,
+      toRef(props, 'value')
+    ],
+    markHtml
+  );
 
   // 高亮代码js加载完成后回调
   const highlightLoad = () => {
@@ -321,8 +328,6 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
     highlightInited.value = true;
   };
-
-  watch(() => html.value, props.onHtmlChanged);
 
   watch(
     () => heads.value,
@@ -392,7 +397,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
  */
 export const useAutoScroll = (
   props: EditorContentProps,
-  html: ComputedRef<string>,
+  html: Ref<string>,
   textAreaRef: Ref,
   previewRef: Ref,
   htmlRef: Ref
