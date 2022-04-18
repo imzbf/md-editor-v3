@@ -72,43 +72,50 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
     curr: 0
   };
 
-  watch(
-    () => props.value,
-    (nVal) => {
-      clearTimeout(saveHistoryId);
-      const startPos: number = textAreaRef.value?.selectionStart || 0;
-      const endPos: number = textAreaRef.value?.selectionEnd || 0;
+  onMounted(() => {
+    bus.on(editorId, {
+      name: 'saveHistory',
+      callback(content: string) {
+        clearTimeout(saveHistoryId);
+        const startPos: number = textAreaRef.value?.selectionStart || 0;
+        const endPos: number = textAreaRef.value?.selectionEnd || 0;
 
-      saveHistoryId = <any>setTimeout(() => {
-        // 如果不是撤销操作，就记录
-        if (history.userUpdated) {
-          // 重置撤回之前的记录
-          if (history.curr < history.list.length - 1) {
-            history.list = history.list.slice(0, history.curr + 1);
+        saveHistoryId = <any>setTimeout(() => {
+          // 如果不是撤销操作，就记录
+          if (history.userUpdated) {
+            // 重置撤回之前的记录
+            if (history.curr < history.list.length - 1) {
+              history.list = history.list.slice(0, history.curr + 1);
+            }
+            if (history.list.length > historyLength) {
+              history.list.shift();
+            }
+
+            // 修改保存上次记录选中定位
+            const lastStep = history.list.pop() || {
+              startPos: 0,
+              endPos: 0,
+              content
+            };
+
+            lastStep.startPos = startPos;
+            lastStep.endPos = endPos;
+
+            Array.prototype.push.call(history.list, lastStep, {
+              content,
+              startPos,
+              endPos
+            });
+
+            // 下标调整为最后一个位置
+            history.curr = history.list.length - 1;
+          } else {
+            history.userUpdated = true;
           }
-          if (history.list.length > historyLength) {
-            history.list.shift();
-          }
-
-          // 修改保存上次记录选中定位
-          const lastStep = history.list.pop() as HistoryItemType;
-          lastStep.startPos = startPos;
-          lastStep.endPos = endPos;
-
-          Array.prototype.push.call(history.list, lastStep, {
-            content: nVal,
-            startPos,
-            endPos
-          });
-
-          // 下标调整为最后一个位置
-          history.curr = history.list.length - 1;
-        } else {
-          history.userUpdated = true;
-        }
-      }, 10);
-    }
-  );
+        }, 150);
+      }
+    });
+  });
 
   onMounted(() => {
     bus.on(editorId, {
