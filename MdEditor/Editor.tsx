@@ -401,6 +401,8 @@ export default defineComponent({
             hljs={props.hljs}
             value={props.modelValue}
             onChange={(value: string) => {
+              bus.emit(editorId, 'saveHistory', value);
+
               if (props.onChange) {
                 props.onChange(value);
               } else {
