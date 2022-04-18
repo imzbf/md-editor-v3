@@ -13,7 +13,7 @@ import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { StaticTextDefaultValue, ToolbarNames, SettingType } from '../../type';
 import bus from '../../utils/event-bus';
-import { goto } from '../../utils';
+import { getSelectionText, goto } from '../../utils';
 import Modals from '../Modals';
 import { ToolDirective } from '../../utils/content-help';
 import { useSreenfull } from './composition';
@@ -109,7 +109,10 @@ export default defineComponent({
       });
 
       toolbarLeftRef.value?.addEventListener('mouseover', () => {
-        if (!window.getSelection()?.toString()) {
+        const selectedText = getSelectionText(
+          document.querySelector(`#${editorId}-textarea`) as HTMLTextAreaElement
+        );
+        if (!selectedText) {
           bus.emit(editorId, 'selectTextChange', '');
         }
       });
