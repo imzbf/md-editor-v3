@@ -812,7 +812,7 @@ export default defineComponent({
         <div class={`${prefix}-toolbar-wrapper`}>
           <div
             class={`${prefix}-toolbar`}
-            onMouseover={() => {
+            onMouseenter={() => {
               // 工具栏操作前，保存选中文本
               bus.emit(editorId, 'selectTextChange');
             }}
