@@ -41,10 +41,10 @@ export const useSreenfull = (props: any) => {
     if (!previewOnly && props.screenfull === null) {
       const screenScript = document.createElement('script');
       screenScript.src = props.screenfullJs;
-      screenScript.addEventListener('load', screenfullLoad);
+      screenScript.onload = screenfullLoad;
       screenScript.id = `${prefix}-screenfull`;
 
-      appendHandler(screenScript);
+      appendHandler(screenScript, 'screenfull');
     }
   });
 
