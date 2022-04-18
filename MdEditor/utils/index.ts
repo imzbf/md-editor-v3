@@ -20,7 +20,7 @@ export const setPosition = (
       tarDom.focus();
     }, 0);
   } else {
-    console.log('can not reset position!');
+    console.error('can not reset position!');
   }
 };
 
@@ -92,7 +92,7 @@ export const goto = (
   }
 ) => {
   if (!url) {
-    console.warn('error link!');
+    console.error('error link!');
   }
 
   const aEle = document.createElement('a');

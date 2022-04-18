@@ -13,7 +13,7 @@ import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
 import { StaticTextDefaultValue, ToolbarNames, SettingType } from '../../type';
 import bus from '../../utils/event-bus';
-import { getSelectionText, goto } from '../../utils';
+import { goto } from '../../utils';
 import Modals from '../Modals';
 import { ToolDirective } from '../../utils/content-help';
 import { useSreenfull } from './composition';
@@ -105,15 +105,6 @@ export default defineComponent({
         callback(type) {
           modalData.type = type;
           modalData.linkVisible = true;
-        }
-      });
-
-      toolbarLeftRef.value?.addEventListener('mouseover', () => {
-        const selectedText = getSelectionText(
-          document.querySelector(`#${editorId}-textarea`) as HTMLTextAreaElement
-        );
-        if (!selectedText) {
-          bus.emit(editorId, 'selectTextChange', '');
         }
       });
     });
@@ -819,7 +810,13 @@ export default defineComponent({
 
       return (
         <div class={`${prefix}-toolbar-wrapper`}>
-          <div class={`${prefix}-toolbar`}>
+          <div
+            class={`${prefix}-toolbar`}
+            onMouseover={() => {
+              // 工具栏操作前，保存选中文本
+              bus.emit(editorId, 'selectTextChange');
+            }}
+          >
             <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
               {LeftBar}
             </div>
