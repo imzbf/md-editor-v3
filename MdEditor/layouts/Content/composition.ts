@@ -21,7 +21,8 @@ import {
   scrollAuto,
   setPosition,
   generateCodeRowNumber,
-  debounce
+  debounce,
+  getSelectionText
 } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
 import { appendHandler } from '../../utils/dom';
@@ -442,7 +443,7 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
   onMounted(() => {
     if (!previewOnly) {
       textAreaRef.value?.addEventListener('select', () => {
-        selectedText.value = window.getSelection()?.toString() || '';
+        selectedText.value = getSelectionText(textAreaRef.value);
       });
 
       textAreaRef.value?.addEventListener('keypress', (event: any) => {
