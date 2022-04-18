@@ -17,6 +17,9 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
       return;
     }
 
+    // 使用快捷键时，保存选中文本
+    bus.emit(editorId, 'selectTextChange');
+
     // 按键操作是否会替换内容
     // let toReplaceValue = false;
     // macos中以meta键位配s键位为保存，windows中如此会被系统默认的事件替代

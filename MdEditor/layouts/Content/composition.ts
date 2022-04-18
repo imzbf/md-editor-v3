@@ -442,10 +442,6 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
 
   onMounted(() => {
     if (!previewOnly) {
-      textAreaRef.value?.addEventListener('select', () => {
-        selectedText.value = getSelectionText(textAreaRef.value);
-      });
-
       textAreaRef.value?.addEventListener('keypress', (event: any) => {
         if (event.key === 'Enter') {
           const endPoint = textAreaRef.value?.selectionStart as number;
@@ -521,8 +517,8 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
   // 注册修改选择内容事件
   bus.on(editorId, {
     name: 'selectTextChange',
-    callback(val: string) {
-      selectedText.value = val;
+    callback() {
+      selectedText.value = getSelectionText(textAreaRef.value);
     }
   });
 

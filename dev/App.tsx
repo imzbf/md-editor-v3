@@ -8,7 +8,7 @@ export type Theme = 'dark' | 'light';
 
 export default defineComponent({
   setup() {
-    const theme = ref<Theme>('light');
+    const theme = ref<Theme>('dark');
 
     return () => (
       <div class={['app', theme.value === 'dark' && 'theme-dark']}>
