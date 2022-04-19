@@ -10,6 +10,7 @@ import {
 } from './composition';
 import { prefix } from '../../config';
 import { MarkedImage } from '../../type';
+import bus from '../../utils/event-bus';
 
 export type EditorContentProps = Readonly<{
   value: string;
@@ -158,18 +159,24 @@ export default defineComponent({
                     completeStatus.value = false;
                   }}
                   onInput={(e) => {
-                    setTimeout(() => {
-                      // 先清空保存的选中内容，防止异常现象
-                      selectedText.value = '';
+                    // 先清空保存的选中内容，防止异常现象
+                    selectedText.value = '';
 
-                      // 触发更新
-                      props.onChange(
-                        (e.target as HTMLTextAreaElement).value,
-                        completeStatus.value
-                      );
-                    });
+                    // 触发更新
+                    props.onChange(
+                      (e.target as HTMLTextAreaElement).value,
+                      completeStatus.value
+                    );
                   }}
-                  onCompositionend={() => {
+                  onCompositionend={(e) => {
+                    // 输入中文等时，oninput不会保存历史记录
+                    // 在完成时保存
+                    bus.emit(
+                      editorId,
+                      'saveHistory',
+                      (e.target as HTMLTextAreaElement).value
+                    );
+
                     completeStatus.value = true;
                   }}
                   class={[
