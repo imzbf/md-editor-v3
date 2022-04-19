@@ -49,7 +49,7 @@ export default defineComponent({
       default: null
     },
     onChange: {
-      type: Function as PropType<(v: string) => void>,
+      type: Function as PropType<(v: string, status?: boolean) => void>,
       default: () => () => {}
     },
     setting: {
@@ -114,6 +114,9 @@ export default defineComponent({
     }
   },
   setup(props) {
+    // 输入状态，在输入中文等时，暂停保存
+    const completeStatus = ref(true);
+    // 仅预览
     const previewOnly = inject('previewOnly') as boolean;
     // 是否显示行号
     const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
@@ -151,12 +154,23 @@ export default defineComponent({
                   id={`${editorId}-textarea`}
                   ref={textAreaRef}
                   value={props.value}
+                  onCompositionstart={() => {
+                    completeStatus.value = false;
+                  }}
                   onInput={(e) => {
-                    // 先清空保存的选中内容，防止异常现象
-                    selectedText.value = '';
+                    setTimeout(() => {
+                      // 先清空保存的选中内容，防止异常现象
+                      selectedText.value = '';
 
-                    // 触发更新
-                    props.onChange((e.target as HTMLTextAreaElement).value);
+                      // 触发更新
+                      props.onChange(
+                        (e.target as HTMLTextAreaElement).value,
+                        completeStatus.value
+                      );
+                    });
+                  }}
+                  onCompositionend={() => {
+                    completeStatus.value = true;
                   }}
                   class={[
                     props.setting.preview || props.setting.htmlPreview
