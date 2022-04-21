@@ -32,6 +32,7 @@ export default defineComponent({
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
     const md = reactive({
       text: storagedText || mdText,
+      text2: 'Hello world',
       visible: false
     });
 
@@ -158,6 +159,13 @@ export default defineComponent({
               </>
             }
           ></Editor>
+          <br />
+          <Editor
+            editorId="md-prev-2"
+            theme={props.theme}
+            modelValue={md.text2}
+            onChange={(value) => (md.text2 = value)}
+          />
           <br />
           <span class="tips-text">
             tips：本页上方的编辑器有localstorage保存功能，可手动点击保存触发，每次操作后两秒会自己保存一次，可用于一些文档的编辑。

@@ -244,7 +244,6 @@ export const directive2flag = (
         // 1. 未选中内容，在当前位置添加两个空格
         // 2. 选中单行或中间内容，
         // 3. 选中多行
-        selectedText = window.getSelection()?.toString() || '';
 
         const { tabWidth = 2 } = params;
         const retract = new Array(tabWidth).fill(' ').join('');
@@ -294,7 +293,6 @@ export const directive2flag = (
       }
       case 'shiftTab': {
         // 当选择内容后使用该快捷键，未及时清空缓存内容，所以该功能直接重新获取选中内容
-        selectedText = window.getSelection()?.toString() || '';
 
         const { tabWidth = 2 } = params;
 

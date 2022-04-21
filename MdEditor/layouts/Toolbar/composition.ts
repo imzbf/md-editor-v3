@@ -1,4 +1,4 @@
-import { onMounted, inject } from 'vue';
+import { onMounted, inject, ref } from 'vue';
 import { prefix } from '../../config';
 import { appendHandler } from '../../utils/dom';
 import { ConfigOption } from '../../type';
@@ -7,9 +7,12 @@ export const useSreenfull = (props: any) => {
   const previewOnly = inject('previewOnly') as boolean;
   const extension = inject('extension') as ConfigOption;
   let screenfull = extension.editorExtensions?.screenfull?.instance;
+  // 是否组件内部全屏标识
+  const screenfullMe = ref(false);
 
   const fullScreenHandler = () => {
     if (screenfull.isEnabled) {
+      screenfullMe.value = true;
       if (screenfull.isFullscreen) {
         screenfull.exit();
       } else {
@@ -27,7 +30,10 @@ export const useSreenfull = (props: any) => {
     // 注册事件
     if (screenfull && screenfull.isEnabled) {
       screenfull.on('change', () => {
-        props.updateSetting(!props.setting.fullscreen, 'fullscreen');
+        if (screenfullMe.value) {
+          screenfullMe.value = false;
+          props.updateSetting(!props.setting.fullscreen, 'fullscreen');
+        }
       });
     }
   };
@@ -35,17 +41,20 @@ export const useSreenfull = (props: any) => {
   onMounted(() => {
     if (screenfull && screenfull.isEnabled) {
       screenfull.on('change', () => {
-        props.updateSetting(!props.setting.fullscreen, 'fullscreen');
+        if (screenfullMe.value) {
+          screenfullMe.value = false;
+          props.updateSetting(!props.setting.fullscreen, 'fullscreen');
+        }
       });
     }
 
     if (!previewOnly && props.screenfull === null) {
       const screenScript = document.createElement('script');
       screenScript.src = props.screenfullJs;
-      screenScript.addEventListener('load', screenfullLoad);
+      screenScript.onload = screenfullLoad;
       screenScript.id = `${prefix}-screenfull`;
 
-      appendHandler(screenScript);
+      appendHandler(screenScript, 'screenfull');
     }
   });
 
