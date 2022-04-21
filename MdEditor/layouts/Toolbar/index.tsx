@@ -107,12 +107,6 @@ export default defineComponent({
           modalData.linkVisible = true;
         }
       });
-
-      toolbarLeftRef.value?.addEventListener('mouseover', () => {
-        if (!window.getSelection()?.toString()) {
-          bus.emit(editorId, 'selectTextChange', '');
-        }
-      });
     });
     // end
 
@@ -816,7 +810,13 @@ export default defineComponent({
 
       return (
         <div class={`${prefix}-toolbar-wrapper`}>
-          <div class={`${prefix}-toolbar`}>
+          <div
+            class={`${prefix}-toolbar`}
+            onMouseenter={() => {
+              // 工具栏操作前，保存选中文本
+              bus.emit(editorId, 'selectTextChange');
+            }}
+          >
             <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
               {LeftBar}
             </div>
