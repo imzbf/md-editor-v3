@@ -1,5 +1,5 @@
 import { onMounted, inject, ref } from 'vue';
-import { prefix } from '../../config';
+import { prefix, screenfullUrl } from '../../config';
 import { appendHandler } from '../../utils/dom';
 import { ConfigOption } from '../../type';
 
@@ -7,6 +7,7 @@ export const useSreenfull = (props: any) => {
   const previewOnly = inject('previewOnly') as boolean;
   const extension = inject('extension') as ConfigOption;
   let screenfull = extension.editorExtensions?.screenfull?.instance;
+  const screenfullJs = extension.editorExtensions?.screenfull?.js;
   // 是否组件内部全屏标识
   const screenfullMe = ref(false);
 
@@ -48,9 +49,9 @@ export const useSreenfull = (props: any) => {
       });
     }
 
-    if (!previewOnly && props.screenfull === null) {
+    if (!previewOnly && !screenfull) {
       const screenScript = document.createElement('script');
-      screenScript.src = props.screenfullJs;
+      screenScript.src = screenfullJs || screenfullUrl;
       screenScript.onload = screenfullLoad;
       screenScript.id = `${prefix}-screenfull`;
 
