@@ -43,7 +43,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     plugins: [
       vue(),
       vueJsx(),
-      mode === 'production' && nodeService(),
+      mode !== 'production' && nodeService(),
       mode === 'production' &&
         dts({
           include: [
