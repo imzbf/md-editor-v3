@@ -6,6 +6,14 @@ import axios from 'axios';
 // import katex from 'katex';
 // import 'katex/dist/katex.min.css';
 
+import highlight from 'highlight.js';
+import screenfull from 'screenfull';
+import katex from 'katex';
+import Cropper from 'cropperjs';
+import mermaid from 'mermaid';
+
+import 'highlight.js/styles/atom-one-dark.css';
+
 import './index.less';
 
 Editor.config({
@@ -19,6 +27,23 @@ Editor.config({
     };
 
     return renderer;
+  },
+  editorExtensions: {
+    highlight: {
+      instance: highlight
+    },
+    screenfull: {
+      instance: screenfull
+    },
+    katex: {
+      instance: katex
+    },
+    cropper: {
+      instance: Cropper
+    },
+    mermaid: {
+      instance: mermaid
+    }
   }
 });
 
