@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, inject } from 'vue';
 import { prefix } from './config';
 import { getSlot } from './utils/vue-tsx';
 import Dropdown from './components/Dropdown';
@@ -27,12 +27,19 @@ export default defineComponent({
     }
   },
   setup(props, ctx) {
+    const editorId = inject('editorId');
+
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const Overlay = getSlot({ props, ctx }, 'overlay');
 
       return (
-        <Dropdown visible={props.visible} onChange={props.onChange} overlay={Overlay}>
+        <Dropdown
+          relative={`#${editorId}-toolbar-wrapper`}
+          visible={props.visible}
+          onChange={props.onChange}
+          overlay={Overlay}
+        >
           <div class={`${prefix}-toolbar-item`} title={props.title || ''}>
             {Trigger}
           </div>
