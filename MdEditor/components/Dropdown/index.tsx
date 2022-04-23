@@ -41,6 +41,11 @@ export default defineComponent({
     onChange: {
       type: Function as PropType<(v: boolean) => void>,
       default: () => () => {}
+    },
+    // 相对滚动的元素选择器
+    relative: {
+      type: String as PropType<string>,
+      default: 'html'
     }
   },
   setup(props, ctx: SetupContext<EmitsOptions>) {
@@ -71,11 +76,18 @@ export default defineComponent({
       const triggerHeight = triggerInfo.height;
       const triggerWidth = triggerInfo.width;
 
+      const relativecrollLeft = document.querySelector(props.relative)?.scrollLeft || 0;
+
       // 设置好正对位置
       ctl.overlayStyle = {
         ...ctl.overlayStyle,
         top: triggerTop + triggerHeight + 'px',
-        left: triggerLeft - overlayEle.offsetWidth / 2 + triggerWidth / 2 + 'px'
+        left:
+          triggerLeft -
+          overlayEle.offsetWidth / 2 +
+          triggerWidth / 2 -
+          relativecrollLeft +
+          'px'
       };
 
       props.onChange(true);

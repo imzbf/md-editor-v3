@@ -69,6 +69,9 @@ export default defineComponent({
     // 全屏功能
     const { fullScreenHandler } = useSreenfull(props);
 
+    // wrapper ID
+    const wrapperId = `${editorId}-toolbar-wrapper`;
+
     const visible = reactive({
       title: false,
       catalog: false,
@@ -212,6 +215,7 @@ export default defineComponent({
           case 'title': {
             return (
               <Dropdown
+                relative={`#${wrapperId}`}
                 visible={visible.title}
                 onChange={(v) => {
                   visible.title = v;
@@ -411,6 +415,7 @@ export default defineComponent({
           case 'image': {
             return (
               <Dropdown
+                relative={`#${wrapperId}`}
                 visible={visible.image}
                 onChange={(v) => {
                   visible.image = v;
@@ -466,6 +471,7 @@ export default defineComponent({
           case 'table': {
             return (
               <Dropdown
+                relative={`#${wrapperId}`}
                 visible={visible.table}
                 onChange={(v) => {
                   visible.table = v;
@@ -653,6 +659,7 @@ export default defineComponent({
           case 'mermaid': {
             return (
               <Dropdown
+                relative={`#${wrapperId}`}
                 visible={visible.mermaid}
                 onChange={(v) => {
                   visible.mermaid = v;
@@ -746,6 +753,7 @@ export default defineComponent({
           case 'katex': {
             return (
               <Dropdown
+                relative={`#${wrapperId}`}
                 visible={visible.katex}
                 onChange={(v) => {
                   visible.katex = v;
@@ -809,7 +817,7 @@ export default defineComponent({
       const RightBar = splitedbar.value[1].map((barItem) => barRender(barItem));
 
       return (
-        <div class={`${prefix}-toolbar-wrapper`}>
+        <div class={`${prefix}-toolbar-wrapper`} id={wrapperId}>
           <div
             class={`${prefix}-toolbar`}
             onMouseenter={() => {
