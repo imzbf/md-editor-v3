@@ -213,9 +213,9 @@ By default, you can select multiple pictures. You can paste and upload screensho
 > Tips: When pasting pictures, if they are GIF graphs, it does not work! Please upload it by file system.
 
 ```js
-async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
+async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
   const res = await Promise.all(
-    Array.from(files).map((file) => {
+    files.map((file) => {
       return new Promise((rev, rej) => {
         const form = new FormData();
         form.append('file', file);

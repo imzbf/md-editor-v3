@@ -604,13 +604,13 @@ This is an example of converting `@hello@` to `<mark>hello</mark>`.
 
 ### 📸 onUploadImg
 
-- **type**: `(files: FileList, callback: function) => void`
+- **type**: `(files: Array<File>, callback: function) => void`
 - **description**: Upload picture event,when picture is uploading the modal will not close,please provide right urls to the callback function.
 
 ```js
-async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
+async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
   const res = await Promise.all(
-    Array.from(files).map((file) => {
+    files.map((file) => {
       return new Promise((rev, rej) => {
         const form = new FormData();
         form.append('file', file);

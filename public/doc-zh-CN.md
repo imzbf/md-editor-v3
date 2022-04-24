@@ -652,13 +652,13 @@ const MarkExtension = {
 
 ### 📸 onUploadImg
 
-- **类型**：`(files: FileList, callback: function) => void`
+- **类型**：`(files: Array<File>, callback: function) => void`
 - **说明**：上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传。
 
 ```js
-async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
+async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
   const res = await Promise.all(
-    Array.from(files).map((file) => {
+    files.map((file) => {
       return new Promise((rev, rej) => {
         const form = new FormData();
         form.append('file', file);
