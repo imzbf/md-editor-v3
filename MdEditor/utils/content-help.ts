@@ -120,6 +120,11 @@ export const directive2flag = (
     targetValue = `${pix} ${selectedText}`;
     deviationStart = pix.length + 1;
   } else if (direct === 'prettier') {
+    if (!window.prettier) {
+      // CATCH ERROR: 捕获全局错误
+      return inputArea.value;
+    }
+
     return window.prettier.format(inputArea.value, {
       parser: 'markdown',
       plugins: window.prettierPlugins
