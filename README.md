@@ -144,7 +144,7 @@ export interface StaticTextDefaultValue {
 | --- | --- | --- |
 | onChange | v:String | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
 | onSave | v:String | 保存事件，快捷键与保存按钮均会触发 |
-| onUploadImg | files:FileList, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
+| onUploadImg | files:Array<File>, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | h:String | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog<sup>v1.4.0</sup> | list: HeadList[] | 动态获取`markdown`目录 |
 
@@ -234,9 +234,9 @@ export default defineComponent({
 > 注意：粘贴板上传时，如果是网页上的 gif 图，无法正确上传为 gif 格式！
 
 ```js
-async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
+async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
   const res = await Promise.all(
-    Array.from(files).map((file) => {
+    files.map((file) => {
       return new Promise((rev, rej) => {
         const form = new FormData();
         form.append('file', file);

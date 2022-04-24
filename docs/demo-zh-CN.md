@@ -217,9 +217,9 @@ export default defineComponent({
 > 注意：粘贴板上传时，如果是网页上的 gif 图，无法正确上传为 gif 格式！请保存本地后再手动上传。
 
 ```js
-async onUploadImg(files: FileList, callback: (urls: string[]) => void) {
+async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
   const res = await Promise.all(
-    Array.from(files).map((file) => {
+    files.map((file) => {
       return new Promise((rev, rej) => {
         const form = new FormData();
         form.append('file', file);
