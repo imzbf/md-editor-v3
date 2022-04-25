@@ -64,6 +64,11 @@ export default defineComponent({
 
           // 直接定义onchange，防止创建新的实例时遗留事件
           (uploadRef.value as HTMLInputElement).onchange = () => {
+            if (!Cropper) {
+              // CATCH ERROR: 捕获全局错误
+              return;
+            }
+
             const fileList = (uploadRef.value as HTMLInputElement).files || [];
 
             // 切换模式

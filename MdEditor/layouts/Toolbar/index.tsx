@@ -138,7 +138,11 @@ export default defineComponent({
     const uploadRef = ref();
 
     const uploadHandler = () => {
-      bus.emit(editorId, 'uploadImage', (uploadRef.value as HTMLInputElement).files);
+      bus.emit(
+        editorId,
+        'uploadImage',
+        Array.from((uploadRef.value as HTMLInputElement).files || [])
+      );
       // 清空内容，否则无法再次选取同一张图片
       (uploadRef.value as HTMLInputElement).value = '';
     };
