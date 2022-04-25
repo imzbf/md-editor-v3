@@ -112,6 +112,8 @@ export const directive2flag = (
   // 后半部分
   let subfixVal;
 
+  const mermaidTemplate = params?.mermaidTemplate;
+
   if (/^h[1-6]{1}$/.test(direct)) {
     const pix = direct.replace(/^h(\d)/, (_, num) => {
       return new Array(Number(num)).fill('#', 0, num).join('');
@@ -457,53 +459,72 @@ export const directive2flag = (
       }
       // 流程图
       case 'flow': {
-        targetValue = `\`\`\`mermaid\nflowchart TD \n  Start --> Stop\n\`\`\`\n`;
+        targetValue = `\`\`\`mermaid\n${
+          mermaidTemplate?.flow || 'flowchart TD \n  Start --> Stop'
+        }\n\`\`\`\n`;
         deviationStart = 2;
         break;
       }
       // 时序图
       case 'sequence': {
-        targetValue = `\`\`\`mermaid\nsequenceDiagram\n  A->>B: hello!\n  B-->>A: hi!\n  A-)B: bye!\n\`\`\`\n`;
+        targetValue = `\`\`\`mermaid\n${
+          mermaidTemplate?.sequence ||
+          'sequenceDiagram\n  A->>B: hello!\n  B-->>A: hi!\n  A-)B: bye!'
+        }\n\`\`\`\n`;
         deviationStart = 2;
         break;
       }
       // 甘特图
       case 'gantt': {
-        targetValue = `\`\`\`mermaid\ngantt\ntitle A Gantt Diagram\ndateFormat  YYYY-MM-DD\nsection Section\nA task  :a1, 2014-01-01, 30d\nAnother task  :after a1, 20d\n\`\`\`\n`;
+        targetValue = `\`\`\`mermaid\n${
+          mermaidTemplate?.gantt ||
+          'gantt\ntitle A Gantt Diagram\ndateFormat  YYYY-MM-DD\nsection Section\nA task  :a1, 2014-01-01, 30d\nAnother task  :after a1, 20d'
+        }\n\`\`\`\n`;
         deviationStart = 2;
         break;
       }
       // 类图
       case 'class': {
-        targetValue = `\`\`\`mermaid\nclassDiagram\n  class Animal\n  Vehicle <|-- Car\n\`\`\`\n`;
+        targetValue = `\`\`\`mermaid\n${
+          mermaidTemplate?.class || 'classDiagram\n  class Animal\n  Vehicle <|-- Car'
+        }\n\`\`\`\n`;
         deviationStart = 2;
         break;
       }
-
       // 状态图
       case 'state': {
-        targetValue = `\`\`\`mermaid\nstateDiagram-v2\n  s1 --> s2\n\`\`\`\n`;
+        targetValue = `\`\`\`mermaid\n${
+          mermaidTemplate?.state || 'stateDiagram-v2\n  s1 --> s2'
+        }\n\`\`\`\n`;
         deviationStart = 2;
         break;
       }
-
       // 饼图
       case 'pie': {
-        targetValue = `\`\`\`mermaid\npie title Pets adopted by volunteers\n  "Dogs" : 386\n  "Cats" : 85\n  "Rats" : 15\n\`\`\`\n`;
+        targetValue = `\`\`\`mermaid\n${
+          mermaidTemplate?.pie ||
+          'pie title Pets adopted by volunteers\n  "Dogs" : 386\n  "Cats" : 85\n  "Rats" : 15'
+        }\n\`\`\`\n`;
         deviationStart = 2;
         break;
       }
 
       // 关系图
       case 'relationship': {
-        targetValue = `\`\`\`mermaid\nerDiagram\n  CAR ||--o{ NAMED-DRIVER : allows\n  PERSON ||--o{ NAMED-DRIVER : is\n\`\`\`\n`;
+        targetValue = `\`\`\`mermaid\n${
+          mermaidTemplate?.relationship ||
+          'erDiagram\n  CAR ||--o{ NAMED-DRIVER : allows\n  PERSON ||--o{ NAMED-DRIVER : is'
+        }\n\`\`\`\n`;
         deviationStart = 2;
         break;
       }
 
       // 旅程图
       case 'journey': {
-        targetValue = `\`\`\`mermaid\njourney\n  title My working day\n  section Go to work\n    Make tea: 5: Me\n    Go upstairs: 3: Me\n    Do work: 1: Me, Cat\n  section Go home\n    Go downstairs: 5: Me\n    Sit down: 5: Me\n\`\`\`\n`;
+        targetValue = `\`\`\`mermaid\n${
+          mermaidTemplate?.journey ||
+          'journey\n  title My working day\n  section Go to work\n    Make tea: 5: Me\n    Go upstairs: 3: Me\n    Do work: 1: Me, Cat\n  section Go home\n    Go downstairs: 5: Me\n    Sit down: 5: Me'
+        }\n\`\`\`\n`;
         deviationStart = 2;
         break;
       }

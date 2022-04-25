@@ -44,6 +44,18 @@ Editor.config({
     mermaid: {
       instance: mermaid
     }
+  },
+  editorConfig: {
+    mermaidTemplate: {
+      flow: '1',
+      sequence: '2',
+      gantt: '3',
+      class: '4',
+      state: '5',
+      pie: '6',
+      relationship: '7',
+      journey: '8'
+    }
   }
 });
 
