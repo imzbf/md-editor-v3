@@ -18,7 +18,7 @@ import bus from './utils/event-bus';
 
 import {
   StaticTextDefaultKey,
-  StaticTextDefaultValue,
+  // StaticTextDefaultValue,
   ToolbarNames,
   HeadList,
   PreviewThemes,
@@ -26,7 +26,8 @@ import {
   MarkedHeadingId,
   SettingType,
   // MarkedImage,
-  Themes
+  Themes,
+  ConfigOption
 } from './type';
 
 import './styles/index.less';
@@ -100,10 +101,10 @@ const props = {
     default: 'zh-CN'
   },
   // 语言扩展，以标准的形式定义内容，设置language为key值即可替换
-  languageUserDefined: {
-    type: Object as PropType<{ [key: string]: StaticTextDefaultValue }>,
-    default: () => ({})
-  },
+  // languageUserDefined: {
+  //   type: Object as PropType<{ [key: string]: StaticTextDefaultValue }>,
+  //   default: () => ({})
+  // },
   // 工具栏选择显示
   toolbars: {
     type: Array as PropType<Array<ToolbarNames>>,
@@ -267,13 +268,15 @@ const Editor = defineComponent({
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
     // eslint-disable-next-line vue/no-setup-props-destructure
     const { editorId } = props;
+    // 全局配置扩展
+    const extension = Editor.extension as ConfigOption;
 
     // 快捷键监听
     useKeyBoard(props, context);
     // provide 部分prop
-    useProvide(props, Editor.extension);
+    useProvide(props, extension);
     // 插入扩展的外链
-    useExpansion(props, Editor.extension);
+    useExpansion(props, extension);
 
     const state = reactive({
       catalogVisible: false
@@ -430,6 +433,7 @@ const Editor = defineComponent({
             noKatex={props.noKatex}
             // extensions={props.extensions}
             // markedImage={props.markedImage}
+            mermaidTemplate={extension?.editorConfig?.mermaidTemplate}
           />
           {catalogShow.value && (
             <Catalog

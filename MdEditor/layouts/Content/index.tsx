@@ -1,5 +1,11 @@
 import { defineComponent, inject, PropType, ref, ComputedRef } from 'vue';
-import { HeadList, SettingType, PreviewThemes, MarkedHeadingId } from '../../type';
+import {
+  HeadList,
+  SettingType,
+  PreviewThemes,
+  MarkedHeadingId,
+  MermaidTemplate
+} from '../../type';
 import {
   useAutoGenrator,
   useAutoScroll,
@@ -23,6 +29,7 @@ export type EditorContentProps = Readonly<{
   sanitize: (html: string) => string;
   placeholder: string;
   noKatex?: boolean;
+  mermaidTemplate?: MermaidTemplate;
 }>;
 
 export default defineComponent({
@@ -68,6 +75,10 @@ export default defineComponent({
     noKatex: {
       type: Boolean as PropType<boolean>,
       default: false
+    },
+    mermaidTemplate: {
+      type: Object as PropType<MermaidTemplate>,
+      default: () => ({})
     }
   },
   setup(props) {

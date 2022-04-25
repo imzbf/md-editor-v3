@@ -1,4 +1,4 @@
-import { marked, Renderer } from 'marked';
+import type { marked, Renderer } from 'marked';
 
 declare global {
   interface Window {
@@ -144,6 +144,41 @@ export type MarkedHeadingId = (text: string, level: number) => string;
 
 // export type MarkedImage = (href: string, title: string, desc: string) => string;
 
+export interface MermaidTemplate {
+  /**
+   * 流程图
+   */
+  flow?: string;
+  /**
+   * 时序图
+   */
+  sequence?: string;
+  /**
+   * 甘特图
+   */
+  gantt?: string;
+  /**
+   * 类图
+   */
+  class?: string;
+  /**
+   * 状态图
+   */
+  state?: string;
+  /**
+   * 饼图
+   */
+  pie?: string;
+  /**
+   * 关系图
+   */
+  relationship?: string;
+  /**
+   * 旅程图
+   */
+  journey?: string;
+}
+
 export interface ConfigOption {
   /**
    * 覆盖编辑器默认的renderer属性
@@ -194,6 +229,16 @@ export interface ConfigOption {
       js?: string;
       css?: string;
     };
+  };
+  editorConfig?: {
+    /**
+     * 自定义提示语言
+     */
+    languageUserDefined?: { [key: string]: StaticTextDefaultValue };
+    /**
+     * 自定义内部mermaid模块
+     */
+    mermaidTemplate?: MermaidTemplate;
   };
 }
 
