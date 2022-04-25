@@ -362,7 +362,7 @@ export const useProvide = (props: any, extension: ConfigOption) => {
   const usedLanguageText = computed(() => {
     const allText: any = {
       ...staticTextDefault,
-      ...props.languageUserDefined
+      ...extension?.editorConfig?.languageUserDefined
     };
 
     if (allText[props.language]) {
