@@ -76,7 +76,7 @@ const props = {
   },
   onUploadImg: {
     type: Function as PropType<
-      (files: FileList, callBack: (urls: string[]) => void) => void
+      (files: Array<File>, callBack: (urls: string[]) => void) => void
     >
   },
   pageFullScreen: {
@@ -315,7 +315,7 @@ const Editor = defineComponent({
       if (!props.previewOnly) {
         bus.on(editorId, {
           name: 'uploadImage',
-          callback(files: FileList, cb: () => void) {
+          callback(files: Array<File>, cb: () => void) {
             const insertHanlder = (urls: Array<string>) => {
               bus.emit(editorId, 'replace', 'image', {
                 desc: '',
