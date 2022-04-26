@@ -265,8 +265,8 @@ const props = {
   },
   markedImage: {
     type: Function as PropType<MarkedImage>,
-    default: (href: string, _: string, desc: string) => {
-      return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
+    default: (href: string, title: string, desc: string) => {
+      return `<span class="figure"><img src="${href}" title="${title}" alt="${desc}"><span class="figcaption">${desc}</span></span>`;
     }
   }
 };
