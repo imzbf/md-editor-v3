@@ -15,8 +15,6 @@ import 'highlight.js/styles/atom-one-dark.css';
 
 import './index.less';
 
-import ModalToolbar from '../../MdEditor/extensions/ModalToolbar';
-
 Editor.config({
   markedRenderer(renderer) {
     renderer.link = (href, title, text) => {
@@ -98,6 +96,7 @@ export default defineComponent({
         <div class="container">
           <Editor
             editorId="md-prev"
+            previewTheme="mk-cute"
             theme={props.theme}
             modelValue={md.text}
             // katex={katex}
@@ -190,7 +189,7 @@ export default defineComponent({
                   }}
                   overlay={<div>下拉内容</div>}
                 ></Editor.DropdownToolbar>
-                <ModalToolbar
+                <Editor.ModalToolbar
                   title="弹窗扩展"
                   modalTitle="外置弹窗"
                   showAdjust
@@ -217,7 +216,7 @@ export default defineComponent({
                       height: '300px'
                     }}
                   ></div>
-                </ModalToolbar>
+                </Editor.ModalToolbar>
               </>
             }
           ></Editor>
