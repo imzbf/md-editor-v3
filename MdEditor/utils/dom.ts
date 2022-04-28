@@ -1,3 +1,5 @@
+import { debounce } from '.';
+
 /**
  * 设置页面元素可移动
  *
@@ -65,3 +67,18 @@ export const appendHandler = (ele: HTMLElement, checkKey = '') => {
     }
   }
 };
+
+/**
+ * 更新插入的元素属性
+ *
+ * @param id id选择器
+ * @param attr 属性名
+ * @param value 属性值
+ */
+export const updateHandler = debounce((id: string, attr: string, value: string) => {
+  const ele = document.getElementById(id);
+
+  if (ele) {
+    ele.setAttribute(attr, value);
+  }
+}, 10);

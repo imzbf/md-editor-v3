@@ -25,7 +25,7 @@ import {
   getSelectionText
 } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
-import { appendHandler } from '../../utils/dom';
+import { appendHandler, updateHandler } from '../../utils/dom';
 import kaTexExtensions from '../../utils/katex';
 
 interface HistoryItemType {
@@ -384,6 +384,13 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
       appendHandler(highlightScript, 'hljs');
     }
   });
+
+  watch(
+    () => highlightUrl.value.css,
+    (url: string) => {
+      updateHandler(`${prefix}-hlCss`, 'href', url);
+    }
+  );
 
   // 添加目录主动触发接收监听
   onMounted(() => {

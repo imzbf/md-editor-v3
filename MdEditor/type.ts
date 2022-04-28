@@ -202,9 +202,7 @@ export interface ConfigOption {
     highlight?: {
       instance?: any;
       js?: string;
-      atom?: string;
-      github?: string;
-      githubDark?: string;
+      css?: CodeCss;
     };
     prettier?: {
       standaloneJs?: string;
@@ -253,4 +251,11 @@ export type Config = (options: ConfigOption) => void;
 export interface InnerError {
   name: string;
   message: string;
+}
+
+export interface CodeCss {
+  [key: string]: {
+    light: string;
+    dark: string;
+  };
 }

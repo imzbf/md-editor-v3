@@ -1,4 +1,4 @@
-import { StaticTextDefault } from './type';
+import { CodeCss, StaticTextDefault } from './type';
 
 export const prefix = 'md';
 
@@ -9,12 +9,8 @@ export const iconScriptId = 'md-editor-v3';
 export const iconfontUrl = 'https://at.alicdn.com/t/font_2605852_pqekijay2ij.js';
 
 // 代码高亮cdn链接
-export const highlightUrl = {
-  atom: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css',
-  github: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/github.css',
-  githubDark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/github-dark.css',
-  js: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js'
-};
+export const highlightUrl =
+  'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js';
 
 // 美化代码cdn连接
 export const prettierUrl = {
@@ -222,4 +218,19 @@ export const mermaidUrl =
 export const katexUrl = {
   js: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js',
   css: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css'
+};
+
+export const codeCss: CodeCss = {
+  atom: {
+    light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-light.css',
+    dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css'
+  },
+  github: {
+    light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/github.css',
+    dark: 'https://cdn.jsdel nivr.net/npm/highlight.js@11.2.0/styles/github-dark.css'
+  },
+  gradient: {
+    light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/gradient-light.css',
+    dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/gradient-dark.css'
+  }
 };
