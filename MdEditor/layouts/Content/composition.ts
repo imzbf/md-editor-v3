@@ -554,7 +554,8 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
               {
                 ...params,
                 tabWidth,
-                mermaidTemplate: props.mermaidTemplate
+                mermaidTemplate: props.mermaidTemplate,
+                editorId
               }
             )
           );

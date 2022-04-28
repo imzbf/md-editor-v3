@@ -27,7 +27,8 @@ import {
   SettingType,
   // MarkedImage,
   Themes,
-  ConfigOption
+  ConfigOption,
+  InnerError
 } from './type';
 
 import './styles/index.less';
@@ -248,7 +249,7 @@ const props = {
   },
   defToolbars: {
     type: [String, Object] as PropType<string | JSX.Element>
-  }
+  },
   // 自定义marked扩展，只支持预设
   // extensions: {
   //   type: Array as PropType<Array<any>>
@@ -258,7 +259,11 @@ const props = {
   //   default: (href: string, _: string, desc: string) => {
   //     return `<figure><img src="${href}" alt="${desc}"><figcaption>${desc}</figcaption></figure>`;
   //   }
-  // }
+  // },
+  onError: {
+    type: Function as PropType<(err: InnerError) => void>,
+    default: () => () => {}
+  }
 };
 
 const Editor = defineComponent({
@@ -359,6 +364,15 @@ const Editor = defineComponent({
       return (
         !props.toolbarsExclude.includes('catalog') && props.toolbars.includes('catalog')
       );
+    });
+
+    onMounted(() => {
+      bus.on(editorId, {
+        name: 'errorCatcher',
+        callback: (err: InnerError) => {
+          props.onError(err);
+        }
+      });
     });
 
     return () => {

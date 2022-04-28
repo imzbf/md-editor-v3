@@ -2,8 +2,10 @@ import { onMounted, inject, ref } from 'vue';
 import { prefix, screenfullUrl } from '../../config';
 import { appendHandler } from '../../utils/dom';
 import { ConfigOption } from '../../type';
+import bus from '../../utils/event-bus';
 
 export const useSreenfull = (props: any) => {
+  const editorId = inject('editorId') as string;
   const previewOnly = inject('previewOnly') as boolean;
   const extension = inject('extension') as ConfigOption;
   let screenfull = extension.editorExtensions?.screenfull?.instance;
@@ -14,7 +16,10 @@ export const useSreenfull = (props: any) => {
   // 触发器
   const fullScreenHandler = () => {
     if (!screenfull) {
-      // CATCH ERROR: 捕获全局错误
+      bus.emit(editorId, 'errorCatcher', {
+        name: 'fullScreen',
+        message: 'fullScreen is undefined'
+      });
       return;
     }
 
