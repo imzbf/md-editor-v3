@@ -3,8 +3,7 @@ import Editor from '../../MdEditor';
 import { mdText } from '../data';
 import { Theme } from '../App';
 import axios from 'axios';
-// import katex from 'katex';
-// import 'katex/dist/katex.min.css';
+import 'katex/dist/katex.min.css';
 
 import highlight from 'highlight.js';
 import screenfull from 'screenfull';
@@ -15,6 +14,8 @@ import mermaid from 'mermaid';
 import 'highlight.js/styles/atom-one-dark.css';
 
 import './index.less';
+
+import ModalToolbar from '../../MdEditor/extensions/ModalToolbar';
 
 Editor.config({
   markedRenderer(renderer) {
@@ -58,7 +59,9 @@ export default defineComponent({
     const md = reactive({
       text: storagedText || mdText,
       text2: 'Hello world',
-      visible: false
+      visible: false,
+      modalVisible: false,
+      isFullscreen: false
     });
 
     // 自动保存
@@ -154,6 +157,7 @@ export default defineComponent({
               'save',
               0,
               1,
+              2,
               '=',
               'prettier',
               'pageFullscreen',
@@ -166,6 +170,7 @@ export default defineComponent({
             defToolbars={
               <>
                 <Editor.NormalToolbar
+                  title="普通扩展"
                   trigger={
                     <svg class={`md-icon`} aria-hidden="true">
                       <use xlinkHref="#icon-strike-through" />
@@ -173,6 +178,7 @@ export default defineComponent({
                   }
                 ></Editor.NormalToolbar>
                 <Editor.DropdownToolbar
+                  title="下拉扩展"
                   visible={md.visible}
                   trigger={
                     <svg class={`md-icon`} aria-hidden="true">
@@ -184,6 +190,34 @@ export default defineComponent({
                   }}
                   overlay={<div>下拉内容</div>}
                 ></Editor.DropdownToolbar>
+                <ModalToolbar
+                  title="弹窗扩展"
+                  modalTitle="外置弹窗"
+                  showAdjust
+                  visible={md.modalVisible}
+                  isFullscreen={md.isFullscreen}
+                  onAdjust={(isFullscreen) => {
+                    md.isFullscreen = isFullscreen;
+                  }}
+                  trigger={
+                    <svg class={`md-icon`} aria-hidden="true">
+                      <use xlinkHref="#icon-strike-through" />
+                    </svg>
+                  }
+                  onClick={() => {
+                    md.modalVisible = true;
+                  }}
+                  onClosed={() => {
+                    md.modalVisible = false;
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '500px',
+                      height: '300px'
+                    }}
+                  ></div>
+                </ModalToolbar>
               </>
             }
           ></Editor>
