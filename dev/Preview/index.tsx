@@ -5,14 +5,11 @@ import { Theme } from '../App';
 import axios from 'axios';
 import 'katex/dist/katex.min.css';
 
-import highlight from 'highlight.js';
 import screenfull from 'screenfull';
 import katex from 'katex';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import mermaid from 'mermaid';
-
-import 'highlight.js/styles/atom-one-dark.css';
 
 import './index.less';
 
@@ -30,7 +27,13 @@ Editor.config({
   },
   editorExtensions: {
     highlight: {
-      instance: highlight
+      css: {
+        kimbie: {
+          light:
+            'https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/kimbie-light.css',
+          dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/kimbie-dark.css'
+        }
+      }
     },
     screenfull: {
       instance: screenfull
@@ -97,13 +100,14 @@ export default defineComponent({
         <div class="container">
           <Editor
             editorId="md-prev"
-            previewTheme="mk-cute"
+            previewTheme="cyanosis"
             theme={props.theme}
             modelValue={md.text}
             // katex={katex}
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);
             }}
+            codeCssName="kimbie"
             // toolbars={['bold', 'link', '=', 'prettier', 'link']}
             // toolbarsExclude={['github']}
             onChange={(value) => (md.text = value)}
@@ -228,6 +232,7 @@ export default defineComponent({
           <Editor
             editorId="md-prev-2"
             theme={props.theme}
+            codeCssName="kimbie"
             modelValue={md.text2}
             onChange={(value) => (md.text2 = value)}
           />

@@ -9,7 +9,8 @@ import {
   iconfontUrl,
   prettierUrl,
   cropperUrl,
-  highlightUrl
+  highlightUrl,
+  codeCss
 } from './config';
 
 export const useKeyBoard = (props: any, context: SetupContext) => {
@@ -326,25 +327,32 @@ export const useProvide = (props: any, extension: ConfigOption) => {
   provide(
     'highlight',
     computed(() => {
-      // 优先配置
-      let url = highlightConfig?.atom || highlightUrl.atom;
+      // // 优先配置
+      // let url = highlightConfig?.atom || highlightUrl.atom;
 
-      // 根据预览主题判定合理切换
-      switch (props.previewTheme) {
-        case 'github': {
-          if (props.theme === 'dark') {
-            url = highlightConfig?.githubDark || highlightUrl.githubDark;
-          } else {
-            url = highlightConfig?.github || highlightUrl.github;
-          }
+      // // 根据预览主题判定合理切换
+      // switch (props.previewTheme) {
+      //   case 'github': {
+      //     if (props.theme === 'dark') {
+      //       url = highlightConfig?.githubDark || highlightUrl.githubDark;
+      //     } else {
+      //       url = highlightConfig?.github || highlightUrl.github;
+      //     }
 
-          break;
-        }
-      }
+      //     break;
+      //   }
+      // }
+      // 备选列表
+      const cssList = {
+        ...codeCss,
+        ...highlightConfig?.css
+      };
 
       return {
-        js: highlightConfig?.js || highlightUrl.js,
-        css: url
+        js: highlightConfig?.js || highlightUrl,
+        css: cssList[props.codeCssName]
+          ? cssList[props.codeCssName][props.theme as 'light' | 'dark']
+          : codeCss.atom[props.theme as 'light' | 'dark']
       };
     })
   );
