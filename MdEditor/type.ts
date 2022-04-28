@@ -116,7 +116,7 @@ export interface SettingType {
 
 export type Themes = 'light' | 'dark';
 
-export type PreviewThemes = 'default' | 'github' | 'vuepress';
+export type PreviewThemes = string; // 'default' | 'github' | 'vuepress';
 
 export interface HeadList {
   text: string;
