@@ -9,6 +9,7 @@ import highlight from 'highlight.js';
 import screenfull from 'screenfull';
 import katex from 'katex';
 import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
 import mermaid from 'mermaid';
 
 import 'highlight.js/styles/atom-one-dark.css';
@@ -129,6 +130,9 @@ export default defineComponent({
               );
 
               callback(res.map((item: any) => item.data.url));
+            }}
+            onError={(error) => {
+              console.log(error);
             }}
             toolbars={[
               'bold',
