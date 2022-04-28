@@ -6,8 +6,7 @@ import {
   reactive,
   nextTick,
   ComputedRef,
-  watch,
-  computed
+  watch
 } from 'vue';
 import Modal from '../../components/Modal';
 import { ConfigOption, StaticTextDefaultValue } from '../../type';
@@ -123,19 +122,6 @@ export default defineComponent({
       }
     );
 
-    // 弹出层宽度
-    const modalSize = computed(() => {
-      return data.isFullscreen
-        ? {
-            width: '100%',
-            height: '100%'
-          }
-        : {
-            width: '668px',
-            height: '421px'
-          };
-    });
-
     const reset = () => {
       cropper.destroy();
       (uploadRef.value as HTMLInputElement).value = '';
@@ -152,7 +138,8 @@ export default defineComponent({
         onAdjust={(val) => {
           data.isFullscreen = val;
         }}
-        {...modalSize.value}
+        width="668px"
+        height="421px"
       >
         <div class={`${prefix}-form-item ${prefix}-clip`}>
           <div class={`${prefix}-clip-main`}>
