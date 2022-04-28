@@ -6,7 +6,8 @@ import {
   onBeforeUnmount,
   reactive,
   watch,
-  nextTick
+  nextTick,
+  computed
 } from 'vue';
 import { prefix } from '../../config';
 import { getSlot } from '../../utils/vue-tsx';
@@ -43,7 +44,6 @@ export default defineComponent({
       type: Function as PropType<() => void>,
       default: () => () => {}
     },
-
     showAdjust: {
       type: Boolean as PropType<boolean>,
       default: false
@@ -76,6 +76,20 @@ export default defineComponent({
       historyPos: {
         left: '0px',
         top: '0px'
+      }
+    });
+
+    const innerSize = computed(() => {
+      if (props.isFullscreen) {
+        return {
+          width: '100%',
+          height: '100%'
+        };
+      } else {
+        return {
+          width: props.width,
+          height: props.height
+        };
       }
     });
 
@@ -147,8 +161,7 @@ export default defineComponent({
             class={modalClass.value}
             style={{
               ...state.initPos,
-              width: props.width,
-              height: props.height
+              ...innerSize.value
             }}
             ref={modalRef}
           >
