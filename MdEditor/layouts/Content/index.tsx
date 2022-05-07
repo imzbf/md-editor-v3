@@ -12,7 +12,8 @@ import {
   useHistory,
   useMarked,
   useMermaid,
-  usePasteUpload
+  usePasteUpload,
+  userZoom
 } from './composition';
 import { prefix } from '../../config';
 import bus from '../../utils/event-bus';
@@ -111,6 +112,8 @@ export default defineComponent({
     useHistory(props, textAreaRef);
     // 粘贴上传
     usePasteUpload(textAreaRef);
+    // 图片点击放大
+    userZoom(html);
 
     return () => {
       return (
