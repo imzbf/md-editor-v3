@@ -74,6 +74,7 @@
     "katex": "^0.15.1",
     "less": "^4.1.1",
     "marked": "^4.0.14",
+    "medium-zoom": "^1.0.6",
     "mermaid": "^8.13.6",
     "multiparty": "^4.2.2",
     "prettier": "^2.3.2",

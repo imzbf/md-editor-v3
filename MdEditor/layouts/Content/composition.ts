@@ -12,6 +12,7 @@ import {
 } from 'vue';
 import { marked } from 'marked';
 import copy from 'copy-to-clipboard';
+import mediumZoom from 'medium-zoom';
 import { EditorContentProps } from './index';
 import { HeadList, StaticTextDefaultValue, ConfigOption } from '../../type';
 import { prefix, katexUrl, mermaidUrl } from '../../config';
@@ -670,4 +671,23 @@ export const usePasteUpload = (textAreaRef: Ref) => {
       textAreaRef.value.removeEventListener('paste', pasteHandler);
     }
   });
+};
+
+export const userZoom = (html: Ref<string>) => {
+  const editorId = inject('editorId') as string;
+
+  const zoomHander = debounce(() => {
+    const imgs = document.querySelectorAll(`#${editorId}-preview img`);
+
+    if (imgs.length === 0) {
+      return;
+    }
+
+    mediumZoom(imgs, {
+      background: '#00000073'
+    });
+  });
+
+  onMounted(zoomHander);
+  watch([html], zoomHander);
 };
