@@ -28,10 +28,10 @@ Editor.config({
   editorExtensions: {
     highlight: {
       css: {
-        kimbie: {
+        'tokyo-night': {
           light:
-            'https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/kimbie-light.css',
-          dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/kimbie-dark.css'
+            'https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/tokyo-night-light.css',
+          dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/tokyo-night-dark.css'
         }
       }
     },
@@ -54,7 +54,9 @@ const SAVE_KEY = 'XHMPGLJIZTDB';
 
 export default defineComponent({
   props: {
-    theme: String as PropType<Theme>
+    theme: String as PropType<Theme>,
+    previewTheme: String as PropType<string>,
+    codeCssName: String as PropType<string>
   },
   setup(props) {
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
@@ -100,14 +102,14 @@ export default defineComponent({
         <div class="container">
           <Editor
             editorId="md-prev"
-            previewTheme="cyanosis"
+            previewTheme={props.previewTheme}
             theme={props.theme}
             modelValue={md.text}
             // katex={katex}
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);
             }}
-            codeCssName="kimbie"
+            codeCssName={props.codeCssName}
             // toolbars={['bold', 'link', '=', 'prettier', 'link']}
             // toolbarsExclude={['github']}
             onChange={(value) => (md.text = value)}
@@ -229,13 +231,14 @@ export default defineComponent({
             }
           ></Editor>
           <br />
-          <Editor
+          {/* <Editor
             editorId="md-prev-2"
             theme={props.theme}
+            previewTheme={props.previewTheme}
             codeCssName="kimbie"
             modelValue={md.text2}
             onChange={(value) => (md.text2 = value)}
-          />
+          /> */}
           <br />
           <span class="tips-text">
             tips：本页上方的编辑器有localstorage保存功能，可手动点击保存触发，每次操作后两秒会自己保存一次，可用于一些文档的编辑。
