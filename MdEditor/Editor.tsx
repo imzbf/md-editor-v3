@@ -27,7 +27,6 @@ import {
   SettingType,
   // MarkedImage,
   Themes,
-  ConfigOption,
   InnerError
 } from './type';
 
@@ -278,7 +277,7 @@ const Editor = defineComponent({
     // eslint-disable-next-line vue/no-setup-props-destructure
     const { editorId } = props;
     // 全局配置扩展
-    const extension = Editor.extension as ConfigOption;
+    const extension = Editor.extension || {};
 
     // 快捷键监听
     useKeyBoard(props, context);
