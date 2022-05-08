@@ -39,7 +39,7 @@ export default defineComponent({
             </button>
             <button
               class="btn btn-header"
-              onClick={() => props.onPreviewChange('github')}
+              onClick={() => props.onPreviewChange('cyanosis')}
             >
               cyanosis
             </button>
