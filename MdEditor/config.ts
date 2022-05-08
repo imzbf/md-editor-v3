@@ -221,16 +221,37 @@ export const katexUrl = {
 };
 
 export const codeCss: CodeCss = {
+  a11y: {
+    light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/a11y-light.css',
+    dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/a11y-dark.css'
+  },
   atom: {
     light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-light.css',
     dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css'
   },
   github: {
     light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/github.css',
-    dark: 'https://cdn.jsdel nivr.net/npm/highlight.js@11.2.0/styles/github-dark.css'
+    dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/github-dark.css'
   },
   gradient: {
     light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/gradient-light.css',
     dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/gradient-dark.css'
+  },
+  kimbie: {
+    light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/kimbie-light.css',
+    dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/kimbie-dark.css'
+  },
+  paraiso: {
+    light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/paraiso-light.css',
+    dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/paraiso-dark.css'
+  },
+  qtcreator: {
+    light: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/qtcreator-light.css',
+    dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/qtcreator-dark.css'
+  },
+  stackoverflow: {
+    light:
+      'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/stackoverflow-light.css',
+    dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/stackoverflow-dark.css'
   }
 };
