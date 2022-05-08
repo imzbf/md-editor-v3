@@ -1,6 +1,6 @@
 import { defineComponent, reactive, PropType, onUnmounted, watch } from 'vue';
 import Editor from '../../MdEditor';
-import { mdText } from '../data';
+import mdText from '../data.md';
 import { Theme } from '../App';
 import axios from 'axios';
 import 'katex/dist/katex.min.css';
@@ -231,18 +231,14 @@ export default defineComponent({
             }
           ></Editor>
           <br />
-          {/* <Editor
+          <Editor
             editorId="md-prev-2"
             theme={props.theme}
             previewTheme={props.previewTheme}
-            codeCssName="kimbie"
+            codeCssName={props.codeCssName}
             modelValue={md.text2}
             onChange={(value) => (md.text2 = value)}
-          /> */}
-          <br />
-          <span class="tips-text">
-            tips：本页上方的编辑器有localstorage保存功能，可手动点击保存触发，每次操作后两秒会自己保存一次，可用于一些文档的编辑。
-          </span>
+          />
         </div>
       </div>
     );
