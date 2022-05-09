@@ -9,7 +9,7 @@
   &-preview {
     width: 50%;
     height: 100%;
-    border: 1px @borderColor solid;
+    border: 1px solid var(--md-border-color);
   }
 
   &-main {
@@ -26,9 +26,9 @@
         right: 0;
         // 幽灵空白
         font-size: 0;
-        background-color: @bbkColor;
+        background-color: var(--md-bk-color-outstand);
         border-bottom-left-radius: 4px;
-        color: @color;
+        color: var(--md-color);
         cursor: pointer;
       }
     }
@@ -53,26 +53,6 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-    }
-  }
-}
-
-.@{prefix}-dark {
-  .@{prefix}-clip {
-    &-main,
-    &-preview {
-      border: 1px @borderColorDark solid;
-    }
-
-    &-main {
-      margin-right: 1em;
-
-      .@{prefix}-clip-cropper {
-        .@{prefix}-clip-delete {
-          background-color: @bbkColorDark;
-          color: @colorDark;
-        }
-      }
     }
   }
 }

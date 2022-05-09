@@ -38,43 +38,27 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | --- | --- | --- | --- |
 | modelValue | String | '' | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
 | theme | 'light' \| 'dark' | 'light' | 主题切换 |
-| editorClass | String | '' | 编辑器类名 |
-| hljs | Object | null | highlight 实例，编辑器不会插入对应的`script`，但需要手动导入的高亮代码样式 |
-| highlightJs | String | [highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | highlightJs 链接 |
-| highlightCss | String | [atom-one-dark@11.2.0](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css) | 预览高亮代码样式 |
+| class | String | '' | 编辑器类名 |
 | historyLength | Number | 10 | 最大记录操作数（太大会占用内存） |
 | pageFullScreen | Boolean | false | 页面内全屏 |
 | preview | Boolean | true | 是否预览 |
 | htmlPreview | Boolean | false | 是否 html 预览 |
 | previewOnly | Boolean | false | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | String | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| languageUserDefined | Object | {key: StaticTextDefaultValue} | 通过这里扩展语言，修改 language 值为扩展 key 即可，类型申明可手动导入 |
 | toolbars | Array | [toolbars] | 选择性展示工具栏，可选内容<sup>见下方`toolbars`</sup> |
 | toolbarsExclude | Array | [] | 选择性不展示工具栏，内容同`toolbars` |
-| prettier | Boolean | true | 是否启用 prettier 优化 md 内容 |
-| prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
-| prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) |  |
-| cropperCss | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | cropper css url |
-| cropperJs | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | cropper js url |
-| iconfontJs | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | 矢量图标链接，无外网时，下载 js 到内网，提供链接 |
+| noPrettier | Boolean | false | 是否启用 prettier 优化 md 内容 |
 | editorId | String | md-editor-v3 | 编辑器唯一标识，非必须项，当相同页面存在两个编辑器时，请务必区别该属性 |
 | tabWidth | Number | 2 | 编辑器 TAB 键位等于空格数 |
 | showCodeRowNumber | Boolean | false | 代码块是否显示行号 |
-| screenfull | Object | null | 全屏插件实例，编辑器不再插入对应的`script` |
-| screenfullJs | String | [5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | screenfull js 链接 |
-| previewTheme | 'default' \| 'github' \| 'vuepress' | 'default' | 预览内容主题 |
+| previewTheme | `'default'\|'github'\|'vuepress'\|'mk-cute'\|'smart-blue'\|'cyanosis'` | 'default' | 预览内容主题，自定义主题规则见下方 |
 | style | CSSProperties | {} | 编辑器内联样式 |
 | tableShape | [Number, Number] | [6, 4] | 标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数。 |
-| mermaid | Object | undefined | 图表库`mermaid`实例 |
-| mermaidJs | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | mermaidJs 链接 |
 | noMermaid | Boolean | false | 如果你不希望使用图表展示内容，可以设置关闭 |
 | placeholder | String | '' |  |
-| katex | Object | undefined | `katex` 实例，这种方式你需要自行引入 css |
-| katexJs | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | katexJs 链接 |
-| katexCss | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | katexCss 链接 |
 | noKatex | Boolean | false | 不使用 katex 展示数学公式 |
 | defToolbars | Array<DropdownToolbar \| NormalToolbar> | null | 自定义工具栏，具体使用请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars)和[emoji 示例](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
-| extensions | Array | [] | 编辑器依赖的[marked](https://marked.js.org/using_pro#extensions)扩展 |
+| codeCssName | `'atom'\|'a11y'\|'github'\|'gradient'\|'kimbie'\|'paraiso'\|'qtcreator'\|'stackoverflow'` | 'atom' | 代码块[highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles)样式名称，扩展更多见下方 |
 
 简单的标记和表情扩展预览
 
@@ -223,7 +207,7 @@ export interface StaticTextDefaultValue {
 }
 ```
 
-### 事件绑定
+### 绑定事件
 
 | 名称 | 入参 | 使用 | 说明 |
 | --- | --- | --- | --- |
@@ -232,14 +216,96 @@ export interface StaticTextDefaultValue {
 | onUploadImg | files:Array<File>, callback:Function | @onUploadImg="xxx" | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | h:string | @onHtmlChanged="xxx" | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog | list: HeadList[] | @onGetCatalog="xxx" | 动态获取`markdown`目录 |
-| markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | :marked-heading="xxx" | `marked`转换 md 文本标题的方法 |
 | markedHeadingId | (text: string, level: number) => string | :marked-heading-id="xxx" | 标题`ID`计算方式 |
 | sanitize | (html: string) => string | :sanitize="xxx" | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
-| markedImage | (href: string, title: string, desc: string) => string | :marked-image="xxx" | 覆盖默认生成图片的 html 元素结构 |
 
-> 如果你重写了`markedHeading`方法，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
+> 如果你重新定义了标题，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
-### 快捷键
+## 编辑器配置
+
+使用`MdEditor.config(option: ConfigOption)`方法，可以对内部的`renderer`定制。
+
+- markedRenderer: `(renderer: Renderer) => Renderer`，设置链接在新窗口打开 🌰：
+
+```js
+MdEditor.config({
+  markedRenderer(renderer) {
+    renderer.link = (href, title, text) => {
+      return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
+    };
+
+    return renderer;
+  }
+});
+```
+
+- markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`，扩展标记语法 🌰：
+
+```js
+import MdEditor from 'md-editor-v3';
+
+MdEditor.config({
+  markedExtensions: []
+});
+```
+
+- markedOptions: `marked.MarkedOptions`，设置输入空白行不渲染出来 🌰：
+
+```js
+import MdEditor from 'md-editor-v3';
+
+MdEditor.config({
+  markedOptions: { breaks: false }
+});
+```
+
+- editorExtensions: 类型如下，用于配置编辑器内部的扩展
+
+```typescript
+import MdEditor from 'md-editor-v3';
+
+export interface ConfigOption {
+  markedRenderer?: (renderer: Renderer) => Renderer;
+  markedExtensions?: Array<marked.TokenizerExtension & marked.RendererExtension>;
+  markedOptions?: marked.MarkedOptions;
+  editorExtensions?: {
+    highlight?: {
+      instance?: any;
+      js?: string;
+      css?: CodeCss;
+    };
+    prettier?: {
+      standaloneJs?: string;
+      parserMarkdownJs?: string;
+    };
+    cropper?: {
+      instance?: any;
+      js?: string;
+      css?: string;
+    };
+    iconfont?: string;
+    screenfull?: {
+      instance?: any;
+      js?: string;
+    };
+    mermaid?: {
+      instance?: any;
+      js?: string;
+    };
+    katex?: {
+      instance?: any;
+      js?: string;
+      css?: string;
+    };
+  };
+  editorConfig?: {
+    languageUserDefined?: { [key: string]: StaticTextDefaultValue };
+    mermaidTemplate?: MermaidTemplate;
+  };
+}
+```
+
+## 快捷键
 
 主要以`CTRL`搭配对应功能英文单词首字母，冲突项添加`SHIFT`，再冲突替换为`ALT`。
 
