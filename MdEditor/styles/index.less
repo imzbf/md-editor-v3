@@ -6,15 +6,17 @@
 @toolBarPadding: 4px;
 
 .@{prefix} {
+  .css-vars(false);
+
   width: 100%;
   height: 400px;
   position: relative;
   box-sizing: border-box;
-  border: 1px solid hsv(0, 0, 90%);
+  border: 1px solid var(--md-border-color);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: @bkColor;
+  background-color: var(--md-bk-color);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI',
     system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji';
@@ -27,12 +29,12 @@
 
   ::-webkit-scrollbar-corner,
   ::-webkit-scrollbar-track {
-    background-color: #e2e2e2;
+    background-color: var(--md-scrollbar-bg-color);
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--md-scrollbar-thumb-color);
   }
 
   ::-webkit-scrollbar-button:vertical {
@@ -40,11 +42,11 @@
   }
 
   ::-webkit-scrollbar-thumb:vertical:hover {
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: var(--md-scrollbar-thumb-hover-color);
   }
 
   ::-webkit-scrollbar-thumb:vertical:active {
-    background-color: rgba(0, 0, 0, 0.38);
+    background-color: var(--md-scrollbar-thumb-active-color);
   }
 
   &-icon {
@@ -58,12 +60,13 @@
     margin: 0;
     padding: 0;
     border-radius: 3px;
-    border: 1px solid @borderColor;
+    border: 1px solid var(--md-border-color);
+    background-color: inherit;
 
     &-item {
       list-style: none;
       font-size: 12px;
-      color: @color;
+      color: var(--md-color);
       padding: 4px 10px;
       cursor: pointer;
       line-height: 16px;
@@ -77,7 +80,7 @@
       }
 
       &:hover {
-        background-color: @hover;
+        background-color: var(--md-hover-color);
       }
     }
   }
@@ -85,7 +88,7 @@
   &-table-shape {
     padding: 4px;
     border-radius: 3px;
-    border: 1px solid @borderColor;
+    border: 1px solid var(--md-border-color);
     display: flex;
     flex-direction: column;
 
@@ -124,7 +127,7 @@
       min-width: 850px;
       padding: @toolBarPadding;
       height: @toolBarHeight;
-      border-bottom: 1px solid hsv(0, 0, 90%);
+      border-bottom: 1px solid var(--md-border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -142,7 +145,7 @@
 
         &:hover {
           border-radius: 3px;
-          background-color: rgb(230, 230, 230);
+          background-color: var(--md-bk-color-outstand);
         }
       }
 
@@ -212,7 +215,7 @@
 
   &-lable {
     font-size: 14px;
-    color: @color;
+    color: var(--md-color);
     width: 80px;
     text-align: center;
     display: inline-block;
@@ -221,12 +224,12 @@
   &-input {
     border-radius: 4px;
     padding: 4px 11px;
-    color: @color;
+    color: var(--md-color);
     font-size: 14px;
     line-height: 1.5715;
-    background-color: @bkColor;
+    background-color: var(--md-bk-color);
     background-image: none;
-    border: 1px solid @borderColor;
+    border: 1px solid var(--md-border-color);
     transition: all 0.2s;
 
     &:focus {
@@ -250,8 +253,8 @@
     border-radius: 4px;
     transition: all 0.2s linear;
     color: #515a6e;
-    background-color: @bkColor;
-    border-color: @borderColor;
+    background-color: var(--md-bk-color);
+    border-color: var(--md-border-color);
     margin-left: 10px;
 
     &:first-of-type {
@@ -260,7 +263,7 @@
 
     &:hover {
       color: #57a3f3;
-      background-color: @bkColor;
+      background-color: var(--md-bk-color);
       border-color: #57a3f3;
     }
 
@@ -289,22 +292,9 @@
 }
 
 .@{prefix}-dark {
-  color: @colorDark;
-  background-color: @bkColorDark;
-  border-color: @borderColorDark;
-
-  // 工具栏
-  .@{prefix}-toolbar {
-    border-color: @borderColorDark;
-
-    &-item:hover {
-      background-color: @hoverdark;
-    }
-  }
+  .css-vars(true);
 
   .@{prefix}-table-shape {
-    border-color: @borderColorDark;
-
     &-col {
       &-default {
         background-color: #222;
@@ -314,71 +304,6 @@
         background-color: #555;
       }
     }
-  }
-
-  // 弹框组件
-  .@{prefix}-modal {
-    background-color: @bkColorDark;
-    border-color: @borderColorDark;
-
-    &-header {
-      border-color: @borderColorDark;
-      color: @colorDark;
-
-      .@{prefix}-modal-title {
-        color: @colorDark;
-      }
-    }
-  }
-
-  // 下拉组件
-  .@{prefix}-dropdown-overlay {
-    background-color: @bkColorDark;
-  }
-
-  .@{prefix}-menu {
-    border-color: @borderColorDark;
-  }
-
-  // 内容菜单
-  .@{prefix}-menu {
-    background-color: inherit;
-
-    &-item {
-      color: @colorDark;
-
-      &:hover {
-        background-color: @hoverdark;
-      }
-    }
-  }
-
-  .@{prefix}-lable {
-    color: @colorDark;
-  }
-
-  .@{prefix}-input,
-  .@{prefix}-btn {
-    color: @colorDark;
-    background-color: @bkColorDark;
-    border-color: @borderColorDark;
-  }
-
-  ::-webkit-scrollbar-corner,
-  ::-webkit-scrollbar-track {
-    background-color: rgb(15, 15, 15);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: @borderColorDark;
-  }
-
-  ::-webkit-scrollbar-thumb:vertical:hover {
-    background-color: rgb(58, 58, 58);
-  }
-
-  ::-webkit-scrollbar-thumb:vertical:active {
-    background-color: rgb(58, 58, 58);
   }
 }
 
