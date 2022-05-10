@@ -94,7 +94,8 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
 import Editor from 'md-editor-v3';
-import { mdText, mdEnText } from '../../data';
+import mdEN from '../../../public/preview-en-US.md';
+import mdCN from '../../../public/preview-zh-CN.md';
 import axios from '../..//utils/request';
 import './index.less';
 import { useStore } from 'vuex';
@@ -104,7 +105,7 @@ import { emojis } from './data';
 import MarkExtension from '../../utils/marked-mark';
 
 const data = reactive({
-  text: mdText,
+  text: mdEN,
   emojiVisible: false
 });
 
@@ -114,9 +115,9 @@ watch(
   () => store.state.lang,
   (nVal: string) => {
     if (nVal === 'zh-CN') {
-      data.text = mdText;
+      data.text = mdCN;
     } else {
-      data.text = mdEnText;
+      data.text = mdEN;
     }
   }
 );

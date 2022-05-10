@@ -1,9 +1,9 @@
 import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import Editor, { HeadList } from 'md-editor-v3';
 import { Theme } from '../../App';
-import axios from '@/utils/request';
 import { version } from '../../../package.json';
-// import Catalog from '@/components/Catalog';
+import mdEN from '../../../public/demo-en-US.md';
+import mdCN from '../../../public/demo-zh-CN.md';
 import { Affix } from 'ant-design-vue';
 import { useStore } from 'vuex';
 
@@ -20,16 +20,10 @@ export default defineComponent({
     const store = useStore();
 
     const queryMd = () => {
-      axios
-        .get(`/demo-${store.state.lang}.md`)
-        .then(({ data }) => {
-          mdText.value = (data as string).replace(/\$\{EDITOR_VERSION\}/g, version);
-        })
-        .catch((e) => {
-          console.log(e);
-
-          mdText.value = '文档读取失败！';
-        });
+      mdText.value = (store.state.lang === 'en-US' ? mdEN : mdCN).replace(
+        /\$\{EDITOR_VERSION\}/g,
+        version
+      );
     };
 
     onMounted(queryMd);

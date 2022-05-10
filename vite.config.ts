@@ -3,7 +3,7 @@ import { UserConfigExport, ConfigEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import nodeService from './vitePlugins/nodeService';
-
+import markdownImport from './vitePlugins/markdownImport';
 // https://segmentfault.com/a/1190000040127796
 import dts from 'vite-plugin-dts';
 
@@ -46,7 +46,8 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     plugins: [
       vue(),
       vueJsx(),
-      nodeService(),
+      mode !== 'production' && nodeService(),
+      mode !== 'production' && markdownImport(),
       mode === 'production' &&
         dts({
           include: './MdEditor/*'
