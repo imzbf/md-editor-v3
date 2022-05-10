@@ -16,7 +16,8 @@ export default defineComponent({
             github: '源码',
             about: '关于',
             lang: 'English',
-            langIcon: '#icon-d-en'
+            langIcon: '#icon-d-en',
+            to2: '1.x迁移'
           }
         : {
             home: 'Home',
@@ -25,7 +26,8 @@ export default defineComponent({
             github: 'Github',
             about: 'About',
             lang: '中文',
-            langIcon: '#icon-d-cn'
+            langIcon: '#icon-d-cn',
+            to2: 'To2.x'
           };
     });
 
@@ -69,6 +71,14 @@ export default defineComponent({
               <use xlinkHref="#icon-d-about"></use>
             </svg>
             {linkNames.value.about}
+          </RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink to="/contrast">
+            <svg class="icon" aria-hidden="true">
+              <use xlinkHref="#icon-d-v"></use>
+            </svg>
+            {linkNames.value.to2}
           </RouterLink>
         </li>
         <li

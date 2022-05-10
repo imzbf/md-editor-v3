@@ -21,48 +21,30 @@ const routes: Array<RouteRecordRaw> = [
         name: 'IndexPage',
         component: () => import('@/pages/Preview/template.vue'),
         meta: { title: `${SITE_TITLE_PREFIX} 编辑器展示` }
-      }
-    ]
-  },
-  {
-    path: '/docs',
-    name: 'Docs',
-    redirect: '/docs/index',
-    component: Layout,
-    children: [
+      },
       {
-        path: 'index',
-        name: 'DocsIndex',
+        path: 'docs',
+        name: 'DocsPage',
         component: () => import('@/pages/Doc'),
         meta: { title: `${SITE_TITLE_PREFIX} 文档` }
-      }
-    ]
-  },
-  {
-    path: '/demo',
-    name: 'Demo',
-    redirect: '/demo/index',
-    component: Layout,
-    children: [
+      },
       {
-        path: 'index',
-        name: 'DemoIndex',
+        path: 'demo',
+        name: 'DemoPage',
         component: () => import('@/pages/Demo'),
         meta: { title: `${SITE_TITLE_PREFIX} 代码演示` }
-      }
-    ]
-  },
-  {
-    path: '/about',
-    name: 'About',
-    redirect: '/about/index',
-    component: Layout,
-    children: [
+      },
       {
-        path: 'index',
-        name: 'AboutIndex',
+        path: 'about',
+        name: 'AboutPage',
         component: () => import('@/pages/About'),
         meta: { title: `${SITE_TITLE_PREFIX} 关于` }
+      },
+      {
+        path: 'contrast',
+        name: 'ContrastPage',
+        component: () => import('@/pages/Contrast/index.vue'),
+        meta: { title: `${SITE_TITLE_PREFIX} 对比` }
       }
     ]
   },
