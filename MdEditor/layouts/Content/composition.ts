@@ -224,7 +224,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
   // 图片
   renderer.image = (href, title, desc) => {
-    return `<figure><img src="${href}" alt="${desc}" title="${title}"><figcaption>${desc}</figcaption></figure>`;
+    return `<span class="figure"><img src="${href}" title="${title}" alt="${desc}"><span class="figcaption">${desc}</span></span>`;
   };
 
   // 列表
