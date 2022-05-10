@@ -4,8 +4,7 @@ import { Theme } from '../../App';
 
 import mdEN from '../../../public/about-en-US.md';
 import mdCN from '../../../public/about-zh-CN.md';
-
-import { version } from '../../../package.json';
+import { replaceVersion } from '@/utils';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -14,17 +13,13 @@ export default defineComponent({
     theme: String as PropType<Theme>
   },
   setup() {
-    const mdText = ref();
+    const mdText = ref(replaceVersion(mdEN));
     const store = useStore();
 
     const queryMd = () => {
-      mdText.value = (store.state.lang === 'en-US' ? mdEN : mdCN).replace(
-        /\$\{EDITOR_VERSION\}/g,
-        version
-      );
+      mdText.value = replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN);
     };
 
-    onMounted(queryMd);
     watch(() => store.state.lang, queryMd);
 
     return () => (

@@ -25,12 +25,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         '@': path.resolve(__dirname, './src')
       }
     },
-    plugins: [
-      vue(),
-      vueJsx(),
-      mode !== 'production' && nodeService(),
-      mode !== 'production' && markdownImport()
-    ],
+    plugins: [vue(), vueJsx(), mode !== 'production' && nodeService(), markdownImport()],
     css: {
       modules: {
         localsConvention: 'camelCase' // 默认只支持驼峰，修改为同事支持横线和驼峰

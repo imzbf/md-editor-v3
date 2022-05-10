@@ -1,3 +1,5 @@
+import { version } from '../../package.json';
+
 /**
  * 基础防抖
  *
@@ -12,4 +14,8 @@ export const debounce = (event: () => void, delay = 100) => {
     clearTimeout(timer);
     timer = setTimeout(event, delay);
   };
+};
+
+export const replaceVersion = (text: string): string => {
+  return text.replace(/\$\{EDITOR_VERSION\}/g, version);
 };
