@@ -4,26 +4,8 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import nodeService from './vitePlugins/nodeService';
 import markdownImport from './vitePlugins/markdownImport';
-// https://segmentfault.com/a/1190000040127796
-import dts from 'vite-plugin-dts';
 
 import { homepage } from './package.json';
-
-const libBuildOptions = {
-  outDir: path.resolve(__dirname, 'lib'),
-  lib: {
-    entry: path.resolve(__dirname, './MdEditor'),
-    name: 'MdEditorV3'
-  },
-  rollupOptions: {
-    external: ['vue'],
-    output: {
-      globals: {
-        vue: 'Vue'
-      }
-    }
-  }
-};
 
 export default ({ mode }: ConfigEnv): UserConfigExport => {
   console.log('mode：', mode);
@@ -47,11 +29,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       vue(),
       vueJsx(),
       mode !== 'production' && nodeService(),
-      mode !== 'production' && markdownImport(),
-      mode === 'production' &&
-        dts({
-          include: './MdEditor/*'
-        })
+      mode !== 'production' && markdownImport()
     ],
     css: {
       modules: {
@@ -62,7 +40,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
           javascriptEnabled: true
         }
       }
-    },
-    build: mode === 'production' ? libBuildOptions : {}
+    }
   };
 };
