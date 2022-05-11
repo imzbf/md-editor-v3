@@ -78,15 +78,6 @@
           </Editor.DropdownToolbar>
         </template>
       </Editor>
-      <br />
-      <span class="tips-text">
-        <span v-if="store.state.lang === 'zh-CN'"
-          >Tips：本页展示编辑器localstorage存储功能已移除！</span
-        >
-        <span v-else
-          >Tips: The editor in this page can not save text to localstorage now!</span
-        >
-      </span>
     </div>
   </div>
 </template>
@@ -191,7 +182,7 @@ const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void)
   callback(res.map((item: any) => item.data.url));
 };
 
-const emojiVisibleChanged = (visible) => {
+const emojiVisibleChanged = (visible: boolean) => {
   data.emojiVisible = visible;
 };
 </script>
