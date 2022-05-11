@@ -51,9 +51,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
           include: [
             './MdEditor/type.ts',
             './MdEditor/Editor.tsx',
-            './MdEditor/extensions/NormalToolbar.tsx',
-            './MdEditor/extensions/DropdownToolbar.tsx',
-            './MdEditor/extensions/Catalog/index.tsx',
+            './MdEditor/extensions/**/*.tsx',
             './MdEditor/index.ts',
             './MdEditor/utils/config.ts'
           ]

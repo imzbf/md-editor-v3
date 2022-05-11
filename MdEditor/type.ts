@@ -8,6 +8,7 @@ declare global {
     Cropper: any;
     screenfull: any;
     mermaid: any;
+    katex: any;
   }
 }
 
