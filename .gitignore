@@ -6,7 +6,6 @@ dist-ssr
 
 .idea
 
-yarn.lock
 package-lock.json
 
 lib
