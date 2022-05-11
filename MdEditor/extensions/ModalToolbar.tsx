@@ -63,7 +63,13 @@ export default defineComponent({
           <div
             class={`${prefix}-toolbar-item`}
             title={props.title}
-            onClick={props.onClick}
+            onClick={() => {
+              if (props.onClick instanceof Function) {
+                props.onClick();
+              } else {
+                ctx.emit('onClick');
+              }
+            }}
           >
             {Trigger}
           </div>
@@ -72,10 +78,22 @@ export default defineComponent({
             height={props.height}
             title={props.modalTitle}
             visible={props.visible}
-            onClosed={props.onClosed}
+            onClosed={() => {
+              if (props.onClosed instanceof Function) {
+                props.onClosed();
+              } else {
+                ctx.emit('onClosed');
+              }
+            }}
             showAdjust={props.showAdjust}
             isFullscreen={props.isFullscreen}
-            onAdjust={props.onAdjust}
+            onAdjust={(v) => {
+              if (props.onAdjust instanceof Function) {
+                props.onAdjust(v);
+              } else {
+                ctx.emit('onAdjust', v);
+              }
+            }}
           >
             {Default}
           </Modal>

@@ -23,7 +23,17 @@ export default defineComponent({
       const Trigger = getSlot({ props, ctx }, 'trigger');
 
       return (
-        <div class={`${prefix}-toolbar-item`} title={props.title} onClick={props.onClick}>
+        <div
+          class={`${prefix}-toolbar-item`}
+          title={props.title}
+          onClick={(e) => {
+            if (props.onClick instanceof Function) {
+              props.onClick(e);
+            } else {
+              ctx.emit('onClick', e);
+            }
+          }}
+        >
           {Trigger}
         </div>
       );

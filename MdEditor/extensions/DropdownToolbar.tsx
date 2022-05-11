@@ -37,7 +37,13 @@ export default defineComponent({
         <Dropdown
           relative={`#${editorId}-toolbar-wrapper`}
           visible={props.visible}
-          onChange={props.onChange}
+          onChange={(v) => {
+            if (props.onChange instanceof Function) {
+              props.onChange(v);
+            } else {
+              ctx.emit('onChange', v);
+            }
+          }}
           overlay={Overlay}
         >
           <div class={`${prefix}-toolbar-item`} title={props.title || ''}>
