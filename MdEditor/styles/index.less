@@ -336,3 +336,9 @@
 .@{prefix}-katex-block[data-processed] {
   display: block;
 }
+
+// 图片预览优先级高于编辑器，低于编辑器弹窗
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 100001;
+}
