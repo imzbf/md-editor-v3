@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "nuxt": "3.0.0-rc.3"
+  },
+  "dependencies": {
+    "md-editor-v3": "^2.0.0-beta.3"
+  }
+}
