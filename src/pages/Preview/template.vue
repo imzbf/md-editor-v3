@@ -7,6 +7,7 @@
         :language="store.state.lang"
         :theme="store.state.theme"
         :previewTheme="store.state.previewTheme"
+        :code-css-name="store.state.codeCssName"
         :toolbars="[
           'bold',
           'underline',

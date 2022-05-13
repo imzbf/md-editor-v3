@@ -17,6 +17,7 @@ export default defineComponent({
 
     const data = reactive({
       previewThemevisible: false,
+      codeThemevisible: false,
       previewThemes: [
         'default',
         'github',
@@ -24,6 +25,16 @@ export default defineComponent({
         'mk-cute',
         'smart-blue',
         'cyanosis'
+      ],
+      codeCssNames: [
+        'atom',
+        'a11y',
+        'github',
+        'gradient',
+        'kimbie',
+        'paraiso',
+        'qtcreator',
+        'stackoverflow'
       ]
     });
 
@@ -33,13 +44,15 @@ export default defineComponent({
             desc: 'Markdown编辑器Vue3版本，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等。',
             defaultTheme: '默认模式',
             darkTheme: '暗黑模式',
-            previewBtn: '切换预览主题'
+            previewBtn: '预览主题',
+            codeBtn: '代码主题'
           }
         : {
             desc: 'Markdown Editor for Vue3, developed by jsx and typescript, support different themes、beautify content by prettier.',
             defaultTheme: 'Default Theme',
             darkTheme: 'Dark Theme',
-            previewBtn: 'Preview Style'
+            previewBtn: 'Preview Style',
+            codeBtn: 'Code Style'
           };
     });
 
@@ -88,6 +101,33 @@ export default defineComponent({
               }}
             >
               <button class="btn btn-header">{texts.value.previewBtn}</button>
+            </Dropdown>
+            <Dropdown
+              placement="bottomCenter"
+              getPopupContainer={() => {
+                return document.querySelector('.docs-page') as HTMLElement;
+              }}
+              overlay={
+                <Menu theme={store.state.theme}>
+                  {data.codeCssNames.map((item) => {
+                    return (
+                      <Menu.Item
+                        onClick={() => {
+                          store.commit('changeCodeTheme', item);
+                        }}
+                      >
+                        {item}
+                      </Menu.Item>
+                    );
+                  })}
+                </Menu>
+              }
+              visible={data.codeThemevisible}
+              onVisibleChange={(visible) => {
+                data.codeThemevisible = visible;
+              }}
+            >
+              <button class="btn btn-header">{texts.value.codeBtn}</button>
             </Dropdown>
           </p>
         </section>

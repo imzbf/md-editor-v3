@@ -8,6 +8,8 @@ Markdown Editor for Vue3, developed by jsx and typescript, support different the
 
 > quote：hahaha
 
+![mark and Emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
+
 ## 🤗 Demo
 
 ```js
