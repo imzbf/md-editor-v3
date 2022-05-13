@@ -11,8 +11,8 @@ export interface TocItem {
   children?: Array<TocItem>;
 }
 
-const Catalog = defineComponent({
-  name: 'Catalog',
+const MdCatalog = defineComponent({
+  name: 'MdCatalog',
   props: {
     editorId: {
       type: String as PropType<string>
@@ -121,4 +121,4 @@ const Catalog = defineComponent({
   }
 });
 
-export default Catalog;
+export default MdCatalog;

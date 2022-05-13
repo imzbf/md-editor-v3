@@ -13,7 +13,7 @@ import { prefix, allToolbar } from './config';
 import { useKeyBoard, useProvide, useExpansion } from './composition';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
-import Catalog from './extensions/Catalog';
+import MdCatalog from './extensions/MdCatalog';
 import bus from './utils/event-bus';
 
 import {
@@ -453,7 +453,7 @@ const Editor = defineComponent({
             mermaidTemplate={extension?.editorConfig?.mermaidTemplate}
           />
           {catalogShow.value && (
-            <Catalog
+            <MdCatalog
               theme={props.theme}
               style={{
                 display: state.catalogVisible ? 'block' : 'none'

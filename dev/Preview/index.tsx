@@ -97,7 +97,7 @@ export default defineComponent({
             top: '170px'
           }}
         >
-          <Editor.Catalog editorId="md-prev" theme={props.theme} />
+          <Editor.MdCatalog editorId="md-prev" theme={props.theme} />
         </div>
         <div class="container">
           <Editor
