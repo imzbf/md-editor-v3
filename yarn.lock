@@ -1055,6 +1055,11 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
   integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
 
+"@types/marked@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.npmjs.org/@types/marked/-/marked-4.0.3.tgz#2098f4a77adaba9ce881c9e0b6baf29116e5acc4"
+  integrity sha512-HnMWQkLJEf/PnxZIfbm0yGJRRZYYMhb++O9M36UCTA9z53uPvVoSlAwJr3XOpDEryb7Hwl1qAx/MV6YIW1RXxg==
+
 "@types/node@16":
   version "16.11.34"
   resolved "https://registry.npmjs.org/@types/node/-/node-16.11.34.tgz#520224e4be4448c279ecad09639ab460cc441a50"
@@ -2402,10 +2407,12 @@ make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-md-editor-v3@^1.11.12:
-  version "1.11.12"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-1.11.12.tgz#95fe559442143680d9da914b0010a2da84a5db54"
-  integrity sha512-LWJ2VjbhYYIJu9tSuoDPgVNkaL9+FSo9bbU1/JlnkOoGwfqE9AFNka5igZ2wL4r3Psu/cjTGPHX/ljs5Rfaqrg==
+md-editor-v3@^2.0.0-beta.1:
+  version "2.0.0-beta.1"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.0.0-beta.1.tgz#ba373b56899ea4b1bc733fc78046239a03a92b7c"
+  integrity sha512-y/3rTlMNuOX+2svknAEqFPPNRx7ApW5UL7h85znu5CyrQlgQltawLwIgcaRI6X+D2oyzMZha52Jf3bL9T4V2iw==
+  dependencies:
+    "@types/marked" "^4.0.3"
 
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"

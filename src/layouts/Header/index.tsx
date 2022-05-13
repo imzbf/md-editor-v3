@@ -16,7 +16,15 @@ export default defineComponent({
     const store = useStore();
 
     const data = reactive({
-      previewThemevisible: false
+      previewThemevisible: false,
+      previewThemes: [
+        'default',
+        'github',
+        'vuepress',
+        'mk-cute',
+        'smart-blue',
+        'cyanosis'
+      ]
     });
 
     const texts = computed(() => {
@@ -25,19 +33,13 @@ export default defineComponent({
             desc: 'Markdown编辑器Vue3版本，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等。',
             defaultTheme: '默认模式',
             darkTheme: '暗黑模式',
-            previewBtn: '切换预览主题',
-            previewDefaultTheme: '默认主题',
-            previewVuepressTheme: 'Vuepress主题',
-            previewGithubTheme: 'Github主题'
+            previewBtn: '切换预览主题'
           }
         : {
             desc: 'Markdown Editor for Vue3, developed by jsx and typescript, support different themes、beautify content by prettier.',
             defaultTheme: 'Default Theme',
             darkTheme: 'Dark Theme',
-            previewBtn: 'Preview Style',
-            previewDefaultTheme: 'Default Style',
-            previewVuepressTheme: 'Vuepress Style',
-            previewGithubTheme: 'Github Style'
+            previewBtn: 'Preview Style'
           };
     });
 
@@ -63,31 +65,21 @@ export default defineComponent({
             <Dropdown
               placement="bottomCenter"
               getPopupContainer={() => {
-                return document.querySelector('.docs-page');
+                return document.querySelector('.docs-page') as HTMLElement;
               }}
               overlay={
                 <Menu theme={store.state.theme}>
-                  <Menu.Item
-                    onClick={() => {
-                      store.commit('changePreviewTheme', 'default');
-                    }}
-                  >
-                    {texts.value.previewDefaultTheme}
-                  </Menu.Item>
-                  <Menu.Item
-                    onClick={() => {
-                      store.commit('changePreviewTheme', 'github');
-                    }}
-                  >
-                    {texts.value.previewGithubTheme}
-                  </Menu.Item>
-                  <Menu.Item
-                    onClick={() => {
-                      store.commit('changePreviewTheme', 'vuepress');
-                    }}
-                  >
-                    {texts.value.previewVuepressTheme}
-                  </Menu.Item>
+                  {data.previewThemes.map((item) => {
+                    return (
+                      <Menu.Item
+                        onClick={() => {
+                          store.commit('changePreviewTheme', item);
+                        }}
+                      >
+                        {item}
+                      </Menu.Item>
+                    );
+                  })}
                 </Menu>
               }
               visible={data.previewThemevisible}

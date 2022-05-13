@@ -1,5 +1,5 @@
 import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
-import Editor, { HeadList } from 'md-editor-v3';
+import Editor from 'md-editor-v3';
 import { Theme } from '../../App';
 import mdEN from '../../../public/demo-en-US.md';
 import mdCN from '../../../public/demo-zh-CN.md';
