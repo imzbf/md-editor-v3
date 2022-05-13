@@ -108,7 +108,7 @@ mark and emoji extensions
 
 > After v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
-> After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to[docs]().
+> After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs).
 
 <details>
  <summary>[StaticTextDefaultValue]</summary>
@@ -410,6 +410,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
   - `onClick`: `(e: MouseEvent) => void`, necessary.
 
 - **slots**
+
   - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
 
 ### DropdownToolbar
@@ -426,6 +427,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
   - `onChange`: `(visible: boolean) => void`, necessary.
 
 - **slots**
+
   - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
   - `overlay`: `string | JSX.Element`, necessary, content of dropdown box.
 
@@ -450,6 +452,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
   - `onAdjust`：`(val: boolean) => void`, fullscreen button click event.
 
 - **slots**
+
   - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
   - `overlay`: `string | JSX.Element`, necessary, content of Modal.
 
@@ -458,6 +461,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
 `Editor.Catalog`
 
 - **props**
+
   - `editorId`: `string`, necessary, same as editor's `editorId`, used to register listening events.
   - `class`: `string`, not necessary.
   - `markedHeadingId`: `MarkedHeadingId`, not necessary, same as editor.

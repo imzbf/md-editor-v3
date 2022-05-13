@@ -109,7 +109,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 
 > 从 v1.6.0 开始，你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
 
-> 从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范），更多请参考[文档]()。
+> 从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范），更多请参考[文档](https://imzbf.github.io/md-editor-v3/docs)。
 
 <details>
  <summary>[StaticTextDefaultValue]</summary>
@@ -422,6 +422,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
   - `onClick`: `(e: MouseEvent) => void`，必须，点击事件。
 
 - **slots**
+
   - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
 
 ### 下拉扩展工具栏
@@ -438,6 +439,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
   - `onChange`: `(visible: boolean) => void`，必须，状态变化事件。
 
 - **slots**
+
   - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
   - `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
 
@@ -462,6 +464,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
   - `onAdjust`：`(val: boolean) => void`，弹窗全屏按钮点击事件。
 
 - **slots**
+
   - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
   - `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
 
@@ -470,6 +473,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 `Editor.Catalog`
 
 - **props**
+
   - `editorId`: `string`，必须，对应编辑器的`editorId`，在内部注册目录变化监听事件。
   - `class`: `string`，非必须，目录组件最外层类名。
   - `markedHeadingId`: `MarkedHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
