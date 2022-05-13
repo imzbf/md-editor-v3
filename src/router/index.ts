@@ -19,25 +19,25 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'index',
         name: 'IndexPage',
-        component: () => import('@/pages/Preview/template.vue'),
+        component: () => import('@/pages/Preview/index.vue'),
         meta: { title: `${SITE_TITLE_PREFIX} 编辑器展示` }
       },
       {
         path: 'docs',
         name: 'DocsPage',
-        component: () => import('@/pages/Doc'),
+        component: () => import('@/pages/Doc/index.vue'),
         meta: { title: `${SITE_TITLE_PREFIX} 文档` }
       },
       {
         path: 'demo',
         name: 'DemoPage',
-        component: () => import('@/pages/Demo'),
+        component: () => import('@/pages/Demo/index.vue'),
         meta: { title: `${SITE_TITLE_PREFIX} 代码演示` }
       },
       {
         path: 'about',
         name: 'AboutPage',
-        component: () => import('@/pages/About'),
+        component: () => import('@/pages/About/index.vue'),
         meta: { title: `${SITE_TITLE_PREFIX} 关于` }
       },
       {

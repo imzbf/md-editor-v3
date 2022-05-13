@@ -1,7 +1,7 @@
 <template>
   <div class="project-preview">
     <div class="container">
-      <Editor
+      <md-editor-v3
         editorId="md-prev"
         v-model="data.text"
         :language="store.state.lang"
@@ -47,14 +47,14 @@
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
-          <Editor.NormalToolbar title="mark" @click="markHandler">
+          <normal-toolbar title="mark" @click="markHandler">
             <template #trigger>
               <svg class="md-icon" aria-hidden="true">
                 <use xlink:href="#icon-mark"></use>
               </svg>
             </template>
-          </Editor.NormalToolbar>
-          <Editor.DropdownToolbar
+          </normal-toolbar>
+          <dropdown-toolbar
             title="emoji"
             :visible="data.emojiVisible"
             :onChange="emojiVisibleChanged"
@@ -76,19 +76,18 @@
                 <use xlink:href="#icon-emoji"></use>
               </svg>
             </template>
-          </Editor.DropdownToolbar>
+          </dropdown-toolbar>
         </template>
-      </Editor>
+      </md-editor-v3>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
-import Editor from 'md-editor-v3';
 import mdEN from '../../../public/preview-en-US.md';
 import mdCN from '../../../public/preview-zh-CN.md';
-import axios from '../..//utils/request';
+import axios from '../../utils/request';
 import './index.less';
 import { useStore } from 'vuex';
 

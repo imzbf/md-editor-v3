@@ -1,17 +1,9 @@
-import { computed, defineComponent, PropType, reactive } from 'vue';
+import { computed, defineComponent, reactive } from 'vue';
 import './index.less';
-import { Theme } from '../../App';
 import Navigation from '../Navigation';
 import { useStore } from 'vuex';
 import { Dropdown, Menu } from 'ant-design-vue';
 export default defineComponent({
-  props: {
-    theme: String as PropType<Theme>,
-    onChange: {
-      type: Function as PropType<(v: Theme) => void>,
-      default: () => {}
-    }
-  },
   setup() {
     const store = useStore();
 
@@ -76,7 +68,7 @@ export default defineComponent({
               {texts.value.darkTheme}
             </button>
             <Dropdown
-              placement="bottomCenter"
+              placement="bottom"
               getPopupContainer={() => {
                 return document.querySelector('.docs-page') as HTMLElement;
               }}
@@ -103,7 +95,7 @@ export default defineComponent({
               <button class="btn btn-header">{texts.value.previewBtn}</button>
             </Dropdown>
             <Dropdown
-              placement="bottomCenter"
+              placement="bottom"
               getPopupContainer={() => {
                 return document.querySelector('.docs-page') as HTMLElement;
               }}

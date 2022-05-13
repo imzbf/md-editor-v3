@@ -17,7 +17,7 @@ export default defineComponent({
             about: '关于',
             lang: 'English',
             langIcon: '#icon-d-en',
-            to2: '1.x迁移'
+            to2: '升级至2.x'
           }
         : {
             home: 'Home',
@@ -27,7 +27,7 @@ export default defineComponent({
             about: 'About',
             lang: '中文',
             langIcon: '#icon-d-cn',
-            to2: 'To2.x'
+            to2: 'upgrade 2.x'
           };
     });
 
