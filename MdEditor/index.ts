@@ -30,6 +30,7 @@ export default Editor as typeof Editor & {
   readonly Catalog: typeof Catalog;
   readonly ModalToolbar: typeof ModalToolbar;
   readonly config: typeof configFn;
+  install: (app: App) => App;
 };
 
 export * from './type';
