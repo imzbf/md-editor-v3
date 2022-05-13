@@ -21,9 +21,9 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - Multi-language, build-in Chinese and English(default: Chinese).
 - Upload picture, paste or clip the picture and upload it.
 - Render article directly(no editor, no event listener, only preview content).
-- Preview themes, support `defalut`、`vuepress`、`github` styles(not identical).
-- `mermaid`(>=1.8.0).
-- `katex` mathematical formula（>=1.9.0）.
+- Preview themes, `defalut`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Get the demo page).
+- `mermaid`(>=1.8.0), `katex` mathematical formula(>=1.9.0).
+- Customize the toolbar as you like.
 
 ## Preview
 
@@ -31,57 +31,43 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 | --- | --- | --- |
 | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-light.png) | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-dark.png) | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-previewOnly.png) |
 
+mark and emoji extensions
+
+![mark and emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
+
 ## Apis
 
 ### Props
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| modelValue | String | '' | Markdown content, use `v-model` in vue template |
-| theme | 'light' \| 'dark' | 'light' | Change editor theme |
-| editorClass | String | '' |  |
-| hljs | Object | null | `Highlight` instance, editor will not insert script of it, but you need to import `highlight` code style by yourself |
-| highlightJs | String | [highlight.js@11.2.0](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js) | HighlightJs url |
-| highlightCss | String | [atom-one-dark@11.2.0](https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css) | `Highlight` code style |
-| historyLength | Number | 10 | The max length of history(if it is too big, editor will use more `RAM`) |
-| pageFullScreen | Boolean | false | Screenfull in web page |
-| preview | Boolean | true | Preview content in editor |
-| htmlPreview | Boolean | false | Preview html in editor |
-| previewOnly | Boolean | false | Only render article content, no toolbar, no edit area |
-| language | String | 'zh-CN' | Build-in language('zh-CN','en-US') |
-| languageUserDefined | Object | {key: StaticTextDefaultValue} | Expand language, update `language` api to your key |
+| modelValue | string | '' | Markdown content, use `v-model` in vue template |
+| theme | 'light' \| 'dark' | 'light' | Editor theme |
+| class | string | '' |  |
+| historyLength | number | 10 | The max length of history(if it is too big, editor will use more `RAM`) |
+| pageFullScreen | boolean | false | Screenfull in web page |
+| preview | boolean | true | Preview content in editor |
+| htmlPreview | boolean | false | Preview html in editor |
+| previewOnly | boolean | false | Only render article content, no toolbar, no edit area |
+| language | string | 'zh-CN' | Build-in language('zh-CN','en-US') |
 | toolbars | Array | [toolbars] | Show some item of toolbars, all keys<sup>see `toolbars` below</sup> |
 | toolbarsExclude | Array | [] | Don't show some item of toolbars, all keys`toolbars` |
-| prettier | Boolean | true | Use prettier to beautify content or not |
-| prettierCDN | String | [standalone@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/standalone.js) |  |
-| prettierMDCDN | String | [parser-markdown@2.4.0](https://cdn.jsdelivr.net/npm/prettier@2.4.0/parser-markdown.js) |  |
-| cropperCss | String | [cropper.min.css@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css) | Cropper css url |
-| cropperJs | String | [cropper.min.js@1.5.12](https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js) | Cropper js url |
-| iconfontJs | String | [iconfont](https://at.alicdn.com/t/font_2605852_khjf435c7th.js) | Icon url |
-| editorId | String | md-editor-v3 | Editor's id, the html's id also, it is used when there are more than two editors in the same page. |
-| tabWidth | Number | 2 | One tab eq some spaces |
-| showCodeRowNumber | Boolean | false | Show row number for code block or not |
-| screenfull | Object | null | Screenfull instance, editor will not insert script of it |
-| screenfullJs | String | [screenfull@5.1.0](https://cdn.jsdelivr.net/npm/screenfull@5.1.0/dist/screenfull.js) | Screenfull js url |
-| previewTheme | 'default' \| 'github' \| 'vuepress' | 'default' | Preview themes |
-| style | CSSProperties | {} | Editor's inline style |
-| tableShape | [Number, Number] | [6, 4] | Preset the size of the table, [columns, rows]. |
-| mermaid | Object | undefined | `mermaid` instance |
-| mermaidJs | String | [mermaid@8.13.5](https://cdn.jsdelivr.net/npm/mermaid@8.13.5/dist/mermaid.min.js) | MermaidJs url |
-| noMermaid | Boolean | false | Do not use mermaid |
-| placeholder | String | '' |  |
-| katex | Object | undefined | `katex` instance(You need import css by yourself) |
-| katexJs | String | [katex.min.js@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js) | KatexJs url |
-| katexCss | String | [katex.min.css@0.15.1](https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css) | KatexCss url |
-| noKatex | Boolean | false | Do not use katex |
-| defToolbars | Array<DropdownToolbar \| NormalToolbar> | null | Customize Toolbar, for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars) and [emoji](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
-| extensions | Array | [] | [marked](https://marked.js.org/using_pro#extensions) extensions |
+| noPrettier | boolean | false | Use prettier to beautify content or not |
+| editorId | string | md-editor-v3 | Editor id, it is used when there are more than two editors in the same page. |
+| tabWidth | number | 2 | One tab eq some spaces |
+| showCodeRowNumber | boolean | false | Show row number for code block or not |
+| previewTheme | 'default' \| 'github' \| 'vuepress' \| 'mk-cute' \| 'smart-blue' \| 'cyanosis' | 'default' | Preview theme, can be customized |
+| style | string \| CSSProperties | {} | Editor inline style |
+| tableShape | [number, number] | [6, 4] | Preset the size of the table, [columns, rows] |
+| noMermaid | boolean | false | Use mermaid or not |
+| placeholder | string | '' |  |
+| noKatex | boolean | false | Use katex or not |
+| codeCssName | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | [Highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles) code style, can be customized also |
+| markedHeadingId | (text: string, level: number) => string | (text) => text | H1-H6 `ID` generator |
+| sanitize | (html: string) => string | (html) => html | Sanitize the html, prevent XSS |
 
-mark and emoji extensions
-
-![mark and Emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
-
-[toolbars]
+<details>
+ <summary>[toolbars]</summary>
 
 ```js
 [
@@ -118,13 +104,16 @@ mark and emoji extensions
 ];
 ```
 
+</details>
+
 > After v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
 > After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to[docs]().
 
-Expand language, you need to replace all the content here：
+<details>
+ <summary>[StaticTextDefaultValue]</summary>
 
-[StaticTextDefaultValue]
+Expand language, you need to replace all the content here：
 
 ```ts
 export interface ToolbarTips {
@@ -217,101 +206,280 @@ export interface StaticTextDefaultValue {
 }
 ```
 
-### Event
+</details>
 
-| name | params | usage | description |
+### Slots
+
+| name | type | default | description |
 | --- | --- | --- | --- |
-| onChange | v:string | @onChange="xxx" | Content changed event(bind to `oninput` of `textarea`) |
-| onSave | v:string | @onSave="xxx" | Save content event, `ctrl+s`and click button will trigger |
-| onUploadImg | files:Array<File>, callback:Function | @onUploadImg="xxx" | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
-| onHtmlChanged | h:string | @onHtmlChanged="xxx" | Compile markdown successful event, you can use it to get the html code |
-| onGetCatalog | list: HeadList[] | @onGetCatalog="xxx" | Get catalogue of article |
-| markedHeading | text: string,level: 1-6,raw: string, slugger: Slugger | :marked-heading="xxx" | `marked` head renderer methods |
-| markedHeadingId | (text: string, level: number) => string | :marked-heading-id="xxx" | title `ID` generator |
-| sanitize | (html: string) => string | :sanitize="xxx" | Sanitize the html, prevent XSS |
-| markedImage | (href: string, title: string, desc: string) => string | :marked-image="xxx" | Overrides the html element structure of the default generated picture |
+| defToolbars | Array<DropdownToolbar \| NormalToolbar \| ModalToolbar> | null | Customize Toolbar, for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars) and [emoji](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
 
-> If `markedHeading` is overridden, be sure to tell the editor the algorithm for generating the title ID by `marketheadingid`.
+`NormalToolbar` component example：
 
-### Shortcut key
+```js
+<template>
+  <md-editor>
+    <template #defToolbars>
+      <normal-toolbar title="mark" @click="handler">
+        <template #trigger>
+          <svg class="md-icon" aria-hidden="true">
+            <use xlink:href="#icon-mark"></use>
+          </svg>
+        </template>
+      </normal-toolbar>
+    </template>
+  </md-editor>
+</template>
+<script setup>
+import MdEditor from 'md-editor-v3';
 
-| key | function | description | support |
-| --- | --- | --- | --- |
-| TAB | insert space | Insert space, the length eq `tabWidth`, default: 2, support multiline | v1.4.0 |
-| SHIFT + TAB | delete space, setting is the same as Tab |  | v1.4.0 |
-| CTRL + C | copy | When selected, copy the selected content. When not selected, copy the content of the current line | v1.4.0 |
-| CTRL + X | shear | When selected, cut the selected content. When not selected, cut the current line | v1.4.0 |
-| CTRL + D | delete | When selected, delete the selected content. When not selected, delete the current line | v1.4.0 |
-| CTRL + S | save | Trigger `onSave` event | v1.0.0 |
-| CTRL + B | bold text | `**bold**` | v1.0.0 |
-| CTRL + U | underline | `<u>underline</u>` | v1.0.0 |
-| CTRL + I | italic | `*italic*` | v1.0.0 |
-| CTRL + 1-6 | h1-h6 | `# title` | v1.0.0 |
-| CTRL + ↑ | superscript | `<sup>superscript</sup>` | v1.0.0 |
-| CTRL + ↓ | subscript | `<sub>subscript</sub>` | v1.0.0 |
-| CTRL + Q | quote | `> quote` | v1.0.0 |
-| CTRL + O | ordered list | `1. ordered list` | v1.0.0 |
-| CTRL + L | link | `[link](https://github.com/imzbf/md-editor-v3)` | v1.0.0 |
-| CTRL + Z | withdraw | Withdraw history in editor, not the function of system | v1.0.0 |
-| CTRL + SHIFT + S | line-through | `~line-through~` | v1.0.0 |
-| CTRL + SHIFT + U | unordered list | `- unordered list` | v1.0.0 |
-| CTRL + SHIFT + C | code block |  | v1.0.0 |
-| CTRL + SHIFT + I | picture | `![picture](https://imbf.cc)` | v1.0.0 |
-| CTRL + SHIFT + Z | forward | Forward history in editor, not the function of system | v1.0.0 |
-| CTRL + SHIFT + F | Beautify |  | v1.0.0 |
-| CTRL + ALT + C | code row |  | v1.0.0 |
-| CTRL + SHIFT + ALT + T | table | `\|table\|` | v1.4.0 |
+const NormalToolbar = MdEditor.NormalToolbar;
 
-## Internal components
+const handler = () => { console.log('NormalToolbar clicked!') }
+</script>
+```
 
-Before 1.x, they are used as attributes of the editor component, eg: `Editor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
+### Events
+
+| name | param | description |
+| --- | --- | --- |
+| onChange | v:string | Content changed event(bind to `oninput` of `textarea`) |
+| onSave | v:string | Save content event, `ctrl+s`and click button will be triggered also |
+| onUploadImg | files:Array<File>, callback:Function | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
+| onHtmlChanged | h:string | Compile markdown successful event, you can use it to get the html code |
+| onGetCatalog | list: HeadList[] | Get catalogue of article |
+
+## Config
+
+Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
+
+- markedRenderer: `(renderer: Renderer) => Renderer`, 🌰(Open target page in a new browser window)：
+
+  ```js
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.link = (href, title, text) => {
+        return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
+      };
+
+      return renderer;
+    }
+  });
+  ```
+
+  > Reference: https://marked.js.org/using_pro#renderer
+
+- markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedExtensions: [your extension]
+  });
+  ```
+
+  > Reference: https://marked.js.org/using_pro#extensions
+
+- markedOptions: `marked.MarkedOptions`, 🌰(do not render `<br>` on a single line break)：
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedOptions: { breaks: false }
+  });
+  ```
+
+  > Reference: https://marked.js.org/using_advanced#options
+
+- editorConfig: Add more languages，reset `mermaid` template:
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedOptions: {
+      languageUserDefined: { 'lang': StaticTextDefaultValue };
+      mermaidTemplate: {
+        flow: `flow tempalte`;
+        ...more
+      };
+    }
+  });
+  ```
+
+- editorExtensions: Config some dependency libraries, like highlight..
+
+  ```typescript
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    editorExtensions: { iconfont: 'https://xxx.cc' }
+  });
+  ```
+
+  <details>
+    <summary>[EditorExtensions]</summary>
+
+  ```ts
+  import MdEditor from 'md-editor-v3';
+
+  interface EditorExtensions {
+    highlight?: {
+      instance?: any;
+      js?: string;
+      css?: {
+        [key: string]: {
+          light: string;
+          dark: string;
+        };
+      };
+    };
+    prettier?: {
+      standaloneJs?: string;
+      parserMarkdownJs?: string;
+    };
+    cropper?: {
+      instance?: any;
+      js?: string;
+      css?: string;
+    };
+    iconfont?: string;
+    screenfull?: {
+      instance?: any;
+      js?: string;
+    };
+    mermaid?: {
+      instance?: any;
+      js?: string;
+    };
+    katex?: {
+      instance?: any;
+      js?: string;
+      css?: string;
+    };
+  }
+  ```
+
+  </details>
+
+## Shortcut key
+
+| key | function | description |
+| --- | --- | --- |
+| TAB | insert space | Insert space, the length eq `tabWidth`, default: 2, support multiline |
+| SHIFT + TAB | delete space, setting is the same as Tab |  |
+| CTRL + C | copy | When selected, copy the selected content. When not selected, copy the content of the current line |
+| CTRL + X | shear | When selected, cut the selected content. When not selected, cut the current line |
+| CTRL + D | delete | When selected, delete the selected content. When not selected, delete the current line |
+| CTRL + S | save | Trigger `onSave` event |
+| CTRL + B | bold text | `**bold**` |
+| CTRL + U | underline | `<u>underline</u>` |
+| CTRL + I | italic | `*italic*` |
+| CTRL + 1-6 | h1-h6 | `# title` |
+| CTRL + ↑ | superscript | `<sup>superscript</sup>` |
+| CTRL + ↓ | subscript | `<sub>subscript</sub>` |
+| CTRL + Q | quote | `> quote` |
+| CTRL + O | ordered list | `1. ordered list` |
+| CTRL + L | link | `[link](https://github.com/imzbf/md-editor-v3)` |
+| CTRL + Z | withdraw | Withdraw history in editor, not the function of system |
+| CTRL + SHIFT + S | line-through | `~line-through~` |
+| CTRL + SHIFT + U | unordered list | `- unordered list` |
+| CTRL + SHIFT + C | code block |  |
+| CTRL + SHIFT + I | picture | `![picture](https://imbf.cc)` |
+| CTRL + SHIFT + Z | forward | Forward history in editor, not the function of system |
+| CTRL + SHIFT + F | Beautify |  |
+| CTRL + ALT + C | code row |  |
+| CTRL + SHIFT + ALT + T | table | `\|table\|` |
+
+## Components
+
+They are used as attributes of the editor component, eg: `Editor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
 
 ### NormalToolbar
 
 `Editor.NormalToolbar`
 
-- `title`: `string`, not necessary, the tips when hover toolbar;
-- `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar;
-- `onClick`: `(e: MouseEvent) => void`, necessary.
+- **props**
+
+  - `title`: `string`, not necessary, title of toolbar.
+
+- **events**
+
+  - `onClick`: `(e: MouseEvent) => void`, necessary.
+
+- **slots**
+  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
 
 ### DropdownToolbar
 
 `Editor.DropdownToolbar`
 
-- `title`: `string`, not necessary, the tips when hover toolbar;
-- `visible`: `boolean`, necessary;
-- `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar;
-- `onChange`: `(visible: boolean) => void`, necessary;
-- `overlay`: `string | JSX.Element`, necessary, contents in the drop-down box.
+- **props**
+
+  - `title`: `string`, not necessary, title of toolbar.
+  - `visible`: `boolean`, necessary.
+
+- **events**
+
+  - `onChange`: `(visible: boolean) => void`, necessary.
+
+- **slots**
+  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `overlay`: `string | JSX.Element`, necessary, content of dropdown box.
+
+### ModalToolbar
+
+`Editor.ModalToolbar`
+
+- **props**
+
+  - `title`: `string`, not necessary, title of toolbar.
+  - `modalTitle`: `string`, not necessary, title of the Modal.
+  - `visible`: `boolean`, necessary, visibility of Modal.
+  - `width`: `string`, not necessary, width of Modal, default `auto`.
+  - `height`：`string`, same as `width`.
+  - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
+  - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
+
+- **events**
+
+  - `onClick`: `() => void`, necessary.
+  - `onClose`：`() => void`, necessary, close event.
+  - `onAdjust`：`(val: boolean) => void`, fullscreen button click event.
+
+- **slots**
+  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `overlay`: `string | JSX.Element`, necessary, content of Modal.
 
 ### Catalogue
 
 `Editor.Catalog`
 
-- `editorId`: `string`, necessary, editor's `editorId`, used to register listening events;
-- `class`: `string`, not necessary;
-- `markedHeadingId`: `MarkedHeadingId`, not necessary, same as editor;
-- `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
-- `theme`: 'light' | 'dark', not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
+- **props**
+  - `editorId`: `string`, necessary, same as editor's `editorId`, used to register listening events.
+  - `class`: `string`, not necessary.
+  - `markedHeadingId`: `MarkedHeadingId`, not necessary, same as editor.
+  - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
+  - `theme`: `'light' | 'dark'`, not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
 
-## Some examples
+## Examples
 
 ### Jsx module
 
 ```js
 import { defineComponent, reactive } from 'vue';
-import Editor from 'md-editor-v3';
+import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-dark.css';
 
 export default defineComponent({
   setup() {
     const md = reactive({
-      text: 'default markdown content'
+      text: '# Hello Editor'
     });
     return () => (
-      <Editor hljs={hljs} modelValue={md.text} onChange={(value) => (md.text = value)} />
+      <MdEditor modelValue={md.text} onChange={(value) => (md.text = value)} />
     );
   }
 });
@@ -321,25 +489,16 @@ export default defineComponent({
 
 ```js
 <template>
-  <editor v-model="text" pageFullScreen></editor>
+  <md-editor v-model="text" pageFullScreen></md-editor>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-import Editor from 'md-editor-v3';
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  name: 'VueTemplateDemo',
-  components: { Editor },
-  data() {
-    return {
-      text: '# md-editor-v3'
-    };
-  }
-});
+const text = ref('# Hello Editor')
 </script>
-
 ```
 
 ### Upload picture
