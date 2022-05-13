@@ -135,7 +135,7 @@ export default defineComponent({
       <Modal
         title={ult.value.clipModalTips?.title}
         visible={props.visible}
-        onClosed={props.onCancel}
+        onClose={props.onCancel}
         showAdjust
         isFullscreen={data.isFullscreen}
         onAdjust={(val) => {
