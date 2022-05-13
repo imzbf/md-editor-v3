@@ -27,7 +27,7 @@ export default defineComponent({
             about: 'About',
             lang: '中文',
             langIcon: '#icon-d-cn',
-            to2: 'upgrade 2.x'
+            to2: 'Upgrade 2.x'
           };
     });
 

@@ -20,9 +20,9 @@ import mdEN from '../../../public/about-en-US.md';
 import mdCN from '../../../public/about-zh-CN.md';
 import { replaceVersion } from '@/utils';
 import { useStore } from 'vuex';
-
-const mdText = ref(replaceVersion(mdEN));
 const store = useStore();
+
+const mdText = ref(replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN));
 
 const queryMd = () => {
   mdText.value = replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN);

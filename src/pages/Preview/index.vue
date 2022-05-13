@@ -90,17 +90,15 @@ import mdCN from '../../../public/preview-zh-CN.md';
 import axios from '../../utils/request';
 import './index.less';
 import { useStore } from 'vuex';
-
 import { emojis } from './data';
-
 import MarkExtension from '../../utils/marked-mark';
 
+const store = useStore();
+
 const data = reactive({
-  text: mdEN,
+  text: store.state.lang === 'zh-CN' ? mdCN : mdEN,
   emojiVisible: false
 });
-
-const store = useStore();
 
 watch(
   () => store.state.lang,

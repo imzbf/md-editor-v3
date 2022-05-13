@@ -29,7 +29,7 @@ import mdCN from '../../../public/contrast-zh-CN.md';
 
 const store = useStore();
 
-const mdText = ref(replaceVersion(mdEN));
+const mdText = ref(replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN));
 
 const queryMd = () => {
   mdText.value = replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN);

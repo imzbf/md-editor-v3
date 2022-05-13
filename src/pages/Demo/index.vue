@@ -5,9 +5,9 @@ import mdCN from '../../../public/demo-zh-CN.md';
 import { Affix as AtAffix } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { replaceVersion } from '@/utils';
-
-const mdText = ref(replaceVersion(mdEN));
 const store = useStore();
+
+const mdText = ref(replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN));
 
 const queryMd = () => {
   mdText.value = replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN);
