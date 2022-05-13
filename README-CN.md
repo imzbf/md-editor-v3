@@ -470,7 +470,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 
 ### 目录导航
 
-`Editor.Catalog`
+`Editor.MdCatalog`
 
 - **props**
 
