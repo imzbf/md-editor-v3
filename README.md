@@ -247,7 +247,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 | onSave | v:string | Save content event, `ctrl+s`and click button will be triggered also |
 | onUploadImg | files:Array<File>, callback:Function | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
 | onHtmlChanged | h:string | Compile markdown successful event, you can use it to get the html code |
-| onGetCatalog | list: HeadList[] | Get catalogue of article |
+| onGetCatalog | list: HeadList[] | Get catalog of article |
 
 ## Config
 
@@ -456,9 +456,9 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
   - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
   - `overlay`: `string | JSX.Element`, necessary, content of Modal.
 
-### Catalogue
+### Catalog
 
-`Editor.Catalog`
+`Editor.MdCatalog`
 
 - **props**
 
