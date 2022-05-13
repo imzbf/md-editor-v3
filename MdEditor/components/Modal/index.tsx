@@ -14,14 +14,6 @@ import { getSlot } from '../../utils/vue-tsx';
 import { keyMove } from '../../utils/dom';
 import './style.less';
 
-export type ModalProps = Readonly<{
-  title?: string;
-  visible?: boolean;
-  width?: number;
-  onClosed?: (visible: boolean) => void;
-  to?: HTMLElement;
-}>;
-
 export default defineComponent({
   props: {
     title: {
@@ -40,7 +32,7 @@ export default defineComponent({
       type: String as PropType<string>,
       default: 'auto'
     },
-    onClosed: {
+    onClose: {
       type: Function as PropType<() => void>,
       default: () => () => {}
     },
@@ -156,7 +148,7 @@ export default defineComponent({
 
       return (
         <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
-          <div class={`${prefix}-modal-mask`} onClick={props.onClosed} />
+          <div class={`${prefix}-modal-mask`} onClick={props.onClose} />
           <div
             class={modalClass.value}
             style={{
@@ -201,7 +193,7 @@ export default defineComponent({
                 class={`${prefix}-modal-close`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  props.onClosed && props.onClosed();
+                  props.onClose && props.onClose();
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">

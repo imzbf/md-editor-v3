@@ -69,7 +69,7 @@ export default defineComponent({
     );
 
     return () => (
-      <Modal title={title.value} visible={props.visible} onClosed={props.onCancel}>
+      <Modal title={title.value} visible={props.visible} onClose={props.onCancel}>
         <div class={`${prefix}-form-item`}>
           <label class={`${prefix}-lable`} for={`link-desc-${editorId}`}>
             {ult.value.linkModalTips?.descLable}

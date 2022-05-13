@@ -33,7 +33,7 @@ export default defineComponent({
       type: Function as PropType<() => void>,
       default: () => () => {}
     },
-    onClosed: {
+    onClose: {
       type: Function as PropType<() => void>,
       default: () => () => {}
     },
@@ -78,11 +78,11 @@ export default defineComponent({
             height={props.height}
             title={props.modalTitle}
             visible={props.visible}
-            onClosed={() => {
-              if (props.onClosed instanceof Function) {
-                props.onClosed();
+            onClose={() => {
+              if (props.onClose instanceof Function) {
+                props.onClose();
               } else {
-                ctx.emit('onClosed');
+                ctx.emit('onClose');
               }
             }}
             showAdjust={props.showAdjust}

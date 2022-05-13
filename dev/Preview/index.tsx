@@ -216,7 +216,7 @@ export default defineComponent({
                   onClick={() => {
                     md.modalVisible = true;
                   }}
-                  onClosed={() => {
+                  onClose={() => {
                     md.modalVisible = false;
                   }}
                 >
