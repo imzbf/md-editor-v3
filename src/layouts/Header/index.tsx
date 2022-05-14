@@ -3,6 +3,9 @@ import './index.less';
 import Navigation from '../Navigation';
 import { useStore } from 'vuex';
 import { Dropdown, Menu } from 'ant-design-vue';
+
+import { version } from '../../../package.json';
+
 export default defineComponent({
   setup() {
     const store = useStore();
@@ -51,7 +54,9 @@ export default defineComponent({
     return () => (
       <header class="page-header">
         <section class="container">
-          <h1 class="project-name">md-editor-v3</h1>
+          <h1 class="project-name">
+            md-editor-v3<sup>@{version}</sup>
+          </h1>
           <p class="project-desc">{texts.value.desc}</p>
           <Navigation />
           <p class="header-actions">
