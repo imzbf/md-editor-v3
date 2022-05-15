@@ -6,7 +6,8 @@ import {
   watch,
   onBeforeUnmount,
   CSSProperties,
-  computed
+  computed,
+  SetupContext
 } from 'vue';
 
 import {
@@ -274,7 +275,8 @@ const props = {
 export default defineComponent({
   name: 'MdEditorV3',
   props,
-  setup(props, context) {
+  emits: ['onChange', 'onSave', 'onUploadImg', 'onHtmlChanged', 'onGetCatalog'],
+  setup(props, context: SetupContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
     // eslint-disable-next-line vue/no-setup-props-destructure
     const { editorId } = props;
