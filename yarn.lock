@@ -2407,10 +2407,10 @@ make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-md-editor-v3@^2.0.0-beta.5:
-  version "2.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/md-editor-v3/-/md-editor-v3-2.0.0-beta.5.tgz#5ec1a0c30b477dc39a75328d1e36456118d0115b"
-  integrity sha512-WYfK20TaDTZuoVWoazXbRFt00OHscvImaBIzS/ZtAC9seyvhiD9A9vsJz+H41Jjj+ojqADv4Kuhg5559ndeGNg==
+md-editor-v3@^2.0.0-beta.6:
+  version "2.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/md-editor-v3/-/md-editor-v3-2.0.0-beta.6.tgz#4f3fb420cf11130c1a7e038eb8a57cdbb49ee259"
+  integrity sha512-HskwQAqh7Mc5JI5lI11l3YuoF8104IZZ8h78cKfTFR/mJT1THpXeJPcIEu4TRFHLH7tTFkSuWRZpUgNZ8Jrj/A==
   dependencies:
     "@types/marked" "^4.0.3"
 
