@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, SetupContext } from 'vue';
 import { prefix } from './config';
 import { getSlot } from './utils/vue-tsx';
 
@@ -14,16 +14,26 @@ export default defineComponent({
       type: [String, Object] as PropType<string | JSX.Element>
     },
     onClick: {
-      type: Function as PropType<(e: MouseEvent) => void>,
-      default: () => () => {}
+      type: Function as PropType<(e: MouseEvent) => void>
     }
   },
-  setup(props, ctx) {
+  emits: ['onClick'],
+  setup(props, ctx: SetupContext) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
 
       return (
-        <div class={`${prefix}-toolbar-item`} title={props.title} onClick={props.onClick}>
+        <div
+          class={`${prefix}-toolbar-item`}
+          title={props.title}
+          onClick={(e) => {
+            if (props.onClick instanceof Function) {
+              props.onClick(e);
+            } else {
+              ctx.emit('onClick', e);
+            }
+          }}
+        >
           {Trigger}
         </div>
       );
