@@ -6,26 +6,24 @@ Markdown 编辑器，基于 react，使用 jsx 和 typescript 语法开发，支
 
 **加粗**，<u>下划线</u>，_斜体_，~删除线~，上标<sup>26</sup>，下标<sub>[1]</sub>，`inline code`，[超链接](https://imbf.cc)
 
-> 引用：世界上没有绝对，只有相对
+> 引用：这是一段引用。
 
 ![mark and Emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
 ## 🤗 代码演示
 
-```js
-import { defineComponent, ref } from 'vue';
+```vue
+<template>
+  <md-editor v-model="text" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  name: 'MdEditor',
-  setup() {
-    const text = ref('');
-    return () => (
-      <MdEditor modelValue={text.value} onChange={(v: string) => (text.value = v)} />
-    );
-  }
-});
+const text = ref('Hello Editor!');
+</script>
 ```
 
 ## 🖨 文本演示

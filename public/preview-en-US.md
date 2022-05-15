@@ -12,20 +12,18 @@ Markdown Editor for Vue3, developed by jsx and typescript, support different the
 
 ## 🤗 Demo
 
-```js
-import { defineComponent, ref } from 'vue';
+```vue
+<template>
+  <md-editor v-model="text" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  name: 'MdEditor',
-  setup() {
-    const text = ref('');
-    return () => (
-      <MdEditor modelValue={text.value} onChange={(v: string) => (text.value = v)} />
-    );
-  }
-});
+const text = ref('Hello Editor!');
+</script>
 ```
 
 ## 🖨 Text
