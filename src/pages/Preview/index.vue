@@ -92,6 +92,9 @@
             <div style="height: 100%; padding: 20px; overflow: auto">
               <md-editor-v3
                 :theme="store.state.theme"
+                :language="store.state.lang"
+                :previewTheme="store.state.previewTheme"
+                :code-css-name="store.state.codeCssName"
                 editor-id="edit2preview"
                 preview-only
                 :modelValue="data.text"
