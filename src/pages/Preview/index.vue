@@ -30,6 +30,7 @@
           'katex',
           0,
           1,
+          2,
           '-',
           'revoke',
           'next',
@@ -77,6 +78,32 @@
               </svg>
             </template>
           </dropdown-toolbar>
+          <modal-toolbar
+            :visible="data.modalVisible"
+            show-adjust
+            :is-fullscreen="data.modalFullscreen"
+            title="帮助"
+            modal-title="编辑预览"
+            width="870px"
+            height="600px"
+            @onClick="data.modalVisible = true"
+            @onClose="data.modalVisible = false"
+            @onAdjust="data.modalFullscreen = !data.modalFullscreen"
+          >
+            <div style="height: 100%; padding: 20px; overflow: auto">
+              <md-editor-v3
+                :theme="store.state.theme"
+                editor-id="edit2preview"
+                preview-only
+                :modelValue="data.text"
+              />
+            </div>
+            <template #trigger>
+              <svg class="md-icon" aria-hidden="true">
+                <use xlink:href="#icon-read"></use>
+              </svg>
+            </template>
+          </modal-toolbar>
         </template>
       </md-editor-v3>
     </div>
@@ -97,7 +124,9 @@ const store = useStore();
 
 const data = reactive({
   text: store.state.lang === 'zh-CN' ? mdCN : mdEN,
-  emojiVisible: false
+  emojiVisible: false,
+  modalVisible: false,
+  modalFullscreen: false
 });
 
 watch(
