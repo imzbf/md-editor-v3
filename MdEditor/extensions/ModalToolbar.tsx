@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, SetupContext } from 'vue';
 import { prefix } from '../config';
 import { getSlot } from '../utils/vue-tsx';
 import Modal from '../components/Modal';
@@ -30,12 +30,10 @@ export default defineComponent({
       type: [String, Object] as PropType<string | JSX.Element>
     },
     onClick: {
-      type: Function as PropType<() => void>,
-      default: () => () => {}
+      type: Function as PropType<() => void>
     },
     onClose: {
-      type: Function as PropType<() => void>,
-      default: () => () => {}
+      type: Function as PropType<() => void>
     },
     /**
      * 显示全屏按钮
@@ -49,11 +47,11 @@ export default defineComponent({
       default: false
     },
     onAdjust: {
-      type: Function as PropType<(val: boolean) => void>,
-      default: () => () => {}
+      type: Function as PropType<(val: boolean) => void>
     }
   },
-  setup(props, ctx) {
+  emits: ['onClick', 'onClose', 'onAdjust'],
+  setup(props, ctx: SetupContext) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const Default = getSlot({ props, ctx }, 'default');

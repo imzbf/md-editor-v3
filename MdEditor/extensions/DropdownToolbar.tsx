@@ -1,4 +1,4 @@
-import { defineComponent, PropType, inject } from 'vue';
+import { defineComponent, PropType, inject, SetupContext } from 'vue';
 import { prefix } from '../config';
 import { getSlot } from '../utils/vue-tsx';
 import Dropdown from '../components/Dropdown';
@@ -18,15 +18,15 @@ export default defineComponent({
       type: [String, Object] as PropType<string | JSX.Element>
     },
     onChange: {
-      type: Function as PropType<(visible: boolean) => void>,
-      default: () => () => {}
+      type: Function as PropType<(visible: boolean) => void>
     },
     // 下拉框中的内容
     overlay: {
       type: [String, Object] as PropType<string | JSX.Element>
     }
   },
-  setup(props, ctx) {
+  emits: ['onChange'],
+  setup(props, ctx: SetupContext) {
     const editorId = inject('editorId');
 
     return () => {
