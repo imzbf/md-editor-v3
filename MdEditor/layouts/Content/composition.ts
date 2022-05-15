@@ -427,7 +427,7 @@ export const useAutoScroll = (
 
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
-    document.querySelectorAll(`#${editorId}-preview > pre`).forEach((pre: Element) => {
+    document.querySelectorAll(`#${editorId}-preview pre`).forEach((pre: Element) => {
       const copyButton = document.createElement('span');
       copyButton.setAttribute('class', 'copy-button');
       copyButton.innerText = ult.value.copyCode?.text || '复制代码';
