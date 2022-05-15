@@ -1,3 +1,5 @@
+import { marked } from 'marked';
+
 export default {
   name: 'MarkExtension',
   level: 'inline',
@@ -20,4 +22,4 @@ export default {
   renderer(token: any) {
     return `<mark>${token.text}</mark>`;
   }
-};
+} as marked.TokenizerExtension & marked.RendererExtension;

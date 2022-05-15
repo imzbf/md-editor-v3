@@ -7,7 +7,10 @@ import 'nprogress/nprogress.css';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
+import MarkExtension from './utils/marked-mark';
+
 MdEditor.config({
+  markedExtensions: [MarkExtension],
   editorExtensions: {
     highlight: {
       css: {

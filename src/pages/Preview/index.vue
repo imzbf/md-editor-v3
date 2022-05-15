@@ -44,7 +44,6 @@
           'catalog',
           'github'
         ]"
-        :extensions="[MarkExtension]"
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
@@ -118,7 +117,6 @@ import axios from '../../utils/request';
 import './index.less';
 import { useStore } from 'vuex';
 import { emojis } from './data';
-import MarkExtension from '../../utils/marked-mark';
 
 const store = useStore();
 
