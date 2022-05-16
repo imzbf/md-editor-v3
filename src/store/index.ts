@@ -12,7 +12,7 @@ export interface StateType {
   // 预览主题
   previewTheme: PreviewThemes;
   // 代码主题
-  codeCssName: string;
+  codeTheme: string;
   // 语言
   lang: Lang;
 }
@@ -26,7 +26,7 @@ const defaultState: StateType = stagedStore
   : {
       theme: 'light',
       previewTheme: 'default',
-      codeCssName: 'atom',
+      codeTheme: 'atom',
       lang: 'en-US'
     };
 
@@ -46,7 +46,7 @@ export default createStore({
       localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     },
     changeCodeTheme(state: StateType, value: string) {
-      state.codeCssName = value;
+      state.codeTheme = value;
       localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     },
     changeLang(state: StateType) {

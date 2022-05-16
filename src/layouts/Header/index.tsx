@@ -21,7 +21,7 @@ export default defineComponent({
         'smart-blue',
         'cyanosis'
       ],
-      codeCssNames: [
+      codeThemes: [
         'atom',
         'a11y',
         'github',
@@ -106,7 +106,7 @@ export default defineComponent({
               }}
               overlay={
                 <Menu theme={store.state.theme}>
-                  {data.codeCssNames.map((item) => {
+                  {data.codeThemes.map((item) => {
                     return (
                       <Menu.Item
                         onClick={() => {

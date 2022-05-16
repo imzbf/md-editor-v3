@@ -8,6 +8,7 @@
           :preview-theme="store.state.previewTheme"
           preview-only
           show-code-row-number
+          :code-theme="store.state.codeTheme"
         />
       </div>
     </div>

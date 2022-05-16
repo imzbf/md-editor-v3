@@ -31,6 +31,7 @@ watch(() => store.state.lang, queryMd);
           :preview-theme="store.state.previewTheme"
           preview-only
           show-code-row-number
+          :code-theme="store.state.codeTheme"
         />
       </div>
       <div class="catalog">

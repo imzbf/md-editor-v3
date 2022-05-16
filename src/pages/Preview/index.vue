@@ -7,7 +7,7 @@
         :language="store.state.lang"
         :theme="store.state.theme"
         :previewTheme="store.state.previewTheme"
-        :code-css-name="store.state.codeCssName"
+        :code-theme="store.state.codeTheme"
         :toolbars="[
           'bold',
           'underline',
@@ -94,7 +94,7 @@
                 :theme="store.state.theme"
                 :language="store.state.lang"
                 :previewTheme="store.state.previewTheme"
-                :code-css-name="store.state.codeCssName"
+                :code-theme="store.state.codeTheme"
                 editor-id="edit2preview"
                 preview-only
                 :modelValue="data.text"

@@ -214,7 +214,7 @@
 <Editor noKatex />
 ```
 
-### 🦉 codeCssName
+### 🦉 codeTheme
 
 - **类型**：`'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'`
 - **默认值**：`'atom'`

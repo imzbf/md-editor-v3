@@ -29,6 +29,7 @@ watch(() => store.state.lang, queryMd);
           :language="store.state.lang"
           :model-value="mdText"
           :preview-theme="store.state.previewTheme"
+          :code-theme="store.state.codeTheme"
           preview-only
           show-code-row-number
         />

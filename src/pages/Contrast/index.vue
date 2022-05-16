@@ -2,12 +2,13 @@
   <div class="container">
     <div class="doc">
       <div class="content" style="width: 100%">
-        <MdEditor
+        <md-editor-v3
           :theme="store.state.theme"
           :modelValue="mdText"
           :previewTheme="store.state.previewTheme"
           preview-only
           show-code-row-number
+          :code-theme="store.state.codeTheme"
         />
       </div>
     </div>
@@ -20,7 +21,6 @@ export default { name: 'ContrastPage' };
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import MdEditor from 'md-editor-v3';
 import { replaceVersion } from '@/utils';
 import { useStore } from 'vuex';
 
