@@ -6,6 +6,8 @@ dist-ssr
 
 .idea
 
+yarn-error.log
+
 package-lock.json
 
 lib
