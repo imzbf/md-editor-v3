@@ -61,7 +61,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | noMermaid | boolean | false | 如果你不希望使用图表展示内容，可以设置关闭 |
 | placeholder | string | '' |  |
 | noKatex | boolean | false | 不使用 katex 展示数学公式 |
-| codeCssName | 'atom'\|'a11y'\|'github'\|'gradient'\|'kimbie'\|'paraiso'\|'qtcreator'\|'stackoverflow' | 'atom' | 代码块[highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles)样式名称，扩展更多见下方 |
+| codeTheme | 'atom'\|'a11y'\|'github'\|'gradient'\|'kimbie'\|'paraiso'\|'qtcreator'\|'stackoverflow' | 'atom' | 代码块[highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles)样式名称，扩展更多见下方 |
 | markedHeadingId | (text: string, level: number) => string | (text) => text | 标题`ID`计算方式 |
 | sanitize | (html: string) => string | (html) => html | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 

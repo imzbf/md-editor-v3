@@ -62,7 +62,7 @@ mark and emoji extensions
 | noMermaid | boolean | false | Use mermaid or not |
 | placeholder | string | '' |  |
 | noKatex | boolean | false | Use katex or not |
-| codeCssName | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | [Highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles) code style, can be customized also |
+| codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | [Highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles) code style, can be customized also |
 | markedHeadingId | (text: string, level: number) => string | (text) => text | H1-H6 `ID` generator |
 | sanitize | (html: string) => string | (html) => html | Sanitize the html, prevent XSS |
 
