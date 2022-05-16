@@ -263,7 +263,7 @@ const props = {
   onError: {
     type: Function as PropType<(err: InnerError) => void>
   },
-  codeCssName: {
+  codeTheme: {
     type: String as PropType<string>,
     default: 'atom'
   }

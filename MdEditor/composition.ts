@@ -350,8 +350,8 @@ export const useProvide = (props: any, extension: ConfigOption) => {
 
       return {
         js: highlightConfig?.js || highlightUrl,
-        css: cssList[props.codeCssName]
-          ? cssList[props.codeCssName][props.theme as 'light' | 'dark']
+        css: cssList[props.codeTheme]
+          ? cssList[props.codeTheme][props.theme as 'light' | 'dark']
           : codeCss.atom[props.theme as 'light' | 'dark']
       };
     })
