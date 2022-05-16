@@ -256,6 +256,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 | onUploadImg | files:Array<File>, callback:Function | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | h:string | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog | list: HeadList[] | 动态获取`markdown`目录 |
+| onError | err: { name: string; message: string } | 运行错误反馈事件，目前包括`Cropper`、`fullScreen`、`prettier`实例未加载完成操作错误 |
 
 ## 编辑器配置
 

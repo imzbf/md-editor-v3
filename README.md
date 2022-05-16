@@ -248,6 +248,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 | onUploadImg | files:Array<File>, callback:Function | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
 | onHtmlChanged | h:string | Compile markdown successful event, you can use it to get the html code |
 | onGetCatalog | list: HeadList[] | Get catalog of article |
+| onError | err: { name: string; message: string } | Catch run-time error, `Cropper`,`fullScreen` and `prettier` are used when they are not loaded |
 
 ## Config
 
