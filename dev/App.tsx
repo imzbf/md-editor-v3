@@ -11,7 +11,7 @@ export default defineComponent({
   setup() {
     const theme = ref<Theme>('light');
     const previewTheme = ref<string>('default');
-    const codeCssName = ref<string>('kimbie');
+    const codeTheme = ref<string>('kimbie');
 
     return () => (
       <div class={['app', theme.value === 'dark' && 'theme-dark']}>
@@ -21,20 +21,20 @@ export default defineComponent({
           onPreviewChange={(pt: string) => {
             previewTheme.value = pt;
           }}
-          onCodeCssNameChange={(ct: string) => {
-            codeCssName.value = ct;
+          onCodeThemeChange={(ct: string) => {
+            codeTheme.value = ct;
           }}
         />
         <div class="page-body">
           <Preview
             theme={theme.value}
             previewTheme={previewTheme.value}
-            codeCssName={codeCssName.value}
+            codeTheme={codeTheme.value}
           />
           <PreviewOnly
             theme={theme.value}
             previewTheme={previewTheme.value}
-            codeCssName={codeCssName.value}
+            codeTheme={codeTheme.value}
           />
         </div>
       </div>

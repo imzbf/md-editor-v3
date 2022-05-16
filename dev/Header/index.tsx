@@ -13,7 +13,7 @@ export default defineComponent({
       type: Function as PropType<(v: string) => void>,
       default: () => {}
     },
-    onCodeCssNameChange: {
+    onCodeThemeChange: {
       type: Function as PropType<(v: string) => void>,
       default: () => {}
     }
@@ -71,31 +71,31 @@ export default defineComponent({
           <p class="header-actions">
             <button
               class="btn btn-header"
-              onClick={() => props.onCodeCssNameChange('a11y')}
+              onClick={() => props.onCodeThemeChange('a11y')}
             >
               a11y
             </button>
             <button
               class="btn btn-header"
-              onClick={() => props.onCodeCssNameChange('atom')}
+              onClick={() => props.onCodeThemeChange('atom')}
             >
               atom-one
             </button>
             <button
               class="btn btn-header"
-              onClick={() => props.onCodeCssNameChange('github')}
+              onClick={() => props.onCodeThemeChange('github')}
             >
               github
             </button>
             <button
               class="btn btn-header"
-              onClick={() => props.onCodeCssNameChange('gradient')}
+              onClick={() => props.onCodeThemeChange('gradient')}
             >
               gradient
             </button>
             <button
               class="btn btn-header"
-              onClick={() => props.onCodeCssNameChange('tokyo-night')}
+              onClick={() => props.onCodeThemeChange('tokyo-night')}
             >
               tokyo-night
             </button>

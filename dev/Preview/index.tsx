@@ -56,7 +56,7 @@ export default defineComponent({
   props: {
     theme: String as PropType<Theme>,
     previewTheme: String as PropType<string>,
-    codeCssName: String as PropType<string>
+    codeTheme: String as PropType<string>
   },
   setup(props) {
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
@@ -109,7 +109,7 @@ export default defineComponent({
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);
             }}
-            codeCssName={props.codeCssName}
+            codeTheme={props.codeTheme}
             // toolbars={['bold', 'link', '=', 'prettier', 'link']}
             // toolbarsExclude={['github']}
             onChange={(value) => (md.text = value)}
@@ -235,7 +235,7 @@ export default defineComponent({
             editorId="md-prev-2"
             theme={props.theme}
             previewTheme={props.previewTheme}
-            codeCssName={props.codeCssName}
+            codeTheme={props.codeTheme}
             modelValue={md.text2}
             onChange={(value) => (md.text2 = value)}
           />

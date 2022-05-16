@@ -7,7 +7,7 @@ export default defineComponent({
   props: {
     theme: String as PropType<Theme>,
     previewTheme: String as PropType<string>,
-    codeCssName: String as PropType<string>
+    codeTheme: String as PropType<string>
   },
   setup(props) {
     return () => (
@@ -16,7 +16,7 @@ export default defineComponent({
           <Editor
             theme={props.theme}
             previewTheme={props.previewTheme}
-            codeCssName={props.codeCssName}
+            codeTheme={props.codeTheme}
             modelValue={mdText}
             previewOnly
             showCodeRowNumber
