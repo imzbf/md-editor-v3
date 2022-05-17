@@ -403,6 +403,214 @@ const handler = () => {
   <md-ditor-v3 @onError="onError" />
   ```
 
+## 💴 配置编辑器
+
+使用`MdEditor.config(option: ConfigOption)`方法，可以对内部的`renderer`定制。
+
+- markedRenderer: `(renderer: Renderer) => Renderer`，设置链接在新窗口打开 🌰：
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.link = (href, title, text) => {
+        return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
+      };
+
+      return renderer;
+    }
+  });
+  ```
+
+  > 参考：https://marked.js.org/using_pro#renderer
+
+- markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedExtensions: [your extension]
+  });
+  ```
+
+  > 参考：https://marked.js.org/using_pro#extensions
+
+  [文档示例源码](https://github.com/imzbf/md-editor-v3/blob/dev-docs-v2/src/main.ts)
+
+- markedOptions: `marked.MarkedOptions`，设置输入空白行不渲染出来 🌰：
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedOptions: { breaks: false }
+  });
+  ```
+
+  > 参考：https://marked.js.org/using_advanced#options
+
+- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板：
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedOptions: {
+      // 语言
+      languageUserDefined: 'en-US': {
+        toolbarTips: {
+          bold: 'bold',
+          underline: 'underline',
+          italic: 'italic',
+          strikeThrough: 'strikeThrough',
+          title: 'title',
+          sub: 'subscript',
+          sup: 'superscript',
+          quote: 'quote',
+          unorderedList: 'unordered list',
+          orderedList: 'ordered list',
+          codeRow: 'inline code',
+          code: 'block-level code',
+          link: 'link',
+          image: 'image',
+          table: 'table',
+          mermaid: 'mermaid',
+          katex: 'formula',
+          revoke: 'revoke',
+          next: 'undo revoke',
+          save: 'save',
+          prettier: 'prettier',
+          pageFullscreen: 'fullscreen in page',
+          fullscreen: 'fullscreen',
+          preview: 'preview',
+          htmlPreview: 'html preview',
+          catalog: 'catalog',
+          github: 'source code'
+        },
+        titleItem: {
+          h1: 'Lv1 Heading',
+          h2: 'Lv2 Heading',
+          h3: 'Lv3 Heading',
+          h4: 'Lv4 Heading',
+          h5: 'Lv5 Heading',
+          h6: 'Lv6 Heading'
+        },
+        imgTitleItem: {
+          link: 'Add Img Link',
+          upload: 'Upload Img',
+          clip2upload: 'Clip Upload'
+        },
+        linkModalTips: {
+          title: 'Add ',
+          descLable: 'Desc:',
+          descLablePlaceHolder: 'Enter a description...',
+          urlLable: 'Link:',
+          UrlLablePlaceHolder: 'Enter a link...',
+          buttonOK: 'OK'
+        },
+        clipModalTips: {
+          title: 'Crop Image',
+          buttonUpload: 'Upload'
+        },
+        copyCode: {
+          text: 'Copy',
+          tips: 'Copied!'
+        },
+        mermaid: {
+          flow: 'flow',
+          sequence: 'sequence',
+          gantt: 'gantt',
+          class: 'class',
+          state: 'state',
+          pie: 'pie',
+          relationship: 'relationship',
+          journey: 'journey'
+        },
+        katex: {
+          inline: 'inline',
+          block: 'block'
+        }
+      },
+      // mermaid模板
+      mermaidTemplate: {
+        // 流程图
+        flow: `flow tempalte`,
+        // 时序图
+        sequence: `sequence template`,
+        // 甘特图
+        gantt: `gantt template`,
+        // 类图
+        class: `class template`,
+        // 状态图
+        state: `state template`,
+        // 饼图
+        pie: `pie template`,
+        // 关系图
+        relationship: `relationship template`,
+        // 旅程图
+        journey: `journey template`
+      }
+    }
+  });
+  ```
+
+- editorExtensions: 类型如下，用于配置编辑器内部的扩展
+
+  ```typescript
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    editorExtensions: { iconfont: 'https://xxx.cc' }
+  });
+  ```
+
+  <details>
+    <summary>[EditorExtensions]</summary>
+
+  ```ts
+  import MdEditor from 'md-editor-v3';
+
+  interface EditorExtensions {
+    highlight?: {
+      instance?: any;
+      js?: string;
+      css?: {
+        [key: string]: {
+          light: string;
+          dark: string;
+        };
+      };
+    };
+    prettier?: {
+      standaloneJs?: string;
+      parserMarkdownJs?: string;
+    };
+    cropper?: {
+      instance?: any;
+      js?: string;
+      css?: string;
+    };
+    iconfont?: string;
+    screenfull?: {
+      instance?: any;
+      js?: string;
+    };
+    mermaid?: {
+      instance?: any;
+      js?: string;
+    };
+    katex?: {
+      instance?: any;
+      js?: string;
+      css?: string;
+    };
+  }
+  ```
+
+  </details>
+
 ## 🪡 快捷键
 
 主要以`CTRL`搭配对应功能英文单词首字母，冲突项添加`SHIFT`，再冲突替换为`ALT`。
