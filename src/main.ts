@@ -15,6 +15,11 @@ MdEditor.config({
     renderer.heading = (text, level) => {
       return `<h${level} id="${text}">${text}</h${level}>`;
     };
+
+    renderer.link = (href, title, text) => {
+      return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
+    };
+
     return renderer;
   },
   editorExtensions: {
