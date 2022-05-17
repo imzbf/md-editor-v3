@@ -16,8 +16,8 @@
 - **默认值**：`'light'`
 - **说明**：编辑器主题。
 
-  ```js
-  <Editor theme="dark" />
+  ```html
+  <md-ditor-v3 theme="dark" />
   ```
 
 ### 🎀 class
@@ -72,8 +72,11 @@
 
   从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范），更多请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#💪%20defToolbars)。
 
+  _[all]_
+
   ```js
-  'bold',
+  [
+    'bold',
     'underline',
     'italic',
     '-',
@@ -101,34 +104,8 @@
     'preview',
     'htmlPreview',
     'catalog',
-    'github';
-
-  // 对应功能名称
-  '加粗',
-    '下划线',
-    '斜体',
-    '删除线',
-    '下标',
-    '上标',
-    '引用',
-    '无序列表',
-    '有序列表',
-    '行内代码',
-    '块级代码',
-    '链接',
-    '图片',
-    '表格',
-    '图表',
-    '公式',
-    '后退一步',
-    '前进一步',
-    '保存',
-    '页面内全屏',
-    '屏幕全屏',
-    '内容预览',
-    'html代码预览',
-    '目录',
-    '源码地址';
+    'github'
+  ];
   ```
 
 ### 🧱 toolbarsExclude
@@ -169,6 +146,22 @@
 
   主题自定义方式：
 
+  1. 编辑 css
+
+  ```css
+  .xxx-theme {
+    color: red;
+  }
+  ```
+
+  2. 设置`previewTheme`
+
+  ```html
+  <md-ditor-v3 preview-theme="xxx" />
+  ```
+
+  参考[markdown-theme](https://github.com/imzbf/markdown-theme)项目。
+
 ### 🎅🏻 style
 
 - **类型**：`string | CSSProperties`
@@ -181,8 +174,8 @@
 - **默认值**：`[6, 4]`
 - **说明**：标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数。
 
-  ```js
-  <Editor tableShape={[8, 4]}>
+  ```html
+  <md-ditor-v3 :table-shape="[8, 4]" />
   ```
 
   ![表格预设大小预览](https://imzbf.github.io/md-editor-v3/imgs/20211216165424.png)
@@ -191,12 +184,11 @@
 
 - **类型**：`boolean`
 - **默认值**：`false`
-- **版本**：`>= 1.8.0`
 - **说明**：如果你不希望使用图表展示内容，可以设置关闭。
 
-```js
-<Editor noMermaid />
-```
+  ```html
+  <md-ditor-v3 no-mermaid />
+  ```
 
 ### 🪧 placeholder
 
@@ -210,9 +202,9 @@
 - **默认值**：`false`
 - **说明**：如果你不希望使用数学公式展示内容，可以设置关闭。
 
-```js
-<Editor noKatex />
-```
+  ```js
+  <md-ditor-v3 no-katex />
+  ```
 
 ### 🦉 codeTheme
 
@@ -222,11 +214,66 @@
 
   你可以添加自己的样式，把该属性设置为你想要的即可，方式如下：
 
+  1. 配置样式链接
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    editorExtensions: {
+      highlight: {
+        css: {
+          atom: {
+            light: '//cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css',
+            dark: '//cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css'
+          },
+          xxx: {
+            light: '//cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/xxx-light.css',
+            dark: '//cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/xxx-dark.css'
+          }
+        }
+      }
+    }
+  });
+  ```
+
+  2. 设置`codeTheme`
+
+  ```html
+  <md-ditor-v3 code-theme="xxx" />
+  ```
+
 ### 🎱 markedHeadingId
 
 - **类型**：`(text: string, level: number) => string`
 - **默认值**：`(text) => text`
 - **说明**：构造标题`ID`的生成方式，在使用`MdEditor.config`定义了`renderer.heading`后，避免目录导航等失效。
+
+  例：
+
+  1. 配置 renderer
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  const generateId = (text, level) => `heading-${text}-${level}`;
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level) => {
+        const id = generateId(text, level);
+        return `<h${level} id="${id}">${text}</h${level}>`;
+      };
+      return renderer;
+    }
+  });
+  ```
+
+  2. 配置`markedHeadingId`
+
+  ```html
+  <md-ditor-v3 :markedHeadingId="generateId" />
+  ```
 
 ### 🐣 sanitize
 
@@ -239,11 +286,12 @@
   ```js
   import sanitizeHtml from 'sanitize-html';
 
-  //
-  <Editor sanitize={(html) => sanitizeHtml(html)} />;
+  const sanitize = (html) => sanitizeHtml(html);
   ```
 
-  就是这么简单。
+  ```html
+  <md-ditor-v3 :sanitize="sanitize" />;
+  ```
 
   > 为什么不内置到编辑器：由于类似编辑器大多属于自行处理文本，自身即可确认内容是否安全，并不需要该功能。
 
@@ -253,7 +301,7 @@
 
 自定义工具栏插槽，通过使用内置的`NormalToolbar`普通点击触发事件组件，`DropdownToolbar`下拉点击触发事件组件和`ModalToolbar`弹窗触发事件组件进行扩展。将`defToolbars`插槽中的组件下标穿插在`toolbars`实现展示（这并不规范）。
 
-```js
+```vue
 <template>
   <md-editor>
     <template #defToolbars>
@@ -267,18 +315,21 @@
     </template>
   </md-editor>
 </template>
+
 <script setup>
 import MdEditor from 'md-editor-v3';
 
 const NormalToolbar = MdEditor.NormalToolbar;
 
-const handler = () => { console.log('NormalToolbar clicked!') }
+const handler = () => {
+  console.log('NormalToolbar clicked!');
+};
 </script>
 ```
 
 ![普通扩展工具栏](https://imzbf.github.io/md-editor-v3/imgs/normal-toolbar.gif) ![下拉扩展工具栏](https://imzbf.github.io/md-editor-v3/imgs/dropdown-toolbar.gif)
 
-扩展组件属性参考**内置组件**，使用示例参见示例页面。
+扩展组件属性参考**内置组件**，使用示例参见[文档分支](https://github.com/imzbf/md-editor-v3/tree/docs/src/components)，提供**标记**、**表情**和**弹窗预览**扩展组件。
 
 ## 🪢 绑定事件
 
@@ -287,7 +338,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 ### 📞 onChange
 
 - **类型**：`(v: string) => void`
-- **说明**：内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发）。
+- **说明**：内容变化事件（当前与`textarea`的`oninput`事件绑定，每输入一个单字即会触发）。
 
 ### 💾 onSave
 
@@ -299,31 +350,35 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 - **类型**：`(files: Array<File>, callback: function) => void`
 - **说明**：上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传。
 
-```js
-async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
-  const res = await Promise.all(
-    files.map((file) => {
-      return new Promise((rev, rej) => {
-        const form = new FormData();
-        form.append('file', file);
+  ```js
+  const onUploadImg = async (files, callback) => {
+    const res = await Promise.all(
+      files.map((file) => {
+        return new Promise((rev, rej) => {
+          const form = new FormData();
+          form.append('file', file);
 
-        axios
-          .post('/api/img/upload', form, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          .then((res) => rev(res))
-          .catch((error) => rej(error));
-      });
-    })
-  );
+          axios
+            .post('/api/img/upload', form, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            .then((res) => rev(res))
+            .catch((error) => rej(error));
+        });
+      })
+    );
 
-  callback(res.map((item: any) => item.data.url));
-}
-```
+    callback(res.map((item) => item.data.url));
+  };
+  ```
 
-### ☎️ onHtmlChanged
+  ```html
+  <md-ditor-v3 @onUploadImg="onUploadImg" />
+  ```
+
+### 📨 onHtmlChanged
 
 - **类型**：`(h: string) => void`
 - **说明**：html 变化回调事件，用于获取预览 html 代码。
@@ -332,6 +387,21 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
 
 - **类型**：`(list: HeadList[]) => void`
 - **说明**：动态获取`markdown`目录。
+
+### 💀 onError
+
+- **类型**：`(err: { name: string; message: string;}) => void`
+- **说明**：捕获执行错误事件，目前支持`Cropper`、`fullScreen`、`prettier`实例未加载完成操作错误。
+
+  ```js
+  const onError = (err) => {
+    alert(err.message);
+  };
+  ```
+
+  ```html
+  <md-ditor-v3 @onError="onError" />
+  ```
 
 ## 🪡 快捷键
 
@@ -366,7 +436,7 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
 
 ## 🪤 内置组件
 
-1.x 版本扩展组件作为编辑器组件的属性值来使用，例如：`Editor.DropdownToolbar`。使用参考：[文档页面](https://imzbf.github.io/md-editor-v3)
+扩展组件作为编辑器组件的属性值来使用，例如：`Editor.DropdownToolbar`。
 
 ### 🐣 NormalToolbar
 
@@ -386,7 +456,7 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
 <template>
   <md-editor-v3 v-model="text">
     <template #defToolbars>
-      <normal-toolbar title="mark" @click="callback">
+      <normal-toolbar title="mark" @onClick="callback">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -397,6 +467,8 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
   </md-editor-v3>
 </template>
 ```
+
+[获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/MarkExtension/index.vue)
 
 ### 🐼 DropdownToolbar
 
@@ -446,7 +518,9 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
 </template>
 ```
 
-### ModalToolbar
+[获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/EmojiExtension/index.vue)
+
+### 🦉 ModalToolbar
 
 - **props**
 
@@ -475,8 +549,8 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
     <template #defToolbars>
       <modal-toolbar
         :visible="data.modalVisible"
-        show-adjust
         :is-fullscreen="data.modalFullscreen"
+        show-adjust
         title="帮助"
         modal-title="编辑预览"
         width="870px"
@@ -506,6 +580,8 @@ const data = reactive({
 });
 </script>
 ```
+
+[获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/ReadExtension/index.vue)
 
 ### 🐻 MdCatalog
 
