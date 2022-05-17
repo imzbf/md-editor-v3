@@ -73,6 +73,25 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
     curr: 0
   };
 
+  const keyZCallback = (curr: number) => {
+    // 保存当前的鼠标位置
+    const startPos: number = textAreaRef.value?.selectionStart || 0;
+    const endPos: number = textAreaRef.value?.selectionEnd || 0;
+
+    history.list[history.curr].startPos = startPos;
+    history.list[history.curr].endPos = endPos;
+
+    // 移除状态
+    history.userUpdated = false;
+    history.curr = curr;
+
+    const currHistory = history.list[history.curr];
+    props.onChange(currHistory.content);
+
+    // 选中内容
+    setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
+  };
+
   onMounted(() => {
     bus.on(editorId, {
       name: 'saveHistory',
@@ -122,31 +141,16 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
     bus.on(editorId, {
       name: 'ctrlZ',
       callback() {
-        history.userUpdated = false;
-        // 倒退一个下标，最多倒退到0
-        history.curr = history.curr - 1 < 0 ? 0 : history.curr - 1;
-
-        const currHistory = history.list[history.curr];
-        props.onChange(currHistory.content);
-
-        // 选中内容
-        setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
+        keyZCallback(history.curr - 1 < 0 ? 0 : history.curr - 1);
       }
     });
 
     bus.on(editorId, {
       name: 'ctrlShiftZ',
       callback() {
-        history.userUpdated = false;
-        // 前进一个下标，最多倒退到最大下标
-        history.curr =
-          history.curr + 1 === history.list.length ? history.curr : history.curr + 1;
-
-        const currHistory = history.list[history.curr];
-        props.onChange(currHistory.content);
-
-        // 选中内容
-        setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
+        keyZCallback(
+          history.curr + 1 === history.list.length ? history.curr : history.curr + 1
+        );
       }
     });
   });
