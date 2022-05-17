@@ -2,110 +2,19 @@
   <div class="project-preview">
     <div class="container">
       <md-editor-v3
-        editorId="md-prev"
-        v-model="data.text"
+        v-model="state.text"
+        :editor-id="editorId"
         :language="store.state.lang"
         :theme="store.state.theme"
         :previewTheme="store.state.previewTheme"
         :code-theme="store.state.codeTheme"
-        :toolbars="[
-          'bold',
-          'underline',
-          'italic',
-          'strikeThrough',
-          '-',
-          'title',
-          'sub',
-          'sup',
-          'quote',
-          'unorderedList',
-          'orderedList',
-          '-',
-          'codeRow',
-          'code',
-          'link',
-          'image',
-          'table',
-          'mermaid',
-          'katex',
-          0,
-          1,
-          2,
-          '-',
-          'revoke',
-          'next',
-          'save',
-          '=',
-          'prettier',
-          'pageFullscreen',
-          'fullscreen',
-          'preview',
-          'htmlPreview',
-          'catalog',
-          'github'
-        ]"
+        :toolbars="toolbars"
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
-          <normal-toolbar title="mark" @click="markHandler">
-            <template #trigger>
-              <svg class="md-icon" aria-hidden="true">
-                <use xlink:href="#icon-mark"></use>
-              </svg>
-            </template>
-          </normal-toolbar>
-          <dropdown-toolbar
-            title="emoji"
-            :visible="data.emojiVisible"
-            :onChange="emojiVisibleChanged"
-          >
-            <template #overlay>
-              <div class="emoji-container">
-                <ol class="emojis">
-                  <li
-                    v-for="(emoji, index) of emojis"
-                    :key="`emoji-${index}`"
-                    @click="emojiHandler(emoji)"
-                    v-text="emoji"
-                  ></li>
-                </ol>
-              </div>
-            </template>
-            <template #trigger>
-              <svg class="md-icon" aria-hidden="true">
-                <use xlink:href="#icon-emoji"></use>
-              </svg>
-            </template>
-          </dropdown-toolbar>
-          <modal-toolbar
-            :visible="data.modalVisible"
-            show-adjust
-            :is-fullscreen="data.modalFullscreen"
-            title="帮助"
-            modal-title="编辑预览"
-            width="870px"
-            height="600px"
-            @onClick="data.modalVisible = true"
-            @onClose="data.modalVisible = false"
-            @onAdjust="data.modalFullscreen = !data.modalFullscreen"
-          >
-            <div style="height: 100%; padding: 20px; overflow: auto">
-              <md-editor-v3
-                :theme="store.state.theme"
-                :language="store.state.lang"
-                :previewTheme="store.state.previewTheme"
-                :code-theme="store.state.codeTheme"
-                editor-id="edit2preview"
-                preview-only
-                :modelValue="data.text"
-              />
-            </div>
-            <template #trigger>
-              <svg class="md-icon" aria-hidden="true">
-                <use xlink:href="#icon-read"></use>
-              </svg>
-            </template>
-          </modal-toolbar>
+          <mark-extension :editor-id="editorId" />
+          <emoji-extension :editor-id="editorId" />
+          <read-extension :md-text="state.text" />
         </template>
       </md-editor-v3>
     </div>
@@ -114,18 +23,23 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
+import { useStore } from 'vuex';
 import mdEN from '../../../public/preview-en-US.md';
 import mdCN from '../../../public/preview-zh-CN.md';
 import axios from '../../utils/request';
+import { toolbars } from './staticConfig';
 import './index.less';
-import { useStore } from 'vuex';
-import { emojis } from './data';
+
+import EmojiExtension from '@/components/EmojiExtension/index.vue';
+import MarkExtension from '@/components/MarkExtension/index.vue';
+import ReadExtension from '@/components/ReadExtension/index.vue';
 
 const store = useStore();
 
-const data = reactive({
+const editorId = 'editor-preview';
+
+const state = reactive({
   text: store.state.lang === 'zh-CN' ? mdCN : mdEN,
-  emojiVisible: false,
   modalVisible: false,
   modalFullscreen: false
 });
@@ -134,59 +48,12 @@ watch(
   () => store.state.lang,
   (nVal: string) => {
     if (nVal === 'zh-CN') {
-      data.text = mdCN;
+      state.text = mdCN;
     } else {
-      data.text = mdEN;
+      state.text = mdEN;
     }
   }
 );
-
-const markHandler = () => {
-  // 获取输入框
-  const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
-  // 获取选中的内容
-  const selection = window.getSelection()?.toString();
-  // 获取鼠标位置
-  const endPoint = textarea.selectionStart;
-
-  // 生成标记文本
-  const markStr = `@${selection}@`;
-
-  // 根据鼠标位置分割旧文本
-  // 前半部分
-  const prefixStr = textarea.value.substring(0, endPoint);
-  // 后半部分
-  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
-
-  data.text = `${prefixStr}${markStr}${suffixStr}`;
-
-  setTimeout(() => {
-    textarea.setSelectionRange(endPoint, markStr.length + endPoint);
-    textarea.focus();
-  }, 0);
-};
-
-const emojiHandler = (emoji: string) => {
-  // 获取输入框
-  const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
-  // 获取选中的内容
-  const selection = window.getSelection()?.toString();
-  // 获取鼠标位置
-  const endPoint = textarea.selectionStart;
-
-  // 根据鼠标位置分割旧文本
-  // 前半部分
-  const prefixStr = textarea.value.substring(0, endPoint);
-  // 后半部分
-  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
-
-  data.text = `${prefixStr}${emoji}${suffixStr}`;
-
-  setTimeout(() => {
-    textarea.setSelectionRange(endPoint, endPoint + 1);
-    textarea.focus();
-  }, 0);
-};
 
 const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void) => {
   const res = await Promise.all(
@@ -208,9 +75,5 @@ const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void)
   );
 
   callback(res.map((item: any) => item.data.url));
-};
-
-const emojiVisibleChanged = (visible: boolean) => {
-  data.emojiVisible = visible;
 };
 </script>

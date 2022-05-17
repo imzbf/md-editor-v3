@@ -4,8 +4,8 @@
       <div class="content" style="width: 100%">
         <md-editor-v3
           :theme="store.state.theme"
-          :modelValue="mdText"
-          :previewTheme="store.state.previewTheme"
+          :model-value="mdText"
+          :preview-theme="store.state.previewTheme"
           preview-only
           show-code-row-number
           :code-theme="store.state.codeTheme"
