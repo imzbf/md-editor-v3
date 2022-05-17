@@ -12,8 +12,8 @@
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
-          <mark-extension :editor-id="editorId" />
-          <emoji-extension :editor-id="editorId" />
+          <mark-extension :editor-id="editorId" @onChange="onChange" />
+          <emoji-extension :editor-id="editorId" @onChange="onChange" />
           <read-extension :md-text="state.text" />
         </template>
       </md-editor-v3>
@@ -76,4 +76,6 @@ const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void)
 
   callback(res.map((item: any) => item.data.url));
 };
+
+const onChange = (v: string) => (state.text = v);
 </script>

@@ -13,6 +13,8 @@ const props = defineProps({
   editorId: String
 });
 
+const emit = defineEmits(['onChange']);
+
 const markHandler = () => {
   // 获取输入框
   const textarea = document.querySelector(
@@ -32,7 +34,7 @@ const markHandler = () => {
   // 后半部分
   const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
 
-  textarea.value = `${prefixStr}${markStr}${suffixStr}`;
+  emit('onChange', `${prefixStr}${markStr}${suffixStr}`);
 
   setTimeout(() => {
     textarea.setSelectionRange(endPoint, markStr.length + endPoint);

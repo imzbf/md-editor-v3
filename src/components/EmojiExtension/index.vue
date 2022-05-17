@@ -28,6 +28,8 @@ const props = defineProps({
   editorId: String
 });
 
+const emit = defineEmits(['onChange']);
+
 const state = reactive({
   visible: false
 });
@@ -48,7 +50,7 @@ const emojiHandler = (emoji: string) => {
   // 后半部分
   const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
 
-  textarea.value = `${prefixStr}${emoji}${suffixStr}`;
+  emit('onChange', `${prefixStr}${emoji}${suffixStr}`);
 
   setTimeout(() => {
     textarea.setSelectionRange(endPoint, endPoint + 1);
