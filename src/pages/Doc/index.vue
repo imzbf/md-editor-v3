@@ -35,13 +35,13 @@ watch(() => store.state.lang, queryMd);
         />
       </div>
       <div class="catalog">
-        <at-affix :offset-top="16">
+        <div class="affix">
           <md-catalog
             editor-id="doc-preview"
             :theme="store.state.theme"
             :scroll-element="scrollElement"
           />
-        </at-affix>
+        </div>
       </div>
     </div>
   </div>

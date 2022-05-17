@@ -87,8 +87,6 @@ body {
 .container {
   width: 1170px;
   margin: 0 auto;
-  position: relative;
-  overflow: auto;
 }
 
 .btn {
@@ -125,9 +123,9 @@ body {
   background-color: @bkColor;
   min-height: 100vh;
 
-  .ant-anchor {
-    font-size: 1rem;
-  }
+  // .ant-anchor {
+  //   font-size: 1rem;
+  // }
 
   .doc {
     display: flex;
@@ -136,9 +134,9 @@ body {
     .catalog {
       width: 25%;
 
-      .ant-anchor-wrapper {
-        padding-left: 1rem;
-      }
+      // .ant-anchor-wrapper {
+      //   padding-left: 1rem;
+      // }
     }
 
     .content {
@@ -209,7 +207,31 @@ body {
   }
 }
 
-.md-catalog-wrapper {
-  max-height: 300px;
+// .md-catalog-wrapper {
+//   max-height: 300px;
+//   overflow: auto;
+// }
+
+// .catalog {
+//   max-height: 100vh;
+//   overflow: auto;
+// }
+
+.affix {
+  position: sticky;
+  top: 10px;
+  max-height: 100vh;
   overflow: auto;
+
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
+
+.md-catalog {
+  margin-bottom: 1em;
+  &-link {
+    padding-left: 1em !important;
+  }
 }

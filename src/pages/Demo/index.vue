@@ -2,7 +2,6 @@
 import { onMounted, ref, watch } from 'vue';
 import mdEN from '../../../public/demo-en-US.md';
 import mdCN from '../../../public/demo-zh-CN.md';
-import { Affix as AtAffix } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { replaceVersion } from '@/utils';
 const store = useStore();
@@ -35,13 +34,13 @@ watch(() => store.state.lang, queryMd);
         />
       </div>
       <div class="catalog">
-        <at-affix :offset-top="16">
+        <div class="affix">
           <md-catalog
             editor-id="demo-preview"
             :theme="store.state.theme"
             :scroll-element="scrollElement"
           />
-        </at-affix>
+        </div>
       </div>
     </div>
   </div>
