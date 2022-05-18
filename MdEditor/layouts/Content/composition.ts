@@ -77,6 +77,9 @@ export const useHistory = (
     curr: 0
   };
 
+  // 文本改变前的光标位置
+  let historyPos = [0, 0];
+
   const keyZCallback = (curr: number) => {
     // 保存当前的鼠标位置
     const startPos: number = textAreaRef.value?.selectionStart || 0;
@@ -119,8 +122,8 @@ export const useHistory = (
           content
         };
 
-        lastStep.startPos = startPos;
-        lastStep.endPos = endPos;
+        lastStep.startPos = historyPos[0];
+        lastStep.endPos = historyPos[1];
 
         Array.prototype.push.call(history.list, lastStep, {
           content,
@@ -134,6 +137,10 @@ export const useHistory = (
         history.userUpdated = true;
       }
     }, 150);
+  };
+
+  const saveHistoryPos = () => {
+    historyPos = [textAreaRef.value?.selectionStart, textAreaRef.value?.selectionEnd];
   };
 
   watch(
@@ -170,6 +177,9 @@ export const useHistory = (
         );
       }
     });
+
+    textAreaRef.value.addEventListener('keydown', saveHistoryPos);
+    textAreaRef.value.addEventListener('click', saveHistoryPos);
   });
 };
 
