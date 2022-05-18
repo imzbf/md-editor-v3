@@ -133,6 +133,9 @@ export const useHistory = (
 
         // 下标调整为最后一个位置
         history.curr = history.list.length - 1;
+
+        // 保存记录后重新记录位置
+        saveHistoryPos();
       } else {
         history.userUpdated = true;
       }
@@ -143,23 +146,13 @@ export const useHistory = (
     historyPos = [textAreaRef.value?.selectionStart, textAreaRef.value?.selectionEnd];
   };
 
-  watch(
-    () => props.value,
-    (val) => {
-      if (completeStatus.value) {
-        saveHistory(val);
-      }
-    }
-  );
-
-  watch(
-    () => completeStatus.value,
-    () => {
-      // 输入中文等时，oninput不会保存历史记录
-      // 在完成时保存
+  watch([toRef(props, 'value'), completeStatus], () => {
+    // 输入中文等时，oninput不会保存历史记录
+    // 在完成时保存
+    if (completeStatus.value) {
       saveHistory(props.value);
     }
-  );
+  });
 
   onMounted(() => {
     bus.on(editorId, {
@@ -178,7 +171,7 @@ export const useHistory = (
       }
     });
 
-    textAreaRef.value.addEventListener('keydown', saveHistoryPos);
+    // textAreaRef.value.addEventListener('keydown', saveHistoryPos);
     textAreaRef.value.addEventListener('click', saveHistoryPos);
   });
 };
@@ -613,6 +606,14 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
     }
   });
 
+  watch(
+    () => props.value,
+    () => {
+      // 内容变化后清空选中内容
+      selectedText.value = '';
+    }
+  );
+
   // 注册修改选择内容事件
   bus.on(editorId, {
     name: 'selectTextChange',
@@ -620,10 +621,6 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
       selectedText.value = getSelectionText(textAreaRef.value);
     }
   });
-
-  return {
-    selectedText
-  };
 };
 
 export const useMermaid = (props: EditorContentProps) => {

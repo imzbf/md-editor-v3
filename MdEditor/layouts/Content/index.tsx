@@ -107,7 +107,7 @@ export default defineComponent({
     // 自动滚动
     useAutoScroll(props, html, textAreaRef, previewRef, htmlRef);
     // 自动监听生成md内容
-    const { selectedText } = useAutoGenrator(props, textAreaRef);
+    useAutoGenrator(props, textAreaRef);
     // 历史记录
     useHistory(props, textAreaRef, completeStatus);
     // 粘贴上传
@@ -129,9 +129,6 @@ export default defineComponent({
                     completeStatus.value = false;
                   }}
                   onInput={(e) => {
-                    // 先清空保存的选中内容，防止异常现象
-                    selectedText.value = '';
-
                     // 触发更新
                     props.onChange((e.target as HTMLTextAreaElement).value);
                   }}
