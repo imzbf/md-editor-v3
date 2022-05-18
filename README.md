@@ -217,7 +217,7 @@ export interface StaticTextDefaultValue {
 
 `NormalToolbar` component example：
 
-```js
+```vue
 <template>
   <md-editor>
     <template #defToolbars>
@@ -231,12 +231,15 @@ export interface StaticTextDefaultValue {
     </template>
   </md-editor>
 </template>
+
 <script setup>
 import MdEditor from 'md-editor-v3';
 
 const NormalToolbar = MdEditor.NormalToolbar;
 
-const handler = () => { console.log('NormalToolbar clicked!') }
+const handler = () => {
+  console.log('NormalToolbar clicked!');
+};
 </script>
 ```
 
@@ -301,12 +304,14 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
   import MdEditor from 'md-editor-v3';
 
   MdEditor.config({
-    markedOptions: {
-      languageUserDefined: { 'lang': StaticTextDefaultValue };
+    editorConfig: {
+      languageUserDefined: { lang: StaticTextDefaultValue },
       mermaidTemplate: {
-        flow: `flow tempalte`;
+        flow: `flow tempalte`,
         ...more
-      };
+      },
+      // ms
+      renderDelay: 500
     }
   });
   ```
@@ -493,9 +498,9 @@ export default defineComponent({
 
 ### Vue template
 
-```js
+```vue
 <template>
-  <md-editor v-model="text" pageFullScreen></md-editor>
+  <md-editor v-model="text" preview-only />
 </template>
 
 <script setup>
@@ -503,7 +508,7 @@ import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-const text = ref('# Hello Editor')
+const text = ref('# Hello Editor');
 </script>
 ```
 
@@ -511,8 +516,18 @@ const text = ref('# Hello Editor')
 
 > Tips：When you paste and upload GIF, it will upload a static picture. So you should upload it by file system!
 
-```js
-async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
+<template>
+  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('# Hello Editor');
+
+const onUploadImg = async (files, callback) => {
   const res = await Promise.all(
     files.map((file) => {
       return new Promise((rev, rej) => {
@@ -531,6 +546,6 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
     })
   );
 
-  callback(res.map((item: any) => item.data.url));
-}
-```
+  callback(res.map((item) => item.data.url));
+};
+</script>

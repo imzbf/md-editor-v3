@@ -225,7 +225,7 @@ export interface StaticTextDefaultValue {
 
 使用内置的 3 个组件（说明见下方），自定义工具栏，简单示例：
 
-```js
+```vue
 <template>
   <md-editor>
     <template #defToolbars>
@@ -239,12 +239,15 @@ export interface StaticTextDefaultValue {
     </template>
   </md-editor>
 </template>
+
 <script setup>
 import MdEditor from 'md-editor-v3';
 
 const NormalToolbar = MdEditor.NormalToolbar;
 
-const handler = () => { console.log('NormalToolbar clicked!') }
+const handler = () => {
+  console.log('NormalToolbar clicked!');
+};
 </script>
 ```
 
@@ -303,20 +306,22 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 
   > 参考：https://marked.js.org/using_advanced#options
 
-- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板：
+- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板等：
 
   ```js
   import MdEditor from 'md-editor-v3';
 
   MdEditor.config({
-    markedOptions: {
+    editorConfig: {
       // 语言
-      languageUserDefined: { 'lang': StaticTextDefaultValue };
+      languageUserDefined: { lang: StaticTextDefaultValue },
       // mermaid模板
       mermaidTemplate: {
-        flow: `flow tempalte`;
+        flow: `flow tempalte`,
         ...more
-      };
+      },
+      // 输入渲染延迟，ms
+      renderDelay: 500
     }
   });
   ```
@@ -409,7 +414,7 @@ const handler = () => { console.log('NormalToolbar clicked!') }
 
 ## 内部组件
 
-1.x 版本扩展组件作为编辑器组件的属性值来使用，例如：`Editor.DropdownToolbar`。使用参考：[文档页面](https://imzbf.github.io/md-editor-v3)
+扩展组件作为编辑器组件的属性值来使用，例如：`Editor.DropdownToolbar`。使用参考：[文档页面](https://imzbf.github.io/md-editor-v3)
 
 ### 普通扩展工具栏
 
@@ -505,9 +510,9 @@ export default defineComponent({
 
 ### Vue 模板项目
 
-```js
+```vue
 <template>
-  <md-editor v-model="text" pageFullScreen></md-editor>
+  <md-editor v-model="text" preview-only />
 </template>
 
 <script setup>
@@ -515,7 +520,7 @@ import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-const text = ref('# Hello Editor')
+const text = ref('# Hello Editor');
 </script>
 ```
 
@@ -525,8 +530,19 @@ const text = ref('# Hello Editor')
 
 > 注意：粘贴板上传时，如果是网页上的 gif 图，无法正确上传为 gif 格式！
 
-```js
-async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
+```vue
+<template>
+  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('# Hello Editor');
+
+const onUploadImg = async (files, callback) => {
   const res = await Promise.all(
     files.map((file) => {
       return new Promise((rev, rej) => {
@@ -545,6 +561,7 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
     })
   );
 
-  callback(res.map((item: any) => item.data.url));
-}
+  callback(res.map((item) => item.data.url));
+};
+</script>
 ```
