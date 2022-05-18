@@ -160,9 +160,13 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
  * markdown编译逻辑
  */
 export const useMarked = (props: EditorContentProps, mermaidData: any) => {
-  const { markedRenderer, markedExtensions, markedOptions, editorExtensions } = inject(
-    'extension'
-  ) as ConfigOption;
+  const {
+    markedRenderer,
+    markedExtensions,
+    markedOptions,
+    editorExtensions,
+    editorConfig
+  } = inject('extension') as ConfigOption;
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const editorId = inject('editorId') as string;
@@ -308,13 +312,16 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
   const html = ref(props.sanitize(marked(props.value || '', { renderer })));
 
-  const markHtml = debounce(() => {
-    heads.value = [];
-    const _html = props.sanitize(marked(props.value || '', { renderer }));
-    html.value = _html;
+  const markHtml = debounce(
+    () => {
+      heads.value = [];
+      const _html = props.sanitize(marked(props.value || '', { renderer }));
+      html.value = _html;
 
-    props.onHtmlChanged(_html);
-  }, 500);
+      props.onHtmlChanged(_html);
+    },
+    editorConfig?.renderDelay !== undefined ? editorConfig?.renderDelay : 500
+  );
 
   // 监听调用
   watch(

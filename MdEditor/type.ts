@@ -239,6 +239,10 @@ export interface ConfigOption {
      * 自定义内部mermaid模块
      */
     mermaidTemplate?: MermaidTemplate;
+    /**
+     * 输入渲染延迟（ms）
+     */
+    renderDelay?: number;
   };
 }
 
