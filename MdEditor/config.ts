@@ -119,7 +119,8 @@ export const staticTextDefault: StaticTextDefault = {
     },
     copyCode: {
       text: '复制代码',
-      tips: '已复制！'
+      successTips: '已复制！',
+      failTips: '复制失败！'
     },
     mermaid: {
       flow: '流程图',
@@ -193,7 +194,8 @@ export const staticTextDefault: StaticTextDefault = {
     },
     copyCode: {
       text: 'Copy',
-      tips: 'Copied!'
+      successTips: 'Copied!',
+      failTips: 'Copy failed!'
     },
     mermaid: {
       flow: 'flow',

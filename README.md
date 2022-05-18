@@ -183,7 +183,8 @@ export interface StaticTextDefaultValue {
   // Copy code tips, v1.1.4
   copyCode?: {
     text?: string;
-    tips?: string;
+    successTips?: string;
+    failTips?: string;
   };
   // 1.8.0
   mermaid?: {

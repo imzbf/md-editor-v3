@@ -184,7 +184,8 @@ export interface StaticTextDefaultValue {
   // 预览代码中复制代码提示，v1.1.4
   copyCode?: {
     text?: string;
-    tips?: string;
+    successTips?: string;
+    failTips?: string;
   };
   // v1.8.0
   mermaid?: {

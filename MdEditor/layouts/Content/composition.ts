@@ -432,15 +432,20 @@ export const useAutoScroll = (
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
     document.querySelectorAll(`#${editorId}-preview pre`).forEach((pre: Element) => {
+      const copyBtnText = ult.value.copyCode?.text || '复制代码';
       const copyButton = document.createElement('span');
       copyButton.setAttribute('class', 'copy-button');
-      copyButton.innerText = ult.value.copyCode?.text || '复制代码';
+      copyButton.innerText = copyBtnText;
       copyButton.addEventListener('click', () => {
-        copy((pre.querySelector('code') as HTMLElement).innerText);
+        const success = copy((pre.querySelector('code') as HTMLElement).innerText);
 
-        copyButton.innerText = ult.value.copyCode?.tips || '已复制！';
+        const succssTip = ult.value.copyCode?.successTips || '已复制！';
+        const failTip = ult.value.copyCode?.failTips || '已复制！';
+
+        copyButton.innerText = success ? succssTip : failTip;
+
         setTimeout(() => {
-          copyButton.innerText = ult.value.copyCode?.text || '复制代码';
+          copyButton.innerText = copyBtnText;
         }, 1500);
       });
       pre.appendChild(copyButton);

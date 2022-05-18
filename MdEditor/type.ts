@@ -73,7 +73,8 @@ export interface StaticTextDefaultValue {
   };
   copyCode?: {
     text?: string;
-    tips?: string;
+    successTips?: string;
+    failTips?: string;
   };
   mermaid?: {
     // 流程图
