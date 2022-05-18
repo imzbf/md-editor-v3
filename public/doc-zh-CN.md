@@ -459,98 +459,101 @@ const handler = () => {
   MdEditor.config({
     markedOptions: {
       // 语言
-      languageUserDefined: 'en-US': {
-        toolbarTips: {
-          bold: 'bold',
-          underline: 'underline',
-          italic: 'italic',
-          strikeThrough: 'strikeThrough',
-          title: 'title',
-          sub: 'subscript',
-          sup: 'superscript',
-          quote: 'quote',
-          unorderedList: 'unordered list',
-          orderedList: 'ordered list',
-          codeRow: 'inline code',
-          code: 'block-level code',
-          link: 'link',
-          image: 'image',
-          table: 'table',
-          mermaid: 'mermaid',
-          katex: 'formula',
-          revoke: 'revoke',
-          next: 'undo revoke',
-          save: 'save',
-          prettier: 'prettier',
-          pageFullscreen: 'fullscreen in page',
-          fullscreen: 'fullscreen',
-          preview: 'preview',
-          htmlPreview: 'html preview',
-          catalog: 'catalog',
-          github: 'source code'
+      languageUserDefined: {
+        'en-US': {
+          toolbarTips: {
+            bold: 'bold',
+            underline: 'underline',
+            italic: 'italic',
+            strikeThrough: 'strikeThrough',
+            title: 'title',
+            sub: 'subscript',
+            sup: 'superscript',
+            quote: 'quote',
+            unorderedList: 'unordered list',
+            orderedList: 'ordered list',
+            codeRow: 'inline code',
+            code: 'block-level code',
+            link: 'link',
+            image: 'image',
+            table: 'table',
+            mermaid: 'mermaid',
+            katex: 'formula',
+            revoke: 'revoke',
+            next: 'undo revoke',
+            save: 'save',
+            prettier: 'prettier',
+            pageFullscreen: 'fullscreen in page',
+            fullscreen: 'fullscreen',
+            preview: 'preview',
+            htmlPreview: 'html preview',
+            catalog: 'catalog',
+            github: 'source code'
+          },
+          titleItem: {
+            h1: 'Lv1 Heading',
+            h2: 'Lv2 Heading',
+            h3: 'Lv3 Heading',
+            h4: 'Lv4 Heading',
+            h5: 'Lv5 Heading',
+            h6: 'Lv6 Heading'
+          },
+          imgTitleItem: {
+            link: 'Add Img Link',
+            upload: 'Upload Img',
+            clip2upload: 'Clip Upload'
+          },
+          linkModalTips: {
+            title: 'Add ',
+            descLable: 'Desc:',
+            descLablePlaceHolder: 'Enter a description...',
+            urlLable: 'Link:',
+            UrlLablePlaceHolder: 'Enter a link...',
+            buttonOK: 'OK'
+          },
+          clipModalTips: {
+            title: 'Crop Image',
+            buttonUpload: 'Upload'
+          },
+          copyCode: {
+            text: 'Copy',
+            successTips: 'Copied!',
+            failTips: 'Copy failed!'
+          },
+          mermaid: {
+            flow: 'flow',
+            sequence: 'sequence',
+            gantt: 'gantt',
+            class: 'class',
+            state: 'state',
+            pie: 'pie',
+            relationship: 'relationship',
+            journey: 'journey'
+          },
+          katex: {
+            inline: 'inline',
+            block: 'block'
+          }
         },
-        titleItem: {
-          h1: 'Lv1 Heading',
-          h2: 'Lv2 Heading',
-          h3: 'Lv3 Heading',
-          h4: 'Lv4 Heading',
-          h5: 'Lv5 Heading',
-          h6: 'Lv6 Heading'
-        },
-        imgTitleItem: {
-          link: 'Add Img Link',
-          upload: 'Upload Img',
-          clip2upload: 'Clip Upload'
-        },
-        linkModalTips: {
-          title: 'Add ',
-          descLable: 'Desc:',
-          descLablePlaceHolder: 'Enter a description...',
-          urlLable: 'Link:',
-          UrlLablePlaceHolder: 'Enter a link...',
-          buttonOK: 'OK'
-        },
-        clipModalTips: {
-          title: 'Crop Image',
-          buttonUpload: 'Upload'
-        },
-        copyCode: {
-          text: 'Copy',
-          tips: 'Copied!'
-        },
-        mermaid: {
-          flow: 'flow',
-          sequence: 'sequence',
-          gantt: 'gantt',
-          class: 'class',
-          state: 'state',
-          pie: 'pie',
-          relationship: 'relationship',
-          journey: 'journey'
-        },
-        katex: {
-          inline: 'inline',
-          block: 'block'
+        // mermaid模板
+        mermaidTemplate: {
+          // 流程图
+          flow: `flow tempalte`,
+          // 时序图
+          sequence: `sequence template`,
+          // 甘特图
+          gantt: `gantt template`,
+          // 类图
+          class: `class template`,
+          // 状态图
+          state: `state template`,
+          // 饼图
+          pie: `pie template`,
+          // 关系图
+          relationship: `relationship template`,
+          // 旅程图
+          journey: `journey template`
         }
-      },
-      // mermaid模板
-      mermaidTemplate: {
-        // 流程图
-        flow: `flow tempalte`,
-        // 时序图
-        sequence: `sequence template`,
-        // 甘特图
-        gantt: `gantt template`,
-        // 类图
-        class: `class template`,
-        // 状态图
-        state: `state template`,
-        // 饼图
-        pie: `pie template`,
-        // 关系图
-        relationship: `relationship template`,
-        // 旅程图
-        journey: `journey template`
       }
     }
   });
