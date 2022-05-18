@@ -49,7 +49,11 @@ interface HistoryDataType {
 /**
  * 保存历史记录
  */
-export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
+export const useHistory = (
+  props: EditorContentProps,
+  textAreaRef: Ref,
+  completeStatus: Ref<boolean>
+) => {
   const previewOnly = inject('previewOnly') as boolean;
   const historyLength = inject('historyLength') as number;
   const editorId = inject('editorId') as string;
@@ -92,50 +96,63 @@ export const useHistory = (props: EditorContentProps, textAreaRef: Ref) => {
     setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
   };
 
-  onMounted(() => {
-    bus.on(editorId, {
-      name: 'saveHistory',
-      callback(content: string) {
-        clearTimeout(saveHistoryId);
-        const startPos: number = textAreaRef.value?.selectionStart || 0;
-        const endPos: number = textAreaRef.value?.selectionEnd || 0;
+  const saveHistory = (content: string) => {
+    clearTimeout(saveHistoryId);
+    const startPos: number = textAreaRef.value?.selectionStart || 0;
+    const endPos: number = textAreaRef.value?.selectionEnd || 0;
 
-        saveHistoryId = <any>setTimeout(() => {
-          // 如果不是撤销操作，就记录
-          if (history.userUpdated) {
-            // 重置撤回之前的记录
-            if (history.curr < history.list.length - 1) {
-              history.list = history.list.slice(0, history.curr + 1);
-            }
-            if (history.list.length > historyLength) {
-              history.list.shift();
-            }
+    saveHistoryId = <any>setTimeout(() => {
+      // 如果不是撤销操作，就记录
+      if (history.userUpdated) {
+        // 重置撤回之前的记录
+        if (history.curr < history.list.length - 1) {
+          history.list = history.list.slice(0, history.curr + 1);
+        }
+        if (history.list.length > historyLength) {
+          history.list.shift();
+        }
 
-            // 修改保存上次记录选中定位
-            const lastStep = history.list.pop() || {
-              startPos: 0,
-              endPos: 0,
-              content
-            };
+        // 修改保存上次记录选中定位
+        const lastStep = history.list.pop() || {
+          startPos: 0,
+          endPos: 0,
+          content
+        };
 
-            lastStep.startPos = startPos;
-            lastStep.endPos = endPos;
+        lastStep.startPos = startPos;
+        lastStep.endPos = endPos;
 
-            Array.prototype.push.call(history.list, lastStep, {
-              content,
-              startPos,
-              endPos
-            });
+        Array.prototype.push.call(history.list, lastStep, {
+          content,
+          startPos,
+          endPos
+        });
 
-            // 下标调整为最后一个位置
-            history.curr = history.list.length - 1;
-          } else {
-            history.userUpdated = true;
-          }
-        }, 150);
+        // 下标调整为最后一个位置
+        history.curr = history.list.length - 1;
+      } else {
+        history.userUpdated = true;
       }
-    });
-  });
+    }, 150);
+  };
+
+  watch(
+    () => props.value,
+    (val) => {
+      if (completeStatus.value) {
+        saveHistory(val);
+      }
+    }
+  );
+
+  watch(
+    () => completeStatus.value,
+    () => {
+      // 输入中文等时，oninput不会保存历史记录
+      // 在完成时保存
+      saveHistory(props.value);
+    }
+  );
 
   onMounted(() => {
     bus.on(editorId, {

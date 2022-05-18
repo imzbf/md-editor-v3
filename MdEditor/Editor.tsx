@@ -421,13 +421,7 @@ const Editor = defineComponent({
           <Content
             // hljs={props.hljs}
             value={props.modelValue}
-            onChange={(value: string, completeStatus = true) => {
-              if (completeStatus) {
-                // 输入中文等语言时，未选择文本不保存历史
-                // 撤回将不会出现中间输入内容
-                bus.emit(editorId, 'saveHistory', value);
-              }
-
+            onChange={(value: string) => {
               if (props.onChange) {
                 props.onChange(value);
               } else {

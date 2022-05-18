@@ -41,7 +41,7 @@ export default defineComponent({
       default: ''
     },
     onChange: {
-      type: Function as PropType<(v: string, status?: boolean) => void>,
+      type: Function as PropType<(v: string) => void>,
       default: () => () => {}
     },
     setting: {
@@ -109,7 +109,7 @@ export default defineComponent({
     // 自动监听生成md内容
     const { selectedText } = useAutoGenrator(props, textAreaRef);
     // 历史记录
-    useHistory(props, textAreaRef);
+    useHistory(props, textAreaRef, completeStatus);
     // 粘贴上传
     usePasteUpload(textAreaRef);
     // 图片点击放大
@@ -133,20 +133,9 @@ export default defineComponent({
                     selectedText.value = '';
 
                     // 触发更新
-                    props.onChange(
-                      (e.target as HTMLTextAreaElement).value,
-                      completeStatus.value
-                    );
+                    props.onChange((e.target as HTMLTextAreaElement).value);
                   }}
-                  onCompositionend={(e) => {
-                    // 输入中文等时，oninput不会保存历史记录
-                    // 在完成时保存
-                    bus.emit(
-                      editorId,
-                      'saveHistory',
-                      (e.target as HTMLTextAreaElement).value
-                    );
-
+                  onCompositionend={() => {
                     completeStatus.value = true;
                   }}
                   class={[
