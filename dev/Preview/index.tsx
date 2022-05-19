@@ -13,6 +13,8 @@ import mermaid from 'mermaid';
 
 import './index.less';
 
+import { cdnBase } from '../../MdEditor/config';
+
 Editor.config({
   markedRenderer(renderer) {
     renderer.link = (href, title, text) => {
@@ -29,9 +31,8 @@ Editor.config({
     highlight: {
       css: {
         'tokyo-night': {
-          light:
-            'https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/tokyo-night-light.css',
-          dark: 'https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/tokyo-night-dark.css'
+          light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
+          dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
         }
       }
     },
