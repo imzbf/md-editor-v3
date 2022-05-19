@@ -543,6 +543,44 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 
 > 更多 emoji，[https://getemoji.com/](https://getemoji.com/)。
 
+### 🧙‍♂️ 调整编辑器样式
+
+2.x 使用 css 变量定义了大部分内容：
+
+```less
+.css-vars(@isDark) {
+  --md-color: if(@isDark, #999, #222);
+  --md-hover-color: if(@isDark, #bbb, #000);
+  --md-bk-color: if(@isDark, #000, #fff);
+  --md-bk-color-outstand: if(@isDark, #111, #f6f6f6);
+  --md-bk-hover-color: if(@isDark, #1b1a1a, #f5f7fa);
+  --md-border-color: if(@isDark, #2d2d2d, #e6e6e6);
+  --md-border-hover-color: if(@isDark, #636262, #b9b9b9);
+  --md-border-active-color: if(@isDark, #777, #999);
+  --md-modal-mask: #00000073;
+  --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
+  --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
+  --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
+  --md-scrollbar-thumb-avtive-color: if(@isDark, #3a3a3a, #00000061);
+}
+
+.md {
+  .css-vars(false);
+}
+
+.md-dark {
+  .css-vars(true);
+}
+```
+
+只需要调整对应的 css 变量，比如调整暗夜模式下的背景：
+
+```css
+.md-dark {
+  --md-bk-color: #333 !important;
+}
+```
+
 ## 🔒 XSS
 
 在`1.8.0`之后，通过`sanitize`事件，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
