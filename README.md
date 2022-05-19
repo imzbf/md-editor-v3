@@ -516,10 +516,11 @@ const text = ref('# Hello Editor');
 </script>
 ```
 
-### Upload picture
+### Upload Picture
 
 > Tips: When you paste and upload GIF, it will upload a static picture. So you should upload it by file system!
 
+```vue
 <template>
   <md-editor v-model="text" @onUploadImg="onUploadImg" />
 </template>
@@ -553,6 +554,7 @@ const onUploadImg = async (files, callback) => {
   callback(res.map((item) => item.data.url));
 };
 </script>
+```
 
 ### Change Styles
 
