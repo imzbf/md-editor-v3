@@ -1189,10 +1189,10 @@
     "@typescript-eslint/types" "5.23.0"
     eslint-visitor-keys "^3.0.0"
 
-"@vavt/markdown-theme@^1.0.0-beta.1":
-  version "1.0.0-beta.1"
-  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-1.0.0-beta.1.tgz#11c77f708b8de92f27a895d03e22bd4559a6406c"
-  integrity sha512-o7iymlesS/6TDDDo8sQEIDy/NkqeuPo3xrJYYLv0I4WJipW677FtVwvG9si2bsWRUbqte3FIYSk+1qzkqLL+cA==
+"@vavt/markdown-theme@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-1.0.0.tgz#5c5956873aaf1a6adc04edbcc41fdeb725d0f258"
+  integrity sha512-/ZOnD/eq6CPY3UKGyIqOPMX+ujqzOA5Lahz4Fh5aZS9BmjsveAkOqj2+0a4SnH5Mn5nQ0kOTAsgYjcEyZNXmng==
 
 "@vitejs/plugin-vue-jsx@^1.3.10":
   version "1.3.10"
