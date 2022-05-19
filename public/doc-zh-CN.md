@@ -10,6 +10,10 @@
 - **默认值**：`''`
 - **说明**：编辑的内容。
 
+  ```html
+  <md-editor-v3 v-model="xxx" />
+  ```
+
 ### 🛍 theme
 
 - **类型**：`'light' | 'dark'`
@@ -70,7 +74,7 @@
 
   你可以随意排序工具栏，通过`'-'`分割两个工具，通过`'='`实现左右放置！
 
-  从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范），更多请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#💪%20defToolbars)。
+  从 v1.10.0 开始，你可以自定义工具栏，将`defToolbars`中自定义工具项的下标穿插在`toolbars`实现展示（这并不规范）
 
   _[all]_
 
@@ -202,7 +206,7 @@
 - **默认值**：`false`
 - **说明**：如果你不希望使用数学公式展示内容，可以设置关闭。
 
-  ```js
+  ```html
   <md-ditor-v3 no-katex />
   ```
 
@@ -224,12 +228,14 @@
       highlight: {
         css: {
           atom: {
-            light: '//cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css',
-            dark: '//cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-dark.css'
+            light:
+              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
+            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css'
           },
           xxx: {
-            light: '//cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/xxx-light.css',
-            dark: '//cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/xxx-dark.css'
+            light:
+              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
+            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css'
           }
         }
       }
@@ -327,7 +333,9 @@ const handler = () => {
 </script>
 ```
 
-![普通扩展工具栏](https://imzbf.github.io/md-editor-v3/imgs/normal-toolbar.gif) ![下拉扩展工具栏](https://imzbf.github.io/md-editor-v3/imgs/dropdown-toolbar.gif)
+![普通扩展工具栏](https://imzbf.github.io/md-editor-v3/imgs/normal-toolbar.gif)
+
+![下拉扩展工具栏](https://imzbf.github.io/md-editor-v3/imgs/dropdown-toolbar.gif)
 
 扩展组件属性参考**内置组件**，使用示例参见[文档分支](https://github.com/imzbf/md-editor-v3/tree/docs/src/components)，提供**标记**、**表情**和**弹窗预览**扩展组件。
 
@@ -437,7 +445,7 @@ const handler = () => {
 
   > 参考：https://marked.js.org/using_pro#extensions
 
-  [文档示例源码](https://github.com/imzbf/md-editor-v3/blob/dev-docs-v2/src/main.ts)
+  [文档示例源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/main.ts)
 
 - markedOptions: `marked.MarkedOptions`，设置输入空白行不渲染出来 🌰：
 
@@ -451,13 +459,13 @@ const handler = () => {
 
   > 参考：https://marked.js.org/using_advanced#options
 
-- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板：
+- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板、渲染延迟：
 
   ```js
   import MdEditor from 'md-editor-v3';
 
   MdEditor.config({
-    markedOptions: {
+    editorConfig: {
       // 语言
       languageUserDefined: {
         'en-US': {
@@ -553,7 +561,9 @@ const handler = () => {
           relationship: `relationship template`,
           // 旅程图
           journey: `journey template`
-        }
+        },
+        // 输入渲染延迟（ms）
+        renderDelay: 0
       }
     }
   });
@@ -795,6 +805,8 @@ const data = reactive({
 [获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/ReadExtension/index.vue)
 
 ### 🐻 MdCatalog
+
+`Editor.MdCatalog`
 
 - **props**
 
