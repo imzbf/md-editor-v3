@@ -2,31 +2,28 @@
 
 It has been developing iteratively，so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
-### 🤖 Install
-
-```shell
-yarn add md-editor-v3
-```
-
 Now, we can develop vue3 project by `jsx` friendly. Editor is compatible for some enthusiasts(like me).
 
-### 🤓 Traditional development
+### 🤓 CDN
 
 Use production version in html directly:
 
-```js
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Traditional development</title>
-    <link href="https://cdn.jsdelivr.net/npm/md-editor-v3@${EDITOR_VERSION}/lib/style.css" rel="stylesheet" />
+    <title>Global Load</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/md-editor-v3@${EDITOR_VERSION}/lib/style.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="md-editor-v3">
       <md-editor-v3 v-model="text" />
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.1.5/dist/vue.global.prod.min.js"></script>
+    <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.js"></script>
     <script>
       const App = {
@@ -42,28 +39,29 @@ Use production version in html directly:
 </html>
 ```
 
-### 🥱 Vue template
+### 🤖 Npm Install
 
-```js
+```shell
+yarn add md-editor-v3
+```
+
+#### 🥱 Setup template
+
+```vue
 <template>
   <md-editor v-model="text" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  components: { MdEditor },
-  data() {
-    return { text: '' };
-  }
-});
+const text = ref('Hello Editor!');
 </script>
 ```
 
-### 🤗 Jsx module
+#### 🤗 Jsx Template
 
 ```js
 import { defineComponent, ref } from 'vue';
@@ -87,120 +85,186 @@ Usages of some APIs.
 
 ### 🍦 Change Theme
 
-After `v1.4.3`, Themes are divided into editor themes(api: `theme`) and article preview themes(api: `previewTheme`).
+Themes are divided into editor theme(`theme`), article preview theme(`previewTheme`) and code theme(`codeTheme`).
 
 #### 🍧 Editor Theme
 
 Support `light` and `dark` default.
 
-```js
+```vue
 <template>
-  <md-editor v-model="text" :theme="theme"/>
+  <md-editor v-model="state.text" :theme="state.theme" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup>
+import { reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  components: { MdEditor },
-  data() {
-    return {
-      text: '',
-      theme: 'dark'
-    };
-  }
+const state = reactive({
+  text: '',
+  theme: 'dark'
 });
 </script>
 ```
 
 #### 🍡 Preview Theme
 
-There are three themes `default`, `github` and `vuepress`. It is useful When you want to show your article directly. Modify `previewTheme`.
+There are 6 kinds of themes: `default`, `github`, `vuepress`, `mk-cute`, `smart-blue` and `cyanosis`. It is useful When you want to show your article directly. Modify `previewTheme`.
 
-Rules:
+- Usage
 
-- When `previewTheme` is `default` or `vuepress`, change `theme` api, the style of code will not change;
-- When `github`, the style of code will vary in `github-light` and `github-dark`.
+  ```vue
+  <template>
+    <md-editor v-model="state.text" :preview-theme="state.theme" />
+  </template>
 
-```js
-<template>
-  <md-editor v-model="text" :preview-theme="theme"/>
-</template>
+  <script setup>
+  import { defineComponent } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+  const state = reactive({
+    text: '',
+    theme: 'cyanosis'
+  });
+  </script>
+  ```
 
-export default defineComponent({
-  components: { MdEditor },
-  data() {
-    return {
-      text: '',
-      theme: 'vuepress'
-    };
+- Custom
+
+  1. Write `css` under the `xxx-theme` claa. `xxx` is the name of your theme, for more examples, refer to [markdown-theme](https://github.com/imzbf/markdown-theme).
+
+  _xxx.css_
+
+  ```css
+  .xxx-theme code {
+    color: red;
   }
-});
-</script>
-```
+  ```
 
-### 🛠 Extension component
+  2. Import
+
+  ```js
+  import 'xxx.css';
+  ```
+
+  3. Set `previewTheme`
+
+  ```html
+  <md-editor preview-theme="xxx" />
+  ```
+
+#### 🎄 Code Theme
+
+There are 8 kinds of themes: `atom`, `a11y`, `github`, `gradient`, `kimbie`, `paraiso`,`qtcreator` and `stackoverflow`, they are all from [highlight.js](https://highlightjs.org/).
+
+- Usage
+
+  ```vue
+  <template>
+    <md-editor v-model="state.text" :code-theme="state.theme" />
+  </template>
+
+  <script setup>
+  import { reactive } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const state = reactive({
+    text: '',
+    theme: 'atom'
+  });
+  </script>
+  ```
+
+- Custom
+
+  1. Find or Write your favorite theme, then config them:
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    editorExtensions: {
+      highlight: {
+        css: {
+          xxxxx: {
+            light: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
+            dark: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-dark.css'
+          },
+          yyyyy: {
+            light: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
+            dark: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-dark.css'
+          }
+        }
+      }
+    }
+  });
+  ```
+
+  If some keys in object `css` are same as Editor's, Editor's whill be replaced.
+
+  2. Set `codeTheme`
+
+  ```html
+  <md-editor code-theme="xxxxx" />
+  ```
+
+### 🛠 Config Extensions
 
 Extensions highlight, prettier, cropper, screenfull are import from `cdn`. When your project is running offline, replace urls of these extensions. Some Extensions support be injected in development environment.
 
-Demo of `screenfull`
+Example for `screenfull`:
 
-#### ⚰️ Inject directly
+#### ⚰️ Inject Directly
 
-```js
+```vue
 <template>
-  <md-editor v-model="text" :screenfull="screenfull"/>
+  <md-editor v-model="text" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-// import screenfull
+<script setup>
+import { ref } from 'vue';
 import screenfull from 'screenfull';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  components: { MdEditor },
-  data() {
-    return {
-      text: '',
-      screenfull
-    };
+MdEditor.config({
+  editorExtensions: {
+    screenfull: {
+      instance: screenfull
+    }
   }
 });
+
+const text = ref('');
 </script>
 ```
 
-#### 📡 Intranet link
+#### 📡 Intranet Link
 
-Get these extension files from [https://www.jsdelivr.com/](https://www.jsdelivr.com/).
+Get files from [unpkg.com](https://unpkg.com).
 
-```js
+```vue
 <template>
-  <md-editor v-model="text" :screenfullJs="screenfull"/>
+  <md-editor v-model="text" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  components: { MdEditor },
-  data() {
-    return {
-      text: '',
-      screenfullJs: 'http://127.0.0.1:90/libs/screenfull.js'
-    };
+MdEditor.config({
+  editorExtensions: {
+    screenfull: {
+      js: 'https://localhost:8090/screenfull@6.0.1/index.js'
+    }
   }
 });
+
+const text = ref('');
 </script>
 ```
 
@@ -208,12 +272,21 @@ export default defineComponent({
 
 By default, you can select multiple pictures. You can paste and upload screenshots and copy web page pictures.
 
-> v1.2.0: Only one image can be selected for image clipping ~，but `onUploadImg` function will receive an array also.
-
 > Tips: When pasting pictures, if they are GIF graphs, it does not work! Please upload it by file system.
 
-```js
-async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
+```vue
+<template>
+  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('# Hello Editor');
+
+const onUploadImg = async (files, callback) => {
   const res = await Promise.all(
     files.map((file) => {
       return new Promise((rev, rej) => {
@@ -232,150 +305,139 @@ async onUploadImg(files: Array<File>, callback: (urls: string[]) => void) {
     })
   );
 
-  callback(res.map((item: any) => item.data.url));
-}
+  callback(res.map((item) => item.data.url));
+};
+</script>
 ```
 
 ### 🏳️‍🌈 Extension language
 
-```js
+```vue
 <template>
-  <md-editor
-    v-model="text"
-    :language="language"
-    :languageUserDefined="languageUserDefined"
-  />
+  <md-editor v-model="state.text" :language="state.language" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup>
+import { reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  components: { MdEditor },
-  data() {
-    return {
-      text: '',
-      // name
-      language: 'my-lang',
-      // text
-      languageUserDefined: {
-        'my-lang': {
-          toolbarTips: {
-            bold: '----',
-            underline: 'underline',
-            italic: 'italic',
-            strikeThrough: 'strikeThrough',
-            title: 'title',
-            sub: 'subscript',
-            sup: 'superscript',
-            quote: 'quote',
-            unorderedList: 'unordered list',
-            orderedList: 'ordered list',
-            codeRow: 'inline code',
-            code: 'block-level code',
-            link: 'link',
-            image: 'image',
-            table: 'table',
-            mermaid: 'mermaid',
-            katex: 'formula',
-            revoke: 'revoke',
-            next: 'undo revoke',
-            save: 'save',
-            prettier: 'prettier',
-            pageFullscreen: 'fullscreen in page',
-            fullscreen: 'fullscreen',
-            preview: 'preview',
-            htmlPreview: 'html preview',
-            catalog: 'catalog',
-            github: 'source code'
-          },
-          titleItem: {
-            h1: 'Lv1 Heading',
-            h2: 'Lv2 Heading',
-            h3: 'Lv3 Heading',
-            h4: 'Lv4 Heading',
-            h5: 'Lv5 Heading',
-            h6: 'Lv6 Heading'
-          },
-          imgTitleItem: {
-            link: 'Add Img Link',
-            upload: 'Upload Img',
-            clip2upload: 'Clip Upload'
-          },
-          linkModalTips: {
-            title: 'Add ',
-            descLable: 'Desc:',
-            descLablePlaceHolder: 'Enter a description...',
-            urlLable: 'Link:',
-            UrlLablePlaceHolder: 'Enter a link...',
-            buttonOK: 'OK',
-          },
-          clipModalTips: {
-            title: 'Crop Image',
-            buttonUpload: 'Upload'
-          },
-          copyCode: {
-            text: 'Copy',
-            tips: 'Copied!'
-          },
-          mermaid: {
-            flow: 'flow',
-            sequence: 'sequence',
-            gantt: 'gantt',
-            class: 'class',
-            state: 'state',
-            pie: 'pie',
-            relationship: 'relationship',
-            journey: 'journey'
-          },
-          katex: {
-            inline: 'inline',
-            block: 'block'
-          }
+MdEditor.config({
+  markedOptions: {
+    languageUserDefined: {
+      'my-lang': {
+        toolbarTips: {
+          bold: '----',
+          underline: 'underline',
+          italic: 'italic',
+          strikeThrough: 'strikeThrough',
+          title: 'title',
+          sub: 'subscript',
+          sup: 'superscript',
+          quote: 'quote',
+          unorderedList: 'unordered list',
+          orderedList: 'ordered list',
+          codeRow: 'inline code',
+          code: 'block-level code',
+          link: 'link',
+          image: 'image',
+          table: 'table',
+          mermaid: 'mermaid',
+          katex: 'formula',
+          revoke: 'revoke',
+          next: 'undo revoke',
+          save: 'save',
+          prettier: 'prettier',
+          pageFullscreen: 'fullscreen in page',
+          fullscreen: 'fullscreen',
+          preview: 'preview',
+          htmlPreview: 'html preview',
+          catalog: 'catalog',
+          github: 'source code'
+        },
+        titleItem: {
+          h1: 'Lv1 Heading',
+          h2: 'Lv2 Heading',
+          h3: 'Lv3 Heading',
+          h4: 'Lv4 Heading',
+          h5: 'Lv5 Heading',
+          h6: 'Lv6 Heading'
+        },
+        imgTitleItem: {
+          link: 'Add Img Link',
+          upload: 'Upload Img',
+          clip2upload: 'Clip Upload'
+        },
+        linkModalTips: {
+          title: 'Add ',
+          descLable: 'Desc:',
+          descLablePlaceHolder: 'Enter a description...',
+          urlLable: 'Link:',
+          UrlLablePlaceHolder: 'Enter a link...',
+          buttonOK: 'OK'
+        },
+        clipModalTips: {
+          title: 'Crop Image',
+          buttonUpload: 'Upload'
+        },
+        copyCode: {
+          text: 'Copy',
+          successTips: 'Copied!',
+          failTips: 'Copy Error!'
+        },
+        mermaid: {
+          flow: 'flow',
+          sequence: 'sequence',
+          gantt: 'gantt',
+          class: 'class',
+          state: 'state',
+          pie: 'pie',
+          relationship: 'relationship',
+          journey: 'journey'
+        },
+        katex: {
+          inline: 'inline',
+          block: 'block'
         }
       }
-    };
+    }
   }
 });
-</script>
 
+const state = reactive({
+  text: '',
+  language: 'my-lang'
+});
+</script>
 ```
 
-### 🛬 Modify head structure
-
-Use `markedHeading` to modify head structure, after `v1.7.2`, if there are some content about `markdown`(like: link..）, editor will display them first.
-
-> Document of `markedHeading` is the same as `heading` in [marked.js](https://marked.js.org/using_pro#renderer).
+### 🛬 Modify Heading Structure
 
 - Demand: open link in new window.
 
-- Demo:
-
-```js
+```vue
 <template>
-  <md-editor v-model="text" :marked-heading="markedHeading" />
+  <md-editor v-model="text" :marked-heading-id="getId" />
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  components: { MdEditor },
-  data() {
-    return {
-      text: ''
-    };
-  },
-  methods: {
-    markedHeading(text, level, raw) {
+const text = ref('');
+
+const getId = (text, level, raw) => {
+  return `${level}-text`;
+};
+
+MdEditor.config({
+  markedRenderer(renderer) {
+    renderer.heading = (text, level, raw) => {
       // You can not use markedHeadingId method directly, but It's really simple.
       // If the ID you defined is not equal to `raw`(your title), be sure to tell the editor the algorithm for generating the ID by `marketheadingid`.
       // If not, the Catalog will not go right.
-      const id = raw;
+      const id = getId(text, level, raw);
 
       if (/<a.*>.*<\/a>/.test(text)) {
         return `<h${level} id="${id}">${text.replace(
@@ -387,446 +449,117 @@ export default defineComponent({
       } else {
         return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
       }
-    }
-  }
-});
-</script>
-```
-
-### 📄 Get catalogue
-
-Get data list by `onGetCatalog`:
-
-```js
-<template>
-  <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
-</template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
-export default defineComponent({
-  components: { MdEditor },
-  data() {
-    return {
-      text: '',
-      catalogList: []
     };
-  },
-  methods: {
-    onGetCatalog(list: any) {
-      this.catalogList = list;
-    }
+
+    return renderer;
   }
 });
 </script>
-
 ```
 
-If there is a component like [`Anchor`](https://2x.antdv.com/components/anchor-cn) in your project, continue.
+### 📄 Get Catalogue
 
-#### 🚥 Generate catalogs
+- Grt
 
-We need create `Catalog` component and `CatalogLink` component to finish this function.
+  ```vue
+  <template>
+    <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
+  </template>
 
-**Catalog.vue**
+  <script setup>
+  import { reactive } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
-```js
-<template>
-  <Anchor :affix="false" :showInkInFixed="false">
-    <CatalogLink v-for="item of catalogs" :key="item.text" :tocItem="item" />
-  </Anchor>
-</template>
-
-<script setup lang="ts">
-import { Anchor } from 'ant-design-vue';
-import { computed, PropType, defineProps } from 'vue';
-import CatalogLink from './CatalogLink.vue';
-import './style.less';
-
-export interface TocItem {
-  text: string;
-  level: number;
-  children?: Array<TocItem>;
-}
-
-const props = defineProps({
-  heads: {
-    type: Array as PropType<Array<any>>
-  }
-});
-
-const catalogs = computed(() => {
-  const tocItems: TocItem[] = [];
-
-  props.heads?.forEach(({ text, level }) => {
-    const item = { level, text };
-
-    if (tocItems.length === 0) {
-      tocItems.push(item);
-    } else {
-      let lastItem = tocItems[tocItems.length - 1];
-
-      if (item.level > lastItem.level) {
-        for (let i = lastItem.level + 1; i <= 6; i++) {
-          const { children } = lastItem;
-          if (!children) {
-            lastItem.children = [item];
-            break;
-          }
-
-          lastItem = children[children.length - 1];
-          if (item.level <= lastItem.level) {
-            children.push(item);
-            break;
-          }
-        }
-      } else {
-        tocItems.push(item);
-      }
-    }
+  const state = reactive({
+    text: '',
+    catalogList: []
   });
-  return tocItems;
-});
-</script>
-```
 
-**CatalogLink.vue**
+  const onGetCatalog = (list) => {
+    state.catalogList = list;
+  };
+  </script>
+  ```
 
-```js
-<template>
-  <Link :href="`#${tocItem.text}`" :title="tocItem.text">
-    <div v-if="tocItem.children" class="catalog-container">
-      <CatalogLink
-        v-for="item of tocItem.children"
-        :key="`${item.level}-${item.text}`"
-        :tocItem="item"
-      />
-    </div>
-  </Link>
-</template>
+- Display
 
-<script setup lang="ts">
-import { Anchor } from 'ant-design-vue';
-import { defineProps, PropType } from 'vue';
+  Use `MdCatalog`
 
-const { Link } = Anchor;
-import { TocItem } from './';
+  ```vue
+  <template>
+    <md-editor
+      v-model="state.text"
+      :editorId="state.id"
+      :theme="state.theme"
+      preview-only
+    />
+    <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+  </template>
 
-const { tocItem } = defineProps({
-  tocItem: {
-    type: Object as PropType<TocItem>,
-    default: () => ({})
-  }
-});
-</script>
-```
+  <script setup>
+  import { reactive } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
-**style.css**
+  const state = reactive({
+    theme: 'dark',
+    text: '',
+    id: 'my-editor'
+  });
 
-```css
-.catalog-container {
-  max-height: 300px;
-  overflow: auto;
-}
-```
+  const scrollElement = document.documentElement;
+  </script>
+  ```
 
-- `Vue Template`: [Source code](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog/index.vue)
-- `Tsx`: [Source code](https://github.com/imzbf/md-editor-v3/tree/dev-docs/src/components/Catalog)
-
-### 🪚 Define toolbar
+### 🪚 Define Toolbar
 
 > after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
-```js
+```vue
 <template>
   <md-editor v-model="text" :toolbars="toolbars" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup>
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-export default defineComponent({
-  components: {
-    MdEditor
-  },
-  data() {
-    return {
-      toolbars: ['italic', 'underline', '-', 'bold', '=', 'github'],
-    };
-  }
-});
+const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
+</script>
 ```
 
 ### 💪 Customize Toolbar
 
 There are examples of `mark` and `emoji`.
 
-```vue
-<template>
-  <div class="project-preview">
-    <div class="container">
-      <Editor
-        editorId="md-prev"
-        v-model="data.text"
-        :toolbars="[
-          'bold',
-          'underline',
-          'italic',
-          'strikeThrough',
-          '-',
-          'title',
-          'sub',
-          'sup',
-          'quote',
-          'unorderedList',
-          'orderedList',
-          '-',
-          'codeRow',
-          'code',
-          'link',
-          'image',
-          'table',
-          'mermaid',
-          'katex',
-          0,
-          1,
-          '-',
-          'revoke',
-          'next',
-          'save',
-          '=',
-          'prettier',
-          'pageFullscreen',
-          'fullscreen',
-          'preview',
-          'htmlPreview',
-          'catalog',
-          'github'
-        ]"
-        :extensions="[MarkExtension]"
-      >
-        <template #defToolbars>
-          <Editor.NormalToolbar title="mark" @click="markHandler">
-            <template #trigger>
-              <svg class="md-icon" aria-hidden="true">
-                <use xlink:href="#icon-mark"></use>
-              </svg>
-            </template>
-          </Editor.NormalToolbar>
-          <Editor.DropdownToolbar
-            title="emoji"
-            :visible="data.emojiVisible"
-            :onChange="emojiVisibleChanged"
-          >
-            <template #overlay>
-              <div class="emoji-container">
-                <ol class="emojis">
-                  <li
-                    v-for="(emoji, index) of emojis"
-                    :key="`emoji-${index}`"
-                    @click="emojiHandler(emoji)"
-                    v-text="emoji"
-                  ></li>
-                </ol>
-              </div>
-            </template>
-            <template #trigger>
-              <svg class="md-icon" aria-hidden="true">
-                <use xlink:href="#icon-emoji"></use>
-              </svg>
-            </template>
-          </Editor.DropdownToolbar>
-        </template>
-      </Editor>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { reactive } from 'vue';
-import Editor from 'md-editor-v3';
-import './index.less';
-
-import { emojis } from './data';
-// refer to marked extension
-import MarkExtension from '../../utils/marked-mark';
-
-const data = reactive({
-  text: mdText,
-  emojiVisible: false
-});
-
-const markHandler = () => {
-  const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
-  const selection = window.getSelection()?.toString();
-  const endPoint = textarea.selectionStart;
-
-  const markStr = `@${selection}@`;
-
-  const prefixStr = textarea.value.substring(0, endPoint);
-  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
-
-  data.text = `${prefixStr}${markStr}${suffixStr}`;
-
-  setTimeout(() => {
-    textarea.setSelectionRange(endPoint, markStr.length + endPoint);
-    textarea.focus();
-  }, 0);
-};
-
-const emojiHandler = (emoji: string) => {
-  const textarea = document.querySelector('#md-prev-textarea') as HTMLTextAreaElement;
-  const selection = window.getSelection()?.toString();
-  const endPoint = textarea.selectionStart;
-
-  const prefixStr = textarea.value.substring(0, endPoint);
-  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
-
-  data.text = `${prefixStr}${emoji}${suffixStr}`;
-
-  setTimeout(() => {
-    textarea.setSelectionRange(endPoint, endPoint + 1);
-    textarea.focus();
-  }, 0);
-};
-
-const emojiVisibleChanged = (visible) => {
-  data.emojiVisible = visible;
-};
-</script>
-```
-
-**data.ts**
-
-```js
-export const emojis = [
-  '😀',
-  '😃',
-  '😄',
-  '😁',
-  '😆',
-  '😅',
-  '😂',
-  '🤣',
-  '🥲',
-  '🤔',
-  '😊',
-  '😇',
-  '🙂',
-  '🙃',
-  '😉',
-  '😌',
-  '😍',
-  '🥰',
-  '😘',
-  '😗',
-  '😙',
-  '😚',
-  '😋',
-  '😛',
-  '😝',
-  '😜',
-  '🤪',
-  '🤨',
-  '🧐',
-  '🤓',
-  '😎',
-  '🥸',
-  '🤩',
-  '🥳',
-  '😏',
-  '😒',
-  '😞',
-  '😔',
-  '😟',
-  '😕',
-  '🙁',
-  '☹️',
-  '😣',
-  '😖',
-  '😫',
-  '😩',
-  '🥺',
-  '😢',
-  '😭',
-  '😤',
-  '😠',
-  '😡',
-  '🤬',
-  '🤯',
-  '😳'
-];
-```
-
-> Get more emojis, go to [https://getemoji.com/](https://getemoji.com/).
-
-To get complete code, refer to [template.vue](https://github.com/imzbf/md-editor-v3/blob/docs/src/pages/Preview/template.vue).
+To get complete code, refer to [docs](https://github.com/imzbf/md-editor-v3/blob/docs/src/pages/Preview/index.vue).
 
 ![mark and Emoji extension](/md-editor-v3/imgs/mark_emoji.gif)
 
-### 🪡 marked extension
+> Get more emojis, go to [https://getemoji.com/](https://getemoji.com/).
 
-Simple example of converting `@hello@` to `<mark>hello</mark>`.
+## 🔒 XSS
 
-```js
-export default {
-  name: 'MarkExtension',
-  level: 'inline',
-  start: (text: string) => text.match(/@[^@]/)?.index,
-  tokenizer(text: string) {
-    const reg = /^@([^@]*)@/;
-    const match = reg.exec(text);
+after`1.8.0`, please use `sanitize` to sanitize `html`. eg: `sanitize-html`
 
-    if (match) {
-      const token = {
-        type: 'MarkExtension',
-        raw: match[0],
-        text: match[1].trim(),
-        tokens: []
-      };
-
-      return token;
-    }
-  },
-  renderer(token: any) {
-    return `<mark>${token.text}</mark>`;
-  }
-};
+```shell
+yarn add sanitize-html
 ```
 
-## 🔒 xss
-
-after`1.3.0`, please use `sanitize` to sanitize `html`. eg: `sanitize-html`
-
-```js
-// install
-yarn add sanitize-html
-
+```vue
 <template>
-  <MdEditor :sanitize="sanitize" />;
+  <md-editor :sanitize="sanitize" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup>
+import sanitizeHtml from 'sanitize-html';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-// 使用
-import sanitizeHtml from 'sanitize-html';
 
-
-export default defineComponent({
-  components: {
-    MdEditor
-  },
-  methods: {
-    sanitize(html) { return sanitizeHtml(html) }
-  }
-});
+const sanitize = (html) => {
+  return sanitizeHtml(html);
+};
 </script>
 ```
 

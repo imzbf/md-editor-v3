@@ -2,17 +2,9 @@
 
 目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：[releases](https://github.com/imzbf/md-editor-v3/releases)
 
-### 🤖 安装
-
-```shell
-yarn add md-editor-v3
-```
-
 目前 vue3 已经能很友好的使用 jsx 来开发了，对于一些爱好者（比如作者本身），需要考虑兼容一下。
 
-两种方式开发上区别在于**vue 模板**能很好的支持`vue`特性，比如指令，内置的双向绑定等；而**jsx 语法**更偏向于`react`的理念，开发环境来讲 jsx 如果在支持 ts 的环境下，会更友好一些。
-
-### 🤓 全局引用
+### 🤓 CDN 链接
 
 通过直接链接生产版本来使用，下面是一个小例子：
 
@@ -23,7 +15,7 @@ yarn add md-editor-v3
     <meta charset="UTF-8" />
     <title>全局引用</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/md-editor-v3@${EDITOR_VERSION}/lib/style.css"
+      href="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/style.css"
       rel="stylesheet"
     />
   </head>
@@ -31,8 +23,8 @@ yarn add md-editor-v3
     <div id="md-editor-v3">
       <md-editor-v3 v-model="text" />
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.1.5/dist/vue.global.prod.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.js"></script>
+    <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.js"></script>
     <script>
       const App = {
         data() {
@@ -47,7 +39,13 @@ yarn add md-editor-v3
 </html>
 ```
 
-### 🥱 Setup 模板
+### 🤖 NPM 安装
+
+```shell
+yarn add md-editor-v3
+```
+
+#### 🥱 Setup 模板
 
 ```vue
 <template>
@@ -63,7 +61,7 @@ const text = ref('Hello Editor!');
 </script>
 ```
 
-### 🤗 Jsx 模板
+#### 🤗 Jsx 模板
 
 ```js
 import { defineComponent, ref } from 'vue';
@@ -114,7 +112,7 @@ const state = reactive({
 
 内置了`default`、`github`、`vuepress`、`mk-cute`、`smart-blue`、`cyanosis`6 种主题，在一些直接预览文档内容时使用。并且支持在线切换（修改`previewTheme`即可）和自行扩展。
 
-- 切换内置
+- 使用
 
   ```vue
   <template>
@@ -161,7 +159,7 @@ const state = reactive({
 
 内置了`atom`、`a11y`、`github`、`gradient`、`kimbie`、`paraiso`、`qtcreator`、`stackoverflow`代码主题，均来至[highlight.js](https://highlightjs.org/)
 
-- 切换内置
+- 使用
 
   ```vue
   <template>
@@ -217,7 +215,9 @@ const state = reactive({
 
 highlight、prettier、cropper、screenfull 均使用外链引入，在无外网的时候，部分可将项目中已安装的依赖传入，也可以使用下载好的引用。
 
-演示替换`screenfull`
+`screenfull` 的例子：
+
+#### ⚰️ 内置实例
 
 ```vue
 <template>
@@ -246,8 +246,6 @@ const text = ref('');
 #### 📡 内网链接
 
 对应的 js 文件可以去[unpkg.com](https://unpkg.com)，直接找到对应的文件下载即可。
-
-演示替换`screenfull`
 
 ```vue
 <template>
@@ -545,7 +543,7 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 
 > 更多 emoji，[https://getemoji.com/](https://getemoji.com/)。
 
-## 🔒 xss 防范
+## 🔒 XSS
 
 在`1.8.0`之后，通过`sanitize`事件，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
 
