@@ -6,11 +6,11 @@ English \| [中文](https://github.com/imzbf/md-editor-v3/blob/dev/README-CN.md)
 
 Markdown editor for vue3, developed in `jsx` and `typescript`.
 
-- Documentation and example：[Go](https://imzbf.github.io/md-editor-v3)
+- Documentation and example: [Go](https://imzbf.github.io/md-editor-v3)
 
-- Use it online：[Go](https://codesandbox.io/s/epic-bird-2znqo)
+- Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo)
 
-- The same series editor for react：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
+- The same series editor for react: [md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
 ## Features
 
@@ -21,7 +21,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - Multi-language, build-in Chinese and English(default: Chinese).
 - Upload picture, paste or clip the picture and upload it.
 - Render article directly(no editor, no event listener, only preview content).
-- Preview themes, `defalut`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Get the demo page).
+- Preview themes, `defalut`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Refer to example page).
 - `mermaid`(>=1.8.0), `katex` mathematical formula(>=1.9.0).
 - Customize the toolbar as you like.
 
@@ -113,7 +113,7 @@ mark and emoji extensions
 <details>
  <summary>[StaticTextDefaultValue]</summary>
 
-Expand language, you need to replace all the content here：
+Expand language, you need to replace all the content here:
 
 ```ts
 export interface ToolbarTips {
@@ -213,15 +213,15 @@ export interface StaticTextDefaultValue {
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| defToolbars | Array<DropdownToolbar \| NormalToolbar \| ModalToolbar> | null | Customize Toolbar, for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars) and [emoji](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
+| defToolbars | Array<DropdownToolbar \| NormalToolbar \| ModalToolbar> | null | Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar` |
 
-`NormalToolbar` component example：
+`NormalToolbar` example:
 
 ```vue
 <template>
   <md-editor>
     <template #defToolbars>
-      <normal-toolbar title="mark" @click="handler">
+      <normal-toolbar title="mark" @onClick="handler">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -258,7 +258,9 @@ const handler = () => {
 
 Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
 
-- markedRenderer: `(renderer: Renderer) => Renderer`, 🌰(Open target page in a new browser window)：
+- markedRenderer: `(renderer: Renderer) => Renderer`
+
+  Open target page in a new browser window:
 
   ```js
   MdEditor.config({
@@ -286,7 +288,9 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
 
   > Reference: https://marked.js.org/using_pro#extensions
 
-- markedOptions: `marked.MarkedOptions`, 🌰(do not render `<br>` on a single line break)：
+- markedOptions: `marked.MarkedOptions`
+
+  Do not render `<br>` on a single line break:
 
   ```js
   import MdEditor from 'md-editor-v3';
@@ -298,7 +302,7 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
 
   > Reference: https://marked.js.org/using_advanced#options
 
-- editorConfig: Add more languages，reset `mermaid` template:
+- editorConfig: Add more languages, reset `mermaid` template or delay rendering time:
 
   ```js
   import MdEditor from 'md-editor-v3';
@@ -371,7 +375,7 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
 
   </details>
 
-## Shortcut key
+## Shortcut Key
 
 | key | function | description |
 | --- | --- | --- |
@@ -448,22 +452,22 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
   - `modalTitle`: `string`, not necessary, title of the Modal.
   - `visible`: `boolean`, necessary, visibility of Modal.
   - `width`: `string`, not necessary, width of Modal, default `auto`.
-  - `height`：`string`, same as `width`.
+  - `height`: `string`, same as `width`.
   - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
 
 - **events**
 
   - `onClick`: `() => void`, necessary.
-  - `onClose`：`() => void`, necessary, close event.
-  - `onAdjust`：`(val: boolean) => void`, fullscreen button click event.
+  - `onClose`: `() => void`, necessary, close event.
+  - `onAdjust`: `(val: boolean) => void`, fullscreen button click event.
 
 - **slots**
 
   - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
   - `overlay`: `string | JSX.Element`, necessary, content of Modal.
 
-### Catalog
+### MdCatalog
 
 `Editor.MdCatalog`
 
@@ -477,7 +481,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
 
 ## Examples
 
-### Jsx module
+### Jsx Template
 
 ```js
 import { defineComponent, reactive } from 'vue';
@@ -496,7 +500,7 @@ export default defineComponent({
 });
 ```
 
-### Vue template
+### Setup Template
 
 ```vue
 <template>
@@ -514,7 +518,7 @@ const text = ref('# Hello Editor');
 
 ### Upload picture
 
-> Tips：When you paste and upload GIF, it will upload a static picture. So you should upload it by file system!
+> Tips: When you paste and upload GIF, it will upload a static picture. So you should upload it by file system!
 
 <template>
   <md-editor v-model="text" @onUploadImg="onUploadImg" />
@@ -549,3 +553,39 @@ const onUploadImg = async (files, callback) => {
   callback(res.map((item) => item.data.url));
 };
 </script>
+
+### Change Styles
+
+```less
+.css-vars(@isDark) {
+  --md-color: if(@isDark, #999, #222);
+  --md-hover-color: if(@isDark, #bbb, #000);
+  --md-bk-color: if(@isDark, #000, #fff);
+  --md-bk-color-outstand: if(@isDark, #111, #f6f6f6);
+  --md-bk-hover-color: if(@isDark, #1b1a1a, #f5f7fa);
+  --md-border-color: if(@isDark, #2d2d2d, #e6e6e6);
+  --md-border-hover-color: if(@isDark, #636262, #b9b9b9);
+  --md-border-active-color: if(@isDark, #777, #999);
+  --md-modal-mask: #00000073;
+  --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
+  --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
+  --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
+  --md-scrollbar-thumb-avtive-color: if(@isDark, #3a3a3a, #00000061);
+}
+
+.md {
+  .css-vars(false);
+}
+
+.md-dark {
+  .css-vars(true);
+}
+```
+
+Change background color in dark mode:
+
+```css
+.md-dark {
+  --md-bk-color: #333 !important;
+}
+```

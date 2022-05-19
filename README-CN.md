@@ -20,7 +20,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 - 多语言，支持自行扩展语言；
 - 粘贴上传图片，图片裁剪上传；
 - 仅预览模式（不显示编辑器，只显示 md 预览内容，无额外监听）；
-- 预览主题，内置`defalut`、`vuepress`、`github` 、`cyanosis`、`mk-cute`、`smart-blue`6 种预览主题（不完全相同），支持自定义主题（参考文档 demo 页示例）；
+- 预览主题，内置`defalut`、`vuepress`、`github` 、`cyanosis`、`mk-cute`、`smart-blue` 6 种预览主题（不完全相同），支持自定义主题（参考文档 demo 页示例）；
 - `mermaid`绘图（>=1.8.0），`katex`数学公式（>=1.9.0）；
 - 自定义工具栏顺序或显示，自定义扩展工具栏（支持点击类型、下拉菜单类型及弹窗类型）等。
 
@@ -32,7 +32,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 
 简单的标记和表情扩展预览
 
-![mark and Emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
+![mark and emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
 ## Apis
 
@@ -221,7 +221,7 @@ export interface StaticTextDefaultValue {
 
 | 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| defToolbars | Array<DropdownToolbar \| NormalToolbar \| ModalToolbar> | null | 自定义工具栏，具体使用请参考[文档](https://imzbf.github.io/md-editor-v3/docs/index#%F0%9F%92%AA%20defToolbars)和[emoji 示例](https://imzbf.github.io/md-editor-v3/demo/index#💪%20Customize%20Toolbar) |
+| defToolbars | Array<DropdownToolbar \| NormalToolbar \| ModalToolbar> | null | 使用内置的组件自定义扩展工具栏 |
 
 使用内置的 3 个组件（说明见下方），自定义工具栏，简单示例：
 
@@ -229,7 +229,7 @@ export interface StaticTextDefaultValue {
 <template>
   <md-editor>
     <template #defToolbars>
-      <normal-toolbar title="mark" @click="handler">
+      <normal-toolbar title="mark" @onClick="handler">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -266,7 +266,9 @@ const handler = () => {
 
 使用`MdEditor.config(option: ConfigOption)`方法，可以对内部的`renderer`定制。
 
-- markedRenderer: `(renderer: Renderer) => Renderer`，设置链接在新窗口打开 🌰：
+- markedRenderer: `(renderer: Renderer) => Renderer`
+
+  设置链接在新窗口打开 🌰：
 
   ```js
   MdEditor.config({
@@ -294,7 +296,9 @@ const handler = () => {
 
   > 参考：https://marked.js.org/using_pro#extensions
 
-- markedOptions: `marked.MarkedOptions`，设置输入空白行不渲染出来 🌰：
+- markedOptions: `marked.MarkedOptions`
+
+  设置输入空白行不渲染出来 🌰：
 
   ```js
   import MdEditor from 'md-editor-v3';
@@ -306,7 +310,7 @@ const handler = () => {
 
   > 参考：https://marked.js.org/using_advanced#options
 
-- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板等：
+- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板和渲染延迟：
 
   ```js
   import MdEditor from 'md-editor-v3';
@@ -460,15 +464,15 @@ const handler = () => {
   - `modalTitle`: `string`，非必须，弹窗的标题。
   - `visible`: `boolean`，必须，弹窗显示状态。
   - `width`: `string`，非必须，弹窗宽度，默认`auto`。
-  - `height`：`string`，同`width`。
+  - `height`: `string`，同`width`。
   - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
 
 - **events**
 
   - `onClick`: `() => void`，必须，工具栏点击事件。
-  - `onClose`：`() => void`，必须，弹窗点击关闭事件。
-  - `onAdjust`：`(val: boolean) => void`，弹窗全屏按钮点击事件。
+  - `onClose`: `() => void`，必须，弹窗点击关闭事件。
+  - `onAdjust`: `(val: boolean) => void`，弹窗全屏按钮点击事件。
 
 - **slots**
 
@@ -489,7 +493,7 @@ const handler = () => {
 
 ## 部分示例
 
-### Jsx 语法项目
+### Jsx 模板
 
 ```js
 import { defineComponent, reactive } from 'vue';
@@ -508,7 +512,7 @@ export default defineComponent({
 });
 ```
 
-### Vue 模板项目
+### Setup 模板
 
 ```vue
 <template>
@@ -564,4 +568,42 @@ const onUploadImg = async (files, callback) => {
   callback(res.map((item) => item.data.url));
 };
 </script>
+```
+
+### 调整编辑器样式
+
+2.x 使用 css 变量定义了大部分内容：
+
+```less
+.css-vars(@isDark) {
+  --md-color: if(@isDark, #999, #222);
+  --md-hover-color: if(@isDark, #bbb, #000);
+  --md-bk-color: if(@isDark, #000, #fff);
+  --md-bk-color-outstand: if(@isDark, #111, #f6f6f6);
+  --md-bk-hover-color: if(@isDark, #1b1a1a, #f5f7fa);
+  --md-border-color: if(@isDark, #2d2d2d, #e6e6e6);
+  --md-border-hover-color: if(@isDark, #636262, #b9b9b9);
+  --md-border-active-color: if(@isDark, #777, #999);
+  --md-modal-mask: #00000073;
+  --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
+  --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
+  --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
+  --md-scrollbar-thumb-avtive-color: if(@isDark, #3a3a3a, #00000061);
+}
+
+.md {
+  .css-vars(false);
+}
+
+.md-dark {
+  .css-vars(true);
+}
+```
+
+只需要调整对应的 css 变量，比如调整暗夜模式下的背景：
+
+```css
+.md-dark {
+  --md-bk-color: #333 !important;
+}
 ```
