@@ -43,7 +43,7 @@ export default defineComponent({
             codeBtn: '代码主题'
           }
         : {
-            desc: 'Markdown Editor for Vue3, developed by jsx and typescript, support different themes、beautify content by prettier.',
+            desc: 'Markdown Editor for Vue3, developed in jsx and typescript, support different themes、beautify content by prettier.',
             defaultTheme: 'Default Theme',
             darkTheme: 'Dark Theme',
             previewBtn: 'Preview Style',
