@@ -644,12 +644,12 @@ const handler = () => {
 | CTRL + ↓ | 下角标 | `<sub>下角标</sub>` |
 | CTRL + Q | 引用 | `> 引用` |
 | CTRL + O | 有序列表 | `1. 有序列表` |
-| CTRL + L | 链接 | `[链接](https://imbf.cc)` |
+| CTRL + L | 链接 | `[链接](https://imzbf.cc)` |
 | CTRL + Z | 撤回 | 触发编辑器内内容撤回，与系统无关 |
 | CTRL + SHIFT + S | 删除线 | `~删除线~` |
 | CTRL + SHIFT + U | 无序列表 | `- 无序列表` |
 | CTRL + SHIFT + C | 块级代码 | 多行代码块 |
-| CTRL + SHIFT + I | 图片链接 | `![图片](https://imbf.cc)` |
+| CTRL + SHIFT + I | 图片链接 | `![图片](https://imzbf.cc)` |
 | CTRL + SHIFT + Z | 前进一步 | 触发编辑器内内容前进，与系统无关 |
 | CTRL + SHIFT + F | 美化内容 |  |
 | CTRL + ALT + C | 行内代码 | 行内代码块 |
