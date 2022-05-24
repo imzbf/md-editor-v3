@@ -1,4 +1,4 @@
-import{r}from"./index.deeef4af.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.f6c9c862.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{r}from"./index.c19dec6d.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.f10c775f.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -634,7 +634,7 @@ Custom \`marked renderer\` in \`MdEditor.config(option: ConfigOption)\`.
 | CTRL + SHIFT + S | line-through | \`~line-through~\` |
 | CTRL + SHIFT + U | unordered list | \`- unordered list\` |
 | CTRL + SHIFT + C | code block |  |
-| CTRL + SHIFT + I | picture | \`![picture](https://imbf.cc)\` |
+| CTRL + SHIFT + I | picture | \`![picture](https://imzbf.cc)\` |
 | CTRL + SHIFT + Z | forward | Forward history in editor, not the function of system |
 | CTRL + SHIFT + F | Beautify |  |
 | CTRL + ALT + C | code row |  |
@@ -1484,12 +1484,12 @@ const handler = () => {
 | CTRL + \u2193 | \u4E0B\u89D2\u6807 | \`<sub>\u4E0B\u89D2\u6807</sub>\` |
 | CTRL + Q | \u5F15\u7528 | \`> \u5F15\u7528\` |
 | CTRL + O | \u6709\u5E8F\u5217\u8868 | \`1. \u6709\u5E8F\u5217\u8868\` |
-| CTRL + L | \u94FE\u63A5 | \`[\u94FE\u63A5](https://imbf.cc)\` |
+| CTRL + L | \u94FE\u63A5 | \`[\u94FE\u63A5](https://imzbf.cc)\` |
 | CTRL + Z | \u64A4\u56DE | \u89E6\u53D1\u7F16\u8F91\u5668\u5185\u5185\u5BB9\u64A4\u56DE\uFF0C\u4E0E\u7CFB\u7EDF\u65E0\u5173 |
 | CTRL + SHIFT + S | \u5220\u9664\u7EBF | \`~\u5220\u9664\u7EBF~\` |
 | CTRL + SHIFT + U | \u65E0\u5E8F\u5217\u8868 | \`- \u65E0\u5E8F\u5217\u8868\` |
 | CTRL + SHIFT + C | \u5757\u7EA7\u4EE3\u7801 | \u591A\u884C\u4EE3\u7801\u5757 |
-| CTRL + SHIFT + I | \u56FE\u7247\u94FE\u63A5 | \`![\u56FE\u7247](https://imbf.cc)\` |
+| CTRL + SHIFT + I | \u56FE\u7247\u94FE\u63A5 | \`![\u56FE\u7247](https://imzbf.cc)\` |
 | CTRL + SHIFT + Z | \u524D\u8FDB\u4E00\u6B65 | \u89E6\u53D1\u7F16\u8F91\u5668\u5185\u5185\u5BB9\u524D\u8FDB\uFF0C\u4E0E\u7CFB\u7EDF\u65E0\u5173 |
 | CTRL + SHIFT + F | \u7F8E\u5316\u5185\u5BB9 |  |
 | CTRL + ALT + C | \u884C\u5185\u4EE3\u7801 | \u884C\u5185\u4EE3\u7801\u5757 |
