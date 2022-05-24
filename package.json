@@ -16,7 +16,7 @@
   "description": "Markdown编辑器，基于vue3，使用jsx和typescript语法开发，支持切换主题，支持prettier美化文本，图片粘贴上传，图片裁剪上传，支持仅预览模式，支持在tsx项目使用。",
   "author": {
     "name": "zbf",
-    "url": "https://imbf.cc"
+    "url": "https://imzbf.cc"
   },
   "homepage": "https://imzbf.github.io/md-editor-v3/",
   "repository": {
