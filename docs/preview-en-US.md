@@ -4,7 +4,7 @@ Markdown Editor for Vue3, developed by jsx and typescript, support different the
 
 ### 🤖 Base
 
-**bold**, <u>underline</u>, _italic_, ~line-through~, superscript<sup>26</sup>，subscript<sub>[1]</sub>，`inline code`，[link](https://imbf.cc)
+**bold**, <u>underline</u>, _italic_, ~line-through~, superscript<sup>26</sup>，subscript<sub>[1]</sub>，`inline code`，[link](https://imzbf.cc)
 
 > quote：hahaha
 
