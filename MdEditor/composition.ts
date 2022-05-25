@@ -14,10 +14,12 @@ import {
 } from './config';
 
 export const useKeyBoard = (props: any, context: SetupContext) => {
-  const { editorId } = props;
+  const { editorId, noPrettier } = props;
 
   const initFunc = (name: ToolbarNames) =>
-    props.toolbars?.includes(name) && !props.toolbarsExclude?.includes(name);
+    props.toolbars?.includes(name) &&
+    !props.toolbarsExclude?.includes(name) &&
+    !noPrettier;
 
   const keyDownHandler = (event: KeyboardEvent) => {
     // 只处理是编辑框内的内容
