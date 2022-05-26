@@ -1,7 +1,16 @@
-import { computed, onMounted, onBeforeUnmount, provide, SetupContext } from 'vue';
+import {
+  reactive,
+  watch,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  provide,
+  SetupContext,
+  ref
+} from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
-import { ToolbarNames, ConfigOption } from './type';
+import { ToolbarNames, ConfigOption, InnerError, SettingType } from './type';
 import { appendHandler } from './utils/dom';
 import {
   prefix,
@@ -452,4 +461,111 @@ export const useExpansion = (props: any, extension: ConfigOption) => {
       }
     }
   });
+};
+
+export const useErrorCatcher = (props: any, context: SetupContext) => {
+  const { editorId } = props;
+
+  onMounted(() => {
+    bus.on(editorId, {
+      name: 'errorCatcher',
+      callback: (err: InnerError) => {
+        if (props.onError instanceof Function) {
+          props.onError(err);
+        } else {
+          context.emit('onError', err);
+        }
+      }
+    });
+  });
+};
+
+export const useConfig = (
+  props: any,
+  context: SetupContext
+): [setting: SettingType, updateSetting: (v: any, k: keyof typeof setting) => void] => {
+  const { editorId } = props;
+
+  // ----编辑器设置----
+  const setting = reactive<SettingType>({
+    pageFullScreen: props.pageFullScreen,
+    fullscreen: false,
+    preview: props.preview,
+    htmlPreview: props.preview ? false : props.htmlPreview
+  });
+
+  const updateSetting = (v: any, k: keyof typeof setting) => {
+    setting[k] = v;
+    if (k === 'preview' && setting.preview) {
+      setting.htmlPreview = false;
+    } else if (k === 'htmlPreview' && setting.htmlPreview) {
+      setting.preview = false;
+    }
+  };
+
+  // 将在客户端挂载时获取该样式
+  let bodyOverflowHistory = '';
+
+  const adjustBody = () => {
+    if (setting.pageFullScreen || setting.fullscreen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = bodyOverflowHistory;
+    }
+  };
+
+  // 变化是调整一次
+  watch(() => [setting.pageFullScreen, setting.fullscreen], adjustBody);
+  // 进入时若默认全屏，调整一次
+  onMounted(() => {
+    // 监听上传图片
+    if (!props.previewOnly) {
+      bus.on(editorId, {
+        name: 'uploadImage',
+        callback(files: Array<File>, cb: () => void) {
+          const insertHanlder = (urls: Array<string>) => {
+            bus.emit(editorId, 'replace', 'image', {
+              desc: '',
+              urls
+            });
+
+            cb && cb();
+          };
+
+          if (props.onUploadImg) {
+            props.onUploadImg(files, insertHanlder);
+          } else {
+            context.emit('onUploadImg', files, insertHanlder);
+          }
+        }
+      });
+    }
+
+    bodyOverflowHistory = document.body.style.overflow;
+    adjustBody();
+  });
+
+  return [setting, updateSetting];
+};
+
+export const useCatalog = (props: any) => {
+  const { editorId } = props;
+  const catalogVisible = ref(false);
+
+  onMounted(() => {
+    bus.on(editorId, {
+      name: 'catalogShow',
+      callback: () => {
+        catalogVisible.value = !catalogVisible.value;
+      }
+    });
+  });
+
+  const catalogShow = computed(() => {
+    return (
+      !props.toolbarsExclude.includes('catalog') && props.toolbars.includes('catalog')
+    );
+  });
+
+  return [catalogVisible, catalogShow];
 };

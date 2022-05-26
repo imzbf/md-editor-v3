@@ -1,17 +1,18 @@
 import {
   defineComponent,
   PropType,
-  reactive,
-  onMounted,
-  watch,
   onBeforeUnmount,
   CSSProperties,
-  computed,
   SetupContext
 } from 'vue';
-
 import { prefix, allToolbar } from './config';
-import { useKeyBoard, useProvide, useExpansion } from './composition';
+import {
+  useKeyBoard,
+  useProvide,
+  useExpansion,
+  useConfig,
+  useCatalog
+} from './composition';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
 import MdCatalog from './extensions/MdCatalog';
@@ -25,7 +26,6 @@ import {
   PreviewThemes,
   // MarkedHeading,
   MarkedHeadingId,
-  SettingType,
   // MarkedImage,
   Themes,
   InnerError
@@ -278,7 +278,8 @@ const Editor = defineComponent({
     'onUploadImg',
     'onHtmlChanged',
     'onGetCatalog',
-    'onError'
+    'onError',
+    'update:modelValue'
   ],
   setup(props, context: SetupContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
@@ -293,101 +294,13 @@ const Editor = defineComponent({
     useProvide(props, extension);
     // 插入扩展的外链
     useExpansion(props, extension);
-
-    const state = reactive({
-      catalogVisible: false
-    });
-
-    // ----编辑器设置----
-    const setting = reactive<SettingType>({
-      pageFullScreen: props.pageFullScreen,
-      fullscreen: false,
-      preview: props.preview,
-      htmlPreview: props.preview ? false : props.htmlPreview
-    });
-
-    const updateSetting = (v: any, k: keyof typeof setting) => {
-      setting[k] = v;
-      if (k === 'preview' && setting.preview) {
-        setting.htmlPreview = false;
-      } else if (k === 'htmlPreview' && setting.htmlPreview) {
-        setting.preview = false;
-      }
-    };
-
-    // 将在客户端挂载时获取该样式
-    let bodyOverflowHistory = '';
-
-    const adjustBody = () => {
-      if (setting.pageFullScreen || setting.fullscreen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = bodyOverflowHistory;
-      }
-    };
-
-    // 变化是调整一次
-    watch(() => [setting.pageFullScreen, setting.fullscreen], adjustBody);
-    // 进入时若默认全屏，调整一次
-    onMounted(() => {
-      // 监听上传图片
-      if (!props.previewOnly) {
-        bus.on(editorId, {
-          name: 'uploadImage',
-          callback(files: Array<File>, cb: () => void) {
-            const insertHanlder = (urls: Array<string>) => {
-              bus.emit(editorId, 'replace', 'image', {
-                desc: '',
-                urls
-              });
-
-              cb && cb();
-            };
-
-            if (props.onUploadImg) {
-              props.onUploadImg(files, insertHanlder);
-            } else {
-              context.emit('onUploadImg', files, insertHanlder);
-            }
-          }
-        });
-      }
-
-      bodyOverflowHistory = document.body.style.overflow;
-      adjustBody();
-
-      //
-      bus.on(editorId, {
-        name: 'catalogShow',
-        callback: () => {
-          state.catalogVisible = !state.catalogVisible;
-        }
-      });
-    });
-    // ----end----
-
+    // 部分配置重构
+    const [setting, updateSetting] = useConfig(props, context);
+    // 目录状态
+    const [catalogVisible, catalogShow] = useCatalog(props);
     // 卸载组件前清空全部事件监听
     onBeforeUnmount(() => {
       bus.clear(editorId);
-    });
-
-    const catalogShow = computed(() => {
-      return (
-        !props.toolbarsExclude.includes('catalog') && props.toolbars.includes('catalog')
-      );
-    });
-
-    onMounted(() => {
-      bus.on(editorId, {
-        name: 'errorCatcher',
-        callback: (err: InnerError) => {
-          if (props.onError instanceof Function) {
-            props.onError(err);
-          } else {
-            context.emit('onError', err);
-          }
-        }
-      });
     });
 
     return () => {
@@ -462,7 +375,7 @@ const Editor = defineComponent({
             <MdCatalog
               theme={props.theme}
               style={{
-                display: state.catalogVisible ? 'block' : 'none'
+                display: catalogVisible.value ? 'block' : 'none'
               }}
               class={`${prefix}-catalog-editor`}
               editorId={editorId}
