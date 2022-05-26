@@ -16,7 +16,6 @@ import {
   userZoom
 } from './composition';
 import { prefix } from '../../config';
-import bus from '../../utils/event-bus';
 
 export type EditorContentProps = Readonly<{
   value: string;
@@ -118,7 +117,7 @@ export default defineComponent({
     return () => {
       return (
         <>
-          <div class={[`${prefix}-content`]}>
+          <div class={`${prefix}-content`}>
             {!previewOnly && (
               <div class={`${prefix}-input-wrapper`}>
                 <textarea
