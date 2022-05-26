@@ -1,4 +1,4 @@
-## 😁 Basic usage
+## 😁 Basic Usage
 
 It has been developing iteratively，so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -45,7 +45,7 @@ Use production version in html directly:
 yarn add md-editor-v3
 ```
 
-#### 🥱 Setup template
+#### 🥱 Setup Template
 
 ```vue
 <template>
@@ -79,7 +79,7 @@ export default defineComponent({
 });
 ```
 
-## 🥂 Api usage
+## 🥂 Api Usage
 
 Usages of some APIs.
 
@@ -268,7 +268,7 @@ const text = ref('');
 </script>
 ```
 
-### 📷 Upload pictures
+### 📷 Upload Pictures
 
 By default, you can select multiple pictures. You can paste and upload screenshots and copy web page pictures.
 
@@ -310,7 +310,7 @@ const onUploadImg = async (files, callback) => {
 </script>
 ```
 
-### 🏳️‍🌈 Extension language
+### 🏳️‍🌈 Extension Language
 
 ```vue
 <template>
@@ -459,7 +459,7 @@ MdEditor.config({
 
 ### 📄 Get Catalogue
 
-- Grt
+- Get
 
   ```vue
   <template>
