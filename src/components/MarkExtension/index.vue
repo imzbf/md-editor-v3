@@ -1,5 +1,5 @@
 <template>
-  <normal-toolbar title="mark" @click="markHandler">
+  <normal-toolbar title="mark" @onClick="markHandler">
     <template #trigger>
       <svg class="md-icon" aria-hidden="true">
         <use xlink:href="#icon-mark"></use>
