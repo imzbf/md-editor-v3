@@ -1,4 +1,4 @@
-import{r as s}from"./index.79b2f127.js";import{g as m,j as a,i as h,a as c,e as l,b as o,h as p,u as t,o as b}from"./index.314de95a.js";var r=`## About md-editor-v3
+import{r as s}from"./index.294ffbc5.js";import{g as m,j as a,i as h,a as c,e as l,b as o,h as p,u as t,o as b}from"./index.093d34b4.js";var r=`## About md-editor-v3
 
 <br>
 

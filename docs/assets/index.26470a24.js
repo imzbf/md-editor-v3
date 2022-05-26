@@ -1,4 +1,4 @@
-import{r}from"./index.79b2f127.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.314de95a.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{r}from"./index.294ffbc5.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.093d34b4.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -305,7 +305,7 @@ Custom toolbar in \`DropdownToolbar\`, \`NormalToolbar\` or \`ModalToolbar\`.
 <template>
   <md-editor>
     <template #defToolbars>
-      <normal-toolbar title="mark" @click="handler">
+      <normal-toolbar title="mark" @onClick="handler">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -1151,7 +1151,7 @@ const scrollElement = document.documentElement;
 <template>
   <md-editor>
     <template #defToolbars>
-      <normal-toolbar title="mark" @click="handler">
+      <normal-toolbar title="mark" @onClick="handler">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -1685,4 +1685,4 @@ const scrollElement = document.documentElement;
 ## \u270D\uFE0F \u7F16\u8F91\u6B64\u9875\u9762
 
 [doc-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/doc-zh-CN.md)
-`;const f={class:"container"},k={class:"doc"},x={class:"content"},y={class:"catalog"},T={class:"affix"},M={setup(w){const n=h(),o=g(r(n.state.lang==="en-US"?a:l)),d=()=>{o.value=r(n.state.lang==="en-US"?a:l)},m=document.documentElement;return u(()=>n.state.lang,d),(E,C)=>{const c=i("md-editor-v3"),p=i("md-catalog");return v(),b("div",f,[t("div",k,[t("div",x,[s(c,{"editor-id":"doc-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":o.value,"preview-theme":e(n).state.previewTheme,"code-theme":e(n).state.codeTheme,"preview-only":"","show-code-row-number":""},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",y,[t("div",T,[s(p,{"editor-id":"doc-preview",theme:e(n).state.theme,"scroll-element":e(m)},null,8,["theme","scroll-element"])])])])])}}};export{M as default};
+`;const f={class:"container"},k={class:"doc"},x={class:"content"},y={class:"catalog"},T={class:"affix"},M={setup(w){const n=h(),o=g(r(n.state.lang==="en-US"?a:l)),d=()=>{o.value=r(n.state.lang==="en-US"?a:l)},m=document.documentElement;return u(()=>n.state.lang,d),(C,E)=>{const c=i("md-editor-v3"),p=i("md-catalog");return v(),b("div",f,[t("div",k,[t("div",x,[s(c,{"editor-id":"doc-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":o.value,"preview-theme":e(n).state.previewTheme,"code-theme":e(n).state.codeTheme,"preview-only":"","show-code-row-number":""},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",y,[t("div",T,[s(p,{"editor-id":"doc-preview",theme:e(n).state.theme,"scroll-element":e(m)},null,8,["theme","scroll-element"])])])])])}}};export{M as default};
