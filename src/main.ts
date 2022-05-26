@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './style.less';
-import 'ant-design-vue/dist/antd.css';
+
 import 'nprogress/nprogress.css';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
