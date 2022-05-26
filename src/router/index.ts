@@ -71,7 +71,7 @@ const router = createRouter({
 
 router.beforeEach(async (to: RouteLocationNormalized, _, next: NavigationGuardNext) => {
   NProgress.start();
-  document.title = to.meta.title as string;
+  // document.title = to.meta.title as string;
   next();
 });
 router.afterEach(() => {
