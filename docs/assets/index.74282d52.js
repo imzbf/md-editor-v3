@@ -1,4 +1,4 @@
-import{g as h,j as u,k as v,i as f,a as i,e as g,b as t,h as s,u as e,o as x}from"./index.f18c08c5.js";import{r as d}from"./index.c010184b.js";var m=`## \u{1F601} Basic usage
+import{g as h,j as u,k as v,i as f,a as i,e as g,b as t,h as s,u as e,o as x}from"./index.314de95a.js";import{r as d}from"./index.79b2f127.js";var m=`## \u{1F601} Basic Usage
 
 It has been developing iteratively\uFF0Cso update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -45,7 +45,7 @@ Use production version in html directly:
 yarn add md-editor-v3
 \`\`\`
 
-#### \u{1F971} Setup template
+#### \u{1F971} Setup Template
 
 \`\`\`vue
 <template>
@@ -79,7 +79,7 @@ export default defineComponent({
 });
 \`\`\`
 
-## \u{1F942} Api usage
+## \u{1F942} Api Usage
 
 Usages of some APIs.
 
@@ -268,7 +268,7 @@ const text = ref('');
 <\/script>
 \`\`\`
 
-### \u{1F4F7} Upload pictures
+### \u{1F4F7} Upload Pictures
 
 By default, you can select multiple pictures. You can paste and upload screenshots and copy web page pictures.
 
@@ -310,7 +310,7 @@ const onUploadImg = async (files, callback) => {
 <\/script>
 \`\`\`
 
-### \u{1F3F3}\uFE0F\u200D\u{1F308} Extension language
+### \u{1F3F3}\uFE0F\u200D\u{1F308} Extension Language
 
 \`\`\`vue
 <template>
@@ -459,7 +459,7 @@ MdEditor.config({
 
 ### \u{1F4C4} Get Catalogue
 
-- Grt
+- Get
 
   \`\`\`vue
   <template>

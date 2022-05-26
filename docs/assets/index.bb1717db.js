@@ -1,4 +1,4 @@
-import{r}from"./index.c010184b.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.f18c08c5.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{r}from"./index.79b2f127.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.314de95a.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -968,7 +968,7 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`'md-editor-v3'\`
-- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\u552F\u4E00\u6807\u8BC6\uFF0C\u975E\u5FC5\u987B\u9879\uFF0C\u7528\u4E8E\u540E\u7EED\u652F\u6301 ssr \u65F6\uFF0C\u9632\u6B62\u4EA7\u751F\u670D\u52A1\u7AEF\u4E0E\u5BA2\u6237\u7AEF\u6E32\u67D3\u5185\u5BB9\u4E0D\u4E00\u81F4\u9519\u8BEF\u63D0\u793A\u3002
+- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\u552F\u4E00\u6807\u8BC6\uFF0C\u975E\u5FC5\u987B\u9879\uFF0C\u670D\u52A1\u7AEF\u6E32\u67D3\u65F6\uFF0C\u9632\u6B62\u4EA7\u751F\u670D\u52A1\u7AEF\u4E0E\u5BA2\u6237\u7AEF\u6E32\u67D3\u5185\u5BB9\u4E0D\u4E00\u81F4\u9519\u8BEF\u63D0\u793A\uFF0C\u4EE5\u53CA\u5355\u9875\u9762\u591A\u7F16\u8F91\u5668\u65F6\u505A\u533A\u522B\u3002
 
 ### \u{1F90F} tabWidth
 
@@ -1010,7 +1010,7 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`string | CSSProperties\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`''\`
-- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\u5185\u8054\u6837\u5F0F\uFF0C\u9ED8\u8BA4\u4E0D\u80FD\u76F4\u63A5\u8BBE\u7F6E\u5B57\u7B26\u4E32\u3002
+- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\u5185\u8054\u6837\u5F0F\u3002
 
 ### \u{1F4C5} tableShape
 
@@ -1497,7 +1497,7 @@ const handler = () => {
 
 ## \u{1FAA4} \u5185\u7F6E\u7EC4\u4EF6
 
-\u6269\u5C55\u7EC4\u4EF6\u4F5C\u4E3A\u7F16\u8F91\u5668\u7EC4\u4EF6\u7684\u5C5E\u6027\u503C\u6765\u4F7F\u7528\uFF0C\u4F8B\u5982\uFF1A\`Editor.DropdownToolbar\`\u3002
+\u6269\u5C55\u7EC4\u4EF6\u4F5C\u4E3A\u7F16\u8F91\u5668\u7EC4\u4EF6\u7684\u5C5E\u6027\u503C\u6765\u4F7F\u7528\uFF0C\u4F8B\u5982\uFF1A\`MdEditor.DropdownToolbar\`\u3002
 
 ### \u{1F423} NormalToolbar
 
