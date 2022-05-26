@@ -305,7 +305,7 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
 <template>
   <md-editor>
     <template #defToolbars>
-      <normal-toolbar title="mark" @click="handler">
+      <normal-toolbar title="mark" @onClick="handler">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
