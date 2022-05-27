@@ -118,12 +118,12 @@ const state = reactive({
   <template>
     <md-editor v-model="state.text" :preview-theme="state.theme" />
   </template>
-
+  
   <script setup>
   import { defineComponent } from 'vue';
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
+  
   const state = reactive({
     text: '',
     theme: 'cyanosis'
@@ -165,12 +165,12 @@ const state = reactive({
   <template>
     <md-editor v-model="state.text" :code-theme="state.theme" />
   </template>
-
+  
   <script setup>
   import { reactive } from 'vue';
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
+  
   const state = reactive({
     text: '',
     theme: 'atom'
@@ -184,7 +184,7 @@ const state = reactive({
 
   ```js
   import MdEditor from 'md-editor-v3';
-
+  
   MdEditor.config({
     editorExtensions: {
       highlight: {
@@ -469,17 +469,17 @@ MdEditor.config({
   <template>
     <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
   </template>
-
+  
   <script setup>
   import { reactive } from 'vue';
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
+  
   const state = reactive({
     text: '',
     catalogList: []
   });
-
+  
   const onGetCatalog = (list) => {
     state.catalogList = list;
   };
@@ -500,18 +500,18 @@ MdEditor.config({
     />
     <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
   </template>
-
+  
   <script setup>
   import { reactive } from 'vue';
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
+  
   const state = reactive({
     theme: 'dark',
     text: '标题',
     id: 'my-editor'
   });
-
+  
   const scrollElement = document.documentElement;
   </script>
   ```
@@ -605,7 +605,235 @@ const sanitize = (html) => {
 </script>
 ```
 
-更详细的实现可以参考本文档的源码！
+## 🛠 官方提供工具栏使用
+
+官方提供三个自定义工具栏 read预览，emoji（表情），mark（标记）。需要把官方提供三个组件放在自己项目目录下，组件内有些内容可根据自己需求进行调整 😁
+代码在[官方三个工具栏](https://github.com/imzbf/md-editor-v3/tree/docs/src/components)。
+
+**注意：官方提供的代码例子是在md-editor-v3 组件注册到全局情况下使用的。如果你没有把md-editor-v3注册到全局，需要在官方提供自定义工具栏vue文件中注册官方提供的组件，如下**
+
+```vue
+<script setup >
+    import MdEditor from "md-editor-v3";
+    //可以根据自定义工具栏需要的组件 进行注册组件  三个内置组件
+	const { ModalToolbar, DropdownToolbar, NormalToolbar } = MdEditor;
+</script>
+```
+
+注意 ：需要在md-editor-v3组件中toolbars 参数中加入 0,1,2等下标（位置可以随意放，放在哪里显示到哪里），才能展示自定义工具栏，  如下 
+一定要写下标才展示，一定要写
+一定要写下标才展示，一定要写
+一定要写下标才展示，一定要写
+
+```js
+[
+  'bold',
+  'underline',
+  'italic',
+  '-',
+  'strikeThrough',
+  'sub',
+  'sup',
+  'quote',
+  'unorderedList',
+  'orderedList',
+  '-',
+  'codeRow',
+  'code',
+  'link',
+  'image',
+  'table',
+  'mermaid',
+  'katex',
+  '-',  
+    //需要加入0，1，2等  向后排列 0，1，2，3，4...
+    0,
+    1,
+    2,
+  'revoke',
+  'next',
+  'save',
+  '=',
+  'pageFullscreen',
+  'fullscreen',
+  'preview',
+  'htmlPreview',
+  'catalog',
+  'github'
+];
+
+```
+
+### 引入使用
+
+官方主要vue例子如下
+
+[官方例子与其他文件](https://github.com/imzbf/md-editor-v3/blob/docs/src/pages/Preview/index.vue)
+
+### 如果要自定工具栏的官方+自己的
+
+例子：
+
+```vue
+<template>
+        <md-editor v-model="blogValue" :toolbars="toolbars showCodeRowNumber
+            :previewTheme="previewTheme" :theme="store.state.theme" @Save="save" @UploadImg="onUploadImg"
+            :editor-id="editorId">
+            <template #defToolbars>
+                <Read :md-text="blogValue" :previewTheme="previewTheme" :theme="store.state.them" />
+                <normal-toolbar>
+                    <template #trigger>
+                        test
+                    </template>
+                </normal-toolbar>
+                <normal-toolbar>
+                    <template #trigger>
+                        test2
+                    </template>
+                </normal-toolbar>
+            </template>
+        </md-editor>
+</template>
+
+<script setup lang="ts">
+import MdEditor from "md-editor-v3";
+import "md-editor-v3/lib/style.css";
+import { ref, computed, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
+import { ElInput } from "element-plus";
+import { currentFILEPOST } from "@/api";//上传图片接口 根据自己项目进行调整
+import Emoji from "@/components/md-edits/emoji/emoji.vue";//目录根据自己项目目录进行导入
+import Read from "@/components/md-edits/read/read.vue";
+
+const { ModalToolbar, DropdownToolbar, NormalToolbar } = MdEditor;
+const store = useStore();
+const editorId = "editor-preview";
+const toolbars= [
+    'bold',
+    'underline',
+    'italic',
+    '-',
+    'strikeThrough',
+    'sub',
+    'sup',
+    'quote',
+    'unorderedList',
+    'orderedList',
+    '-',
+    'codeRow',
+    'code',
+    'link',
+    'image',
+    'table',
+    'mermaid',
+    'katex',
+    '-',
+    'revoke',
+    'next',
+    'save',
+    0,
+    1,
+    2,
+    '=',
+    'prettier',
+    // 'pageFullscreen',
+    'fullscreen',
+    'preview',
+    // 'htmlPreview',
+    'catalog',
+    // 'github',
+]
+const state = reactive({
+    title: "",
+    blogValue: ``,
+    previewTheme: "github",
+});
+
+const { title, blogValue, previewTheme } = toRefs(state);
+const publish = () => {
+    console.log(blogValue.value);
+};
+const save = () => {
+    console.log(blogValue.value);
+};
+const onUploadImg = async (files: any, callback: Function) => {
+    console.log(files);
+    const res = await Promise.all(
+        files.map((file: any) => {
+            return new Promise((rev, rej) => {
+                const form = new FormData();
+                form.append("file", file);
+                currentFILEPOST("", {})
+                    .then((res) => rev(res))
+                    .catch((error) => rej(error));
+            });
+        })
+    );
+    callback(res.map((item) => item.data.url));
+};
+const onEmojiChange = (emoji: any) => {
+    blogValue.value = emoji;
+};
+</script>
+
+```
+
+read.vue
+
+```vue
+<template>
+    <modal-toolbar :visible="state.visible" :is-fullscreen="state.modalFullscreen" show-adjust title="帮助"
+        modal-title="编辑预览" width="870px" height="600px" @onClick="state.visible = true" @onClose="state.visible = false"
+        @onAdjust="state.modalFullscreen = !state.modalFullscreen">
+        <div style="height: 100%; padding: 20px; overflow: auto">
+            <md-editor :theme="theme" :preview-theme="previewTheme" editor-id="edit2preview"   preview-only
+                 v-model="mdText" />
+        </div>
+        <template #trigger>
+            <svg class="md-icon" aria-hidden="true">
+                <use xlink:href="#icon-read"></use>
+            </svg>
+        </template>
+    </modal-toolbar>
+</template>
+
+<script lang="ts" setup>
+import { reactive, PropType } from 'vue';
+import MdEditor from "md-editor-v3"
+
+export interface ColumnProps {
+    theme: any
+}
+const { ModalToolbar } = MdEditor;
+const props = defineProps({
+    mdText: String,
+    previewTheme: String,
+    theme: {
+        type: String as PropType<any>,
+        default: ""
+    }
+});
+console.log(props);
+const state = reactive({
+    visible: false,
+    modalFullscreen: false
+});
+
+</script>
+
+<script lang="ts">
+export default {
+    name: 'ReadExtension'
+};
+</script>
+
+```
+
+![image](https://user-images.githubusercontent.com/55817318/170619387-5f9d388d-bef0-476f-a8f0-fb1e96c5928a.png)
+
+
+
+## 更详细的实现可以参考本文档的源码！
 
 ## 🧻 编辑此页面
 
