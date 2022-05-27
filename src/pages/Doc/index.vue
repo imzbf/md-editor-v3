@@ -4,7 +4,6 @@ import mdEN from '../../../public/doc-en-US.md';
 import mdCN from '../../../public/doc-zh-CN.md';
 
 import { replaceVersion } from '@/utils';
-import { Affix as AtAffix } from 'ant-design-vue';
 import { useStore } from 'vuex';
 const store = useStore();
 

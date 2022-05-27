@@ -1,0 +1,32 @@
+@keyframes DropdownEnter {
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: auto;
+  }
+}
+
+@keyframes DropdownLeave {
+  0% {
+    height: auto;
+  }
+
+  100% {
+    height: 0;
+  }
+}
+
+.animated {
+  animation-fill-mode: forwards;
+  animation-duration: 0.3s;
+}
+
+.dropdown-enter {
+  animation-name: DropdownEnter;
+}
+
+.dropdown-leave {
+  animation-name: DropdownLeave;
+}
