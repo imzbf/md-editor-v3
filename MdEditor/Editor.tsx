@@ -15,6 +15,7 @@ import {
 } from './composition';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
+import Footer from './layouts/Footer';
 import MdCatalog from './extensions/MdCatalog';
 import bus from './utils/event-bus';
 
@@ -371,6 +372,7 @@ const Editor = defineComponent({
             // markedImage={props.markedImage}
             mermaidTemplate={extension?.editorConfig?.mermaidTemplate}
           />
+          <Footer modelValue={props.modelValue} />
           {catalogShow.value && (
             <MdCatalog
               theme={props.theme}
