@@ -251,7 +251,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   };
 
   // 图片
-  renderer.image = (href, title, desc) => {
+  renderer.image = (href, title = '', desc = '') => {
     return `<span class="figure"><img src="${href}" title="${title}" alt="${desc}"><span class="figcaption">${desc}</span></span>`;
   };
 
