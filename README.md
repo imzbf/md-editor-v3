@@ -247,12 +247,12 @@ const handler = () => {
 
 | name | param | description |
 | --- | --- | --- |
-| onChange | v:string | Content changed event(bind to `oninput` of `textarea`) |
-| onSave | v:string | Save content event, `ctrl+s`and click button will be triggered also |
-| onUploadImg | files:Array<File>, callback:Function | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
-| onHtmlChanged | h:string | Compile markdown successful event, you can use it to get the html code |
-| onGetCatalog | list: HeadList[] | Get catalog of article |
-| onError | err: { name: string; message: string } | Catch run-time error, `Cropper`,`fullScreen` and `prettier` are used when they are not loaded |
+| onChange | `value: string` | Content changed event(bind to `oninput` of `textarea`) |
+| onSave | `value: string` | Save content event, `ctrl+s`and click button will be triggered also |
+| onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
+| onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
+| onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
+| onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullScreen` and `prettier` are used when they are not loaded |
 
 ## Config
 
