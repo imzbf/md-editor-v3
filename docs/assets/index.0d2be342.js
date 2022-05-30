@@ -1,4 +1,4 @@
-import{r}from"./index.06934aae.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.7a407f5c.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{r}from"./index.eea78265.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.ca94ee73.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -62,7 +62,7 @@ import{r}from"./index.06934aae.js";import{g as h,j as g,i as u,a as i,e as b,b a
 
 - **type**: \`string\`
 - **default**: \`'zh-CN'\`
-- **description**: Build-in language('zh-CN','en-US').
+- **description**: Build-in language('zh-CN', 'en-US').
 
 ### \u{1F9F1} toolbars
 
@@ -343,12 +343,12 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 ### \u{1F4BE} onSave
 
 - **type**: \`(v: string) => void\`
-- **description**: Save Content event,\`ctrl+s\`and click button will trigger.
+- **description**: Save Content event, \`ctrl+s\` and click button will trigger.
 
 ### \u{1F4F8} onUploadImg
 
-- **type**: \`(files: Array<File>, callback: function) => void\`
-- **description**: Upload picture event,when picture is uploading the modal will not close,please provide right urls to the callback function.
+- **type**: \`(files: Array<File>, callback: (urls: Array<string>) => void) => void\`
+- **description**: Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
 
   \`\`\`js
   const onUploadImg = async (files, callback) => {
@@ -381,7 +381,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 ### \u260E\uFE0F onHtmlChanged
 
 - **type**: \`(h: string) => void\`
-- **description**: Compile markdown successful event,you can use it to get the html code.
+- **description**: Compile markdown successful event, ou can use it to get the html code.
 
 ### \u{1F5D2} onGetCatalog
 
@@ -1195,7 +1195,7 @@ const handler = () => {
 
 ### \u{1F4F8} onUploadImg
 
-- **\u7C7B\u578B**\uFF1A\`(files: Array<File>, callback: function) => void\`
+- **\u7C7B\u578B**\uFF1A\`(files: Array<File>, callback: (urls: Array<string>) => void) => void\`
 - **\u8BF4\u660E**\uFF1A\u4E0A\u4F20\u56FE\u7247\u4E8B\u4EF6\uFF0C\u5F39\u7A97\u4F1A\u7B49\u5F85\u4E0A\u4F20\u7ED3\u679C\uFF0C\u52A1\u5FC5\u5C06\u4E0A\u4F20\u540E\u7684 urls \u4F5C\u4E3A callback \u5165\u53C2\u56DE\u4F20\u3002
 
   \`\`\`js

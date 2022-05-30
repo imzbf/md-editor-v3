@@ -355,7 +355,7 @@ const handler = () => {
 
 ### 📸 onUploadImg
 
-- **类型**：`(files: Array<File>, callback: function) => void`
+- **类型**：`(files: Array<File>, callback: (urls: Array<string>) => void) => void`
 - **说明**：上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传。
 
   ```js
