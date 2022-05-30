@@ -1,6 +1,6 @@
 {
   "name": "md-editor-v3",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "keywords": [
     "vue",
     "vue3",
@@ -35,7 +35,7 @@
   "dependencies": {
     "ant-design-vue": "^3.2.3",
     "axios": "^0.27.2",
-    "md-editor-v3": "^2.0.0",
+    "md-editor-v3": "^2.0.1",
     "nprogress": "^0.2.0",
     "vue": "^3.2.33",
     "vue-router": "^4.0.11",
