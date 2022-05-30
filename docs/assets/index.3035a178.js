@@ -1,4 +1,4 @@
-import{r}from"./index.047d7b97.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.c5e3468f.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{r}from"./index.06934aae.js";import{g as h,j as g,i as u,a as i,e as b,b as t,h as s,u as e,o as v}from"./index.7a407f5c.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
