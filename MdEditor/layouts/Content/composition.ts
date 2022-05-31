@@ -285,7 +285,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
     // return props.markedHeading(...headProps);
     // 我们默认同一级别的标题，你不会定义两个相同的
-    const id = props.markedHeadingId(raw, level);
+    const id = props.markedHeadingId(raw, level, heads.value.length);
 
     // 如果标题有markdown语法内容，会按照该语法添加标题，而不再自定义，但是仍然支持目录定位
     if (text !== raw) {

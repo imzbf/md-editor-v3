@@ -8,6 +8,7 @@ import './style.less';
 export interface TocItem {
   text: string;
   level: number;
+  index: number;
   children?: Array<TocItem>;
 }
 
@@ -53,8 +54,8 @@ const MdCatalog = defineComponent({
     const catalogs = computed(() => {
       const tocItems: TocItem[] = [];
 
-      state.list.forEach(({ text, level }) => {
-        const item = { level, text };
+      state.list.forEach(({ text, level }, index) => {
+        const item = { level, text, index: index + 1 };
 
         if (tocItems.length === 0) {
           // 第一个 item 直接 push

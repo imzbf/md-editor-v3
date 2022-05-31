@@ -142,7 +142,7 @@ export interface HeadList {
 //   }
 // ) => string;
 
-export type MarkedHeadingId = (text: string, level: number) => string;
+export type MarkedHeadingId = (text: string, level: number, index: number) => string;
 
 // export type MarkedImage = (href: string, title: string, desc: string) => string;
 
