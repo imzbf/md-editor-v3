@@ -15,8 +15,7 @@ export default defineComponent({
 
     const state = computed(() => {
       return {
-        length: props.modelValue.length,
-        rows: props.modelValue.split('\n').length
+        length: props.modelValue.length
       };
     });
     return () => {
@@ -26,10 +25,6 @@ export default defineComponent({
             <div class={`${prefix}-footer-item`}>
               <label>字符数：</label>
               <span>{state.value.length}</span>
-            </div>
-            <div class={`${prefix}-footer-item`}>
-              <label>行数：</label>
-              <span>{state.value.rows}</span>
             </div>
           </div>
           <div class={`${prefix}-footer-right`}>
