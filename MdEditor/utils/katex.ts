@@ -41,7 +41,7 @@ export default {
       level: 'inline',
       start: (text: string) => text.match(/\$[^\n]*/)?.index,
       tokenizer(text: string) {
-        if (/^\$[^\n]*/.test(text)) {
+        if (/^\$[^\n]*\$/.test(text)) {
           const match = splitKatexValue(text);
 
           const token = {
