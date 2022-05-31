@@ -252,7 +252,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
   // 图片
   renderer.image = (href, title = '', desc = '') => {
-    return `<span class="figure"><img src="${href}" title="${title}" alt="${desc}"><span class="figcaption">${desc}</span></span>`;
+    return `<span class="figure"><img src="${href}" title="${title}" alt="${desc}" zoom><span class="figcaption">${desc}</span></span>`;
   };
 
   // 列表
@@ -715,7 +715,7 @@ export const userZoom = (html: Ref<string>) => {
   const editorId = inject('editorId') as string;
 
   const zoomHander = debounce(() => {
-    const imgs = document.querySelectorAll(`#${editorId}-preview img`);
+    const imgs = document.querySelectorAll(`#${editorId}-preview img[zoom]`);
 
     if (imgs.length === 0) {
       return;
