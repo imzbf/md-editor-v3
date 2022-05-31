@@ -3,6 +3,7 @@
   margin-top: 10px;
   z-index: 9999;
   opacity: 0;
+  z-index: -1;
 
   &::before {
     content: ' ';
@@ -20,4 +21,9 @@
     border-top-color: var(--iz-border-color);
     border-width: 1px;
   }
+}
+
+.dropdown-active {
+  z-index: 9999;
+  opacity: 1;
 }
