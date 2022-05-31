@@ -29,18 +29,29 @@ const IzDropdown = defineComponent({
       style: {
         top: 0,
         left: 0
-        // visibility: 'hidden'
       },
       class: ['dropdown-content', 'animated']
     });
 
-    const changeVisibility = debounce((visible = true) => {
-      // state.style.visibility = visibility;
+    const resetClass = (visible = true) => {
+      state.class = ['dropdown-content', visible ? 'dropdown-active' : ''];
+    };
+
+    const changeVisibility = (visible = true) => {
       state.class = [
         'dropdown-content',
+        'dropdown-active',
         'animated',
         visible ? 'dropdown-enter' : 'dropdown-leave'
       ];
+
+      setTimeout(() => {
+        resetClass(visible);
+      }, 300);
+    };
+
+    const setVisible = debounce((visible = true) => {
+      state.visible = visible;
     });
 
     watch(
@@ -67,10 +78,10 @@ const IzDropdown = defineComponent({
       const DropdownTrigger = cloneVNode((slots.default as Function)()[0], {
         ref: triggerRef,
         onMouseenter() {
-          state.visible = true;
+          setVisible(true);
         },
         onMouseleave() {
-          state.visible = false;
+          setVisible(false);
         }
       });
 
@@ -82,8 +93,8 @@ const IzDropdown = defineComponent({
               class={state.class}
               style={state.style}
               ref={contentRef}
-              onMouseenter={changeVisibility}
-              onMouseleave={() => changeVisibility(false)}
+              onMouseenter={() => setVisible(true)}
+              onMouseleave={() => setVisible(false)}
             >
               {(slots.content as Function)()}
             </div>
