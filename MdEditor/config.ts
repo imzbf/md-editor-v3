@@ -1,4 +1,4 @@
-import { CodeCss, StaticTextDefault } from './type';
+import { CodeCss, Footers, StaticTextDefault } from './type';
 
 export const prefix = 'md';
 
@@ -60,6 +60,8 @@ export const allToolbar = [
   'catalog',
   'github'
 ];
+
+export const allFooter: Array<Footers> = ['count', '=', 'scrollSwitch'];
 
 export const staticTextDefault: StaticTextDefault = {
   'zh-CN': {

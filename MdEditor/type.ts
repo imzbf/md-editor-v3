@@ -109,6 +109,8 @@ export type StaticTextDefaultKey = keyof StaticTextDefault;
 
 export type ToolbarNames = keyof ToolbarTips | number;
 
+export type Footers = '=' | 'count' | 'scrollSwitch' | number;
+
 export interface SettingType {
   pageFullScreen: boolean;
   fullscreen: boolean;

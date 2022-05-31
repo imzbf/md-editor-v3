@@ -5,7 +5,7 @@ import {
   CSSProperties,
   SetupContext
 } from 'vue';
-import { prefix, allToolbar } from './config';
+import { prefix, allToolbar, allFooter } from './config';
 import {
   useKeyBoard,
   useProvide,
@@ -29,7 +29,8 @@ import {
   MarkedHeadingId,
   // MarkedImage,
   Themes,
-  InnerError
+  InnerError,
+  Footers
 } from './type';
 
 import './styles/index.less';
@@ -267,6 +268,9 @@ const props = {
   codeTheme: {
     type: String as PropType<string>,
     default: 'atom'
+  },
+  footers: {
+    type: Array as PropType<Array<Footers>>
   }
 };
 
@@ -372,7 +376,9 @@ const Editor = defineComponent({
             // markedImage={props.markedImage}
             mermaidTemplate={extension?.editorConfig?.mermaidTemplate}
           />
-          <Footer modelValue={props.modelValue} />
+          {!props.previewOnly && (
+            <Footer modelValue={props.modelValue} footers={props.footers} />
+          )}
           {catalogShow.value && (
             <MdCatalog
               theme={props.theme}
