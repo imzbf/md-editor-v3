@@ -13,11 +13,16 @@ export default defineComponent({
     footers: {
       type: Array as PropType<Array<Footers>>,
       default: allFooter
+    },
+    scrollAuto: {
+      type: Boolean as PropType<boolean>
+    },
+    onScrollAutoChange: {
+      type: Function as PropType<(v: boolean) => void>,
+      default: () => () => {}
     }
   },
   setup(props) {
-    const scrollEnabled = ref(false);
-
     const state = computed(() => {
       return {
         length: props.modelValue.length
@@ -60,8 +65,8 @@ export default defineComponent({
                 </label>
                 <Checkbox
                   id={`${prefix}-scroll-ctl`}
-                  checked={scrollEnabled.value}
-                  onChange={(checked) => (scrollEnabled.value = checked)}
+                  checked={props.scrollAuto}
+                  onChange={props.onScrollAutoChange}
                 />
               </div>
             );

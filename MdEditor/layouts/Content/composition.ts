@@ -479,20 +479,11 @@ export const useAutoScroll = (
     });
   };
 
-  onMounted(() => {
-    if (previewRef.value || htmlRef.value) {
-      [initScrollAuto, clearScrollAuto] = scrollAuto(
-        textAreaRef.value as HTMLElement,
-        (previewRef.value as HTMLElement) || htmlRef.value
-      );
-    }
-  });
-
   // 编译事件
   const htmlChanged = () => {
     nextTick(() => {
       // 更新完毕后判断是否需要重新绑定滚动事件
-      if (props.setting.preview && !previewOnly) {
+      if (props.setting.preview && !previewOnly && props.scrollAuto) {
         clearScrollAuto();
         initScrollAuto();
       }
@@ -520,8 +511,27 @@ export const useAutoScroll = (
   watch(() => html.value, htmlChanged);
   watch(() => props.setting.preview, settingPreviewChanged);
   watch(() => props.setting.htmlPreview, settingPreviewChanged);
+  watch(
+    () => props.scrollAuto,
+    (sa) => {
+      if (sa) {
+        initScrollAuto();
+      } else {
+        clearScrollAuto();
+      }
+    }
+  );
 
-  onMounted(htmlChanged);
+  onMounted(() => {
+    initCopyEntry();
+
+    if (!previewOnly && props.scrollAuto && (previewRef.value || htmlRef.value)) {
+      [initScrollAuto, clearScrollAuto] = scrollAuto(
+        textAreaRef.value as HTMLElement,
+        (previewRef.value as HTMLElement) || htmlRef.value
+      );
+    }
+  });
 };
 
 export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => {

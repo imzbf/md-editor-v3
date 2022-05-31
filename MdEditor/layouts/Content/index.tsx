@@ -30,6 +30,7 @@ export type EditorContentProps = Readonly<{
   placeholder: string;
   noKatex?: boolean;
   mermaidTemplate?: MermaidTemplate;
+  scrollAuto?: boolean;
 }>;
 
 export default defineComponent({
@@ -79,6 +80,9 @@ export default defineComponent({
     mermaidTemplate: {
       type: Object as PropType<MermaidTemplate>,
       default: () => ({})
+    },
+    scrollAuto: {
+      type: Boolean as PropType<boolean>
     }
   },
   setup(props) {

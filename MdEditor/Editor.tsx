@@ -3,7 +3,8 @@ import {
   PropType,
   onBeforeUnmount,
   CSSProperties,
-  SetupContext
+  SetupContext,
+  reactive
 } from 'vue';
 import { prefix, allToolbar, allFooter } from './config';
 import {
@@ -271,6 +272,10 @@ const props = {
   },
   footers: {
     type: Array as PropType<Array<Footers>>
+  },
+  scrollAuto: {
+    type: Boolean as PropType<boolean>,
+    default: true
   }
 };
 
@@ -292,6 +297,10 @@ const Editor = defineComponent({
     const { editorId } = props;
     // 全局配置扩展
     const extension = Editor.extension || {};
+
+    const state = reactive({
+      scrollAuto: props.scrollAuto
+    });
 
     // 快捷键监听
     useKeyBoard(props, context);
@@ -375,9 +384,15 @@ const Editor = defineComponent({
             // extensions={props.extensions}
             // markedImage={props.markedImage}
             mermaidTemplate={extension?.editorConfig?.mermaidTemplate}
+            scrollAuto={state.scrollAuto}
           />
           {!props.previewOnly && (
-            <Footer modelValue={props.modelValue} footers={props.footers} />
+            <Footer
+              modelValue={props.modelValue}
+              footers={props.footers}
+              scrollAuto={state.scrollAuto}
+              onScrollAutoChange={(v) => (state.scrollAuto = v)}
+            />
           )}
           {catalogShow.value && (
             <MdCatalog
