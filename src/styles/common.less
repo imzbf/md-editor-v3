@@ -1,4 +1,5 @@
 @import './vars';
+@import './animation';
 
 body,
 h1,
@@ -33,6 +34,10 @@ a {
   text-decoration: none;
   color: #2d8cf0;
   transition: color 0.3s;
+}
+
+html {
+  .css-vars(false);
 }
 
 body {
@@ -133,6 +138,7 @@ body {
 }
 
 .theme-dark {
+  .css-vars(true);
   color: @colorDark;
   background-color: @bkColorDark;
 

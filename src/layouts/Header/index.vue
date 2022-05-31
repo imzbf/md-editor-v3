@@ -7,6 +7,8 @@ import './index.less';
 
 import { version } from '../../../package.json';
 
+const { IzDropdownMenu, IzDropdownMenuItem } = IzDropdown;
+
 const store = useStore();
 
 const data = reactive({
@@ -62,27 +64,27 @@ const texts = computed(() => {
         <iz-dropdown>
           <button class="btn btn-header">{{ texts.previewBtn }}</button>
           <template #content>
-            <dropdown-menu>
-              <dropdown-menu-item
+            <iz-dropdown-menu>
+              <iz-dropdown-menu-item
                 v-for="item of data.previewThemes"
                 @click="store.commit('changePreviewTheme', item)"
               >
                 {{ item }}
-              </dropdown-menu-item>
-            </dropdown-menu>
+              </iz-dropdown-menu-item>
+            </iz-dropdown-menu>
           </template>
         </iz-dropdown>
         <iz-dropdown>
           <button class="btn btn-header">{{ texts.codeBtn }}</button>
           <template #content>
-            <dropdown-menu>
-              <dropdown-menu-item
+            <iz-dropdown-menu>
+              <iz-dropdown-menu-item
                 v-for="item of data.codeThemes"
                 @click="store.commit('changeCodeTheme', item)"
               >
                 {{ item }}
-              </dropdown-menu-item>
-            </dropdown-menu>
+              </iz-dropdown-menu-item>
+            </iz-dropdown-menu>
           </template>
         </iz-dropdown>
       </p>
