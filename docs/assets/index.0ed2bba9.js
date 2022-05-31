@@ -1,4 +1,4 @@
-import{g as h,j as u,k as v,i as f,a as i,e as g,b as t,h as s,u as e,o as x}from"./index.ca94ee73.js";import{r as d}from"./index.eea78265.js";var m=`## \u{1F601} Basic Usage
+import{g as h,j as u,k as i,l as v,i as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.b89636fa.js";var l=`## \u{1F601} Basic Usage
 
 It has been developing iteratively\uFF0Cso update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -602,7 +602,7 @@ const sanitize = (html) => {
 ## \u{1F9FB} Edit this page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)
-`,l=`## \u{1F601} \u57FA\u672C\u4F7F\u7528\u793A\u4F8B
+`,m=`## \u{1F601} \u57FA\u672C\u4F7F\u7528\u793A\u4F8B
 
 \u76EE\u524D\u4E00\u76F4\u5728\u8FED\u4EE3\u5F00\u53D1\uFF0C\u6240\u4EE5\u5C3D\u91CF\u5B89\u88C5\u6700\u65B0\u7248\u672C\u3002\u53D1\u5E03\u65E5\u5FD7\u8BF7\u524D\u5F80\uFF1A[releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -1214,4 +1214,4 @@ const sanitize = (html) => {
 ## \u{1F9FB} \u7F16\u8F91\u6B64\u9875\u9762
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)
-`;const b={class:"container"},k={class:"doc"},y={class:"content"},E={class:"catalog"},w={class:"affix"},D={setup(M){const n=h(),r=u(d(n.state.lang==="en-US"?m:l)),o=()=>{r.value=d(n.state.lang==="en-US"?m:l)},a=document.documentElement;return v(o),f(()=>n.state.lang,o),(j,T)=>{const c=i("md-editor-v3"),p=i("md-catalog");return x(),g("div",b,[t("div",k,[t("div",y,[s(c,{"editor-id":"demo-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":r.value,"preview-theme":e(n).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":e(n).state.codeTheme},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",E,[t("div",w,[s(p,{"editor-id":"demo-preview",theme:e(n).state.theme,"scroll-element":e(a)},null,8,["theme","scroll-element"])])])])])}}};export{D as default};
+`;const b={class:"container"},k={class:"doc"},y={class:"content"},E={class:"catalog"},w={class:"affix"},C={setup(M){const n=h(),r=u(i(n.state.lang==="en-US"?l:m)),o=()=>{r.value=i(n.state.lang==="en-US"?l:m)},a=document.documentElement;return v(o),f(()=>n.state.lang,o),(j,T)=>{const c=d("md-editor-v3"),p=d("md-catalog");return x(),g("div",b,[t("div",k,[t("div",y,[s(c,{"editor-id":"demo-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":r.value,"preview-theme":e(n).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":e(n).state.codeTheme},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",E,[t("div",w,[s(p,{"editor-id":"demo-preview",theme:e(n).state.theme,"scroll-element":e(a)},null,8,["theme","scroll-element"])])])])])}}};export{C as default};
