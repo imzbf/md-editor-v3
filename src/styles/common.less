@@ -1,11 +1,5 @@
 @import './vars';
-
-@import '../node_modules/ant-design-vue/lib/back-top/style';
-@import '../node_modules/ant-design-vue/lib/dropdown/style';
-@import '../node_modules/ant-design-vue/lib/menu/style';
-@import '../node_modules/ant-design-vue/lib/affix/style';
-@import '../node_modules/ant-design-vue/lib/anchor/style';
-@import '../node_modules/ant-design-vue/lib/modal/style';
+@import './animation';
 
 body,
 h1,
@@ -40,6 +34,10 @@ a {
   text-decoration: none;
   color: #2d8cf0;
   transition: color 0.3s;
+}
+
+html {
+  .css-vars(false);
 }
 
 body {
@@ -124,20 +122,12 @@ body {
   background-color: @bkColor;
   min-height: 100vh;
 
-  // .ant-anchor {
-  //   font-size: 1rem;
-  // }
-
   .doc {
     display: flex;
     padding: 2rem;
 
     .catalog {
       width: 25%;
-
-      // .ant-anchor-wrapper {
-      //   padding-left: 1rem;
-      // }
     }
 
     .content {
@@ -148,6 +138,7 @@ body {
 }
 
 .theme-dark {
+  .css-vars(true);
   color: @colorDark;
   background-color: @bkColorDark;
 
@@ -184,39 +175,7 @@ body {
       }
     }
   }
-
-  // 覆盖ant，锚点默认样式
-  .ant-anchor {
-    color: @colorDark;
-
-    .ant-anchor-ink::before {
-      background-color: @borderColorDark;
-    }
-
-    .ant-anchor-link-title {
-      color: @colorDark;
-    }
-  }
-
-  .ant-dropdown-menu-dark {
-    background-color: @bkColorDark;
-    border: 1px solid @borderColorDark;
-  }
-
-  .ant-back-top {
-    color: @colorDark;
-  }
 }
-
-// .md-catalog-wrapper {
-//   max-height: 300px;
-//   overflow: auto;
-// }
-
-// .catalog {
-//   max-height: 100vh;
-//   overflow: auto;
-// }
 
 .affix {
   position: sticky;

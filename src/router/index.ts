@@ -6,7 +6,7 @@ import {
   RouteRecordRaw
 } from 'vue-router';
 import NProgress from 'nprogress';
-import Layout from '@/layouts';
+import Layout from '@/layouts/index.vue';
 import { SITE_TITLE_PREFIX } from '@/config';
 
 const routes: Array<RouteRecordRaw> = [
