@@ -9,7 +9,7 @@
   .css-vars(false);
 
   width: 100%;
-  height: 400px;
+  height: 425px;
   position: relative;
   box-sizing: border-box;
   border: 1px solid var(--md-border-color);
@@ -118,6 +118,10 @@
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
+    height: @toolBarHeight;
+    flex-shrink: 0;
+    padding: @toolBarPadding;
+    border-bottom: 1px solid var(--md-border-color);
 
     &::-webkit-scrollbar {
       height: 0 !important;
@@ -125,9 +129,7 @@
 
     .@{prefix}-toolbar {
       min-width: 850px;
-      padding: @toolBarPadding;
-      height: @toolBarHeight;
-      border-bottom: 1px solid var(--md-border-color);
+      height: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -160,7 +162,10 @@
 
   &-content {
     display: flex;
-    height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 1px);
+    // height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 1px);
+    flex: 1;
+    height: 0;
+    flex-shrink: 0;
 
     .@{prefix}-input-wrapper {
       flex: 1;
@@ -201,6 +206,28 @@
       font-size: 16px;
       position: relative;
       word-break: break-all;
+    }
+  }
+
+  &-footer {
+    height: 24px;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--md-color);
+    border-top: 1px solid var(--md-border-color);
+    display: flex;
+    justify-content: space-between;
+
+    &-item {
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 10px;
+    }
+
+    &-label {
+      padding-right: 5px;
+      line-height: 1;
     }
   }
 

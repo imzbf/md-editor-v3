@@ -1,4 +1,4 @@
-import { CodeCss, StaticTextDefault } from './type';
+import { CodeCss, Footers, StaticTextDefault } from './type';
 
 export const prefix = 'md';
 
@@ -60,6 +60,8 @@ export const allToolbar = [
   'catalog',
   'github'
 ];
+
+export const allFooter: Array<Footers> = ['mardownTotal', '=', 'scrollSwitch'];
 
 export const staticTextDefault: StaticTextDefault = {
   'zh-CN': {
@@ -135,6 +137,10 @@ export const staticTextDefault: StaticTextDefault = {
     katex: {
       inline: '行内公式',
       block: '块级公式'
+    },
+    footer: {
+      markdownTotal: '字数',
+      scrollAuto: '同步滚动'
     }
   },
   'en-US': {
@@ -210,6 +216,10 @@ export const staticTextDefault: StaticTextDefault = {
     katex: {
       inline: 'inline',
       block: 'block'
+    },
+    footer: {
+      markdownTotal: 'Word Count',
+      scrollAuto: 'Scroll Auto'
     }
   }
 };

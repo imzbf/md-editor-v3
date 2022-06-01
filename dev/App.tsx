@@ -12,6 +12,7 @@ export default defineComponent({
     const theme = ref<Theme>('light');
     const previewTheme = ref<string>('default');
     const codeTheme = ref<string>('kimbie');
+    const lang = ref<string>('zh-CN');
 
     return () => (
       <div class={['app', theme.value === 'dark' && 'theme-dark']}>
@@ -24,12 +25,16 @@ export default defineComponent({
           onCodeThemeChange={(ct: string) => {
             codeTheme.value = ct;
           }}
+          onLangChange={(l) => {
+            lang.value = l;
+          }}
         />
         <div class="page-body">
           <Preview
             theme={theme.value}
             previewTheme={previewTheme.value}
             codeTheme={codeTheme.value}
+            lang={lang.value}
           />
           <PreviewOnly
             theme={theme.value}

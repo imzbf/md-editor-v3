@@ -1,0 +1,24 @@
+@import '../../styles/vars';
+
+.@{prefix}-checkbox {
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--md-border-color);
+  background-color: var(--md-bk-color-outstand);
+  border-radius: 2px;
+  line-height: 1;
+  text-align: center;
+
+  &::after {
+    content: '';
+
+    font-weight: bold;
+  }
+
+  &-checked {
+    &::after {
+      content: '✓';
+    }
+  }
+}
