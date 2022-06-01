@@ -271,7 +271,8 @@ const props = {
     default: 'atom'
   },
   footers: {
-    type: Array as PropType<Array<Footers>>
+    type: Array as PropType<Array<Footers>>,
+    default: allFooter
   },
   scrollAuto: {
     type: Boolean as PropType<boolean>,
@@ -386,7 +387,7 @@ const Editor = defineComponent({
             mermaidTemplate={extension?.editorConfig?.mermaidTemplate}
             scrollAuto={state.scrollAuto}
           />
-          {!props.previewOnly && (
+          {!props.previewOnly && props.footers?.length > 0 && (
             <Footer
               modelValue={props.modelValue}
               footers={props.footers}

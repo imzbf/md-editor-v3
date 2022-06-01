@@ -1,7 +1,8 @@
-import { defineComponent, PropType, computed, ref } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 import { allFooter, prefix } from '../../config';
-import Checkbox from '../../components/Checkbox';
 import { Footers } from '../../type';
+import MarkdownTotal from './MarkdownTotal';
+import ScrollAuto from './ScrollAuto';
 
 export default defineComponent({
   name: 'MDEditorFooter',
@@ -12,7 +13,7 @@ export default defineComponent({
     },
     footers: {
       type: Array as PropType<Array<Footers>>,
-      default: allFooter
+      default: []
     },
     scrollAuto: {
       type: Boolean as PropType<boolean>
@@ -23,12 +24,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const state = computed(() => {
-      return {
-        length: props.modelValue.length
-      };
-    });
-
     const splitedItems = computed(() => {
       const moduleSplitIndex = props.footers.indexOf('=');
 
@@ -49,26 +44,15 @@ export default defineComponent({
     const footerRender = (name: Footers) => {
       if (allFooter.includes(name)) {
         switch (name) {
-          case 'count': {
-            return (
-              <div class={`${prefix}-footer-item`}>
-                <label>字符数：</label>
-                <span>{state.value.length}</span>
-              </div>
-            );
+          case 'mardownTotal': {
+            return <MarkdownTotal modelValue={props.modelValue} />;
           }
           case 'scrollSwitch': {
             return (
-              <div class={`${prefix}-footer-item`}>
-                <label class={`${prefix}-footer-label`} for="">
-                  同步滚动
-                </label>
-                <Checkbox
-                  id={`${prefix}-scroll-ctl`}
-                  checked={props.scrollAuto}
-                  onChange={props.onScrollAutoChange}
-                />
-              </div>
+              <ScrollAuto
+                scrollAuto={props.scrollAuto}
+                onScrollAutoChange={props.onScrollAutoChange}
+              />
             );
           }
         }
@@ -80,12 +64,10 @@ export default defineComponent({
       const RightFooter = splitedItems.value[1].map((name) => footerRender(name));
 
       return (
-        props.footers.length > 0 && (
-          <div class={`${prefix}-footer`}>
-            <div class={`${prefix}-footer-left`}>{LeftFooter}</div>
-            <div class={`${prefix}-footer-right`}>{RightFooter}</div>
-          </div>
-        )
+        <div class={`${prefix}-footer`}>
+          <div class={`${prefix}-footer-left`}>{LeftFooter}</div>
+          <div class={`${prefix}-footer-right`}>{RightFooter}</div>
+        </div>
       );
     };
   }

@@ -4,9 +4,6 @@ import './style.less';
 
 export default defineComponent({
   props: {
-    id: {
-      type: String as PropType<string>
-    },
     checked: {
       type: Boolean as PropType<boolean>,
       default: false
@@ -20,7 +17,6 @@ export default defineComponent({
     return () => {
       return (
         <div
-          id={props.id}
           class={[`${prefix}-checkbox`, props.checked && `${prefix}-checkbox-checked`]}
           onClick={() => {
             props.onChange(!props.checked);

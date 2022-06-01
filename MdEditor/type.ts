@@ -98,6 +98,10 @@ export interface StaticTextDefaultValue {
     inline: string;
     block: string;
   };
+  footer?: {
+    markdownTotal: string;
+    scrollAuto: string;
+  };
 }
 
 export interface StaticTextDefault {
@@ -109,7 +113,7 @@ export type StaticTextDefaultKey = keyof StaticTextDefault;
 
 export type ToolbarNames = keyof ToolbarTips | number;
 
-export type Footers = '=' | 'count' | 'scrollSwitch' | number;
+export type Footers = '=' | 'mardownTotal' | 'scrollSwitch' | number;
 
 export interface SettingType {
   pageFullScreen: boolean;

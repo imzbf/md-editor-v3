@@ -16,6 +16,10 @@ export default defineComponent({
     onCodeThemeChange: {
       type: Function as PropType<(v: string) => void>,
       default: () => {}
+    },
+    onLangChange: {
+      type: Function as PropType<(v: string) => void>,
+      default: () => {}
     }
   },
   setup(props) {
@@ -28,6 +32,12 @@ export default defineComponent({
             </button>
             <button class="btn btn-header" onClick={() => props.onChange('dark')}>
               暗模式
+            </button>
+            <button class="btn btn-header" onClick={() => props.onLangChange('zh-CN')}>
+              中文
+            </button>
+            <button class="btn btn-header" onClick={() => props.onLangChange('en-US')}>
+              英文
             </button>
           </p>
           <p class="header-actions">

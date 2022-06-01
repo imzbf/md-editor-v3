@@ -57,7 +57,8 @@ export default defineComponent({
   props: {
     theme: String as PropType<Theme>,
     previewTheme: String as PropType<string>,
-    codeTheme: String as PropType<string>
+    codeTheme: String as PropType<string>,
+    lang: String as PropType<string>
   },
   setup(props) {
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
@@ -106,6 +107,7 @@ export default defineComponent({
             previewTheme={props.previewTheme}
             theme={props.theme}
             modelValue={md.text}
+            language={props.lang}
             // katex={katex}
             onSave={(v) => {
               localStorage.setItem(SAVE_KEY, v);
