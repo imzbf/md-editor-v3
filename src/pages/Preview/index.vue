@@ -9,7 +9,7 @@
         :previewTheme="store.state.previewTheme"
         :code-theme="store.state.codeTheme"
         :toolbars="toolbars"
-        :footers="['mardownTotal', '=', 0, 'scrollSwitch']"
+        :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
