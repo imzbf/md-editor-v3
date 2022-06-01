@@ -61,7 +61,7 @@ export const allToolbar = [
   'github'
 ];
 
-export const allFooter: Array<Footers> = ['mardownTotal', '=', 'scrollSwitch'];
+export const allFooter: Array<Footers> = ['markdownTotal', '=', 'scrollSwitch'];
 
 export const staticTextDefault: StaticTextDefault = {
   'zh-CN': {

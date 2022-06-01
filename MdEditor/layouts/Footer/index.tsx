@@ -47,7 +47,7 @@ export default defineComponent({
     const footerRender = (name: Footers) => {
       if (allFooter.includes(name)) {
         switch (name) {
-          case 'mardownTotal': {
+          case 'markdownTotal': {
             return <MarkdownTotal modelValue={props.modelValue} />;
           }
           case 'scrollSwitch': {

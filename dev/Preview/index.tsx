@@ -232,7 +232,7 @@ export default defineComponent({
                 </Editor.ModalToolbar>
               </>
             }
-            footers={['mardownTotal', '=', 0, 'scrollSwitch']}
+            footers={['markdownTotal', '=', 0, 'scrollSwitch']}
             defFooters={
               <>
                 <span>^_^</span>

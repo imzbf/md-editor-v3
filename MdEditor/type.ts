@@ -113,7 +113,7 @@ export type StaticTextDefaultKey = keyof StaticTextDefault;
 
 export type ToolbarNames = keyof ToolbarTips | number;
 
-export type Footers = '=' | 'mardownTotal' | 'scrollSwitch' | number;
+export type Footers = '=' | 'markdownTotal' | 'scrollSwitch' | number;
 
 export interface SettingType {
   pageFullScreen: boolean;
