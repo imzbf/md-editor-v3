@@ -1,4 +1,4 @@
-import { defineComponent, PropType, computed } from 'vue';
+import { defineComponent, PropType, computed, VNode } from 'vue';
 import { allFooter, prefix } from '../../config';
 import { Footers } from '../../type';
 import MarkdownTotal from './MarkdownTotal';
@@ -21,6 +21,9 @@ export default defineComponent({
     onScrollAutoChange: {
       type: Function as PropType<(v: boolean) => void>,
       default: () => () => {}
+    },
+    defFooters: {
+      type: Object as PropType<VNode>
     }
   },
   setup(props) {
@@ -56,6 +59,13 @@ export default defineComponent({
             );
           }
         }
+      } else if (props.defFooters instanceof Array) {
+        return props.defFooters[name as number] || '';
+      } else if (props.defFooters && props.defFooters.children instanceof Array) {
+        // jsx语法，<></>包裹下，defToolbars是包裹插槽内容的对象
+        return props.defFooters.children[name as number] || '';
+      } else {
+        return '';
       }
     };
 

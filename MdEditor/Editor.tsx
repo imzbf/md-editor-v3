@@ -277,6 +277,9 @@ const props = {
   scrollAuto: {
     type: Boolean as PropType<boolean>,
     default: true
+  },
+  defFooters: {
+    type: [String, Object] as PropType<string | JSX.Element>
   }
 };
 
@@ -320,6 +323,7 @@ const Editor = defineComponent({
 
     return () => {
       const defToolbars = getSlot({ props, ctx: context }, 'defToolbars');
+      const defFooters = getSlot({ props, ctx: context }, 'defFooters');
 
       return (
         <div
@@ -391,6 +395,7 @@ const Editor = defineComponent({
             <Footer
               modelValue={props.modelValue}
               footers={props.footers}
+              defFooters={defFooters}
               scrollAuto={state.scrollAuto}
               onScrollAutoChange={(v) => (state.scrollAuto = v)}
             />
