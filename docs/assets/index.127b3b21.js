@@ -1,4 +1,4 @@
-import{g as m,j as a,k as s,i as h,e as c,b as o,h as l,u as t,a as p,o as b}from"./index.97088d19.js";var n=`## About md-editor-v3
+import{g as m,j as a,p as i,m as h,e as c,b as o,h as l,u as t,a as p,o as b}from"./index.5b0eab44.js";var n=`## About md-editor-v3
 
 <br>
 
@@ -36,4 +36,4 @@ Markdown \u7F16\u8F91\u5668\uFF0Cvue3 \u7248\u672C\uFF0C\u4F7F\u7528 jsx \u548C 
 1. \u90AE\u7BB1\uFF1Azbfcqtl@gmail.com
 2. \u535A\u5BA2\u7559\u8A00\uFF1A[imzbf.cc](https://imzbf.cc/message)
 3. issue \u7BA1\u7406\uFF1A[github issues](https://github.com/imzbf/md-editor-v3/issues)
-`;const u={class:"container"},g={class:"doc"},v={class:"content"},k={setup(f){const e=m(),i=a(s(e.state.lang==="en-US"?n:r));return h(()=>e.state.lang,()=>{i.value=s(e.state.lang==="en-US"?n:r)}),(_,y)=>{const d=p("md-editor-v3");return b(),c("div",u,[o("div",g,[o("div",v,[l(d,{theme:t(e).state.theme,"model-value":i.value,"preview-theme":t(e).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":t(e).state.codeTheme},null,8,["theme","model-value","preview-theme","code-theme"])])])])}}};export{k as default};
+`;const u={class:"container"},g={class:"doc"},v={class:"content"},k={setup(f){const e=m(),s=a(i(e.state.lang==="en-US"?n:r));return h(()=>e.state.lang,()=>{s.value=i(e.state.lang==="en-US"?n:r)}),(_,y)=>{const d=p("md-editor-v3");return b(),c("div",u,[o("div",g,[o("div",v,[l(d,{theme:t(e).state.theme,"model-value":s.value,"preview-theme":t(e).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":t(e).state.codeTheme},null,8,["theme","model-value","preview-theme","code-theme"])])])])}}};export{k as default};

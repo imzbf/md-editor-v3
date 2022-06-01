@@ -1,4 +1,4 @@
-import{g as h,j as u,k as i,l as v,i as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.97088d19.js";var l=`## \u{1F601} Basic Usage
+import{g as h,j as u,p as i,q as v,m as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.5b0eab44.js";var l=`## \u{1F601} Basic Usage
 
 It has been developing iteratively\uFF0Cso update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -398,6 +398,10 @@ MdEditor.config({
         katex: {
           inline: 'inline',
           block: 'block'
+        },
+        footer: {
+          markdownTotal: 'Word Count',
+          scrollAuto: 'Scroll Auto'
         }
       }
     }
@@ -1003,6 +1007,10 @@ MdEditor.config({
         katex: {
           inline: '\u884C\u5185\u516C\u5F0F',
           block: '\u5757\u7EA7\u516C\u5F0F'
+        },
+        footer: {
+          markdownTotal: '\u5B57\u6570',
+          scrollAuto: '\u540C\u6B65\u6EDA\u52A8'
         }
       }
     }

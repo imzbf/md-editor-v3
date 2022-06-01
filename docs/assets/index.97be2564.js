@@ -1,4 +1,4 @@
-import{g as h,j as g,k as r,i as u,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.97088d19.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{g as h,j as u,p as r,m as g,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.5b0eab44.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -249,32 +249,21 @@ import{g as h,j as g,k as r,i as u,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 ### \u{1F3B1} markedHeadingId
 
-- **type**: \`(text: string, level: number) => string\`
+- **type**: \`(text: string, level: number, index: number) => string\`
 - **default**: \`(text) => text\`
 - **description**: Title \`ID\` generator.
 
-  1. Config \`markedRenderer\`
+  \`\`\`vue
+  <template>
+    <md-editor :marked-heading-id="generateId" />
+  </template>
 
-  \`\`\`js
+  <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
-  const generateId = (text, level) => \`heading-\${text}-\${level}\`;
-
-  MdEditor.config({
-    markedRenderer(renderer) {
-      renderer.heading = (text, level) => {
-        const id = generateId(text, level);
-        return \`<h\${level} id="\${id}">\${text}</h\${level}>\`;
-      };
-      return renderer;
-    }
-  });
-  \`\`\`
-
-  2. Set \`markedHeadingId\`
-
-  \`\`\`html
-  <md-ditor-v3 :markedHeadingId="generateId" />
+  const generateId = (_text, _level, index) => \`heading-\${index}\`;
+  <\/script>
   \`\`\`
 
 ### \u{1F423} sanitize
@@ -285,15 +274,31 @@ import{g as h,j as g,k as r,i as u,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
   \`sanitize-html\` example:
 
-  \`\`\`js
+  \`\`\`vue
+  <template>
+    <md-editor :sanitize="sanitize" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
   import sanitizeHtml from 'sanitize-html';
 
   const sanitize = (html) => sanitizeHtml(html);
+  <\/script>
   \`\`\`
 
-  \`\`\`html
-  <md-ditor-v3 :sanitize="sanitize" />;
-  \`\`\`
+### \u{1F9B6} footers
+
+- **\u7C7B\u578B**\uFF1A\`Array<'markdownTotal' \\| '=' \\| 'scrollSwitch' \\| number>\`
+- **\u9ED8\u8BA4\u503C**\uFF1A\`['markdownTotal', '=', 'scrollSwitch']\`
+- **\u8BF4\u660E**\uFF1AShow some item of footers.
+
+### \u{1F468}\u200D\u{1F466} scrollAuto
+
+- **\u7C7B\u578B**\uFF1A\`boolean\`
+- **\u9ED8\u8BA4\u503C**\uFF1A\`true\`
+- **\u8BF4\u660E**\uFF1AScroll default setting.
 
 ## \u{1F38D} slots
 
@@ -301,37 +306,117 @@ import{g as h,j as g,k as r,i as u,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 Custom toolbar in \`DropdownToolbar\`, \`NormalToolbar\` or \`ModalToolbar\`.
 
-\`\`\`vue
-<template>
-  <md-editor>
-    <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="handler">
-        <template #trigger>
-          <svg class="md-icon" aria-hidden="true">
-            <use xlink:href="#icon-mark"></use>
-          </svg>
-        </template>
-      </normal-toolbar>
-    </template>
-  </md-editor>
-</template>
+- Setup Template
 
-<script setup>
-import MdEditor from 'md-editor-v3';
+  \`\`\`vue
+  <template>
+    <md-editor :toolbars="toolbars">
+      <template #defToolbars>
+        <normal-toolbar title="mark" @onClick="handler">
+          <template #trigger>
+            <svg class="md-icon" aria-hidden="true">
+              <use xlink:href="#icon-mark"></use>
+            </svg>
+          </template>
+        </normal-toolbar>
+      </template>
+    </md-editor>
+  </template>
 
-const NormalToolbar = MdEditor.NormalToolbar;
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  const NormalToolbar = MdEditor.NormalToolbar;
 
-const handler = () => {
-  console.log('NormalToolbar clicked!');
-};
-<\/script>
-\`\`\`
+  const toolbars = ['bold', '-', 0, '=', 'github'];
+
+  const handler = () => {
+    console.log('NormalToolbar clicked!');
+  };
+  <\/script>
+  \`\`\`
+
+- Jsx Template
+
+  \`\`\`jsx
+  import { defineComponent } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  export default defineComponent({
+    setup() {
+      return () => (
+        <MdEditor
+          toolbars={['bold', '-', 0, '=', 'github']}
+          defToolbars={
+            <>
+              <MdEditor.NormalToolbar
+                trigger={
+                  <svg class={\`md-icon\`} aria-hidden="true">
+                    <use xlinkHref="#icon-strike-through" />
+                  </svg>
+                }
+              ></MdEditor.NormalToolbar>
+            </>
+          }
+        />
+      );
+    }
+  });
+  \`\`\`
 
 ![NormalToolbar](https://imzbf.github.io/md-editor-v3/imgs/normal-toolbar.gif)
 
 ![DropdownToolbar](https://imzbf.github.io/md-editor-v3/imgs/dropdown-toolbar.gif)
 
 For more info, Get **Internal Components** heading. Get source code of **mark**, **emoji** and **modal preview** at [docs](https://github.com/imzbf/md-editor-v3/tree/docs/src/components) branch.
+
+### \u{1F9BF} defFooters
+
+- Setup Template
+
+  \`\`\`vue
+  <template>
+    <md-editor :footers="footers">
+      <template #defFooters>
+        <span>\uFFE5_\uFFE5</span>
+        <span>^_^</span>
+      </template>
+    </md-editor>
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const footers = ['markdownTotal', 0, '=', 1, 'scrollSwitch'];
+  <\/script>
+  \`\`\`
+
+- Jsx Template
+
+  \`\`\`jsx
+  import { defineComponent } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  export default defineComponent({
+    setup() {
+      return () => (
+        <MdEditor
+          footers={['markdownTotal', 0, '=', 1, 'scrollSwitch']}
+          defFooters={
+            <>
+              <span>\uFFE5_\uFFE5</span>
+              <span>^_^</span>
+            </>
+          }
+        />
+      );
+    }
+  });
+  \`\`\`
+
+![](https://imzbf.github.io/md-editor-v3/imgs/footer.png)
 
 ## \u{1FAA2} Event
 
@@ -536,6 +621,10 @@ Custom \`marked renderer\` in \`MdEditor.config(option: ConfigOption)\`.
           katex: {
             inline: 'inline',
             block: 'block'
+          },
+          footer: {
+            markdownTotal: 'Word Count',
+            scrollAuto: 'Scroll Auto'
           }
         },
         // mermaid template
@@ -1091,34 +1180,21 @@ const scrollElement = document.documentElement;
 
 ### \u{1F3B1} markedHeadingId
 
-- **\u7C7B\u578B**\uFF1A\`(text: string, level: number) => string\`
+- **\u7C7B\u578B**\uFF1A\`(text: string, level: number, index: number) => string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`(text) => text\`
 - **\u8BF4\u660E**\uFF1A\u6784\u9020\u6807\u9898\`ID\`\u7684\u751F\u6210\u65B9\u5F0F\uFF0C\u5728\u4F7F\u7528\`MdEditor.config\`\u5B9A\u4E49\u4E86\`renderer.heading\`\u540E\uFF0C\u907F\u514D\u76EE\u5F55\u5BFC\u822A\u7B49\u5931\u6548\u3002
 
-  \u4F8B\uFF1A
+  \`\`\`vue
+  <template>
+    <md-editor :marked-heading-id="generateId" />
+  </template>
 
-  1. \u914D\u7F6E renderer
-
-  \`\`\`js
+  <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
-  const generateId = (text, level) => \`heading-\${text}-\${level}\`;
-
-  MdEditor.config({
-    markedRenderer(renderer) {
-      renderer.heading = (text, level) => {
-        const id = generateId(text, level);
-        return \`<h\${level} id="\${id}">\${text}</h\${level}>\`;
-      };
-      return renderer;
-    }
-  });
-  \`\`\`
-
-  2. \u914D\u7F6E\`markedHeadingId\`
-
-  \`\`\`html
-  <md-ditor-v3 :markedHeadingId="generateId" />
+  const generateId = (_text, _level, index) => \`heading-\${index}\`;
+  <\/script>
   \`\`\`
 
 ### \u{1F423} sanitize
@@ -1129,17 +1205,33 @@ const scrollElement = document.documentElement;
 
   \u4F7F\u7528\`sanitize-html\`\u6F14\u793A
 
-  \`\`\`js
+  \`\`\`vue
+  <template>
+    <md-editor :sanitize="sanitize" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
   import sanitizeHtml from 'sanitize-html';
 
   const sanitize = (html) => sanitizeHtml(html);
-  \`\`\`
-
-  \`\`\`html
-  <md-ditor-v3 :sanitize="sanitize" />;
+  <\/script>
   \`\`\`
 
   > \u4E3A\u4EC0\u4E48\u4E0D\u5185\u7F6E\u5230\u7F16\u8F91\u5668\uFF1A\u7531\u4E8E\u7C7B\u4F3C\u7F16\u8F91\u5668\u5927\u591A\u5C5E\u4E8E\u81EA\u884C\u5904\u7406\u6587\u672C\uFF0C\u81EA\u8EAB\u5373\u53EF\u786E\u8BA4\u5185\u5BB9\u662F\u5426\u5B89\u5168\uFF0C\u5E76\u4E0D\u9700\u8981\u8BE5\u529F\u80FD\u3002
+
+### \u{1F9B6} footers
+
+- **\u7C7B\u578B**\uFF1A\`Array<'markdownTotal' \\| '=' \\| 'scrollSwitch' \\| number>\`
+- **\u9ED8\u8BA4\u503C**\uFF1A\`['markdownTotal', '=', 'scrollSwitch']\`
+- **\u8BF4\u660E**\uFF1A\u9875\u811A\u663E\u793A\u5185\u5BB9\uFF0C=\u5DE6\u53F3\u5206\u5272\uFF0C\u7A7A\u6570\u7EC4\u4E0D\u663E\u793A\u9875\u811A\u3002
+
+### \u{1F468}\u200D\u{1F466} scrollAuto
+
+- **\u7C7B\u578B**\uFF1A\`boolean\`
+- **\u9ED8\u8BA4\u503C**\uFF1A\`true\`
+- **\u8BF4\u660E**\uFF1A\u9ED8\u8BA4\u5DE6\u53F3\u540C\u6B65\u6EDA\u52A8\u72B6\u6001
 
 ## \u{1F38D} \u63D2\u69FD
 
@@ -1147,37 +1239,120 @@ const scrollElement = document.documentElement;
 
 \u81EA\u5B9A\u4E49\u5DE5\u5177\u680F\u63D2\u69FD\uFF0C\u901A\u8FC7\u4F7F\u7528\u5185\u7F6E\u7684\`NormalToolbar\`\u666E\u901A\u70B9\u51FB\u89E6\u53D1\u4E8B\u4EF6\u7EC4\u4EF6\uFF0C\`DropdownToolbar\`\u4E0B\u62C9\u70B9\u51FB\u89E6\u53D1\u4E8B\u4EF6\u7EC4\u4EF6\u548C\`ModalToolbar\`\u5F39\u7A97\u89E6\u53D1\u4E8B\u4EF6\u7EC4\u4EF6\u8FDB\u884C\u6269\u5C55\u3002\u5C06\`defToolbars\`\u63D2\u69FD\u4E2D\u7684\u7EC4\u4EF6\u4E0B\u6807\u7A7F\u63D2\u5728\`toolbars\`\u5B9E\u73B0\u5C55\u793A\uFF08\u8FD9\u5E76\u4E0D\u89C4\u8303\uFF09\u3002
 
-\`\`\`vue
-<template>
-  <md-editor>
-    <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="handler">
-        <template #trigger>
-          <svg class="md-icon" aria-hidden="true">
-            <use xlink:href="#icon-mark"></use>
-          </svg>
-        </template>
-      </normal-toolbar>
-    </template>
-  </md-editor>
-</template>
+- Setup \u6A21\u677F
 
-<script setup>
-import MdEditor from 'md-editor-v3';
+  \`\`\`vue
+  <template>
+    <md-editor :toolbars="toolbars">
+      <template #defToolbars>
+        <normal-toolbar title="mark" @onClick="handler">
+          <template #trigger>
+            <svg class="md-icon" aria-hidden="true">
+              <use xlink:href="#icon-mark"></use>
+            </svg>
+          </template>
+        </normal-toolbar>
+      </template>
+    </md-editor>
+  </template>
 
-const NormalToolbar = MdEditor.NormalToolbar;
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  const NormalToolbar = MdEditor.NormalToolbar;
 
-const handler = () => {
-  console.log('NormalToolbar clicked!');
-};
-<\/script>
-\`\`\`
+  const toolbars = ['bold', '-', 0, '=', 'github'];
+
+  const handler = () => {
+    console.log('NormalToolbar clicked!');
+  };
+  <\/script>
+  \`\`\`
+
+- Jsx \u6A21\u677F
+
+  \`\`\`jsx
+  import { defineComponent } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  export default defineComponent({
+    setup() {
+      return () => (
+        <MdEditor
+          toolbars={['bold', '-', 0, '=', 'github']}
+          defToolbars={
+            <>
+              <MdEditor.NormalToolbar
+                trigger={
+                  <svg class={\`md-icon\`} aria-hidden="true">
+                    <use xlinkHref="#icon-strike-through" />
+                  </svg>
+                }
+              ></MdEditor.NormalToolbar>
+            </>
+          }
+        />
+      );
+    }
+  });
+  \`\`\`
 
 ![\u666E\u901A\u6269\u5C55\u5DE5\u5177\u680F](https://imzbf.github.io/md-editor-v3/imgs/normal-toolbar.gif)
 
 ![\u4E0B\u62C9\u6269\u5C55\u5DE5\u5177\u680F](https://imzbf.github.io/md-editor-v3/imgs/dropdown-toolbar.gif)
 
 \u6269\u5C55\u7EC4\u4EF6\u5C5E\u6027\u53C2\u8003**\u5185\u7F6E\u7EC4\u4EF6**\uFF0C\u4F7F\u7528\u793A\u4F8B\u53C2\u89C1[\u6587\u6863\u5206\u652F](https://github.com/imzbf/md-editor-v3/tree/docs/src/components)\uFF0C\u63D0\u4F9B**\u6807\u8BB0**\u3001**\u8868\u60C5**\u548C**\u5F39\u7A97\u9884\u89C8**\u6269\u5C55\u7EC4\u4EF6\u3002
+
+### \u{1F9BF} defFooters
+
+\u81EA\u5B9A\u4E49\u6269\u5C55\u9875\u811A
+
+- Setup \u6A21\u677F
+
+  \`\`\`vue
+  <template>
+    <md-editor :footers="footers">
+      <template #defFooters>
+        <span>\uFFE5_\uFFE5</span>
+        <span>^_^</span>
+      </template>
+    </md-editor>
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  // \u5C06\u63D2\u69FD\u4E2D\u7684\u7EC4\u4EF6\u4E0B\u6807\u653E\u5230\u5BF9\u5E94\u7684\u4F4D\u7F6E\u5373\u53EF\u663E\u793A
+  const footers = ['markdownTotal', 0, '=', 1, 'scrollSwitch'];
+  <\/script>
+  \`\`\`
+
+- Jsx \u6A21\u677F
+
+  \`\`\`jsx
+  import { defineComponent } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  export default defineComponent({
+    setup() {
+      return () => (
+        <MdEditor
+          footers={['markdownTotal', 0, '=', 1, 'scrollSwitch']}
+          defFooters={
+            <>
+              <span>\uFFE5_\uFFE5</span>
+              <span>^_^</span>
+            </>
+          }
+        />
+      );
+    }
+  });
+  \`\`\`
+
+![](https://imzbf.github.io/md-editor-v3/imgs/footer.png)
 
 ## \u{1FAA2} \u7ED1\u5B9A\u4E8B\u4EF6
 
@@ -1308,79 +1483,83 @@ const handler = () => {
     editorConfig: {
       // \u8BED\u8A00
       languageUserDefined: {
-        'en-US': {
+        'zh-CN': {
           toolbarTips: {
-            bold: 'bold',
-            underline: 'underline',
-            italic: 'italic',
-            strikeThrough: 'strikeThrough',
-            title: 'title',
-            sub: 'subscript',
-            sup: 'superscript',
-            quote: 'quote',
-            unorderedList: 'unordered list',
-            orderedList: 'ordered list',
-            codeRow: 'inline code',
-            code: 'block-level code',
-            link: 'link',
-            image: 'image',
-            table: 'table',
-            mermaid: 'mermaid',
-            katex: 'formula',
-            revoke: 'revoke',
-            next: 'undo revoke',
-            save: 'save',
-            prettier: 'prettier',
-            pageFullscreen: 'fullscreen in page',
-            fullscreen: 'fullscreen',
-            preview: 'preview',
-            htmlPreview: 'html preview',
-            catalog: 'catalog',
-            github: 'source code'
+            bold: '\u52A0\u7C97',
+            underline: '\u4E0B\u5212\u7EBF',
+            italic: '\u659C\u4F53',
+            strikeThrough: '\u5220\u9664\u7EBF',
+            title: '\u6807\u9898',
+            sub: '\u4E0B\u6807',
+            sup: '\u4E0A\u6807',
+            quote: '\u5F15\u7528',
+            unorderedList: '\u65E0\u5E8F\u5217\u8868',
+            orderedList: '\u6709\u5E8F\u5217\u8868',
+            codeRow: '\u884C\u5185\u4EE3\u7801',
+            code: '\u5757\u7EA7\u4EE3\u7801',
+            link: '\u94FE\u63A5',
+            image: '\u56FE\u7247',
+            table: '\u8868\u683C',
+            mermaid: 'mermaid\u56FE',
+            katex: 'katex\u516C\u5F0F',
+            revoke: '\u540E\u9000',
+            next: '\u524D\u8FDB',
+            save: '\u4FDD\u5B58',
+            prettier: '\u7F8E\u5316',
+            pageFullscreen: '\u6D4F\u89C8\u5668\u5168\u5C4F',
+            fullscreen: '\u5C4F\u5E55\u5168\u5C4F',
+            preview: '\u9884\u89C8',
+            htmlPreview: 'html\u4EE3\u7801\u9884\u89C8',
+            catalog: '\u76EE\u5F55',
+            github: '\u6E90\u7801\u5730\u5740'
           },
           titleItem: {
-            h1: 'Lv1 Heading',
-            h2: 'Lv2 Heading',
-            h3: 'Lv3 Heading',
-            h4: 'Lv4 Heading',
-            h5: 'Lv5 Heading',
-            h6: 'Lv6 Heading'
+            h1: '\u4E00\u7EA7\u6807\u9898',
+            h2: '\u4E8C\u7EA7\u6807\u9898',
+            h3: '\u4E09\u7EA7\u6807\u9898',
+            h4: '\u56DB\u7EA7\u6807\u9898',
+            h5: '\u4E94\u7EA7\u6807\u9898',
+            h6: '\u516D\u7EA7\u6807\u9898'
           },
           imgTitleItem: {
-            link: 'Add Img Link',
-            upload: 'Upload Img',
-            clip2upload: 'Clip Upload'
+            link: '\u6DFB\u52A0\u94FE\u63A5',
+            upload: '\u4E0A\u4F20\u56FE\u7247',
+            clip2upload: '\u88C1\u526A\u4E0A\u4F20'
           },
           linkModalTips: {
-            title: 'Add ',
-            descLable: 'Desc:',
-            descLablePlaceHolder: 'Enter a description...',
-            urlLable: 'Link:',
-            UrlLablePlaceHolder: 'Enter a link...',
-            buttonOK: 'OK'
+            title: '\u6DFB\u52A0',
+            descLable: '\u94FE\u63A5\u63CF\u8FF0\uFF1A',
+            descLablePlaceHolder: '\u8BF7\u8F93\u5165\u63CF\u8FF0...',
+            urlLable: '\u94FE\u63A5\u5730\u5740\uFF1A',
+            UrlLablePlaceHolder: '\u8BF7\u8F93\u5165\u94FE\u63A5...',
+            buttonOK: '\u786E\u5B9A'
           },
           clipModalTips: {
-            title: 'Crop Image',
-            buttonUpload: 'Upload'
+            title: '\u88C1\u526A\u56FE\u7247\u4E0A\u4F20',
+            buttonUpload: '\u4E0A\u4F20'
           },
           copyCode: {
-            text: 'Copy',
-            successTips: 'Copied!',
-            failTips: 'Copy failed!'
+            text: '\u590D\u5236\u4EE3\u7801',
+            successTips: '\u5DF2\u590D\u5236\uFF01',
+            failTips: '\u590D\u5236\u5931\u8D25\uFF01'
           },
           mermaid: {
-            flow: 'flow',
-            sequence: 'sequence',
-            gantt: 'gantt',
-            class: 'class',
-            state: 'state',
-            pie: 'pie',
-            relationship: 'relationship',
-            journey: 'journey'
+            flow: '\u6D41\u7A0B\u56FE',
+            sequence: '\u65F6\u5E8F\u56FE',
+            gantt: '\u7518\u7279\u56FE',
+            class: '\u7C7B\u56FE',
+            state: '\u72B6\u6001\u56FE',
+            pie: '\u997C\u56FE',
+            relationship: '\u5173\u7CFB\u56FE',
+            journey: '\u65C5\u7A0B\u56FE'
           },
           katex: {
-            inline: 'inline',
-            block: 'block'
+            inline: '\u884C\u5185\u516C\u5F0F',
+            block: '\u5757\u7EA7\u516C\u5F0F'
+          },
+          footer: {
+            markdownTotal: '\u5B57\u6570',
+            scrollAuto: '\u540C\u6B65\u6EDA\u52A8'
           }
         },
         // mermaid\u6A21\u677F
@@ -1685,4 +1864,4 @@ const scrollElement = document.documentElement;
 ## \u270D\uFE0F \u7F16\u8F91\u6B64\u9875\u9762
 
 [doc-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/doc-zh-CN.md)
-`;const f={class:"container"},k={class:"doc"},x={class:"content"},y={class:"catalog"},T={class:"affix"},L={setup(w){const n=h(),o=g(r(n.state.lang==="en-US"?a:l)),d=()=>{o.value=r(n.state.lang==="en-US"?a:l)},m=document.documentElement;return u(()=>n.state.lang,d),(C,E)=>{const c=s("md-editor-v3"),p=s("md-catalog");return v(),b("div",f,[t("div",k,[t("div",x,[i(c,{"editor-id":"doc-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":o.value,"preview-theme":e(n).state.previewTheme,"code-theme":e(n).state.codeTheme,"preview-only":"","show-code-row-number":""},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",y,[t("div",T,[i(p,{"editor-id":"doc-preview",theme:e(n).state.theme,"scroll-element":e(m)},null,8,["theme","scroll-element"])])])])])}}};export{L as default};
+`;const f={class:"container"},k={class:"doc"},x={class:"content"},y={class:"catalog"},T={class:"affix"},M={setup(w){const n=h(),o=u(r(n.state.lang==="en-US"?a:l)),d=()=>{o.value=r(n.state.lang==="en-US"?a:l)},m=document.documentElement;return g(()=>n.state.lang,d),(E,C)=>{const c=s("md-editor-v3"),p=s("md-catalog");return v(),b("div",f,[t("div",k,[t("div",x,[i(c,{"editor-id":"doc-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":o.value,"preview-theme":e(n).state.previewTheme,"code-theme":e(n).state.codeTheme,"preview-only":"","show-code-row-number":""},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",y,[t("div",T,[i(p,{"editor-id":"doc-preview",theme:e(n).state.theme,"scroll-element":e(m)},null,8,["theme","scroll-element"])])])])])}}};export{M as default};
