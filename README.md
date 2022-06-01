@@ -63,7 +63,7 @@ mark and emoji extensions
 | placeholder | string | '' |  |
 | noKatex | boolean | false | Use katex or not |
 | codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | [Highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles) code style, can be customized also |
-| markedHeadingId | (text: string, level: number) => string | (text) => text | H1-H6 `ID` generator |
+| markedHeadingId | (text: string, level: number, index: number) => string | (text) => text | H1-H6 `ID` generator |
 | sanitize | (html: string) => string | (html) => html | Sanitize the html, prevent XSS |
 | footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | Show some item of footers. |
 | scrollAuto | boolean | true | Scroll default setting |
@@ -153,7 +153,7 @@ export interface ToolbarTips {
 export interface StaticTextDefaultValue {
   // Toolbar hover tips(html title)
   toolbarTips?: ToolbarTips;
-  // h1-h6 dropdown menu item
+  // H1-H6 dropdown menu item
   titleItem?: {
     h1?: string;
     h2?: string;
@@ -162,7 +162,6 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
-  // v1.6.0
   imgTitleItem?: {
     link: string;
     upload: string;
@@ -182,13 +181,11 @@ export interface StaticTextDefaultValue {
     title?: string;
     buttonUpload?: string;
   };
-  // Copy code tips, v1.1.4
   copyCode?: {
     text?: string;
     successTips?: string;
     failTips?: string;
   };
-  // 1.8.0
   mermaid?: {
     flow?: string;
     sequence?: string;
@@ -199,12 +196,15 @@ export interface StaticTextDefaultValue {
     relationship?: string;
     journey?: string;
   };
-  // 1.9.0
   katex?: {
     // formula inline
     inline: string;
     // formula block
     block: string;
+  };
+  footer?: {
+    markdownTotal: string;
+    scrollAuto: string;
   };
 }
 ```

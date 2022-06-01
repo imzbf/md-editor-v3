@@ -62,7 +62,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | placeholder | string | '' |  |
 | noKatex | boolean | false | 不使用 katex 展示数学公式 |
 | codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | 代码块[highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles)样式名称，扩展更多见下方 |
-| markedHeadingId | (text: string, level: number) => string | (text) => text | 标题`ID`计算方式 |
+| markedHeadingId | (text: string, level: number, index: number) => string | (text) => text | 标题`ID`计算方式 |
 | sanitize | (html: string) => string | (html) => html | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 | footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | 页脚显示内容，=左右分割，空数组不显示页脚 |
 | scrollAuto | boolean | true | 默认左右滚动状态 |
@@ -152,7 +152,7 @@ export interface ToolbarTips {
 }
 
 export interface StaticTextDefaultValue {
-  // 工具栏hover title提示
+  // 工具栏hover提示
   toolbarTips?: ToolbarTips;
   // 标题下拉框内容
   titleItem?: {
@@ -163,7 +163,6 @@ export interface StaticTextDefaultValue {
     h5?: string;
     h6?: string;
   };
-  // v1.6.0
   imgTitleItem?: {
     link: string;
     upload: string;
@@ -183,13 +182,12 @@ export interface StaticTextDefaultValue {
     title?: string;
     buttonUpload?: string;
   };
-  // 预览代码中复制代码提示，v1.1.4
+  // 预览代码中复制代码提示
   copyCode?: {
     text?: string;
     successTips?: string;
     failTips?: string;
   };
-  // v1.8.0
   mermaid?: {
     // 流程图
     flow?: string;
@@ -213,6 +211,10 @@ export interface StaticTextDefaultValue {
     inline: string;
     // 块级公式
     block: string;
+  };
+  footer?: {
+    markdownTotal: string;
+    scrollAuto: string;
   };
 }
 ```
