@@ -53,7 +53,7 @@ mark and emoji extensions
 | toolbars | Array | [toolbars] | Show some item of toolbars, all keys<sup>see `toolbars` below</sup> |
 | toolbarsExclude | Array | [] | Don't show some item of toolbars, all keys`toolbars` |
 | noPrettier | boolean | false | Use prettier to beautify content or not |
-| editorId | string | md-editor-v3 | Editor id, it is used when there are more than two editors in the same page. |
+| editorId | string | 'md-editor-v3' | Editor id, it is used when there are more than two editors in the same page. |
 | tabWidth | number | 2 | One tab eq some spaces |
 | showCodeRowNumber | boolean | false | Show row number for code block or not |
 | previewTheme | 'default' \| 'github' \| 'vuepress' \| 'mk-cute' \| 'smart-blue' \| 'cyanosis' | 'default' | Preview theme, can be customized |
@@ -65,6 +65,8 @@ mark and emoji extensions
 | codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | [Highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles) code style, can be customized also |
 | markedHeadingId | (text: string, level: number) => string | (text) => text | H1-H6 `ID` generator |
 | sanitize | (html: string) => string | (html) => html | Sanitize the html, prevent XSS |
+| footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | Show some item of footers. |
+| scrollAuto | boolean | true | Scroll default setting |
 
 <details>
  <summary>[toolbars]</summary>
@@ -214,6 +216,7 @@ export interface StaticTextDefaultValue {
 | name | type | default | description |
 | --- | --- | --- | --- |
 | defToolbars | Array<DropdownToolbar \| NormalToolbar \| ModalToolbar> | null | Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar` |
+| defFooters | Array<string \| VNode \| JSX.Element> | null | Custom footer |
 
 `NormalToolbar` example:
 
