@@ -17,7 +17,10 @@ const time = ref(dayjs().format('YYYY/MM/DD HH:mm:ss'));
 
 const text = computed(() => {
   const lang: 'en-US' | 'zh-CN' = store.state.lang;
-  return `${time.value} ${weekNames[lang][dayjs().day() - 1]}`;
+
+  const weekday = dayjs().day();
+
+  return `${time.value} ${weekNames[lang][weekday > 0 ? weekday - 1 : 6]}`;
 });
 
 const timerId = setInterval(() => {
