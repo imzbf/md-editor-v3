@@ -292,7 +292,7 @@
 
 - **类型**：`Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>`
 - **默认值**：`['markdownTotal', '=', 'scrollSwitch']`
-- **说明**：Show some item of footers.
+- **说明**：Show contents of footer, they are divided by `'='`. Set it to [] to hidden footer.
 
 ### 👨‍👦 scrollAuto
 
