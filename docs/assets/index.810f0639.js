@@ -1,4 +1,4 @@
-import{g as h,j as u,p as r,m as g,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.d7e57461.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{g as h,j as u,p as r,m as g,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.a94b980f.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -292,7 +292,7 @@ import{g as h,j as u,p as r,m as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **\u7C7B\u578B**\uFF1A\`Array<'markdownTotal' \\| '=' \\| 'scrollSwitch' \\| number>\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`['markdownTotal', '=', 'scrollSwitch']\`
-- **\u8BF4\u660E**\uFF1AShow some item of footers.
+- **\u8BF4\u660E**\uFF1AShow contents of footer, they are divided by \`'='\`. Set it to [] to hidden footer.
 
 ### \u{1F468}\u200D\u{1F466} scrollAuto
 
@@ -1225,7 +1225,7 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`Array<'markdownTotal' \\| '=' \\| 'scrollSwitch' \\| number>\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`['markdownTotal', '=', 'scrollSwitch']\`
-- **\u8BF4\u660E**\uFF1A\u9875\u811A\u663E\u793A\u5185\u5BB9\uFF0C=\u5DE6\u53F3\u5206\u5272\uFF0C\u7A7A\u6570\u7EC4\u4E0D\u663E\u793A\u9875\u811A\u3002
+- **\u8BF4\u660E**\uFF1A\u9875\u811A\u663E\u793A\u5185\u5BB9\uFF0C\`'='\`\u5DE6\u53F3\u5206\u5272\uFF0C\u8BBE\u7F6E\u4E3A\`[]\`\u4E0D\u663E\u793A\u9875\u811A\u3002
 
 ### \u{1F468}\u200D\u{1F466} scrollAuto
 

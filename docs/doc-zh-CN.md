@@ -296,7 +296,7 @@
 
 - **类型**：`Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>`
 - **默认值**：`['markdownTotal', '=', 'scrollSwitch']`
-- **说明**：页脚显示内容，=左右分割，空数组不显示页脚。
+- **说明**：页脚显示内容，`'='`左右分割，设置为`[]`不显示页脚。
 
 ### 👨‍👦 scrollAuto
 
