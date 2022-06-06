@@ -1,4 +1,4 @@
-import{g as h,j as u,p as r,m as g,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.63098596.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{g as h,j as u,p as r,m as g,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.fecf4945.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -290,15 +290,15 @@ import{g as h,j as u,p as r,m as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 ### \u{1F9B6} footers
 
-- **\u7C7B\u578B**\uFF1A\`Array<'markdownTotal' \\| '=' \\| 'scrollSwitch' \\| number>\`
-- **\u9ED8\u8BA4\u503C**\uFF1A\`['markdownTotal', '=', 'scrollSwitch']\`
-- **\u8BF4\u660E**\uFF1AShow contents of footer, they are divided by \`'='\`. Set it to [] to hidden footer.
+- **type**: \`Array<'markdownTotal' \\| '=' \\| 'scrollSwitch' \\| number>\`
+- **default**: \`['markdownTotal', '=', 'scrollSwitch']\`
+- **description**: Show contents of footer, they are divided by \`'='\`. Set it to [] to hidden footer.
 
 ### \u{1F468}\u200D\u{1F466} scrollAuto
 
-- **\u7C7B\u578B**\uFF1A\`boolean\`
-- **\u9ED8\u8BA4\u503C**\uFF1A\`true\`
-- **\u8BF4\u660E**\uFF1AScroll default setting.
+- **type**: \`boolean\`
+- **default**: \`true\`
+- **description**: Scroll default setting.
 
 ## \u{1F38D} slots
 

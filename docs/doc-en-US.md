@@ -290,15 +290,15 @@
 
 ### 🦶 footers
 
-- **类型**：`Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>`
-- **默认值**：`['markdownTotal', '=', 'scrollSwitch']`
-- **说明**：Show contents of footer, they are divided by `'='`. Set it to [] to hidden footer.
+- **type**: `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>`
+- **default**: `['markdownTotal', '=', 'scrollSwitch']`
+- **description**: Show contents of footer, they are divided by `'='`. Set it to [] to hidden footer.
 
 ### 👨‍👦 scrollAuto
 
-- **类型**：`boolean`
-- **默认值**：`true`
-- **说明**：Scroll default setting.
+- **type**: `boolean`
+- **default**: `true`
+- **description**: Scroll default setting.
 
 ## 🎍 slots
 
