@@ -49,8 +49,8 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | htmlPreview | boolean | false | 是否 html 预览 |
 | previewOnly | boolean | false | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | string | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| toolbars | Array<toolbars \| number> | [toolbars] | 选择性展示工具栏，可选内容<sup>见下方`toolbars`</sup> |
-| toolbarsExclude | Array | [] | 选择性不展示工具栏，内容同`toolbars` |
+| toolbars | Array<ToolbarNames \| number> | [toolbars] | 选择性展示工具栏，可选内容<sup>见下方`toolbars`</sup> |
+| toolbarsExclude | Array<ToolbarNames \| number> | [] | 选择性不展示工具栏，内容同`toolbars` |
 | noPrettier | boolean | false | 是否启用 prettier 优化 md 内容 |
 | editorId | string | 'md-editor-v3' | 编辑器唯一标识，非必须项，当相同页面存在两个编辑器时，请务必区别该属性 |
 | tabWidth | number | 2 | 编辑器 TAB 键位等于空格数 |
@@ -61,7 +61,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | noMermaid | boolean | false | 如果你不希望使用图表展示内容，可以设置关闭 |
 | placeholder | string | '' |  |
 | noKatex | boolean | false | 不使用 katex 展示数学公式 |
-| codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | 代码块[highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles)样式名称，扩展更多见下方 |
+| codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | 代码块 highlight 样式名称，扩展更多见下方 |
 | markedHeadingId | (text: string, level: number, index: number) => string | (text) => text | 标题`ID`计算方式 |
 | sanitize | (html: string) => string | (html) => html | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 | footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | 页脚显示内容，`=`左右分割，设置为`[]`不显示页脚 |

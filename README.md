@@ -50,10 +50,10 @@ mark and emoji extensions
 | htmlPreview | boolean | false | Preview html in editor |
 | previewOnly | boolean | false | Only render article content, no toolbar, no edit area |
 | language | string | 'zh-CN' | Build-in language('zh-CN','en-US') |
-| toolbars | Array | [toolbars] | Show some item of toolbars, all keys<sup>see `toolbars` below</sup> |
-| toolbarsExclude | Array | [] | Don't show some item of toolbars, all keys`toolbars` |
+| toolbars | Array<ToolbarNames \| number> | [toolbars] | Show contents of toolbar, all keys<sup>see `toolbars` below</sup> |
+| toolbarsExclude | Array<ToolbarNames \| number> | [] | Don't show contents of toolbar, all keys`toolbars` |
 | noPrettier | boolean | false | Use prettier to beautify content or not |
-| editorId | string | 'md-editor-v3' | Editor id, it is used when there are more than two editors in the same page. |
+| editorId | string | 'md-editor-v3' | Editor id, it is used when there are more than two editors in the same page |
 | tabWidth | number | 2 | One tab eq some spaces |
 | showCodeRowNumber | boolean | false | Show row number for code block or not |
 | previewTheme | 'default' \| 'github' \| 'vuepress' \| 'mk-cute' \| 'smart-blue' \| 'cyanosis' | 'default' | Preview theme, can be customized |
@@ -62,7 +62,7 @@ mark and emoji extensions
 | noMermaid | boolean | false | Use mermaid or not |
 | placeholder | string | '' |  |
 | noKatex | boolean | false | Use katex or not |
-| codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | [Highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles) code style, can be customized also |
+| codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | Highlight code style, can be customized also |
 | markedHeadingId | (text: string, level: number, index: number) => string | (text) => text | H1-H6 `ID` generator |
 | sanitize | (html: string) => string | (html) => html | Sanitize the html, prevent XSS |
 | footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
