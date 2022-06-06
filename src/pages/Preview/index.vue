@@ -9,6 +9,7 @@
         :previewTheme="store.state.previewTheme"
         :code-theme="store.state.codeTheme"
         :toolbars="toolbars"
+        :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
@@ -16,13 +17,25 @@
           <emoji-extension :editor-id="editorId" @onChange="onChange" />
           <read-extension :md-text="state.text" />
         </template>
+        <template #defFooters>
+          <time-now />
+        </template>
       </md-editor-v3>
+      <br />
+      <span class="tips-text">
+        {{ tips
+        }}<a
+          href="https://github.com/imzbf/md-editor-v3/tree/docs/src/components"
+          target="_blank"
+          >components</a
+        >
+      </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import mdEN from '../../../public/preview-en-US.md';
 import mdCN from '../../../public/preview-zh-CN.md';
@@ -34,6 +47,8 @@ import EmojiExtension from '@/components/EmojiExtension/index.vue';
 import MarkExtension from '@/components/MarkExtension/index.vue';
 import ReadExtension from '@/components/ReadExtension/index.vue';
 
+import TimeNow from '@/components/TimeNow/index.vue';
+
 const store = useStore();
 
 const editorId = 'editor-preview';
@@ -42,6 +57,15 @@ const state = reactive({
   text: store.state.lang === 'zh-CN' ? mdCN : mdEN,
   modalVisible: false,
   modalFullscreen: false
+});
+
+const tips = computed(() => {
+  switch (store.state.lang) {
+    case 'zh-CN':
+      return '示例中的标记、emoji、预览和时间扩展组件源码：';
+    default:
+      return 'Source code of mark, emoji, preview and time extension components in this page: ';
+  }
 });
 
 watch(

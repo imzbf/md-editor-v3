@@ -249,32 +249,21 @@
 
 ### 🎱 markedHeadingId
 
-- **type**: `(text: string, level: number) => string`
+- **type**: `(text: string, level: number, index: number) => string`
 - **default**: `(text) => text`
 - **description**: Title `ID` generator.
 
-  1. Config `markedRenderer`
+  ```vue
+  <template>
+    <md-editor :marked-heading-id="generateId" />
+  </template>
 
-  ```js
+  <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
-  const generateId = (text, level) => `heading-${text}-${level}`;
-
-  MdEditor.config({
-    markedRenderer(renderer) {
-      renderer.heading = (text, level) => {
-        const id = generateId(text, level);
-        return `<h${level} id="${id}">${text}</h${level}>`;
-      };
-      return renderer;
-    }
-  });
-  ```
-
-  2. Set `markedHeadingId`
-
-  ```html
-  <md-ditor-v3 :markedHeadingId="generateId" />
+  const generateId = (_text, _level, index) => `heading-${index}`;
+  </script>
   ```
 
 ### 🐣 sanitize
@@ -285,15 +274,31 @@
 
   `sanitize-html` example:
 
-  ```js
+  ```vue
+  <template>
+    <md-editor :sanitize="sanitize" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
   import sanitizeHtml from 'sanitize-html';
 
   const sanitize = (html) => sanitizeHtml(html);
+  </script>
   ```
 
-  ```html
-  <md-ditor-v3 :sanitize="sanitize" />;
-  ```
+### 🦶 footers
+
+- **类型**：`Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>`
+- **默认值**：`['markdownTotal', '=', 'scrollSwitch']`
+- **说明**：Show contents of footer, they are divided by `'='`. Set it to [] to hidden footer.
+
+### 👨‍👦 scrollAuto
+
+- **类型**：`boolean`
+- **默认值**：`true`
+- **说明**：Scroll default setting.
 
 ## 🎍 slots
 
@@ -301,37 +306,117 @@
 
 Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
 
-```vue
-<template>
-  <md-editor>
-    <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="handler">
-        <template #trigger>
-          <svg class="md-icon" aria-hidden="true">
-            <use xlink:href="#icon-mark"></use>
-          </svg>
-        </template>
-      </normal-toolbar>
-    </template>
-  </md-editor>
-</template>
+- Setup Template
 
-<script setup>
-import MdEditor from 'md-editor-v3';
+  ```vue
+  <template>
+    <md-editor :toolbars="toolbars">
+      <template #defToolbars>
+        <normal-toolbar title="mark" @onClick="handler">
+          <template #trigger>
+            <svg class="md-icon" aria-hidden="true">
+              <use xlink:href="#icon-mark"></use>
+            </svg>
+          </template>
+        </normal-toolbar>
+      </template>
+    </md-editor>
+  </template>
 
-const NormalToolbar = MdEditor.NormalToolbar;
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  const NormalToolbar = MdEditor.NormalToolbar;
 
-const handler = () => {
-  console.log('NormalToolbar clicked!');
-};
-</script>
-```
+  const toolbars = ['bold', '-', 0, '=', 'github'];
+
+  const handler = () => {
+    console.log('NormalToolbar clicked!');
+  };
+  </script>
+  ```
+
+- Jsx Template
+
+  ```jsx
+  import { defineComponent } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  export default defineComponent({
+    setup() {
+      return () => (
+        <MdEditor
+          toolbars={['bold', '-', 0, '=', 'github']}
+          defToolbars={
+            <>
+              <MdEditor.NormalToolbar
+                trigger={
+                  <svg class={`md-icon`} aria-hidden="true">
+                    <use xlinkHref="#icon-strike-through" />
+                  </svg>
+                }
+              ></MdEditor.NormalToolbar>
+            </>
+          }
+        />
+      );
+    }
+  });
+  ```
 
 ![NormalToolbar](https://imzbf.github.io/md-editor-v3/imgs/normal-toolbar.gif)
 
 ![DropdownToolbar](https://imzbf.github.io/md-editor-v3/imgs/dropdown-toolbar.gif)
 
 For more info, Get **Internal Components** heading. Get source code of **mark**, **emoji** and **modal preview** at [docs](https://github.com/imzbf/md-editor-v3/tree/docs/src/components) branch.
+
+### 🦿 defFooters
+
+- Setup Template
+
+  ```vue
+  <template>
+    <md-editor :footers="footers">
+      <template #defFooters>
+        <span>￥_￥</span>
+        <span>^_^</span>
+      </template>
+    </md-editor>
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const footers = ['markdownTotal', 0, '=', 1, 'scrollSwitch'];
+  </script>
+  ```
+
+- Jsx Template
+
+  ```jsx
+  import { defineComponent } from 'vue';
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  export default defineComponent({
+    setup() {
+      return () => (
+        <MdEditor
+          footers={['markdownTotal', 0, '=', 1, 'scrollSwitch']}
+          defFooters={
+            <>
+              <span>￥_￥</span>
+              <span>^_^</span>
+            </>
+          }
+        />
+      );
+    }
+  });
+  ```
+
+![](https://imzbf.github.io/md-editor-v3/imgs/footer.png)
 
 ## 🪢 Event
 
@@ -536,6 +621,10 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
           katex: {
             inline: 'inline',
             block: 'block'
+          },
+          footer: {
+            markdownTotal: 'Word Count',
+            scrollAuto: 'Scroll Auto'
           }
         },
         // mermaid template

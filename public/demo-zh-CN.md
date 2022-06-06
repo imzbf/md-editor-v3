@@ -399,6 +399,10 @@ MdEditor.config({
         katex: {
           inline: '行内公式',
           block: '块级公式'
+        },
+        footer: {
+          markdownTotal: '字数',
+          scrollAuto: '同步滚动'
         }
       }
     }

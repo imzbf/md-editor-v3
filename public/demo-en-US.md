@@ -398,6 +398,10 @@ MdEditor.config({
         katex: {
           inline: 'inline',
           block: 'block'
+        },
+        footer: {
+          markdownTotal: 'Word Count',
+          scrollAuto: 'Scroll Auto'
         }
       }
     }
