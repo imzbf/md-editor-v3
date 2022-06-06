@@ -65,7 +65,7 @@ mark and emoji extensions
 | codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | [Highlight](https://www.jsdelivr.com/package/npm/highlight.js?path=styles) code style, can be customized also |
 | markedHeadingId | (text: string, level: number, index: number) => string | (text) => text | H1-H6 `ID` generator |
 | sanitize | (html: string) => string | (html) => html | Sanitize the html, prevent XSS |
-| footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | Show some item of footers. |
+| footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
 | scrollAuto | boolean | true | Scroll default setting |
 
 <details>
