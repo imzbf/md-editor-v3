@@ -1,4 +1,4 @@
-import{g as h,j as u,p as i,q as v,m as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.a94b980f.js";var l=`## \u{1F601} Basic Usage
+import{g as h,j as u,p as i,q as v,m as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.63098596.js";var l=`## \u{1F601} Basic Usage
 
 It has been developing iteratively\uFF0Cso update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -15,7 +15,7 @@ Use production version in html directly:
     <meta charset="UTF-8" />
     <title>Global Load</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/md-editor-v3@\${EDITOR_VERSION}/lib/style.css"
+      href="https://unpkg.com/md-editor-v3@\${EDITOR_VERSION}/lib/style.css"
       rel="stylesheet"
     />
   </head>
@@ -24,7 +24,7 @@ Use production version in html directly:
       <md-editor-v3 v-model="text" />
     </div>
     <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.prod.js"><\/script>
-    <script src="https://cdn.jsdelivr.net/npm/md-editor-v3@\${EDITOR_VERSION}/lib/md-editor-v3.umd.js"><\/script>
+    <script src="https://unpkg.com/md-editor-v3@\${EDITOR_VERSION}/lib/md-editor-v3.umd.js"><\/script>
     <script>
       const App = {
         data() {
@@ -539,7 +539,7 @@ There are examples of \`mark\` and \`emoji\`.
 
 To get complete code, refer to [docs](https://github.com/imzbf/md-editor-v3/blob/docs/src/pages/Preview/index.vue).
 
-![mark and Emoji extension](/md-editor-v3/imgs/mark_emoji.gif)
+![mark and Emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
 > Get more emojis, go to [https://getemoji.com/](https://getemoji.com/).
 

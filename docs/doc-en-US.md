@@ -68,7 +68,7 @@
 
 - **type**: `Array`
 - **default**: `[all]`
-- **description**: Show some item of toolbars, all keys.
+- **description**: Show contents of toolbar, all keys.
 
   You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
@@ -114,7 +114,7 @@
 
 - **type**: `Array`
 - **default**: `[]`
-- **description**: Don't show some item of toolbars, all keys.
+- **description**: Don't show contents of toolbar.
 
 ### 🪒 noPrettier
 
