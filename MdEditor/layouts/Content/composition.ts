@@ -313,8 +313,13 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   if (highlightIns) {
     // 提供了hljs，在创建阶段即完成设置
     marked.setOptions({
-      highlight: (code) => {
-        const codeHtml = highlightIns.highlightAuto(code).value;
+      highlight: (code, language) => {
+        let codeHtml = '';
+        if (language) {
+          codeHtml = highlightIns.highlight(code, { language }).value;
+        } else {
+          codeHtml = highlightIns.highlightAuto(code).value;
+        }
 
         return showCodeRowNumber
           ? generateCodeRowNumber(codeHtml)
@@ -358,8 +363,14 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   // 高亮代码js加载完成后回调
   const highlightLoad = () => {
     marked.setOptions({
-      highlight: (code) => {
-        const codeHtml = window.hljs.highlightAuto(code).value;
+      highlight: (code, language) => {
+        let codeHtml = '';
+        if (language) {
+          codeHtml = window.hljs.highlight(code, { language }).value;
+        } else {
+          codeHtml = window.hljs.highlightAuto(code).value;
+        }
+
         return showCodeRowNumber
           ? generateCodeRowNumber(codeHtml)
           : `<span class="code-block">${codeHtml}</span>`;
