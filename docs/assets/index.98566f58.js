@@ -1,4 +1,4 @@
-import{g as h,j as u,p as r,m as g,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.fecf4945.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.081062ca.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -1864,4 +1864,4 @@ const scrollElement = document.documentElement;
 ## \u270D\uFE0F \u7F16\u8F91\u6B64\u9875\u9762
 
 [doc-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/doc-zh-CN.md)
-`;const f={class:"container"},x={class:"doc"},k={class:"content"},y={class:"catalog"},T={class:"affix"},M={setup(w){const n=h(),o=u(r(n.state.lang==="en-US"?a:l)),d=()=>{o.value=r(n.state.lang==="en-US"?a:l)},m=document.documentElement;return g(()=>n.state.lang,d),(E,C)=>{const c=s("md-editor-v3"),p=s("md-catalog");return v(),b("div",f,[t("div",x,[t("div",k,[i(c,{"editor-id":"doc-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":o.value,"preview-theme":e(n).state.previewTheme,"code-theme":e(n).state.codeTheme,"preview-only":"","show-code-row-number":""},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",y,[t("div",T,[i(p,{"editor-id":"doc-preview",theme:e(n).state.theme,"scroll-element":e(m)},null,8,["theme","scroll-element"])])])])])}}};export{M as default};
+`;const f={class:"container"},k={class:"doc"},x={class:"content"},y={class:"catalog"},T={class:"affix"},M={setup(w){const n=h(),o=u(r(n.state.lang==="en-US"?a:l)),d=()=>{o.value=r(n.state.lang==="en-US"?a:l)},m=document.documentElement;return g(()=>n.state.lang,d),(E,C)=>{const c=s("md-editor-v3"),p=s("md-catalog");return v(),b("div",f,[t("div",k,[t("div",x,[i(c,{"editor-id":"doc-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":o.value,"preview-theme":e(n).state.previewTheme,"code-theme":e(n).state.codeTheme,"preview-only":"","show-code-row-number":""},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",y,[t("div",T,[i(p,{"editor-id":"doc-preview",theme:e(n).state.theme,"scroll-element":e(m)},null,8,["theme","scroll-element"])])])])])}}};export{M as default};

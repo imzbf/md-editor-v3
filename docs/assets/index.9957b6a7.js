@@ -1,4 +1,4 @@
-import{g as h,j as u,p as i,q as v,m as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.fecf4945.js";var l=`## \u{1F601} Basic Usage
+import{g as h,k as u,q as i,s as v,n as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.081062ca.js";var l=`## \u{1F601} Basic Usage
 
 It has been developing iteratively\uFF0Cso update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -1222,4 +1222,4 @@ const sanitize = (html) => {
 ## \u{1F9FB} \u7F16\u8F91\u6B64\u9875\u9762
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)
-`;const b={class:"container"},k={class:"doc"},y={class:"content"},E={class:"catalog"},w={class:"affix"},C={setup(M){const n=h(),r=u(i(n.state.lang==="en-US"?l:m)),o=()=>{r.value=i(n.state.lang==="en-US"?l:m)},a=document.documentElement;return v(o),f(()=>n.state.lang,o),(j,T)=>{const c=d("md-editor-v3"),p=d("md-catalog");return x(),g("div",b,[t("div",k,[t("div",y,[s(c,{"editor-id":"demo-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":r.value,"preview-theme":e(n).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":e(n).state.codeTheme},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",E,[t("div",w,[s(p,{"editor-id":"demo-preview",theme:e(n).state.theme,"scroll-element":e(a)},null,8,["theme","scroll-element"])])])])])}}};export{C as default};
+`;const b={class:"container"},k={class:"doc"},y={class:"content"},E={class:"catalog"},w={class:"affix"},C={setup(M){const n=h(),r=u(i(n.state.lang==="en-US"?l:m)),o=()=>{r.value=i(n.state.lang==="en-US"?l:m)},a=document.documentElement;return v(o),f(()=>n.state.lang,o),(T,j)=>{const c=d("md-editor-v3"),p=d("md-catalog");return x(),g("div",b,[t("div",k,[t("div",y,[s(c,{"editor-id":"demo-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":r.value,"preview-theme":e(n).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":e(n).state.codeTheme},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",E,[t("div",w,[s(p,{"editor-id":"demo-preview",theme:e(n).state.theme,"scroll-element":e(a)},null,8,["theme","scroll-element"])])])])])}}};export{C as default};
