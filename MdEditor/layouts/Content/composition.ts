@@ -316,7 +316,11 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
       highlight: (code, language) => {
         let codeHtml = '';
         if (language) {
-          codeHtml = highlightIns.highlight(code, { language }).value;
+          try {
+            codeHtml = highlightIns.highlight(code, { language }).value;
+          } catch {
+            codeHtml = highlightIns.highlightAuto(code).value;
+          }
         } else {
           codeHtml = highlightIns.highlightAuto(code).value;
         }
@@ -366,7 +370,11 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
       highlight: (code, language) => {
         let codeHtml = '';
         if (language) {
-          codeHtml = window.hljs.highlight(code, { language }).value;
+          try {
+            codeHtml = window.hljs.highlight(code, { language }).value;
+          } catch {
+            codeHtml = window.hljs.highlightAuto(code).value;
+          }
         } else {
           codeHtml = window.hljs.highlightAuto(code).value;
         }
