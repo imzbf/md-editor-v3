@@ -1,4 +1,4 @@
-import{g as h,k as u,q as i,s as v,n as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.081062ca.js";var l=`## \u{1F601} Basic Usage
+import{g as h,k as u,q as i,s as v,n as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.cfc1861b.js";var l=`## \u{1F601} Basic Usage
 
 It has been developing iteratively\uFF0Cso update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
