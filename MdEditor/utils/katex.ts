@@ -7,7 +7,7 @@ export default {
       level: 'block',
       start: (text: string) => text.match(/\n\$\$\n/)?.index,
       tokenizer(text: string) {
-        if (/^\$\$\n/.test(text)) {
+        if (/^\$\$\n/.test(text) && text.split('$$').length > 2) {
           const match = splitKatexValue(text, '$$');
           const token = {
             type: 'KaTexBlockExtension',
