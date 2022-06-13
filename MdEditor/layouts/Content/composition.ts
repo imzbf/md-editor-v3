@@ -153,6 +153,17 @@ export const useHistory = (
     }
   });
 
+  watch(
+    () => props.value,
+    () => {
+      // 更新后清除选中内容
+      bus.emit(editorId, 'selectTextChange');
+    },
+    {
+      flush: 'post'
+    }
+  );
+
   onMounted(() => {
     bus.on(editorId, {
       name: 'ctrlZ',
