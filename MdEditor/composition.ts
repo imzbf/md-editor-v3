@@ -429,7 +429,7 @@ export const useExpansion = (props: any, extension: ConfigOption) => {
     const prettierMDScript = document.createElement('script');
 
     prettierScript.src =
-      extension.editorExtensions?.prettier?.parserMarkdownJs || prettierUrl.main;
+      extension.editorExtensions?.prettier?.standaloneJs || prettierUrl.main;
     prettierScript.id = `${prefix}-prettier`;
 
     prettierMDScript.src =
