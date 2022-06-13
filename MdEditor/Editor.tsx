@@ -354,6 +354,8 @@ const Editor = defineComponent({
             // hljs={props.hljs}
             value={props.modelValue}
             onChange={(value: string) => {
+              bus.emit(editorId, 'saveHistoryPos');
+
               if (props.onChange) {
                 props.onChange(value);
               } else {

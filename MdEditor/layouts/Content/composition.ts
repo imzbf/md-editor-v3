@@ -96,7 +96,9 @@ export const useHistory = (
     props.onChange(currHistory.content);
 
     // 选中内容
-    setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos);
+    setPosition(textAreaRef.value, currHistory.startPos, currHistory.endPos).then(() => {
+      bus.emit(editorId, 'selectTextChange');
+    });
   };
 
   const saveHistory = (content: string) => {
@@ -133,9 +135,6 @@ export const useHistory = (
 
         // 下标调整为最后一个位置
         history.curr = history.list.length - 1;
-
-        // 保存记录后重新记录位置
-        saveHistoryPos();
       } else {
         history.userUpdated = true;
       }
@@ -171,8 +170,10 @@ export const useHistory = (
       }
     });
 
-    // textAreaRef.value.addEventListener('keydown', saveHistoryPos);
-    textAreaRef.value.addEventListener('click', saveHistoryPos);
+    bus.on(editorId, {
+      name: 'saveHistoryPos',
+      callback: saveHistoryPos
+    });
   });
 };
 
