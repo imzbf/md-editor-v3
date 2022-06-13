@@ -11,17 +11,21 @@ export const setPosition = (
   tarDom: HTMLInputElement | HTMLTextAreaElement,
   startPos = 0,
   endPos = startPos
-): void => {
-  if (tarDom.setSelectionRange) {
-    // setTimeout必须写，不然setSelectionRange无效
-    // https://stackoverflow.com/questions/11723420/chrome-setselectionrange-not-work-in-oninput-handler
-    setTimeout(() => {
-      tarDom.setSelectionRange(startPos, endPos);
-      tarDom.focus();
-    }, 0);
-  } else {
-    console.error('can not reset position!');
-  }
+): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    if (tarDom.setSelectionRange) {
+      // setTimeout必须写，不然setSelectionRange无效
+      // https://stackoverflow.com/questions/11723420/chrome-setselectionrange-not-work-in-oninput-handler
+      setTimeout(() => {
+        tarDom.setSelectionRange(startPos, endPos);
+        tarDom.focus();
+        resolve(true);
+      }, 0);
+    } else {
+      console.error('Can not reset position!');
+      reject();
+    }
+  });
 };
 
 /**
