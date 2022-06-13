@@ -12,7 +12,7 @@ Markdown 编辑器，基于 react，使用 jsx 和 typescript 语法开发，支
 
 ## 🤗 代码演示
 
-```vue
+```jsx
 <template>
   <md-editor v-model="text" />
 </template>

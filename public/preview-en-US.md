@@ -12,7 +12,7 @@ Markdown Editor for Vue3, developed by jsx and typescript, support different the
 
 ## 🤗 Demo
 
-```vue
+```jsx
 <template>
   <md-editor v-model="text" />
 </template>
