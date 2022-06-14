@@ -12,7 +12,7 @@ Markdown Editor for Vue3, developed by jsx and typescript, support different the
 
 ## 🤗 Demo
 
-```jsx
+```vue
 <template>
   <md-editor v-model="text" />
 </template>
@@ -34,7 +34,7 @@ The Old Man and the Sea served to reinvigorate Hemingway's literary reputation a
 
 | nickname | age | from            |
 | -------- | --- | --------------- |
-| zhijian  | 3   | China ChongQing |
+| zhijian  | 4   | China ChongQing |
 
 📏 公式
 
