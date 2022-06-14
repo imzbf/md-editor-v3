@@ -130,7 +130,7 @@ export default defineComponent({
                   ref={textAreaRef}
                   value={props.value}
                   onKeydown={() => {
-                    bus.emit(editorId, 'saveHistoryPos');
+                    bus.emit(editorId, 'saveHistoryPos', true);
                   }}
                   onCompositionstart={() => {
                     completeStatus.value = false;

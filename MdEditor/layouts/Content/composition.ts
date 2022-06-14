@@ -148,9 +148,12 @@ export const useHistory = (
     }, 150);
   };
 
-  const saveHistoryPos = () => {
+  /**
+   * @param force 是否强制更新光标历史
+   */
+  const saveHistoryPos = (force: boolean) => {
     // 如果不是初始值，代表上次记录未插入输入历史
-    if (historyPos === POSITION_START) {
+    if (historyPos === POSITION_START || force) {
       historyPos = [textAreaRef.value?.selectionStart, textAreaRef.value?.selectionEnd];
     }
   };
