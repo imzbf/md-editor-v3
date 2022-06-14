@@ -337,12 +337,12 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     marked.setOptions({
       highlight: (code, language) => {
         let codeHtml = '';
-        if (language) {
-          try {
-            codeHtml = highlightIns.highlight(code, { language }).value;
-          } catch {
-            codeHtml = highlightIns.highlightAuto(code).value;
-          }
+        const hljsLang = highlightIns.getLanguage(language);
+        if (language && hljsLang) {
+          codeHtml = highlightIns.highlight(code, {
+            language: hljsLang.name,
+            ignoreIllegals: true
+          }).value;
         } else {
           codeHtml = highlightIns.highlightAuto(code).value;
         }
@@ -391,12 +391,12 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     marked.setOptions({
       highlight: (code, language) => {
         let codeHtml = '';
-        if (language) {
-          try {
-            codeHtml = window.hljs.highlight(code, { language }).value;
-          } catch {
-            codeHtml = window.hljs.highlightAuto(code).value;
-          }
+        const hljsLang = window.hljs.getLanguage(language);
+        if (language && hljsLang) {
+          codeHtml = window.hljs.highlight(code, {
+            language: hljsLang.name,
+            ignoreIllegals: true
+          }).value;
         } else {
           codeHtml = window.hljs.highlightAuto(code).value;
         }
