@@ -1,6 +1,6 @@
 ## 😲 md-editor-v3
 
-Markdown 编辑器，基于 react，使用 jsx 和 typescript 语法开发，支持切换主题、prettier 美化文本等。
+Markdown 编辑器，vue3 版本，使用 jsx 模板 和 typescript 开发，支持切换主题、prettier 美化文本等。
 
 ### 🤖 基本演示
 
@@ -34,7 +34,7 @@ const text = ref('Hello Editor!');
 
 | 昵称 | 猿龄（年） | 来自      |
 | ---- | ---------- | --------- |
-| 之间 | 3          | 中国-重庆 |
+| 之间 | 4          | 中国-重庆 |
 
 ## 📏 公式
 
