@@ -2304,10 +2304,10 @@ make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-md-editor-v3@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.1.1.tgz#97fd291b2439ca0663f2b3a038addc2e437b3d49"
-  integrity sha512-GPmQo84yI3562ucXX4c/BgKaVzj3L2re7fk9AgiXf0eaF8hd+ZJkofXrqiV268oNltvJIRbqLmqMmpMTDmzeQw==
+md-editor-v3@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.1.2.tgz#ec46b1c7c93d6948cbd603c8dbd6c2347062e2df"
+  integrity sha512-u7ldtHnfGwGH+s5n0vJpcf8LFfhj6buyegy7e1ONAv2fRY6xh7DRpfPcW+l6sJ+qWD3g7WBfRbQhMi5IMj61vQ==
   dependencies:
     "@types/marked" "^4.0.3"
 
