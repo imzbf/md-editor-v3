@@ -34,7 +34,7 @@ The Old Man and the Sea served to reinvigorate Hemingway's literary reputation a
 
 | nickname | age | from            |
 | -------- | --- | --------------- |
-| zhijian  | 3   | China ChongQing |
+| zhijian  | 4   | China ChongQing |
 
 📏 公式
 

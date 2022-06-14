@@ -1,4 +1,4 @@
-var Ot=Object.defineProperty,Ct=Object.defineProperties;var Rt=Object.getOwnPropertyDescriptors;var Ye=Object.getOwnPropertySymbols;var Dt=Object.prototype.hasOwnProperty,At=Object.prototype.propertyIsEnumerable;var Je=(r,e,t)=>e in r?Ot(r,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):r[e]=t,me=(r,e)=>{for(var t in e||(e={}))Dt.call(e,t)&&Je(r,t,e[t]);if(Ye)for(var t of Ye(e))At.call(e,t)&&Je(r,t,e[t]);return r},pe=(r,e)=>Ct(r,Rt(e));import{d as ce,r as Ne,a as ue,o as z,c as Pe,w as Y,b as P,e as le,f as Tt,u as g,F as Mt,t as Be,g as ke,h as K,i as Nt,j as Pt,k as Bt,l as ut,m as kt,n as Ut,p as Lt}from"./index.cfc1861b.js";var Xe=`## \u{1F632} md-editor-v3
+var Ot=Object.defineProperty,Ct=Object.defineProperties;var Rt=Object.getOwnPropertyDescriptors;var Ye=Object.getOwnPropertySymbols;var Dt=Object.prototype.hasOwnProperty,At=Object.prototype.propertyIsEnumerable;var Je=(r,e,t)=>e in r?Ot(r,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):r[e]=t,me=(r,e)=>{for(var t in e||(e={}))Dt.call(e,t)&&Je(r,t,e[t]);if(Ye)for(var t of Ye(e))At.call(e,t)&&Je(r,t,e[t]);return r},pe=(r,e)=>Ct(r,Rt(e));import{d as ce,r as Ne,a as ue,o as z,c as Pe,w as Y,b as P,e as le,f as Tt,u as g,F as Mt,t as Be,g as ke,h as K,i as Nt,j as Pt,k as Bt,l as ut,m as kt,n as Ut,p as Lt}from"./index.d6afa6be.js";var Xe=`## \u{1F632} md-editor-v3
 
 Markdown Editor for Vue3, developed by jsx and typescript, support different themes\u3001beautify content by prettier.
 
@@ -34,7 +34,7 @@ The Old Man and the Sea served to reinvigorate Hemingway's literary reputation a
 
 | nickname | age | from            |
 | -------- | --- | --------------- |
-| zhijian  | 3   | China ChongQing |
+| zhijian  | 4   | China ChongQing |
 
 \u{1F4CF} \u516C\u5F0F
 
@@ -45,7 +45,7 @@ $$
 ## \u2618\uFE0F em...
 `,Qe=`## \u{1F632} md-editor-v3
 
-Markdown \u7F16\u8F91\u5668\uFF0C\u57FA\u4E8E react\uFF0C\u4F7F\u7528 jsx \u548C typescript \u8BED\u6CD5\u5F00\u53D1\uFF0C\u652F\u6301\u5207\u6362\u4E3B\u9898\u3001prettier \u7F8E\u5316\u6587\u672C\u7B49\u3002
+Markdown \u7F16\u8F91\u5668\uFF0Cvue3 \u7248\u672C\uFF0C\u4F7F\u7528 jsx \u6A21\u677F \u548C typescript \u5F00\u53D1\uFF0C\u652F\u6301\u5207\u6362\u4E3B\u9898\u3001prettier \u7F8E\u5316\u6587\u672C\u7B49\u3002
 
 ### \u{1F916} \u57FA\u672C\u6F14\u793A
 
@@ -79,7 +79,7 @@ const text = ref('Hello Editor!');
 
 | \u6635\u79F0 | \u733F\u9F84\uFF08\u5E74\uFF09 | \u6765\u81EA      |
 | ---- | ---------- | --------- |
-| \u4E4B\u95F4 | 3          | \u4E2D\u56FD-\u91CD\u5E86 |
+| \u4E4B\u95F4 | 4          | \u4E2D\u56FD-\u91CD\u5E86 |
 
 ## \u{1F4CF} \u516C\u5F0F
 
