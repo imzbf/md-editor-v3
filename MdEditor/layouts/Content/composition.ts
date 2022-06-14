@@ -340,7 +340,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
         const hljsLang = highlightIns.getLanguage(language);
         if (language && hljsLang) {
           codeHtml = highlightIns.highlight(code, {
-            language: hljsLang.name,
+            language: hljsLang.name.split(/,|\s/)[0],
             ignoreIllegals: true
           }).value;
         } else {
@@ -394,7 +394,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
         const hljsLang = window.hljs.getLanguage(language);
         if (language && hljsLang) {
           codeHtml = window.hljs.highlight(code, {
-            language: hljsLang.name,
+            language: hljsLang.name.split(/,|\s/)[0],
             ignoreIllegals: true
           }).value;
         } else {
