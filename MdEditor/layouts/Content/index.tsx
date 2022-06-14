@@ -16,6 +16,7 @@ import {
   userZoom
 } from './composition';
 import { prefix } from '../../config';
+import bus from '../../utils/event-bus';
 
 export type EditorContentProps = Readonly<{
   value: string;
@@ -128,6 +129,9 @@ export default defineComponent({
                   id={`${editorId}-textarea`}
                   ref={textAreaRef}
                   value={props.value}
+                  onKeydown={() => {
+                    bus.emit(editorId, 'saveHistoryPos');
+                  }}
                   onCompositionstart={() => {
                     completeStatus.value = false;
                   }}

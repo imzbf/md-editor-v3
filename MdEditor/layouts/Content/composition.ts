@@ -77,8 +77,9 @@ export const useHistory = (
     curr: 0
   };
 
+  const POSITION_START = [0, 0];
   // 文本改变前的光标位置
-  let historyPos = [0, 0];
+  let historyPos = POSITION_START;
 
   const keyZCallback = (curr: number) => {
     // 保存当前的鼠标位置
@@ -93,6 +94,9 @@ export const useHistory = (
     history.curr = curr;
 
     const currHistory = history.list[history.curr];
+
+    // 恢复光标位置
+    historyPos = [currHistory.startPos, currHistory.endPos];
     props.onChange(currHistory.content);
 
     // 选中内容
@@ -127,6 +131,9 @@ export const useHistory = (
         lastStep.startPos = historyPos[0];
         lastStep.endPos = historyPos[1];
 
+        // 恢复初始位置历史
+        historyPos = POSITION_START;
+
         Array.prototype.push.call(history.list, lastStep, {
           content,
           startPos,
@@ -142,7 +149,10 @@ export const useHistory = (
   };
 
   const saveHistoryPos = () => {
-    historyPos = [textAreaRef.value?.selectionStart, textAreaRef.value?.selectionEnd];
+    // 如果不是初始值，代表上次记录未插入输入历史
+    if (historyPos === POSITION_START) {
+      historyPos = [textAreaRef.value?.selectionStart, textAreaRef.value?.selectionEnd];
+    }
   };
 
   watch([toRef(props, 'value'), completeStatus], () => {
