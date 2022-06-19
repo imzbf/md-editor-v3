@@ -3,6 +3,8 @@ import Header from './Header';
 import Preview from './Preview';
 import PreviewOnly from './PreviewOnly';
 
+// import VueTemplate from './VueTemplate.vue';
+
 import './style.less';
 
 export type Theme = 'dark' | 'light';
@@ -30,6 +32,7 @@ export default defineComponent({
           }}
         />
         <div class="page-body">
+          {/* <VueTemplate /> */}
           <Preview
             theme={theme.value}
             previewTheme={previewTheme.value}

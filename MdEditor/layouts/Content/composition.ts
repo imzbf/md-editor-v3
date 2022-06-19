@@ -571,11 +571,15 @@ export const useAutoScroll = (
   onMounted(() => {
     initCopyEntry();
 
-    if (!previewOnly && props.scrollAuto && (previewRef.value || htmlRef.value)) {
+    if (!previewOnly && (previewRef.value || htmlRef.value)) {
       [initScrollAuto, clearScrollAuto] = scrollAuto(
         textAreaRef.value as HTMLElement,
         (previewRef.value as HTMLElement) || htmlRef.value
       );
+    }
+
+    if (props.scrollAuto) {
+      initScrollAuto();
     }
   });
 };
