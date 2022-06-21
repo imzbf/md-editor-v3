@@ -339,21 +339,6 @@ export const useProvide = (props: any) => {
   provide(
     'highlight',
     computed(() => {
-      // // 优先配置
-      // let url = highlightConfig?.atom || highlightUrl.atom;
-
-      // // 根据预览主题判定合理切换
-      // switch (props.previewTheme) {
-      //   case 'github': {
-      //     if (props.theme === 'dark') {
-      //       url = highlightConfig?.githubDark || highlightUrl.githubDark;
-      //     } else {
-      //       url = highlightConfig?.github || highlightUrl.github;
-      //     }
-
-      //     break;
-      //   }
-      // }
       // 备选列表
       const cssList = {
         ...codeCss,
@@ -394,30 +379,16 @@ export const useProvide = (props: any) => {
 
   provide('usedLanguageText', usedLanguageText);
 
-  // provide('Cropper', props.Cropper);
-
   // 提供预览主题
   provide(
     'previewTheme',
     computed(() => props.previewTheme)
   );
-
-  // config extension
-  // provide('extension', extension);
-  // -end-
 };
 
 export const useExpansion = (props: any) => {
   // 这部分内容只配置，不需要响应式更新
-  const {
-    // iconfontJs,
-    noPrettier,
-    // prettierCDN,
-    // prettierMDCDN,
-    previewOnly
-    // cropperCss,
-    // cropperJs
-  } = props;
+  const { noPrettier, previewOnly } = props;
 
   const { editorExtensions } = configOption;
 
