@@ -14,8 +14,8 @@ import { marked } from 'marked';
 import copy from 'copy-to-clipboard';
 import mediumZoom from 'medium-zoom';
 import { EditorContentProps } from './index';
-import { HeadList, StaticTextDefaultValue, ConfigOption } from '../../type';
-import { prefix, katexUrl, mermaidUrl } from '../../config';
+import { HeadList, StaticTextDefaultValue } from '../../type';
+import { prefix, katexUrl, mermaidUrl, configOption } from '../../config';
 import bus from '../../utils/event-bus';
 import {
   insert,
@@ -211,7 +211,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
     markedOptions,
     editorExtensions,
     editorConfig
-  } = inject('extension') as ConfigOption;
+  } = configOption;
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const editorId = inject('editorId') as string;
@@ -656,7 +656,6 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
               {
                 ...params,
                 tabWidth,
-                mermaidTemplate: props.mermaidTemplate,
                 editorId
               }
             )
@@ -685,7 +684,7 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
 
 export const useMermaid = (props: EditorContentProps) => {
   const theme = inject('theme') as ComputedRef<string>;
-  const { editorExtensions } = inject('extension') as ConfigOption;
+  const { editorExtensions } = configOption;
   const mermaidConf = editorExtensions?.mermaid;
 
   const mermaidData = reactive({

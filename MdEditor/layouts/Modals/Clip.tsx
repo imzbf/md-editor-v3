@@ -9,8 +9,8 @@ import {
   watch
 } from 'vue';
 import Modal from '../../components/Modal';
-import { ConfigOption, StaticTextDefaultValue } from '../../type';
-import { prefix } from '../../config';
+import { StaticTextDefaultValue } from '../../type';
+import { configOption, prefix } from '../../config';
 import { base642File } from '../../utils';
 import bus from '../../utils/event-bus';
 
@@ -35,8 +35,7 @@ export default defineComponent({
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;
     // 传递下来的图片裁剪构造函数
-    const extension = inject('extension') as ConfigOption;
-    let Cropper = extension?.editorExtensions?.cropper?.instance;
+    let Cropper = configOption?.editorExtensions?.cropper?.instance;
 
     const uploadRef = ref();
     const uploadImgRef = ref();

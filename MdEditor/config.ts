@@ -1,4 +1,4 @@
-import { CodeCss, Footers, StaticTextDefault } from './type';
+import { CodeCss, Config, ConfigOption, Footers, StaticTextDefault } from './type';
 
 export const prefix = 'md';
 
@@ -263,5 +263,25 @@ export const codeCss: CodeCss = {
   stackoverflow: {
     light: `${cdnBase}/highlight.js/11.5.1/styles/stackoverflow-light.min.css`,
     dark: `${cdnBase}/highlight.js/11.5.1/styles/stackoverflow-dark.min.css`
+  }
+};
+
+export const configOption: ConfigOption = {
+  markedRenderer: (r) => r,
+  markedExtensions: [],
+  markedOptions: {},
+  editorExtensions: {},
+  editorConfig: {}
+};
+
+export const config: Config = (option) => {
+  if (option) {
+    for (const key in option) {
+      const optionItem = option[key as keyof ConfigOption] as any;
+
+      if (optionItem) {
+        configOption[key as keyof ConfigOption] = optionItem;
+      }
+    }
   }
 };

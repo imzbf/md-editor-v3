@@ -6,7 +6,7 @@ import {
   SetupContext,
   reactive
 } from 'vue';
-import { prefix, allToolbar, allFooter } from './config';
+import { prefix, allToolbar, allFooter, configOption } from './config';
 import {
   useKeyBoard,
   useProvide,
@@ -299,8 +299,6 @@ const Editor = defineComponent({
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
     // eslint-disable-next-line vue/no-setup-props-destructure
     const { editorId } = props;
-    // 全局配置扩展
-    const extension = Editor.extension || {};
 
     const state = reactive({
       scrollAuto: props.scrollAuto
@@ -309,9 +307,9 @@ const Editor = defineComponent({
     // 快捷键监听
     useKeyBoard(props, context);
     // provide 部分prop
-    useProvide(props, extension);
+    useProvide(props);
     // 插入扩展的外链
-    useExpansion(props, extension);
+    useExpansion(props);
     // 部分配置重构
     const [setting, updateSetting] = useConfig(props, context);
     // 目录状态
@@ -390,7 +388,7 @@ const Editor = defineComponent({
             noKatex={props.noKatex}
             // extensions={props.extensions}
             // markedImage={props.markedImage}
-            mermaidTemplate={extension?.editorConfig?.mermaidTemplate}
+            // mermaidTemplate={extension?.editorConfig?.mermaidTemplate}
             scrollAuto={state.scrollAuto}
           />
           {!props.previewOnly && props.footers?.length > 0 && (

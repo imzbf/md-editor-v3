@@ -1,6 +1,7 @@
 import copy from 'copy-to-clipboard';
 import { insert, setPosition } from '.';
 import bus from '../utils/event-bus';
+import { configOption } from '../config';
 
 export type ToolDirective =
   | 'bold'
@@ -113,7 +114,7 @@ export const directive2flag = (
   // 后半部分
   let subfixVal;
 
-  const mermaidTemplate = params?.mermaidTemplate;
+  const mermaidTemplate = configOption.editorConfig?.mermaidTemplate;
 
   if (/^h[1-6]{1}$/.test(direct)) {
     const pix = direct.replace(/^h(\d)/, (_, num) => {
