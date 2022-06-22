@@ -585,6 +585,66 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 }
 ```
 
+### 🙍🏻‍♂️ 自行引入扩展库
+
+这里给出一个完全不使用外部链接，全部自行引入的示例：
+
+```vue
+<template>
+  <md-editor v-model="text" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+import screenfull from 'screenfull';
+
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
+
+import mermaid from 'mermaid';
+
+import highlight from 'highlight.js';
+import 'highlight.js/styles/tokyo-night-dark.css';
+
+import prettier from 'prettier';
+import parserMarkdown from 'prettier/parser-markdown';
+
+Editor.config({
+  editorExtensions: {
+    prettier: {
+      prettierInstance: prettier,
+      parserMarkdownInstance: parserMarkdown
+    },
+    highlight: {
+      instance: highlight
+    },
+    screenfull: {
+      instance: screenfull
+    },
+    katex: {
+      instance: katex
+    },
+    cropper: {
+      instance: Cropper
+    },
+    mermaid: {
+      instance: mermaid
+    }
+  }
+});
+
+const text = ref('');
+</script>
+```
+
+> 注意：highlight 的样式自行引入后，将不支持切换代码样式。
+
 ## 🔒 XSS
 
 在`1.8.0`之后，通过`sanitize`事件，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
