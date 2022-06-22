@@ -5,6 +5,7 @@
         :editor-id="props.editorId"
         :theme="store.state.theme"
         :scroll-element="scrollElement"
+        @on-click="onClick"
       />
     </div>
   </div>
@@ -19,6 +20,8 @@ export default {
 <script setup lang="ts">
 import type { PropType } from 'vue';
 import { useStore } from 'vuex';
+import type { TocItem } from 'md-editor-v3/lib/MdEditor/extensions/MdCatalog';
+
 const store = useStore();
 
 const props = defineProps({
@@ -29,4 +32,8 @@ const props = defineProps({
 });
 
 const scrollElement = document.documentElement;
+
+const onClick = (e: MouseEvent, t: TocItem) => {
+  history.replaceState({}, '', `${location.pathname}#${t.text}`);
+};
 </script>
