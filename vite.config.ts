@@ -53,7 +53,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
             './MdEditor/Editor.tsx',
             './MdEditor/extensions/**/*.tsx',
             './MdEditor/index.ts',
-            './MdEditor/utils/config.ts'
+            './MdEditor/config.ts'
           ]
         })
     ],
