@@ -216,6 +216,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const editorId = inject('editorId') as string;
   const highlightUrl = inject('highlight') as ComputedRef<{ js: string; css: string }>;
+  const previewOnly = inject('previewOnly') as boolean;
 
   // 获取相应的扩展实例
   const highlightIns = editorExtensions?.highlight?.instance;
@@ -376,7 +377,11 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
       props.onHtmlChanged(_html);
     },
-    editorConfig?.renderDelay !== undefined ? editorConfig?.renderDelay : 500
+    editorConfig?.renderDelay !== undefined
+      ? editorConfig?.renderDelay
+      : previewOnly
+      ? 0
+      : 500
   );
 
   // 监听调用
