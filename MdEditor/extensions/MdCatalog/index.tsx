@@ -36,7 +36,8 @@ const MdCatalog = defineComponent({
       default: 'light'
     }
   },
-  setup(props) {
+  emits: ['onClick'],
+  setup(props, ctx) {
     // 获取Id
     const editorId = props.editorId as string;
 
@@ -114,6 +115,9 @@ const MdCatalog = defineComponent({
               tocItem={item}
               key={item.text}
               scrollElement={state.scrollElement}
+              onClick={(e: MouseEvent, t: TocItem) => {
+                ctx.emit('onClick', e, t);
+              }}
             />
           );
         })}

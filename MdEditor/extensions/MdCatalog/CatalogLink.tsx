@@ -21,13 +21,18 @@ const CatalogLink = defineComponent({
     scrollElement: {
       type: [String, Object] as PropType<string | Element>,
       default: ''
+    },
+    onClick: {
+      type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
+      default: () => {}
     }
   },
-  setup({ tocItem, markedHeadingId, scrollElement }) {
+  setup({ tocItem, markedHeadingId, scrollElement, onClick }) {
     return () => (
       <div
         class={`${prefix}-catalog-link`}
         onClick={(e) => {
+          onClick(e, tocItem);
           e.stopPropagation();
           const id = markedHeadingId(tocItem.text, tocItem.level, tocItem.index);
           const targetHeadEle = document.getElementById(id);
@@ -65,6 +70,7 @@ const CatalogLink = defineComponent({
                 key={item.text}
                 tocItem={item}
                 scrollElement={scrollElement}
+                onClick={onClick}
               />
             ))}
         </div>
