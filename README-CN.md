@@ -24,6 +24,28 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 - `mermaid`绘图（>=1.8.0），`katex`数学公式（>=1.9.0）；
 - 自定义工具栏顺序或显示，自定义扩展工具栏（支持点击类型、下拉菜单类型及弹窗类型）等。
 
+## 安装
+
+```shell
+yarn add md-editor-v3
+```
+
+## 用法
+
+```vue
+<template>
+  <md-editor v-model="text" preview-only />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('# Hello Editor');
+</script>
+```
+
 ## 预览图
 
 | 默认模式 | 暗黑模式 | 仅预览 |

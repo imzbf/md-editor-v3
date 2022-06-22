@@ -25,6 +25,28 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - `mermaid`(>=1.8.0), `katex` mathematical formula(>=1.9.0).
 - Customize the toolbar as you like.
 
+## Install
+
+```shell
+yarn add md-editor-v3
+```
+
+## Usage
+
+```vue
+<template>
+  <md-editor v-model="text" preview-only />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('# Hello Editor');
+</script>
+```
+
 ## Preview
 
 | Default theme | Dark theme | Preview only |
@@ -506,22 +528,6 @@ export default defineComponent({
     );
   }
 });
-```
-
-### Setup Template
-
-```vue
-<template>
-  <md-editor v-model="text" preview-only />
-</template>
-
-<script setup>
-import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
-const text = ref('# Hello Editor');
-</script>
 ```
 
 ### Upload Picture
