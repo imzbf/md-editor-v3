@@ -4,6 +4,12 @@
   </li>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'IzMenuItem'
+};
+</script>
+
 <style lang="less">
 .dropdown-menu-item {
   list-style: none;

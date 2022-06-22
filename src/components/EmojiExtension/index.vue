@@ -1,5 +1,5 @@
 <template>
-  <dropdown-toolbar title="emoji" :visible="state.visible" @onChange="onChange">
+  <dropdown-toolbar title="emoji" :visible="state.visible" @on-change="onChange">
     <template #overlay>
       <div class="emoji-container">
         <ol class="emojis">
@@ -22,10 +22,14 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import type { PropType } from 'vue';
 import { emojis } from './data';
 
 const props = defineProps({
-  editorId: String
+  editorId: {
+    type: String as PropType<string>,
+    default: ''
+  }
 });
 
 const emit = defineEmits(['onChange']);

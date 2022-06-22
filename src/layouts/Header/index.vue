@@ -1,3 +1,51 @@
+<template>
+  <header class="page-header">
+    <section class="container">
+      <h1 class="project-name">
+        md-editor-v3<sup>@{{ version }}</sup>
+      </h1>
+      <p class="project-desc">{{ texts.desc }}</p>
+      <iz-navigation />
+      <p class="header-actions">
+        <button class="btn btn-header" @click="store.commit('changeTheme', 'light')">
+          {{ texts.defaultTheme }}
+        </button>
+        <button class="btn btn-header" @click="store.commit('changeTheme', 'dark')">
+          {{ texts.darkTheme }}
+        </button>
+        <iz-dropdown>
+          <button class="btn btn-header">{{ texts.previewBtn }}</button>
+          <template #content>
+            <iz-dropdown-menu>
+              <iz-dropdown-menu-item
+                v-for="item of data.previewThemes"
+                :key="`preview-theme-${item}`"
+                @click="store.commit('changePreviewTheme', item)"
+              >
+                {{ item }}
+              </iz-dropdown-menu-item>
+            </iz-dropdown-menu>
+          </template>
+        </iz-dropdown>
+        <iz-dropdown>
+          <button class="btn btn-header">{{ texts.codeBtn }}</button>
+          <template #content>
+            <iz-dropdown-menu>
+              <iz-dropdown-menu-item
+                v-for="item of data.codeThemes"
+                :key="`code-theme-${item}`"
+                @click="store.commit('changeCodeTheme', item)"
+              >
+                {{ item }}
+              </iz-dropdown-menu-item>
+            </iz-dropdown-menu>
+          </template>
+        </iz-dropdown>
+      </p>
+    </section>
+  </header>
+</template>
+
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
@@ -46,48 +94,8 @@ const texts = computed(() => {
 });
 </script>
 
-<template>
-  <header class="page-header">
-    <section class="container">
-      <h1 class="project-name">
-        md-editor-v3<sup>@{{ version }}</sup>
-      </h1>
-      <p class="project-desc">{{ texts.desc }}</p>
-      <iz-navigation />
-      <p class="header-actions">
-        <button class="btn btn-header" @click="store.commit('changeTheme', 'light')">
-          {{ texts.defaultTheme }}
-        </button>
-        <button class="btn btn-header" @click="store.commit('changeTheme', 'dark')">
-          {{ texts.darkTheme }}
-        </button>
-        <iz-dropdown>
-          <button class="btn btn-header">{{ texts.previewBtn }}</button>
-          <template #content>
-            <iz-dropdown-menu>
-              <iz-dropdown-menu-item
-                v-for="item of data.previewThemes"
-                @click="store.commit('changePreviewTheme', item)"
-              >
-                {{ item }}
-              </iz-dropdown-menu-item>
-            </iz-dropdown-menu>
-          </template>
-        </iz-dropdown>
-        <iz-dropdown>
-          <button class="btn btn-header">{{ texts.codeBtn }}</button>
-          <template #content>
-            <iz-dropdown-menu>
-              <iz-dropdown-menu-item
-                v-for="item of data.codeThemes"
-                @click="store.commit('changeCodeTheme', item)"
-              >
-                {{ item }}
-              </iz-dropdown-menu-item>
-            </iz-dropdown-menu>
-          </template>
-        </iz-dropdown>
-      </p>
-    </section>
-  </header>
-</template>
+<script lang="ts">
+export default {
+  name: 'IzHeader'
+};
+</script>
