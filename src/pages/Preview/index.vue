@@ -6,15 +6,15 @@
         :editor-id="editorId"
         :language="store.state.lang"
         :theme="store.state.theme"
-        :previewTheme="store.state.previewTheme"
+        :preview-theme="store.state.previewTheme"
         :code-theme="store.state.codeTheme"
         :toolbars="toolbars"
         :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
-        @onUploadImg="uploadImg"
+        @on-upload-img="uploadImg"
       >
         <template #defToolbars>
-          <mark-extension :editor-id="editorId" @onChange="onChange" />
-          <emoji-extension :editor-id="editorId" @onChange="onChange" />
+          <mark-extension :editor-id="editorId" @on-change="onChange" />
+          <emoji-extension :editor-id="editorId" @on-change="onChange" />
           <read-extension :md-text="state.text" />
         </template>
         <template #defFooters>
@@ -102,4 +102,10 @@ const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void)
 };
 
 const onChange = (v: string) => (state.text = v);
+</script>
+
+<script lang="ts">
+export default {
+  name: 'PreviewPage'
+};
 </script>

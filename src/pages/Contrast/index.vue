@@ -1,16 +1,7 @@
 <template>
   <div class="container">
     <div class="doc">
-      <div class="content" style="width: 100%">
-        <md-editor-v3
-          :theme="store.state.theme"
-          :model-value="mdText"
-          :preview-theme="store.state.previewTheme"
-          preview-only
-          show-code-row-number
-          :code-theme="store.state.codeTheme"
-        />
-      </div>
+      <iz-preview-content editor-id="md-contrast" :model-value="mdText" />
     </div>
   </div>
 </template>
@@ -21,19 +12,16 @@ export default { name: 'ContrastPage' };
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { replaceVersion } from '@/utils';
 import { useStore } from 'vuex';
-
 import mdEN from '../../../public/contrast-en-US.md';
 import mdCN from '../../../public/contrast-zh-CN.md';
+import IzPreviewContent from '@/layouts/PreviewContent/index.vue';
 
 const store = useStore();
 
-const mdText = ref(replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN));
-
+const mdText = ref(store.state.lang === 'en-US' ? mdEN : mdCN);
 const queryMd = () => {
-  mdText.value = replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN);
+  mdText.value = store.state.lang === 'en-US' ? mdEN : mdCN;
 };
-
 watch(() => store.state.lang, queryMd);
 </script>
