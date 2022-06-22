@@ -10,7 +10,7 @@ import {
 } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
-import { ToolbarNames, ConfigOption, InnerError, SettingType } from './type';
+import { ToolbarNames, InnerError, SettingType } from './type';
 import { appendHandler } from './utils/dom';
 import {
   prefix,
@@ -388,9 +388,20 @@ export const useProvide = (props: any) => {
 
 export const useExpansion = (props: any) => {
   // 这部分内容只配置，不需要响应式更新
-  const { noPrettier, previewOnly } = props;
+  const { noPrettier, previewOnly, noIconfont } = props;
 
   const { editorExtensions } = configOption;
+
+  // 判断是否需要插入prettier标签
+  const noPrettierScript =
+    noPrettier || !!configOption.editorExtensions?.prettier?.prettierInstance;
+
+  // 判断是否需要插入prettier markdown扩展标签
+  const noParserMarkdownScript =
+    noPrettier || !!configOption.editorExtensions?.prettier?.parserMarkdownInstance;
+
+  // 判断是否需要插入裁剪图片标签
+  const noCropperScript = !!configOption.editorExtensions?.cropper?.instance;
 
   onMounted(() => {
     // 图标
@@ -421,15 +432,20 @@ export const useExpansion = (props: any) => {
 
     // 非仅预览模式才添加扩展
     if (!previewOnly) {
-      appendHandler(iconfontScript);
+      if (!noIconfont) {
+        appendHandler(iconfontScript);
+      }
 
-      if (!editorExtensions?.cropper?.instance) {
+      if (!noCropperScript) {
         appendHandler(cropperLink);
         appendHandler(cropperScript);
       }
 
-      if (!noPrettier) {
+      if (!noPrettierScript) {
         appendHandler(prettierScript);
+      }
+
+      if (!noParserMarkdownScript) {
         appendHandler(prettierMDScript);
       }
     }

@@ -6,7 +6,7 @@ import {
   SetupContext,
   reactive
 } from 'vue';
-import { prefix, allToolbar, allFooter, configOption } from './config';
+import { prefix, allToolbar, allFooter } from './config';
 import {
   useKeyBoard,
   useProvide,
@@ -179,6 +179,9 @@ const props = {
   },
   defFooters: {
     type: [String, Object] as PropType<string | JSX.Element>
+  },
+  noIconfont: {
+    type: Boolean as PropType<boolean>
   }
 };
 
@@ -196,7 +199,6 @@ const Editor = defineComponent({
   ],
   setup(props, context: SetupContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
-    // eslint-disable-next-line vue/no-setup-props-destructure
     const { editorId } = props;
 
     const state = reactive({

@@ -213,6 +213,9 @@ export interface ConfigOption {
       css?: CodeCss;
     };
     prettier?: {
+      prettierInstance?: any;
+      parserMarkdownInstance?: any;
+
       standaloneJs?: string;
       parserMarkdownJs?: string;
     };

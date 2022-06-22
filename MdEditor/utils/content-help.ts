@@ -124,7 +124,16 @@ export const directive2flag = (
     targetValue = `${pix} ${selectedText}`;
     deviationStart = pix.length + 1;
   } else if (direct === 'prettier') {
-    if (!window.prettier) {
+    const prettier =
+      window.prettier || configOption.editorExtensions?.prettier?.prettierInstance;
+
+    const prettierPlugins =
+      window.prettierPlugins || [
+        configOption.editorExtensions?.prettier?.parserMarkdownInstance
+      ] ||
+      [];
+
+    if (!prettier || prettierPlugins[0] === undefined) {
       // CATCH ERROR: 捕获全局错误
       bus.emit(params.editorId, 'errorCatcher', {
         name: 'prettier',
@@ -133,9 +142,9 @@ export const directive2flag = (
       return inputArea.value;
     }
 
-    return window.prettier.format(inputArea.value, {
+    return prettier.format(inputArea.value, {
       parser: 'markdown',
-      plugins: window.prettierPlugins
+      plugins: prettierPlugins
     });
   } else {
     switch (direct) {
