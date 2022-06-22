@@ -298,11 +298,30 @@
 - **默认值**：`['markdownTotal', '=', 'scrollSwitch']`
 - **说明**：页脚显示内容，`'='`左右分割，设置为`[]`不显示页脚。
 
-### 👨‍👦 scrollAuto
+### 🏄🏻‍♂️ scrollAuto
 
 - **类型**：`boolean`
 - **默认值**：`true`
-- **说明**：默认左右同步滚动状态
+- **说明**：默认左右同步滚动状态。
+
+### 🤞🏼 noIconfont
+
+- **类型**：`boolean`
+- **默认值**：`true`
+- **说明**：不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/font_2605852_pqekijay2ij.js)到本地自行引入。
+
+  ```vue
+  <template>
+    <md-editor no-iconfont />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  import '/assets/iconfont.js';
+  </script>
+  ```
 
 ## 🎍 插槽
 
@@ -687,6 +706,10 @@
       };
     };
     prettier?: {
+      // >= 2.2.0
+      prettierInstance?: any;
+      parserMarkdownInstance?: any;
+
       standaloneJs?: string;
       parserMarkdownJs?: string;
     };
@@ -905,6 +928,10 @@ const data = reactive({
   - `markedHeadingId`: `MarkedHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
   - `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`。
   - `theme`: `'light' | 'dark'`，非必须，当需要切换主题时提供，同编辑器的`theme`。
+
+- **events**
+
+  - `onClick`: `(e: MouseEvent, t: TocItem) => void`，非必须，导航点击事件。
 
 > `scrollElement`说明：仅预览下，该元素必须已定位的并且支持滚动。
 
