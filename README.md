@@ -67,6 +67,7 @@ mark and emoji extensions
 | sanitize | (html: string) => string | (html) => html | Sanitize the html, prevent XSS |
 | footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
 | scrollAuto | boolean | true | Scroll default setting |
+| noIconfont | boolean | false | Not append iconfont script, [download](https://at.alicdn.com/t/font_2818624_6dgkvsg96ox.js) and import it by yourself |
 
 <details>
  <summary>[toolbars]</summary>

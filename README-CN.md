@@ -66,6 +66,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 | sanitize | (html: string) => string | (html) => html | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 | footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | 页脚显示内容，`=`左右分割，设置为`[]`不显示页脚 |
 | scrollAuto | boolean | true | 默认左右滚动状态 |
+| noIconfont | boolean | false | 不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/font_2818624_6dgkvsg96ox.js)到本地自行引入 |
 
 > 如果你重新定义了标题，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
