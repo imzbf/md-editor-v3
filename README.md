@@ -318,7 +318,7 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
         flow: `flow tempalte`,
         ...more
       },
-      // ms
+      // Default 500ms. It is set to 0ms when preview only and not set.
       renderDelay: 500
     }
   });
@@ -482,6 +482,10 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
   - `markedHeadingId`: `MarkedHeadingId`, not necessary, same as editor.
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: `'light' | 'dark'`, not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
+
+- **events**
+
+  - `onClick`: `(e: MouseEvent, t: TocItem) => void`, not necessary.
 
 ## Examples
 

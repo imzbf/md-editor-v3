@@ -330,7 +330,7 @@ const handler = () => {
         flow: `flow tempalte`,
         ...more
       },
-      // 输入渲染延迟，ms
+      // 输入渲染延迟，默认500ms。当仅预览模式时，未设置此项默认0ms
       renderDelay: 500
     }
   });
@@ -496,6 +496,10 @@ const handler = () => {
   - `markedHeadingId`: `MarkedHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
   - `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`。
   - `theme`: `'light' | 'dark'`，非必须，当需要切换主题时提供，同编辑器的`theme`。
+
+- **events**
+
+  - `onClick`: `(e: MouseEvent, t: TocItem) => void`，非必须，导航点击事件。
 
 ## 部分示例
 
