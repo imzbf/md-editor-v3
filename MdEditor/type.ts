@@ -1,4 +1,4 @@
-import type { marked, Renderer } from 'marked';
+import { marked, Renderer, Slugger } from 'marked';
 
 declare global {
   interface Window {
@@ -187,12 +187,24 @@ export interface MermaidTemplate {
   journey?: string;
 }
 
+export type RewriteHeading = (
+  text: string,
+  level: 1 | 2 | 3 | 4 | 5 | 6,
+  raw: string,
+  slugger: Slugger,
+  index: number
+) => string;
+
+export interface RewriteRenderer extends Omit<Renderer, 'heading'> {
+  heading: RewriteHeading;
+}
+
 export interface ConfigOption {
   /**
    * 覆盖编辑器默认的renderer属性
    * @see https://marked.js.org/using_pro#renderer
    */
-  markedRenderer?: (renderer: Renderer) => Renderer;
+  markedRenderer?: (renderer: RewriteRenderer) => RewriteRenderer;
   /**
    * 自定义 marked 扩展
    * @see https://marked.js.org/using_pro#extensions

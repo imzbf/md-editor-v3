@@ -10,11 +10,11 @@ import {
   onBeforeUnmount,
   toRef
 } from 'vue';
-import { marked } from 'marked';
+import { marked, Renderer } from 'marked';
 import copy from 'copy-to-clipboard';
 import mediumZoom from 'medium-zoom';
 import { EditorContentProps } from './index';
-import { HeadList, StaticTextDefaultValue } from '../../type';
+import { HeadList, RewriteHeading, StaticTextDefaultValue } from '../../type';
 import { prefix, katexUrl, mermaidUrl, configOption } from '../../config';
 import bus from '../../utils/event-bus';
 import {
@@ -295,7 +295,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
   const markedheading = renderer.heading;
 
   if (markedRenderer instanceof Function) {
-    renderer = markedRenderer(renderer);
+    renderer = markedRenderer(renderer) as Renderer;
   }
 
   // 判断是否有重写heading
@@ -308,7 +308,14 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
 
     // 如果heading被重写了，使用新的heading
     if (isNewHeading) {
-      return newHeading.call(renderer, text, level, raw, slugger);
+      return (newHeading as RewriteHeading).call(
+        renderer,
+        text,
+        level,
+        raw,
+        slugger,
+        heads.value.length
+      );
     }
 
     // return props.markedHeading(...headProps);
