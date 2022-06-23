@@ -1,4 +1,4 @@
-import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}from"./index.2d06cdf9.js";var a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+var c=Object.defineProperty,p=Object.defineProperties;var u=Object.getOwnPropertyDescriptors;var r=Object.getOwnPropertySymbols;var h=Object.prototype.hasOwnProperty,g=Object.prototype.propertyIsEnumerable;var i=(t,n,e)=>n in t?c(t,n,{enumerable:!0,configurable:!0,writable:!0,value:e}):t[n]=e,s=(t,n)=>{for(var e in n||(n={}))h.call(n,e)&&i(t,e,n[e]);if(r)for(var e of r(n))g.call(n,e)&&i(t,e,n[e]);return t},a=(t,n)=>p(t,u(n));import{d as b,g as v,k as f,n as x,e as k,b as y,h as l,o as T}from"./index.6c9f779e.js";import{_ as w}from"./index.e353025c.js";import{_ as E}from"./index.18368613.js";var d=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -6,7 +6,8 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`string\`
 - **default**: \`''\`
-- **description**: Markdown content.
+
+  Markdown content.
 
   \`\`\`html
   <md-editor-v3 v-model="xxx" />
@@ -16,7 +17,8 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`'light' | 'dark'\`
 - **default**: \`'light'\`
-- **description**: Editor's theme.
+
+  Editor's theme.
 
   \`\`\`html
   <md-editor-v3 theme="dark" />
@@ -26,49 +28,57 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`string\`
 - **default**: \`''\`
-- **description**: Editor \`class\`.
+
+  Editor \`class\`.
 
 ### \u{1F90F}\u{1F3FC} historyLength
 
 - **type**: \`number\`
 - **default**: \`10\`
-- **description**: The max length of history(if it is too big, editor will use more \`RAM\`).
+
+  The max length of history(if it is too big, editor will use more \`RAM\`).
 
 ### \u{1F4BB} pageFullScreen
 
 - **type**: \`boolean\`
 - **default**: \`false\`
-- **description**: Screenfull in web page.
+
+  Screenfull in web page.
 
 ### \u{1F4F1} preview
 
 - **type**: \`boolean\`
 - **default**: \`true\`
-- **description**: Preview content in editor.
+
+  Preview content in editor.
 
 ### \u{1F4C0} htmlPreview
 
 - **type**: \`boolean\`
 - **default**: \`false\`
-- **description**: Preview html in editor.
+
+  Preview html in editor.
 
 ### \u{1F4FA} previewOnly
 
 - **type**: \`boolean\`
 - **default**: \`false\`
-- **description**: Only render article content, no toolbar, no edit area.
+
+  Only render article content, no toolbar, no edit area.
 
 ### \u{1F524} language
 
 - **type**: \`string\`
 - **default**: \`'zh-CN'\`
-- **description**: Build-in language('zh-CN', 'en-US').
+
+  Build-in language('zh-CN', 'en-US').
 
 ### \u{1F9F1} toolbars
 
 - **type**: \`Array\`
 - **default**: \`[all]\`
-- **description**: Show contents of toolbar, all keys.
+
+  Show contents of toolbar, all keys.
 
   You can sort the toolbar as you like, split tools by \`'-'\`, the left and right toolbars are divided by \`'='\`\uFF01
 
@@ -114,37 +124,43 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`Array\`
 - **default**: \`[]\`
-- **description**: Don't show contents of toolbar.
+
+  Don't show contents of toolbar.
 
 ### \u{1FA92} noPrettier
 
 - **type**: \`boolean\`
 - **default**: \`false\`
-- **description**: Use prettier to beautify content or not.
+
+  Use prettier to beautify content or not.
 
 ### \u{1F3B2} editorId
 
 - **type**: \`string\`
 - **default**: \`'md-editor-v3'\`
-- **description**: Editor id, also the html id, it is used when there are two or more editor and server render.
+
+  Editor id, also the html id, it is used when there are two or more editor and server render.
 
 ### \u{1F90F} tabWidth
 
 - **type**: \`number\`
 - **default**: \`2\`
-- **description**: One tab eq some space.
+
+  One tab eq some space.
 
 ### \u{1F522} showCodeRowNumber
 
 - **type**: \`boolean\`
 - **default**: \`false\`
-- **description**: Show row number for code block or not.
+
+  Show row number for code block or not.
 
 ### \u{1F526} previewTheme
 
 - **type**: \`'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'\`
 - **default**: \`'default'\`
-- **description**: Preview themes.
+
+  Preview themes.
 
   Custom:
 
@@ -168,13 +184,15 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`string | CSSProperties\`
 - **default**: \`''\`
-- **description**: Editor's inline style.
+
+  Editor's inline style.
 
 ### \u{1F4C5} tableShape
 
 - **type**: \`[number, number]\`
 - **default**: \`[6, 4]\`
-- **description**: Preset the size of the table, [columns, rows].
+
+  Preset the size of the table, [columns, rows].
 
   \`\`\`html
   <md-editor-v3 :tableShape="[8, 4]" />
@@ -186,7 +204,8 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`boolean\`
 - **default**: \`false\`
-- **description**: Do not want to use \`mermaid\`, set it to \`true\`.
+
+  Do not want to use \`mermaid\`, set it to \`true\`.
 
   \`\`\`html
   <md-ditor-v3 no-mermaid />
@@ -196,13 +215,15 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`string\`
 - **default**: \`''\`
-- **description**: em-\\_-\uFF01
 
-### \u261D\uFE0F noKatex
+  em-\\_-\uFF01
+
+### \u274C noKatex
 
 - **type**: \`boolean\`
 - **default**: \`false\`
-- **description**: Do not want to use \`katex\`, set it to \`true\`.
+
+  Do not want to use \`katex\`, set it to \`true\`.
 
   \`\`\`html
   <md-ditor-v3 no-katex />
@@ -212,7 +233,8 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'\`
 - **default**: \`'atom'\`
-- **description**: Highlight code css name. Get Them from \`highlight.js\`.
+
+  Highlight code css name. Get Them from \`highlight.js\`.
 
   Custom:
 
@@ -251,7 +273,8 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`(text: string, level: number, index: number) => string\`
 - **default**: \`(text) => text\`
-- **description**: Title \`ID\` generator.
+
+  Title \`ID\` generator.
 
   \`\`\`vue
   <template>
@@ -263,6 +286,16 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
   import 'md-editor-v3/lib/style.css';
 
   const generateId = (_text, _level, index) => \`heading-\${index}\`;
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, _r, _s, index) => {
+        const id = generateId(text, level, index);
+        return \`<h\${level} id="\${id}">\${text}</h\${level}>\`;
+      };
+      return renderer;
+    }
+  });
   <\/script>
   \`\`\`
 
@@ -270,7 +303,8 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`(html: string) => string\`
 - **default**: \`(html) => html\`
-- **description**: Sanitize the html, prevent XSS. When you can be sure that your content is OK, ignore this.
+
+  Sanitize the html, prevent XSS. When you can be sure that your content is OK, ignore this.
 
   \`sanitize-html\` example:
 
@@ -292,13 +326,34 @@ import{g as h,k as u,q as r,n as g,e as b,b as t,h as i,u as e,a as s,o as v}fro
 
 - **type**: \`Array<'markdownTotal' \\| '=' \\| 'scrollSwitch' \\| number>\`
 - **default**: \`['markdownTotal', '=', 'scrollSwitch']\`
-- **description**: Show contents of footer, they are divided by \`'='\`. Set it to [] to hidden footer.
 
-### \u{1F468}\u200D\u{1F466} scrollAuto
+  Show contents of footer, they are divided by \`'='\`. Set it to [] to hidden footer.
+
+### \u26F5\uFE0F scrollAuto
 
 - **type**: \`boolean\`
 - **default**: \`true\`
-- **description**: Scroll default setting.
+
+  Scroll default setting.
+
+### \u{1F91E}\u{1F3FC} noIconfont
+
+- **\u7C7B\u578B**: \`boolean\`
+- **\u9ED8\u8BA4\u503C**: \`true\`
+- **\u8BF4\u660E**: Not append iconfont script, [download](https://at.alicdn.com/t/font_2605852_pqekijay2ij.js) and import it by yourself.
+
+  \`\`\`vue
+  <template>
+    <md-editor no-iconfont />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  import '/assets/iconfont.js';
+  <\/script>
+  \`\`\`
 
 ## \u{1F38D} slots
 
@@ -423,17 +478,20 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 ### \u{1F4DE} onChange
 
 - **type**: \`(v: string) => void\`
-- **description**: Content changed event(bind to \`oninput\` of \`textarea\`).
+
+  Content changed event(bind to \`oninput\` of \`textarea\`).
 
 ### \u{1F4BE} onSave
 
 - **type**: \`(v: string) => void\`
-- **description**: Save Content event, \`ctrl+s\` and click button will trigger.
+
+  Save Content event, \`ctrl+s\` and click button will trigger.
 
 ### \u{1F4F8} onUploadImg
 
 - **type**: \`(files: Array<File>, callback: (urls: Array<string>) => void) => void\`
-- **description**: Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
+
+  Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
 
   \`\`\`js
   const onUploadImg = async (files, callback) => {
@@ -460,23 +518,26 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   \`\`\`
 
   \`\`\`html
-  <md-ditor-v3 @onUploadImg="onUploadImg" />
+  <md-ditor-v3 @on-upload-img="onUploadImg" />
   \`\`\`
 
-### \u260E\uFE0F onHtmlChanged
+### \u{1F681} onHtmlChanged
 
 - **type**: \`(h: string) => void\`
-- **description**: Compile markdown successful event, ou can use it to get the html code.
+
+  Compile markdown successful event, ou can use it to get the html code.
 
 ### \u{1F5D2} onGetCatalog
 
 - **type**: \`(list: HeadList[]) => void\`
-- **description**: Get catalogue of article.
+
+  Get catalogue of article.
 
 ### \u{1F480} onError
 
 - **type**: \`(err: { name: string; message: string;}) => void\`
-- **description**: Run-Time error event, only be called when \`Cropper\`, \`fullScreen\`, \`prettier\` is not loaded.
+
+  Run-Time error event, only be called when \`Cropper\`, \`fullScreen\`, \`prettier\` is not loaded.
 
   \`\`\`js
   const onError = (err) => {
@@ -485,14 +546,14 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   \`\`\`
 
   \`\`\`html
-  <md-ditor-v3 @onError="onError" />
+  <md-ditor-v3 @on-error="onError" />
   \`\`\`
 
 ## \u{1F4B4} Config Editor
 
 Custom \`marked renderer\` in \`MdEditor.config(option: ConfigOption)\`.
 
-- markedRenderer: \`(renderer: Renderer) => Renderer\`
+- markedRenderer: \`(renderer: RewriteRenderer) => RewriteRenderer\`
 
   Open target page in a new browser window:
 
@@ -510,7 +571,23 @@ Custom \`marked renderer\` in \`MdEditor.config(option: ConfigOption)\`.
   });
   \`\`\`
 
-  > docs: https://marked.js.org/using_pro#renderer
+  Set heading ID to \`heading-\${index}\`:
+
+  \`\`\`js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, raw, s, index) => {
+        return \`<h\${level} id="heading-\${index}">\${text}</h\${level}>\`;
+      };
+
+      return renderer;
+    }
+  });
+  \`\`\`
+
+  > Reference: https://marked.js.org/using_pro#renderer, RewriteRenderer extends Renderer and rewrites heading, now provides index as the fifth parameter.
 
 - markedExtensions: \`Array<marked.TokenizerExtension & marked.RendererExtension>\`
 
@@ -522,7 +599,7 @@ Custom \`marked renderer\` in \`MdEditor.config(option: ConfigOption)\`.
   });
   \`\`\`
 
-  > marked docs: https://marked.js.org/using_pro#extensions
+  > Reference: https://marked.js.org/using_pro#extensions
 
   [Docs page source code](https://github.com/imzbf/md-editor-v3/blob/docs/src/main.ts)
 
@@ -538,7 +615,7 @@ Custom \`marked renderer\` in \`MdEditor.config(option: ConfigOption)\`.
   });
   \`\`\`
 
-  > marked docs: https://marked.js.org/using_advanced#options
+  > Reference: https://marked.js.org/using_advanced#options
 
 - editorConfig: Add more languages, reset \`mermaid\` template or delay rendering time
 
@@ -673,6 +750,10 @@ Custom \`marked renderer\` in \`MdEditor.config(option: ConfigOption)\`.
       };
     };
     prettier?: {
+      // >= 2.2.0
+      prettierInstance?: any;
+      parserMarkdownInstance?: any;
+
       standaloneJs?: string;
       parserMarkdownJs?: string;
     };
@@ -755,7 +836,7 @@ usage:
 <template>
   <md-editor-v3 v-model="text">
     <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="callback">
+      <normal-toolbar title="mark" @on-click="callback">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -796,7 +877,7 @@ usage:
       <dropdown-toolbar
         title="emoji"
         :visible="data.emojiVisible"
-        :onChange="emojiVisibleChanged"
+        :on-change="emojiVisibleChanged"
       >
         <template #overlay>
           <div class="emoji-container">
@@ -858,9 +939,9 @@ usage:
         modal-title="Page Preview"
         width="870px"
         height="600px"
-        @onClick="data.modalVisible = true"
-        @onClose="data.modalVisible = false"
-        @onAdjust="data.modalFullscreen = !data.modalFullscreen"
+        @on-click="data.modalVisible = true"
+        @on-close="data.modalVisible = false"
+        @on-adjust="data.modalFullscreen = !data.modalFullscreen"
       >
         <span>content</span>
         <template #trigger>
@@ -898,17 +979,21 @@ const data = reactive({
   - \`scrollElement\`: \`string | HTMLElement\`, not necessary, it is an element selector when its type is string. When \`previewOnly\` eq \`true\`, it is usually set to \`document.documentElement\`.
   - \`theme\`: 'light' | 'dark', not necessary, provide it when you want to change theme online, it is the same as Editor \`theme\`.
 
+- **events**
+
+  - \`onClick\`: \`(e: MouseEvent, t: TocItem) => void\`, not necessary.
+
 usage:
 
 \`\`\`vue
 <template>
   <md-editor-v3
     v-model="state.text"
-    :editorId="state.id"
+    :editor-id="state.id"
     :theme="state.theme"
     preview-only
   />
-  <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+  <md-atalog :editor-id="state.id" :scroll-element="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>
@@ -927,7 +1012,7 @@ const scrollElement = document.documentElement;
 ## \u270D\uFE0F Edit this page
 
 [doc-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/doc-en-US.md)
-`,l=`> \u5728\u7EBF\u5C1D\u8BD5\u793A\u4F8B\uFF1A[\u4F20\u9001\u95E8](https://codesandbox.io/s/epic-bird-2znqo)
+`,m=`> \u5728\u7EBF\u5C1D\u8BD5\u793A\u4F8B\uFF1A[\u4F20\u9001\u95E8](https://codesandbox.io/s/epic-bird-2znqo)
 
 ## \u{1F92F} Props \u8BF4\u660E
 
@@ -937,7 +1022,8 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`''\`
-- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u7684\u5185\u5BB9\u3002
+
+  \u7F16\u8F91\u7684\u5185\u5BB9\u3002
 
   \`\`\`html
   <md-editor-v3 v-model="xxx" />
@@ -947,7 +1033,8 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`'light' | 'dark'\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`'light'\`
-- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\u4E3B\u9898\u3002
+
+  \u7F16\u8F91\u5668\u4E3B\u9898\u3002
 
   \`\`\`html
   <md-ditor-v3 theme="dark" />
@@ -957,49 +1044,57 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`''\`
-- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\`class\`\u3002
+
+  \u7F16\u8F91\u5668\`class\`\u3002
 
 ### \u{1F90F}\u{1F3FC} historyLength
 
 - **\u7C7B\u578B**\uFF1A\`number\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`10\`
-- **\u8BF4\u660E**\uFF1A\u6700\u5927\u8BB0\u5F55\u64CD\u4F5C\u6570\uFF08\u592A\u5927\u4F1A\u5360\u7528\u5185\u5B58\uFF09\u3002
+
+  \u6700\u5927\u8BB0\u5F55\u64CD\u4F5C\u6570\uFF08\u592A\u5927\u4F1A\u5360\u7528\u5185\u5B58\uFF09\u3002
 
 ### \u{1F4BB} pageFullScreen
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`false\`
-- **\u8BF4\u660E**\uFF1A\u9875\u9762\u5185\u5168\u5C4F\u3002
+
+  \u9875\u9762\u5185\u5168\u5C4F\u3002
 
 ### \u{1F4F1} preview
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`true\`
-- **\u8BF4\u660E**\uFF1A\u662F\u5426\u663E\u793A\u9884\u89C8\u3002
+
+  \u662F\u5426\u663E\u793A\u9884\u89C8\u3002
 
 ### \u{1F4C0} htmlPreview
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`false\`
-- **\u8BF4\u660E**\uFF1A\u662F\u5426\u663E\u793A html \u9884\u89C8\u3002
+
+  \u662F\u5426\u663E\u793A html \u9884\u89C8\u3002
 
 ### \u{1F4FA} previewOnly
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`false\`
-- **\u8BF4\u660E**\uFF1A\u4EC5\u9884\u89C8\u6A21\u5F0F\uFF0C\u4E0D\u663E\u793A bar \u548C\u7F16\u8F91\u6846\uFF0C\u4E0D\u652F\u6301\u54CD\u5E94\u5F0F\uFF0C\u4EC5\u80FD\u521D\u59CB\u8BBE\u7F6E\u4E00\u6B21\u3002
+
+  \u4EC5\u9884\u89C8\u6A21\u5F0F\uFF0C\u4E0D\u663E\u793A bar \u548C\u7F16\u8F91\u6846\uFF0C\u4E0D\u652F\u6301\u54CD\u5E94\u5F0F\uFF0C\u4EC5\u80FD\u521D\u59CB\u8BBE\u7F6E\u4E00\u6B21\u3002
 
 ### \u{1F524} language
 
 - **\u7C7B\u578B**\uFF1A\`string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`'zh-CN'\`
-- **\u8BF4\u660E**\uFF1A\u5185\u7F6E\u4E2D\u82F1\u6587(\`'zh-CN'\`,\`'en-US'\`)\uFF0C\u53EF\u81EA\u884C\u6269\u5C55\u5176\u4ED6\u8BED\u8A00\uFF0C\u540C\u65F6\u53EF\u8986\u76D6\u5185\u7F6E\u7684\u4E2D\u82F1\u6587\u3002
+
+  \u5185\u7F6E\u4E2D\u82F1\u6587(\`'zh-CN'\`,\`'en-US'\`)\uFF0C\u53EF\u81EA\u884C\u6269\u5C55\u5176\u4ED6\u8BED\u8A00\uFF0C\u540C\u65F6\u53EF\u8986\u76D6\u5185\u7F6E\u7684\u4E2D\u82F1\u6587\u3002
 
 ### \u{1F9F1} toolbars
 
 - **\u7C7B\u578B**\uFF1A\`Array\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`[all]\`
-- **\u8BF4\u660E**\uFF1A\u9009\u62E9\u6027\u5C55\u793A\u5DE5\u5177\u680F\uFF0C\u53EF\u9009\u5185\u5BB9\u89C1\u4E0B\u65B9\u3002
+
+  \u9009\u62E9\u6027\u5C55\u793A\u5DE5\u5177\u680F\uFF0C\u53EF\u9009\u5185\u5BB9\u89C1\u4E0B\u65B9\u3002
 
   \u4F60\u53EF\u4EE5\u968F\u610F\u6392\u5E8F\u5DE5\u5177\u680F\uFF0C\u901A\u8FC7\`'-'\`\u5206\u5272\u4E24\u4E2A\u5DE5\u5177\uFF0C\u901A\u8FC7\`'='\`\u5B9E\u73B0\u5DE6\u53F3\u653E\u7F6E\uFF01
 
@@ -1045,37 +1140,43 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`Array\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`[]\`
-- **\u8BF4\u660E**\uFF1A\u9009\u62E9\u6027\u4E0D\u5C55\u793A\u5DE5\u5177\u680F\uFF0C\u5185\u5BB9\u540C\u4E0A\u3002
+
+  \u9009\u62E9\u6027\u4E0D\u5C55\u793A\u5DE5\u5177\u680F\uFF0C\u5185\u5BB9\u540C\u4E0A\u3002
 
 ### \u{1FA92} noPrettier
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`false\`
-- **\u8BF4\u660E**\uFF1A\u662F\u5426\u542F\u7528 prettier \u4F18\u5316 md \u5185\u5BB9\u3002
+
+  \u662F\u5426\u542F\u7528 prettier \u4F18\u5316 md \u5185\u5BB9\u3002
 
 ### \u{1F3B2} editorId
 
 - **\u7C7B\u578B**\uFF1A\`string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`'md-editor-v3'\`
-- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\u552F\u4E00\u6807\u8BC6\uFF0C\u975E\u5FC5\u987B\u9879\uFF0C\u670D\u52A1\u7AEF\u6E32\u67D3\u65F6\uFF0C\u9632\u6B62\u4EA7\u751F\u670D\u52A1\u7AEF\u4E0E\u5BA2\u6237\u7AEF\u6E32\u67D3\u5185\u5BB9\u4E0D\u4E00\u81F4\u9519\u8BEF\u63D0\u793A\uFF0C\u4EE5\u53CA\u5355\u9875\u9762\u591A\u7F16\u8F91\u5668\u65F6\u505A\u533A\u522B\u3002
+
+  \u7F16\u8F91\u5668\u552F\u4E00\u6807\u8BC6\uFF0C\u975E\u5FC5\u987B\u9879\uFF0C\u670D\u52A1\u7AEF\u6E32\u67D3\u65F6\uFF0C\u9632\u6B62\u4EA7\u751F\u670D\u52A1\u7AEF\u4E0E\u5BA2\u6237\u7AEF\u6E32\u67D3\u5185\u5BB9\u4E0D\u4E00\u81F4\u9519\u8BEF\u63D0\u793A\uFF0C\u4EE5\u53CA\u5355\u9875\u9762\u591A\u7F16\u8F91\u5668\u65F6\u505A\u533A\u522B\u3002
 
 ### \u{1F90F} tabWidth
 
 - **\u7C7B\u578B**\uFF1A\`number\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`2\`
-- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\u4E00\u4E2A TAB \u952E\u7B49\u4E8E\u7A7A\u683C\u6570\u3002
+
+  \u7F16\u8F91\u5668\u4E00\u4E2A TAB \u952E\u7B49\u4E8E\u7A7A\u683C\u6570\u3002
 
 ### \u{1F522} showCodeRowNumber
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`false\`
-- **\u8BF4\u660E**\uFF1A\u4EE3\u7801\u5757\u662F\u5426\u663E\u793A\u884C\u53F7\u3002
+
+  \u4EE3\u7801\u5757\u662F\u5426\u663E\u793A\u884C\u53F7\u3002
 
 ### \u{1F526} previewTheme
 
 - **\u7C7B\u578B**\uFF1A\`'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`'default'\`
-- **\u8BF4\u660E**\uFF1A\u9884\u89C8\u5185\u5BB9\u4E3B\u9898\uFF0C\u652F\u6301\u81EA\u5B9A\u4E49\u3002
+
+  \u9884\u89C8\u5185\u5BB9\u4E3B\u9898\uFF0C\u652F\u6301\u81EA\u5B9A\u4E49\u3002
 
   \u4E3B\u9898\u81EA\u5B9A\u4E49\u65B9\u5F0F\uFF1A
 
@@ -1099,13 +1200,15 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`string | CSSProperties\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`''\`
-- **\u8BF4\u660E**\uFF1A\u7F16\u8F91\u5668\u5185\u8054\u6837\u5F0F\u3002
+
+  \u7F16\u8F91\u5668\u5185\u8054\u6837\u5F0F\u3002
 
 ### \u{1F4C5} tableShape
 
 - **\u7C7B\u578B**\uFF1A\`[number, number]\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`[6, 4]\`
-- **\u8BF4\u660E**\uFF1A\u6807\u9898\u680F\u6DFB\u52A0\u8868\u683C\u65F6\uFF0C\u9884\u8BBE\u5F85\u9009\u8868\u683C\u5927\u5C0F\uFF0C\u7B2C\u4E00\u4E2A\u4EE3\u8868\u6700\u5927\u5217\u6570\uFF0C\u7B2C\u4E8C\u4E2A\u4EE3\u8868\u6700\u5927\u884C\u6570\u3002
+
+  \u6807\u9898\u680F\u6DFB\u52A0\u8868\u683C\u65F6\uFF0C\u9884\u8BBE\u5F85\u9009\u8868\u683C\u5927\u5C0F\uFF0C\u7B2C\u4E00\u4E2A\u4EE3\u8868\u6700\u5927\u5217\u6570\uFF0C\u7B2C\u4E8C\u4E2A\u4EE3\u8868\u6700\u5927\u884C\u6570\u3002
 
   \`\`\`html
   <md-ditor-v3 :table-shape="[8, 4]" />
@@ -1117,7 +1220,8 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`false\`
-- **\u8BF4\u660E**\uFF1A\u5982\u679C\u4F60\u4E0D\u5E0C\u671B\u4F7F\u7528\u56FE\u8868\u5C55\u793A\u5185\u5BB9\uFF0C\u53EF\u4EE5\u8BBE\u7F6E\u5173\u95ED\u3002
+
+  \u5982\u679C\u4F60\u4E0D\u5E0C\u671B\u4F7F\u7528\u56FE\u8868\u5C55\u793A\u5185\u5BB9\uFF0C\u53EF\u4EE5\u8BBE\u7F6E\u5173\u95ED\u3002
 
   \`\`\`html
   <md-ditor-v3 no-mermaid />
@@ -1127,13 +1231,15 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`''\`
-- **\u8BF4\u660E**\uFF1A\u554A\u8FD9-\\_-\uFF01
 
-### \u261D\uFE0F noKatex
+  \u554A\u8FD9-\\_-\uFF01
+
+### \u274C noKatex
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`false\`
-- **\u8BF4\u660E**\uFF1A\u5982\u679C\u4F60\u4E0D\u5E0C\u671B\u4F7F\u7528\u6570\u5B66\u516C\u5F0F\u5C55\u793A\u5185\u5BB9\uFF0C\u53EF\u4EE5\u8BBE\u7F6E\u5173\u95ED\u3002
+
+  \u5982\u679C\u4F60\u4E0D\u5E0C\u671B\u4F7F\u7528\u6570\u5B66\u516C\u5F0F\u5C55\u793A\u5185\u5BB9\uFF0C\u53EF\u4EE5\u8BBE\u7F6E\u5173\u95ED\u3002
 
   \`\`\`html
   <md-ditor-v3 no-katex />
@@ -1143,7 +1249,8 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`'atom'\`
-- **\u8BF4\u660E**\uFF1A\u4EE3\u7801\u5757\u9AD8\u4EAE\u6837\u5F0F\u540D\u79F0\u3002
+
+  \u4EE3\u7801\u5757\u9AD8\u4EAE\u6837\u5F0F\u540D\u79F0\u3002
 
   \u4F60\u53EF\u4EE5\u6DFB\u52A0\u81EA\u5DF1\u7684\u6837\u5F0F\uFF0C\u628A\u8BE5\u5C5E\u6027\u8BBE\u7F6E\u4E3A\u4F60\u60F3\u8981\u7684\u5373\u53EF\uFF0C\u65B9\u5F0F\u5982\u4E0B\uFF1A
 
@@ -1182,7 +1289,8 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`(text: string, level: number, index: number) => string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`(text) => text\`
-- **\u8BF4\u660E**\uFF1A\u6784\u9020\u6807\u9898\`ID\`\u7684\u751F\u6210\u65B9\u5F0F\uFF0C\u5728\u4F7F\u7528\`MdEditor.config\`\u5B9A\u4E49\u4E86\`renderer.heading\`\u540E\uFF0C\u907F\u514D\u76EE\u5F55\u5BFC\u822A\u7B49\u5931\u6548\u3002
+
+  \u6784\u9020\u6807\u9898\`ID\`\u7684\u751F\u6210\u65B9\u5F0F\uFF0C\u5728\u4F7F\u7528\`MdEditor.config\`\u5B9A\u4E49\u4E86\`renderer.heading\`\u540E\uFF0C\u907F\u514D\u76EE\u5F55\u5BFC\u822A\u7B49\u5931\u6548\u3002
 
   \`\`\`vue
   <template>
@@ -1194,6 +1302,16 @@ const scrollElement = document.documentElement;
   import 'md-editor-v3/lib/style.css';
 
   const generateId = (_text, _level, index) => \`heading-\${index}\`;
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, _r, _s, index) => {
+        const id = generateId(text, level, index);
+        return \`<h\${level} id="\${id}">\${text}</h\${level}>\`;
+      };
+      return renderer;
+    }
+  });
   <\/script>
   \`\`\`
 
@@ -1201,7 +1319,8 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`(html: string) => string\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`(html) => html\`
-- **\u8BF4\u660E**\uFF1A\u5728\u6BCF\u6B21\u751F\u6210 html \u540E\uFF0C\u901A\u8FC7\u8BE5\u65B9\u6CD5\u79FB\u9664\u5371\u9669\u5185\u5BB9\uFF0C\u6BD4\u5982 xss \u76F8\u5173\uFF0C\u5F53\u4F60\u5F88\u786E\u5B9A\u4F60\u7684\u5185\u5BB9\u4E0D\u4F1A\u51FA\u73B0\u7C7B\u4F3C\u60C5\u51B5\u65F6\uFF0C\u4E0D\u5FC5\u8BBE\u7F6E\u5B83\u3002
+
+  \u5728\u6BCF\u6B21\u751F\u6210 html \u540E\uFF0C\u901A\u8FC7\u8BE5\u65B9\u6CD5\u79FB\u9664\u5371\u9669\u5185\u5BB9\uFF0C\u6BD4\u5982 xss \u76F8\u5173\uFF0C\u5F53\u4F60\u5F88\u786E\u5B9A\u4F60\u7684\u5185\u5BB9\u4E0D\u4F1A\u51FA\u73B0\u7C7B\u4F3C\u60C5\u51B5\u65F6\uFF0C\u4E0D\u5FC5\u8BBE\u7F6E\u5B83\u3002
 
   \u4F7F\u7528\`sanitize-html\`\u6F14\u793A
 
@@ -1225,13 +1344,35 @@ const scrollElement = document.documentElement;
 
 - **\u7C7B\u578B**\uFF1A\`Array<'markdownTotal' \\| '=' \\| 'scrollSwitch' \\| number>\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`['markdownTotal', '=', 'scrollSwitch']\`
-- **\u8BF4\u660E**\uFF1A\u9875\u811A\u663E\u793A\u5185\u5BB9\uFF0C\`'='\`\u5DE6\u53F3\u5206\u5272\uFF0C\u8BBE\u7F6E\u4E3A\`[]\`\u4E0D\u663E\u793A\u9875\u811A\u3002
 
-### \u{1F468}\u200D\u{1F466} scrollAuto
+  \u9875\u811A\u663E\u793A\u5185\u5BB9\uFF0C\`'='\`\u5DE6\u53F3\u5206\u5272\uFF0C\u8BBE\u7F6E\u4E3A\`[]\`\u4E0D\u663E\u793A\u9875\u811A\u3002
+
+### \u26F5\uFE0F scrollAuto
 
 - **\u7C7B\u578B**\uFF1A\`boolean\`
 - **\u9ED8\u8BA4\u503C**\uFF1A\`true\`
-- **\u8BF4\u660E**\uFF1A\u9ED8\u8BA4\u5DE6\u53F3\u540C\u6B65\u6EDA\u52A8\u72B6\u6001
+
+  \u9ED8\u8BA4\u5DE6\u53F3\u540C\u6B65\u6EDA\u52A8\u72B6\u6001\u3002
+
+### \u{1F91E}\u{1F3FC} noIconfont
+
+- **\u7C7B\u578B**\uFF1A\`boolean\`
+- **\u9ED8\u8BA4\u503C**\uFF1A\`true\`
+
+  \u4E0D\u63D2\u5165 iconfont \u94FE\u63A5\uFF0C\u4F60\u53EF\u4EE5[\u4E0B\u8F7D](https://at.alicdn.com/t/font_2605852_pqekijay2ij.js)\u5230\u672C\u5730\u81EA\u884C\u5F15\u5165\u3002
+
+  \`\`\`vue
+  <template>
+    <md-editor no-iconfont />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  import '/assets/iconfont.js';
+  <\/script>
+  \`\`\`
 
 ## \u{1F38D} \u63D2\u69FD
 
@@ -1245,7 +1386,7 @@ const scrollElement = document.documentElement;
   <template>
     <md-editor :toolbars="toolbars">
       <template #defToolbars>
-        <normal-toolbar title="mark" @onClick="handler">
+        <normal-toolbar title="mark" @on-click="handler">
           <template #trigger>
             <svg class="md-icon" aria-hidden="true">
               <use xlink:href="#icon-mark"></use>
@@ -1361,17 +1502,20 @@ const scrollElement = document.documentElement;
 ### \u{1F4DE} onChange
 
 - **\u7C7B\u578B**\uFF1A\`(v: string) => void\`
-- **\u8BF4\u660E**\uFF1A\u5185\u5BB9\u53D8\u5316\u4E8B\u4EF6\uFF08\u5F53\u524D\u4E0E\`textarea\`\u7684\`oninput\`\u4E8B\u4EF6\u7ED1\u5B9A\uFF0C\u6BCF\u8F93\u5165\u4E00\u4E2A\u5355\u5B57\u5373\u4F1A\u89E6\u53D1\uFF09\u3002
+
+  \u5185\u5BB9\u53D8\u5316\u4E8B\u4EF6\uFF08\u5F53\u524D\u4E0E\`textarea\`\u7684\`oninput\`\u4E8B\u4EF6\u7ED1\u5B9A\uFF0C\u6BCF\u8F93\u5165\u4E00\u4E2A\u5355\u5B57\u5373\u4F1A\u89E6\u53D1\uFF09\u3002
 
 ### \u{1F4BE} onSave
 
 - **\u7C7B\u578B**\uFF1A\`(v: string) => void\`
-- **\u8BF4\u660E**\uFF1A\u4FDD\u5B58\u4E8B\u4EF6\uFF0C\u5FEB\u6377\u952E\u4E0E\u4FDD\u5B58\u6309\u94AE\u5747\u4F1A\u89E6\u53D1\u3002
+
+  \u4FDD\u5B58\u4E8B\u4EF6\uFF0C\u5FEB\u6377\u952E\u4E0E\u4FDD\u5B58\u6309\u94AE\u5747\u4F1A\u89E6\u53D1\u3002
 
 ### \u{1F4F8} onUploadImg
 
 - **\u7C7B\u578B**\uFF1A\`(files: Array<File>, callback: (urls: Array<string>) => void) => void\`
-- **\u8BF4\u660E**\uFF1A\u4E0A\u4F20\u56FE\u7247\u4E8B\u4EF6\uFF0C\u5F39\u7A97\u4F1A\u7B49\u5F85\u4E0A\u4F20\u7ED3\u679C\uFF0C\u52A1\u5FC5\u5C06\u4E0A\u4F20\u540E\u7684 urls \u4F5C\u4E3A callback \u5165\u53C2\u56DE\u4F20\u3002
+
+  \u4E0A\u4F20\u56FE\u7247\u4E8B\u4EF6\uFF0C\u5F39\u7A97\u4F1A\u7B49\u5F85\u4E0A\u4F20\u7ED3\u679C\uFF0C\u52A1\u5FC5\u5C06\u4E0A\u4F20\u540E\u7684 urls \u4F5C\u4E3A callback \u5165\u53C2\u56DE\u4F20\u3002
 
   \`\`\`js
   const onUploadImg = async (files, callback) => {
@@ -1398,23 +1542,26 @@ const scrollElement = document.documentElement;
   \`\`\`
 
   \`\`\`html
-  <md-ditor-v3 @onUploadImg="onUploadImg" />
+  <md-ditor-v3 @on-upload-img="onUploadImg" />
   \`\`\`
 
-### \u{1F4E8} onHtmlChanged
+### \u{1F681} onHtmlChanged
 
 - **\u7C7B\u578B**\uFF1A\`(h: string) => void\`
-- **\u8BF4\u660E**\uFF1Ahtml \u53D8\u5316\u56DE\u8C03\u4E8B\u4EF6\uFF0C\u7528\u4E8E\u83B7\u53D6\u9884\u89C8 html \u4EE3\u7801\u3002
+
+  html \u53D8\u5316\u56DE\u8C03\u4E8B\u4EF6\uFF0C\u7528\u4E8E\u83B7\u53D6\u9884\u89C8 html \u4EE3\u7801\u3002
 
 ### \u{1F5D2} onGetCatalog
 
 - **\u7C7B\u578B**\uFF1A\`(list: HeadList[]) => void\`
-- **\u8BF4\u660E**\uFF1A\u52A8\u6001\u83B7\u53D6\`markdown\`\u76EE\u5F55\u3002
+
+  \u52A8\u6001\u83B7\u53D6\`markdown\`\u76EE\u5F55\u3002
 
 ### \u{1F480} onError
 
 - **\u7C7B\u578B**\uFF1A\`(err: { name: string; message: string;}) => void\`
-- **\u8BF4\u660E**\uFF1A\u6355\u83B7\u6267\u884C\u9519\u8BEF\u4E8B\u4EF6\uFF0C\u76EE\u524D\u652F\u6301\`Cropper\`\u3001\`fullScreen\`\u3001\`prettier\`\u5B9E\u4F8B\u672A\u52A0\u8F7D\u5B8C\u6210\u64CD\u4F5C\u9519\u8BEF\u3002
+
+  \u6355\u83B7\u6267\u884C\u9519\u8BEF\u4E8B\u4EF6\uFF0C\u76EE\u524D\u652F\u6301\`Cropper\`\u3001\`fullScreen\`\u3001\`prettier\`\u5B9E\u4F8B\u672A\u52A0\u8F7D\u5B8C\u6210\u64CD\u4F5C\u9519\u8BEF\u3002
 
   \`\`\`js
   const onError = (err) => {
@@ -1423,14 +1570,16 @@ const scrollElement = document.documentElement;
   \`\`\`
 
   \`\`\`html
-  <md-ditor-v3 @onError="onError" />
+  <md-ditor-v3 @on-error="onError" />
   \`\`\`
 
 ## \u{1F4B4} \u914D\u7F6E\u7F16\u8F91\u5668
 
 \u4F7F\u7528\`MdEditor.config(option: ConfigOption)\`\u65B9\u6CD5\uFF0C\u53EF\u4EE5\u5BF9\u5185\u90E8\u7684\`renderer\`\u5B9A\u5236\u3002
 
-- markedRenderer: \`(renderer: Renderer) => Renderer\`\uFF0C\u8BBE\u7F6E\u94FE\u63A5\u5728\u65B0\u7A97\u53E3\u6253\u5F00 \u{1F330}\uFF1A
+- markedRenderer: \`(renderer: RewriteRenderer) => RewriteRenderer\`
+
+  \u8BBE\u7F6E\u94FE\u63A5\u5728\u65B0\u7A97\u53E3\u6253\u5F00 \u{1F330}
 
   \`\`\`js
   import MdEditor from 'md-editor-v3';
@@ -1446,7 +1595,23 @@ const scrollElement = document.documentElement;
   });
   \`\`\`
 
-  > \u53C2\u8003\uFF1Ahttps://marked.js.org/using_pro#renderer
+  \u8BBE\u7F6E\`heading-\${index}\`\u6807\u9898 ID \u{1F330}
+
+  \`\`\`js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, raw, s, index) => {
+        return \`<h\${level} id="heading-\${index}">\${text}</h\${level}>\`;
+      };
+
+      return renderer;
+    }
+  });
+  \`\`\`
+
+  > \u53C2\u8003\uFF1Ahttps://marked.js.org/using_pro#renderer\uFF0CRewriteRenderer \u7EE7\u627F\u4E86 Renderer \u5E76\u91CD\u5199\u4E86 heading \u65B9\u6CD5\uFF0C\u63D0\u4F9B\u4E86\u7B2C 5 \u5165\u53C2 index\u3002
 
 - markedExtensions: \`Array<marked.TokenizerExtension & marked.RendererExtension>\`
 
@@ -1616,6 +1781,10 @@ const scrollElement = document.documentElement;
       };
     };
     prettier?: {
+      // >= 2.2.0
+      prettierInstance?: any;
+      parserMarkdownInstance?: any;
+
       standaloneJs?: string;
       parserMarkdownJs?: string;
     };
@@ -1696,7 +1865,7 @@ const scrollElement = document.documentElement;
 <template>
   <md-editor-v3 v-model="text">
     <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="callback">
+      <normal-toolbar title="mark" @on-click="callback">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -1733,7 +1902,7 @@ const scrollElement = document.documentElement;
       <dropdown-toolbar
         title="emoji"
         :visible="data.emojiVisible"
-        :onChange="emojiVisibleChanged"
+        :on-change="emojiVisibleChanged"
       >
         <template #overlay>
           <div class="emoji-container">
@@ -1795,9 +1964,9 @@ const scrollElement = document.documentElement;
         modal-title="\u7F16\u8F91\u9884\u89C8"
         width="870px"
         height="600px"
-        @onClick="data.modalVisible = true"
-        @onClose="data.modalVisible = false"
-        @onAdjust="data.modalFullscreen = !data.modalFullscreen"
+        @on-click="data.modalVisible = true"
+        @on-close="data.modalVisible = false"
+        @on-adjust="data.modalFullscreen = !data.modalFullscreen"
       >
         <span>\u5185\u5BB9</span>
         <template #trigger>
@@ -1835,17 +2004,21 @@ const data = reactive({
   - \`scrollElement\`: \`string | HTMLElement\`\uFF0C\u975E\u5FC5\u987B\uFF0C\u4E3A\u5B57\u7B26\u65F6\u5E94\u662F\u4E00\u4E2A\u5143\u7D20\u9009\u62E9\u5668\u3002\u4EC5\u9884\u89C8\u6A21\u5F0F\u4E2D\uFF0C\u6574\u9875\u6EDA\u52A8\u65F6\uFF0C\u8BBE\u7F6E\u4E3A\`document.documentElement\`\u3002
   - \`theme\`: \`'light' | 'dark'\`\uFF0C\u975E\u5FC5\u987B\uFF0C\u5F53\u9700\u8981\u5207\u6362\u4E3B\u9898\u65F6\u63D0\u4F9B\uFF0C\u540C\u7F16\u8F91\u5668\u7684\`theme\`\u3002
 
+- **events**
+
+  - \`onClick\`: \`(e: MouseEvent, t: TocItem) => void\`\uFF0C\u975E\u5FC5\u987B\uFF0C\u5BFC\u822A\u70B9\u51FB\u4E8B\u4EF6\u3002
+
 > \`scrollElement\`\u8BF4\u660E\uFF1A\u4EC5\u9884\u89C8\u4E0B\uFF0C\u8BE5\u5143\u7D20\u5FC5\u987B\u5DF2\u5B9A\u4F4D\u7684\u5E76\u4E14\u652F\u6301\u6EDA\u52A8\u3002
 
 \`\`\`vue
 <template>
   <md-editor-v3
     v-model="state.text"
-    :editorId="state.id"
+    :editor-id="state.id"
     :theme="state.theme"
     preview-only
   />
-  <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+  <md-atalog :editor-id="state.id" :scroll-element="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>
@@ -1864,4 +2037,4 @@ const scrollElement = document.documentElement;
 ## \u270D\uFE0F \u7F16\u8F91\u6B64\u9875\u9762
 
 [doc-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/doc-zh-CN.md)
-`;const f={class:"container"},k={class:"doc"},x={class:"content"},y={class:"catalog"},T={class:"affix"},M={setup(w){const n=h(),o=u(r(n.state.lang==="en-US"?a:l)),d=()=>{o.value=r(n.state.lang==="en-US"?a:l)},m=document.documentElement;return g(()=>n.state.lang,d),(E,C)=>{const c=s("md-editor-v3"),p=s("md-catalog");return v(),b("div",f,[t("div",k,[t("div",x,[i(c,{"editor-id":"doc-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":o.value,"preview-theme":e(n).state.previewTheme,"code-theme":e(n).state.codeTheme,"preview-only":"","show-code-row-number":""},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",y,[t("div",T,[i(p,{"editor-id":"doc-preview",theme:e(n).state.theme,"scroll-element":e(m)},null,8,["theme","scroll-element"])])])])])}}};export{M as default};
+`;const C={class:"container"},j={class:"doc"},M={name:"DocPage"},H=b(a(s({},M),{setup(t){const n=v(),e="doc-preview",o=f(n.state.lang==="en-US"?d:m);return x(()=>n.state.lang,()=>{o.value=n.state.lang==="en-US"?d:m}),(R,L)=>(T(),k("div",C,[y("div",j,[l(w,{"editor-id":e,"model-value":o.value},null,8,["model-value"]),l(E,{"editor-id":e})])]))}}));export{H as default};

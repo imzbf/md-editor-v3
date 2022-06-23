@@ -1,4 +1,4 @@
-var h=Object.defineProperty,g=Object.defineProperties;var u=Object.getOwnPropertyDescriptors;var s=Object.getOwnPropertySymbols;var _=Object.prototype.hasOwnProperty,f=Object.prototype.propertyIsEnumerable;var r=(t,e,n)=>e in t?h(t,e,{enumerable:!0,configurable:!0,writable:!0,value:n}):t[e]=n,d=(t,e)=>{for(var n in e||(e={}))_.call(e,n)&&r(t,n,e[n]);if(s)for(var n of s(e))f.call(e,n)&&r(t,n,e[n]);return t},i=(t,e)=>g(t,u(e));import{d as v,g as C,k as M,q as a,n as x,e as E,b as m,h as J,u as o,a as A,o as j}from"./index.2d06cdf9.js";var p=`## Upgrade from 1.x to 2.x
+var m=Object.defineProperty,p=Object.defineProperties;var l=Object.getOwnPropertyDescriptors;var o=Object.getOwnPropertySymbols;var c=Object.prototype.hasOwnProperty,g=Object.prototype.propertyIsEnumerable;var r=(t,n,e)=>n in t?m(t,n,{enumerable:!0,configurable:!0,writable:!0,value:e}):t[n]=e,s=(t,n)=>{for(var e in n||(n={}))c.call(n,e)&&r(t,e,n[e]);if(o)for(var e of o(n))g.call(n,e)&&r(t,e,n[e]);return t},d=(t,n)=>p(t,l(n));import{d as h,g as u,k as f,n as _,e as C,b as v,h as M,o as x}from"./index.6c9f779e.js";import{_ as E}from"./index.e353025c.js";var i=`## Upgrade from 1.x to 2.x
 
 This is the content that 2.x is incompatible with version 1.x only.
 
@@ -72,7 +72,7 @@ This is the content that 2.x is incompatible with version 1.x only.
   // import nothing
   <\/script>
   \`\`\`
-`,l=`## \u4ECE 1.x \u5347\u7EA7\u5230 2.x
+`,a=`## \u4ECE 1.x \u5347\u7EA7\u5230 2.x
 
 \u4E0B\u9762\u5217\u4E3E\u7684\u662F\`2.x\`\u4E0D\u517C\u5BB9\`1.x\`\u7684\u5185\u5BB9\uFF0C\u517C\u5BB9\u5185\u5BB9\u4E0D\u4F5C\u5C55\u793A\u3002
 
@@ -149,4 +149,4 @@ This is the content that 2.x is incompatible with version 1.x only.
   // \u4E0D\u9700\u8981\u518Dimport
   <\/script>
   \`\`\`
-`;const w={class:"container"},k={class:"doc"},D={class:"content",style:{width:"100%"}},N={name:"ContrastPage"},q=v(i(d({},N),{setup(t){const e=C(),n=M(a(e.state.lang==="en-US"?p:l));return x(()=>e.state.lang,()=>{n.value=a(e.state.lang==="en-US"?p:l)}),(y,P)=>{const c=A("md-editor-v3");return j(),E("div",w,[m("div",k,[m("div",D,[J(c,{theme:o(e).state.theme,"model-value":n.value,"preview-theme":o(e).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":o(e).state.codeTheme},null,8,["theme","model-value","preview-theme","code-theme"])])])])}}}));export{q as default};
+`;const J={class:"container"},A={class:"doc"},j={name:"ContrastPage"},w=h(d(s({},j),{setup(t){const n=u(),e=f(n.state.lang==="en-US"?i:a);return _(()=>n.state.lang,()=>{e.value=n.state.lang==="en-US"?i:a}),(D,N)=>(x(),C("div",J,[v("div",A,[M(E,{"editor-id":"md-contrast","model-value":e.value},null,8,["model-value"])])]))}}));export{w as default};

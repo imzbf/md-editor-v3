@@ -277,7 +277,7 @@ const text = ref('');
 
 ```vue
 <template>
-  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+  <md-editor v-model="text" @on-upload-img="onUploadImg" />
 </template>
 
 <script setup>
@@ -435,24 +435,19 @@ import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
 
-const getId = (text, level, raw) => {
-  return `${level}-text`;
+const getId = (_text, _level, index) => {
+  return `heading-${index}`;
 };
 
 MdEditor.config({
   markedRenderer(renderer) {
-    renderer.heading = (text, level, raw) => {
+    renderer.heading = (text, level, raw, _s, index) => {
       // 你不能直接调用默认的markedHeadingId，但是它很简单
       // 如果你的id与raw不相同，请一定记得将你的生成方法通过markedHeadingId告诉编辑器
       // 否则编辑器默认的目录定位功能无法正确使用
-      const id = getId(text, level, raw);
+      const id = getId(text, level, index);
 
-      if (/<a.*>.*<\/a>/.test(text)) {
-        return `<h${level} id="${id}">${text.replace(
-          /(?<=\<a.*)>(?=.*<\/a>)/,
-          ' target="_blank">'
-        )}</h${level}>`;
-      } else if (text !== raw) {
+      if (text !== raw) {
         return `<h${level} id="${id}">${text}</h${level}>`;
       } else {
         return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
@@ -471,7 +466,7 @@ MdEditor.config({
 
   ```vue
   <template>
-    <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
+    <md-editor v-model="text" @on-get-catalog="onGetCatalog" />
   </template>
 
   <script setup>
@@ -502,7 +497,11 @@ MdEditor.config({
       :theme="state.theme"
       preview-only
     />
-    <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+    <md-atalog
+      :editorId="state.id"
+      :scroll-element="scrollElement"
+      :theme="state.theme"
+    />
   </template>
 
   <script setup>
@@ -584,6 +583,66 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
   --md-bk-color: #333 !important;
 }
 ```
+
+### 🙍🏻‍♂️ 自行引入扩展库
+
+这里给出一个完全不使用外部链接，全部自行引入的示例：
+
+```vue
+<template>
+  <md-editor v-model="text" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+import screenfull from 'screenfull';
+
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
+
+import mermaid from 'mermaid';
+
+import highlight from 'highlight.js';
+import 'highlight.js/styles/tokyo-night-dark.css';
+
+import prettier from 'prettier';
+import parserMarkdown from 'prettier/parser-markdown';
+
+Editor.config({
+  editorExtensions: {
+    prettier: {
+      prettierInstance: prettier,
+      parserMarkdownInstance: parserMarkdown
+    },
+    highlight: {
+      instance: highlight
+    },
+    screenfull: {
+      instance: screenfull
+    },
+    katex: {
+      instance: katex
+    },
+    cropper: {
+      instance: Cropper
+    },
+    mermaid: {
+      instance: mermaid
+    }
+  }
+});
+
+const text = ref('');
+</script>
+```
+
+> 注意：highlight 的样式自行引入后，将不支持切换代码样式。
 
 ## 🔒 XSS
 

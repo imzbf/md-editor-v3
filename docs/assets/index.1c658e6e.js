@@ -1,4 +1,4 @@
-import{g as m,k as a,q as i,n as h,e as c,b as o,h as l,u as t,a as p,o as b}from"./index.2d06cdf9.js";var n=`## About md-editor-v3
+var a=Object.defineProperty,c=Object.defineProperties;var h=Object.getOwnPropertyDescriptors;var s=Object.getOwnPropertySymbols;var l=Object.prototype.hasOwnProperty,b=Object.prototype.propertyIsEnumerable;var o=(i,t,e)=>t in i?a(i,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):i[t]=e,n=(i,t)=>{for(var e in t||(t={}))l.call(t,e)&&o(i,e,t[e]);if(s)for(var e of s(t))b.call(t,e)&&o(i,e,t[e]);return i},d=(i,t)=>c(i,h(t));import{d as p,g,k as u,n as f,e as v,b as _,h as z,o as y}from"./index.6c9f779e.js";import{_ as k}from"./index.e353025c.js";var r=`## About md-editor-v3
 
 <br>
 
@@ -19,7 +19,7 @@ Markdown editor for vue3, developed by jsx and typescript, dark theme, beautify 
 ## About docs
 
 Editor's author is not proficient in English, please help author correct wrong grammar.
-`,r=`## \u5173\u4E8E md-editor-v3
+`,m=`## \u5173\u4E8E md-editor-v3
 
 <br>
 
@@ -36,4 +36,4 @@ Markdown \u7F16\u8F91\u5668\uFF0Cvue3 \u7248\u672C\uFF0C\u4F7F\u7528 jsx \u548C 
 1. \u90AE\u7BB1\uFF1Azbfcqtl@gmail.com
 2. \u535A\u5BA2\u7559\u8A00\uFF1A[imzbf.cc](https://imzbf.cc/message)
 3. issue \u7BA1\u7406\uFF1A[github issues](https://github.com/imzbf/md-editor-v3/issues)
-`;const u={class:"container"},g={class:"doc"},v={class:"content"},k={setup(f){const e=m(),s=a(i(e.state.lang==="en-US"?n:r));return h(()=>e.state.lang,()=>{s.value=i(e.state.lang==="en-US"?n:r)}),(_,y)=>{const d=p("md-editor-v3");return b(),c("div",u,[o("div",g,[o("div",v,[l(d,{theme:t(e).state.theme,"model-value":s.value,"preview-theme":t(e).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":t(e).state.codeTheme},null,8,["theme","model-value","preview-theme","code-theme"])])])])}}};export{k as default};
+`;const E={class:"container"},x={class:"doc"},M={name:"AboutPage"},B=p(d(n({},M),{setup(i){const t=g(),e=u(t.state.lang==="en-US"?r:m);return f(()=>t.state.lang,()=>{e.value=t.state.lang==="en-US"?r:m}),(q,w)=>(y(),v("div",E,[_("div",x,[z(k,{"editor-id":"md-about","model-value":e.value},null,8,["model-value"])])]))}}));export{B as default};

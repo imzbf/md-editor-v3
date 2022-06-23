@@ -1,4 +1,4 @@
-import{g as h,k as u,q as i,s as v,n as f,e as g,b as t,h as s,u as e,a as d,o as x}from"./index.2d06cdf9.js";var l=`## \u{1F601} Basic Usage
+var c=Object.defineProperty,h=Object.defineProperties;var u=Object.getOwnPropertyDescriptors;var i=Object.getOwnPropertySymbols;var v=Object.prototype.hasOwnProperty,f=Object.prototype.propertyIsEnumerable;var o=(t,n,e)=>n in t?c(t,n,{enumerable:!0,configurable:!0,writable:!0,value:e}):t[n]=e,s=(t,n)=>{for(var e in n||(n={}))v.call(n,e)&&o(t,e,n[e]);if(i)for(var e of i(n))f.call(n,e)&&o(t,e,n[e]);return t},d=(t,n)=>h(t,u(n));import{d as g,g as x,k as b,s as m,n as k,e as y,b as E,h as l,o as w}from"./index.6c9f779e.js";import{_ as M}from"./index.18368613.js";import{_ as j}from"./index.e353025c.js";var a=`## \u{1F601} Basic Usage
 
 It has been developing iteratively\uFF0Cso update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -276,7 +276,7 @@ By default, you can select multiple pictures. You can paste and upload screensho
 
 \`\`\`vue
 <template>
-  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+  <md-editor v-model="text" @on-upload-img="onUploadImg" />
 </template>
 
 <script setup>
@@ -431,8 +431,8 @@ import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
 
-const getId = (text, level, raw) => {
-  return \`\${level}-text\`;
+const getId = (_text, _level, index) => {
+  return \`heading-\${index}\`;
 };
 
 MdEditor.config({
@@ -441,14 +441,9 @@ MdEditor.config({
       // You can not use markedHeadingId method directly, but It's really simple.
       // If the ID you defined is not equal to \`raw\`(your title), be sure to tell the editor the algorithm for generating the ID by \`marketheadingid\`.
       // If not, the Catalog will not go right.
-      const id = getId(text, level, raw);
+      const id = getId(text, level, index);
 
-      if (/<a.*>.*<\\/a>/.test(text)) {
-        return \`<h\${level} id="\${id}">\${text.replace(
-          /(?<=\\<a.*)>(?=.*<\\/a>)/,
-          ' target="_blank">'
-        )}</h\${level}>\`;
-      } else if (text !== raw) {
+      if (text !== raw) {
         return \`<h\${level} id="\${id}">\${text}</h\${level}>\`;
       } else {
         return \`<h\${level} id="\${id}"><a href="#\${id}">\${raw}</a></h\${level}>\`;
@@ -467,7 +462,7 @@ MdEditor.config({
 
   \`\`\`vue
   <template>
-    <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
+    <md-editor v-model="text" @on-get-catalog="onGetCatalog" />
   </template>
 
   <script setup>
@@ -494,11 +489,15 @@ MdEditor.config({
   <template>
     <md-editor
       v-model="state.text"
-      :editorId="state.id"
+      :editor-id="state.id"
       :theme="state.theme"
       preview-only
     />
-    <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+    <md-atalog
+      :editor-id="state.id"
+      :scroll-element="scrollElement"
+      :theme="state.theme"
+    />
   </template>
 
   <script setup>
@@ -579,6 +578,64 @@ Change background color in dark mode:
 }
 \`\`\`
 
+### \u{1F64D}\u{1F3FB}\u200D\u2642\uFE0F Import All Library
+
+\`\`\`vue
+<template>
+  <md-editor v-model="text" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+import screenfull from 'screenfull';
+
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
+
+import mermaid from 'mermaid';
+
+import highlight from 'highlight.js';
+import 'highlight.js/styles/tokyo-night-dark.css';
+
+import prettier from 'prettier';
+import parserMarkdown from 'prettier/parser-markdown';
+
+Editor.config({
+  editorExtensions: {
+    prettier: {
+      prettierInstance: prettier,
+      parserMarkdownInstance: parserMarkdown
+    },
+    highlight: {
+      instance: highlight
+    },
+    screenfull: {
+      instance: screenfull
+    },
+    katex: {
+      instance: katex
+    },
+    cropper: {
+      instance: Cropper
+    },
+    mermaid: {
+      instance: mermaid
+    }
+  }
+});
+
+const text = ref('');
+<\/script>
+\`\`\`
+
+> Tips: While import highlight styles by yourself, editor will not be able to change code styles.
+
 ## \u{1F512} XSS
 
 after\`1.8.0\`, please use \`sanitize\` to sanitize \`html\`. eg: \`sanitize-html\`
@@ -606,7 +663,7 @@ const sanitize = (html) => {
 ## \u{1F9FB} Edit this page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)
-`,m=`## \u{1F601} \u57FA\u672C\u4F7F\u7528\u793A\u4F8B
+`,p=`## \u{1F601} \u57FA\u672C\u4F7F\u7528\u793A\u4F8B
 
 \u76EE\u524D\u4E00\u76F4\u5728\u8FED\u4EE3\u5F00\u53D1\uFF0C\u6240\u4EE5\u5C3D\u91CF\u5B89\u88C5\u6700\u65B0\u7248\u672C\u3002\u53D1\u5E03\u65E5\u5FD7\u8BF7\u524D\u5F80\uFF1A[releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -885,7 +942,7 @@ const text = ref('');
 
 \`\`\`vue
 <template>
-  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+  <md-editor v-model="text" @on-upload-img="onUploadImg" />
 </template>
 
 <script setup>
@@ -1043,24 +1100,19 @@ import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
 
-const getId = (text, level, raw) => {
-  return \`\${level}-text\`;
+const getId = (_text, _level, index) => {
+  return \`heading-\${index}\`;
 };
 
 MdEditor.config({
   markedRenderer(renderer) {
-    renderer.heading = (text, level, raw) => {
+    renderer.heading = (text, level, raw, _s, index) => {
       // \u4F60\u4E0D\u80FD\u76F4\u63A5\u8C03\u7528\u9ED8\u8BA4\u7684markedHeadingId\uFF0C\u4F46\u662F\u5B83\u5F88\u7B80\u5355
       // \u5982\u679C\u4F60\u7684id\u4E0Eraw\u4E0D\u76F8\u540C\uFF0C\u8BF7\u4E00\u5B9A\u8BB0\u5F97\u5C06\u4F60\u7684\u751F\u6210\u65B9\u6CD5\u901A\u8FC7markedHeadingId\u544A\u8BC9\u7F16\u8F91\u5668
       // \u5426\u5219\u7F16\u8F91\u5668\u9ED8\u8BA4\u7684\u76EE\u5F55\u5B9A\u4F4D\u529F\u80FD\u65E0\u6CD5\u6B63\u786E\u4F7F\u7528
-      const id = getId(text, level, raw);
+      const id = getId(text, level, index);
 
-      if (/<a.*>.*<\\/a>/.test(text)) {
-        return \`<h\${level} id="\${id}">\${text.replace(
-          /(?<=\\<a.*)>(?=.*<\\/a>)/,
-          ' target="_blank">'
-        )}</h\${level}>\`;
-      } else if (text !== raw) {
+      if (text !== raw) {
         return \`<h\${level} id="\${id}">\${text}</h\${level}>\`;
       } else {
         return \`<h\${level} id="\${id}"><a href="#\${id}">\${raw}</a></h\${level}>\`;
@@ -1079,7 +1131,7 @@ MdEditor.config({
 
   \`\`\`vue
   <template>
-    <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
+    <md-editor v-model="text" @on-get-catalog="onGetCatalog" />
   </template>
 
   <script setup>
@@ -1110,7 +1162,11 @@ MdEditor.config({
       :theme="state.theme"
       preview-only
     />
-    <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+    <md-atalog
+      :editorId="state.id"
+      :scroll-element="scrollElement"
+      :theme="state.theme"
+    />
   </template>
 
   <script setup>
@@ -1193,6 +1249,66 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 }
 \`\`\`
 
+### \u{1F64D}\u{1F3FB}\u200D\u2642\uFE0F \u81EA\u884C\u5F15\u5165\u6269\u5C55\u5E93
+
+\u8FD9\u91CC\u7ED9\u51FA\u4E00\u4E2A\u5B8C\u5168\u4E0D\u4F7F\u7528\u5916\u90E8\u94FE\u63A5\uFF0C\u5168\u90E8\u81EA\u884C\u5F15\u5165\u7684\u793A\u4F8B\uFF1A
+
+\`\`\`vue
+<template>
+  <md-editor v-model="text" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+import screenfull from 'screenfull';
+
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
+
+import mermaid from 'mermaid';
+
+import highlight from 'highlight.js';
+import 'highlight.js/styles/tokyo-night-dark.css';
+
+import prettier from 'prettier';
+import parserMarkdown from 'prettier/parser-markdown';
+
+Editor.config({
+  editorExtensions: {
+    prettier: {
+      prettierInstance: prettier,
+      parserMarkdownInstance: parserMarkdown
+    },
+    highlight: {
+      instance: highlight
+    },
+    screenfull: {
+      instance: screenfull
+    },
+    katex: {
+      instance: katex
+    },
+    cropper: {
+      instance: Cropper
+    },
+    mermaid: {
+      instance: mermaid
+    }
+  }
+});
+
+const text = ref('');
+<\/script>
+\`\`\`
+
+> \u6CE8\u610F\uFF1Ahighlight \u7684\u6837\u5F0F\u81EA\u884C\u5F15\u5165\u540E\uFF0C\u5C06\u4E0D\u652F\u6301\u5207\u6362\u4EE3\u7801\u6837\u5F0F\u3002
+
 ## \u{1F512} XSS
 
 \u5728\`1.8.0\`\u4E4B\u540E\uFF0C\u901A\u8FC7\`sanitize\`\u4E8B\u4EF6\uFF0C\u81EA\u884C\u5904\u7406\u4E0D\u5B89\u5168\u7684 html \u5185\u5BB9\u3002\u4F8B\u5982\uFF1A\u4F7F\u7528\`sanitize-html\`\u5904\u7406
@@ -1222,4 +1338,4 @@ const sanitize = (html) => {
 ## \u{1F9FB} \u7F16\u8F91\u6B64\u9875\u9762
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)
-`;const b={class:"container"},k={class:"doc"},y={class:"content"},E={class:"catalog"},w={class:"affix"},C={setup(M){const n=h(),r=u(i(n.state.lang==="en-US"?l:m)),o=()=>{r.value=i(n.state.lang==="en-US"?l:m)},a=document.documentElement;return v(o),f(()=>n.state.lang,o),(T,j)=>{const c=d("md-editor-v3"),p=d("md-catalog");return x(),g("div",b,[t("div",k,[t("div",y,[s(c,{"editor-id":"demo-preview",theme:e(n).state.theme,language:e(n).state.lang,"model-value":r.value,"preview-theme":e(n).state.previewTheme,"preview-only":"","show-code-row-number":"","code-theme":e(n).state.codeTheme},null,8,["theme","language","model-value","preview-theme","code-theme"])]),t("div",E,[t("div",w,[s(p,{"editor-id":"demo-preview",theme:e(n).state.theme,"scroll-element":e(a)},null,8,["theme","scroll-element"])])])])])}}};export{C as default};
+`;const T={class:"container"},I={class:"doc"},C={name:"DemoPage"},S=g(d(s({},C),{setup(t){const n=x(),e="demo-preview",r=b(m(n.state.lang==="en-US"?a:p));return k(()=>n.state.lang,()=>{r.value=m(n.state.lang==="en-US"?a:p)}),(_,z)=>(w(),y("div",T,[E("div",I,[l(j,{"editor-id":e,"model-value":r.value},null,8,["model-value"]),l(M,{"editor-id":e})])]))}}));export{S as default};

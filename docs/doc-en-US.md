@@ -6,7 +6,8 @@
 
 - **type**: `string`
 - **default**: `''`
-- **description**: Markdown content.
+
+  Markdown content.
 
   ```html
   <md-editor-v3 v-model="xxx" />
@@ -16,7 +17,8 @@
 
 - **type**: `'light' | 'dark'`
 - **default**: `'light'`
-- **description**: Editor's theme.
+
+  Editor's theme.
 
   ```html
   <md-editor-v3 theme="dark" />
@@ -26,49 +28,57 @@
 
 - **type**: `string`
 - **default**: `''`
-- **description**: Editor `class`.
+
+  Editor `class`.
 
 ### 🤏🏼 historyLength
 
 - **type**: `number`
 - **default**: `10`
-- **description**: The max length of history(if it is too big, editor will use more `RAM`).
+
+  The max length of history(if it is too big, editor will use more `RAM`).
 
 ### 💻 pageFullScreen
 
 - **type**: `boolean`
 - **default**: `false`
-- **description**: Screenfull in web page.
+
+  Screenfull in web page.
 
 ### 📱 preview
 
 - **type**: `boolean`
 - **default**: `true`
-- **description**: Preview content in editor.
+
+  Preview content in editor.
 
 ### 📀 htmlPreview
 
 - **type**: `boolean`
 - **default**: `false`
-- **description**: Preview html in editor.
+
+  Preview html in editor.
 
 ### 📺 previewOnly
 
 - **type**: `boolean`
 - **default**: `false`
-- **description**: Only render article content, no toolbar, no edit area.
+
+  Only render article content, no toolbar, no edit area.
 
 ### 🔤 language
 
 - **type**: `string`
 - **default**: `'zh-CN'`
-- **description**: Build-in language('zh-CN', 'en-US').
+
+  Build-in language('zh-CN', 'en-US').
 
 ### 🧱 toolbars
 
 - **type**: `Array`
 - **default**: `[all]`
-- **description**: Show contents of toolbar, all keys.
+
+  Show contents of toolbar, all keys.
 
   You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
@@ -114,37 +124,43 @@
 
 - **type**: `Array`
 - **default**: `[]`
-- **description**: Don't show contents of toolbar.
+
+  Don't show contents of toolbar.
 
 ### 🪒 noPrettier
 
 - **type**: `boolean`
 - **default**: `false`
-- **description**: Use prettier to beautify content or not.
+
+  Use prettier to beautify content or not.
 
 ### 🎲 editorId
 
 - **type**: `string`
 - **default**: `'md-editor-v3'`
-- **description**: Editor id, also the html id, it is used when there are two or more editor and server render.
+
+  Editor id, also the html id, it is used when there are two or more editor and server render.
 
 ### 🤏 tabWidth
 
 - **type**: `number`
 - **default**: `2`
-- **description**: One tab eq some space.
+
+  One tab eq some space.
 
 ### 🔢 showCodeRowNumber
 
 - **type**: `boolean`
 - **default**: `false`
-- **description**: Show row number for code block or not.
+
+  Show row number for code block or not.
 
 ### 🔦 previewTheme
 
 - **type**: `'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'`
 - **default**: `'default'`
-- **description**: Preview themes.
+
+  Preview themes.
 
   Custom:
 
@@ -168,13 +184,15 @@
 
 - **type**: `string | CSSProperties`
 - **default**: `''`
-- **description**: Editor's inline style.
+
+  Editor's inline style.
 
 ### 📅 tableShape
 
 - **type**: `[number, number]`
 - **default**: `[6, 4]`
-- **description**: Preset the size of the table, [columns, rows].
+
+  Preset the size of the table, [columns, rows].
 
   ```html
   <md-editor-v3 :tableShape="[8, 4]" />
@@ -186,7 +204,8 @@
 
 - **type**: `boolean`
 - **default**: `false`
-- **description**: Do not want to use `mermaid`, set it to `true`.
+
+  Do not want to use `mermaid`, set it to `true`.
 
   ```html
   <md-ditor-v3 no-mermaid />
@@ -196,13 +215,15 @@
 
 - **type**: `string`
 - **default**: `''`
-- **description**: em-\_-！
 
-### ☝️ noKatex
+  em-\_-！
+
+### ❌ noKatex
 
 - **type**: `boolean`
 - **default**: `false`
-- **description**: Do not want to use `katex`, set it to `true`.
+
+  Do not want to use `katex`, set it to `true`.
 
   ```html
   <md-ditor-v3 no-katex />
@@ -212,7 +233,8 @@
 
 - **type**: `'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'`
 - **default**: `'atom'`
-- **description**: Highlight code css name. Get Them from `highlight.js`.
+
+  Highlight code css name. Get Them from `highlight.js`.
 
   Custom:
 
@@ -251,7 +273,8 @@
 
 - **type**: `(text: string, level: number, index: number) => string`
 - **default**: `(text) => text`
-- **description**: Title `ID` generator.
+
+  Title `ID` generator.
 
   ```vue
   <template>
@@ -263,6 +286,16 @@
   import 'md-editor-v3/lib/style.css';
 
   const generateId = (_text, _level, index) => `heading-${index}`;
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, _r, _s, index) => {
+        const id = generateId(text, level, index);
+        return `<h${level} id="${id}">${text}</h${level}>`;
+      };
+      return renderer;
+    }
+  });
   </script>
   ```
 
@@ -270,7 +303,8 @@
 
 - **type**: `(html: string) => string`
 - **default**: `(html) => html`
-- **description**: Sanitize the html, prevent XSS. When you can be sure that your content is OK, ignore this.
+
+  Sanitize the html, prevent XSS. When you can be sure that your content is OK, ignore this.
 
   `sanitize-html` example:
 
@@ -292,13 +326,34 @@
 
 - **type**: `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>`
 - **default**: `['markdownTotal', '=', 'scrollSwitch']`
-- **description**: Show contents of footer, they are divided by `'='`. Set it to [] to hidden footer.
 
-### 👨‍👦 scrollAuto
+  Show contents of footer, they are divided by `'='`. Set it to [] to hidden footer.
+
+### ⛵️ scrollAuto
 
 - **type**: `boolean`
 - **default**: `true`
-- **description**: Scroll default setting.
+
+  Scroll default setting.
+
+### 🤞🏼 noIconfont
+
+- **类型**: `boolean`
+- **默认值**: `true`
+- **说明**: Not append iconfont script, [download](https://at.alicdn.com/t/font_2605852_pqekijay2ij.js) and import it by yourself.
+
+  ```vue
+  <template>
+    <md-editor no-iconfont />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  import '/assets/iconfont.js';
+  </script>
+  ```
 
 ## 🎍 slots
 
@@ -423,17 +478,20 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 ### 📞 onChange
 
 - **type**: `(v: string) => void`
-- **description**: Content changed event(bind to `oninput` of `textarea`).
+
+  Content changed event(bind to `oninput` of `textarea`).
 
 ### 💾 onSave
 
 - **type**: `(v: string) => void`
-- **description**: Save Content event, `ctrl+s` and click button will trigger.
+
+  Save Content event, `ctrl+s` and click button will trigger.
 
 ### 📸 onUploadImg
 
 - **type**: `(files: Array<File>, callback: (urls: Array<string>) => void) => void`
-- **description**: Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
+
+  Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
 
   ```js
   const onUploadImg = async (files, callback) => {
@@ -460,23 +518,26 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   ```
 
   ```html
-  <md-ditor-v3 @onUploadImg="onUploadImg" />
+  <md-ditor-v3 @on-upload-img="onUploadImg" />
   ```
 
-### ☎️ onHtmlChanged
+### 🚁 onHtmlChanged
 
 - **type**: `(h: string) => void`
-- **description**: Compile markdown successful event, ou can use it to get the html code.
+
+  Compile markdown successful event, ou can use it to get the html code.
 
 ### 🗒 onGetCatalog
 
 - **type**: `(list: HeadList[]) => void`
-- **description**: Get catalogue of article.
+
+  Get catalogue of article.
 
 ### 💀 onError
 
 - **type**: `(err: { name: string; message: string;}) => void`
-- **description**: Run-Time error event, only be called when `Cropper`, `fullScreen`, `prettier` is not loaded.
+
+  Run-Time error event, only be called when `Cropper`, `fullScreen`, `prettier` is not loaded.
 
   ```js
   const onError = (err) => {
@@ -485,14 +546,14 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   ```
 
   ```html
-  <md-ditor-v3 @onError="onError" />
+  <md-ditor-v3 @on-error="onError" />
   ```
 
 ## 💴 Config Editor
 
 Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
 
-- markedRenderer: `(renderer: Renderer) => Renderer`
+- markedRenderer: `(renderer: RewriteRenderer) => RewriteRenderer`
 
   Open target page in a new browser window:
 
@@ -510,7 +571,23 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
   });
   ```
 
-  > docs: https://marked.js.org/using_pro#renderer
+  Set heading ID to `heading-${index}`:
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, raw, s, index) => {
+        return `<h${level} id="heading-${index}">${text}</h${level}>`;
+      };
+
+      return renderer;
+    }
+  });
+  ```
+
+  > Reference: https://marked.js.org/using_pro#renderer, RewriteRenderer extends Renderer and rewrites heading, now provides index as the fifth parameter.
 
 - markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
 
@@ -522,7 +599,7 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
   });
   ```
 
-  > marked docs: https://marked.js.org/using_pro#extensions
+  > Reference: https://marked.js.org/using_pro#extensions
 
   [Docs page source code](https://github.com/imzbf/md-editor-v3/blob/docs/src/main.ts)
 
@@ -538,7 +615,7 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
   });
   ```
 
-  > marked docs: https://marked.js.org/using_advanced#options
+  > Reference: https://marked.js.org/using_advanced#options
 
 - editorConfig: Add more languages, reset `mermaid` template or delay rendering time
 
@@ -673,6 +750,10 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
       };
     };
     prettier?: {
+      // >= 2.2.0
+      prettierInstance?: any;
+      parserMarkdownInstance?: any;
+
       standaloneJs?: string;
       parserMarkdownJs?: string;
     };
@@ -755,7 +836,7 @@ usage:
 <template>
   <md-editor-v3 v-model="text">
     <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="callback">
+      <normal-toolbar title="mark" @on-click="callback">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -796,7 +877,7 @@ usage:
       <dropdown-toolbar
         title="emoji"
         :visible="data.emojiVisible"
-        :onChange="emojiVisibleChanged"
+        :on-change="emojiVisibleChanged"
       >
         <template #overlay>
           <div class="emoji-container">
@@ -858,9 +939,9 @@ usage:
         modal-title="Page Preview"
         width="870px"
         height="600px"
-        @onClick="data.modalVisible = true"
-        @onClose="data.modalVisible = false"
-        @onAdjust="data.modalFullscreen = !data.modalFullscreen"
+        @on-click="data.modalVisible = true"
+        @on-close="data.modalVisible = false"
+        @on-adjust="data.modalFullscreen = !data.modalFullscreen"
       >
         <span>content</span>
         <template #trigger>
@@ -898,17 +979,21 @@ const data = reactive({
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: 'light' | 'dark', not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
 
+- **events**
+
+  - `onClick`: `(e: MouseEvent, t: TocItem) => void`, not necessary.
+
 usage:
 
 ```vue
 <template>
   <md-editor-v3
     v-model="state.text"
-    :editorId="state.id"
+    :editor-id="state.id"
     :theme="state.theme"
     preview-only
   />
-  <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+  <md-atalog :editor-id="state.id" :scroll-element="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>
