@@ -294,7 +294,7 @@ const handler = () => {
 
 使用`MdEditor.config(option: ConfigOption)`方法，可以对内部的`renderer`定制。
 
-- markedRenderer: `(renderer: Renderer) => Renderer`
+- markedRenderer: `(renderer: RewriteRenderer) => RewriteRenderer`
 
   设置链接在新窗口打开 🌰：
 
@@ -310,7 +310,7 @@ const handler = () => {
   });
   ```
 
-  > 参考：https://marked.js.org/using_pro#renderer
+  > 参考：https://marked.js.org/using_pro#renderer，RewriteRenderer 继承了 Renderer 并重写了 heading 方法，提供了第 5 入参 index。
 
 - markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
 
