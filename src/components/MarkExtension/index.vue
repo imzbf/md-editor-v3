@@ -1,5 +1,5 @@
 <template>
-  <normal-toolbar title="mark" @onClick="markHandler">
+  <normal-toolbar title="mark" @on-click="markHandler">
     <template #trigger>
       <svg class="md-icon" aria-hidden="true">
         <use xlink:href="#icon-mark"></use>
@@ -9,8 +9,13 @@
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
+
 const props = defineProps({
-  editorId: String
+  editorId: {
+    type: String as PropType<string>,
+    default: ''
+  }
 });
 
 const emit = defineEmits(['onChange']);

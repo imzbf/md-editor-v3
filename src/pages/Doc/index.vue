@@ -1,47 +1,33 @@
-<script setup>
-import { ref, watch } from 'vue';
-import mdEN from '../../../public/doc-en-US.md';
-import mdCN from '../../../public/doc-zh-CN.md';
-
-import { replaceVersion } from '@/utils';
-import { useStore } from 'vuex';
-const store = useStore();
-
-const mdText = ref(replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN));
-
-const queryMd = () => {
-  mdText.value = replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN);
-};
-
-const scrollElement = document.documentElement;
-
-watch(() => store.state.lang, queryMd);
-</script>
-
 <template>
   <div class="container">
     <div class="doc">
-      <div class="content">
-        <md-editor-v3
-          editor-id="doc-preview"
-          :theme="store.state.theme"
-          :language="store.state.lang"
-          :model-value="mdText"
-          :preview-theme="store.state.previewTheme"
-          :code-theme="store.state.codeTheme"
-          preview-only
-          show-code-row-number
-        />
-      </div>
-      <div class="catalog">
-        <div class="affix">
-          <md-catalog
-            editor-id="doc-preview"
-            :theme="store.state.theme"
-            :scroll-element="scrollElement"
-          />
-        </div>
-      </div>
+      <iz-preview-content :editor-id="editorId" :model-value="mdText" />
+      <iz-catalog :editor-id="editorId" />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import mdEN from '../../../public/doc-en-US.md';
+import mdCN from '../../../public/doc-zh-CN.md';
+import IzPreviewContent from '@/layouts/PreviewContent/index.vue';
+import IzCatalog from '@/layouts/Catalog/index.vue';
+
+const store = useStore();
+
+const editorId = 'doc-preview';
+
+const mdText = ref(store.state.lang === 'en-US' ? mdEN : mdCN);
+const queryMd = () => {
+  mdText.value = store.state.lang === 'en-US' ? mdEN : mdCN;
+};
+watch(() => store.state.lang, queryMd);
+</script>
+
+<script lang="ts">
+export default {
+  name: 'DocPage'
+};
+</script>

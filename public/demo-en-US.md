@@ -276,7 +276,7 @@ By default, you can select multiple pictures. You can paste and upload screensho
 
 ```vue
 <template>
-  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+  <md-editor v-model="text" @on-upload-img="onUploadImg" />
 </template>
 
 <script setup>
@@ -431,8 +431,8 @@ import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
 
-const getId = (text, level, raw) => {
-  return `${level}-text`;
+const getId = (_text, _level, index) => {
+  return `heading-${index}`;
 };
 
 MdEditor.config({
@@ -441,14 +441,9 @@ MdEditor.config({
       // You can not use markedHeadingId method directly, but It's really simple.
       // If the ID you defined is not equal to `raw`(your title), be sure to tell the editor the algorithm for generating the ID by `marketheadingid`.
       // If not, the Catalog will not go right.
-      const id = getId(text, level, raw);
+      const id = getId(text, level, index);
 
-      if (/<a.*>.*<\/a>/.test(text)) {
-        return `<h${level} id="${id}">${text.replace(
-          /(?<=\<a.*)>(?=.*<\/a>)/,
-          ' target="_blank">'
-        )}</h${level}>`;
-      } else if (text !== raw) {
+      if (text !== raw) {
         return `<h${level} id="${id}">${text}</h${level}>`;
       } else {
         return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
@@ -467,7 +462,7 @@ MdEditor.config({
 
   ```vue
   <template>
-    <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
+    <md-editor v-model="text" @on-get-catalog="onGetCatalog" />
   </template>
 
   <script setup>
@@ -494,11 +489,15 @@ MdEditor.config({
   <template>
     <md-editor
       v-model="state.text"
-      :editorId="state.id"
+      :editor-id="state.id"
       :theme="state.theme"
       preview-only
     />
-    <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+    <md-atalog
+      :editor-id="state.id"
+      :scroll-element="scrollElement"
+      :theme="state.theme"
+    />
   </template>
 
   <script setup>
@@ -578,6 +577,64 @@ Change background color in dark mode:
   --md-bk-color: #333 !important;
 }
 ```
+
+### 🙍🏻‍♂️ Import All Library
+
+```vue
+<template>
+  <md-editor v-model="text" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+import screenfull from 'screenfull';
+
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
+
+import mermaid from 'mermaid';
+
+import highlight from 'highlight.js';
+import 'highlight.js/styles/tokyo-night-dark.css';
+
+import prettier from 'prettier';
+import parserMarkdown from 'prettier/parser-markdown';
+
+Editor.config({
+  editorExtensions: {
+    prettier: {
+      prettierInstance: prettier,
+      parserMarkdownInstance: parserMarkdown
+    },
+    highlight: {
+      instance: highlight
+    },
+    screenfull: {
+      instance: screenfull
+    },
+    katex: {
+      instance: katex
+    },
+    cropper: {
+      instance: Cropper
+    },
+    mermaid: {
+      instance: mermaid
+    }
+  }
+});
+
+const text = ref('');
+</script>
+```
+
+> Tips: While import highlight styles by yourself, editor will not be able to change code styles.
 
 ## 🔒 XSS
 

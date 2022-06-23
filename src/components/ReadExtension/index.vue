@@ -7,11 +7,11 @@
     modal-title="编辑预览"
     width="870px"
     height="600px"
-    @onClick="state.visible = true"
-    @onClose="state.visible = false"
-    @onAdjust="state.modalFullscreen = !state.modalFullscreen"
+    @on-click="state.visible = true"
+    @on-close="state.visible = false"
+    @on-adjust="state.modalFullscreen = !state.modalFullscreen"
   >
-    <div style="height: 100%; padding: 20px; overflow: auto" v-if="state.visible">
+    <div v-if="state.visible" style="height: 100%; padding: 20px; overflow: auto">
       <md-editor-v3
         :theme="store.state.theme"
         :language="store.state.lang"
@@ -19,7 +19,7 @@
         :code-theme="store.state.codeTheme"
         editor-id="edit2preview"
         preview-only
-        :modelValue="props.mdText"
+        :model-value="props.mdText"
       />
     </div>
     <template #trigger>
@@ -32,10 +32,14 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import type { PropType } from 'vue';
 import { useStore } from 'vuex';
 
 const props = defineProps({
-  mdText: String
+  mdText: {
+    type: String as PropType<string>,
+    default: ''
+  }
 });
 
 const state = reactive({

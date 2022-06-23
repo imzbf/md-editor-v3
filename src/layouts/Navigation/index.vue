@@ -1,36 +1,3 @@
-<script setup lang="ts">
-import { computed } from 'vue';
-import { RouterLink } from 'vue-router';
-import { useStore } from 'vuex';
-import './index.less';
-
-const store = useStore();
-
-const linkNames = computed(() => {
-  return store.state.lang === 'zh-CN'
-    ? {
-        home: '首页',
-        docs: '文档',
-        demo: '示例',
-        github: '源码',
-        about: '关于',
-        lang: 'English',
-        langIcon: '#icon-d-en',
-        to2: '升级至2.x'
-      }
-    : {
-        home: 'Home',
-        docs: 'Docs',
-        demo: 'Demo',
-        github: 'Github',
-        about: 'About',
-        lang: '中文',
-        langIcon: '#icon-d-cn',
-        to2: 'Upgrade 2.x'
-      };
-});
-</script>
-
 <template>
   <ul class="nav-list">
     <li class="nav-item">
@@ -89,3 +56,42 @@ const linkNames = computed(() => {
     </li>
   </ul>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { RouterLink } from 'vue-router';
+import { useStore } from 'vuex';
+import './index.less';
+
+const store = useStore();
+
+const linkNames = computed(() => {
+  return store.state.lang === 'zh-CN'
+    ? {
+        home: '首页',
+        docs: '文档',
+        demo: '示例',
+        github: '源码',
+        about: '关于',
+        lang: 'English',
+        langIcon: '#icon-d-en',
+        to2: '升级至2.x'
+      }
+    : {
+        home: 'Home',
+        docs: 'Docs',
+        demo: 'Demo',
+        github: 'Github',
+        about: 'About',
+        lang: '中文',
+        langIcon: '#icon-d-cn',
+        to2: 'Upgrade 2.x'
+      };
+});
+</script>
+
+<script lang="ts">
+export default {
+  name: 'IzNavigation'
+};
+</script>

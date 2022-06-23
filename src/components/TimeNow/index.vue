@@ -31,3 +31,9 @@ onBeforeUnmount(() => {
   clearInterval(timerId);
 });
 </script>
+
+<script lang="ts">
+export default {
+  name: 'TimeNow'
+};
+</script>

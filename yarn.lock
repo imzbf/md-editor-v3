@@ -1037,7 +1037,7 @@
   resolved "https://registry.npmjs.org/@types/nprogress/-/nprogress-0.2.0.tgz#86c593682d4199212a0509cc3c4d562bbbd6e45f"
   integrity sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==
 
-"@typescript-eslint/eslint-plugin@^5.0.0", "@typescript-eslint/eslint-plugin@^5.23.0":
+"@typescript-eslint/eslint-plugin@^5.23.0":
   version "5.23.0"
   resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.23.0.tgz#bc4cbcf91fbbcc2e47e534774781b82ae25cc3d8"
   integrity sha512-hEcSmG4XodSLiAp1uxv/OQSGsDY6QN3TcRU32gANp+19wGE1QQZLRS8/GV58VRUoXhnkuJ3ZxNQ3T6Z6zM59DA==
@@ -1052,7 +1052,7 @@
     semver "^7.3.5"
     tsutils "^3.21.0"
 
-"@typescript-eslint/parser@^5.0.0", "@typescript-eslint/parser@^5.23.0":
+"@typescript-eslint/parser@^5.23.0":
   version "5.23.0"
   resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-5.23.0.tgz#443778e1afc9a8ff180f91b5e260ac3bec5e2de1"
   integrity sha512-V06cYUkqcGqpFjb8ttVgzNF53tgbB/KoQT/iB++DOIExKmzI9vBJKjZKt/6FuV9c+zrDsvJKbJ2DOCYwX91cbw==
@@ -1234,23 +1234,6 @@
   version "6.1.4"
   resolved "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.1.4.tgz#b4aec2f4b4599e11ba774a50c67fa378c9824e53"
   integrity sha512-IiA0SvDrJEgXvVxjNkHPFfDx6SXw0b/TUkqMcDZWNg9fnCAHbTpoo59YfJ9QLFkwa3raau5vSlRVzMSLDnfdtQ==
-
-"@vue/eslint-config-prettier@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/@vue/eslint-config-prettier/-/eslint-config-prettier-7.0.0.tgz#44ab55ca22401102b57795c59428e9dade72be34"
-  integrity sha512-/CTc6ML3Wta1tCe1gUeO0EYnVXfo3nJXsIhZ8WJr3sov+cGASr6yuiibJTL6lmIBm7GobopToOuB3B6AWyV0Iw==
-  dependencies:
-    eslint-config-prettier "^8.3.0"
-    eslint-plugin-prettier "^4.0.0"
-
-"@vue/eslint-config-typescript@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.npmjs.org/@vue/eslint-config-typescript/-/eslint-config-typescript-10.0.0.tgz#3b63c8cf276962cb89414857581b9b424acf2820"
-  integrity sha512-F94cL8ug3FaYXlCfU5/wiGjk1qeadmoBpRGAOBq+qre3Smdupa59dd6ZJrsfRODpsMPyTG7330juMDsUvpZ3Rw==
-  dependencies:
-    "@typescript-eslint/eslint-plugin" "^5.0.0"
-    "@typescript-eslint/parser" "^5.0.0"
-    vue-eslint-parser "^8.0.0"
 
 "@vue/reactivity-transform@3.2.33":
   version "3.2.33"
@@ -1769,7 +1752,7 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-config-prettier@^8.3.0:
+eslint-config-prettier@^8.5.0:
   version "8.5.0"
   resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
   integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
@@ -2304,10 +2287,10 @@ make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-md-editor-v3@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.1.2.tgz#ec46b1c7c93d6948cbd603c8dbd6c2347062e2df"
-  integrity sha512-u7ldtHnfGwGH+s5n0vJpcf8LFfhj6buyegy7e1ONAv2fRY6xh7DRpfPcW+l6sJ+qWD3g7WBfRbQhMi5IMj61vQ==
+md-editor-v3@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.2.0.tgz#5879f6c03447b3e146d3f77c2ef95261ca471743"
+  integrity sha512-HedYbNnYSaF3Pc9xIccEP9di+vCYim7f3oy0RpuORU1nAcEP7G7h4RUjjbXPpOMkF0JS0T9Ghn8c1o3d/GS49Q==
   dependencies:
     "@types/marked" "^4.0.3"
 
@@ -2896,7 +2879,7 @@ vite@^2.9.8:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vue-eslint-parser@^8.0.0, vue-eslint-parser@^8.0.1:
+vue-eslint-parser@^8.0.1:
   version "8.3.0"
   resolved "https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-8.3.0.tgz#5d31129a1b3dd89c0069ca0a1c88f970c360bd0d"
   integrity sha512-dzHGG3+sYwSf6zFBa0Gi9ZDshD7+ad14DGOdTLjruRVgZXe2J+DcZ9iUhyR48z5g1PqRa20yt3Njna/veLJL/g==

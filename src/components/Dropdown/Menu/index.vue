@@ -4,6 +4,12 @@
   </ul>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'IzMenu'
+};
+</script>
+
 <style lang="less">
 .dropdown-menu {
   padding: 8px 0;

@@ -42,3 +42,9 @@ watch(
 
 onMounted(changeClass);
 </script>
+
+<script lang="ts">
+export default {
+  name: 'IzLayout'
+};
+</script>

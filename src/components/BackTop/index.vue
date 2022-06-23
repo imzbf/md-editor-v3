@@ -1,3 +1,11 @@
+<template>
+  <div v-if="scrollTop > 20" class="back-top" @click="backTop">
+    <svg class="icon" aria-hidden="true">
+      <use xlink:href="#icon-top"></use>
+    </svg>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
@@ -17,13 +25,11 @@ onMounted(() => {
 });
 </script>
 
-<template>
-  <div v-if="scrollTop > 20" class="back-top" @click="backTop">
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-top"></use>
-    </svg>
-  </div>
-</template>
+<script lang="ts">
+export default {
+  name: 'IzBackTop'
+};
+</script>
 
 <style lang="less">
 .back-top {
