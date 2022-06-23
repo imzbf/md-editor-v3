@@ -288,6 +288,16 @@
   import 'md-editor-v3/lib/style.css';
 
   const generateId = (_text, _level, index) => `heading-${index}`;
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, _r, _s, index) => {
+        const id = generateId(text, level, index);
+        return `<h${level} id="${id}">${text}</h${level}>`;
+      };
+      return renderer;
+    }
+  });
   </script>
   ```
 
@@ -362,7 +372,7 @@
   <template>
     <md-editor :toolbars="toolbars">
       <template #defToolbars>
-        <normal-toolbar title="mark" @onClick="handler">
+        <normal-toolbar title="mark" @on-click="handler">
           <template #trigger>
             <svg class="md-icon" aria-hidden="true">
               <use xlink:href="#icon-mark"></use>
@@ -518,7 +528,7 @@
   ```
 
   ```html
-  <md-ditor-v3 @onUploadImg="onUploadImg" />
+  <md-ditor-v3 @on-upload-img="onUploadImg" />
   ```
 
 ### 🚁 onHtmlChanged
@@ -546,14 +556,16 @@
   ```
 
   ```html
-  <md-ditor-v3 @onError="onError" />
+  <md-ditor-v3 @on-error="onError" />
   ```
 
 ## 💴 配置编辑器
 
 使用`MdEditor.config(option: ConfigOption)`方法，可以对内部的`renderer`定制。
 
-- markedRenderer: `(renderer: Renderer) => Renderer`，设置链接在新窗口打开 🌰：
+- markedRenderer: `(renderer: RewriteRenderer) => RewriteRenderer`
+
+  设置链接在新窗口打开 🌰
 
   ```js
   import MdEditor from 'md-editor-v3';
@@ -569,7 +581,23 @@
   });
   ```
 
-  > 参考：https://marked.js.org/using_pro#renderer
+  设置`heading-${index}`标题 ID 🌰
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, raw, s, index) => {
+        return `<h${level} id="heading-${index}">${text}</h${level}>`;
+      };
+
+      return renderer;
+    }
+  });
+  ```
+
+  > 参考：https://marked.js.org/using_pro#renderer，RewriteRenderer 继承了 Renderer 并重写了 heading 方法，提供了第 5 入参 index。
 
 - markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
 
@@ -823,7 +851,7 @@
 <template>
   <md-editor-v3 v-model="text">
     <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="callback">
+      <normal-toolbar title="mark" @on-click="callback">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -860,7 +888,7 @@
       <dropdown-toolbar
         title="emoji"
         :visible="data.emojiVisible"
-        :onChange="emojiVisibleChanged"
+        :on-change="emojiVisibleChanged"
       >
         <template #overlay>
           <div class="emoji-container">
@@ -922,9 +950,9 @@
         modal-title="编辑预览"
         width="870px"
         height="600px"
-        @onClick="data.modalVisible = true"
-        @onClose="data.modalVisible = false"
-        @onAdjust="data.modalFullscreen = !data.modalFullscreen"
+        @on-click="data.modalVisible = true"
+        @on-close="data.modalVisible = false"
+        @on-adjust="data.modalFullscreen = !data.modalFullscreen"
       >
         <span>内容</span>
         <template #trigger>
@@ -972,11 +1000,11 @@ const data = reactive({
 <template>
   <md-editor-v3
     v-model="state.text"
-    :editorId="state.id"
+    :editor-id="state.id"
     :theme="state.theme"
     preview-only
   />
-  <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+  <md-atalog :editor-id="state.id" :scroll-element="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>

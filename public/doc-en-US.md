@@ -286,6 +286,16 @@
   import 'md-editor-v3/lib/style.css';
 
   const generateId = (_text, _level, index) => `heading-${index}`;
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, _r, _s, index) => {
+        const id = generateId(text, level, index);
+        return `<h${level} id="${id}">${text}</h${level}>`;
+      };
+      return renderer;
+    }
+  });
   </script>
   ```
 
@@ -508,7 +518,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   ```
 
   ```html
-  <md-ditor-v3 @onUploadImg="onUploadImg" />
+  <md-ditor-v3 @on-upload-img="onUploadImg" />
   ```
 
 ### 🚁 onHtmlChanged
@@ -536,14 +546,14 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   ```
 
   ```html
-  <md-ditor-v3 @onError="onError" />
+  <md-ditor-v3 @on-error="onError" />
   ```
 
 ## 💴 Config Editor
 
 Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
 
-- markedRenderer: `(renderer: Renderer) => Renderer`
+- markedRenderer: `(renderer: RewriteRenderer) => RewriteRenderer`
 
   Open target page in a new browser window:
 
@@ -561,7 +571,23 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
   });
   ```
 
-  > docs: https://marked.js.org/using_pro#renderer
+  Set heading ID to `heading-${index}`:
+
+  ```js
+  import MdEditor from 'md-editor-v3';
+
+  MdEditor.config({
+    markedRenderer(renderer) {
+      renderer.heading = (text, level, raw, s, index) => {
+        return `<h${level} id="heading-${index}">${text}</h${level}>`;
+      };
+
+      return renderer;
+    }
+  });
+  ```
+
+  > Reference: https://marked.js.org/using_pro#renderer, RewriteRenderer extends Renderer and rewrites heading, now provides index as the fifth parameter.
 
 - markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
 
@@ -573,7 +599,7 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
   });
   ```
 
-  > marked docs: https://marked.js.org/using_pro#extensions
+  > Reference: https://marked.js.org/using_pro#extensions
 
   [Docs page source code](https://github.com/imzbf/md-editor-v3/blob/docs/src/main.ts)
 
@@ -589,7 +615,7 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
   });
   ```
 
-  > marked docs: https://marked.js.org/using_advanced#options
+  > Reference: https://marked.js.org/using_advanced#options
 
 - editorConfig: Add more languages, reset `mermaid` template or delay rendering time
 
@@ -810,7 +836,7 @@ usage:
 <template>
   <md-editor-v3 v-model="text">
     <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="callback">
+      <normal-toolbar title="mark" @on-click="callback">
         <template #trigger>
           <svg class="md-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -851,7 +877,7 @@ usage:
       <dropdown-toolbar
         title="emoji"
         :visible="data.emojiVisible"
-        :onChange="emojiVisibleChanged"
+        :on-change="emojiVisibleChanged"
       >
         <template #overlay>
           <div class="emoji-container">
@@ -913,9 +939,9 @@ usage:
         modal-title="Page Preview"
         width="870px"
         height="600px"
-        @onClick="data.modalVisible = true"
-        @onClose="data.modalVisible = false"
-        @onAdjust="data.modalFullscreen = !data.modalFullscreen"
+        @on-click="data.modalVisible = true"
+        @on-close="data.modalVisible = false"
+        @on-adjust="data.modalFullscreen = !data.modalFullscreen"
       >
         <span>content</span>
         <template #trigger>
@@ -963,11 +989,11 @@ usage:
 <template>
   <md-editor-v3
     v-model="state.text"
-    :editorId="state.id"
+    :editor-id="state.id"
     :theme="state.theme"
     preview-only
   />
-  <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+  <md-atalog :editor-id="state.id" :scroll-element="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>

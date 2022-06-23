@@ -277,7 +277,7 @@ const text = ref('');
 
 ```vue
 <template>
-  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+  <md-editor v-model="text" @on-upload-img="onUploadImg" />
 </template>
 
 <script setup>
@@ -435,24 +435,19 @@ import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
 
-const getId = (text, level, raw) => {
-  return `${level}-text`;
+const getId = (_text, _level, index) => {
+  return `heading-${index}`;
 };
 
 MdEditor.config({
   markedRenderer(renderer) {
-    renderer.heading = (text, level, raw) => {
+    renderer.heading = (text, level, raw, _s, index) => {
       // 你不能直接调用默认的markedHeadingId，但是它很简单
       // 如果你的id与raw不相同，请一定记得将你的生成方法通过markedHeadingId告诉编辑器
       // 否则编辑器默认的目录定位功能无法正确使用
-      const id = getId(text, level, raw);
+      const id = getId(text, level, index);
 
-      if (/<a.*>.*<\/a>/.test(text)) {
-        return `<h${level} id="${id}">${text.replace(
-          /(?<=\<a.*)>(?=.*<\/a>)/,
-          ' target="_blank">'
-        )}</h${level}>`;
-      } else if (text !== raw) {
+      if (text !== raw) {
         return `<h${level} id="${id}">${text}</h${level}>`;
       } else {
         return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
@@ -471,7 +466,7 @@ MdEditor.config({
 
   ```vue
   <template>
-    <md-editor v-model="text" @onGetCatalog="onGetCatalog" />
+    <md-editor v-model="text" @on-get-catalog="onGetCatalog" />
   </template>
 
   <script setup>
@@ -502,7 +497,11 @@ MdEditor.config({
       :theme="state.theme"
       preview-only
     />
-    <md-atalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+    <md-atalog
+      :editorId="state.id"
+      :scroll-element="scrollElement"
+      :theme="state.theme"
+    />
   </template>
 
   <script setup>
