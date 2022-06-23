@@ -220,7 +220,7 @@
 
   啊这-\_-！
 
-### ☝️ noKatex
+### ❌ noKatex
 
 - **类型**：`boolean`
 - **默认值**：`false`
@@ -323,7 +323,7 @@
 
   页脚显示内容，`'='`左右分割，设置为`[]`不显示页脚。
 
-### 🏄🏻‍♂️ scrollAuto
+### ⛵️ scrollAuto
 
 - **类型**：`boolean`
 - **默认值**：`true`
@@ -521,7 +521,7 @@
   <md-ditor-v3 @onUploadImg="onUploadImg" />
   ```
 
-### 📨 onHtmlChanged
+### 🚁 onHtmlChanged
 
 - **类型**：`(h: string) => void`
 

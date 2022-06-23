@@ -218,7 +218,7 @@
 
   em-\_-！
 
-### ☝️ noKatex
+### ❌ noKatex
 
 - **type**: `boolean`
 - **default**: `false`
@@ -319,7 +319,7 @@
 
   Show contents of footer, they are divided by `'='`. Set it to [] to hidden footer.
 
-### 🏄🏻‍♂️ scrollAuto
+### ⛵️ scrollAuto
 
 - **type**: `boolean`
 - **default**: `true`
@@ -511,7 +511,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   <md-ditor-v3 @onUploadImg="onUploadImg" />
   ```
 
-### ☎️ onHtmlChanged
+### 🚁 onHtmlChanged
 
 - **type**: `(h: string) => void`
 
