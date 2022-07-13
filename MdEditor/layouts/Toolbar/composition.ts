@@ -38,7 +38,7 @@ export const useSreenfull = (props: ToolbarProps) => {
   const onScreenfullEvent = () => {
     if (screenfull && screenfull.isEnabled) {
       screenfull.on('change', () => {
-        if (screenfullMe.value) {
+        if (screenfullMe.value || props.setting.fullscreen) {
           screenfullMe.value = false;
           props.updateSetting(!props.setting.fullscreen, 'fullscreen');
         }
