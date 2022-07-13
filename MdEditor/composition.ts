@@ -23,7 +23,9 @@ import {
   configOption
 } from './config';
 
-export const useKeyBoard = (props: any, context: SetupContext) => {
+import { EditorProps } from './props';
+
+export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
   const { editorId, noPrettier } = props;
 
   const initFunc = (name: ToolbarNames) =>
@@ -321,7 +323,7 @@ export const useKeyBoard = (props: any, context: SetupContext) => {
   });
 };
 
-export const useProvide = (props: any) => {
+export const useProvide = (props: EditorProps) => {
   const { editorId } = props;
   const highlightConfig = configOption?.editorExtensions?.highlight;
 
@@ -386,7 +388,7 @@ export const useProvide = (props: any) => {
   );
 };
 
-export const useExpansion = (props: any) => {
+export const useExpansion = (props: EditorProps) => {
   // 这部分内容只配置，不需要响应式更新
   const { noPrettier, previewOnly, noIconfont } = props;
 
@@ -452,7 +454,7 @@ export const useExpansion = (props: any) => {
   });
 };
 
-export const useErrorCatcher = (props: any, context: SetupContext) => {
+export const useErrorCatcher = (props: EditorProps, context: SetupContext) => {
   const { editorId } = props;
 
   onMounted(() => {
@@ -470,7 +472,7 @@ export const useErrorCatcher = (props: any, context: SetupContext) => {
 };
 
 export const useConfig = (
-  props: any,
+  props: EditorProps,
   context: SetupContext
 ): [setting: SettingType, updateSetting: (v: any, k: keyof typeof setting) => void] => {
   const { editorId } = props;
@@ -537,7 +539,7 @@ export const useConfig = (
   return [setting, updateSetting];
 };
 
-export const useCatalog = (props: any) => {
+export const useCatalog = (props: EditorProps) => {
   const { editorId } = props;
   const catalogVisible = ref(false);
 

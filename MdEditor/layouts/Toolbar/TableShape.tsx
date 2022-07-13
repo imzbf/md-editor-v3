@@ -1,4 +1,5 @@
-import { defineComponent, PropType, reactive } from 'vue';
+import { defineComponent, PropType, reactive, ExtractPropTypes } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import { prefix } from '../../config';
 
 interface HoverData {
@@ -6,19 +7,25 @@ interface HoverData {
   y: number;
 }
 
+const tableShapeProps = () => ({
+  tableShape: {
+    type: Array as PropType<Array<number>>,
+    default: () => [6, 4]
+  },
+  onSelected: {
+    type: Function as PropType<(data: HoverData) => void>,
+    default: () => {}
+  }
+});
+
+type TableShapeProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof tableShapeProps>>>>
+>;
+
 const TableShape = defineComponent({
   name: 'TableShape',
-  props: {
-    tableShape: {
-      type: Array as PropType<Array<number>>,
-      default: () => [6, 4]
-    },
-    onSelected: {
-      type: Function as PropType<(data: HoverData) => void>,
-      default: () => {}
-    }
-  },
-  setup(props) {
+  props: tableShapeProps(),
+  setup(props: TableShapeProps) {
     const hoverPosition = reactive<HoverData>({
       x: -1,
       y: -1

@@ -5,33 +5,41 @@ import {
   inject,
   PropType,
   reactive,
-  watch
+  watch,
+  ExtractPropTypes
 } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import Modal from '../../components/Modal';
 
 import { StaticTextDefaultValue } from '../../type';
 import { prefix } from '../../config';
 
-export default defineComponent({
-  props: {
-    type: {
-      type: String as PropType<'link' | 'image' | 'help'>,
-      default: 'link'
-    },
-    visible: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    onCancel: {
-      type: Function as PropType<() => void>,
-      default: () => () => {}
-    },
-    onOk: {
-      type: Function as PropType<(data?: any) => void>,
-      default: () => () => {}
-    }
+const linkProps = () => ({
+  type: {
+    type: String as PropType<'link' | 'image' | 'help'>,
+    default: 'link'
   },
-  setup(props) {
+  visible: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  onCancel: {
+    type: Function as PropType<() => void>,
+    default: () => () => {}
+  },
+  onOk: {
+    type: Function as PropType<(data?: any) => void>,
+    default: () => () => {}
+  }
+});
+
+type LinkProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof linkProps>>>>
+>;
+
+export default defineComponent({
+  props: linkProps(),
+  setup(props: LinkProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;
 

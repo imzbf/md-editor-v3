@@ -1,33 +1,35 @@
+import { defineComponent, PropType, ExtractPropTypes } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import { TocItem } from './index';
 import { MarkedHeadingId } from '../../type';
 import { prefix } from '../../config';
-import { defineComponent, PropType } from 'vue';
 
-export interface CatalogLinkProps {
-  tocItem: TocItem;
-  markedHeadingId: MarkedHeadingId;
-}
+const catalogLinkProps = () => ({
+  tocItem: {
+    type: Object as PropType<TocItem>,
+    default: () => ({})
+  },
+  markedHeadingId: {
+    type: Function as PropType<MarkedHeadingId>,
+    default: () => () => {}
+  },
+  scrollElement: {
+    type: [String, Object] as PropType<string | Element>,
+    default: ''
+  },
+  onClick: {
+    type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
+    default: () => () => {}
+  }
+});
+
+export type CatalogLinkProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof catalogLinkProps>>>>
+>;
 
 const CatalogLink = defineComponent({
-  props: {
-    tocItem: {
-      type: Object as PropType<TocItem>,
-      default: () => ({})
-    },
-    markedHeadingId: {
-      type: Function as PropType<MarkedHeadingId>,
-      default: () => {}
-    },
-    scrollElement: {
-      type: [String, Object] as PropType<string | Element>,
-      default: ''
-    },
-    onClick: {
-      type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
-      default: () => {}
-    }
-  },
-  setup({ tocItem, markedHeadingId, scrollElement, onClick }) {
+  props: catalogLinkProps(),
+  setup({ tocItem, markedHeadingId, scrollElement, onClick }: CatalogLinkProps) {
     return () => (
       <div
         class={`${prefix}-catalog-link`}

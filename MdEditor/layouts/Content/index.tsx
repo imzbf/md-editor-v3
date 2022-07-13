@@ -1,11 +1,5 @@
-import { defineComponent, inject, PropType, ref, ComputedRef } from 'vue';
-import {
-  HeadList,
-  SettingType,
-  PreviewThemes,
-  MarkedHeadingId,
-  MermaidTemplate
-} from '../../type';
+import { defineComponent, inject, ref, ComputedRef } from 'vue';
+import { PreviewThemes } from '../../type';
 import {
   useAutoGenrator,
   useAutoScroll,
@@ -18,70 +12,12 @@ import {
 import { prefix } from '../../config';
 import bus from '../../utils/event-bus';
 
-export type EditorContentProps = Readonly<{
-  value: string;
-  onChange: (v: string) => void;
-  setting: SettingType;
-  onHtmlChanged: (h: string) => void;
-  onGetCatalog: (list: HeadList[]) => void;
-  markedHeadingId: MarkedHeadingId;
-  // 不使用该功能
-  noMermaid?: boolean;
-  sanitize: (html: string) => string;
-  placeholder: string;
-  noKatex?: boolean;
-  scrollAuto?: boolean;
-}>;
+import { contentProps, ContentProps } from './props';
 
 export default defineComponent({
   name: 'MDEditorContent',
-  props: {
-    value: {
-      type: String as PropType<string>,
-      default: ''
-    },
-    onChange: {
-      type: Function as PropType<(v: string) => void>,
-      default: () => () => {}
-    },
-    setting: {
-      type: Object as PropType<SettingType>,
-      default: () => ({})
-    },
-    onHtmlChanged: {
-      type: Function as PropType<(h: string) => void>,
-      default: () => () => {}
-    },
-    onGetCatalog: {
-      type: Function as PropType<(list: HeadList[]) => void>,
-      default: () => () => {}
-    },
-    markedHeadingId: {
-      type: Function as PropType<MarkedHeadingId>,
-      default: () => ''
-    },
-    noMermaid: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    sanitize: {
-      type: Function as PropType<(html: string) => string>,
-      default: (html: string) => html
-    },
-    placeholder: {
-      type: String as PropType<string>,
-      default: ''
-    },
-    // 不使用该函数功能
-    noKatex: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    scrollAuto: {
-      type: Boolean as PropType<boolean>
-    }
-  },
-  setup(props) {
+  props: contentProps(),
+  setup(props: ContentProps) {
     // 输入状态，在输入中文等时，暂停保存
     const completeStatus = ref(true);
     // 仅预览

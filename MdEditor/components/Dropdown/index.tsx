@@ -9,8 +9,10 @@ import {
   watch,
   ref,
   onMounted,
-  onBeforeUnmount
+  onBeforeUnmount,
+  ExtractPropTypes
 } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import { getSlot } from '../../utils/vue-tsx';
 
 import './style.less';
@@ -24,31 +26,37 @@ interface CtlTypes {
 
 import { prefix } from '../../config';
 
-export default defineComponent({
-  props: {
-    trigger: {
-      type: String as PropType<'hover' | 'click'>,
-      default: 'hover'
-    },
-    overlay: {
-      type: [String, Object] as PropType<string | JSX.Element>,
-      default: ''
-    },
-    visible: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    onChange: {
-      type: Function as PropType<(v: boolean) => void>,
-      default: () => () => {}
-    },
-    // 相对滚动的元素选择器
-    relative: {
-      type: String as PropType<string>,
-      default: 'html'
-    }
+const dropdownToolbarProps = () => ({
+  trigger: {
+    type: String as PropType<'hover' | 'click'>,
+    default: 'hover'
   },
-  setup(props, ctx: SetupContext<EmitsOptions>) {
+  overlay: {
+    type: [String, Object] as PropType<string | JSX.Element>,
+    default: ''
+  },
+  visible: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  onChange: {
+    type: Function as PropType<(v: boolean) => void>,
+    default: () => () => {}
+  },
+  // 相对滚动的元素选择器
+  relative: {
+    type: String as PropType<string>,
+    default: 'html'
+  }
+});
+
+type DropdownToolbarProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof dropdownToolbarProps>>>>
+>;
+
+export default defineComponent({
+  props: dropdownToolbarProps(),
+  setup(props: DropdownToolbarProps, ctx: SetupContext<EmitsOptions>) {
     const HIDDEN_CLASS = `${prefix}-dropdown-hidden`;
 
     const ctl = reactive<CtlTypes>({

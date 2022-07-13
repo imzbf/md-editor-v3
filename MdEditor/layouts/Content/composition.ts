@@ -13,7 +13,7 @@ import {
 import { marked, Renderer } from 'marked';
 import copy from 'copy-to-clipboard';
 import mediumZoom from 'medium-zoom';
-import { EditorContentProps } from './index';
+import { ContentProps } from './props';
 import { HeadList, RewriteHeading, StaticTextDefaultValue } from '../../type';
 import { prefix, katexUrl, mermaidUrl, configOption } from '../../config';
 import bus from '../../utils/event-bus';
@@ -50,7 +50,7 @@ interface HistoryDataType {
  * 保存历史记录
  */
 export const useHistory = (
-  props: EditorContentProps,
+  props: ContentProps,
   textAreaRef: Ref,
   completeStatus: Ref<boolean>
 ) => {
@@ -204,7 +204,7 @@ export const useHistory = (
 /**
  * markdown编译逻辑
  */
-export const useMarked = (props: EditorContentProps, mermaidData: any) => {
+export const useMarked = (props: ContentProps, mermaidData: any) => {
   const {
     markedRenderer,
     markedExtensions,
@@ -501,7 +501,7 @@ export const useMarked = (props: EditorContentProps, mermaidData: any) => {
  * 自动滚动逻辑
  */
 export const useAutoScroll = (
-  props: EditorContentProps,
+  props: ContentProps,
   html: Ref<string>,
   textAreaRef: Ref,
   previewRef: Ref,
@@ -596,7 +596,7 @@ export const useAutoScroll = (
   });
 };
 
-export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => {
+export const useAutoGenrator = (props: ContentProps, textAreaRef: Ref) => {
   const previewOnly = inject('previewOnly') as boolean;
   const tabWidth = inject('tabWidth') as number;
   const editorId = inject('editorId') as string;
@@ -694,7 +694,7 @@ export const useAutoGenrator = (props: EditorContentProps, textAreaRef: Ref) => 
   });
 };
 
-export const useMermaid = (props: EditorContentProps) => {
+export const useMermaid = (props: ContentProps) => {
   const theme = inject('theme') as ComputedRef<string>;
   const { editorExtensions } = configOption;
   const mermaidConf = editorExtensions?.mermaid;

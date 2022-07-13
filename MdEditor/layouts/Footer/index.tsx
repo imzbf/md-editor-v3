@@ -1,32 +1,39 @@
-import { defineComponent, PropType, computed, VNode } from 'vue';
+import { defineComponent, PropType, computed, VNode, ExtractPropTypes } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import { allFooter, prefix } from '../../config';
 import { Footers } from '../../type';
 import MarkdownTotal from './MarkdownTotal';
 import ScrollAuto from './ScrollAuto';
 
+const footerProps = () => ({
+  modelValue: {
+    type: String as PropType<string>,
+    default: ''
+  },
+  footers: {
+    type: Array as PropType<Array<Footers>>,
+    default: []
+  },
+  scrollAuto: {
+    type: Boolean as PropType<boolean>
+  },
+  onScrollAutoChange: {
+    type: Function as PropType<(v: boolean) => void>,
+    default: () => () => {}
+  },
+  defFooters: {
+    type: Object as PropType<VNode>
+  }
+});
+
+type FooterProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof footerProps>>>>
+>;
+
 export default defineComponent({
   name: 'MDEditorFooter',
-  props: {
-    modelValue: {
-      type: String as PropType<string>,
-      default: ''
-    },
-    footers: {
-      type: Array as PropType<Array<Footers>>,
-      default: []
-    },
-    scrollAuto: {
-      type: Boolean as PropType<boolean>
-    },
-    onScrollAutoChange: {
-      type: Function as PropType<(v: boolean) => void>,
-      default: () => () => {}
-    },
-    defFooters: {
-      type: Object as PropType<VNode>
-    }
-  },
-  setup(props) {
+  props: footerProps(),
+  setup(props: FooterProps) {
     const splitedItems = computed(() => {
       const moduleSplitIndex = props.footers.indexOf('=');
 

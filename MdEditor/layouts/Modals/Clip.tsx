@@ -6,8 +6,10 @@ import {
   reactive,
   nextTick,
   ComputedRef,
-  watch
+  watch,
+  ExtractPropTypes
 } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import Modal from '../../components/Modal';
 import { StaticTextDefaultValue } from '../../type';
 import { configOption, prefix } from '../../config';
@@ -16,22 +18,28 @@ import bus from '../../utils/event-bus';
 
 import './style.less';
 
-export default defineComponent({
-  props: {
-    visible: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    onCancel: {
-      type: Function as PropType<() => void>,
-      default: () => () => {}
-    },
-    onOk: {
-      type: Function as PropType<(data?: any) => void>,
-      default: () => () => {}
-    }
+const clipProps = () => ({
+  visible: {
+    type: Boolean as PropType<boolean>,
+    default: false
   },
-  setup(props) {
+  onCancel: {
+    type: Function as PropType<() => void>,
+    default: () => () => {}
+  },
+  onOk: {
+    type: Function as PropType<(data?: any) => void>,
+    default: () => () => {}
+  }
+});
+
+type ClipProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof clipProps>>>>
+>;
+
+export default defineComponent({
+  props: clipProps(),
+  setup(props: ClipProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;
     // 传递下来的图片裁剪构造函数

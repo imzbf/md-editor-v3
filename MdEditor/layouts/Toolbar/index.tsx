@@ -4,14 +4,12 @@ import {
   defineComponent,
   inject,
   onMounted,
-  PropType,
   reactive,
-  ref,
-  VNode
+  ref
 } from 'vue';
 import Divider from '../../components/Divider';
 import Dropdown from '../../components/Dropdown';
-import { StaticTextDefaultValue, ToolbarNames, SettingType } from '../../type';
+import { StaticTextDefaultValue, ToolbarNames } from '../../type';
 import bus from '../../utils/event-bus';
 import { goto } from '../../utils';
 import Modals from '../Modals';
@@ -19,48 +17,12 @@ import { ToolDirective } from '../../utils/content-help';
 import { useSreenfull } from './composition';
 import TableShape from './TableShape';
 import { allToolbar, prefix } from '../../config';
+import { toolbarProps, ToolbarProps } from './props';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
-  props: {
-    noPrettier: {
-      type: Boolean as PropType<boolean>
-    },
-    // 工具栏选择显示
-    toolbars: {
-      type: Array as PropType<Array<ToolbarNames>>,
-      default: () => []
-    },
-    // 工具栏选择不显示
-    toolbarsExclude: {
-      type: Array as PropType<Array<ToolbarNames>>,
-      default: () => []
-    },
-    setting: {
-      type: Object as PropType<SettingType>,
-      default: () => ({})
-    },
-    screenfull: {
-      type: Object,
-      default: null
-    },
-    screenfullJs: {
-      type: String as PropType<string>,
-      default: ''
-    },
-    updateSetting: {
-      type: Function as PropType<(v: boolean, k: keyof SettingType) => void>,
-      default: () => () => {}
-    },
-    tableShape: {
-      type: Array as PropType<Array<number>>,
-      default: () => [6, 4]
-    },
-    defToolbars: {
-      type: Object as PropType<VNode>
-    }
-  },
-  setup(props) {
+  props: toolbarProps(),
+  setup(props: ToolbarProps) {
     // 获取Id
     const editorId = inject('editorId') as string;
     // 获取语言设置

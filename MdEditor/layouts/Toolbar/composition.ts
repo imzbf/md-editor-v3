@@ -2,8 +2,9 @@ import { onMounted, inject, ref } from 'vue';
 import { configOption, prefix, screenfullUrl } from '../../config';
 import { appendHandler } from '../../utils/dom';
 import bus from '../../utils/event-bus';
+import { ToolbarProps } from './props';
 
-export const useSreenfull = (props: any) => {
+export const useSreenfull = (props: ToolbarProps) => {
   const editorId = inject('editorId') as string;
   const previewOnly = inject('previewOnly') as boolean;
   let screenfull = configOption.editorExtensions?.screenfull?.instance;

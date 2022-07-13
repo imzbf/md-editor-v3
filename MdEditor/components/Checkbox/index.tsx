@@ -1,19 +1,26 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ExtractPropTypes } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import { prefix } from '../../config';
 import './style.less';
 
-export default defineComponent({
-  props: {
-    checked: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    onChange: {
-      type: Function as PropType<(checked: boolean) => void>,
-      default: () => () => {}
-    }
+const checkboxProps = () => ({
+  checked: {
+    type: Boolean as PropType<boolean>,
+    default: false
   },
-  setup(props) {
+  onChange: {
+    type: Function as PropType<(checked: boolean) => void>,
+    default: () => () => {}
+  }
+});
+
+type CheckboxProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof checkboxProps>>>>
+>;
+
+export default defineComponent({
+  props: checkboxProps(),
+  setup(props: CheckboxProps) {
     return () => {
       return (
         <div

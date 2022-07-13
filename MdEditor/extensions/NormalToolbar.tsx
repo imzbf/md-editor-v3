@@ -1,24 +1,31 @@
-import { defineComponent, PropType, SetupContext } from 'vue';
+import { defineComponent, PropType, SetupContext, ExtractPropTypes } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import { prefix } from '../config';
 import { getSlot } from '../utils/vue-tsx';
 
+const normalToolbarProps = () => ({
+  title: {
+    type: String as PropType<string>,
+    default: ''
+  },
+  // 展示在工具栏的内容，通常是个图标
+  trigger: {
+    type: [String, Object] as PropType<string | JSX.Element>
+  },
+  onClick: {
+    type: Function as PropType<(e: MouseEvent) => void>
+  }
+});
+
+type NormalToolbarProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof normalToolbarProps>>>>
+>;
+
 export default defineComponent({
   name: 'NormalToolbar',
-  props: {
-    title: {
-      type: String as PropType<string>,
-      default: ''
-    },
-    // 展示在工具栏的内容，通常是个图标
-    trigger: {
-      type: [String, Object] as PropType<string | JSX.Element>
-    },
-    onClick: {
-      type: Function as PropType<(e: MouseEvent) => void>
-    }
-  },
+  props: normalToolbarProps(),
   emits: ['onClick'],
-  setup(props, ctx: SetupContext) {
+  setup(props: NormalToolbarProps, ctx: SetupContext) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
 

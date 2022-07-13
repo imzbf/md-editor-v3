@@ -1,19 +1,26 @@
-import { defineComponent, inject, ComputedRef, PropType } from 'vue';
+import { defineComponent, inject, ComputedRef, PropType, ExtractPropTypes } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import { prefix } from '../../config';
 import { StaticTextDefaultValue } from '../../type';
 import Checkbox from '../../components/Checkbox';
 
-export default defineComponent({
-  props: {
-    scrollAuto: {
-      type: Boolean as PropType<boolean>
-    },
-    onScrollAutoChange: {
-      type: Function as PropType<(v: boolean) => void>,
-      default: () => () => {}
-    }
+const scrollAutoProps = () => ({
+  scrollAuto: {
+    type: Boolean as PropType<boolean>
   },
-  setup(props) {
+  onScrollAutoChange: {
+    type: Function as PropType<(v: boolean) => void>,
+    default: () => () => {}
+  }
+});
+
+type ScrollAutoProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof scrollAutoProps>>>>
+>;
+
+export default defineComponent({
+  props: scrollAutoProps(),
+  setup(props: ScrollAutoProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
 
     return () => (

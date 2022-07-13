@@ -1,4 +1,12 @@
-import { reactive, onMounted, computed, defineComponent, PropType } from 'vue';
+import {
+  reactive,
+  onMounted,
+  computed,
+  defineComponent,
+  PropType,
+  ExtractPropTypes
+} from 'vue';
+import { LooseRequired } from '@vue/shared';
 import bus from '../../utils/event-bus';
 import { HeadList, MarkedHeadingId, Themes } from '../../type';
 import { prefix } from '../../config';
@@ -12,32 +20,38 @@ export interface TocItem {
   children?: Array<TocItem>;
 }
 
+const mdCatalogProps = () => ({
+  editorId: {
+    type: String as PropType<string>
+  },
+  class: {
+    type: String,
+    default: ''
+  },
+  markedHeadingId: {
+    type: Function as PropType<MarkedHeadingId>,
+    default: (text: string) => text
+  },
+  // 指定滚动的容器，选择器需带上对应的符号，默认预览框
+  // 元素必须定位！！！！！！
+  scrollElement: {
+    type: [String, Object] as PropType<string | Element>
+  },
+  theme: {
+    type: String as PropType<Themes>,
+    default: 'light'
+  }
+});
+
+type MdCatalogProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof mdCatalogProps>>>>
+>;
+
 const MdCatalog = defineComponent({
   name: 'MdCatalog',
-  props: {
-    editorId: {
-      type: String as PropType<string>
-    },
-    class: {
-      type: String,
-      default: ''
-    },
-    markedHeadingId: {
-      type: Function as PropType<MarkedHeadingId>,
-      default: (text: string) => text
-    },
-    // 指定滚动的容器，选择器需带上对应的符号，默认预览框
-    // 元素必须定位！！！！！！
-    scrollElement: {
-      type: [String, Object] as PropType<string | Element>
-    },
-    theme: {
-      type: String as PropType<Themes>,
-      default: 'light'
-    }
-  },
+  props: mdCatalogProps(),
   emits: ['onClick'],
-  setup(props, ctx) {
+  setup(props: MdCatalogProps, ctx) {
     // 获取Id
     const editorId = props.editorId as string;
 

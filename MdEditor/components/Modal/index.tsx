@@ -7,49 +7,57 @@ import {
   reactive,
   watch,
   nextTick,
-  computed
+  computed,
+  ExtractPropTypes
 } from 'vue';
+import { LooseRequired } from '@vue/shared';
 import { prefix } from '../../config';
 import { getSlot } from '../../utils/vue-tsx';
 import { keyMove } from '../../utils/dom';
 import './style.less';
 
-export default defineComponent({
-  props: {
-    title: {
-      type: String as PropType<string>,
-      default: ''
-    },
-    visible: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    width: {
-      type: String as PropType<string>,
-      default: 'auto'
-    },
-    height: {
-      type: String as PropType<string>,
-      default: 'auto'
-    },
-    onClose: {
-      type: Function as PropType<() => void>,
-      default: () => () => {}
-    },
-    showAdjust: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    isFullscreen: {
-      type: Boolean as PropType<boolean>,
-      default: false
-    },
-    onAdjust: {
-      type: Function as PropType<(val: boolean) => void>,
-      default: () => () => {}
-    }
+const modalProps = () => ({
+  title: {
+    type: String as PropType<string>,
+    default: ''
   },
-  setup(props, ctx) {
+  visible: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  width: {
+    type: String as PropType<string>,
+    default: 'auto'
+  },
+  height: {
+    type: String as PropType<string>,
+    default: 'auto'
+  },
+  onClose: {
+    type: Function as PropType<() => void>,
+    default: () => () => {}
+  },
+  showAdjust: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  isFullscreen: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  onAdjust: {
+    type: Function as PropType<(val: boolean) => void>,
+    default: () => () => {}
+  }
+});
+
+type ModalProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof modalProps>>>>
+>;
+
+export default defineComponent({
+  props: modalProps(),
+  setup(props: ModalProps, ctx) {
     const modalVisible = ref(props.visible);
 
     const modalClass = ref([`${prefix}-modal`]);
