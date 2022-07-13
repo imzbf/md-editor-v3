@@ -1,4 +1,4 @@
-var c=Object.defineProperty,p=Object.defineProperties;var u=Object.getOwnPropertyDescriptors;var r=Object.getOwnPropertySymbols;var h=Object.prototype.hasOwnProperty,g=Object.prototype.propertyIsEnumerable;var i=(t,n,e)=>n in t?c(t,n,{enumerable:!0,configurable:!0,writable:!0,value:e}):t[n]=e,s=(t,n)=>{for(var e in n||(n={}))h.call(n,e)&&i(t,e,n[e]);if(r)for(var e of r(n))g.call(n,e)&&i(t,e,n[e]);return t},a=(t,n)=>p(t,u(n));import{d as b,g as v,k as f,n as x,e as k,b as y,h as l,o as T}from"./index.6c9f779e.js";import{_ as w}from"./index.e353025c.js";import{_ as E}from"./index.18368613.js";var d=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+var c=Object.defineProperty,p=Object.defineProperties;var u=Object.getOwnPropertyDescriptors;var r=Object.getOwnPropertySymbols;var h=Object.prototype.hasOwnProperty,g=Object.prototype.propertyIsEnumerable;var i=(t,n,e)=>n in t?c(t,n,{enumerable:!0,configurable:!0,writable:!0,value:e}):t[n]=e,s=(t,n)=>{for(var e in n||(n={}))h.call(n,e)&&i(t,e,n[e]);if(r)for(var e of r(n))g.call(n,e)&&i(t,e,n[e]);return t},a=(t,n)=>p(t,u(n));import{d as b,g as v,k as f,n as x,e as k,b as y,h as l,o as T}from"./index.ada72897.js";import{_ as w}from"./index.01f742d1.js";import{_ as E}from"./index.5fffce88.js";var d=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## \u{1F92F} Props
 
@@ -92,6 +92,7 @@ var c=Object.defineProperty,p=Object.defineProperties;var u=Object.getOwnPropert
     'underline',
     'italic',
     '-',
+    'title',
     'strikeThrough',
     'sub',
     'sup',
@@ -1108,6 +1109,7 @@ const scrollElement = document.documentElement;
     'underline',
     'italic',
     '-',
+    'title',
     'strikeThrough',
     'sub',
     'sup',
