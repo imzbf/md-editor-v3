@@ -92,6 +92,7 @@
     'underline',
     'italic',
     '-',
+    'title',
     'strikeThrough',
     'sub',
     'sup',
