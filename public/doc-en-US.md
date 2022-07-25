@@ -716,9 +716,9 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
           relationship: `relationship template`,
           journey: `journey template`
         },
-        // delay rendering time(ms)
-        renderDelay: 0
-      }
+      },
+      // delay rendering time(ms)
+      renderDelay: 0
     }
   });
   ```

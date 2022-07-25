@@ -733,9 +733,9 @@
           // 旅程图
           journey: `journey template`
         },
-        // 输入渲染延迟（ms）
-        renderDelay: 0
-      }
+      },
+      // 输入渲染延迟（ms）
+      renderDelay: 0
     }
   });
   ```
