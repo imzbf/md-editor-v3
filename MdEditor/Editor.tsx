@@ -116,6 +116,7 @@ const Editor = defineComponent({
             placeholder={props.placeholder}
             noKatex={props.noKatex}
             scrollAuto={state.scrollAuto}
+            formatCopiedText={props.formatCopiedText}
           />
           {!props.previewOnly && props.footers?.length > 0 && (
             <Footer

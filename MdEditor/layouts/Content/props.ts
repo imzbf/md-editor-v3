@@ -46,6 +46,10 @@ export const contentProps = () => ({
   },
   scrollAuto: {
     type: Boolean as PropType<boolean>
+  },
+  formatCopiedText: {
+    type: Function as PropType<(text: string) => string>,
+    default: (text: string) => text
   }
 });
 

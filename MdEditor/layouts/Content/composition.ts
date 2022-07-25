@@ -522,7 +522,9 @@ export const useAutoScroll = (
       copyButton.setAttribute('class', 'copy-button');
       copyButton.innerText = copyBtnText;
       copyButton.addEventListener('click', () => {
-        const success = copy((pre.querySelector('code') as HTMLElement).innerText);
+        const codeText = (pre.querySelector('code') as HTMLElement).innerText;
+
+        const success = copy(props.formatCopiedText(codeText));
 
         const succssTip = ult.value.copyCode?.successTips || '已复制！';
         const failTip = ult.value.copyCode?.failTips || '已复制！';
