@@ -714,25 +714,25 @@
             scrollAuto: '同步滚动'
           }
         },
-        // mermaid模板
-        mermaidTemplate: {
-          // 流程图
-          flow: `flow tempalte`,
-          // 时序图
-          sequence: `sequence template`,
-          // 甘特图
-          gantt: `gantt template`,
-          // 类图
-          class: `class template`,
-          // 状态图
-          state: `state template`,
-          // 饼图
-          pie: `pie template`,
-          // 关系图
-          relationship: `relationship template`,
-          // 旅程图
-          journey: `journey template`
-        },
+      },
+      // mermaid模板
+      mermaidTemplate: {
+        // 流程图
+        flow: `flow tempalte`,
+        // 时序图
+        sequence: `sequence template`,
+        // 甘特图
+        gantt: `gantt template`,
+        // 类图
+        class: `class template`,
+        // 状态图
+        state: `state template`,
+        // 饼图
+        pie: `pie template`,
+        // 关系图
+        relationship: `relationship template`,
+        // 旅程图
+        journey: `journey template`
       },
       // 输入渲染延迟（ms）
       renderDelay: 0
