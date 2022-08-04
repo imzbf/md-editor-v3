@@ -150,7 +150,7 @@ export default defineComponent({
 
               callback(res.map((item: any) => item.data.url));
             }}
-            sanitizeCopiedText={(text: string) => {
+            formatCopiedText={(text: string) => {
               return `${text} \nfrom @imzbf`;
             }}
             onError={(error) => {
