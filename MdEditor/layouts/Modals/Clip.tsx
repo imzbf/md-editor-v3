@@ -133,7 +133,9 @@ export default defineComponent({
     );
 
     const reset = () => {
-      cropper.destroy();
+      cropper.clear()
+      cropper.destroy()
+      cropper = null;
       (uploadRef.value as HTMLInputElement).value = '';
       data.imgSelected = false;
     };
@@ -184,15 +186,17 @@ export default defineComponent({
             class={`${prefix}-btn`}
             type="button"
             onClick={() => {
-              const cvs = cropper.getCroppedCanvas();
-              bus.emit(
-                editorId,
-                'uploadImage',
-                [base642File(cvs.toDataURL('image/png'))],
-                props.onOk
-              );
-
-              reset();
+              if (cropper) {
+                const cvs = cropper.getCroppedCanvas();
+                bus.emit(
+                  editorId,
+                  'uploadImage',
+                  [base642File(cvs.toDataURL('image/png'))],
+                  props.onOk
+                );
+  
+                reset();
+              }
             }}
           >
             {ult.value.linkModalTips?.buttonOK}
