@@ -127,7 +127,7 @@ const MdCatalog = defineComponent({
             <CatalogLink
               markedHeadingId={props.markedHeadingId}
               tocItem={item}
-              key={item.text}
+              key={`link-${item.level}-${item.text}`}
               scrollElement={state.scrollElement}
               onClick={(e: MouseEvent, t: TocItem) => {
                 ctx.emit('onClick', e, t);
