@@ -14,7 +14,9 @@ export default defineComponent({
 
     return () => (
       <div class={`${prefix}-footer-item`}>
-        <label class={`${prefix}-footer-label`}>{ult.value.footer?.markdownTotal}:</label>
+        <label
+          class={`${prefix}-footer-label`}
+        >{`${ult.value.footer?.markdownTotal}:`}</label>
         <span>{props.modelValue?.length || 0}</span>
       </div>
     );
