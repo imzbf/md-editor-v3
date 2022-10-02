@@ -129,7 +129,7 @@ export type PreviewThemes = string; // 'default' | 'github' | 'vuepress';
 export interface HeadList {
   text: string;
   level: 1 | 2 | 3 | 4 | 5 | 6;
-  active: boolean | undefined;
+  active?: boolean;
 }
 
 // marked heading方法
