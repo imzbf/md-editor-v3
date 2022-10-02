@@ -89,6 +89,7 @@ const text = ref('# Hello Editor');
 | footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | 页脚显示内容，`=`左右分割，设置为`[]`不显示页脚 |
 | scrollAuto | boolean | true | 默认左右滚动状态 |
 | noIconfont | boolean | false | 不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/font_2605852_pqekijay2ij.js)到本地自行引入 |
+| formatCopiedText | (text: string) => string | (text: string) => text | 格式化复制代码 |
 
 > 如果你重新定义了标题，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
