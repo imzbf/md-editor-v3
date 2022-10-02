@@ -326,3 +326,18 @@ export const getSelectionText = (textarea: HTMLTextAreaElement): string => {
 
   return window.getSelection()?.toString() || '';
 };
+
+/**
+ * 获取元素相对目标元素顶部位置
+ * 代码来自antd
+ *
+ * @param element
+ * @param container
+ * @returns
+ */
+export const getRelativeTop = (element: HTMLElement, container: HTMLElement): number => {
+  const eleRect = element?.getBoundingClientRect();
+  const conRect = container?.getBoundingClientRect();
+
+  return eleRect.top - conRect.top;
+};

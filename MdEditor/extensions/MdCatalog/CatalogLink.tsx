@@ -35,7 +35,7 @@ const CatalogLink = defineComponent({
 
       return (
         <div
-          class={`${prefix}-catalog-link`}
+          class={[`${prefix}-catalog-link`, tocItem.active && `${prefix}-catalog-active`]}
           onClick={(e) => {
             onClick(e, tocItem);
             e.stopPropagation();

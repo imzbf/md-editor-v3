@@ -11,12 +11,14 @@ import bus from '../../utils/event-bus';
 import { HeadList, MarkedHeadingId, Themes } from '../../type';
 import { prefix } from '../../config';
 import CatalogLink from './CatalogLink';
+import { throttle, getRelativeTop } from '../../utils';
 import './style.less';
 
 export interface TocItem {
   text: string;
   level: number;
   index: number;
+  active: boolean;
   children?: Array<TocItem>;
 }
 
@@ -35,7 +37,7 @@ const mdCatalogProps = () => ({
   // 指定滚动的容器，选择器需带上对应的符号，默认预览框
   // 元素必须定位！！！！！！
   scrollElement: {
-    type: [String, Object] as PropType<string | Element>
+    type: [String, Object] as PropType<string | HTMLElement>
   },
   theme: {
     type: String as PropType<Themes>,
@@ -58,7 +60,7 @@ const MdCatalog = defineComponent({
     const state = reactive<{
       list: HeadList[];
       show: boolean;
-      scrollElement: string | Element;
+      scrollElement: string | HTMLElement;
     }>({
       list: [],
       show: false,
@@ -69,8 +71,8 @@ const MdCatalog = defineComponent({
     const catalogs = computed(() => {
       const tocItems: TocItem[] = [];
 
-      state.list.forEach(({ text, level }, index) => {
-        const item = { level, text, index: index + 1 };
+      state.list.forEach(({ text, level, active }, index) => {
+        const item = { level, text, index: index + 1, active: !!active };
 
         if (tocItems.length === 0) {
           // 第一个 item 直接 push
@@ -110,12 +112,81 @@ const MdCatalog = defineComponent({
       bus.on(editorId, {
         name: 'catalogChanged',
         callback: (_list: Array<HeadList>) => {
-          state.list = _list;
+          state.list = _list.map((item, index) => {
+            if (index === 0) {
+              return {
+                ...item,
+                active: true
+              };
+            }
+
+            return {
+              ...item
+            };
+          });
         }
       });
 
       // 主动触发一次接收
       bus.emit(editorId, 'pushCatalog');
+    });
+
+    onMounted(() => {
+      const scrollElement =
+        state.scrollElement instanceof HTMLElement
+          ? state.scrollElement
+          : (document.querySelector(state.scrollElement) as HTMLElement);
+
+      scrollElement?.addEventListener(
+        'scroll',
+        throttle(() => {
+          if (state.list.length === 0) {
+            return false;
+          }
+
+          // 获取标记当前位置的目录
+          const { activeHead } = state.list.reduce(
+            (activeData, link, index) => {
+              const linkEle = document.getElementById(
+                props.markedHeadingId(link.text, link.level, index)
+              );
+
+              if (linkEle instanceof HTMLElement) {
+                // 获得当前标题相对滚动容器视窗的高度
+                const relativeTop = getRelativeTop(linkEle, scrollElement);
+
+                // 当前标题滚动到超出容器的顶部且相比其他的标题最近
+                if (relativeTop < 0 && relativeTop > activeData.minTop) {
+                  return {
+                    activeHead: link,
+                    minTop: relativeTop
+                  };
+                }
+              }
+
+              return activeData;
+            },
+            {
+              activeHead: state.list[0],
+              minTop: Number.MIN_SAFE_INTEGER
+            }
+          );
+
+          state.list = state.list.map((item) => {
+            if (item === activeHead) {
+              return {
+                ...item,
+                active: true
+              };
+            }
+
+            return {
+              ...item,
+              active: false
+            };
+          });
+        })
+      );
     });
 
     return () => (
