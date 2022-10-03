@@ -142,7 +142,11 @@ const MdCatalog = defineComponent({
           ? state.scrollElement
           : (document.querySelector(state.scrollElement) as HTMLElement);
 
-      scrollElement?.addEventListener(
+      // 滚动区域为document.documentElement需要把监听事件绑定在window上
+      (scrollElement === document.documentElement
+        ? window
+        : scrollElement
+      )?.addEventListener(
         'scroll',
         throttle(() => {
           if (state.list.length === 0) {
