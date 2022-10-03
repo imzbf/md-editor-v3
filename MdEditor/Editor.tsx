@@ -127,7 +127,7 @@ const Editor = defineComponent({
               onScrollAutoChange={(v) => (state.scrollAuto = v)}
             />
           )}
-          {catalogShow.value && (
+          {catalogShow.value && !props.previewOnly && (
             <MdCatalog
               theme={props.theme}
               style={{
