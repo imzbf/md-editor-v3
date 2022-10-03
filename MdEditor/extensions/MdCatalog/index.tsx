@@ -42,6 +42,11 @@ const mdCatalogProps = () => ({
   theme: {
     type: String as PropType<Themes>,
     default: 'light'
+  },
+  // 偏移量，默认20像素
+  offsetTop: {
+    type: Number as PropType<number>,
+    default: 20
   }
 });
 
@@ -148,7 +153,7 @@ const MdCatalog = defineComponent({
           const { activeHead } = state.list.reduce(
             (activeData, link, index) => {
               const linkEle = document.getElementById(
-                props.markedHeadingId(link.text, link.level, index)
+                props.markedHeadingId(link.text, link.level, index + 1)
               );
 
               if (linkEle instanceof HTMLElement) {
@@ -156,7 +161,7 @@ const MdCatalog = defineComponent({
                 const relativeTop = getRelativeTop(linkEle, scrollElement);
 
                 // 当前标题滚动到超出容器的顶部且相比其他的标题最近
-                if (relativeTop < 0 && relativeTop > activeData.minTop) {
+                if (relativeTop < props.offsetTop && relativeTop > activeData.minTop) {
                   return {
                     activeHead: link,
                     minTop: relativeTop
