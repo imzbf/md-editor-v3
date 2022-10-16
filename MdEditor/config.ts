@@ -1,6 +1,6 @@
 import { CodeCss, Config, ConfigOption, Footers, StaticTextDefault } from './type';
 
-export const prefix = 'md';
+export const prefix = 'md-editor';
 
 // 编辑器ID
 export const iconScriptId = 'md-editor-v3';
