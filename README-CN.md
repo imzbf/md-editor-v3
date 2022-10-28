@@ -30,6 +30,12 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 yarn add md-editor-v3
 ```
 
+如果你需要配置`renderer`并且你的项目使用了 typescript，需要将`@types/marked`安装到你的开发依赖中：
+
+```shell
+yarn add @types/marked -D
+```
+
 ## 用法
 
 ```vue

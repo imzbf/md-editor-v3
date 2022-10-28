@@ -31,6 +31,12 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 yarn add md-editor-v3
 ```
 
+Please install `@types/marked` in your typescript project if you want to configure `renderer`:
+
+```shell
+yarn add @types/marked -D
+```
+
 ## Usage
 
 ```vue
