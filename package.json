@@ -43,9 +43,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "build:preview": "vue-tsc --noEmit && vite build --mode=preview",
-    "serve": "vite preview"
+    "build": "vite build"
   },
   "dependencies": {
     "@types/marked": "^4.0.3"
