@@ -629,11 +629,13 @@ export const useAutoGenrator = (props: ContentProps, textAreaRef: Ref) => {
             event.stopPropagation();
 
             // 如果列表当前行没有内容，则清空当前行
-            if (/^\d+\.\s+$|^-\s+$/.test(enterPressRow)) {
+            // '- ', '- [ ] ', '- [x] '，-同数字
+            if (/^(\d+\.|-)\s+(\[[x\s]\]\s+)$/.test(enterPressRow)) {
               const resetPrefixStr = prefixStr?.replace(
-                new RegExp(enterPressRow + '$'),
+                /(\d+\.|-)\s+(\[[x\s]\]\s+)$/,
                 ''
               );
+
               props.onChange((resetPrefixStr as string) + subStr);
 
               // 手动定位光标到当前位置
@@ -642,16 +644,22 @@ export const useAutoGenrator = (props: ContentProps, textAreaRef: Ref) => {
                 resetPrefixStr?.length
               );
             } else if (/^-\s+.+/.test(enterPressRow)) {
+              const newLine = /^-\s+\[[x\s]\]/.test(enterPressRow) ? '\n- [ ] ' : '\n- ';
               // 无序列表存在内容
               props.onChange(
-                insert(textAreaRef.value as HTMLTextAreaElement, '\n- ', {})
+                insert(textAreaRef.value as HTMLTextAreaElement, newLine, {})
               );
             } else {
               const lastOrderMatch = enterPressRow?.match(/\d+(?=\.)/);
 
               const nextOrder = (lastOrderMatch && Number(lastOrderMatch[0]) + 1) || 1;
+
+              const newLine = /^\d\.\s+\[[x\s]\]/.test(enterPressRow)
+                ? `\n${nextOrder}. [ ] `
+                : `\n${nextOrder}. `;
+
               props.onChange(
-                insert(textAreaRef.value as HTMLTextAreaElement, `\n${nextOrder}. `, {})
+                insert(textAreaRef.value as HTMLTextAreaElement, newLine, {})
               );
             }
           }
