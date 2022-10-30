@@ -197,7 +197,7 @@ export default defineComponent({
                 <Editor.NormalToolbar
                   title="普通扩展"
                   trigger={
-                    <svg class={`md-icon`} aria-hidden="true">
+                    <svg class={`md-editor-icon`} aria-hidden="true">
                       <use xlinkHref="#icon-strike-through" />
                     </svg>
                   }
@@ -206,7 +206,7 @@ export default defineComponent({
                   title="下拉扩展"
                   visible={md.visible}
                   trigger={
-                    <svg class={`md-icon`} aria-hidden="true">
+                    <svg class={`md-editor-icon`} aria-hidden="true">
                       <use xlinkHref="#icon-strike-through" />
                     </svg>
                   }
@@ -225,7 +225,7 @@ export default defineComponent({
                     md.isFullscreen = isFullscreen;
                   }}
                   trigger={
-                    <svg class={`md-icon`} aria-hidden="true">
+                    <svg class={`md-editor-icon`} aria-hidden="true">
                       <use xlinkHref="#icon-strike-through" />
                     </svg>
                   }
