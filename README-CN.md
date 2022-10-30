@@ -266,7 +266,7 @@ export interface StaticTextDefaultValue {
     <template #defToolbars>
       <normal-toolbar title="mark" @onClick="handler">
         <template #trigger>
-          <svg class="md-icon" aria-hidden="true">
+          <svg class="md-editor-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
           </svg>
         </template>
