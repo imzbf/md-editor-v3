@@ -45,13 +45,11 @@
     "dev": "vite",
     "build": "vite build"
   },
-  "dependencies": {
-    "@types/marked": "^4.0.3"
-  },
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@types/katex": "^0.14.0",
+    "@types/marked": "^4.0.7",
     "@types/mermaid": "^8.2.9",
     "@types/node": "16",
     "@types/prettier": "^2.6.3",
