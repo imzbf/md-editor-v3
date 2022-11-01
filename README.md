@@ -37,6 +37,14 @@ Please install `@types/marked` in your typescript project if you want to configu
 yarn add @types/marked -D
 ```
 
+Install existing extension of language and preview theme:
+
+```shell
+yarn add @vavt/md-editor-extension
+```
+
+For more ways to use or contribute, please refer to: [md-editor-extension](https://github.com/imzbf/md-editor-extension)
+
 ## Usage
 
 ```vue

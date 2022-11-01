@@ -36,6 +36,14 @@ yarn add md-editor-v3
 yarn add @types/marked -D
 ```
 
+使用语言、预览主题扩展库：
+
+```shell
+yarn add @vavt/md-editor-extension
+```
+
+更多使用及贡献方式参考：[md-editor-extension](https://github.com/imzbf/md-editor-extension)
+
 ## 用法
 
 ```vue
