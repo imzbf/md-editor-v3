@@ -639,11 +639,11 @@ const onUploadImg = async (files, callback) => {
   --md-scrollbar-thumb-avtive-color: if(@isDark, #3a3a3a, #00000061);
 }
 
-.md {
+.md-editor {
   .css-vars(false);
 }
 
-.md-dark {
+.md-editor-dark {
   .css-vars(true);
 }
 ```
@@ -651,7 +651,7 @@ const onUploadImg = async (files, callback) => {
 只需要调整对应的 css 变量，比如调整暗夜模式下的背景：
 
 ```css
-.md-dark {
+.md-editor-dark {
   --md-bk-color: #333 !important;
 }
 ```
