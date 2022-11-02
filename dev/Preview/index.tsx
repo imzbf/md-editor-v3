@@ -168,6 +168,7 @@ export default defineComponent({
               'quote',
               'unorderedList',
               'orderedList',
+              'task',
               '-',
               'codeRow',
               'code',
