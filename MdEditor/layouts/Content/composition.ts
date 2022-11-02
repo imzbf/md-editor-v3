@@ -630,9 +630,9 @@ export const useAutoGenrator = (props: ContentProps, textAreaRef: Ref) => {
 
             // 如果列表当前行没有内容，则清空当前行
             // '- ', '- [ ] ', '- [x] '，-同数字
-            if (/^(\d+\.|-)\s+(\[[x\s]\]\s+)$/.test(enterPressRow)) {
+            if (/^(\d+\.|-)\s+(\[[x\s]\]\s+)?$/.test(enterPressRow)) {
               const resetPrefixStr = prefixStr?.replace(
-                /(\d+\.|-)\s+(\[[x\s]\]\s+)$/,
+                /(\d+\.|-)\s+(\[[x\s]\]\s+)?$/,
                 ''
               );
 
