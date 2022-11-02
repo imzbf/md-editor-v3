@@ -99,7 +99,7 @@ export default defineComponent({
             {ult.value.linkModalTips?.urlLable}
           </label>
           <input
-            placeholder={ult.value.linkModalTips?.UrlLablePlaceHolder}
+            placeholder={ult.value.linkModalTips?.urlLablePlaceHolder}
             class={`${prefix}-input`}
             id={`link-url-${editorId}`}
             type="text"

@@ -114,7 +114,7 @@ export const staticTextDefault: StaticTextDefault = {
       descLable: '链接描述：',
       descLablePlaceHolder: '请输入描述...',
       urlLable: '链接地址：',
-      UrlLablePlaceHolder: '请输入链接...',
+      urlLablePlaceHolder: '请输入链接...',
       buttonOK: '确定'
     },
     clipModalTips: {
@@ -194,7 +194,7 @@ export const staticTextDefault: StaticTextDefault = {
       descLable: 'Desc:',
       descLablePlaceHolder: 'Enter a description...',
       urlLable: 'Link:',
-      UrlLablePlaceHolder: 'Enter a link...',
+      urlLablePlaceHolder: 'Enter a link...',
       buttonOK: 'OK'
     },
     clipModalTips: {

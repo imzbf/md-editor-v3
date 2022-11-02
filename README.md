@@ -213,7 +213,7 @@ export interface StaticTextDefaultValue {
     descLable?: string;
     descLablePlaceHolder?: string;
     urlLable?: string;
-    UrlLablePlaceHolder?: string;
+    urlLablePlaceHolder?: string;
     buttonOK?: string;
   };
   // The modal tips of clip the picture, v1.2.0

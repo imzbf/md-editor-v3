@@ -214,7 +214,7 @@ export interface StaticTextDefaultValue {
     descLable?: string;
     descLablePlaceHolder?: string;
     urlLable?: string;
-    UrlLablePlaceHolder?: string;
+    urlLablePlaceHolder?: string;
     buttonOK?: string;
   };
   // 裁剪图片弹窗提示，v1.2.0
