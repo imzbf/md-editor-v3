@@ -332,6 +332,22 @@ export default defineComponent({
             );
           }
 
+          case 'task': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.task}
+                onClick={() => {
+                  emitHandler('task');
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#icon-task" />
+                </svg>
+              </div>
+            );
+          }
+
           case 'codeRow': {
             return (
               <div

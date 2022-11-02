@@ -17,6 +17,7 @@ export type ToolDirective =
   | 'quote'
   | 'unorderedList'
   | 'orderedList'
+  | 'task'
   | 'codeRow'
   | 'code'
   | 'link'
@@ -203,6 +204,13 @@ export const directive2flag = (
       case 'unorderedList': {
         targetValue = `- ${selectedText}`;
         deviationStart = 2;
+        break;
+      }
+      case 'task': {
+        targetValue = `- [ ] ${selectedText}`;
+        deviationStart = 6;
+        deviationEnd = targetValue.length;
+        select = true;
         break;
       }
       case 'code': {
