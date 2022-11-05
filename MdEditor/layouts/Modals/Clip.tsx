@@ -133,8 +133,8 @@ export default defineComponent({
     );
 
     const reset = () => {
-      cropper.clear()
-      cropper.destroy()
+      cropper.clear();
+      cropper.destroy();
       cropper = null;
       (uploadRef.value as HTMLInputElement).value = '';
       data.imgSelected = false;
@@ -160,7 +160,7 @@ export default defineComponent({
                 <img src={data.imgSrc} ref={uploadImgRef} style={{ display: 'none' }} />
                 <div class={`${prefix}-clip-delete`} onClick={reset}>
                   <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#icon-delete" />
+                    <use xlinkHref="#md-editor-icon-delete" />
                   </svg>
                 </div>
               </div>
@@ -172,7 +172,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-upload" />
+                  <use xlinkHref="#md-editor-icon-upload" />
                 </svg>
               </div>
             )}
@@ -194,7 +194,7 @@ export default defineComponent({
                   [base642File(cvs.toDataURL('image/png'))],
                   props.onOk
                 );
-  
+
                 reset();
               }
             }}

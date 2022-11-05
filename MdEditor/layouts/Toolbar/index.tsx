@@ -128,7 +128,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-bold" />
+                  <use xlinkHref="#md-editor-icon-bold" />
                 </svg>
               </div>
             );
@@ -143,7 +143,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-underline" />
+                  <use xlinkHref="#md-editor-icon-underline" />
                 </svg>
               </div>
             );
@@ -158,7 +158,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-italic" />
+                  <use xlinkHref="#md-editor-icon-italic" />
                 </svg>
               </div>
             );
@@ -173,7 +173,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-strike-through" />
+                  <use xlinkHref="#md-editor-icon-strike-through" />
                 </svg>
               </div>
             );
@@ -249,7 +249,7 @@ export default defineComponent({
                   title={ult.value.toolbarTips?.title}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#icon-title" />
+                    <use xlinkHref="#md-editor-icon-title" />
                   </svg>
                 </div>
               </Dropdown>
@@ -265,7 +265,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-sub" />
+                  <use xlinkHref="#md-editor-icon-sub" />
                 </svg>
               </div>
             );
@@ -280,7 +280,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-sup" />
+                  <use xlinkHref="#md-editor-icon-sup" />
                 </svg>
               </div>
             );
@@ -295,7 +295,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-quote" />
+                  <use xlinkHref="#md-editor-icon-quote" />
                 </svg>
               </div>
             );
@@ -311,7 +311,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-unordered-list" />
+                  <use xlinkHref="#md-editor-icon-unordered-list" />
                 </svg>
               </div>
             );
@@ -326,7 +326,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-ordered-list" />
+                  <use xlinkHref="#md-editor-icon-ordered-list" />
                 </svg>
               </div>
             );
@@ -342,7 +342,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-task" />
+                  <use xlinkHref="#md-editor-icon-task" />
                 </svg>
               </div>
             );
@@ -358,7 +358,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-code-row" />
+                  <use xlinkHref="#md-editor-icon-code-row" />
                 </svg>
               </div>
             );
@@ -373,7 +373,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-code" />
+                  <use xlinkHref="#md-editor-icon-code" />
                 </svg>
               </div>
             );
@@ -389,7 +389,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-link" />
+                  <use xlinkHref="#md-editor-icon-link" />
                 </svg>
               </div>
             );
@@ -443,7 +443,7 @@ export default defineComponent({
                     title={ult.value.toolbarTips?.image}
                   >
                     <svg class={`${prefix}-icon`} aria-hidden="true">
-                      <use xlinkHref="#icon-image" />
+                      <use xlinkHref="#md-editor-icon-image" />
                     </svg>
                   </div>
                 }
@@ -473,7 +473,7 @@ export default defineComponent({
                   title={ult.value.toolbarTips?.table}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#icon-table" />
+                    <use xlinkHref="#md-editor-icon-table" />
                   </svg>
                 </div>
               </Dropdown>
@@ -489,7 +489,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-revoke" />
+                  <use xlinkHref="#md-editor-icon-revoke" />
                 </svg>
               </div>
             );
@@ -504,7 +504,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-next" />
+                  <use xlinkHref="#md-editor-icon-next" />
                 </svg>
               </div>
             );
@@ -519,7 +519,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-baocun" />
+                  <use xlinkHref="#md-editor-icon-baocun" />
                 </svg>
               </div>
             );
@@ -534,7 +534,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-prettier" />
+                  <use xlinkHref="#md-editor-icon-prettier" />
                 </svg>
               </div>
             ) : (
@@ -553,7 +553,7 @@ export default defineComponent({
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use
-                      xlinkHref={`#icon-${
+                      xlinkHref={`#md-editor-icon-${
                         props.setting.pageFullScreen ? 'suoxiao' : 'fangda'
                       }`}
                     />
@@ -571,7 +571,7 @@ export default defineComponent({
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use
-                    xlinkHref={`#icon-${
+                    xlinkHref={`#md-editor-icon-${
                       props.setting.fullscreen ? 'fullScreen-exit' : 'fullScreen'
                     }`}
                   />
@@ -589,7 +589,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-preview" />
+                  <use xlinkHref="#md-editor-icon-preview" />
                 </svg>
               </div>
             );
@@ -604,7 +604,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-coding" />
+                  <use xlinkHref="#md-editor-icon-coding" />
                 </svg>
               </div>
             );
@@ -620,7 +620,7 @@ export default defineComponent({
                 key="bar-catalog"
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-catalog" />
+                  <use xlinkHref="#md-editor-icon-catalog" />
                 </svg>
               </div>
             );
@@ -633,7 +633,7 @@ export default defineComponent({
                 onClick={() => goto('https://github.com/imzbf/md-editor-v3')}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-github" />
+                  <use xlinkHref="#md-editor-icon-github" />
                 </svg>
               </div>
             );
@@ -726,7 +726,7 @@ export default defineComponent({
                   title={ult.value.toolbarTips?.mermaid}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#icon-mermaid" />
+                    <use xlinkHref="#md-editor-icon-mermaid" />
                   </svg>
                 </div>
               </Dropdown>
@@ -772,7 +772,7 @@ export default defineComponent({
                   title={ult.value.toolbarTips?.katex}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#icon-formula" />
+                    <use xlinkHref="#md-editor-icon-formula" />
                   </svg>
                 </div>
               </Dropdown>

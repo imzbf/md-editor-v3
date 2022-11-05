@@ -199,7 +199,7 @@ export default defineComponent({
                   title="普通扩展"
                   trigger={
                     <svg class={`md-editor-icon`} aria-hidden="true">
-                      <use xlinkHref="#icon-strike-through" />
+                      <use xlinkHref="#md-editor-icon-strike-through" />
                     </svg>
                   }
                 ></Editor.NormalToolbar>
@@ -208,7 +208,7 @@ export default defineComponent({
                   visible={md.visible}
                   trigger={
                     <svg class={`md-editor-icon`} aria-hidden="true">
-                      <use xlinkHref="#icon-strike-through" />
+                      <use xlinkHref="#md-editor-icon-strike-through" />
                     </svg>
                   }
                   onChange={(visible) => {
@@ -227,7 +227,7 @@ export default defineComponent({
                   }}
                   trigger={
                     <svg class={`md-editor-icon`} aria-hidden="true">
-                      <use xlinkHref="#icon-strike-through" />
+                      <use xlinkHref="#md-editor-icon-strike-through" />
                     </svg>
                   }
                   onClick={() => {

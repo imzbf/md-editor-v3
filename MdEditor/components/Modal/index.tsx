@@ -192,7 +192,9 @@ export default defineComponent({
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use
-                      xlinkHref={`#icon-${props.isFullscreen ? 'suoxiao' : 'fangda'}`}
+                      xlinkHref={`#md-editor-icon-${
+                        props.isFullscreen ? 'suoxiao' : 'fangda'
+                      }`}
                     />
                   </svg>
                 </div>
@@ -205,7 +207,7 @@ export default defineComponent({
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#icon-close" />
+                  <use xlinkHref="#md-editor-icon-close" />
                 </svg>
               </div>
             </div>
