@@ -38,6 +38,9 @@ export const toolbarProps = () => ({
   },
   defToolbars: {
     type: Object as PropType<VNode>
+  },
+  noUploadImg: {
+    type: Boolean as PropType<boolean>
   }
 });
 

@@ -104,6 +104,7 @@ const text = ref('# Hello Editor');
 | scrollAuto | boolean | true | 默认左右滚动状态 |
 | noIconfont | boolean | false | 不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_4cjr7o5jo0f.js)到本地自行引入 |
 | formatCopiedText | (text: string) => string | (text: string) => text | 格式化复制代码 |
+| noUploadImg | boolean | false | 不展示上传图片选项 |
 
 > 如果你重新定义了标题，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 

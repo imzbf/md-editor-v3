@@ -395,7 +395,20 @@ export default defineComponent({
             );
           }
           case 'image': {
-            return (
+            return props.noUploadImg ? (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.image}
+                onClick={() => {
+                  modalData.type = 'image';
+                  modalData.linkVisible = true;
+                }}
+              >
+                <svg class={`${prefix}-icon`} aria-hidden="true">
+                  <use xlinkHref="#md-editor-icon-image" />
+                </svg>
+              </div>
+            ) : (
               <Dropdown
                 relative={`#${wrapperId}`}
                 visible={visible.image}

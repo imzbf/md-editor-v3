@@ -81,6 +81,7 @@ const Editor = defineComponent({
               updateSetting={updateSetting}
               tableShape={props.tableShape}
               defToolbars={defToolbars}
+              noUploadImg={props.noUploadImg}
             />
           )}
           <Content

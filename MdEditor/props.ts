@@ -162,6 +162,9 @@ export const editorProps = () => ({
   formatCopiedText: {
     type: Function as PropType<(text: string) => string>,
     default: (text: string) => text
+  },
+  noUploadImg: {
+    type: Boolean as PropType<boolean>
   }
 });
 
