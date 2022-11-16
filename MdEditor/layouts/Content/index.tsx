@@ -48,7 +48,7 @@ export default defineComponent({
     // 粘贴上传
     usePasteUpload(textAreaRef);
     // 图片点击放大
-    userZoom(html);
+    userZoom(props, html);
 
     return () => {
       return (

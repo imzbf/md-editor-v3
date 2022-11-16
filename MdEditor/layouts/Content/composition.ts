@@ -792,7 +792,7 @@ export const usePasteUpload = (textAreaRef: Ref) => {
   });
 };
 
-export const userZoom = (html: Ref<string>) => {
+export const userZoom = (props: ContentProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
 
   const zoomHander = debounce(() => {
@@ -808,5 +808,5 @@ export const userZoom = (html: Ref<string>) => {
   });
 
   onMounted(zoomHander);
-  watch([html], zoomHander);
+  watch([html, toRef(props.setting, 'preview')], zoomHander);
 };
