@@ -56,3 +56,29 @@
     }
   }
 }
+
+@media (max-width: 688px) {
+  .@{prefix}-modal-clip {
+    .@{prefix}-modal {
+      max-width: calc(100% - 20px);
+      max-height: calc(100% - 20px);
+      margin: 10px;
+      left: 0 !important;
+    }
+
+    .@{prefix}-clip {
+      flex-direction: column;
+
+      &-main,
+      &-preview {
+        width: 100%;
+        height: 0;
+        flex: 1;
+      }
+
+      &-main {
+        margin-bottom: 1em;
+      }
+    }
+  }
+}

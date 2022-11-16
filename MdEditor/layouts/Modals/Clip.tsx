@@ -142,6 +142,7 @@ export default defineComponent({
 
     return () => (
       <Modal
+        class={`${prefix}-modal-clip`}
         title={ult.value.clipModalTips?.title}
         visible={props.visible}
         onClose={props.onCancel}

@@ -48,6 +48,9 @@ const modalProps = () => ({
   onAdjust: {
     type: Function as PropType<(val: boolean) => void>,
     default: () => () => {}
+  },
+  class: {
+    type: String as PropType<string>
   }
 });
 
@@ -155,7 +158,10 @@ export default defineComponent({
       const slotTitle = getSlot({ props, ctx }, 'title');
 
       return (
-        <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
+        <div
+          class={[props.class]}
+          style={{ display: modalVisible.value ? 'block' : 'none' }}
+        >
           <div class={`${prefix}-modal-mask`} onClick={props.onClose} />
           <div
             class={modalClass.value}
