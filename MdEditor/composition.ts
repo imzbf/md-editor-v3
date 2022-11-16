@@ -26,7 +26,7 @@ import {
 import { EditorProps } from './props';
 
 export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
-  const { editorId, noPrettier } = props;
+  const { editorId, noPrettier, previewOnly } = props;
 
   const initFunc = (name: ToolbarNames) =>
     props.toolbars?.includes(name) &&
@@ -298,7 +298,7 @@ export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
   };
 
   onMounted(() => {
-    if (!props.previewOnly) {
+    if (!previewOnly) {
       window.addEventListener('keydown', keyDownHandler);
 
       // 注册保存事件
@@ -317,14 +317,14 @@ export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
 
   // 编辑器卸载时移除相应的监听事件
   onBeforeUnmount(() => {
-    if (!props.previewOnly) {
+    if (!previewOnly) {
       window.removeEventListener('keydown', keyDownHandler);
     }
   });
 };
 
 export const useProvide = (props: EditorProps) => {
-  const { editorId } = props;
+  const { editorId, previewOnly } = props;
   const highlightConfig = configOption?.editorExtensions?.highlight;
 
   provide('editorId', editorId);
@@ -360,7 +360,7 @@ export const useProvide = (props: EditorProps) => {
   provide('historyLength', props.historyLength);
 
   // 注入是否仅预览
-  provide('previewOnly', props.previewOnly);
+  provide('previewOnly', previewOnly);
 
   // 注入代码行号控制
   provide('showCodeRowNumber', props.showCodeRowNumber);
@@ -475,7 +475,7 @@ export const useConfig = (
   props: EditorProps,
   context: SetupContext
 ): [setting: SettingType, updateSetting: (v: any, k: keyof typeof setting) => void] => {
-  const { editorId } = props;
+  const { editorId, previewOnly } = props;
 
   // ----编辑器设置----
   const setting = reactive<SettingType>({
@@ -510,7 +510,7 @@ export const useConfig = (
   // 进入时若默认全屏，调整一次
   onMounted(() => {
     // 监听上传图片
-    if (!props.previewOnly) {
+    if (!previewOnly) {
       bus.on(editorId, {
         name: 'uploadImage',
         callback(files: Array<File>, cb: () => void) {

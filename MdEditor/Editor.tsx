@@ -35,7 +35,7 @@ const Editor = defineComponent({
   ],
   setup(props: EditorProps, context: SetupContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
-    const { editorId } = props;
+    const { editorId, previewOnly } = props;
 
     const state = reactive({
       scrollAuto: props.scrollAuto
@@ -68,11 +68,11 @@ const Editor = defineComponent({
             props.class,
             props.theme === 'dark' && `${prefix}-dark`,
             setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
-            props.previewOnly && `${prefix}-previewOnly`
+            previewOnly && `${prefix}-previewOnly`
           ]}
           style={props.style}
         >
-          {!props.previewOnly && (
+          {!previewOnly && (
             <ToolBar
               noPrettier={props.noPrettier}
               toolbars={props.toolbars}
@@ -119,7 +119,7 @@ const Editor = defineComponent({
             scrollAuto={state.scrollAuto}
             formatCopiedText={props.formatCopiedText}
           />
-          {!props.previewOnly && props.footers?.length > 0 && (
+          {!previewOnly && props.footers?.length > 0 && (
             <Footer
               modelValue={props.modelValue}
               footers={props.footers}
@@ -128,7 +128,7 @@ const Editor = defineComponent({
               onScrollAutoChange={(v) => (state.scrollAuto = v)}
             />
           )}
-          {catalogShow.value && !props.previewOnly && (
+          {catalogShow.value && !previewOnly && (
             <MdCatalog
               theme={props.theme}
               style={{
