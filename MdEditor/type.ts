@@ -63,10 +63,10 @@ export interface StaticTextDefaultValue {
   };
   linkModalTips?: {
     title?: string;
-    descLable?: string;
-    descLablePlaceHolder?: string;
-    urlLable?: string;
-    urlLablePlaceHolder?: string;
+    descLabel?: string;
+    descLabelPlaceHolder?: string;
+    urlLabel?: string;
+    urlLabelPlaceHolder?: string;
     buttonOK?: string;
   };
   clipModalTips?: {

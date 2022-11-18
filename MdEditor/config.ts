@@ -2,6 +2,9 @@ import { CodeCss, Config, ConfigOption, Footers, StaticTextDefault } from './typ
 
 export const prefix = 'md-editor';
 
+// 编辑器ID
+export const iconScriptId = 'md-editor-v3';
+
 // 字体链接
 export const iconfontUrl = 'https://at.alicdn.com/t/c/font_2605852_4cjr7o5jo0f.js';
 

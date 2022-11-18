@@ -212,10 +212,10 @@ export interface StaticTextDefaultValue {
   // 添加链接或图片时弹窗提示
   linkModalTips?: {
     title?: string;
-    descLable?: string;
-    descLablePlaceHolder?: string;
-    urlLable?: string;
-    urlLablePlaceHolder?: string;
+    descLabel?: string;
+    descLabelPlaceHolder?: string;
+    urlLabel?: string;
+    urlLabelPlaceHolder?: string;
     buttonOK?: string;
   };
   // 裁剪图片弹窗提示，v1.2.0
