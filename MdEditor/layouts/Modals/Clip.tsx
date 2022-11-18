@@ -200,7 +200,7 @@ export default defineComponent({
               }
             }}
           >
-            {ult.value.linkModalTips?.buttonOK}
+            {ult.value.clipModalTips?.buttonUpload || ult.value.linkModalTips?.buttonOK}
           </button>
         </div>
         <input
