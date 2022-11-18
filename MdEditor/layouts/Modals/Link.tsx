@@ -46,10 +46,10 @@ export default defineComponent({
     const title = computed(() => {
       switch (props.type) {
         case 'link': {
-          return `${ult.value.linkModalTips?.title}${ult.value.toolbarTips?.link}`;
+          return ult.value.linkModalTips?.title;
         }
         case 'image': {
-          return `${ult.value.linkModalTips?.title}${ult.value.toolbarTips?.image}`;
+          return ult.value.imgTitleItem?.linkModalTitle || ult.value.imgTitleItem?.link;
         }
         default: {
           return '';

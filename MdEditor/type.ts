@@ -57,6 +57,7 @@ export interface StaticTextDefaultValue {
   };
   imgTitleItem?: {
     link: string;
+    linkModalTitle?: string;
     upload: string;
     clip2upload: string;
   };
