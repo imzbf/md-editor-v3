@@ -292,7 +292,7 @@ const handler = () => {
 | name | param | description |
 | --- | --- | --- |
 | onChange | `value: string` | Content changed event(bind to `oninput` of `textarea`) |
-| onSave | `value: string` | Save content event, `ctrl+s`and click button will be triggered also |
+| onSave | `value: string, html: Promise<string>` | Save content event, `ctrl+s`and click button will be triggered also |
 | onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
 | onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
 | onGetCatalog | `list: Array<HeadList>` | Get catalog of article |

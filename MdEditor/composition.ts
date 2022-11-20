@@ -28,6 +28,13 @@ import { EditorProps } from './props';
 export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
   const { editorId, noPrettier, previewOnly } = props;
 
+  const state = reactive({
+    // 是否已编译成html
+    buildFinished: false,
+    // 存储当前最新的html
+    html: ''
+  });
+
   const initFunc = (name: ToolbarNames) =>
     props.toolbars?.includes(name) &&
     !props.toolbarsExclude?.includes(name) &&
@@ -297,18 +304,52 @@ export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
     }
   };
 
+  // 编辑后添加未编译完成标识
+  watch(
+    () => props.modelValue,
+    () => {
+      state.buildFinished = false;
+    }
+  );
+
   onMounted(() => {
     if (!previewOnly) {
       window.addEventListener('keydown', keyDownHandler);
+
+      bus.on(editorId, {
+        name: 'buildFinished',
+        callback(html: string) {
+          state.buildFinished = true;
+          state.html = html;
+        }
+      });
 
       // 注册保存事件
       bus.on(editorId, {
         name: 'onSave',
         callback() {
+          const htmlPromise = new Promise<string>((rev) => {
+            if (state.buildFinished) {
+              rev(state.html);
+            } else {
+              // 构建完成出发方法
+              const buildFinishedCallback = (html: string) => {
+                rev(html);
+
+                bus.remove(editorId, 'buildFinished', buildFinishedCallback);
+              };
+
+              bus.on(editorId, {
+                name: 'buildFinished',
+                callback: buildFinishedCallback
+              });
+            }
+          });
+
           if (props.onSave) {
-            props.onSave(props.modelValue);
+            props.onSave(props.modelValue, htmlPromise);
           } else {
-            context.emit('onSave', props.modelValue);
+            context.emit('onSave', props.modelValue, htmlPromise);
           }
         }
       });

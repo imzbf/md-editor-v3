@@ -382,6 +382,7 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
       const _html = props.sanitize(marked(props.value || '', { renderer }));
       html.value = _html;
 
+      bus.emit(editorId, 'buildFinished', _html);
       props.onHtmlChanged(_html);
     },
     editorConfig?.renderDelay !== undefined

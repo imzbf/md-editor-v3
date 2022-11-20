@@ -36,7 +36,7 @@ export const editorProps = () => ({
     type: Function as PropType<(v: string) => void>
   },
   onSave: {
-    type: Function as PropType<(v: string) => void>
+    type: Function as PropType<(v: string, h: Promise<string>) => void>
   },
   onUploadImg: {
     type: Function as PropType<

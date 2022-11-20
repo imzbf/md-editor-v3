@@ -119,7 +119,11 @@ export default defineComponent({
             modelValue={md.text}
             language={props.lang}
             // katex={katex}
-            onSave={(v) => {
+            onSave={(v, h) => {
+              console.log('onSave');
+              h.then((html) => {
+                console.log('onSaveAsync', html);
+              });
               localStorage.setItem(SAVE_KEY, v);
             }}
             codeTheme={props.codeTheme}

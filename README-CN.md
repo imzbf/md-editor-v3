@@ -302,7 +302,7 @@ const handler = () => {
 | 名称 | 入参 | 说明 |
 | --- | --- | --- |
 | onChange | `value: string` | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
-| onSave | `value: string` | 保存事件，快捷键与保存按钮均会触发 |
+| onSave | `value: string, html: Promise<string>` | 保存事件，快捷键与保存按钮均会触发 |
 | onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | `html: string` | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog | `list: Array<HeadList>` | 动态获取`markdown`目录 |
