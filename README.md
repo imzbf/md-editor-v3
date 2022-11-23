@@ -211,10 +211,10 @@ export interface StaticTextDefaultValue {
   // The modal tips of add link or upload picture
   linkModalTips?: {
     title?: string;
-    descLable?: string;
-    descLablePlaceHolder?: string;
-    urlLable?: string;
-    urlLablePlaceHolder?: string;
+    descLabel?: string;
+    descLabelPlaceHolder?: string;
+    urlLabel?: string;
+    urlLabelPlaceHolder?: string;
     buttonOK?: string;
   };
   // The modal tips of clip the picture, v1.2.0

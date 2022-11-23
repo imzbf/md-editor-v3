@@ -46,10 +46,10 @@ export default defineComponent({
     const title = computed(() => {
       switch (props.type) {
         case 'link': {
-          return `${ult.value.linkModalTips?.title}${ult.value.toolbarTips?.link}`;
+          return ult.value.linkModalTips?.title;
         }
         case 'image': {
-          return `${ult.value.linkModalTips?.title}${ult.value.toolbarTips?.image}`;
+          return ult.value.imgTitleItem?.linkModalTitle || ult.value.imgTitleItem?.link;
         }
         default: {
           return '';
@@ -79,11 +79,11 @@ export default defineComponent({
     return () => (
       <Modal title={title.value} visible={props.visible} onClose={props.onCancel}>
         <div class={`${prefix}-form-item`}>
-          <label class={`${prefix}-lable`} for={`link-desc-${editorId}`}>
-            {ult.value.linkModalTips?.descLable}
+          <label class={`${prefix}-label`} for={`link-desc-${editorId}`}>
+            {ult.value.linkModalTips?.descLabel}
           </label>
           <input
-            placeholder={ult.value.linkModalTips?.descLablePlaceHolder}
+            placeholder={ult.value.linkModalTips?.descLabelPlaceHolder}
             class={`${prefix}-input`}
             id={`link-desc-${editorId}`}
             type="text"
@@ -95,11 +95,11 @@ export default defineComponent({
           />
         </div>
         <div class={`${prefix}-form-item`}>
-          <label class={`${prefix}-lable`} for={`link-url-${editorId}`}>
-            {ult.value.linkModalTips?.urlLable}
+          <label class={`${prefix}-label`} for={`link-url-${editorId}`}>
+            {ult.value.linkModalTips?.urlLabel}
           </label>
           <input
-            placeholder={ult.value.linkModalTips?.urlLablePlaceHolder}
+            placeholder={ult.value.linkModalTips?.urlLabelPlaceHolder}
             class={`${prefix}-input`}
             id={`link-url-${editorId}`}
             type="text"

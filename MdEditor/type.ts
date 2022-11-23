@@ -57,15 +57,16 @@ export interface StaticTextDefaultValue {
   };
   imgTitleItem?: {
     link: string;
+    linkModalTitle?: string;
     upload: string;
     clip2upload: string;
   };
   linkModalTips?: {
     title?: string;
-    descLable?: string;
-    descLablePlaceHolder?: string;
-    urlLable?: string;
-    urlLablePlaceHolder?: string;
+    descLabel?: string;
+    descLabelPlaceHolder?: string;
+    urlLabel?: string;
+    urlLabelPlaceHolder?: string;
     buttonOK?: string;
   };
   clipModalTips?: {
