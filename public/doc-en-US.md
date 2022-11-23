@@ -528,9 +528,27 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
 ### 💾 onSave
 
-- **type**: `(v: string) => void`
+- **type**: `(v: string, h: Promise<string>) => void`
 
   Save Content event, `ctrl+s` and click button will trigger.
+
+  ```vue
+  <tempalte>
+    <md-editor @onSave="onSave" />
+  </tempalte>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+
+  const onSave = (v, h) => {
+    console.log(v);
+
+    h.then((html) => {
+      console.log(html);
+    });
+  };
+  </script>
+  ```
 
 ### 📸 onUploadImg
 

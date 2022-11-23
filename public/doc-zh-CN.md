@@ -537,9 +537,27 @@
 
 ### 💾 onSave
 
-- **类型**：`(v: string) => void`
+- **类型**：`(v: string, h: Promise<string>) => void`
 
   保存事件，快捷键与保存按钮均会触发。
+
+  ```vue
+  <tempalte>
+    <md-editor @onSave="onSave" />
+  </tempalte>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+
+  const onSave = (v, h) => {
+    console.log(v);
+
+    h.then((html) => {
+      console.log(html);
+    });
+  };
+  </script>
+  ```
 
 ### 📸 onUploadImg
 
