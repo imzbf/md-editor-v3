@@ -13,7 +13,7 @@ class Bus {
     const events = targetRace && this.pools[race][name];
 
     if (events) {
-      this.pools[race][name] = events.filter((item) => item === func);
+      this.pools[race][name] = events.filter((item) => item !== func);
     }
   }
 
