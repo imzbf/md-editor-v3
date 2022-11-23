@@ -210,7 +210,8 @@ export interface StaticTextDefaultValue {
   };
   // The modal tips of add link or upload picture
   linkModalTips?: {
-    title?: string;
+    linkTitle?: string;
+    imageTitle?: string;
     descLabel?: string;
     descLabelPlaceHolder?: string;
     urlLabel?: string;

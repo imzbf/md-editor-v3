@@ -211,7 +211,8 @@ export interface StaticTextDefaultValue {
   };
   // 添加链接或图片时弹窗提示
   linkModalTips?: {
-    title?: string;
+    linkTitle?: string;
+    imageTitle?: string;
     descLabel?: string;
     descLabelPlaceHolder?: string;
     urlLabel?: string;

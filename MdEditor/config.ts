@@ -106,12 +106,12 @@ export const staticTextDefault: StaticTextDefault = {
     },
     imgTitleItem: {
       link: '添加链接',
-      linkModalTitle: '添加图片',
       upload: '上传图片',
       clip2upload: '裁剪上传'
     },
     linkModalTips: {
-      title: '添加链接',
+      linkTitle: '添加链接',
+      imageTitle: '添加图片',
       descLabel: '链接描述：',
       descLabelPlaceHolder: '请输入描述...',
       urlLabel: '链接地址：',
@@ -186,13 +186,13 @@ export const staticTextDefault: StaticTextDefault = {
       h6: 'Lv6 Heading'
     },
     imgTitleItem: {
-      linkModalTitle: 'Add img from url',
       link: 'Add Img Link',
       upload: 'Upload Img',
       clip2upload: 'Clip Upload'
     },
     linkModalTips: {
-      title: 'Add link',
+      linkTitle: 'Add Link',
+      imageTitle: 'Add Image',
       descLabel: 'Desc:',
       descLabelPlaceHolder: 'Enter a description...',
       urlLabel: 'Link:',
