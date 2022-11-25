@@ -20,8 +20,8 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - Beautify your content by `prettier`(only for markdown content, not the code and other text).
 - Multi-language, build-in Chinese and English(default: Chinese).
 - Upload picture, paste or clip the picture and upload it.
-- Render article directly(no editor, no event listener, only preview content).
-- Preview themes, `defalut`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Refer to example page).
+- Render article directly(no editor, no event listener, only preview of content).
+- Theme of preview, `defalut`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Refer to example page).
 - `mermaid`(>=1.8.0), `katex` mathematical formula(>=1.9.0).
 - Customize the toolbar as you like.
 
@@ -37,7 +37,7 @@ Please install `@types/marked` in your typescript project if you want to configu
 yarn add @types/marked -D
 ```
 
-Install existing extension of language and preview theme:
+Install existing extension of language and theme of preview:
 
 ```shell
 yarn add @vavt/md-editor-extension
@@ -77,38 +77,40 @@ mark and emoji extensions
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| modelValue | string | '' | Markdown content, use `v-model` in vue template |
-| theme | 'light' \| 'dark' | 'light' | Editor theme |
-| class | string | '' |  |
-| historyLength | number | 10 | The max length of history(if it is too big, editor will use more `RAM`) |
-| pageFullScreen | boolean | false | Screenfull in web page |
-| preview | boolean | true | Preview content in editor |
-| htmlPreview | boolean | false | Preview html in editor |
-| previewOnly | boolean | false | Only render article content, no toolbar, no edit area |
-| language | string | 'zh-CN' | Build-in language('zh-CN','en-US') |
-| toolbars | Array<ToolbarNames \| number> | [toolbars] | Show contents of toolbar, all keys<sup>see `toolbars` below</sup> |
-| toolbarsExclude | Array<ToolbarNames \| number> | [] | Don't show contents of toolbar, all keys`toolbars` |
-| noPrettier | boolean | false | Use prettier to beautify content or not |
-| editorId | string | 'md-editor-v3' | Editor id, it is used when there are more than two editors in the same page |
-| tabWidth | number | 2 | One tab eq some spaces |
-| showCodeRowNumber | boolean | false | Show row number for code block or not |
-| previewTheme | 'default' \| 'github' \| 'vuepress' \| 'mk-cute' \| 'smart-blue' \| 'cyanosis' | 'default' | Preview theme, can be customized |
-| style | string \| CSSProperties | {} | Editor inline style |
-| tableShape | [number, number] | [6, 4] | Preset the size of the table, [columns, rows] |
-| noMermaid | boolean | false | Use mermaid or not |
-| placeholder | string | '' |  |
-| noKatex | boolean | false | Use katex or not |
-| codeTheme | 'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow' | 'atom' | Highlight code style, can be customized also |
-| markedHeadingId | (text: string, level: number, index: number) => string | (text) => text | H1-H6 `ID` generator |
-| sanitize | (html: string) => string | (html) => html | Sanitize the html, prevent XSS |
-| footers | Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number> | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
-| scrollAuto | boolean | true | Scroll default setting |
-| noIconfont | boolean | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_4cjr7o5jo0f.js) and import it by yourself |
-| formatCopiedText | (text: string) => string | (text: string) => text | Format copied code |
-| noUploadImg | boolean | false | Not show the entrance to upload pictures |
+| modelValue | `string` | '' | Markdown content, use `v-model` in vue template |
+| theme | `'light' \| 'dark'` | 'light' | Editor theme |
+| class | `string` | '' |  |
+| historyLength | `number` | 10 | The max length of history(if it is too big, editor will use more `RAM`) |
+| pageFullScreen | `boolean` | false | Screenfull in web page |
+| preview | `boolean` | true | Preview content in editor |
+| htmlPreview | `boolean` | false | Preview html in editor |
+| previewOnly | `boolean` | false | Only render preview of content, no toolbar, no editing area |
+| language | `string` | 'zh-CN' | Build-in language('zh-CN','en-US') |
+| toolbars | `Array<ToolbarNames \| number>` | [toolbars] | Show contents of toolbar, all keys<sup>see `toolbars` below</sup> |
+| toolbarsExclude | `Array<ToolbarNames \| number>` | [] | Don't show contents of toolbar, all keys`toolbars` |
+| noPrettier | `boolean` | false | Use prettier to beautify content or not |
+| editorId | `string` | 'md-editor-v3' | Editor's id, it is used when there are more than two editors in the same page |
+| tabWidth | `number` | 2 | One tab eq some spaces |
+| showCodeRowNumber | `boolean` | false | Show row number for code block or not |
+| previewTheme | `'default' \| 'github' \| 'vuepress' \| 'mk-cute' \| 'smart-blue' \| 'cyanosis'` | 'default' | Theme of preview, can be customized |
+| style | `string \| CSSProperties` | {} | Inline style |
+| tableShape | `[number, number]` | [6, 4] | Preset the size of the table, [columns, rows] |
+| noMermaid | `boolean` | false | Use mermaid or not |
+| placeholder | `string` | '' |  |
+| noKatex | `boolean` | false | Use katex or not |
+| codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | Highlight code style, can be customized also |
+| markedHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
+| sanitize | `(html: string) => string` | (html) => html | Sanitize the html, prevent XSS |
+| footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
+| scrollAuto | `boolean` | true | Scroll default setting |
+| noIconfont | `boolean` | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_4cjr7o5jo0f.js) and import it by yourself |
+| formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
+| noUploadImg | `boolean` | false | Not show the entrance to upload pictures |
+| codeStyleReverse | `boolean` | false | Code style will be reversed to dark while code block of the theme has a dark background |
+| codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | Themes to be reversed |
 
 <details>
- <summary>[toolbars]</summary>
+ <summary>『toolbars』</summary>
 
 ```js
 [
@@ -153,7 +155,7 @@ mark and emoji extensions
 > After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs).
 
 <details>
- <summary>[StaticTextDefaultValue]</summary>
+ <summary>『StaticTextDefaultValue』</summary>
 
 Expand language, you need to replace all the content here:
 
@@ -257,8 +259,8 @@ export interface StaticTextDefaultValue {
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| defToolbars | Array<DropdownToolbar \| NormalToolbar \| ModalToolbar> | null | Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar` |
-| defFooters | Array<string \| VNode \| JSX.Element> | null | Custom footer |
+| defToolbars | `Array<DropdownToolbar \| NormalToolbar \| ModalToolbar>` | null | Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar` |
+| defFooters | `Array<string \| VNode \| JSX.Element>` | null | Custom footer |
 
 `NormalToolbar` example:
 
@@ -376,7 +378,7 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
   ```
 
   <details>
-    <summary>[EditorExtensions]</summary>
+    <summary>『EditorExtensions』</summary>
 
   ```ts
   import MdEditor from 'md-editor-v3';

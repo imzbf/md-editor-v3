@@ -388,11 +388,16 @@ export const useProvide = (props: EditorProps) => {
         ...highlightConfig?.css
       };
 
+      const theme =
+        props.codeStyleReverse && props.codeStyleReverseList.includes(props.previewTheme)
+          ? 'dark'
+          : props.theme;
+
       return {
         js: highlightConfig?.js || highlightUrl,
         css: cssList[props.codeTheme]
-          ? cssList[props.codeTheme][props.theme as 'light' | 'dark']
-          : codeCss.atom[props.theme as 'light' | 'dark']
+          ? cssList[props.codeTheme][theme]
+          : codeCss.atom[theme]
       };
     })
   );

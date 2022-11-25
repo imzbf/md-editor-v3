@@ -13,7 +13,7 @@ export default defineComponent({
   setup() {
     const theme = ref<Theme>('light');
     const previewTheme = ref<string>('default');
-    const codeTheme = ref<string>('kimbie');
+    const codeTheme = ref<string>('atom');
     const lang = ref<string>('zh-CN');
 
     return () => (

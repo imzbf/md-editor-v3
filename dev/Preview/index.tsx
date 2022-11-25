@@ -10,8 +10,8 @@ import katex from 'katex';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import mermaid from 'mermaid';
-import highlight from 'highlight.js';
-import 'highlight.js/styles/tokyo-night-dark.css';
+// import highlight from 'highlight.js';
+// import 'highlight.js/styles/tokyo-night-dark.css';
 
 import prettier from 'prettier';
 import parserMarkdown from 'prettier/parser-markdown';
@@ -37,15 +37,15 @@ Editor.config({
       prettierInstance: prettier,
       parserMarkdownInstance: parserMarkdown
     },
-    highlight: {
-      instance: highlight
-      // css: {
-      //   'tokyo-night': {
-      //     light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
-      //     dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
-      //   }
-      // }
-    },
+    // highlight: {
+    // instance: highlight
+    // css: {
+    //   'tokyo-night': {
+    //     light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
+    //     dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
+    //   }
+    // }
+    // },
     screenfull: {
       instance: screenfull
     },
