@@ -10,7 +10,13 @@ import {
 } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
-import { ToolbarNames, InnerError, SettingType } from './type';
+import {
+  ToolbarNames,
+  InnerError,
+  SettingType,
+  ExposeParam,
+  UpdateSetting
+} from './type';
 import { appendHandler } from './utils/dom';
 import {
   prefix,
@@ -24,6 +30,7 @@ import {
 } from './config';
 
 import { EditorProps } from './props';
+import { CATALOG_SHOW, ON_SAVE } from './static/event-name';
 
 export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
   const { editorId, noPrettier, previewOnly } = props;
@@ -63,7 +70,7 @@ export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
           } else {
             // 触发保存事件
             if (initFunc('save')) {
-              bus.emit(editorId, 'onSave', props.modelValue);
+              bus.emit(editorId, ON_SAVE, props.modelValue);
               event.preventDefault();
             }
           }
@@ -326,7 +333,7 @@ export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
 
       // 注册保存事件
       bus.on(editorId, {
-        name: 'onSave',
+        name: ON_SAVE,
         callback() {
           const htmlPromise = new Promise<string>((rev) => {
             if (state.buildFinished) {
@@ -520,7 +527,7 @@ export const useErrorCatcher = (props: EditorProps, context: SetupContext) => {
 export const useConfig = (
   props: EditorProps,
   context: SetupContext
-): [setting: SettingType, updateSetting: (v: any, k: keyof typeof setting) => void] => {
+): [setting: SettingType, updateSetting: UpdateSetting] => {
   const { editorId, previewOnly } = props;
 
   // ----编辑器设置----
@@ -591,9 +598,13 @@ export const useCatalog = (props: EditorProps) => {
 
   onMounted(() => {
     bus.on(editorId, {
-      name: 'catalogShow',
-      callback: () => {
-        catalogVisible.value = !catalogVisible.value;
+      name: CATALOG_SHOW,
+      callback: (v: boolean | undefined) => {
+        if (v === undefined) {
+          catalogVisible.value = !catalogVisible.value;
+        } else {
+          catalogVisible.value = v;
+        }
       }
     });
   });
@@ -606,3 +617,56 @@ export const useCatalog = (props: EditorProps) => {
 
   return [catalogVisible, catalogShow];
 };
+
+export const useExpose = (
+  props: EditorProps,
+  ctx: SetupContext,
+  updateSetting: UpdateSetting
+) => {
+  const { editorId } = props;
+
+  const exposeParam: ExposeParam = {
+    // on(eventName, callBack) {
+    //   console.log(eventName);
+
+    //   switch (eventName) {
+    //     case 'change': {
+    //       (callBack as ExposeEvent['change'])('');
+    //     }
+
+    //     default: {
+    //       //
+    //     }
+    //   }
+    // }
+    togglePageFullScreen(status) {
+      updateSetting(status, 'pageFullScreen');
+    },
+    toggleFullScreen(status) {
+      updateSetting(status, 'fullscreen');
+    },
+    togglePreview(status) {
+      updateSetting(status, 'preview');
+    },
+    toggleHtmlPreview(status) {
+      updateSetting(status, 'htmlPreview');
+    },
+    toggleCatalog(status) {
+      bus.emit(editorId, CATALOG_SHOW, status);
+    },
+    triggerSave() {
+      bus.emit(editorId, ON_SAVE);
+    },
+    insert(generate) {
+      bus.emit(editorId, 'replace', 'universal', { generate });
+    }
+  };
+
+  ctx.expose(exposeParam);
+
+  // exposeParam.on('change', (v) => {
+  //   console.log(v);
+  // });
+};
+
+// document.addEventListener('click', () => {});

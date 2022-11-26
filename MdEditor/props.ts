@@ -3,12 +3,16 @@ import { LooseRequired } from '@vue/shared';
 import {
   StaticTextDefaultKey,
   ToolbarNames,
-  HeadList,
   PreviewThemes,
   MarkedHeadingId,
   Themes,
-  InnerError,
-  Footers
+  Footers,
+  ChangeEvent,
+  SaveEvent,
+  UploadImgEvent,
+  HtmlChangedEvent,
+  GetCatalogEvent,
+  ErrorEvent
 } from './type';
 
 import { allToolbar, allFooter } from './config';
@@ -33,15 +37,13 @@ export const editorProps = () => ({
     default: 10
   },
   onChange: {
-    type: Function as PropType<(v: string) => void>
+    type: Function as PropType<ChangeEvent>
   },
   onSave: {
-    type: Function as PropType<(v: string, h: Promise<string>) => void>
+    type: Function as PropType<SaveEvent>
   },
   onUploadImg: {
-    type: Function as PropType<
-      (files: Array<File>, callBack: (urls: string[]) => void) => void
-    >
+    type: Function as PropType<UploadImgEvent>
   },
   pageFullScreen: {
     type: Boolean as PropType<boolean>,
@@ -79,10 +81,10 @@ export const editorProps = () => ({
   },
   // html变化事件
   onHtmlChanged: {
-    type: Function as PropType<(h: string) => void>
+    type: Function as PropType<HtmlChangedEvent>
   },
   onGetCatalog: {
-    type: Function as PropType<(list: HeadList[]) => void>
+    type: Function as PropType<GetCatalogEvent>
   },
   editorId: {
     type: String as PropType<string>,
@@ -139,7 +141,7 @@ export const editorProps = () => ({
     type: [String, Object] as PropType<string | JSX.Element>
   },
   onError: {
-    type: Function as PropType<(err: InnerError) => void>
+    type: Function as PropType<ErrorEvent>
   },
   codeTheme: {
     type: String as PropType<string>,

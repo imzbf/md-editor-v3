@@ -1,5 +1,5 @@
-import { defineComponent, reactive, PropType, onUnmounted, watch } from 'vue';
-import Editor from '../../MdEditor';
+import { defineComponent, reactive, PropType, onUnmounted, watch, ref } from 'vue';
+import Editor, { ExposeParam } from '../../MdEditor';
 import mdText from '../data.md';
 import { Theme } from '../App';
 import axios from 'axios';
@@ -80,6 +80,8 @@ export default defineComponent({
       isFullscreen: false
     });
 
+    const editorRef = ref<ExposeParam>();
+
     // 自动保存
     let taskId = -1;
     watch(
@@ -111,8 +113,23 @@ export default defineComponent({
         >
           <Editor.MdCatalog editorId="md-prev" theme={props.theme} />
         </div>
+        <button
+          onClick={() => {
+            editorRef.value?.insert((selectedText) => {
+              return {
+                targetValue: `@${selectedText}@`,
+                select: false,
+                deviationStart: 0,
+                deviationEnd: 0
+              };
+            });
+          }}
+        >
+          1
+        </button>
         <div class="container">
           <Editor
+            ref={editorRef}
             editorId="md-prev"
             previewTheme={props.previewTheme}
             theme={props.theme}

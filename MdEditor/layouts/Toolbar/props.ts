@@ -1,6 +1,6 @@
 import { PropType, VNode, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { ToolbarNames, SettingType } from '../../type';
+import { ToolbarNames, SettingType, UpdateSetting } from '../../type';
 
 export const toolbarProps = () => ({
   noPrettier: {
@@ -29,7 +29,7 @@ export const toolbarProps = () => ({
     default: ''
   },
   updateSetting: {
-    type: Function as PropType<(v: boolean, k: keyof SettingType) => void>,
+    type: Function as PropType<UpdateSetting>,
     default: () => () => {}
   },
   tableShape: {

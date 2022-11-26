@@ -18,6 +18,7 @@ import { useSreenfull } from './composition';
 import TableShape from './TableShape';
 import { allToolbar, prefix } from '../../config';
 import { toolbarProps, ToolbarProps } from './props';
+import { ON_SAVE } from '../../static/event-name';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -528,7 +529,7 @@ export default defineComponent({
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.save}
                 onClick={() => {
-                  bus.emit(editorId, 'onSave');
+                  bus.emit(editorId, ON_SAVE);
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">

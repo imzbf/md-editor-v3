@@ -2,6 +2,7 @@ import copy from 'copy-to-clipboard';
 import { insert, setPosition } from '.';
 import bus from '../utils/event-bus';
 import { configOption } from '../config';
+import { InsertContentGenerator } from '../type';
 
 export type ToolDirective =
   | 'bold'
@@ -41,7 +42,8 @@ export type ToolDirective =
   | 'relationship'
   | 'journey'
   | 'katexInline'
-  | 'katexBlock';
+  | 'katexBlock'
+  | 'universal';
 
 /**
  * 快速获取分割内容
@@ -563,6 +565,17 @@ export const directive2flag = (
         deviationStart = 1;
         deviationEnd = -4;
         break;
+      }
+
+      // 通用插入
+      case 'universal': {
+        const { generate } = params as { generate: InsertContentGenerator };
+        const insertOptions = generate(selectedText);
+
+        targetValue = insertOptions.targetValue;
+        select = insertOptions.select;
+        deviationStart = insertOptions.deviationStart;
+        deviationEnd = insertOptions.deviationEnd;
       }
     }
   }

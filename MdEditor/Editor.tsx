@@ -5,7 +5,8 @@ import {
   useProvide,
   useExpansion,
   useConfig,
-  useCatalog
+  useCatalog,
+  useExpose
 } from './composition';
 import ToolBar from './layouts/Toolbar';
 import Content from './layouts/Content';
@@ -55,6 +56,8 @@ const Editor = defineComponent({
     onBeforeUnmount(() => {
       bus.clear(editorId);
     });
+
+    useExpose(props, context, updateSetting);
 
     return () => {
       const defToolbars = getSlot({ props, ctx: context }, 'defToolbars');
