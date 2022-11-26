@@ -36,9 +36,7 @@ export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
   });
 
   const initFunc = (name: ToolbarNames) =>
-    props.toolbars?.includes(name) &&
-    !props.toolbarsExclude?.includes(name) &&
-    !noPrettier;
+    props.toolbars?.includes(name) && !props.toolbarsExclude?.includes(name);
 
   const keyDownHandler = (event: KeyboardEvent) => {
     // 只处理是编辑框内的内容
@@ -265,7 +263,7 @@ export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
         case 'KeyF': {
           // ctrl+shift+f 美化内容
           if (event.shiftKey) {
-            if (initFunc('prettier')) {
+            if (initFunc('prettier') && !noPrettier) {
               bus.emit(editorId, 'replace', 'prettier');
               event.preventDefault();
             }
