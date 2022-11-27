@@ -36,7 +36,7 @@ const Editor = defineComponent({
   ],
   setup(props: EditorProps, context: SetupContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
-    const { editorId, previewOnly } = props;
+    const { editorId, previewOnly, noKatex, noMermaid, noPrettier, noUploadImg } = props;
 
     const state = reactive({
       scrollAuto: props.scrollAuto
@@ -77,14 +77,14 @@ const Editor = defineComponent({
         >
           {!previewOnly && (
             <ToolBar
-              noPrettier={props.noPrettier}
+              noPrettier={noPrettier}
               toolbars={props.toolbars}
               toolbarsExclude={props.toolbarsExclude}
               setting={setting}
               updateSetting={updateSetting}
               tableShape={props.tableShape}
               defToolbars={defToolbars}
-              noUploadImg={props.noUploadImg}
+              noUploadImg={noUploadImg}
             />
           )}
           <Content
@@ -115,10 +115,10 @@ const Editor = defineComponent({
               }
             }}
             markedHeadingId={props.markedHeadingId}
-            noMermaid={props.noMermaid}
+            noMermaid={noMermaid}
             sanitize={props.sanitize}
             placeholder={props.placeholder}
-            noKatex={props.noKatex}
+            noKatex={noKatex}
             scrollAuto={state.scrollAuto}
             formatCopiedText={props.formatCopiedText}
           />
