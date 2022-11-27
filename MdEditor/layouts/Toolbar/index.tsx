@@ -814,13 +814,7 @@ export default defineComponent({
 
       return (
         <div class={`${prefix}-toolbar-wrapper`} id={wrapperId}>
-          <div
-            class={`${prefix}-toolbar`}
-            onMouseenter={() => {
-              // 工具栏操作前，保存选中文本
-              bus.emit(editorId, 'selectTextChange');
-            }}
-          >
+          <div class={`${prefix}-toolbar`}>
             <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
               {LeftBar}
             </div>
