@@ -3,6 +3,7 @@ import { configOption, prefix, screenfullUrl } from '../../config';
 import { appendHandler } from '../../utils/dom';
 import bus from '../../utils/event-bus';
 import { ToolbarProps } from './props';
+import { FULL_SCREEN } from '../../static/event-name';
 
 export const useSreenfull = (props: ToolbarProps) => {
   const editorId = inject('editorId') as string;
@@ -13,7 +14,7 @@ export const useSreenfull = (props: ToolbarProps) => {
   const screenfullMe = ref(false);
 
   // 触发器
-  const fullScreenHandler = () => {
+  const fullScreenHandler = (status?: boolean) => {
     if (!screenfull) {
       bus.emit(editorId, 'errorCatcher', {
         name: 'fullScreen',
@@ -24,10 +25,12 @@ export const useSreenfull = (props: ToolbarProps) => {
 
     if (screenfull.isEnabled) {
       screenfullMe.value = true;
-      if (screenfull.isFullscreen) {
-        screenfull.exit();
-      } else {
+
+      const targetStatus = status === undefined ? !screenfull.isFullscreen : !!status;
+      if (targetStatus) {
         screenfull.request();
+      } else {
+        screenfull.exit();
       }
     } else {
       console.error('browser does not support screenfull!');
@@ -63,6 +66,16 @@ export const useSreenfull = (props: ToolbarProps) => {
       screenScript.id = `${prefix}-screenfull`;
 
       appendHandler(screenScript, 'screenfull');
+    }
+  });
+
+  onMounted(() => {
+    if (!previewOnly) {
+      // 注册切换全屏监听
+      bus.on(editorId, {
+        name: FULL_SCREEN,
+        callback: fullScreenHandler
+      });
     }
   });
 

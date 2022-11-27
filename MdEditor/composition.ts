@@ -30,7 +30,7 @@ import {
 } from './config';
 
 import { EditorProps } from './props';
-import { CATALOG_SHOW, ON_SAVE } from './static/event-name';
+import { CATALOG_SHOW, FULL_SCREEN, ON_SAVE } from './static/event-name';
 
 export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
   const { editorId, noPrettier, previewOnly } = props;
@@ -539,7 +539,7 @@ export const useConfig = (
   });
 
   const updateSetting = (v: any, k: keyof typeof setting) => {
-    setting[k] = v;
+    setting[k] = v === undefined ? !setting[k] : v;
     if (k === 'preview' && setting.preview) {
       setting.htmlPreview = false;
     } else if (k === 'htmlPreview' && setting.htmlPreview) {
@@ -643,7 +643,7 @@ export const useExpose = (
       updateSetting(status, 'pageFullScreen');
     },
     toggleFullScreen(status) {
-      updateSetting(status, 'fullscreen');
+      bus.emit(editorId, FULL_SCREEN, status);
     },
     togglePreview(status) {
       updateSetting(status, 'preview');

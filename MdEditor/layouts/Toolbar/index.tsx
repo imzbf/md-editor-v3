@@ -581,7 +581,9 @@ export default defineComponent({
               <div
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.fullscreen}
-                onClick={fullScreenHandler}
+                onClick={() => {
+                  fullScreenHandler();
+                }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use

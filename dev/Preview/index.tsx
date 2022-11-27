@@ -115,14 +115,20 @@ export default defineComponent({
         </div>
         <button
           onClick={() => {
-            editorRef.value?.insert((selectedText) => {
-              return {
-                targetValue: `@${selectedText}@`,
-                select: false,
-                deviationStart: 0,
-                deviationEnd: 0
-              };
-            });
+            // editorRef.value?.toggleFullScreen();
+            // editorRef.value?.togglePageFullScreen();
+            // editorRef.value?.toggleCatalog();
+            // editorRef.value?.toggleHtmlPreview();
+            // editorRef.value?.togglePreview();
+            // editorRef.value?.triggerSave();
+            // editorRef.value?.insert((selectedText) => {
+            //   return {
+            //     targetValue: `@${selectedText}@`,
+            //     select: false,
+            //     deviationStart: 0,
+            //     deviationEnd: 0
+            //   };
+            // });
           }}
         >
           1
