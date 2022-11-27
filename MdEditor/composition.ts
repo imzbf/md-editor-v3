@@ -429,7 +429,7 @@ export const useProvide = (props: EditorProps) => {
 
 export const useExpansion = (props: EditorProps) => {
   // 这部分内容只配置，不需要响应式更新
-  const { noPrettier, previewOnly, noIconfont } = props;
+  const { noPrettier, previewOnly, noIconfont, noUploadImg } = props;
 
   const { editorExtensions } = configOption;
 
@@ -442,7 +442,8 @@ export const useExpansion = (props: EditorProps) => {
     noPrettier || !!configOption.editorExtensions?.prettier?.parserMarkdownInstance;
 
   // 判断是否需要插入裁剪图片标签
-  const noCropperScript = !!configOption.editorExtensions?.cropper?.instance;
+  const noCropperScript =
+    noUploadImg || !!configOption.editorExtensions?.cropper?.instance;
 
   onMounted(() => {
     // 图标
