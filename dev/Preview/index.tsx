@@ -1,4 +1,12 @@
-import { defineComponent, reactive, PropType, onUnmounted, watch, ref } from 'vue';
+import {
+  defineComponent,
+  reactive,
+  PropType,
+  onUnmounted,
+  watch,
+  ref,
+  onMounted
+} from 'vue';
 import Editor, { ExposeParam } from '../../MdEditor';
 import mdText from '../data.md';
 import { Theme } from '../App';
@@ -94,6 +102,28 @@ export default defineComponent({
       }
     );
 
+    onMounted(() => {
+      editorRef.value?.on('preview', (status) => {
+        console.log('preview', status);
+      });
+
+      editorRef.value?.on('htmlPreview', (status) => {
+        console.log('htmlPreview', status);
+      });
+
+      editorRef.value?.on('pageFullscreen', (status) => {
+        console.log('pageFullscreen', status);
+      });
+
+      editorRef.value?.on('fullscreen', (status) => {
+        console.log('fullscreen', status);
+      });
+
+      editorRef.value?.on('catalog', (status) => {
+        console.log('catalog', status);
+      });
+    });
+
     onUnmounted(() => {
       clearInterval(taskId);
     });
@@ -115,8 +145,8 @@ export default defineComponent({
         </div>
         <button
           onClick={() => {
-            // editorRef.value?.toggleFullScreen();
-            // editorRef.value?.togglePageFullScreen();
+            // editorRef.value?.toggleFullscreen();
+            // editorRef.value?.togglePageFullscreen();
             // editorRef.value?.toggleCatalog();
             // editorRef.value?.toggleHtmlPreview();
             // editorRef.value?.togglePreview();

@@ -3,7 +3,7 @@ import { configOption, prefix, screenfullUrl } from '../../config';
 import { appendHandler } from '../../utils/dom';
 import bus from '../../utils/event-bus';
 import { ToolbarProps } from './props';
-import { FULL_SCREEN } from '../../static/event-name';
+import { CHANGE_FULL_SCREEN } from '../../static/event-name';
 
 export const useSreenfull = (props: ToolbarProps) => {
   const editorId = inject('editorId') as string;
@@ -73,7 +73,7 @@ export const useSreenfull = (props: ToolbarProps) => {
     if (!previewOnly) {
       // 注册切换全屏监听
       bus.on(editorId, {
-        name: FULL_SCREEN,
+        name: CHANGE_FULL_SCREEN,
         callback: fullscreenHandler
       });
     }

@@ -57,7 +57,7 @@ const Editor = defineComponent({
       bus.clear(editorId);
     });
 
-    useExpose(props, context, setting, updateSetting);
+    useExpose(props, context, catalogVisible, setting, updateSetting);
 
     return () => {
       const defToolbars = getSlot({ props, ctx: context }, 'defToolbars');

@@ -6,7 +6,8 @@ import {
   onBeforeUnmount,
   provide,
   SetupContext,
-  ref
+  ref,
+  Ref
 } from 'vue';
 import bus from './utils/event-bus';
 import { ToolDirective } from './utils/content-help';
@@ -31,7 +32,16 @@ import {
 } from './config';
 
 import { EditorProps } from './props';
-import { CATALOG_SHOW, FULL_SCREEN, ON_SAVE } from './static/event-name';
+import {
+  CHANGE_CATALOG_VISIBLE,
+  CHANGE_FULL_SCREEN,
+  ON_SAVE,
+  PAGE_FULL_SCREEN_CHANGED,
+  FULL_SCREEN_CHANGED,
+  PREVIEW_CHANGED,
+  HTML_PREVIEW_CHANGED,
+  CATALOG_VISIBLE_CHANGED
+} from './static/event-name';
 
 export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
   const { editorId, noPrettier, previewOnly } = props;
@@ -599,7 +609,7 @@ export const useCatalog = (props: EditorProps) => {
 
   onMounted(() => {
     bus.on(editorId, {
-      name: CATALOG_SHOW,
+      name: CHANGE_CATALOG_VISIBLE,
       callback: (v: boolean | undefined) => {
         if (v === undefined) {
           catalogVisible.value = !catalogVisible.value;
@@ -622,61 +632,99 @@ export const useCatalog = (props: EditorProps) => {
 export const useExpose = (
   props: EditorProps,
   ctx: SetupContext,
+  catalogVisible: Ref<boolean>,
   setting: SettingType,
   updateSetting: UpdateSetting
 ) => {
   const { editorId } = props;
 
+  watch(
+    () => setting.pageFullscreen,
+    (newVal) => {
+      bus.emit(editorId, PAGE_FULL_SCREEN_CHANGED, newVal);
+    }
+  );
+
+  watch(
+    () => setting.fullscreen,
+    (newVal) => {
+      bus.emit(editorId, FULL_SCREEN_CHANGED, newVal);
+    }
+  );
+
+  watch(
+    () => setting.preview,
+    (newVal) => {
+      bus.emit(editorId, PREVIEW_CHANGED, newVal);
+    }
+  );
+
+  watch(
+    () => setting.htmlPreview,
+    (newVal) => {
+      bus.emit(editorId, HTML_PREVIEW_CHANGED, newVal);
+    }
+  );
+
+  watch(catalogVisible, (newVal) => {
+    bus.emit(editorId, CATALOG_VISIBLE_CHANGED, newVal);
+  });
+
   const exposeParam: ExposeParam = {
     on(eventName, callBack) {
-      console.log(eventName);
-
-      watch(
-        () => setting.pageFullscreen,
-        (newVal) => {
-          bus.emit(editorId, '', newVal);
-        }
-      );
-
-      watch(
-        () => setting.fullscreen,
-        (newVal) => {
-          bus.emit(editorId, '', newVal);
-        }
-      );
-
-      watch(
-        () => setting.preview,
-        (newVal) => {
-          bus.emit(editorId, '', newVal);
-        }
-      );
-
-      watch(
-        () => setting.htmlPreview,
-        (newVal) => {
-          bus.emit(editorId, '', newVal);
-        }
-      );
-
       switch (eventName) {
         case 'pageFullscreen': {
-          (callBack as ExposeEvent['pageFullscreen'])(true);
+          bus.on(editorId, {
+            name: PAGE_FULL_SCREEN_CHANGED,
+            callback(status: boolean) {
+              (callBack as ExposeEvent['pageFullscreen'])(status);
+            }
+          });
+
+          break;
         }
         case 'fullscreen': {
-          (callBack as ExposeEvent['fullscreen'])(true);
+          bus.on(editorId, {
+            name: FULL_SCREEN_CHANGED,
+            callback(status: boolean) {
+              (callBack as ExposeEvent['fullscreen'])(status);
+            }
+          });
+
+          break;
         }
 
         case 'preview': {
-          (callBack as ExposeEvent['preview'])(true);
+          bus.on(editorId, {
+            name: PREVIEW_CHANGED,
+            callback(status: boolean) {
+              (callBack as ExposeEvent['preview'])(status);
+            }
+          });
+
+          break;
         }
 
         case 'htmlPreview': {
-          (callBack as ExposeEvent['htmlPreview'])(true);
+          bus.on(editorId, {
+            name: HTML_PREVIEW_CHANGED,
+            callback(status: boolean) {
+              (callBack as ExposeEvent['htmlPreview'])(status);
+            }
+          });
+
+          break;
         }
 
         case 'catalog': {
-          (callBack as ExposeEvent['catalog'])(true);
+          bus.on(editorId, {
+            name: CATALOG_VISIBLE_CHANGED,
+            callback(status: boolean) {
+              (callBack as ExposeEvent['catalog'])(status);
+            }
+          });
+
+          break;
         }
 
         default: {
@@ -688,7 +736,7 @@ export const useExpose = (
       updateSetting(status, 'pageFullscreen');
     },
     toggleFullscreen(status) {
-      bus.emit(editorId, FULL_SCREEN, status);
+      bus.emit(editorId, CHANGE_FULL_SCREEN, status);
     },
     togglePreview(status) {
       updateSetting(status, 'preview');
@@ -697,7 +745,7 @@ export const useExpose = (
       updateSetting(status, 'htmlPreview');
     },
     toggleCatalog(status) {
-      bus.emit(editorId, CATALOG_SHOW, status);
+      bus.emit(editorId, CHANGE_CATALOG_VISIBLE, status);
     },
     triggerSave() {
       bus.emit(editorId, ON_SAVE);
@@ -708,10 +756,4 @@ export const useExpose = (
   };
 
   ctx.expose(exposeParam);
-
-  // exposeParam.on('change', (v) => {
-  //   console.log(v);
-  // });
 };
-
-// document.addEventListener('click', () => {});

@@ -18,7 +18,7 @@ import { useSreenfull } from './composition';
 import TableShape from './TableShape';
 import { allToolbar, prefix } from '../../config';
 import { toolbarProps, ToolbarProps } from './props';
-import { ON_SAVE } from '../../static/event-name';
+import { CHANGE_CATALOG_VISIBLE, ON_SAVE } from '../../static/event-name';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -555,7 +555,7 @@ export default defineComponent({
               ''
             );
           }
-          case 'pageFullScreen': {
+          case 'pageFullscreen': {
             return (
               !props.setting.fullscreen && (
                 <div
@@ -631,7 +631,7 @@ export default defineComponent({
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.catalog}
                 onClick={() => {
-                  bus.emit(editorId, 'catalogShow');
+                  bus.emit(editorId, CHANGE_CATALOG_VISIBLE);
                 }}
                 key="bar-catalog"
               >

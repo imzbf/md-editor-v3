@@ -81,7 +81,7 @@ mark and emoji extensions
 | theme | `'light' \| 'dark'` | 'light' | Editor theme |
 | class | `string` | '' |  |
 | historyLength | `number` | 10 | The max length of history(if it is too big, editor will use more `RAM`) |
-| pageFullScreen | `boolean` | false | Screenfull in web page |
+| pageFullscreen | `boolean` | false | Screenfull in web page |
 | preview | `boolean` | true | Preview content in editor |
 | htmlPreview | `boolean` | false | Preview html in editor |
 | previewOnly | `boolean` | false | Only render preview of content, no toolbar, no editing area |

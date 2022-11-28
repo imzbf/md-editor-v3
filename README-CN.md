@@ -80,7 +80,7 @@ const text = ref('# Hello Editor');
 | theme | `light \| dark` | 'light' | 主题切换 |
 | class | `string` | '' | 编辑器类名 |
 | historyLength | `number` | 10 | 最大记录操作数（太大会占用内存） |
-| pageFullScreen | `boolean` | false | 页面内全屏 |
+| pageFullscreen | `boolean` | false | 页面内全屏 |
 | preview | `boolean` | true | 是否预览 |
 | htmlPreview | `boolean` | false | 是否 html 预览 |
 | previewOnly | `boolean` | false | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
