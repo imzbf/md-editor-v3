@@ -15,7 +15,8 @@ import {
   InnerError,
   SettingType,
   ExposeParam,
-  UpdateSetting
+  UpdateSetting,
+  ExposeEvent
 } from './type';
 import { appendHandler } from './utils/dom';
 import {
@@ -532,7 +533,7 @@ export const useConfig = (
 
   // ----编辑器设置----
   const setting = reactive<SettingType>({
-    pageFullScreen: props.pageFullScreen,
+    pageFullscreen: props.pageFullscreen,
     fullscreen: false,
     preview: props.preview,
     htmlPreview: props.preview ? false : props.htmlPreview
@@ -551,7 +552,7 @@ export const useConfig = (
   let bodyOverflowHistory = '';
 
   const adjustBody = () => {
-    if (setting.pageFullScreen || setting.fullscreen) {
+    if (setting.pageFullscreen || setting.fullscreen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = bodyOverflowHistory;
@@ -559,7 +560,7 @@ export const useConfig = (
   };
 
   // 变化是调整一次
-  watch(() => [setting.pageFullScreen, setting.fullscreen], adjustBody);
+  watch(() => [setting.pageFullscreen, setting.fullscreen], adjustBody);
   // 进入时若默认全屏，调整一次
   onMounted(() => {
     // 监听上传图片
@@ -621,28 +622,72 @@ export const useCatalog = (props: EditorProps) => {
 export const useExpose = (
   props: EditorProps,
   ctx: SetupContext,
+  setting: SettingType,
   updateSetting: UpdateSetting
 ) => {
   const { editorId } = props;
 
   const exposeParam: ExposeParam = {
-    // on(eventName, callBack) {
-    //   console.log(eventName);
+    on(eventName, callBack) {
+      console.log(eventName);
 
-    //   switch (eventName) {
-    //     case 'change': {
-    //       (callBack as ExposeEvent['change'])('');
-    //     }
+      watch(
+        () => setting.pageFullscreen,
+        (newVal) => {
+          bus.emit(editorId, '', newVal);
+        }
+      );
 
-    //     default: {
-    //       //
-    //     }
-    //   }
-    // }
-    togglePageFullScreen(status) {
-      updateSetting(status, 'pageFullScreen');
+      watch(
+        () => setting.fullscreen,
+        (newVal) => {
+          bus.emit(editorId, '', newVal);
+        }
+      );
+
+      watch(
+        () => setting.preview,
+        (newVal) => {
+          bus.emit(editorId, '', newVal);
+        }
+      );
+
+      watch(
+        () => setting.htmlPreview,
+        (newVal) => {
+          bus.emit(editorId, '', newVal);
+        }
+      );
+
+      switch (eventName) {
+        case 'pageFullscreen': {
+          (callBack as ExposeEvent['pageFullscreen'])(true);
+        }
+        case 'fullscreen': {
+          (callBack as ExposeEvent['fullscreen'])(true);
+        }
+
+        case 'preview': {
+          (callBack as ExposeEvent['preview'])(true);
+        }
+
+        case 'htmlPreview': {
+          (callBack as ExposeEvent['htmlPreview'])(true);
+        }
+
+        case 'catalog': {
+          (callBack as ExposeEvent['catalog'])(true);
+        }
+
+        default: {
+          //
+        }
+      }
     },
-    toggleFullScreen(status) {
+    togglePageFullscreen(status) {
+      updateSetting(status, 'pageFullscreen');
+    },
+    toggleFullscreen(status) {
       bus.emit(editorId, FULL_SCREEN, status);
     },
     togglePreview(status) {

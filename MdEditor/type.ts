@@ -118,7 +118,7 @@ export type ToolbarNames = keyof ToolbarTips | number;
 export type Footers = '=' | 'markdownTotal' | 'scrollSwitch' | number;
 
 export interface SettingType {
-  pageFullScreen: boolean;
+  pageFullscreen: boolean;
   fullscreen: boolean;
   preview: boolean;
   htmlPreview: boolean;
@@ -303,14 +303,11 @@ export type GetCatalogEvent = (list: HeadList[]) => void;
 export type ErrorEvent = (err: InnerError) => void;
 
 export interface ExposeEvent {
-  change: ChangeEvent;
-  save: SaveEvent;
-  uploadImg: UploadImgEvent;
-  htmlChanged: HtmlChangedEvent;
-  getCatalog: GetCatalogEvent;
-  error: ErrorEvent;
-
-  // pageFullScreen(status: boolean): void;
+  pageFullscreen(status: boolean): void;
+  fullscreen(status: boolean): void;
+  preview(status: boolean): void;
+  htmlPreview(status: boolean): void;
+  catalog(status: boolean): void;
 }
 
 export type InsertContentGenerator = (selectedText: string) => {
@@ -327,24 +324,24 @@ export interface ExposeParam {
    * @param eventName 事件名称
    * @param callBack 事件回调函数
    */
-  // on<E extends keyof ExposeEvent, C extends ExposeEvent[E]>(
-  //   eventName: E,
-  //   callBack: C
-  // ): void;
+  on<E extends keyof ExposeEvent, C extends ExposeEvent[E]>(
+    eventName: E,
+    callBack: C
+  ): void;
 
   /**
    * 切换页面内全屏
    *
    * @param status 是否页面全屏
    */
-  togglePageFullScreen(status?: boolean): void;
+  togglePageFullscreen(status?: boolean): void;
 
   /**
    * 切换屏幕全屏
    *
    * @param status 是否屏幕全屏
    */
-  toggleFullScreen(status?: boolean): void;
+  toggleFullscreen(status?: boolean): void;
 
   /**
    * 切换是否显示预览

@@ -103,7 +103,7 @@ mark and emoji extensions
 | sanitize | `(html: string) => string` | (html) => html | Sanitize the html, prevent XSS |
 | footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
 | scrollAuto | `boolean` | true | Scroll default setting |
-| noIconfont | `boolean` | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_4cjr7o5jo0f.js) and import it by yourself |
+| noIconfont | `boolean` | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_gymddm8qwtd.js) and import it by yourself |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
 | noUploadImg | `boolean` | false | Not show the entrance to upload pictures |
 | codeStyleReverse | `boolean` | false | Code style will be reversed to dark while code block of the theme has a dark background |
@@ -299,7 +299,7 @@ const handler = () => {
 | onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
 | onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
 | onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
-| onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullScreen` and `prettier` are used when they are not loaded |
+| onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded |
 
 ## Config
 

@@ -57,7 +57,7 @@ const Editor = defineComponent({
       bus.clear(editorId);
     });
 
-    useExpose(props, context, updateSetting);
+    useExpose(props, context, setting, updateSetting);
 
     return () => {
       const defToolbars = getSlot({ props, ctx: context }, 'defToolbars');
@@ -70,7 +70,7 @@ const Editor = defineComponent({
             prefix,
             props.class,
             props.theme === 'dark' && `${prefix}-dark`,
-            setting.fullscreen || setting.pageFullScreen ? `${prefix}-fullscreen` : '',
+            setting.fullscreen || setting.pageFullscreen ? `${prefix}-fullscreen` : '',
             previewOnly && `${prefix}-previewOnly`
           ]}
           style={props.style}

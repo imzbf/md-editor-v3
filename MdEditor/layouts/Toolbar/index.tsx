@@ -30,7 +30,7 @@ export default defineComponent({
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
 
     // 全屏功能
-    const { fullScreenHandler } = useSreenfull(props);
+    const { fullscreenHandler } = useSreenfull(props);
 
     // wrapper ID
     const wrapperId = `${editorId}-toolbar-wrapper`;
@@ -555,20 +555,20 @@ export default defineComponent({
               ''
             );
           }
-          case 'pageFullscreen': {
+          case 'pageFullScreen': {
             return (
               !props.setting.fullscreen && (
                 <div
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.pageFullscreen}
                   onClick={() => {
-                    props.updateSetting(!props.setting.pageFullScreen, 'pageFullScreen');
+                    props.updateSetting(!props.setting.pageFullscreen, 'pageFullscreen');
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use
                       xlinkHref={`#md-editor-icon-${
-                        props.setting.pageFullScreen ? 'suoxiao' : 'fangda'
+                        props.setting.pageFullscreen ? 'suoxiao' : 'fangda'
                       }`}
                     />
                   </svg>
@@ -582,13 +582,13 @@ export default defineComponent({
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.fullscreen}
                 onClick={() => {
-                  fullScreenHandler();
+                  fullscreenHandler();
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use
                     xlinkHref={`#md-editor-icon-${
-                      props.setting.fullscreen ? 'fullScreen-exit' : 'fullScreen'
+                      props.setting.fullscreen ? 'fullscreen-exit' : 'fullscreen'
                     }`}
                   />
                 </svg>

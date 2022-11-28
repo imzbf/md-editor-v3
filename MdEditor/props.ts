@@ -45,7 +45,7 @@ export const editorProps = () => ({
   onUploadImg: {
     type: Function as PropType<UploadImgEvent>
   },
-  pageFullScreen: {
+  pageFullscreen: {
     type: Boolean as PropType<boolean>,
     default: false
   },

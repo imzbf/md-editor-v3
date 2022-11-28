@@ -14,11 +14,11 @@ export const useSreenfull = (props: ToolbarProps) => {
   const screenfullMe = ref(false);
 
   // 触发器
-  const fullScreenHandler = (status?: boolean) => {
+  const fullscreenHandler = (status?: boolean) => {
     if (!screenfull) {
       bus.emit(editorId, 'errorCatcher', {
-        name: 'fullScreen',
-        message: 'fullScreen is undefined'
+        name: 'fullscreen',
+        message: 'fullscreen is undefined'
       });
       return;
     }
@@ -74,10 +74,10 @@ export const useSreenfull = (props: ToolbarProps) => {
       // 注册切换全屏监听
       bus.on(editorId, {
         name: FULL_SCREEN,
-        callback: fullScreenHandler
+        callback: fullscreenHandler
       });
     }
   });
 
-  return { fullScreenHandler };
+  return { fullscreenHandler };
 };

@@ -102,7 +102,7 @@ const text = ref('# Hello Editor');
 | sanitize | `(html: string) => string` | (html) => html | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 | footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | 页脚显示内容，`=`左右分割，设置为`[]`不显示页脚 |
 | scrollAuto | `boolean` | true | 默认左右滚动状态 |
-| noIconfont | `boolean` | false | 不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_4cjr7o5jo0f.js)到本地自行引入 |
+| noIconfont | `boolean` | false | 不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_gymddm8qwtd.js)到本地自行引入 |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | 格式化复制代码 |
 | noUploadImg | `boolean` | false | 不展示上传图片选项 |
 | codeStyleReverse | `boolean` | false | 代码块为暗色背景的预览主题，将代码风格设置为暗色风格 |
@@ -309,7 +309,7 @@ const handler = () => {
 | onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
 | onHtmlChanged | `html: string` | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog | `list: Array<HeadList>` | 动态获取`markdown`目录 |
-| onError | `err: { name: string; message: string }` | 运行错误反馈事件，目前包括`Cropper`、`fullScreen`、`prettier`实例未加载完成操作错误 |
+| onError | `err: { name: string; message: string }` | 运行错误反馈事件，目前包括`Cropper`、`fullscreen`、`prettier`实例未加载完成操作错误 |
 
 ## 编辑器配置
 
