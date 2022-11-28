@@ -182,7 +182,7 @@ export const editorProps = () => ({
    */
   codeStyleReverseList: {
     type: Array as PropType<Array<string>>,
-    default: []
+    default: ['default', 'mk-cute']
   }
 });
 
