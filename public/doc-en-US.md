@@ -871,11 +871,12 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
             clip2upload: 'Clip Upload'
           },
           linkModalTips: {
-            title: 'Add ',
-            descLable: 'Desc:',
-            descLablePlaceHolder: 'Enter a description...',
-            urlLable: 'Link:',
-            urlLablePlaceHolder: 'Enter a link...',
+            linkTitle: 'Add Link',
+            imageTitle: 'Add Image',
+            descLabel: 'Desc:',
+            descLabelPlaceHolder: 'Enter a description...',
+            urlLabel: 'Link:',
+            urlLabelPlaceHolder: 'Enter a link...',
             buttonOK: 'OK'
           },
           clipModalTips: {

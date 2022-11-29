@@ -327,7 +327,7 @@ MdEditor.config({
     languageUserDefined: {
       'my-lang': {
         toolbarTips: {
-          bold: '----',
+          bold: 'bold',
           underline: 'underline',
           italic: 'italic',
           strikeThrough: 'strikeThrough',
@@ -370,11 +370,12 @@ MdEditor.config({
           clip2upload: 'Clip Upload'
         },
         linkModalTips: {
-          title: 'Add ',
-          descLable: 'Desc:',
-          descLablePlaceHolder: 'Enter a description...',
-          urlLable: 'Link:',
-          urlLablePlaceHolder: 'Enter a link...',
+          linkTitle: 'Add Link',
+          imageTitle: 'Add Image',
+          descLabel: 'Desc:',
+          descLabelPlaceHolder: 'Enter a description...',
+          urlLabel: 'Link:',
+          urlLabelPlaceHolder: 'Enter a link...',
           buttonOK: 'OK'
         },
         clipModalTips: {
@@ -384,7 +385,7 @@ MdEditor.config({
         copyCode: {
           text: 'Copy',
           successTips: 'Copied!',
-          failTips: 'Copy Error!'
+          failTips: 'Copy failed!'
         },
         mermaid: {
           flow: 'flow',

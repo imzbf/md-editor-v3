@@ -881,11 +881,12 @@ editorRef.value?.insert((selectedText) => {
             clip2upload: '裁剪上传'
           },
           linkModalTips: {
-            title: '添加',
-            descLable: '链接描述：',
-            descLablePlaceHolder: '请输入描述...',
-            urlLable: '链接地址：',
-            urlLablePlaceHolder: '请输入链接...',
+            linkTitle: '添加链接',
+            imageTitle: '添加图片',
+            descLabel: '链接描述：',
+            descLabelPlaceHolder: '请输入描述...',
+            urlLabel: '链接地址：',
+            urlLabelPlaceHolder: '请输入链接...',
             buttonOK: '确定'
           },
           clipModalTips: {
