@@ -2,6 +2,7 @@
   <div class="project-preview">
     <div class="container">
       <md-editor-v3
+        ref="editorRef"
         v-model="state.text"
         :editor-id="editorId"
         :language="store.state.lang"
@@ -14,8 +15,8 @@
         @on-upload-img="uploadImg"
       >
         <template #defToolbars>
-          <mark-extension :editor-id="editorId" @on-change="onChange" />
-          <emoji-extension :editor-id="editorId" @on-change="onChange" />
+          <mark-extension :on-insert="insert" />
+          <emoji-extension :on-insert="insert" />
           <read-extension :md-text="state.text" />
         </template>
         <template #defFooters>
@@ -36,8 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, watch, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import type { ExposeParam, InsertContentGenerator } from 'md-editor-v3';
 import mdEN from '../../../public/preview-en-US.md';
 import mdCN from '../../../public/preview-zh-CN.md';
 import axios from '../../utils/request';
@@ -53,6 +55,8 @@ import TimeNow from '@/components/TimeNow/index.vue';
 const store = useStore();
 
 const editorId = 'editor-preview';
+
+const editorRef = ref<ExposeParam>();
 
 const state = reactive({
   text: store.state.lang === 'zh-CN' ? mdCN : mdEN,
@@ -102,7 +106,13 @@ const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void)
   callback(res.map((item: any) => item.data.url));
 };
 
-const onChange = (v: string) => (state.text = v);
+const insert = (generator: InsertContentGenerator) => {
+  editorRef.value?.insert(generator);
+};
+
+onMounted(() => {
+  console.log(editorRef.value?.on('catalog', console.log));
+});
 </script>
 
 <script lang="ts">

@@ -23,43 +23,31 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import type { PropType } from 'vue';
+import type { InsertContentGenerator } from 'md-editor-v3';
 import { emojis } from './data';
 
 const props = defineProps({
-  editorId: {
-    type: String as PropType<string>,
-    default: ''
+  onInsert: {
+    type: Function as PropType<(generator: InsertContentGenerator) => void>,
+    default: () => () => null
   }
 });
-
-const emit = defineEmits(['onChange']);
 
 const state = reactive({
   visible: false
 });
 
 const emojiHandler = (emoji: string) => {
-  // 获取输入框
-  const textarea = document.querySelector(
-    `#${props.editorId}-textarea`
-  ) as HTMLTextAreaElement;
-  // 获取选中的内容
-  const selection = window.getSelection()?.toString();
-  // 获取鼠标位置
-  const endPoint = textarea.selectionStart;
+  const generator: InsertContentGenerator = () => {
+    return {
+      targetValue: emoji,
+      select: true,
+      deviationStart: 0,
+      deviationEnd: 0
+    };
+  };
 
-  // 根据鼠标位置分割旧文本
-  // 前半部分
-  const prefixStr = textarea.value.substring(0, endPoint);
-  // 后半部分
-  const suffixStr = textarea.value.substring(endPoint + (selection?.length || 0));
-
-  emit('onChange', `${prefixStr}${emoji}${suffixStr}`);
-
-  setTimeout(() => {
-    textarea.setSelectionRange(endPoint, endPoint + 1);
-    textarea.focus();
-  }, 0);
+  props.onInsert(generator);
 };
 
 const onChange = (visible: boolean) => {
