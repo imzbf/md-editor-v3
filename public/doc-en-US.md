@@ -38,7 +38,7 @@
 
   The max length of history(if it is too big, editor will use more `RAM`).
 
-### 💻 pageFullScreen
+### 💻 pageFullscreen
 
 - **type**: `boolean`
 - **default**: `false`
@@ -614,7 +614,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
 - **type**: `(err: { name: string; message: string;}) => void`
 
-  Run-Time error event, only be called when `Cropper`, `fullScreen`, `prettier` is not loaded.
+  Run-Time error event, only be called when `Cropper`, `fullscreen`, `prettier` is not loaded.
 
   ```js
   const onError = (err) => {
