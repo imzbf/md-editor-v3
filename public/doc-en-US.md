@@ -612,6 +612,144 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   <md-ditor-v3 @on-error="onError" />
   ```
 
+## 🤱🏼 Expose
+
+After 2.5.0, Editor exposes several methods on the instance, used to get or change the internal status of the editor.
+
+```vue
+<template>
+  <md-editor ref="editorRef" />
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import MdEditor from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
+
+import 'md-editor-v3/lib/style.css';
+
+const editorRef = ref<ExposeParam>();
+
+onMounted(() => {
+  editorRef.value?.on('catalog', console.log)
+});
+</script>
+```
+
+### 👂🏼 on
+
+Get the internal state of the editor, including pageFullscreen, fullscreen, preview, htmlPreview, catalog, etc.
+
+- pageFullscreen
+
+  ```js
+  editorRef.value?.on('pageFullscreen', (status) => console.log(status));
+  ```
+
+- fullscreen
+
+  ```js
+  editorRef.value?.on('fullscreen', (status) => console.log(status));
+  ```
+
+- preview
+
+  ```js
+  editorRef.value?.on('preview', (status) => console.log(status));
+  ```
+
+- htmlPreview
+
+  ```js
+  editorRef.value?.on('htmlPreview', (status) => console.log(status));
+  ```
+
+- catalog
+
+  ```js
+  editorRef.value?.on('catalog', (status) => console.log(status));
+  ```
+
+### 💻 togglePageFullscreen
+
+Toggle status of fullscreen within the page.
+
+```js
+editorRef.value?.togglePageFullscreen(true);
+```
+
+> Switched to the opposite status, without input parameter.
+
+### 🖥 toggleFullscreen
+
+Toggle status of fullscreen widthin browser.
+
+```js
+editorRef.value?.toggleFullscreen(true);
+```
+
+> Switched to the opposite status, without input parameter.
+
+### 📖 togglePreview
+
+Toggle status of preview.
+
+```js
+editorRef.value?.togglePreview(true);
+```
+
+> Switched to the opposite status, without input parameter.
+
+### 📼 toggleHtmlPreview
+
+Toggle status of htmlPreview.
+
+```js
+editorRef.value?.toggleHtmlPreview(true);
+```
+
+> Switched to the opposite status, without input parameter.
+
+### 🧬 toggleCatalog
+
+Toggle status of catalog.
+
+```js
+editorRef.value?.toggleCatalog(true);
+```
+
+> Switched to the opposite status, without input parameter.
+
+### 💾 triggerSave
+
+```js
+editorRef.value?.triggerSave();
+```
+
+### 💉 insert
+
+Manually insert content into textarea.
+
+```js
+/**
+ * @params selectedText
+ */
+editorRef.value?.insert((selectedText) => {
+  /**
+   * @return targetValue    Content to be inserted
+   * @return select         Automatically select content
+   * @return deviationStart Start position of the selected content
+   * @return deviationEnd   End position of the selected content
+   */
+  return {
+    targetValue: `${selectedText}`,
+    select: true,
+    deviationStart: 0,
+    deviationEnd: 0
+  };
+});
+```
+
 ## 💴 Config Editor
 
 Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
