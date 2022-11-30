@@ -310,12 +310,18 @@ export interface ExposeEvent {
   catalog(status: boolean): void;
 }
 
-export type InsertContentGenerator = (selectedText: string) => {
+export interface InsertParam {
+  // 插入的内容
   targetValue: string;
+  // 是否选中插入的内容
   select: boolean;
+  // 选中位置的开始偏移量
   deviationStart: number;
+  // 选中位置的结束偏移量
   deviationEnd: number;
-};
+}
+
+export type InsertContentGenerator = (selectedText: string) => InsertParam;
 
 export interface ExposeParam {
   /**
@@ -379,8 +385,8 @@ export interface ExposeParam {
    *
    * targetValue     待插入内容
    * select         插入后是否自动选中内容
-   * deviationStart 插入后选中内容鼠标开始位置
-   * deviationEnd   插入后选中内容鼠标结束位置
+   * deviationStart 插入后选中位置的开始偏移量
+   * deviationEnd   插入后选中位置的结束偏移量
    *
    */
   insert(generate: InsertContentGenerator): void;
