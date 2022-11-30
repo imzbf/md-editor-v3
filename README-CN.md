@@ -1,4 +1,4 @@
-# md-editor-v3
+# 🎄 md-editor-v3
 
 ![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
 
@@ -12,7 +12,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 
 - 同系列`react`版本：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
-## 功能一览
+## ⭐️ 功能一览
 
 - 快捷插入内容工具栏、编辑器浏览器全屏、页面内全屏等；
 - 内置的白色主题和暗黑主题，支持绑定切换；
@@ -24,7 +24,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 - `mermaid`绘图（>=1.8.0），`katex`数学公式（>=1.9.0）；
 - 自定义工具栏顺序或显示，自定义扩展工具栏（支持点击类型、下拉菜单类型及弹窗类型）等。
 
-## 安装
+## 📦 安装
 
 ```shell
 yarn add md-editor-v3
@@ -44,7 +44,7 @@ yarn add @vavt/md-editor-extension
 
 更多使用及贡献方式参考：[md-editor-extension](https://github.com/imzbf/md-editor-extension)
 
-## 用法
+## 💡 用法
 
 ```vue
 <template>
@@ -60,7 +60,7 @@ const text = ref('# Hello Editor');
 </script>
 ```
 
-## 预览图
+## 🗺 预览图
 
 | 默认模式 | 暗黑模式 | 仅预览 |
 | --- | --- | --- |
@@ -70,9 +70,9 @@ const text = ref('# Hello Editor');
 
 ![mark and emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
-## Apis
+## 🎁 Apis
 
-### Props
+### 🔩 Props
 
 | 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
@@ -265,7 +265,7 @@ export interface StaticTextDefaultValue {
 
 </details>
 
-### 实例暴露
+### 🤱🏼 实例暴露
 
 编辑器暴露了若干方法在组件实例上，用来快捷监听编辑器内部状态或对调整内部状态。
 
@@ -399,7 +399,7 @@ editorRef.value?.insert((selectedText) => {
 
 示例参考文档源码中的[扩展组件](https://github.com/imzbf/md-editor-v3/blob/dev-docs/src/components/MarkExtension/index.vue)
 
-### 插槽
+### 🎍 插槽
 
 | 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
@@ -434,7 +434,7 @@ const handler = () => {
 </script>
 ```
 
-### 绑定事件
+### 🪢 绑定事件
 
 | 名称 | 入参 | 说明 |
 | --- | --- | --- |
@@ -445,7 +445,7 @@ const handler = () => {
 | onGetCatalog | `list: Array<HeadList>` | 动态获取`markdown`目录 |
 | onError | `err: { name: string; message: string }` | 运行错误反馈事件，目前包括`Cropper`、`fullscreen`、`prettier`实例未加载完成操作错误 |
 
-## 编辑器配置
+## 💴 编辑器配置
 
 使用`MdEditor.config(option: ConfigOption)`方法，可以对内部的`renderer`定制。
 
@@ -568,7 +568,7 @@ const handler = () => {
 
   </details>
 
-## 快捷键
+## 🪡 快捷键
 
 主要以`CTRL`搭配对应功能英文单词首字母，冲突项添加`SHIFT`，再冲突替换为`ALT`。
 
@@ -599,11 +599,11 @@ const handler = () => {
 | CTRL + ALT + C | 行内代码 | 行内代码块 |
 | CTRL + SHIFT + ALT + T | 表格 | `\|表格\|` |
 
-## 内部组件
+## 🪤 内部组件
 
 扩展组件作为编辑器组件的属性值来使用，例如：`Editor.DropdownToolbar`。使用参考：[文档页面](https://imzbf.github.io/md-editor-v3)
 
-### 普通扩展工具栏
+### 🐣 普通扩展工具栏
 
 `Editor.NormalToolbar`
 
@@ -619,7 +619,7 @@ const handler = () => {
 
   - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
 
-### 下拉扩展工具栏
+### 🐼 下拉扩展工具栏
 
 `Editor.DropdownToolbar`
 
@@ -637,7 +637,7 @@ const handler = () => {
   - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
   - `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
 
-### 弹窗扩展工具栏
+### 🦉 弹窗扩展工具栏
 
 `Editor.ModalToolbar`
 
@@ -662,7 +662,7 @@ const handler = () => {
   - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
   - `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
 
-### 目录导航
+### 🐻 目录导航
 
 `Editor.MdCatalog`
 
@@ -679,9 +679,9 @@ const handler = () => {
 
   - `onClick`: `(e: MouseEvent, t: TocItem) => void`，非必须，导航点击事件。
 
-## 部分示例
+## 🗂 部分示例
 
-### Jsx 模板
+### 🎸 Jsx 模板
 
 ```js
 import { defineComponent, reactive } from 'vue';
@@ -700,23 +700,7 @@ export default defineComponent({
 });
 ```
 
-### Setup 模板
-
-```vue
-<template>
-  <md-editor v-model="text" preview-only />
-</template>
-
-<script setup>
-import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
-const text = ref('# Hello Editor');
-</script>
-```
-
-### 上传图片
+### 🥹 上传图片
 
 默认可以选择多张图片，支持粘贴板上传图片。
 
@@ -758,7 +742,7 @@ const onUploadImg = async (files, callback) => {
 </script>
 ```
 
-### 调整编辑器样式
+### 🧙‍♂️ 调整编辑器样式
 
 2.x 使用 css 变量定义了大部分内容：
 
