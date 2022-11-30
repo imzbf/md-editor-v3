@@ -548,7 +548,7 @@ export const useConfig = (
     htmlPreview: props.preview ? false : props.htmlPreview
   });
 
-  const updateSetting = (v: any, k: keyof typeof setting) => {
+  const updateSetting: UpdateSetting = (k, v) => {
     setting[k] = v === undefined ? !setting[k] : v;
     if (k === 'preview' && setting.preview) {
       setting.htmlPreview = false;
@@ -732,16 +732,16 @@ export const useExpose = (
       }
     },
     togglePageFullscreen(status) {
-      updateSetting(status, 'pageFullscreen');
+      updateSetting('pageFullscreen', status);
     },
     toggleFullscreen(status) {
       bus.emit(editorId, CHANGE_FULL_SCREEN, status);
     },
     togglePreview(status) {
-      updateSetting(status, 'preview');
+      updateSetting('preview', status);
     },
     toggleHtmlPreview(status) {
-      updateSetting(status, 'htmlPreview');
+      updateSetting('htmlPreview', status);
     },
     toggleCatalog(status) {
       bus.emit(editorId, CHANGE_CATALOG_VISIBLE, status);

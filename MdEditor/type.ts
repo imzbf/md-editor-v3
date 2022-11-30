@@ -290,7 +290,7 @@ export interface CodeCss {
   };
 }
 
-export type UpdateSetting = (v: boolean | undefined, k: keyof SettingType) => void;
+export type UpdateSetting = (k: keyof SettingType, v?: boolean) => void;
 
 export type ChangeEvent = (v: string) => void;
 export type SaveEvent = (v: string, h: Promise<string>) => void;

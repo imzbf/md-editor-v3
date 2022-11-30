@@ -562,7 +562,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.pageFullscreen}
                   onClick={() => {
-                    props.updateSetting(!props.setting.pageFullscreen, 'pageFullscreen');
+                    props.updateSetting('pageFullscreen');
                   }}
                 >
                   <svg class={`${prefix}-icon`} aria-hidden="true">
@@ -601,7 +601,7 @@ export default defineComponent({
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.preview}
                 onClick={() => {
-                  props.updateSetting(!props.setting.preview, 'preview');
+                  props.updateSetting('preview');
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
@@ -616,7 +616,7 @@ export default defineComponent({
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.htmlPreview}
                 onClick={() => {
-                  props.updateSetting(!props.setting.htmlPreview, 'htmlPreview');
+                  props.updateSetting('htmlPreview');
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">

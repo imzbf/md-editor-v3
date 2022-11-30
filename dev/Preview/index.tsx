@@ -144,6 +144,12 @@ export default defineComponent({
           <Editor.MdCatalog editorId="md-prev" theme={props.theme} />
         </div>
         <button
+          style={{
+            position: 'absolute',
+            left: '10px',
+            top: '10px',
+            zIndex: 1000000
+          }}
           onClick={() => {
             // editorRef.value?.toggleFullscreen();
             // editorRef.value?.togglePageFullscreen();
