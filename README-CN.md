@@ -265,6 +265,140 @@ export interface StaticTextDefaultValue {
 
 </details>
 
+### 实例暴露
+
+编辑器暴露了若干方法在组件实例上，用来快捷监听编辑器内部状态或对调整内部状态。
+
+```vue
+<template>
+  <md-editor ref="editorRef" />
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import MdEditor from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
+
+import 'md-editor-v3/lib/style.css';
+
+const editorRef = ref<ExposeParam>();
+
+onMounted(() => {
+  editorRef.value?.on('catalog', console.log)
+});
+</script>
+```
+
+> 触发方法不设置入参切换为相反状态
+
+### 👂🏼 on
+
+监听编辑器内部状态，包括：屏幕全屏、浏览器全屏、预览文本、预览 html、目录等。
+
+- pageFullscreen
+
+  ```js
+  editorRef.value?.on('pageFullscreen', (status) => console.log(status));
+  ```
+
+- fullscreen
+
+  ```js
+  editorRef.value?.on('fullscreen', (status) => console.log(status));
+  ```
+
+- preview
+
+  ```js
+  editorRef.value?.on('preview', (status) => console.log(status));
+  ```
+
+- htmlPreview
+
+  ```js
+  editorRef.value?.on('htmlPreview', (status) => console.log(status));
+  ```
+
+- catalog
+
+  ```js
+  editorRef.value?.on('catalog', (status) => console.log(status));
+  ```
+
+### 💻 togglePageFullscreen
+
+切换页面内全屏。
+
+```js
+editorRef.value?.togglePageFullscreen(true);
+```
+
+### 🖥 toggleFullscreen
+
+切换屏幕全屏。
+
+```js
+editorRef.value?.toggleFullscreen(true);
+```
+
+### 📖 togglePreview
+
+切换是否显示预览。
+
+```js
+editorRef.value?.togglePreview(true);
+```
+
+### 📼 toggleHtmlPreview
+
+切换是否显示 html 预览。
+
+```js
+editorRef.value?.toggleHtmlPreview(true);
+```
+
+### 🧬 toggleCatalog
+
+切换是否显示目录。
+
+```js
+editorRef.value?.toggleCatalog(true);
+```
+
+### 💾 triggerSave
+
+触发保存。
+
+```js
+editorRef.value?.triggerSave();
+```
+
+### 💉 insert
+
+手动向文本框插入内容。
+
+```js
+/**
+ * @params selectedText 选中的内容
+ */
+editorRef.value?.insert((selectedText) => {
+  /**
+   * @return targetValue    待插入内容
+   * @return select         插入后是否自动选中内容
+   * @return deviationStart 插入后选中内容鼠标开始位置
+   * @return deviationEnd   插入后选中内容鼠标结束位置
+   */
+  return {
+    targetValue: `${selectedText}`,
+    select: true,
+    deviationStart: 0,
+    deviationEnd: 0
+  };
+});
+```
+
+示例参考文档源码中的[扩展组件](https://github.com/imzbf/md-editor-v3/blob/dev-docs/src/components/MarkExtension/index.vue)
+
 ### 插槽
 
 | 名称 | 类型 | 默认值 | 说明 |
