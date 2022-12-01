@@ -258,18 +258,10 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
         }
 
         return `<div class="${prefix}-mermaid">${svgCode}</div>`;
-      } catch (error) {
-        if (typeof document !== 'undefined') {
-          const errorDom = document.querySelector(`#${idRand}`);
-
-          if (errorDom) {
-            const errorSvg = errorDom.outerHTML;
-            errorDom.parentElement?.remove();
-            return errorSvg;
-          }
-        }
-
-        return '';
+      } catch (error: any) {
+        return `<div class="${prefix}-mermaid-error">Error: ${
+          error?.message || ''
+        }</div>`;
       }
     }
 
