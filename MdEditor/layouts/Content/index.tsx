@@ -94,7 +94,7 @@ export default defineComponent({
                 ref={previewRef}
                 key="content-preview-wrapper"
               >
-                <div
+                <article
                   id={`${editorId}-preview`}
                   class={[
                     `${prefix}-preview`,

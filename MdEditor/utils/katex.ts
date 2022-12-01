@@ -28,9 +28,9 @@ export default {
             displayMode: true
           });
 
-          return `<span class="${prefix}-katex-block" data-processed>${html}</span>`;
+          return `<p class="${prefix}-katex-block" data-processed>${html}</p>`;
         } else {
-          return `<span class="${prefix}-katex-block">${token.text}</span>`;
+          return `<p class="${prefix}-katex-block">${token.text}</p>`;
         }
       }
     };

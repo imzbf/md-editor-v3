@@ -254,14 +254,12 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
           svgCode = window.mermaid.mermaidAPI.render(idRand, code);
         } else {
           // 这块代码不会正确展示在页面上
-          svgCode = `<div class="mermaid">${code}</div>`;
+          svgCode = `<p class="mermaid">${code}</p>`;
         }
 
-        return `<div class="${prefix}-mermaid">${svgCode}</div>`;
+        return `<p class="${prefix}-mermaid">${svgCode}</p>`;
       } catch (error: any) {
-        return `<div class="${prefix}-mermaid-error">Error: ${
-          error?.message || ''
-        }</div>`;
+        return `<p class="${prefix}-mermaid-error">Error: ${error?.message || ''}</p>`;
       }
     }
 
