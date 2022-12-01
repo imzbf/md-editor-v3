@@ -24,7 +24,7 @@ export const cropperUrl = {
   js: `${cdnBase}/cropperjs/1.5.13/cropper.min.js`
 };
 
-export const screenfullUrl = `${cdnBase}/screenfull.js/6.0.2/screenfull.min.js`;
+export const screenfullUrl = `${cdnBase}/screenfull.js/5.2.0/screenfull.min.js`;
 
 // 所有的编辑器功能点
 export const allToolbar = [

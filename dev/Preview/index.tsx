@@ -13,61 +13,61 @@ import { Theme } from '../App';
 import axios from 'axios';
 import 'katex/dist/katex.min.css';
 
-import screenfull from 'screenfull';
-import katex from 'katex';
-import Cropper from 'cropperjs';
-import 'cropperjs/dist/cropper.css';
-import mermaid from 'mermaid';
+// import screenfull from 'screenfull';
+// import katex from 'katex';
+// import Cropper from 'cropperjs';
+// import 'cropperjs/dist/cropper.css';
+// import mermaid from 'mermaid';
 // import highlight from 'highlight.js';
 // import 'highlight.js/styles/tokyo-night-dark.css';
 
-import prettier from 'prettier';
-import parserMarkdown from 'prettier/parser-markdown';
+// import prettier from 'prettier';
+// import parserMarkdown from 'prettier/parser-markdown';
 
 import './index.less';
 
 // import { cdnBase } from '../../MdEditor/config';
 
-Editor.config({
-  markedRenderer(renderer) {
-    renderer.link = (href, title, text) => {
-      return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
-    };
+// Editor.config({
+//   markedRenderer(renderer) {
+//     renderer.link = (href, title, text) => {
+//       return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
+//     };
 
-    renderer.image = (href: string, _: string, desc: string) => {
-      return `<img src="${href}" alt="${desc}">`;
-    };
+//     renderer.image = (href: string, _: string, desc: string) => {
+//       return `<img src="${href}" alt="${desc}">`;
+//     };
 
-    return renderer;
-  },
-  editorExtensions: {
-    prettier: {
-      prettierInstance: prettier,
-      parserMarkdownInstance: parserMarkdown
-    },
-    // highlight: {
-    // instance: highlight
-    // css: {
-    //   'tokyo-night': {
-    //     light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
-    //     dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
-    //   }
-    // }
-    // },
-    screenfull: {
-      instance: screenfull
-    },
-    katex: {
-      instance: katex
-    },
-    cropper: {
-      instance: Cropper
-    },
-    mermaid: {
-      instance: mermaid
-    }
-  }
-});
+//     return renderer;
+//   },
+//   editorExtensions: {
+//     prettier: {
+//       prettierInstance: prettier,
+//       parserMarkdownInstance: parserMarkdown
+//     },
+//     // highlight: {
+//     // instance: highlight
+//     // css: {
+//     //   'tokyo-night': {
+//     //     light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
+//     //     dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
+//     //   }
+//     // }
+//     // },
+//     screenfull: {
+//       instance: screenfull
+//     },
+//     katex: {
+//       instance: katex
+//     },
+//     cropper: {
+//       instance: Cropper
+//     },
+//     mermaid: {
+//       instance: mermaid
+//     }
+//   }
+// });
 
 const SAVE_KEY = 'XHMPGLJIZTDB';
 
