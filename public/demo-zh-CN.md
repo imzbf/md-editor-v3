@@ -260,7 +260,7 @@ import 'md-editor-v3/lib/style.css';
 MdEditor.config({
   editorExtensions: {
     screenfull: {
-      js: 'https://localhost:8090/screenfull@6.0.1/index.js'
+      js: 'https://localhost:8090/screenfull@5.2.0/index.js'
     }
   }
 });
@@ -501,7 +501,7 @@ MdEditor.config({
       :theme="state.theme"
       preview-only
     />
-    <md-atalog
+    <md-catalog
       :editorId="state.id"
       :scroll-element="scrollElement"
       :theme="state.theme"
@@ -512,6 +512,8 @@ MdEditor.config({
   import { reactive } from 'vue';
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
+
+  const MdCatalog = MdEditor.MdCatalog;
 
   const state = reactive({
     theme: 'dark',

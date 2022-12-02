@@ -29,7 +29,7 @@
 - **type**: `string`
 - **default**: `''`
 
-  Editor `class`.
+  ...
 
 ### 🤏🏼 historyLength
 
