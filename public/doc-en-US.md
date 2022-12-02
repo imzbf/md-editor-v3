@@ -143,7 +143,7 @@
 - **type**: `string`
 - **default**: `'md-editor-v3'`
 
-  Editor id, also the html id, it is used when there are two or more editor and server render.
+  Editor's id, also the html id, it is used when there are two or more editor and server render.
 
 ### 🤏 tabWidth
 
