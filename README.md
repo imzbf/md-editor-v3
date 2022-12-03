@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
 
-English \| [中文](https://github.com/imzbf/md-editor-v3/blob/main/README-CN.md)
+English \| [中文](https://github.com/imzbf/md-editor-v3/blob/develop/README-CN.md)
 
 Markdown editor for vue3, developed in `jsx` and `typescript`.
 
@@ -106,7 +106,7 @@ mark and emoji extensions
 | noIconfont | `boolean` | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_gymddm8qwtd.js) and import it by yourself |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
 | noUploadImg | `boolean` | false | Not show the entrance to upload pictures |
-| codeStyleReverse | `boolean` | false | Code style will be reversed to dark while code block of the theme has a dark background |
+| codeStyleReverse | `boolean` | true | Code style will be reversed to dark while code block of the theme has a dark background |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | Themes to be reversed |
 
 <details>
