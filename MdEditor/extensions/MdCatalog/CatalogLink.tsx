@@ -20,6 +20,10 @@ const catalogLinkProps = () => ({
   onClick: {
     type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
     default: () => () => {}
+  },
+  scrollElementOffsetTop: {
+    type: Number as PropType<number>,
+    default: 0
   }
 });
 
@@ -31,7 +35,8 @@ const CatalogLink = defineComponent({
   props: catalogLinkProps(),
   setup(props: CatalogLinkProps) {
     return () => {
-      const { tocItem, markedHeadingId, scrollElement, onClick } = props;
+      const { tocItem, markedHeadingId, scrollElement, onClick, scrollElementOffsetTop } =
+        props;
 
       return (
         <div
@@ -60,7 +65,7 @@ const CatalogLink = defineComponent({
               }
 
               scrollContainer?.scrollTo({
-                top: offsetTop,
+                top: offsetTop - scrollElementOffsetTop,
                 behavior: 'smooth'
               });
             }
@@ -76,6 +81,7 @@ const CatalogLink = defineComponent({
                   tocItem={item}
                   scrollElement={scrollElement}
                   onClick={onClick}
+                  scrollElementOffsetTop={scrollElementOffsetTop}
                 />
               ))}
           </div>

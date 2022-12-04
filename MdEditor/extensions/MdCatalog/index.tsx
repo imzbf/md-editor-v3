@@ -23,6 +23,9 @@ export interface TocItem {
 }
 
 const mdCatalogProps = () => ({
+  /**
+   * 编辑器的Id，务必与需要绑定的编辑器Id相同
+   */
   editorId: {
     type: String as PropType<string>
   },
@@ -34,8 +37,12 @@ const mdCatalogProps = () => ({
     type: Function as PropType<MarkedHeadingId>,
     default: (text: string) => text
   },
-  // 指定滚动的容器，选择器需带上对应的符号，默认预览框
-  // 元素必须定位！！！！！！
+  /**
+   * 指定滚动的容器，选择器需带上对应的符号，默认预览框
+   * 元素必须定位！！！！！！
+   *
+   * 默认：#md-editor-preview-wrapper
+   */
   scrollElement: {
     type: [String, Object] as PropType<string | HTMLElement>
   },
@@ -43,10 +50,23 @@ const mdCatalogProps = () => ({
     type: String as PropType<Themes>,
     default: 'light'
   },
-  // 偏移量，默认20像素
+  /**
+   * 高亮标题相对滚动容器顶部偏移量，即距离该值时，高亮当前目录菜单项
+   *
+   * 默认：20px
+   */
   offsetTop: {
     type: Number as PropType<number>,
     default: 20
+  },
+  /**
+   * 滚动区域的固定顶部高度
+   *
+   * 默认：0
+   */
+  scrollElementOffsetTop: {
+    type: Number as PropType<number>,
+    default: 0
   }
 });
 
@@ -212,6 +232,7 @@ const MdCatalog = defineComponent({
               onClick={(e: MouseEvent, t: TocItem) => {
                 ctx.emit('onClick', e, t);
               }}
+              scrollElementOffsetTop={props.scrollElementOffsetTop}
             />
           );
         })}

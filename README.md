@@ -660,6 +660,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: `'light' | 'dark'`, not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
   - `offsetTop`: `number`, not necessary, highlight current item of catalogs when title is `offsetTop` pixels from the top, defalut 20.
+  - `scrollElementOffsetTop`: `number`, not necessary, offsetTop of the scroll container，defalut 0.
 
 - **events**
 
