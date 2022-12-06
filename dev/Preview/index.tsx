@@ -165,6 +165,7 @@ export default defineComponent({
             //     deviationEnd: 0
             //   };
             // });
+            // editorRef.value?.focus();
           }}
         >
           1
@@ -317,14 +318,14 @@ export default defineComponent({
             }
           ></Editor>
           <br />
-          <Editor
+          {/* <Editor
             editorId="md-prev-2"
             theme={props.theme}
             previewTheme={props.previewTheme}
             codeTheme={props.codeTheme}
             modelValue={md.text2}
             onChange={(value) => (md.text2 = value)}
-          />
+          /> */}
         </div>
       </div>
     );

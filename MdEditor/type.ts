@@ -126,7 +126,12 @@ export interface SettingType {
 
 export type Themes = 'light' | 'dark';
 
-export type PreviewThemes = string; // 'default' | 'github' | 'vuepress';
+/**
+ * 预览主题
+ *
+ * @list ['default', 'github', 'vuepress', 'mk-cute', 'smart-blue', 'cyanosis']
+ */
+export type PreviewThemes = string;
 
 export interface HeadList {
   text: string;
@@ -134,26 +139,7 @@ export interface HeadList {
   active?: boolean;
 }
 
-// marked heading方法
-// export type MarkedHeading = (
-//   text: string,
-//   level: 1 | 2 | 3 | 4 | 5 | 6,
-//   raw: string,
-//   // marked@2.1.3
-//   slugger: {
-//     seen: { [slugValue: string]: number };
-//     slug(
-//       value: string,
-//       options?: {
-//         dryrun: boolean;
-//       }
-//     ): string;
-//   }
-// ) => string;
-
 export type MarkedHeadingId = (text: string, level: number, index: number) => string;
-
-// export type MarkedImage = (href: string, title: string, desc: string) => string;
 
 export interface MermaidTemplate {
   /**
@@ -390,4 +376,9 @@ export interface ExposeParam {
    *
    */
   insert(generate: InsertContentGenerator): void;
+
+  /**
+   * 手动聚焦
+   */
+  focus(): void;
 }

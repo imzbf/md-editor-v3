@@ -7,11 +7,12 @@ import {
   useMarked,
   useMermaid,
   usePasteUpload,
-  userZoom
+  userZoom,
+  useAttach
 } from './composition';
 import { prefix } from '../../config';
 import bus from '../../utils/event-bus';
-
+import { omit } from '../../utils';
 import { contentProps, ContentProps } from './props';
 
 export default defineComponent({
@@ -50,16 +51,33 @@ export default defineComponent({
     // 图片点击放大
     userZoom(props, html);
 
+    // 附带的设置
+    useAttach(textAreaRef);
+
     return () => {
+      // 原生属性
+      const attrs = omit(props, [
+        'formatCopiedText',
+        'markedHeadingId',
+        'noKatex',
+        'noMermaid',
+        'onChange',
+        'onGetCatalog',
+        'onHtmlChanged',
+        'sanitize',
+        'scrollAuto',
+        'setting'
+      ]);
+
       return (
         <>
           <div class={`${prefix}-content`}>
             {!previewOnly && (
               <div class={`${prefix}-input-wrapper`}>
                 <textarea
+                  {...attrs}
                   id={`${editorId}-textarea`}
                   ref={textAreaRef}
-                  value={props.value}
                   onBlur={() => {
                     // 失焦自动保存当前选中内容
                     bus.emit(editorId, 'selectTextChange');
@@ -82,7 +100,6 @@ export default defineComponent({
                       ? ''
                       : 'textarea-only'
                   ]}
-                  placeholder={props.placeholder}
                 />
               </div>
             )}

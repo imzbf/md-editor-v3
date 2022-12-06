@@ -40,7 +40,8 @@ import {
   FULL_SCREEN_CHANGED,
   PREVIEW_CHANGED,
   HTML_PREVIEW_CHANGED,
-  CATALOG_VISIBLE_CHANGED
+  CATALOG_VISIBLE_CHANGED,
+  TEXTAREA_FOCUS
 } from './static/event-name';
 
 export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
@@ -628,6 +629,15 @@ export const useCatalog = (props: EditorProps) => {
   return [catalogVisible, catalogShow];
 };
 
+/**
+ * 向外暴露属性
+ *
+ * @param props 组件属性
+ * @param ctx vue conext
+ * @param catalogVisible 目录显示状态
+ * @param setting 内部状态集合
+ * @param updateSetting 更新内部集合
+ */
 export const useExpose = (
   props: EditorProps,
   ctx: SetupContext,
@@ -751,6 +761,9 @@ export const useExpose = (
     },
     insert(generate) {
       bus.emit(editorId, 'replace', 'universal', { generate });
+    },
+    focus() {
+      bus.emit(editorId, TEXTAREA_FOCUS);
     }
   };
 

@@ -108,6 +108,10 @@ mark and emoji extensions
 | noUploadImg | `boolean` | false | Not show the entrance to upload pictures |
 | codeStyleReverse | `boolean` | true | Code style will be reversed to dark while code block of the theme has a dark background |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | Themes to be reversed |
+| autoFocus | `boolean` | false | same as `autofocus` in native textarea |
+| disabled | `boolean` | false | same as `disabled` in native textarea |
+| readOnly | `boolean` | false | same as `readonly` in native textarea |
+| maxLength | `number` |  | same as `maxlength` in native textarea |
 
 <details>
  <summary>『toolbars』</summary>
@@ -389,6 +393,14 @@ editorRef.value?.insert((selectedText) => {
 
 For more examples, refer to source code of [extension component](https://github.com/imzbf/md-editor-v3/blob/dev-docs/src/components/MarkExtension/index.vue)
 
+### 🎯 focus
+
+focus the textarea.
+
+```js
+editorRef.value?.focus();
+```
+
 ### 🎍 Slots
 
 | name | type | default | description |
@@ -435,7 +447,7 @@ const handler = () => {
 | onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
 | onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded |
 
-## 💴 Config
+## 💴 Config Editor
 
 Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
 

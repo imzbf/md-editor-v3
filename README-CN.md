@@ -107,6 +107,10 @@ const text = ref('# Hello Editor');
 | noUploadImg | `boolean` | false | 不展示上传图片选项 |
 | codeStyleReverse | `boolean` | true | 代码块为暗色背景的预览主题，将代码风格设置为暗色风格 |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | 代码块为暗色背景的预览主题 |
+| autoFocus | `boolean` | false | 文本区域自动获得焦点 |
+| disabled | `boolean` | false | 禁用文本区域 |
+| readOnly | `boolean` | false | 文本区域为只读 |
+| maxLength | `number` |  | 文本区域允许的最大字符数 |
 
 > 如果你重新定义了标题，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
@@ -398,6 +402,14 @@ editorRef.value?.insert((selectedText) => {
 ```
 
 示例参考文档源码中的[扩展组件](https://github.com/imzbf/md-editor-v3/blob/dev-docs/src/components/MarkExtension/index.vue)
+
+### 🎯 focus
+
+手动聚焦输入框。
+
+```js
+editorRef.value?.focus();
+```
 
 ### 🎍 插槽
 

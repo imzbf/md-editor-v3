@@ -346,3 +346,24 @@ export const getRelativeTop = (element: HTMLElement, container: HTMLElement): nu
 
   return eleRect.top - conRect.top;
 };
+
+/**
+ *
+ * 移除对象中部分属性
+ *
+ * @param obj 目标对象
+ * @param keys 待移除key列表
+ * @returns 不包含keys的对象
+ */
+export const omit = <T extends Record<any, unknown>, K extends keyof T>(
+  obj: T,
+  keys: Array<K>
+): Omit<T, K> => {
+  const omitObj = { ...obj };
+
+  keys.forEach((k) => {
+    Reflect.deleteProperty(omitObj, k);
+  });
+
+  return omitObj;
+};

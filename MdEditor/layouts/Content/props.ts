@@ -50,6 +50,20 @@ export const contentProps = () => ({
   formatCopiedText: {
     type: Function as PropType<(text: string) => string>,
     default: (text: string) => text
+  },
+
+  autofocus: {
+    type: Boolean as PropType<boolean>
+  },
+
+  disabled: {
+    type: Boolean as PropType<boolean>
+  },
+  readonly: {
+    type: Boolean as PropType<boolean>
+  },
+  maxlength: {
+    type: Number as PropType<number>
   }
 });
 
