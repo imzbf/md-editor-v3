@@ -26,7 +26,7 @@ export const useSreenfull = (props: ToolbarProps) => {
     if (screenfull.isEnabled) {
       screenfullMe.value = true;
 
-      const targetStatus = status === undefined ? !screenfull.isFullscreen : !!status;
+      const targetStatus = status === undefined ? !screenfull.isFullscreen : status;
       if (targetStatus) {
         screenfull.request();
       } else {

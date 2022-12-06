@@ -9,14 +9,12 @@ export default {
       tokenizer(text: string) {
         if (/^\$\$\n/.test(text) && text.split('$$').length > 2) {
           const match = splitKatexValue(text, '$$');
-          const token = {
+          return {
             type: 'KaTexBlockExtension',
             raw: match[0],
             text: match[1].trim(),
             tokens: []
           };
-
-          return token;
         }
       },
       renderer(token: any) {
@@ -44,14 +42,12 @@ export default {
         if (/^\$[^\n]*\$/.test(text)) {
           const match = splitKatexValue(text);
 
-          const token = {
+          return {
             type: 'KaTexInlineExtension',
             raw: match[0],
             text: match[1].trim(),
             tokens: []
           };
-
-          return token;
         }
       },
       renderer(token: any) {

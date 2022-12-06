@@ -4,6 +4,7 @@ import { debounce } from '.';
  * 设置页面元素可移动
  *
  * @param trigger 触发器，通过该元素移动父级元素
+ * @param moveHandler
  */
 export const keyMove = (
   trigger: HTMLElement,

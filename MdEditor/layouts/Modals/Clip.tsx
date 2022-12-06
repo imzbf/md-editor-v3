@@ -158,7 +158,12 @@ export default defineComponent({
           <div class={`${prefix}-clip-main`}>
             {data.imgSelected ? (
               <div class={`${prefix}-clip-cropper`}>
-                <img src={data.imgSrc} ref={uploadImgRef} style={{ display: 'none' }} />
+                <img
+                  src={data.imgSrc}
+                  ref={uploadImgRef}
+                  style={{ display: 'none' }}
+                  alt=""
+                />
                 <div class={`${prefix}-clip-delete`} onClick={reset}>
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use xlinkHref="#md-editor-icon-delete" />

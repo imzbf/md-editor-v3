@@ -245,7 +245,7 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
       const idRand = `${prefix}-mermaid-${Date.now().toString(36)}`;
 
       try {
-        let svgCode = '';
+        let svgCode;
         // 服务端渲染，如果提供了mermaid，就生成svg
         if (mermaidIns) {
           svgCode = mermaidIns.mermaidAPI.render(idRand, code);
@@ -340,7 +340,7 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
     // 提供了hljs，在创建阶段即完成设置
     marked.setOptions({
       highlight: (code, language) => {
-        let codeHtml = '';
+        let codeHtml;
         const hljsLang = highlightIns.getLanguage(language);
         if (language && hljsLang) {
           codeHtml = highlightIns.highlight(code, {
@@ -399,7 +399,7 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
   const highlightLoad = () => {
     marked.setOptions({
       highlight: (code, language) => {
-        let codeHtml = '';
+        let codeHtml;
         const hljsLang = window.hljs.getLanguage(language);
         if (language && hljsLang) {
           codeHtml = window.hljs.highlight(code, {
