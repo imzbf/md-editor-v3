@@ -750,13 +750,18 @@ export const useMermaid = (props: ContentProps) => {
   return mermaidData;
 };
 
-export const usePasteUpload = (textAreaRef: Ref) => {
+export const usePasteUpload = (props: ContentProps, textAreaRef: Ref) => {
   const editorId = inject('editorId') as string;
   const previewOnly = inject('previewOnly') as boolean;
 
   // 粘贴板上传
   const pasteHandler = (e: ClipboardEvent) => {
-    if (e.clipboardData && e.clipboardData.files.length > 0) {
+    if (!e.clipboardData) {
+      return;
+    }
+
+    // 处理文件
+    if (e.clipboardData.files.length > 0) {
       const { files } = e.clipboardData;
 
       bus.emit(
@@ -766,6 +771,18 @@ export const usePasteUpload = (textAreaRef: Ref) => {
           return /image\/.*/.test(file.type);
         })
       );
+
+      e.preventDefault();
+    }
+
+    // 识别vscode代码
+    if (props.autoDetectCode && e.clipboardData.types.includes('vscode-editor-data')) {
+      const vscCoodInfo = JSON.parse(e.clipboardData.getData('vscode-editor-data'));
+
+      bus.emit(editorId, 'replace', 'code', {
+        mode: vscCoodInfo.mode,
+        text: e.clipboardData.getData('text/plain')
+      });
 
       e.preventDefault();
     }

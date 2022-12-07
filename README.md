@@ -112,6 +112,7 @@ mark and emoji extensions
 | disabled | `boolean` | false | same as `disabled` in native textarea |
 | readOnly | `boolean` | false | same as `readonly` in native textarea |
 | maxLength | `number` |  | same as `maxlength` in native textarea |
+| autoDetectCode | `boolean` | false | auto detect the type of pasted code, only support that copied from `vscode` |
 
 <details>
  <summary>『toolbars』</summary>

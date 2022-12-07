@@ -47,7 +47,7 @@ export default defineComponent({
     // 历史记录
     useHistory(props, textAreaRef, completeStatus);
     // 粘贴上传
-    usePasteUpload(textAreaRef);
+    usePasteUpload(props, textAreaRef);
     // 图片点击放大
     userZoom(props, html);
 
@@ -66,7 +66,8 @@ export default defineComponent({
         'onHtmlChanged',
         'sanitize',
         'scrollAuto',
-        'setting'
+        'setting',
+        'autoDetectCode'
       ]);
 
       return (

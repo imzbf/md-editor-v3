@@ -372,6 +372,15 @@ export const editorProps = () => ({
    */
   maxLength: {
     type: Number as PropType<number>
+  },
+  /**
+   * 是否启用自动识别粘贴代码类别
+   * 目前支持 vscode 复制的代码识别
+   *
+   * @default false
+   */
+  autoDetectCode: {
+    type: Boolean as PropType<boolean>
   }
 });
 

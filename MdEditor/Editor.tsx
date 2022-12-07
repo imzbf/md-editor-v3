@@ -125,6 +125,7 @@ const Editor = defineComponent({
             disabled={props.disabled}
             readonly={props.readOnly}
             maxlength={props.maxLength}
+            autoDetectCode={props.autoDetectCode}
           />
           {!previewOnly && props.footers?.length > 0 && (
             <Footer

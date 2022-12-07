@@ -215,9 +215,13 @@ export const directive2flag = (
         break;
       }
       case 'code': {
-        targetValue = '```language\n' + selectedText + '\n```\n';
+        // 插入的内容
+        const text = params.text || selectedText || '';
+        // 代码的类型
+        const mode = params.mode || 'language';
+        targetValue = `\`\`\`${mode}\n${text}\n\`\`\`\n`;
         deviationStart = 3;
-        deviationEnd = 11 - targetValue.length;
+        deviationEnd = 3 + mode.length - targetValue.length;
         select = true;
         break;
       }

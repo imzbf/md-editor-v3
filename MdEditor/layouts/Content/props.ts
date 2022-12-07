@@ -64,6 +64,9 @@ export const contentProps = () => ({
   },
   maxlength: {
     type: Number as PropType<number>
+  },
+  autoDetectCode: {
+    type: Boolean as PropType<boolean>
   }
 });
 
