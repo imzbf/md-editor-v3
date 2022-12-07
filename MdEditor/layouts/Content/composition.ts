@@ -248,14 +248,14 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
         let svgCode;
         // 服务端渲染，如果提供了mermaid，就生成svg
         if (mermaidIns) {
-          svgCode = mermaidIns.mermaidAPI.render(idRand, code);
+          svgCode = mermaidIns.render(idRand, code);
         }
         // 没有提供，则判断window对象是否可用，不可用则反回待解析的结构，在页面引入后再解析
         else if (typeof window !== 'undefined' && window.mermaid) {
-          svgCode = window.mermaid.mermaidAPI.render(idRand, code);
+          svgCode = window.mermaid.render(idRand, code);
         } else {
           // 这块代码不会正确展示在页面上
-          svgCode = `<p class="mermaid">${code}</p>`;
+          svgCode = `<p class="${prefix}-mermaid-loading">${code}</p>`;
         }
 
         return `<p class="${prefix}-mermaid">${svgCode}</p>`;
