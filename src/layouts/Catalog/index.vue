@@ -5,6 +5,7 @@
         :editor-id="props.editorId"
         :theme="store.state.theme"
         :scroll-element="scrollElement"
+        :scroll-element-offset-top="10"
         @on-click="onClick"
       />
     </div>
