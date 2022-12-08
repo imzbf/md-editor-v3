@@ -13,6 +13,8 @@
   <md-editor-v3 v-model="xxx" />
   ```
 
+---
+
 ### 🛍 theme
 
 - **type**: `'light' | 'dark'`
@@ -24,12 +26,16 @@
   <md-editor-v3 theme="dark" />
   ```
 
+---
+
 ### 🎀 class
 
 - **type**: `string`
 - **default**: `''`
 
   ...
+
+---
 
 ### 🤏🏼 historyLength
 
@@ -38,12 +44,16 @@
 
   The max length of history(if it is too big, editor will use more `RAM`).
 
+---
+
 ### 💻 pageFullscreen
 
 - **type**: `boolean`
 - **default**: `false`
 
   Screenfull in web page.
+
+---
 
 ### 📱 preview
 
@@ -52,6 +62,8 @@
 
   Preview content in editor.
 
+---
+
 ### 📀 htmlPreview
 
 - **type**: `boolean`
@@ -59,12 +71,16 @@
 
   Preview html in editor.
 
+---
+
 ### 📺 previewOnly
 
 - **type**: `boolean`
 - **default**: `false`
 
   Only render article content, no toolbar, no edit area.
+
+---
 
 ### 🔤 language
 
@@ -74,6 +90,8 @@
   Build-in language('zh-CN', 'en-US').
 
   You can install the existing language also: [md-editor-extension](https://github.com/imzbf/md-editor-extension). Refer to extension library for the usage and the way to contribute~
+
+---
 
 ### 🧱 toolbars
 
@@ -124,12 +142,16 @@
   ];
   ```
 
+---
+
 ### 🧱 toolbarsExclude
 
 - **type**: `Array`
 - **default**: `[]`
 
   Don't show contents of toolbar.
+
+---
 
 ### 🪒 noPrettier
 
@@ -138,12 +160,16 @@
 
   Use prettier to beautify content or not.
 
+---
+
 ### 🎲 editorId
 
 - **type**: `string`
 - **default**: `'md-editor-v3'`
 
   Editor's id, also the html id, it is used when there are two or more editor and server render.
+
+---
 
 ### 🤏 tabWidth
 
@@ -152,12 +178,16 @@
 
   One tab eq some space.
 
+---
+
 ### 🔢 showCodeRowNumber
 
 - **type**: `boolean`
 - **default**: `false`
 
   Show row number for code block or not.
+
+---
 
 ### 🔦 previewTheme
 
@@ -184,12 +214,16 @@
 
   For more, refer to [markdown-theme](https://github.com/imzbf/markdown-theme).
 
+---
+
 ### 🎅🏻 style
 
 - **type**: `string | CSSProperties`
 - **default**: `''`
 
   Editor's inline style.
+
+---
 
 ### 📅 tableShape
 
@@ -204,6 +238,8 @@
 
   ![Preview](https://imzbf.github.io/md-editor-v3/imgs/20211216165424.png)
 
+---
+
 ### ☝️ noMermaid
 
 - **type**: `boolean`
@@ -215,12 +251,16 @@
   <md-ditor-v3 no-mermaid />
   ```
 
+---
+
 ### 🪧 placeholder
 
 - **type**: `string`
 - **default**: `''`
 
   em-\_-！
+
+---
 
 ### ❌ noKatex
 
@@ -232,6 +272,8 @@
   ```html
   <md-ditor-v3 no-katex />
   ```
+
+---
 
 ### 🦉 codeTheme
 
@@ -273,6 +315,8 @@
   <md-ditor-v3 code-theme="xxx" />
   ```
 
+---
+
 ### 🎱 markedHeadingId
 
 - **type**: `(text: string, level: number, index: number) => string`
@@ -303,6 +347,8 @@
   </script>
   ```
 
+---
+
 ### 🐣 sanitize
 
 - **type**: `(html: string) => string`
@@ -326,6 +372,8 @@
   </script>
   ```
 
+---
+
 ### 🦶 footers
 
 - **type**: `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>`
@@ -333,12 +381,16 @@
 
   Show contents of footer, they are divided by `'='`. Set it to [] to hidden footer.
 
+---
+
 ### ⛵️ scrollAuto
 
 - **type**: `boolean`
 - **default**: `true`
 
   Scroll default setting.
+
+---
 
 ### 🤞🏼 noIconfont
 
@@ -359,6 +411,8 @@
   import '/assets/iconfont.js';
   </script>
   ```
+
+---
 
 ### 💅 formatCopiedText
 
@@ -382,6 +436,8 @@
   </script>
   ```
 
+---
+
 ### 🥹 noUploadImg
 
 - **type**: `boolean`
@@ -400,6 +456,8 @@
   </script>
   ```
 
+---
+
 ### 🛁 codeStyleReverse
 
 - **type**: `boolean`
@@ -407,12 +465,61 @@
 
   Code style will be reversed to dark while code block of the theme has a dark background.
 
+---
+
 ### 🧼 codeStyleReverseList
 
 - **type**: `Array`
 - **default**: `['default', 'mk-cute']`
 
   Themes to be reversed.
+
+---
+
+### 🔬 autoFocus
+
+- **type**: `boolean`
+- **default**: `false`
+
+  Same as `autofocus` in native textarea.
+
+---
+
+### 🔩 disabled
+
+- **type**: `boolean`
+- **default**: `false`
+
+  Same as `disabled` in native textarea.
+
+---
+
+### 🔒 readOnly
+
+- **type**: `boolean`
+- **default**: `false`
+
+  Same as `readonly` in native textarea.
+
+---
+
+### 📏 maxLength
+
+- **type**: `number`
+- **default**: ``
+
+  Same as `maxlength` in native textarea.
+
+---
+
+### 📥 autoDetectCode
+
+- **type**: `boolean`
+- **default**: `false`
+
+  Auto detect the type of pasted code, only support that copied from `vscode`.
+
+---
 
 ## 🎍 slots
 
@@ -484,6 +591,8 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
 
 For more info, Get **Internal Components** heading. Get source code of **mark**, **emoji** and **modal preview** at [docs](https://github.com/imzbf/md-editor-v3/tree/docs/src/components) branch.
 
+---
+
 ### 🦿 defFooters
 
 - Setup Template
@@ -532,6 +641,8 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
 ![](https://imzbf.github.io/md-editor-v3/imgs/footer.png)
 
+---
+
 ## 🪢 Event
 
 ### 📞 onChange
@@ -539,6 +650,8 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 - **type**: `(v: string) => void`
 
   Content changed event(bind to `oninput` of `textarea`).
+
+---
 
 ### 💾 onSave
 
@@ -563,6 +676,8 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   };
   </script>
   ```
+
+---
 
 ### 📸 onUploadImg
 
@@ -598,17 +713,23 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   <md-ditor-v3 @on-upload-img="onUploadImg" />
   ```
 
+---
+
 ### 🚁 onHtmlChanged
 
 - **type**: `(h: string) => void`
 
   Compile markdown successful event, ou can use it to get the html code.
 
+---
+
 ### 🗒 onGetCatalog
 
 - **type**: `(list: HeadList[]) => void`
 
   Get catalogue of article.
+
+---
 
 ### 💀 onError
 
@@ -625,6 +746,8 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   ```html
   <md-ditor-v3 @on-error="onError" />
   ```
+
+---
 
 ## 🤱🏼 Expose
 
@@ -684,6 +807,8 @@ Get the internal state of the editor, including pageFullscreen, fullscreen, prev
   editorRef.value?.on('catalog', (status) => console.log(status));
   ```
 
+---
+
 ### 💻 togglePageFullscreen
 
 Toggle status of fullscreen within the page.
@@ -693,6 +818,8 @@ editorRef.value?.togglePageFullscreen(true);
 ```
 
 > Switched to the opposite status, without input parameter.
+
+---
 
 ### 🖥 toggleFullscreen
 
@@ -704,6 +831,8 @@ editorRef.value?.toggleFullscreen(true);
 
 > Switched to the opposite status, without input parameter.
 
+---
+
 ### 📖 togglePreview
 
 Toggle status of preview.
@@ -713,6 +842,8 @@ editorRef.value?.togglePreview(true);
 ```
 
 > Switched to the opposite status, without input parameter.
+
+---
 
 ### 📼 toggleHtmlPreview
 
@@ -724,6 +855,8 @@ editorRef.value?.toggleHtmlPreview(true);
 
 > Switched to the opposite status, without input parameter.
 
+---
+
 ### 🧬 toggleCatalog
 
 Toggle status of catalog.
@@ -734,11 +867,15 @@ editorRef.value?.toggleCatalog(true);
 
 > Switched to the opposite status, without input parameter.
 
+---
+
 ### 💾 triggerSave
 
 ```js
 editorRef.value?.triggerSave();
 ```
+
+---
 
 ### 💉 insert
 
@@ -763,6 +900,18 @@ editorRef.value?.insert((selectedText) => {
   };
 });
 ```
+
+---
+
+### 🎯 focus
+
+focus the textarea.
+
+```js
+editorRef.value?.focus();
+```
+
+---
 
 ## 💴 Config Editor
 
@@ -1074,6 +1223,8 @@ const text = ref('');
 
 [MarkExtension Source Code](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/MarkExtension/index.vue)
 
+---
+
 ### 🐼 DropdownToolbar
 
 `Editor.DropdownToolbar`
@@ -1136,6 +1287,8 @@ const text = ref('');
 ```
 
 [EmojiExtension Source Code](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/EmojiExtension/index.vue)
+
+---
 
 ### 🦉 ModalToolbar
 
@@ -1203,6 +1356,8 @@ const data = reactive({
 
 [ReadExtension Source Code](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/ReadExtension/index.vue)
 
+---
+
 ### 🐻 MdCatalog
 
 - **props**
@@ -1213,6 +1368,7 @@ const data = reactive({
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: 'light' | 'dark', not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
   - `offsetTop`: `number`, not necessary, highlight current item of catalogs when title is `offsetTop` pixels from the top, defalut 20.
+  - `scrollElementOffsetTop`: `number`, not necessary, offsetTop of the scroll container，defalut 0.
 
 - **events**
 
@@ -1250,6 +1406,8 @@ const state = reactive({
 const scrollElement = document.documentElement;
 </script>
 ```
+
+---
 
 ## ✍️ Edit this page
 

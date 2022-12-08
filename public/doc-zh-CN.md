@@ -15,6 +15,8 @@
   <md-editor-v3 v-model="xxx" />
   ```
 
+---
+
 ### 🛍 theme
 
 - **类型**：`'light' | 'dark'`
@@ -26,12 +28,16 @@
   <md-ditor-v3 theme="dark" />
   ```
 
+---
+
 ### 🎀 class
 
 - **类型**：`string`
 - **默认值**：`''`
 
   ...
+
+---
 
 ### 🤏🏼 historyLength
 
@@ -40,12 +46,16 @@
 
   最大记录操作数（太大会占用内存）。
 
+---
+
 ### 💻 pageFullscreen
 
 - **类型**：`boolean`
 - **默认值**：`false`
 
   页面内全屏。
+
+---
 
 ### 📱 preview
 
@@ -54,12 +64,16 @@
 
   是否显示预览。
 
+---
+
 ### 📀 htmlPreview
 
 - **类型**：`boolean`
 - **默认值**：`false`
 
   是否显示 html 预览。
+
+---
 
 ### 📺 previewOnly
 
@@ -76,6 +90,8 @@
   内置中英文(`'zh-CN'`,`'en-US'`)，可自行扩展其他语言，同时可覆盖内置的中英文。
 
   你也可以使用现成的扩展语言：[md-editor-extension](https://github.com/imzbf/md-editor-extension)。使用及贡献方式见扩展库文档~
+
+---
 
 ### 🧱 toolbars
 
@@ -126,12 +142,16 @@
   ];
   ```
 
+---
+
 ### 🧱 toolbarsExclude
 
 - **类型**：`Array`
 - **默认值**：`[]`
 
   选择性不展示工具栏，内容同上。
+
+---
 
 ### 🪒 noPrettier
 
@@ -140,12 +160,16 @@
 
   是否启用 prettier 优化 md 内容。
 
+---
+
 ### 🎲 editorId
 
 - **类型**：`string`
 - **默认值**：`'md-editor-v3'`
 
   编辑器唯一标识，非必须项，服务端渲染时，防止产生服务端与客户端渲染内容不一致错误提示，以及单页面多编辑器时做区别。
+
+---
 
 ### 🤏 tabWidth
 
@@ -154,12 +178,16 @@
 
   编辑器一个 TAB 键等于空格数。
 
+---
+
 ### 🔢 showCodeRowNumber
 
 - **类型**：`boolean`
 - **默认值**：`false`
 
   代码块是否显示行号。
+
+---
 
 ### 🔦 previewTheme
 
@@ -186,12 +214,16 @@
 
   参考[markdown-theme](https://github.com/imzbf/markdown-theme)项目。
 
+---
+
 ### 🎅🏻 style
 
 - **类型**：`string | CSSProperties`
 - **默认值**：`''`
 
   编辑器内联样式。
+
+---
 
 ### 📅 tableShape
 
@@ -206,6 +238,8 @@
 
   ![表格预设大小预览](https://imzbf.github.io/md-editor-v3/imgs/20211216165424.png)
 
+---
+
 ### ☝️ noMermaid
 
 - **类型**：`boolean`
@@ -217,12 +251,16 @@
   <md-ditor-v3 no-mermaid />
   ```
 
+---
+
 ### 🪧 placeholder
 
 - **类型**：`string`
 - **默认值**：`''`
 
   啊这-\_-！
+
+---
 
 ### ❌ noKatex
 
@@ -234,6 +272,8 @@
   ```html
   <md-ditor-v3 no-katex />
   ```
+
+---
 
 ### 🦉 codeTheme
 
@@ -275,6 +315,8 @@
   <md-ditor-v3 code-theme="xxx" />
   ```
 
+---
+
 ### 🎱 markedHeadingId
 
 - **类型**：`(text: string, level: number, index: number) => string`
@@ -305,6 +347,8 @@
   </script>
   ```
 
+---
+
 ### 🐣 sanitize
 
 - **类型**：`(html: string) => string`
@@ -330,6 +374,8 @@
 
   > 为什么不内置到编辑器：由于类似编辑器大多属于自行处理文本，自身即可确认内容是否安全，并不需要该功能。
 
+---
+
 ### 🦶 footers
 
 - **类型**：`Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>`
@@ -337,12 +383,16 @@
 
   页脚显示内容，`'='`左右分割，设置为`[]`不显示页脚。
 
+---
+
 ### ⛵️ scrollAuto
 
 - **类型**：`boolean`
 - **默认值**：`true`
 
   默认左右同步滚动状态。
+
+---
 
 ### 🤞🏼 noIconfont
 
@@ -363,6 +413,8 @@
   import '/assets/iconfont.js';
   </script>
   ```
+
+---
 
 ### 💅 formatCopiedText
 
@@ -386,6 +438,8 @@
   </script>
   ```
 
+---
+
 ### 🥹 noUploadImg
 
 - **类型**：`boolean`
@@ -404,6 +458,8 @@
   </script>
   ```
 
+---
+
 ### 🛁 codeStyleReverse
 
 - **类型**：`boolean`
@@ -411,12 +467,61 @@
 
   某些预览主题的代码模块背景是暗色系，将这个属性设置为 true，会自动在该主题下的 light 模式下使用暗色系的代码风格。
 
+---
+
 ### 🧼 codeStyleReverseList
 
 - **类型**：`Array`
 - **默认值**：`['default', 'mk-cute']`
 
   需要自动调整的预览主题，已默认包含 default、mk-cute。
+
+---
+
+### 🔬 autoFocus
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  原生属性，文本区域自动获得焦点。
+
+---
+
+### 🔩 disabled
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  原生属性，禁用文本区域。
+
+---
+
+### 🔒 readOnly
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  原生属性，文本区域为只读。
+
+---
+
+### 📏 maxLength
+
+- **类型**：`number`
+- **默认值**：``
+
+  原生属性，文本区域允许的最大字符数。
+
+---
+
+### 📥 autoDetectCode
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  是否启用自动识别粘贴代码类别，目前仅支持从`vscode`复制的内容。
+
+---
 
 ## 🎍 插槽
 
@@ -488,6 +593,8 @@
 
 扩展组件属性参考**内置组件**，使用示例参见[文档分支](https://github.com/imzbf/md-editor-v3/tree/docs/src/components)，提供**标记**、**表情**和**弹窗预览**扩展组件。
 
+---
+
 ### 🦿 defFooters
 
 自定义扩展页脚
@@ -539,6 +646,8 @@
 
 ![](https://imzbf.github.io/md-editor-v3/imgs/footer.png)
 
+---
+
 ## 🪢 绑定事件
 
 目前支持的内容如下：
@@ -548,6 +657,8 @@
 - **类型**：`(v: string) => void`
 
   内容变化事件（当前与`textarea`的`oninput`事件绑定，每输入一个单字即会触发）。
+
+---
 
 ### 💾 onSave
 
@@ -572,6 +683,8 @@
   };
   </script>
   ```
+
+---
 
 ### 📸 onUploadImg
 
@@ -607,17 +720,23 @@
   <md-ditor-v3 @on-upload-img="onUploadImg" />
   ```
 
+---
+
 ### 🚁 onHtmlChanged
 
 - **类型**：`(h: string) => void`
 
   html 变化回调事件，用于获取预览 html 代码。
 
+---
+
 ### 🗒 onGetCatalog
 
 - **类型**：`(list: HeadList[]) => void`
 
   动态获取`markdown`目录。
+
+---
 
 ### 💀 onError
 
@@ -634,6 +753,8 @@
   ```html
   <md-ditor-v3 @on-error="onError" />
   ```
+
+---
 
 ## 🤱🏼 实例暴露
 
@@ -693,6 +814,8 @@ onMounted(() => {
   editorRef.value?.on('catalog', (status) => console.log(status));
   ```
 
+---
+
 ### 💻 togglePageFullscreen
 
 切换页面内全屏。
@@ -702,6 +825,8 @@ editorRef.value?.togglePageFullscreen(true);
 ```
 
 > 不设置入参切换为相反状态
+
+---
 
 ### 🖥 toggleFullscreen
 
@@ -713,6 +838,8 @@ editorRef.value?.toggleFullscreen(true);
 
 > 不设置入参切换为相反状态
 
+---
+
 ### 📖 togglePreview
 
 切换是否显示预览。
@@ -722,6 +849,8 @@ editorRef.value?.togglePreview(true);
 ```
 
 > 不设置入参切换为相反状态
+
+---
 
 ### 📼 toggleHtmlPreview
 
@@ -733,6 +862,8 @@ editorRef.value?.toggleHtmlPreview(true);
 
 > 不设置入参切换为相反状态
 
+---
+
 ### 🧬 toggleCatalog
 
 切换是否显示目录。
@@ -743,6 +874,8 @@ editorRef.value?.toggleCatalog(true);
 
 > 不设置入参切换为相反状态
 
+---
+
 ### 💾 triggerSave
 
 触发保存。
@@ -750,6 +883,8 @@ editorRef.value?.toggleCatalog(true);
 ```js
 editorRef.value?.triggerSave();
 ```
+
+---
 
 ### 💉 insert
 
@@ -774,6 +909,18 @@ editorRef.value?.insert((selectedText) => {
   };
 });
 ```
+
+---
+
+### 🎯 focus
+
+手动聚焦输入框。
+
+```js
+editorRef.value?.focus();
+```
+
+---
 
 ## 💴 配置编辑器
 
@@ -1092,6 +1239,8 @@ const text = ref('');
 
 [获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/MarkExtension/index.vue)
 
+---
+
 ### 🐼 DropdownToolbar
 
 - **props**
@@ -1150,6 +1299,8 @@ const text = ref('');
 ```
 
 [获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/EmojiExtension/index.vue)
+
+---
 
 ### 🦉 ModalToolbar
 
@@ -1217,6 +1368,8 @@ const data = reactive({
 
 [获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/ReadExtension/index.vue)
 
+---
+
 ### 🐻 MdCatalog
 
 - **props**
@@ -1227,6 +1380,7 @@ const data = reactive({
   - `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`。
   - `theme`: `'light' | 'dark'`，非必须，当需要切换主题时提供，同编辑器的`theme`。
   - `offsetTop`: `number`，非必须，标题距离顶部该像素时高亮当前目录项，默认 20 像素。
+  - `scrollElementOffsetTop`: `number`，非必须，滚动区域的固定顶部高度，默认 0。
 
 - **events**
 
@@ -1264,6 +1418,8 @@ const state = reactive({
 const scrollElement = document.documentElement;
 </script>
 ```
+
+---
 
 ## ✍️ 编辑此页面
 
