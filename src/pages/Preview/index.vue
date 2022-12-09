@@ -12,6 +12,7 @@
         :toolbars="toolbars"
         :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
         show-code-row-number
+        auto-detect-code
         @on-upload-img="uploadImg"
       >
         <template #defToolbars>
