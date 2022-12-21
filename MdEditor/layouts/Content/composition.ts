@@ -509,6 +509,9 @@ export const useAutoScroll = (
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
     document.querySelectorAll(`#${editorId}-preview pre`).forEach((pre: Element) => {
+      // 如果存在复制按钮，则移除
+      pre.querySelector('.copy-button')?.remove();
+
       const copyBtnText = ult.value.copyCode?.text || '复制代码';
       const copyButton = document.createElement('span');
       copyButton.setAttribute('class', 'copy-button');
@@ -561,6 +564,7 @@ export const useAutoScroll = (
   };
 
   watch(() => html.value, htmlChanged);
+  watch(() => ult.value, initCopyEntry);
   watch(() => props.setting.preview, settingPreviewChanged);
   watch(() => props.setting.htmlPreview, settingPreviewChanged);
   watch(
