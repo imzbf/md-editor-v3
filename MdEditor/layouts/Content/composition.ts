@@ -28,6 +28,7 @@ import {
 import { ToolDirective, directive2flag } from '../../utils/content-help';
 import { appendHandler, updateHandler } from '../../utils/dom';
 import kaTexExtensions from '../../utils/katex';
+import alertExtension from '../../utils/alert';
 import { TEXTAREA_FOCUS } from '../../static/event-name';
 
 interface HistoryItemType {
@@ -237,6 +238,10 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
 
   // marked渲染实例
   let renderer = new marked.Renderer();
+
+  marked.use({
+    extensions: [alertExtension]
+  });
 
   // 代码
   const markedCode = renderer.code;
