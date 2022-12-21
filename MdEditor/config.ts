@@ -229,7 +229,7 @@ export const staticTextDefault: StaticTextDefault = {
   }
 };
 
-export const mermaidUrl = `${cdnBase}/mermaid/9.2.2/mermaid.min.js`;
+export const mermaidUrl = `${cdnBase}/mermaid/9.3.0/mermaid.min.js`;
 
 export const katexUrl = {
   js: `${cdnBase}/KaTeX/0.16.3/katex.min.js`,

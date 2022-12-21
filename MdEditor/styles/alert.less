@@ -1,0 +1,109 @@
+@import './vars';
+
+.alert-vars(@isDark) {
+  .@{prefix}-alert {
+    &-note {
+      --marked-alert-color: if(@isDark, #1262e7, #448aff);
+      --marked-alert-bg-color: if(@isDark, #021d4c, #d5e2f9);
+    }
+    &-abstract {
+      --marked-alert-color: if(@isDark, #058dc9, #02b1ff);
+      --marked-alert-bg-color: if(@isDark, #002433, #d1eefb);
+    }
+    &-info {
+      --marked-alert-color: if(@isDark, #999, #333);
+      --marked-alert-bg-color: if(@isDark, #212121, #e3e3e3);
+    }
+    &-tip {
+      --marked-alert-color: if(@isDark, #888, #666);
+      --marked-alert-bg-color: if(@isDark, #191818, #e6e6e6);
+    }
+    &-success {
+      --marked-alert-color: if(@isDark, #00c551, #00c852);
+      --marked-alert-bg-color: if(@isDark, #003014, #c1f1d5);
+    }
+    &-question {
+      --marked-alert-color: if(@isDark, #cd9a00, #f0b400);
+      --marked-alert-bg-color: if(@isDark, #311d00, #fff1dd);
+    }
+    &-warning {
+      --marked-alert-color: if(@isDark, #ed8500, #ff9104);
+      --marked-alert-bg-color: if(@isDark, #3c2200, #ffe9cc);
+    }
+    &-failure {
+      --marked-alert-color: if(@isDark, #d5125f, #c2185b);
+      --marked-alert-bg-color: if(@isDark, #3f0000, #ffd9d9);
+    }
+    &-danger {
+      --marked-alert-color: if(@isDark, #d80505, #ff5252);
+      --marked-alert-bg-color: if(@isDark, #390000, #ffe4e4);
+    }
+    &-bug {
+      --marked-alert-color: if(@isDark, #da0d54, #f60357);
+      --marked-alert-bg-color: if(@isDark, #390013, #ffd3e2);
+    }
+    &-example {
+      --marked-alert-color: if(@isDark, #7443ff, #7c4dff);
+      --marked-alert-bg-color: if(@isDark, #140045, #e3d8ff);
+    }
+    &-quote {
+      --marked-alert-color: if(@isDark, #9e9e9e, #9e9e9e);
+      --marked-alert-bg-color: if(@isDark, #2b2b2b, #f0f0f0);
+    }
+    &-hint {
+      --marked-alert-color: if(@isDark, #00ae9e, #009688);
+      --marked-alert-bg-color: if(@isDark, #00423b, #cdf4f0);
+    }
+    &-caution {
+      --marked-alert-color: if(@isDark, #db8609, #ffa726);
+      --marked-alert-bg-color: if(@isDark, #573300, #ffe7c4);
+    }
+    &-error {
+      --marked-alert-color: if(@isDark, #df1a1a, #d32f2f);
+      --marked-alert-bg-color: if(@isDark, #440000, #ffd8d8);
+    }
+    &-attention {
+      --marked-alert-color: if(@isDark, #0f8bc7, #455a64);
+      --marked-alert-bg-color: if(@isDark, #00354d, #cbefff);
+    }
+  }
+}
+
+.alert-vars(false);
+
+.@{prefix}-alert {
+  // note|abstract|info|tip|success|question|warning|failure|danger|bug|example|quote
+
+  background-color: var(--marked-alert-bg-color);
+  border: 1px solid var(--marked-alert-color);
+  border-radius: 0.5rem;
+  color: var(--marked-alert-color);
+  display: flow-root;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 1rem 0;
+  padding: 1em 1em 0.5em;
+  page-break-inside: avoid;
+
+  & > &-title {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font-weight: 700;
+  }
+
+  & > p {
+    margin: 0.5em 0;
+    padding: 0;
+  }
+  & + p:empty,
+  & + p:empty + p:empty {
+    display: none;
+  }
+}
+
+.@{prefix}-dark {
+  .alert-vars(true);
+}

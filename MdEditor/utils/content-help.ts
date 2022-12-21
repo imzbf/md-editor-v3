@@ -130,11 +130,10 @@ export const directive2flag = (
     const prettier =
       window.prettier || configOption.editorExtensions?.prettier?.prettierInstance;
 
-    const prettierPlugins =
-      window.prettierPlugins || [
+    const prettierPlugins = [
+      window.prettierPlugins?.markdown ||
         configOption.editorExtensions?.prettier?.parserMarkdownInstance
-      ] ||
-      [];
+    ];
 
     if (!prettier || prettierPlugins[0] === undefined) {
       // CATCH ERROR: 捕获全局错误

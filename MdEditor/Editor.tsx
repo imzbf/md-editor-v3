@@ -15,12 +15,13 @@ import MdCatalog from './extensions/MdCatalog';
 import bus from './utils/event-bus';
 
 import { HeadList } from './type';
-
-import './styles/index.less';
-import '@vavt/markdown-theme/css/all.css';
 import { getSlot } from './utils/vue-tsx';
 
 import { editorProps, EditorProps } from './props';
+
+import './styles/index.less';
+import './styles/alert.less';
+import '@vavt/markdown-theme/css/all.css';
 
 const Editor = defineComponent({
   name: 'MdEditorV3',
