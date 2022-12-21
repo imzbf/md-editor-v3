@@ -5,6 +5,7 @@
       :theme="store.state.theme"
       :model-value="props.modelValue"
       :preview-theme="store.state.previewTheme"
+      :lang="store.state.lang"
       preview-only
       show-code-row-number
       :code-theme="store.state.codeTheme"
@@ -23,7 +24,8 @@ export default {
 import type { PropType } from 'vue';
 import { useStore } from 'vuex';
 import { debounce } from '@/utils';
-const store = useStore();
+import type { StateType } from '@/store';
+const store = useStore<StateType>();
 
 const props = defineProps({
   editorId: {
