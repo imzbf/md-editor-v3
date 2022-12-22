@@ -5,7 +5,7 @@
       :theme="store.state.theme"
       :model-value="props.modelValue"
       :preview-theme="store.state.previewTheme"
-      :lang="store.state.lang"
+      :language="store.state.lang"
       preview-only
       show-code-row-number
       :code-theme="store.state.codeTheme"
