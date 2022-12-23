@@ -48,14 +48,6 @@
         {{ linkNames.about }}
       </router-link>
     </li>
-    <li class="nav-item">
-      <router-link to="/contrast">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-d-v"></use>
-        </svg>
-        {{ linkNames.to2 }}
-      </router-link>
-    </li>
     <li class="nav-item" @click="store.commit('changeLang')">
       <svg class="icon" aria-hidden="true">
         <use :xlink:href="linkNames.langIcon"></use>
@@ -83,8 +75,7 @@ const linkNames = computed(() => {
         grammar: '语法',
         about: '关于',
         lang: 'English',
-        langIcon: '#icon-d-en',
-        to2: '升级至2.x'
+        langIcon: '#icon-d-en'
       }
     : {
         home: 'Home',
@@ -94,8 +85,7 @@ const linkNames = computed(() => {
         grammar: 'Grammar',
         about: 'About',
         lang: '中文',
-        langIcon: '#icon-d-cn',
-        to2: 'Upgrade 2.x'
+        langIcon: '#icon-d-cn'
       };
 });
 </script>

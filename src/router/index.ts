@@ -41,12 +41,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: `${SITE_TITLE_PREFIX} 关于` }
       },
       {
-        path: 'contrast',
-        name: 'ContrastPage',
-        component: () => import('@/pages/Contrast/index.vue'),
-        meta: { title: `${SITE_TITLE_PREFIX} 对比` }
-      },
-      {
         path: 'grammar',
         name: 'GrammarPage',
         component: () => import('@/pages/Grammar/index.vue'),
