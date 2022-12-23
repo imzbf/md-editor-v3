@@ -32,6 +32,14 @@
         {{ linkNames.github }}
       </a>
     </li>
+    <li className="nav-item">
+      <router-link to="/grammar">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-grammar"></use>
+        </svg>
+        {{ linkNames.grammar }}
+      </router-link>
+    </li>
     <li class="nav-item">
       <router-link to="/about">
         <svg class="icon" aria-hidden="true">
@@ -72,6 +80,7 @@ const linkNames = computed(() => {
         docs: '文档',
         demo: '示例',
         github: '源码',
+        grammar: '语法',
         about: '关于',
         lang: 'English',
         langIcon: '#icon-d-en',
@@ -82,6 +91,7 @@ const linkNames = computed(() => {
         docs: 'Docs',
         demo: 'Demo',
         github: 'Github',
+        grammar: 'Grammar',
         about: 'About',
         lang: '中文',
         langIcon: '#icon-d-cn',

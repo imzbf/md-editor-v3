@@ -7,7 +7,7 @@
       :preview-theme="store.state.previewTheme"
       :language="store.state.lang"
       preview-only
-      show-code-row-number
+      :show-code-row-number="props.showCodeRowNumber"
       :code-theme="store.state.codeTheme"
       @on-html-changed="onHtmlChanged"
     />
@@ -35,6 +35,10 @@ const props = defineProps({
   modelValue: {
     type: String as PropType<string>,
     default: ''
+  },
+  showCodeRowNumber: {
+    type: Boolean as PropType<boolean>,
+    default: true
   }
 });
 

@@ -45,6 +45,12 @@ const routes: Array<RouteRecordRaw> = [
         name: 'ContrastPage',
         component: () => import('@/pages/Contrast/index.vue'),
         meta: { title: `${SITE_TITLE_PREFIX} 对比` }
+      },
+      {
+        path: 'grammar',
+        name: 'GrammarPage',
+        component: () => import('@/pages/Grammar/index.vue'),
+        meta: { title: `${SITE_TITLE_PREFIX} 语法` }
       }
     ]
   }
