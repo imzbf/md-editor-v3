@@ -8,6 +8,8 @@ Markdown 编辑器，基于 react，使用 jsx 和 typescript 语法开发，支
 
 > 引用：世界上没有绝对，只有相对
 
+![](https://imzbf.github.io/md-editor-v3/imgs/preview-light.png)
+
 ## 2. 代码演示
 
 ```js

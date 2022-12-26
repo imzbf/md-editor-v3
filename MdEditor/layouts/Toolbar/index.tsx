@@ -815,13 +815,17 @@ export default defineComponent({
       const RightBar = splitedbar.value[1].map((barItem) => barRender(barItem));
 
       return (
-        <div class={`${prefix}-toolbar-wrapper`} id={wrapperId}>
-          <div class={`${prefix}-toolbar`}>
-            <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
-              {LeftBar}
+        <>
+          {props.toolbars.length > 0 && (
+            <div class={`${prefix}-toolbar-wrapper`} id={wrapperId}>
+              <div class={`${prefix}-toolbar`}>
+                <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
+                  {LeftBar}
+                </div>
+                <div class={`${prefix}-toolbar-right`}>{RightBar}</div>
+              </div>
             </div>
-            <div class={`${prefix}-toolbar-right`}>{RightBar}</div>
-          </div>
+          )}
           <input
             ref={uploadRef}
             accept="image/*"
@@ -848,7 +852,7 @@ export default defineComponent({
               modalData.clipVisible = false;
             }}
           />
-        </div>
+        </>
       );
     };
   }
