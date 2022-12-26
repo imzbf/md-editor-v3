@@ -820,11 +820,7 @@ export const userZoom = (props: ContentProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
 
   const zoomHander = debounce(() => {
-    const imgs = Array.from(
-      document.querySelectorAll(`#${editorId}-preview img[zoom]`)
-    ).filter(
-      (item) => !item.classList.contains('medium-zoom-image')
-    ) as HTMLImageElement[];
+    const imgs = document.querySelectorAll(`#${editorId}-preview img[zoom]`);
 
     if (imgs.length === 0) {
       return;
