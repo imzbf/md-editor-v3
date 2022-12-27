@@ -571,6 +571,8 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
 
 ## 🪡 Shortcut Key
 
+_Pay attention: shortcut keys are only available when the textarea is focused!_
+
 | key | function | description |
 | --- | --- | --- |
 | TAB | insert space | Insert space, the length eq `tabWidth`, default: 2, support multiline |
