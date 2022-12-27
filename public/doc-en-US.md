@@ -1149,6 +1149,12 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
 
 ## 🪡 Shortcut key
 
+!!! warning Pay attention
+
+Shortcut keys are only available when the textarea is focused!
+
+!!!
+
 | key | function | description |
 | --- | --- | --- |
 | TAB | insert space | Insert space, the length eq `tabWidth`, default: 2, support multiline |
