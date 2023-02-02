@@ -7,7 +7,6 @@ import { CHANGE_FULL_SCREEN } from '../../static/event-name';
 
 export const useSreenfull = (props: ToolbarProps) => {
   const editorId = inject('editorId') as string;
-  const previewOnly = inject('previewOnly') as boolean;
   let screenfull = configOption.editorExtensions?.screenfull?.instance;
   const screenfullJs = configOption.editorExtensions?.screenfull?.js;
   // 是否组件内部全屏标识
@@ -59,7 +58,7 @@ export const useSreenfull = (props: ToolbarProps) => {
   onMounted(() => {
     onScreenfullEvent();
 
-    if (!previewOnly && !screenfull) {
+    if (!screenfull) {
       const screenScript = document.createElement('script');
       screenScript.src = screenfullJs || screenfullUrl;
       screenScript.onload = screenfullLoad;
@@ -70,13 +69,11 @@ export const useSreenfull = (props: ToolbarProps) => {
   });
 
   onMounted(() => {
-    if (!previewOnly) {
-      // 注册切换全屏监听
-      bus.on(editorId, {
-        name: CHANGE_FULL_SCREEN,
-        callback: fullscreenHandler
-      });
-    }
+    // 注册切换全屏监听
+    bus.on(editorId, {
+      name: CHANGE_FULL_SCREEN,
+      callback: fullscreenHandler
+    });
   });
 
   return { fullscreenHandler };
