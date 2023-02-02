@@ -685,6 +685,14 @@ export const useAutoGenrator = (props: ContentProps, textAreaRef: Ref) => {
           );
         }
       });
+
+      // 注册修改选择内容事件
+      bus.on(editorId, {
+        name: 'selectTextChange',
+        callback() {
+          selectedText.value = getSelectionText(textAreaRef.value);
+        }
+      });
     }
   });
 
@@ -695,14 +703,6 @@ export const useAutoGenrator = (props: ContentProps, textAreaRef: Ref) => {
       selectedText.value = '';
     }
   );
-
-  // 注册修改选择内容事件
-  bus.on(editorId, {
-    name: 'selectTextChange',
-    callback() {
-      selectedText.value = getSelectionText(textAreaRef.value);
-    }
-  });
 };
 
 export const useMermaid = (props: ContentProps) => {
@@ -841,10 +841,12 @@ export const userZoom = (props: ContentProps, html: Ref<string>) => {
 export const useAttach = (textAreaRef: Ref) => {
   const editorId = inject('editorId') as string;
 
-  bus.on(editorId, {
-    name: TEXTAREA_FOCUS,
-    callback() {
-      textAreaRef.value?.focus();
-    }
+  onMounted(() => {
+    bus.on(editorId, {
+      name: TEXTAREA_FOCUS,
+      callback() {
+        textAreaRef.value?.focus();
+      }
+    });
   });
 };
