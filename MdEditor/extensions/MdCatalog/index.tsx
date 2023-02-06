@@ -67,6 +67,10 @@ const mdCatalogProps = () => ({
   scrollElementOffsetTop: {
     type: Number as PropType<number>,
     default: 0
+  },
+  onClick: {
+    type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
+    default: () => {}
   }
 });
 
@@ -230,7 +234,11 @@ const MdCatalog = defineComponent({
               key={`link-${item.level}-${item.text}`}
               scrollElement={state.scrollElement}
               onClick={(e: MouseEvent, t: TocItem) => {
-                ctx.emit('onClick', e, t);
+                if (props.onClick) {
+                  props.onClick(e, t);
+                } else {
+                  ctx.emit('onClick', e, t);
+                }
               }}
               scrollElementOffsetTop={props.scrollElementOffsetTop}
             />

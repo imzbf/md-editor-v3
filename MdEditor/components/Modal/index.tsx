@@ -35,7 +35,7 @@ const modalProps = () => ({
   },
   onClose: {
     type: Function as PropType<() => void>,
-    default: () => () => {}
+    default: () => {}
   },
   showAdjust: {
     type: Boolean as PropType<boolean>,
@@ -47,7 +47,7 @@ const modalProps = () => ({
   },
   onAdjust: {
     type: Function as PropType<(val: boolean) => void>,
-    default: () => () => {}
+    default: () => {}
   },
   class: {
     type: String as PropType<string>

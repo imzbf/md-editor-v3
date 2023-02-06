@@ -19,7 +19,7 @@ const footerProps = () => ({
   },
   onScrollAutoChange: {
     type: Function as PropType<(v: boolean) => void>,
-    default: () => () => {}
+    default: () => {}
   },
   defFooters: {
     type: Object as PropType<VNode>

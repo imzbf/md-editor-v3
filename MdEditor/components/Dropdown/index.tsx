@@ -41,7 +41,7 @@ const dropdownToolbarProps = () => ({
   },
   onChange: {
     type: Function as PropType<(v: boolean) => void>,
-    default: () => () => {}
+    default: () => {}
   },
   // 相对滚动的元素选择器
   relative: {

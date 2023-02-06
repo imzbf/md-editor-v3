@@ -11,7 +11,7 @@ const catalogLinkProps = () => ({
   },
   markedHeadingId: {
     type: Function as PropType<MarkedHeadingId>,
-    default: () => () => {}
+    default: () => {}
   },
   scrollElement: {
     type: [String, Object] as PropType<string | Element>,
@@ -19,7 +19,7 @@ const catalogLinkProps = () => ({
   },
   onClick: {
     type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
-    default: () => () => {}
+    default: () => {}
   },
   scrollElementOffsetTop: {
     type: Number as PropType<number>,

@@ -10,7 +10,7 @@ const checkboxProps = () => ({
   },
   onChange: {
     type: Function as PropType<(checked: boolean) => void>,
-    default: () => () => {}
+    default: () => {}
   }
 });
 

@@ -10,7 +10,7 @@ const scrollAutoProps = () => ({
   },
   onScrollAutoChange: {
     type: Function as PropType<(v: boolean) => void>,
-    default: () => () => {}
+    default: () => {}
   }
 });
 

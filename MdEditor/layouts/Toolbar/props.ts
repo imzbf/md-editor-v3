@@ -30,7 +30,7 @@ export const toolbarProps = () => ({
   },
   updateSetting: {
     type: Function as PropType<UpdateSetting>,
-    default: () => () => {}
+    default: () => {}
   },
   tableShape: {
     type: Array as PropType<Array<number>>,

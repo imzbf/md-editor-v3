@@ -18,11 +18,11 @@ const modalsProps = () => ({
   },
   onCancel: {
     type: Function as PropType<() => void>,
-    default: () => () => {}
+    default: () => {}
   },
   onOk: {
     type: Function as PropType<(data?: any) => void>,
-    default: () => () => {}
+    default: () => {}
   }
 });
 
