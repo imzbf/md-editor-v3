@@ -20,7 +20,6 @@ import { getSlot } from './utils/vue-tsx';
 import { editorProps, EditorProps } from './props';
 
 import './styles/index.less';
-import './styles/alert.less';
 import '@vavt/markdown-theme/css/all.css';
 
 const Editor = defineComponent({
