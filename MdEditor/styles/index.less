@@ -307,25 +307,6 @@
       width: 100%;
     }
   }
-
-  &-katex-block {
-    text-align: center;
-    margin: 20px;
-  }
-
-  &-mermaid {
-    overflow-x: auto;
-
-    &-loading {
-      display: none;
-    }
-
-    &-error {
-      color: #dc2626;
-      text-align: center;
-      padding: 20px;
-    }
-  }
 }
 
 .@{prefix}-previewOnly {
@@ -366,21 +347,6 @@
   width: auto !important;
   height: auto !important;
   z-index: 10000;
-}
-
-.mermaid,
-.@{prefix}-katex-inline,
-.@{prefix}-katex-block {
-  display: none;
-}
-
-.mermaid[data-processed],
-.@{prefix}-katex-inline[data-processed] {
-  display: initial;
-}
-
-.@{prefix}-katex-block[data-processed] {
-  display: block;
 }
 
 // 图片预览优先级高于编辑器，低于编辑器弹窗
