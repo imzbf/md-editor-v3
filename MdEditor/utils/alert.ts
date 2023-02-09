@@ -24,7 +24,7 @@ const alertTypes = [
   'tip',
   'warning'
 ];
-const startReg = new RegExp(`^!!!\\s+(${alertTypes.join('|')})\\s+(.*)$`);
+const startReg = new RegExp(`^!!!\\s*(${alertTypes.join('|')})\\s*(.*)$`);
 // /^!!!\s+(note|abstract|info|tip|success|question|warning|failure|danger|bug|example|quote|hint|caution|error|attention)\s+(.*)$/
 const endReg = /^!!!\s*$/;
 
@@ -33,7 +33,7 @@ const Alert: marked.TokenizerExtension & marked.RendererExtension = {
   level: 'block',
   start(this: marked.TokenizerThis, src: string) {
     const index = src.match(
-      new RegExp(`(^|[\\r\\n])!!!\\s+(${alertTypes.join('|')})\\s+(.*)`)
+      new RegExp(`(^|[\\r\\n])!!!\\s*(${alertTypes.join('|')})\\s*(.*)`)
     )?.index;
     return index;
   },
