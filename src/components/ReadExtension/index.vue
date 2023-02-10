@@ -11,7 +11,7 @@
     @on-close="state.visible = false"
     @on-adjust="state.modalFullscreen = !state.modalFullscreen"
   >
-    <div v-if="state.visible" style="height: 100%; padding: 20px; overflow: auto">
+    <div style="height: 100%; padding: 20px; overflow: auto">
       <md-editor-v3
         :theme="store.state.theme"
         :language="store.state.lang"
@@ -20,6 +20,7 @@
         editor-id="edit2preview"
         preview-only
         :model-value="props.mdText"
+        :marked-heading-id="readingHeadingId"
       />
     </div>
     <template #trigger>
@@ -48,6 +49,14 @@ const state = reactive({
 });
 
 const store = useStore();
+
+/**
+ * modal-toolbar组件不会再关闭时销毁子组件，这时需要区别预览扩展组件的标题ID生成方式和编辑器的标题ID生成方式
+ *
+ * @see https://github.com/imzbf/md-editor-v3/issues/207
+ **/
+const readingHeadingId = (_text: string, _level: number, index: number) =>
+  `read-ex-heading-${index}`;
 </script>
 
 <script lang="ts">
