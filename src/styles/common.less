@@ -38,41 +38,41 @@ a {
 
 html {
   .css-vars(false);
-}
 
-body {
-  font-size: 16px;
-  font-family: 'Varela Round', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol';
-}
+  body {
+    font-size: 16px;
+    font-family: 'Varela Round', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
+      'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+      'Segoe UI Symbol';
+  }
 
-/* 浏览器滚动条 */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
+  /* 浏览器滚动条 */
+  > ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
 
-::-webkit-scrollbar-corner,
-::-webkit-scrollbar-track {
-  background-color: #e2e2e2;
-}
+  > ::-webkit-scrollbar-corner,
+  > ::-webkit-scrollbar-track {
+    background-color: #e2e2e2;
+  }
 
-::-webkit-scrollbar-thumb {
-  border-radius: 2px;
-  background-color: rgba(0, 0, 0, 0.3);
-}
+  > ::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
 
-::-webkit-scrollbar-button:vertical {
-  display: none;
-}
+  > ::-webkit-scrollbar-button:vertical {
+    display: none;
+  }
 
-::-webkit-scrollbar-thumb:vertical:hover {
-  background-color: rgba(0, 0, 0, 0.35);
-}
+  > ::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: rgba(0, 0, 0, 0.35);
+  }
 
-::-webkit-scrollbar-thumb:vertical:active {
-  background-color: rgba(0, 0, 0, 0.38);
+  > ::-webkit-scrollbar-thumb:vertical:active {
+    background-color: rgba(0, 0, 0, 0.38);
+  }
 }
 
 .icon {
@@ -137,25 +137,23 @@ body {
   }
 }
 
-.theme-dark {
+html[class*='theme-dark'] {
   .css-vars(true);
-  color: @colorDark;
-  background-color: @bkColorDark;
 
-  ::-webkit-scrollbar-corner,
-  ::-webkit-scrollbar-track {
+  > ::-webkit-scrollbar-corner,
+  > ::-webkit-scrollbar-track {
     background-color: rgb(15, 15, 15);
   }
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #2d2d2d;
+  > ::-webkit-scrollbar-thumb {
+    background-color: #444;
   }
 
-  ::-webkit-scrollbar-thumb:vertical:hover {
+  > ::-webkit-scrollbar-thumb:vertical:hover {
     background-color: rgb(58, 58, 58);
   }
 
-  ::-webkit-scrollbar-thumb:vertical:active {
+  > ::-webkit-scrollbar-thumb:vertical:active {
     background-color: rgb(58, 58, 58);
   }
 
