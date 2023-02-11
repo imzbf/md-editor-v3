@@ -7,9 +7,9 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.3"
+    "nuxt": "latest"
   },
   "dependencies": {
-    "md-editor-v3": "^2.0.0-beta.3"
+    "md-editor-v3": "latest"
   }
 }
