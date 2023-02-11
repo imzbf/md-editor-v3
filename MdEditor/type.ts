@@ -181,7 +181,8 @@ export type RewriteHeading = (
   level: 1 | 2 | 3 | 4 | 5 | 6,
   raw: string,
   slugger: Slugger,
-  index: number
+  index: number,
+  headingId: string
 ) => string;
 
 export interface RewriteRenderer extends Omit<Renderer, 'heading'> {

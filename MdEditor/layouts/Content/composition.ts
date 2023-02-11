@@ -302,6 +302,9 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
   renderer.heading = (text, level, raw, slugger) => {
     heads.value.push({ text: raw, level });
 
+    // 我们默认同一级别的标题，你不会定义两个相同的
+    const id = props.markedHeadingId(raw, level, heads.value.length);
+
     // 如果heading被重写了，使用新的heading
     if (isNewHeading) {
       return (newHeading as RewriteHeading).call(
@@ -310,13 +313,10 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
         level,
         raw,
         slugger,
-        heads.value.length
+        heads.value.length,
+        id
       );
     }
-
-    // return props.markedHeading(...headProps);
-    // 我们默认同一级别的标题，你不会定义两个相同的
-    const id = props.markedHeadingId(raw, level, heads.value.length);
 
     // 如果标题有markdown语法内容，会按照该语法添加标题，而不再自定义，但是仍然支持目录定位
     if (text !== raw) {
