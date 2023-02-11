@@ -16,6 +16,10 @@ import '@vavt/md-editor-extension/dist/previewTheme/arknights.css';
 MdEditor.config({
   markedExtensions: [MarkExtension],
   markedRenderer(renderer) {
+    renderer.heading = (text, level, _r, _s, _index, headingId) => {
+      return `<h${level} id="${headingId}"><a href="#${headingId}">${text}</a></h${level}>`;
+    };
+
     renderer.link = (href, title, text) => {
       return `<a href="${href}" title="${title || ''}" target="_blank">${text}</a>`;
     };
