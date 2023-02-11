@@ -69,8 +69,7 @@ const mdCatalogProps = () => ({
     default: 0
   },
   onClick: {
-    type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
-    default: () => {}
+    type: Function as PropType<(e: MouseEvent, t: TocItem) => void>
   }
 });
 
