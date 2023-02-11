@@ -421,15 +421,13 @@ const state = reactive({
 
 你也可以使用现成的扩展语言：[md-editor-extension](https://github.com/imzbf/md-editor-extension)。使用及贡献方式见扩展库文档~
 
-### 🛬 自定义目录结构
+### 🛬 自定义标题结构
 
-需求：在标题中存在外链时，点击打开新窗口。
-
-实现：
+需求：给标题添加一个 '#' 链接，没有样式。
 
 ```vue
 <template>
-  <md-editor v-model="text" :marked-heading-id="getId" />
+  <md-editor v-model="text" :markedHeadingId="markedHeadingId" />
 </template>
 
 <script setup>
@@ -439,23 +437,21 @@ import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
 
-const getId = (_text, _level, index) => {
+const markedHeadingId = (_text, _level, index) => {
   return `heading-${index}`;
 };
 
 MdEditor.config({
   markedRenderer(renderer) {
-    renderer.heading = (text, level, raw, _s, index) => {
-      // 你不能直接调用默认的markedHeadingId，但是它很简单
-      // 如果你的id与raw不相同，请一定记得将你的生成方法通过markedHeadingId告诉编辑器
-      // 否则编辑器默认的目录定位功能无法正确使用
-      const id = getId(text, level, index);
+    // 这里的'headingId'是通过你提供的'markedHeadingId'方法生成的。
+    renderer.heading = (text, level, _raw, _slugger, _index, headingId) => {
+      // 这种方式通常用与处理使用配置了 'renderer.heading'，同时又设置的具体编辑器的'markedHeadingId'属性带来的优先级问题。
 
-      if (text !== raw) {
-        return `<h${level} id="${id}">${text}</h${level}>`;
-      } else {
-        return `<h${level} id="${id}"><a href="#${id}">${raw}</a></h${level}>`;
-      }
+      // 你不能直接调用默认的 'markedHeadingId'，但是它很简单（(text) => text）。
+      // 如果你需要重新定义标题的ID，请一定记得将你的生成方法通过markedHeadingId告诉编辑器和目录组件 MdCatalog（如果你有使用）。
+      // 否则编辑器默认的目录定位功能无法正确使用。
+
+      return `<h${level} id="${headingId}"><a href="#${headingId}">#</a><span>${text}</span></h${level}>`;
     };
 
     return renderer;
