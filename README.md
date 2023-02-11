@@ -468,7 +468,18 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
   });
   ```
 
-  > Reference: https://marked.js.org/using_pro#renderer, RewriteRenderer extends Renderer and rewrites heading, now provides index as the fifth parameter.
+  > Reference: https://marked.js.org/using_pro#renderer, RewriteRenderer extends Renderer and rewrites heading, now provides `index` as the fifth parameter and `headingId` as the sixth parameter.
+  >
+  > ```ts
+  > type RewriteHeading = (
+  >   text: string,
+  >   level: 1 | 2 | 3 | 4 | 5 | 6,
+  >   raw: string,
+  >   slugger: Slugger,
+  >   index: number,
+  >   headingId: string
+  > ) => string;
+  > ```
 
 - markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
 

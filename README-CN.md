@@ -478,7 +478,18 @@ const handler = () => {
   });
   ```
 
-  > 参考：https://marked.js.org/using_pro#renderer，RewriteRenderer 继承了 Renderer 并重写了 heading 方法，提供了第 5 入参 index。
+  > 参考：https://marked.js.org/using_pro#renderer，RewriteRenderer 继承了 Renderer 并重写了 heading 方法，提供了第 5 入参 `index` 和第 6 入参 `headingId`。
+  >
+  > ```ts
+  > type RewriteHeading = (
+  >   text: string,
+  >   level: 1 | 2 | 3 | 4 | 5 | 6,
+  >   raw: string,
+  >   slugger: Slugger,
+  >   index: number,
+  >   headingId: string
+  > ) => string;
+  > ```
 
 - markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
 
