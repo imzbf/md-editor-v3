@@ -1171,7 +1171,7 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
 
   </details>
 
-## 🪡 Shortcut key
+## 🪡 Shortcut keys
 
 !!! warning Pay attention
 
@@ -1439,6 +1439,6 @@ const scrollElement = document.documentElement;
 
 ---
 
-## ✍️ Edit this page
+## ✍️ Edit This Page
 
 [doc-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/doc-en-US.md)
