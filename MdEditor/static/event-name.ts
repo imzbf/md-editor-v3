@@ -10,4 +10,4 @@ export const PREVIEW_CHANGED = 'previewChanged';
 export const HTML_PREVIEW_CHANGED = 'htmlPreviewChanged';
 export const CATALOG_VISIBLE_CHANGED = 'catalogVisibleChanged';
 
-export const TEXTAREA_FOCUS = 'textarea_focus';
+export const TEXTAREA_FOCUS = 'textareaFocus';

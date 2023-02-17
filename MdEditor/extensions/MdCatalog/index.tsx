@@ -4,7 +4,8 @@ import {
   computed,
   defineComponent,
   PropType,
-  ExtractPropTypes
+  ExtractPropTypes,
+  nextTick
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import bus from '../../utils/event-bus';
@@ -13,6 +14,7 @@ import { prefix } from '../../config';
 import CatalogLink from './CatalogLink';
 import { throttle, getRelativeTop } from '../../utils';
 import './style.less';
+import { PREVIEW_CHANGED } from '../../static/event-name';
 
 export interface TocItem {
   text: string;
@@ -159,7 +161,8 @@ const MdCatalog = defineComponent({
       bus.emit(editorId, 'pushCatalog');
     });
 
-    onMounted(() => {
+    // ==
+    const addScrollElementListener = () => {
       const scrollElement =
         state.scrollElement instanceof HTMLElement
           ? state.scrollElement
@@ -219,7 +222,21 @@ const MdCatalog = defineComponent({
           });
         })
       );
+    };
+
+    onMounted(() => {
+      addScrollElementListener();
+
+      bus.on(editorId, {
+        name: PREVIEW_CHANGED,
+        callback(status: boolean) {
+          if (status) {
+            nextTick(addScrollElementListener);
+          }
+        }
+      });
     });
+    // ==
 
     return () => (
       <div
