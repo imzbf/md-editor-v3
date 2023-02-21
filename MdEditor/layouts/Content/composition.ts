@@ -333,7 +333,12 @@ export const useMarked = (props: ContentProps) => {
       }
     }
 
-    return markedCode.call(renderer, code, language, isEscaped);
+    return markedCode
+      .call(renderer, code, language, isEscaped)
+      .replace(
+        /^<pre><code\sclass="language-([^>]*)">/,
+        '<pre><code class="language-$1" language="$1">'
+      );
   };
 
   // 3.2 标题
