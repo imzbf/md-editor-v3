@@ -5,7 +5,6 @@ import {
   useAutoScroll,
   useHistory,
   useMarked,
-  useMermaid,
   usePasteUpload,
   userZoom,
   useAttach
@@ -36,10 +35,9 @@ export default defineComponent({
     const previewRef = ref<HTMLDivElement>();
     // html代码预览框
     const htmlRef = ref<HTMLDivElement>();
-    // mermaid图表
-    const mermaidData = useMermaid(props);
+
     // markdown => html
-    const { html } = useMarked(props, mermaidData);
+    const html = useMarked(props);
     // 自动滚动
     useAutoScroll(props, html, textAreaRef, previewRef, htmlRef);
     // 自动监听生成md内容

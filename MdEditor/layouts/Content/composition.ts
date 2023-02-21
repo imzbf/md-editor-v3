@@ -204,9 +204,57 @@ export const useHistory = (
 };
 
 /**
+ * 注册katex扩展到marked
+ *
+ * @param props 内容组件props
+ * @param marked -
+ */
+export const useKatex = (props: ContentProps, marked: any) => {
+  // 获取相应的扩展配置链接
+  const katexConf = configOption.editorExtensions?.katex;
+  const katexIns = katexConf?.instance;
+
+  // katex是否加载完成
+  const katexInited = ref(false);
+
+  // 当没有设置不使用katex，直接扩展组件
+  if (!props.noKatex) {
+    marked.use({
+      extensions: [
+        kaTexExtensions.inline(prefix, katexIns),
+        kaTexExtensions.block(prefix, katexIns)
+      ]
+    });
+  }
+
+  onMounted(() => {
+    // 标签引入katex
+    if (!props.noKatex && !katexIns) {
+      const katexScript = document.createElement('script');
+
+      katexScript.src = katexConf?.js || katexUrl.js;
+      katexScript.onload = () => {
+        katexInited.value = true;
+      };
+      katexScript.id = `${prefix}-katex`;
+
+      const katexLink = document.createElement('link');
+      katexLink.rel = 'stylesheet';
+      katexLink.href = katexConf?.css || katexUrl.css;
+      katexLink.id = `${prefix}-katexCss`;
+
+      appendHandler(katexScript, 'katex');
+      appendHandler(katexLink);
+    }
+  });
+
+  return katexInited;
+};
+
+/**
  * markdown编译逻辑
  */
-export const useMarked = (props: ContentProps, mermaidData: any) => {
+export const useMarked = (props: ContentProps) => {
   const {
     markedRenderer,
     markedExtensions,
@@ -230,8 +278,6 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
 
   // ~~
   const highlightInited = ref(false);
-  // katex是否加载完成
-  const katexInited = ref(false);
 
   // 标题列表，扁平结构
   const heads = ref<HeadList[]>([]);
@@ -239,11 +285,29 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
   // marked渲染实例
   let renderer = new marked.Renderer();
 
-  marked.use({
-    extensions: [alertExtension]
-  });
+  // 1. 设定可被覆盖的内部模块渲染方式
+  // 1.1 图片
+  renderer.image = (href, title, desc) => {
+    return `<span class="figure"><img src="${href}" title="${title || ''}" alt="${
+      desc || ''
+    }" zoom><span class="figcaption">${desc || ''}</span></span>`;
+  };
 
-  // 代码
+  // 1.2 列表
+  renderer.listitem = (text: string, task: boolean) => {
+    if (task) {
+      return `<li class="li-task">${text}</li>`;
+    }
+    return `<li>${text}</li>`;
+  };
+
+  // 2. 设定自定义的renderer
+  if (markedRenderer instanceof Function) {
+    renderer = markedRenderer(renderer) as Renderer;
+  }
+
+  // 3. 设定内部携带不可覆盖逻辑的模块
+  // 3.1 代码
   const markedCode = renderer.code;
   renderer.code = (code, language, isEscaped) => {
     if (!props.noMermaid && language === 'mermaid') {
@@ -272,33 +336,11 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
     return markedCode.call(renderer, code, language, isEscaped);
   };
 
-  // 图片
-  renderer.image = (href, title, desc) => {
-    return `<span class="figure"><img src="${href}" title="${title || ''}" alt="${
-      desc || ''
-    }" zoom><span class="figcaption">${desc || ''}</span></span>`;
-  };
-
-  // 列表
-  renderer.listitem = (text: string, task: boolean) => {
-    if (task) {
-      return `<li class="li-task">${text}</li>`;
-    }
-    return `<li>${text}</li>`;
-  };
-
-  // 保存默认heading
-  const markedheading = renderer.heading;
-
-  if (markedRenderer instanceof Function) {
-    renderer = markedRenderer(renderer) as Renderer;
-  }
-
-  // 判断是否有重写heading
+  // 3.2 标题
   const newHeading = renderer.heading;
-  const isNewHeading = markedheading !== newHeading;
+  // 判断是否有重写heading
+  const isNewHeading = newHeading !== new marked.Renderer().heading;
 
-  // 标题
   renderer.heading = (text, level, raw, slugger) => {
     heads.value.push({ text: raw, level });
 
@@ -326,20 +368,47 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
     }
   };
 
+  // 4. 设定option
+  // 4.1
+  // 提供了hljs，在创建阶段即完成设置
+  if (highlightIns) {
+    // 提供了hljs，在创建阶段即完成设置
+    marked.setOptions({
+      highlight: (code, language) => {
+        let codeHtml;
+        const hljsLang = highlightIns.getLanguage(language);
+        if (language && hljsLang) {
+          codeHtml = highlightIns.highlight(code, {
+            language,
+            ignoreIllegals: true
+          }).value;
+        } else {
+          codeHtml = highlightIns.highlightAuto(code).value;
+        }
+
+        return showCodeRowNumber
+          ? generateCodeRowNumber(codeHtml)
+          : `<span class="code-block">${codeHtml}</span>`;
+      }
+    });
+  }
+
+  // 4.2 自定义option覆盖
   marked.setOptions({
     breaks: true,
     ...markedOptions
   });
 
-  // 当没有设置不使用katex，直接扩展组件
-  if (!props.noKatex) {
+  // 5. 设置自定义的marked扩展
+  if (markedExtensions instanceof Array && markedExtensions.length > 0) {
     marked.use({
-      extensions: [
-        kaTexExtensions.inline(prefix, katexIns),
-        kaTexExtensions.block(prefix, katexIns)
-      ]
+      extensions: markedExtensions
     });
   }
+  // 5.1 内部扩展扩展
+  marked.use({
+    extensions: [alertExtension]
+  });
 
   if (highlightIns) {
     // 提供了hljs，在创建阶段即完成设置
@@ -363,23 +432,20 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
     });
   }
 
-  // 自定义的marked扩展
-  if (markedExtensions instanceof Array && markedExtensions.length > 0) {
-    marked.use({
-      extensions: markedExtensions
-    });
-  }
+  const katexInited = useKatex(props, marked);
+  // mermaid图表
+  const mermaidData = useMermaid(props);
 
+  // 在created阶段构造一次
   const html = ref(props.sanitize(marked(props.value || '', { renderer })));
 
   const markHtml = debounce(
     () => {
       heads.value = [];
-      const _html = props.sanitize(marked(props.value || '', { renderer }));
-      html.value = _html;
+      html.value = props.sanitize(marked(props.value || '', { renderer }));
 
-      bus.emit(editorId, 'buildFinished', _html);
-      props.onHtmlChanged(_html);
+      bus.emit(editorId, 'buildFinished', html.value);
+      props.onHtmlChanged(html.value);
     },
     editorConfig?.renderDelay !== undefined
       ? editorConfig?.renderDelay
@@ -489,9 +555,7 @@ export const useMarked = (props: ContentProps, mermaidData: any) => {
     });
   });
 
-  return {
-    html
-  };
+  return html;
 };
 
 /**
