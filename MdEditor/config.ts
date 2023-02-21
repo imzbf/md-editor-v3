@@ -6,7 +6,7 @@ export const prefix = 'md-editor';
 export const defaultEditorId = 'md-editor-v3';
 
 // 字体链接
-export const iconfontUrl = 'https://at.alicdn.com/t/c/font_2605852_gymddm8qwtd.js';
+export const iconfontUrl = 'https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js';
 
 export const cdnBase = 'https://cdnjs.cloudflare.com/ajax/libs';
 

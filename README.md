@@ -103,7 +103,7 @@ mark and emoji extensions
 | sanitize | `(html: string) => string` | (html) => html | Sanitize the html, prevent XSS |
 | footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
 | scrollAuto | `boolean` | true | Scroll default setting |
-| noIconfont | `boolean` | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_gymddm8qwtd.js) and import it by yourself |
+| noIconfont | `boolean` | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js) and import it by yourself |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
 | noUploadImg | `boolean` | false | Not show the entrance to upload pictures |
 | codeStyleReverse | `boolean` | true | Code style will be reversed to dark while code block of the theme has a dark background |
