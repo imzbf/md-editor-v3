@@ -447,6 +447,8 @@ const handler = () => {
 | onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
 | onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
 | onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded |
+| onBlur | `event: FocusEvent` | blur the `textarea` element |
+| onFocus | `event: FocusEvent` | focus the `textarea` element |
 
 ## 💴 Config Editor
 
