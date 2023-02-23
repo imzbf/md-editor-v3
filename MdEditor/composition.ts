@@ -438,12 +438,12 @@ export const useExpansion = (props: EditorProps) => {
     cropperScript.src = editorExtensions?.cropper?.js || cropperUrl.js;
     cropperScript.id = `${prefix}-cropper`;
 
+    if (!noIconfont) {
+      appendHandler(iconfontScript);
+    }
+
     // 非仅预览模式才添加扩展
     if (!previewOnly) {
-      if (!noIconfont) {
-        appendHandler(iconfontScript);
-      }
-
       if (!noCropperScript) {
         appendHandler(cropperLink);
         appendHandler(cropperScript);
