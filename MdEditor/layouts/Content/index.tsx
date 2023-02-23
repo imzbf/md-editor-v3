@@ -65,7 +65,9 @@ export default defineComponent({
         'sanitize',
         'scrollAuto',
         'setting',
-        'autoDetectCode'
+        'autoDetectCode',
+        'onBlur',
+        'onFocus'
       ]);
 
       return (
@@ -76,11 +78,18 @@ export default defineComponent({
                 <textarea
                   {...attrs}
                   id={`${editorId}-textarea`}
+                  class={[
+                    props.setting.preview || props.setting.htmlPreview
+                      ? ''
+                      : 'textarea-only'
+                  ]}
                   ref={textAreaRef}
-                  onBlur={() => {
+                  onBlur={(e) => {
                     // 失焦自动保存当前选中内容
                     bus.emit(editorId, 'selectTextChange');
+                    props.onBlur(e);
                   }}
+                  onFocus={props.onFocus}
                   onKeydown={() => {
                     bus.emit(editorId, 'saveHistoryPos', true);
                   }}
@@ -94,11 +103,6 @@ export default defineComponent({
                   onCompositionend={() => {
                     completeStatus.value = true;
                   }}
-                  class={[
-                    props.setting.preview || props.setting.htmlPreview
-                      ? ''
-                      : 'textarea-only'
-                  ]}
                 />
               </div>
             )}

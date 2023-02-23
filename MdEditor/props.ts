@@ -381,6 +381,18 @@ export const editorProps = () => ({
    */
   autoDetectCode: {
     type: Boolean as PropType<boolean>
+  },
+  /**
+   * 输入框失去焦点时触发事件
+   */
+  onBlur: {
+    type: Function as PropType<(event: FocusEvent) => void>
+  },
+  /**
+   * 输入框获得焦点时触发事件
+   */
+  onFocus: {
+    type: Function as PropType<(event: FocusEvent) => void>
   }
 });
 

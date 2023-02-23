@@ -32,7 +32,9 @@ const Editor = defineComponent({
     'onHtmlChanged',
     'onGetCatalog',
     'onError',
-    'update:modelValue'
+    'update:modelValue',
+    'onBlur',
+    'onFocus'
   ],
   setup(props: EditorProps, context: SetupContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
@@ -89,6 +91,19 @@ const Editor = defineComponent({
           )}
           <Content
             value={props.modelValue}
+            setting={setting}
+            markedHeadingId={props.markedHeadingId}
+            noMermaid={noMermaid}
+            sanitize={props.sanitize}
+            placeholder={props.placeholder}
+            noKatex={noKatex}
+            scrollAuto={state.scrollAuto}
+            formatCopiedText={props.formatCopiedText}
+            autofocus={props.autoFocus}
+            disabled={props.disabled}
+            readonly={props.readOnly}
+            maxlength={props.maxLength}
+            autoDetectCode={props.autoDetectCode}
             onChange={(value: string) => {
               bus.emit(editorId, 'saveHistoryPos');
 
@@ -99,7 +114,6 @@ const Editor = defineComponent({
                 context.emit('onChange', value);
               }
             }}
-            setting={setting}
             onHtmlChanged={(html: string) => {
               if (props.onHtmlChanged) {
                 props.onHtmlChanged(html);
@@ -114,18 +128,20 @@ const Editor = defineComponent({
                 context.emit('onGetCatalog', list);
               }
             }}
-            markedHeadingId={props.markedHeadingId}
-            noMermaid={noMermaid}
-            sanitize={props.sanitize}
-            placeholder={props.placeholder}
-            noKatex={noKatex}
-            scrollAuto={state.scrollAuto}
-            formatCopiedText={props.formatCopiedText}
-            autofocus={props.autoFocus}
-            disabled={props.disabled}
-            readonly={props.readOnly}
-            maxlength={props.maxLength}
-            autoDetectCode={props.autoDetectCode}
+            onBlur={(e) => {
+              if (props.onBlur) {
+                props.onBlur(e);
+              } else {
+                context.emit('onBlur', e);
+              }
+            }}
+            onFocus={(e) => {
+              if (props.onFocus) {
+                props.onFocus(e);
+              } else {
+                context.emit('onFocus', e);
+              }
+            }}
           />
           {!previewOnly && props.footers?.length > 0 && (
             <Footer
