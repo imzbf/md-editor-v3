@@ -13,7 +13,7 @@
     "theme",
     "html"
   ],
-  "description": "Markdown editor for vue3, developed by jsx and typescript, dark theme、beautify content by prettier、render articles directly、paste or clip the picture and upload it...",
+  "description": "Markdown editor for vue3, developed in jsx and typescript, dark theme、beautify content by prettier、render articles directly、paste or clip the picture and upload it...",
   "author": {
     "name": "zbf",
     "url": "https://imzbf.cc"
