@@ -23,7 +23,8 @@ import {
   setPosition,
   generateCodeRowNumber,
   debounce,
-  getSelectionText
+  getSelectionText,
+  uuid
 } from '../../utils';
 import { ToolDirective, directive2flag } from '../../utils/content-help';
 import { appendHandler, updateHandler } from '../../utils/dom';
@@ -282,6 +283,11 @@ export const useMarked = (props: ContentProps) => {
   // 标题列表，扁平结构
   const heads = ref<HeadList[]>([]);
 
+  // mermaid@10以后不再提供同步方法
+  // 调整为ID站位，异步转译后替换
+  let mermaidTasks: Array<Promise<any>> = [];
+  let mermaidIds: Array<string> = [];
+
   // marked渲染实例
   let renderer = new marked.Renderer();
 
@@ -311,24 +317,27 @@ export const useMarked = (props: ContentProps) => {
   const markedCode = renderer.code;
   renderer.code = (code, language, isEscaped) => {
     if (!props.noMermaid && language === 'mermaid') {
-      const idRand = `${prefix}-mermaid-${Date.now().toString(36)}`;
+      const idRand = uuid();
 
       try {
-        let svgCode;
         // 服务端渲染，如果提供了mermaid，就生成svg
         if (mermaidIns) {
-          svgCode = mermaidIns.render(idRand, code);
+          mermaidTasks.push(mermaidIns.render(idRand, code));
         }
         // 没有提供，则判断window对象是否可用，不可用则反回待解析的结构，在页面引入后再解析
         else if (typeof window !== 'undefined' && window.mermaid) {
-          svgCode = window.mermaid.render(idRand, code);
+          mermaidTasks.push(window.mermaid.render(idRand, code));
         } else {
           // 这块代码不会正确展示在页面上
-          svgCode = `<p class="${prefix}-mermaid-loading">${code}</p>`;
+          return `<p class="${prefix}-mermaid-loading">${code}</p>`;
         }
 
-        return `<p class="${prefix}-mermaid">${svgCode}</p>`;
+        mermaidIds.push(`=m=${idRand}=m=`);
+
+        // 返回占位符
+        return `=m=${idRand}=m=`;
       } catch (error: any) {
+        // 兼容@9及以下的错误提示
         return `<p class="${prefix}-mermaid-error">Error: ${error?.message || ''}</p>`;
       }
     }
@@ -441,16 +450,57 @@ export const useMarked = (props: ContentProps) => {
   // mermaid图表
   const mermaidData = useMermaid(props);
 
+  const html = ref('');
+
+  /**
+   * 未处理占位符的html
+   */
+  let unresolveHtml = '';
+
+  /**
+   * 手动替换占位符
+   */
+  const asyncReplace = () => {
+    unresolveHtml = props.sanitize(marked(props.value || '', { renderer }));
+
+    return Promise.allSettled(mermaidTasks).then((taskResults) => {
+      taskResults.forEach((r, index) => {
+        // 正常完成，替换模板
+        if (r.status === 'fulfilled') {
+          unresolveHtml = unresolveHtml.replace(
+            mermaidIds[index],
+            `<p class="${prefix}-mermaid">${
+              typeof r.value === 'string' ? r.value : r.value.svg
+            }</p>`
+          );
+        } else {
+          unresolveHtml = unresolveHtml.replace(
+            mermaidIds[index],
+            `<p class="${prefix}-mermaid-error">${r.reason || ''}</p>`
+          );
+        }
+      });
+
+      // 替换后移除占位信息
+      mermaidIds = [];
+      mermaidTasks = [];
+    });
+  };
+
   // 在created阶段构造一次
-  const html = ref(props.sanitize(marked(props.value || '', { renderer })));
+  asyncReplace().finally(() => {
+    html.value = unresolveHtml;
+  });
 
   const markHtml = debounce(
     () => {
       heads.value = [];
-      html.value = props.sanitize(marked(props.value || '', { renderer }));
 
-      bus.emit(editorId, 'buildFinished', html.value);
-      props.onHtmlChanged(html.value);
+      asyncReplace().finally(() => {
+        html.value = unresolveHtml;
+        bus.emit(editorId, 'buildFinished', html.value);
+        props.onHtmlChanged(html.value);
+      });
     },
     editorConfig?.renderDelay !== undefined
       ? editorConfig?.renderDelay
@@ -817,8 +867,14 @@ export const useMermaid = (props: ContentProps) => {
     // 引入mermaid
     if (!props.noMermaid && !mermaidConf?.instance) {
       mermaidScript = document.createElement('script');
+      const jsSrc = mermaidConf?.js || mermaidUrl;
 
-      mermaidScript.src = mermaidConf?.js || mermaidUrl;
+      if (/\.mjs/.test(jsSrc)) {
+        mermaidScript.setAttribute('type', 'module');
+        mermaidScript.innerHTML = `import mermaid from "${jsSrc}";window.mermaid=mermaid;`;
+      } else {
+        mermaidScript.src = jsSrc;
+      }
       mermaidScript.onload = () => {
         window.mermaid.initialize({
           theme: theme.value === 'dark' ? 'dark' : 'default',
