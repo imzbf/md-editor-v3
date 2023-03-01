@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import Header from './Header';
 import Preview from './Preview';
 import PreviewOnly from './PreviewOnly';
@@ -11,10 +11,17 @@ export type Theme = 'dark' | 'light';
 
 export default defineComponent({
   setup() {
-    const theme = ref<Theme>('light');
-    const previewTheme = ref<string>('default');
-    const codeTheme = ref<string>('atom');
-    const lang = ref<string>('zh-CN');
+    const theme = ref<Theme>((localStorage.getItem('theme') as Theme) || 'light');
+    const previewTheme = ref<string>(localStorage.getItem('previewTheme') || 'default');
+    const codeTheme = ref<string>(localStorage.getItem('codeTheme') || 'atom');
+    const lang = ref<string>(localStorage.getItem('lang') || 'zh-CN');
+
+    watch([theme, previewTheme, codeTheme, lang], () => {
+      localStorage.setItem('theme', theme.value);
+      localStorage.setItem('previewTheme', previewTheme.value);
+      localStorage.setItem('codeTheme', codeTheme.value);
+      localStorage.setItem('lang', lang.value);
+    });
 
     return () => (
       <div class={['app', theme.value === 'dark' && 'theme-dark']}>
