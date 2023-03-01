@@ -692,6 +692,7 @@ export const useAutoScroll = (
           (previewRef.value as HTMLElement) || htmlRef.value
         );
         initScrollAuto();
+        initCopyEntry();
       });
     }
   };
@@ -727,6 +728,12 @@ export const useAutoScroll = (
   });
 };
 
+/**
+ * 处理输入框中的一些交互事件，例如：列表回车生成一个新的空行列表等
+ *
+ * @param props ContentProps
+ * @param textAreaRef 输入框
+ */
 export const useAutoGenrator = (props: ContentProps, textAreaRef: Ref) => {
   const previewOnly = inject('previewOnly') as boolean;
   const tabWidth = inject('tabWidth') as number;
@@ -833,6 +840,10 @@ export const useAutoGenrator = (props: ContentProps, textAreaRef: Ref) => {
   );
 };
 
+/**
+ * 注册katex扩展到marked
+ *
+ */
 export const useMermaid = (props: ContentProps) => {
   const theme = inject('theme') as ComputedRef<string>;
   const { editorExtensions } = configOption;
@@ -893,6 +904,9 @@ export const useMermaid = (props: ContentProps) => {
   return mermaidData;
 };
 
+/**
+ * 处理粘贴板
+ */
 export const usePasteUpload = (props: ContentProps, textAreaRef: Ref) => {
   const editorId = inject('editorId') as string;
   const previewOnly = inject('previewOnly') as boolean;
