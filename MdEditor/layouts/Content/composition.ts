@@ -321,7 +321,8 @@ export const useMarked = (props: ContentProps) => {
 
       try {
         // 服务端渲染，如果提供了mermaid，就生成svg
-        if (mermaidIns) {
+        // mermaid@10以后，不在服务端生成svg
+        if (mermaidIns && typeof window !== 'undefined') {
           mermaidTasks.push(mermaidIns.render(idRand, code));
         }
         // 没有提供，则判断window对象是否可用，不可用则反回待解析的结构，在页面引入后再解析
@@ -450,7 +451,9 @@ export const useMarked = (props: ContentProps) => {
   // mermaid图表
   const mermaidData = useMermaid(props);
 
-  const html = ref('');
+  // 在created阶段构造一次
+  // 这里的不包括异步编译内容（mermaid@10）
+  const html = ref(props.sanitize(marked(props.value || '', { renderer })));
 
   /**
    * 未处理占位符的html
@@ -486,11 +489,6 @@ export const useMarked = (props: ContentProps) => {
       mermaidTasks = [];
     });
   };
-
-  // 在created阶段构造一次
-  asyncReplace().finally(() => {
-    html.value = unresolveHtml;
-  });
 
   const markHtml = debounce(
     () => {
