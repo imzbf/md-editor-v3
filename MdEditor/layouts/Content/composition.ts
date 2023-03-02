@@ -31,6 +31,7 @@ import { appendHandler, updateHandler } from '../../utils/dom';
 import kaTexExtensions from '../../utils/katex';
 import alertExtension from '../../utils/alert';
 import { TEXTAREA_FOCUS } from '../../static/event-name';
+import { isServer } from '../../static/env';
 
 interface HistoryItemType {
   // 记录内容
@@ -320,23 +321,34 @@ export const useMarked = (props: ContentProps) => {
       const idRand = uuid();
 
       try {
-        // 服务端渲染，如果提供了mermaid，就生成svg
-        // mermaid@10以后，不在服务端生成svg
-        if (mermaidIns && typeof window !== 'undefined') {
-          mermaidTasks.push(mermaidIns.render(idRand, code));
-        }
-        // 没有提供，则判断window对象是否可用，不可用则反回待解析的结构，在页面引入后再解析
-        else if (typeof window !== 'undefined' && window.mermaid) {
-          mermaidTasks.push(window.mermaid.render(idRand, code));
-        } else {
-          // 这块代码不会正确展示在页面上
+        // ==========
+        //   服务端
+        // ==========
+        if (isServer) {
+          // 无论是否提供实例，mermaid均不支持在node运行
+          // 这块图源码不会正确显示在页面上，但可被搜索引擎捕获
           return `<p class="${prefix}-mermaid-loading">${code}</p>`;
         }
+        // ==========
+        //   客户端
+        // ==========
+        else {
+          const mermaid = mermaidIns || window.mermaid;
 
-        mermaidIds.push(`=m=${idRand}=m=`);
+          if (mermaid) {
+            mermaidTasks.push(mermaid.mermaidAPI.render(idRand, code));
+          } else {
+            // 这块图源码不会正确展示在页面上
+            return `<p class="${prefix}-mermaid-loading">${code}</p>`;
+          }
+        }
+
+        const mermaidTemplate = `<script type="text/tmplate"<${idRand}</script>`;
+
+        mermaidIds.push(mermaidTemplate);
 
         // 返回占位符
-        return `=m=${idRand}=m=`;
+        return mermaidTemplate;
       } catch (error: any) {
         // 兼容@9及以下的错误提示
         return `<p class="${prefix}-mermaid-error">Error: ${error?.message || ''}</p>`;
@@ -463,31 +475,29 @@ export const useMarked = (props: ContentProps) => {
   /**
    * 手动替换占位符
    */
-  const asyncReplace = () => {
+  const asyncReplace = async () => {
     unresolveHtml = props.sanitize(marked(props.value || '', { renderer }));
 
-    return Promise.allSettled(mermaidTasks).then((taskResults) => {
-      taskResults.forEach((r, index) => {
-        // 正常完成，替换模板
-        if (r.status === 'fulfilled') {
-          unresolveHtml = unresolveHtml.replace(
-            mermaidIds[index],
-            `<p class="${prefix}-mermaid">${
-              typeof r.value === 'string' ? r.value : r.value.svg
-            }</p>`
-          );
-        } else {
-          unresolveHtml = unresolveHtml.replace(
-            mermaidIds[index],
-            `<p class="${prefix}-mermaid-error">${r.reason || ''}</p>`
-          );
-        }
-      });
-
-      // 替换后移除占位信息
-      mermaidIds = [];
-      mermaidTasks = [];
+    const taskResults = await Promise.allSettled(mermaidTasks);
+    taskResults.forEach((r, index) => {
+      // 正常完成，替换模板
+      if (r.status === 'fulfilled') {
+        unresolveHtml = unresolveHtml.replace(
+          mermaidIds[index],
+          `<p class="${prefix}-mermaid">${
+            typeof r.value === 'string' ? r.value : r.value.svg
+          }</p>`
+        );
+      } else {
+        unresolveHtml = unresolveHtml.replace(
+          mermaidIds[index],
+          `<p class="${prefix}-mermaid-error">${r.reason || ''}</p>`
+        );
+      }
     });
+    // 替换后移除占位信息
+    mermaidIds = [];
+    mermaidTasks = [];
   };
 
   const markHtml = debounce(
@@ -857,10 +867,12 @@ export const useMermaid = (props: ContentProps) => {
       // 提供了外部实例
       if (mermaidConf?.instance) {
         mermaidConf.instance.initialize({
+          startOnLoad: false,
           theme: theme.value === 'dark' ? 'dark' : 'default'
         });
       } else if (window.mermaid) {
         window.mermaid.initialize({
+          startOnLoad: false,
           theme: theme.value === 'dark' ? 'dark' : 'default'
         });
       }
@@ -876,22 +888,23 @@ export const useMermaid = (props: ContentProps) => {
     // 引入mermaid
     if (!props.noMermaid && !mermaidConf?.instance) {
       mermaidScript = document.createElement('script');
+      mermaidScript.id = `${prefix}-mermaid`;
       const jsSrc = mermaidConf?.js || mermaidUrl;
 
       if (/\.mjs/.test(jsSrc)) {
         mermaidScript.setAttribute('type', 'module');
-        mermaidScript.innerHTML = `import mermaid from "${jsSrc}";window.mermaid=mermaid;`;
+        mermaidScript.innerHTML = `import mermaid from "${jsSrc}";window.mermaid=mermaid;document.getElementById('${prefix}-mermaid').onload()`;
       } else {
         mermaidScript.src = jsSrc;
       }
       mermaidScript.onload = () => {
         window.mermaid.initialize({
+          startOnLoad: false,
           theme: theme.value === 'dark' ? 'dark' : 'default',
           logLevel: import.meta.env.MODE === 'development' ? 'Error' : 'Fatal'
         });
         mermaidData.mermaidInited = true;
       };
-      mermaidScript.id = `${prefix}-mermaid`;
 
       appendHandler(mermaidScript, 'mermaid');
     } else if (!props.noMermaid) {
