@@ -1933,13 +1933,18 @@ d3@^7.4.0, d3@^7.8.2:
     d3-transition "3"
     d3-zoom "3"
 
-dagre-d3-es@7.0.8:
-  version "7.0.8"
-  resolved "https://registry.npmjs.org/dagre-d3-es/-/dagre-d3-es-7.0.8.tgz#14c309c3c08ba8329a7cf51000bd56a369c513d1"
-  integrity sha512-eykdoYQ4FwCJinEYS0gPL2f2w+BPbSLvnQSJ3Ye1vAoPjdkq6xIMKBv+UkICd3qZE26wBKIn3p+6n0QC7R1LyA==
+dagre-d3-es@7.0.9:
+  version "7.0.9"
+  resolved "https://registry.npmjs.org/dagre-d3-es/-/dagre-d3-es-7.0.9.tgz#aca12fccd9d09955a4430029ba72ee6934542a8d"
+  integrity sha512-rYR4QfVmy+sR44IBDvVtcAmOReGBvRCWDpO2QjYwqgh9yijw6eSHBqaPG/LIOEy7aBsniLvtMW6pg19qJhq60w==
   dependencies:
     d3 "^7.8.2"
     lodash-es "^4.17.21"
+
+dayjs@^1.11.7:
+  version "1.11.7"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
+  integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
 
 debug@^3.2.6:
   version "3.2.7"
@@ -2764,22 +2769,22 @@ merge2@^1.3.0, merge2@^1.4.1:
   resolved "https://registry.npmjs.org/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
 
-mermaid@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.npmjs.org/mermaid/-/mermaid-10.0.0.tgz#6f7ae2eda0ab221089dc1eb166938203f2a7b04d"
-  integrity sha512-syS1qyYCd3EPXCVSpYtefY4D9z9WZAK8hFgjeHR9PAtanybLO162Tu7o5i/nZkqRrJq0Rk8RqskQlhBPgT8eBw==
+mermaid@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.npmjs.org/mermaid/-/mermaid-10.0.2.tgz#8e294ea4890fe86ca7f5a4cd3c10362ec8d3ed98"
+  integrity sha512-slwoB9WdNUT+/W9VhxLYRLZ0Ey12fIE+cAZjm3FmHTD+0F1uoJETfsNbVS1POnvQZhFYzfT6/z6hJZXgecqVBA==
   dependencies:
     "@braintree/sanitize-url" "^6.0.0"
     cytoscape "^3.23.0"
     cytoscape-cose-bilkent "^4.1.0"
     cytoscape-fcose "^2.1.0"
     d3 "^7.4.0"
-    dagre-d3-es "7.0.8"
+    dagre-d3-es "7.0.9"
+    dayjs "^1.11.7"
     dompurify "2.4.3"
     elkjs "^0.8.2"
     khroma "^2.0.0"
     lodash-es "^4.17.21"
-    moment-mini "^2.29.4"
     non-layered-tidy-tree-layout "^2.0.2"
     stylis "^4.1.2"
     ts-dedent "^2.2.0"
@@ -2829,11 +2834,6 @@ mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
-
-moment-mini@^2.29.4:
-  version "2.29.4"
-  resolved "https://registry.npmjs.org/moment-mini/-/moment-mini-2.29.4.tgz#cbbcdc58ce1b267506f28ea6668dbe060a32758f"
-  integrity sha512-uhXpYwHFeiTbY9KSgPPRoo1nt8OxNVdMVoTBYHfSEKeRkIkwGpO+gERmhuhBtzfaeOyTkykSrm2+noJBgqt3Hg==
 
 ms@2.1.2:
   version "2.1.2"
