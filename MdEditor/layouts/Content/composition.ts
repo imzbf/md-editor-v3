@@ -468,15 +468,13 @@ export const useMarked = (props: ContentProps) => {
   const html = ref(props.sanitize(marked(props.value || '', { renderer })));
 
   /**
-   * 未处理占位符的html
-   */
-  let unresolveHtml = '';
-
-  /**
    * 手动替换占位符
    */
   const asyncReplace = async () => {
-    unresolveHtml = props.sanitize(marked(props.value || '', { renderer }));
+    /**
+     * 未处理占位符的html
+     */
+    let unresolveHtml = props.sanitize(marked(props.value || '', { renderer }));
 
     const taskResults = await Promise.allSettled(mermaidTasks);
     taskResults.forEach((r, index) => {
@@ -498,17 +496,20 @@ export const useMarked = (props: ContentProps) => {
     // 替换后移除占位信息
     mermaidIds = [];
     mermaidTasks = [];
+
+    return unresolveHtml;
   };
 
   const markHtml = debounce(
-    () => {
+    async () => {
+      // 清理历史标题
       heads.value = [];
-
-      asyncReplace().finally(() => {
-        html.value = unresolveHtml;
-        bus.emit(editorId, 'buildFinished', html.value);
-        props.onHtmlChanged(html.value);
-      });
+      // 编译文本并替换异步任务模板占位
+      const resolveHtml = await asyncReplace();
+      html.value = resolveHtml;
+      // 触发异步的保存事件（html总是会比text后更新）
+      bus.emit(editorId, 'buildFinished', html.value);
+      props.onHtmlChanged(html.value);
     },
     editorConfig?.renderDelay !== undefined
       ? editorConfig?.renderDelay
