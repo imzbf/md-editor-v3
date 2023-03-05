@@ -789,7 +789,7 @@ const onUploadImg = async (files, callback) => {
   --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
   --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
   --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
-  --md-scrollbar-thumb-avtive-color: if(@isDark, #3a3a3a, #00000061);
+  --md-scrollbar-thumb-active-color: if(@isDark, #3a3a3a, #00000061);
 }
 
 .md-editor {
