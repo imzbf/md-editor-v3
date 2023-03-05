@@ -33,7 +33,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vavt/md-editor-extension": "^1.2.0",
+    "@vavt/md-editor-extension": "^2.0.0",
     "axios": "^0.27.2",
     "dayjs": "^1.11.2",
     "md-editor-v3": "^2.9.0",
