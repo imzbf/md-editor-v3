@@ -185,14 +185,16 @@ $x+y^{2x}$
 
 ### 🐸 Block
 
-$$
-\sqrt[3]{x}
-$$
+$$\sqrt[3]{x}$$
 
 ```markdown
 $$
 \sqrt[3]{x}
 $$
+
+or
+
+$$\sqrt[3]{x}$$
 ```
 
 For more usage: [https://katex.org/docs/supported.html](https://katex.org/docs/supported.html)

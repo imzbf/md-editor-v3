@@ -1443,9 +1443,9 @@ camelcase@^6.0.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001332:
-  version "1.0.30001339"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001339.tgz"
-  integrity sha512-Es8PiVqCe+uXdms0Gu5xP5PF2bxLR7OBp3wUzUnuO7OHzhOfCyg3hdiGWVPVxhiuniOzng+hTc1u3fEQ0TlkSQ==
+  version "1.0.30001460"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001460.tgz"
+  integrity sha512-Bud7abqjvEjipUkpLs4D7gR0l8hBYBHoa+tGtKJHvT2AYzLp1z7EmVkUT4ERpVUfca8S2HGIVs883D8pUH1ZzQ==
 
 chalk@^2.0.0:
   version "2.4.2"
@@ -2292,10 +2292,10 @@ make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-md-editor-v3@^2.8.1:
-  version "2.8.1"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.8.1.tgz#190ed35d7c9aaa13b8255e0211b83da3ad1e6c23"
-  integrity sha512-xAPcwIHmL+jR5SNztBXSYN2/9L92dOTVs81QjzJAz9Og1o8HDEQnWcFbwG4aqNLCINPgUBgX370ajF6zc4bHEA==
+md-editor-v3@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.9.0.tgz#9df986a474841baa5c6d5e81e3c0d9cfded585b5"
+  integrity sha512-mpnB368J3LPj0VFCP9SdO5JH7gHS/IDD9j31dQc/OttInjxDhhAm8aY5Fda1ZiiXpGTQgzIHQVTqLiKO8J3ekg==
 
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"

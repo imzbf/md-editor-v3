@@ -185,14 +185,16 @@ $x+y^{2x}$
 
 ### 🐸 块级
 
-$$
-\sqrt[3]{x}
-$$
+$$\sqrt[3]{x}$$
 
 ```markdown
 $$
 \sqrt[3]{x}
 $$
+
+或者
+
+$$\sqrt[3]{x}$$
 ```
 
 更多公式示例参考：[https://katex.org/docs/supported.html](https://katex.org/docs/supported.html)

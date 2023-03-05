@@ -427,7 +427,7 @@ const state = reactive({
 
 ```vue
 <template>
-  <md-editor v-model="text" :markedHeadingId="markedHeadingId" />
+  <md-editor v-model="text" :marked-heading-id="markedHeadingId" />
 </template>
 
 <script setup>
@@ -566,7 +566,7 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
   --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
   --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
   --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
-  --md-scrollbar-thumb-avtive-color: if(@isDark, #3a3a3a, #00000061);
+  --md-scrollbar-thumb-active-color: if(@isDark, #3a3a3a, #00000061);
 }
 
 .md-editor {
@@ -600,6 +600,7 @@ import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
+// <=5.2.0
 import screenfull from 'screenfull';
 
 import katex from 'katex';

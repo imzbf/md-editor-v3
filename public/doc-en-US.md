@@ -10,7 +10,7 @@
   Markdown content.
 
   ```html
-  <md-editor-v3 v-model="xxx" />
+  <md-editor v-model="xxx" />
   ```
 
 ---
@@ -23,7 +23,7 @@
   Editor's theme.
 
   ```html
-  <md-editor-v3 theme="dark" />
+  <md-editor theme="dark" />
   ```
 
 ---
@@ -209,7 +209,7 @@
   2. Set `previewTheme`
 
   ```html
-  <md-ditor-v3 preview-theme="xxx" />
+  <md-editor preview-theme="xxx" />
   ```
 
   For more, refer to [markdown-theme](https://github.com/imzbf/markdown-theme).
@@ -233,7 +233,7 @@
   Preset the size of the table, [columns, rows].
 
   ```html
-  <md-editor-v3 :tableShape="[8, 4]" />
+  <md-editor :table-shape="[8, 4]" />
   ```
 
   ![Preview](https://imzbf.github.io/md-editor-v3/imgs/20211216165424.png)
@@ -248,7 +248,7 @@
   Do not want to use `mermaid`, set it to `true`.
 
   ```html
-  <md-ditor-v3 no-mermaid />
+  <md-editor no-mermaid />
   ```
 
 ---
@@ -270,7 +270,7 @@
   Do not want to use `katex`, set it to `true`.
 
   ```html
-  <md-ditor-v3 no-katex />
+  <md-editor no-katex />
   ```
 
 ---
@@ -312,7 +312,7 @@
   2. Set `codeTheme`
 
   ```html
-  <md-ditor-v3 code-theme="xxx" />
+  <md-editor code-theme="xxx" />
   ```
 
 ---
@@ -326,7 +326,7 @@
 
   ```vue
   <template>
-    <md-editor :markedHeadingId="generateId" />
+    <md-editor :marked-heading-id="generateId" />
   </template>
 
   <script setup>
@@ -399,7 +399,7 @@
 - **type**: `boolean`
 - **default**: `true`
 
-  Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_4cjr7o5jo0f.js) and import it by yourself.
+  Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js) and import it by yourself.
 
   ```vue
   <template>
@@ -425,7 +425,7 @@
 
   ```vue
   <template>
-    <md-editor :formatCopiedText="formatCopiedText" />
+    <md-editor :format-copied-text="formatCopiedText" />
   </template>
 
   <script setup>
@@ -449,7 +449,7 @@
 
   ```vue
   <template>
-    <md-editor noUploadImg />
+    <md-editor no-upload-img />
   </template>
 
   <script setup>
@@ -548,6 +548,8 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
 
   <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
   const NormalToolbar = MdEditor.NormalToolbar;
 
   const toolbars = ['bold', '-', 0, '=', 'github'];
@@ -662,12 +664,13 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   Save Content event, `ctrl+s` and click button will trigger.
 
   ```vue
-  <tempalte>
-    <md-editor @onSave="onSave" />
-  </tempalte>
+  <template>
+    <md-editor @on-save="onSave" />
+  </template>
 
   <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
   const onSave = (v, h) => {
     console.log(v);
@@ -687,7 +690,16 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
 
-  ```js
+  ```vue
+  <template>
+    <md-editor @on-upload-img="onUploadImg" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+  import axios from 'axios';
+
   const onUploadImg = async (files, callback) => {
     const res = await Promise.all(
       files.map((file) => {
@@ -709,10 +721,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
     callback(res.map((item) => item.data.url));
   };
-  ```
-
-  ```html
-  <md-ditor-v3 @on-upload-img="onUploadImg" />
+  </script>
   ```
 
 ---
@@ -739,15 +748,51 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   Run-Time error event, only be called when `Cropper`, `fullscreen`, `prettier` is not loaded.
 
-  ```js
+  ```vue
+  <template>
+    <md-editor @on-error="onError" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
   const onError = (err) => {
     alert(err.message);
   };
+  </script>
   ```
 
-  ```html
-  <md-ditor-v3 @on-error="onError" />
+---
+
+### 🐾 onBlur
+
+- **type**: `(event: FocusEvent) => void`
+
+  Blur the textarea element.
+
+  ```vue
+  <template>
+    <md-editor @on-blur="onBlur" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const onBlur = (e) => {
+    console.log('onBlur', e);
+  };
+  </script>
   ```
+
+---
+
+### 🔖 onFocus
+
+- **type**: `(event: FocusEvent) => void`
+
+  Focus the textarea element.
 
 ---
 
@@ -941,11 +986,12 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
 
   ```vue
   <template>
-    <MdEditor :markedHeadingId="markedHeadingId" />
+    <md-editor :marked-heading-id="markedHeadingId" />
   </template>
 
   <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
   const markedHeadingId = (text, level, index) => `heading-${index}`;
 
@@ -1244,6 +1290,7 @@ usage:
 <script setup>
 import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const NormalToolbar = MdEditor.NormalToolbar;
 
@@ -1309,6 +1356,7 @@ usage:
 <script setup>
 import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const DropdownToolbar = MdEditor.DropdownToolbar;
 
@@ -1373,6 +1421,7 @@ const text = ref('');
 <script setup>
 import { reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const ModalToolbar = MdEditor.ModalToolbar;
 
@@ -1424,6 +1473,7 @@ usage:
 <script setup>
 import { reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const MdCatalog = MdEditor.MdCatalog;
 

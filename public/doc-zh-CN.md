@@ -12,7 +12,7 @@
   编辑的内容。
 
   ```html
-  <md-editor-v3 v-model="xxx" />
+  <md-editor v-model="xxx" />
   ```
 
 ---
@@ -25,7 +25,7 @@
   编辑器主题。
 
   ```html
-  <md-ditor-v3 theme="dark" />
+  <md-editor theme="dark" />
   ```
 
 ---
@@ -209,7 +209,7 @@
   2. 设置`previewTheme`
 
   ```html
-  <md-ditor-v3 preview-theme="xxx" />
+  <md-ditor preview-theme="xxx" />
   ```
 
   参考[markdown-theme](https://github.com/imzbf/markdown-theme)项目。
@@ -233,7 +233,7 @@
   标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数。
 
   ```html
-  <md-ditor-v3 :table-shape="[8, 4]" />
+  <md-editor :table-shape="[8, 4]" />
   ```
 
   ![表格预设大小预览](https://imzbf.github.io/md-editor-v3/imgs/20211216165424.png)
@@ -248,7 +248,7 @@
   如果你不希望使用图表展示内容，可以设置关闭。
 
   ```html
-  <md-ditor-v3 no-mermaid />
+  <md-editor no-mermaid />
   ```
 
 ---
@@ -270,7 +270,7 @@
   如果你不希望使用数学公式展示内容，可以设置关闭。
 
   ```html
-  <md-ditor-v3 no-katex />
+  <md-editor no-katex />
   ```
 
 ---
@@ -312,7 +312,7 @@
   2. 设置`codeTheme`
 
   ```html
-  <md-ditor-v3 code-theme="xxx" />
+  <md-editor code-theme="xxx" />
   ```
 
 ---
@@ -326,7 +326,7 @@
 
   ```vue
   <template>
-    <md-editor :markedHeadingId="markedHeadingId" />
+    <md-editor :marked-heading-id="markedHeadingId" />
   </template>
 
   <script setup>
@@ -401,7 +401,7 @@
 - **类型**：`boolean`
 - **默认值**：`true`
 
-  不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_4cjr7o5jo0f.js)到本地自行引入。
+  不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js)到本地自行引入。
 
   ```vue
   <template>
@@ -427,7 +427,7 @@
 
   ```vue
   <template>
-    <md-editor :formatCopiedText="formatCopiedText" />
+    <md-editor :format-copied-text="formatCopiedText" />
   </template>
 
   <script setup>
@@ -451,7 +451,7 @@
 
   ```vue
   <template>
-    <md-editor noUploadImg />
+    <md-editor no-upload-img />
   </template>
 
   <script setup>
@@ -550,6 +550,8 @@
 
   <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
   const NormalToolbar = MdEditor.NormalToolbar;
 
   const toolbars = ['bold', '-', 0, '=', 'github'];
@@ -669,12 +671,13 @@
   保存事件，快捷键与保存按钮均会触发。
 
   ```vue
-  <tempalte>
-    <md-editor @onSave="onSave" />
-  </tempalte>
+  <template>
+    <md-editor @on-save="onSave" />
+  </template>
 
   <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
   const onSave = (v, h) => {
     console.log(v);
@@ -694,7 +697,16 @@
 
   上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传。
 
-  ```js
+  ```vue
+  <template>
+    <md-editor @on-upload-img="onUploadImg" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+  import axios from 'axios';
+
   const onUploadImg = async (files, callback) => {
     const res = await Promise.all(
       files.map((file) => {
@@ -716,10 +728,7 @@
 
     callback(res.map((item) => item.data.url));
   };
-  ```
-
-  ```html
-  <md-ditor-v3 @on-upload-img="onUploadImg" />
+  </script>
   ```
 
 ---
@@ -746,15 +755,51 @@
 
   捕获执行错误事件，目前支持`Cropper`、`fullscreen`、`prettier`实例未加载完成操作错误。
 
-  ```js
+  ```vue
+  <template>
+    <md-editor @on-error="onError" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
   const onError = (err) => {
     alert(err.message);
   };
+  </script>
   ```
 
-  ```html
-  <md-ditor-v3 @on-error="onError" />
+---
+
+### 🐾 onBlur
+
+- **类型**：`(event: FocusEvent) => void`
+
+  输入框失去焦点时触发事件。
+
+  ```vue
+  <template>
+    <md-editor @on-blur="onBlur" />
+  </template>
+
+  <script setup>
+  import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const onBlur = (e) => {
+    console.log('onBlur', e);
+  };
+  </script>
   ```
+
+---
+
+### 🔖 onFocus
+
+- **类型**：`(event: FocusEvent) => void`
+
+  输入框获得焦点时触发事件。
 
 ---
 
@@ -950,11 +995,12 @@ editorRef.value?.focus();
 
   ```vue
   <template>
-    <MdEditor :markedHeadingId="markedHeadingId" />
+    <md-editor :marked-heading-id="markedHeadingId" />
   </template>
 
   <script setup>
   import MdEditor from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
   const markedHeadingId = (text, level, index) => `heading-${index}`;
 
@@ -1260,6 +1306,7 @@ editorRef.value?.focus();
 <script setup>
 import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const NormalToolbar = MdEditor.NormalToolbar;
 
@@ -1321,6 +1368,7 @@ const text = ref('');
 <script setup>
 import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const DropdownToolbar = MdEditor.DropdownToolbar;
 
@@ -1385,6 +1433,7 @@ const text = ref('');
 <script setup>
 import { reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const ModalToolbar = MdEditor.ModalToolbar;
 
@@ -1436,6 +1485,7 @@ const data = reactive({
 <script setup>
 import { reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const MdCatalog = MdEditor.MdCatalog;
 

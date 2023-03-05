@@ -425,7 +425,7 @@ You can install the existing language also: [md-editor-extension](https://github
 
 ```vue
 <template>
-  <MdEditor v-model="text" :markedHeadingId="markedHeadingId" />
+  <MdEditor v-model="text" :marked-heading-id="markedHeadingId" />
 </template>
 
 <script setup>
@@ -562,7 +562,7 @@ To get complete code, refer to [docs](https://github.com/imzbf/md-editor-v3/blob
   --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
   --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
   --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
-  --md-scrollbar-thumb-avtive-color: if(@isDark, #3a3a3a, #00000061);
+  --md-scrollbar-thumb-active-color: if(@isDark, #3a3a3a, #00000061);
 }
 
 .md-editor {
@@ -594,6 +594,7 @@ import { ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
+// <=5.2.0
 import screenfull from 'screenfull';
 
 import katex from 'katex';
