@@ -13,6 +13,7 @@ import {
 import { marked, Renderer } from 'marked';
 import copy from 'copy-to-clipboard';
 import mediumZoom from 'medium-zoom';
+import LRUCache from 'lru-cache';
 import { ContentProps } from './props';
 import { HeadList, RewriteHeading, StaticTextDefaultValue } from '../../type';
 import { prefix, katexUrl, mermaidUrl, configOption } from '../../config';
@@ -269,6 +270,7 @@ export const useMarked = (props: ContentProps) => {
   const editorId = inject('editorId') as string;
   const highlightUrl = inject('highlight') as ComputedRef<{ js: string; css: string }>;
   const previewOnly = inject('previewOnly') as boolean;
+  const theme = inject('theme') as ComputedRef<string>;
 
   // 获取相应的扩展实例
   const highlightIns = editorExtensions?.highlight?.instance;
@@ -288,6 +290,12 @@ export const useMarked = (props: ContentProps) => {
   // 调整为ID站位，异步转译后替换
   let mermaidTasks: Array<Promise<any>> = [];
   let mermaidIds: Array<string> = [];
+
+  const mermaidCache = new LRUCache({
+    max: 1000,
+    // 缓存10分钟
+    ttl: 600000
+  });
 
   // marked渲染实例
   let renderer = new marked.Renderer();
@@ -327,19 +335,32 @@ export const useMarked = (props: ContentProps) => {
         if (isServer) {
           // 无论是否提供实例，mermaid均不支持在node运行
           // 这块图源码不会正确显示在页面上，但可被搜索引擎捕获
-          return `<p class="${prefix}-mermaid-loading">${code}</p>`;
+          return `<p class="${prefix}-mermaid">${code}</p>`;
         }
         // ==========
         //   客户端
         // ==========
         else {
+          // 取缓存
+          const cacheSvg = mermaidCache.get(code) as string | undefined;
+          if (cacheSvg) {
+            return `<p class="${prefix}-mermaid" data-processed>${cacheSvg}</p>`;
+          }
+          // 主动转换
           const mermaid = mermaidIns || window.mermaid;
-
           if (mermaid) {
-            mermaidTasks.push(mermaid.mermaidAPI.render(idRand, code));
+            // @9以下使用renderAsync，@10以上使用render
+            const render = mermaid.renderAsync || mermaid.render;
+            const mermaidRenderTask = render(idRand, code);
+            mermaidRenderTask.then((svg: any) => {
+              // 9:10
+              mermaidCache.set(code, svg instanceof String ? svg : svg.svg);
+            });
+
+            mermaidTasks.push(mermaidRenderTask);
           } else {
             // 这块图源码不会正确展示在页面上
-            return `<p class="${prefix}-mermaid-loading">${code}</p>`;
+            return `<p class="${prefix}-mermaid">${code}</p>`;
           }
         }
 
@@ -482,7 +503,7 @@ export const useMarked = (props: ContentProps) => {
       if (r.status === 'fulfilled') {
         unresolveHtml = unresolveHtml.replace(
           mermaidIds[index],
-          `<p class="${prefix}-mermaid">${
+          `<p class="${prefix}-mermaid" data-processed>${
             typeof r.value === 'string' ? r.value : r.value.svg
           }</p>`
         );
@@ -529,6 +550,11 @@ export const useMarked = (props: ContentProps) => {
     ],
     markHtml
   );
+
+  // mermaid每次生成的style会跟主题绑定
+  watch([theme], () => {
+    mermaidCache.clear();
+  });
 
   // 高亮代码js加载完成后回调
   const highlightLoad = () => {
