@@ -1,4 +1,4 @@
-## 1. md-editor-v3
+## 1. md-editor-rt
 
 Markdown 编辑器，基于 react，使用 jsx 和 typescript 语法开发，支持切换主题、prettier 美化文本等。
 
@@ -8,7 +8,7 @@ Markdown 编辑器，基于 react，使用 jsx 和 typescript 语法开发，支
 
 > 引用：世界上没有绝对，只有相对
 
-![](https://imzbf.github.io/md-editor-v3/imgs/preview-light.png)
+![](https://imzbf.github.io/md-editor-rt/imgs/preview-light.png)
 
 ## 2. 代码演示
 
@@ -38,4 +38,19 @@ export default defineComponent({
 | ---- | ---------- | --------- |
 | 之间 | 3          | 中国-重庆 |
 
-## 5. 占个坑@！
+## 5. 数学公式
+
+$$
+\begin{equation}
+a^2+b^2=c^2
+\end{equation}
+$$
+
+## 6. 图形
+
+```mermaid
+flowchart TD
+  Start --> Stop
+```
+
+## 7. 占个坑@！

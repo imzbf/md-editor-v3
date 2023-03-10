@@ -368,7 +368,7 @@ export const useMarked = (props: ContentProps) => {
           }
         }
 
-        const mermaidTemplate = `<script type="text/tmplate"<${idRand}</script>`;
+        const mermaidTemplate = `<script type="text/tmplate">${idRand}</script>`;
 
         mermaidIds.push(mermaidTemplate);
 
@@ -500,26 +500,29 @@ export const useMarked = (props: ContentProps) => {
     // console.time(`${editorId}-asyncReplace`);
     let unresolveHtml = props.sanitize(marked(props.value || '', { renderer }));
 
-    const taskResults = await Promise.allSettled(mermaidTasks);
+    const mermaidTasksCopy = [...mermaidTasks];
+    const mermaidIdsCopy = [...mermaidIds];
+    // 移除占位信息
+    mermaidIds = [];
+    mermaidTasks = [];
+
+    const taskResults = await Promise.allSettled(mermaidTasksCopy);
     taskResults.forEach((r, index) => {
       // 正常完成，替换模板
       if (r.status === 'fulfilled') {
         unresolveHtml = unresolveHtml.replace(
-          mermaidIds[index],
+          mermaidIdsCopy[index],
           `<p class="${prefix}-mermaid" data-processed>${
             typeof r.value === 'string' ? r.value : r.value.svg
           }</p>`
         );
       } else {
         unresolveHtml = unresolveHtml.replace(
-          mermaidIds[index],
+          mermaidIdsCopy[index],
           `<p class="${prefix}-mermaid-error">${r.reason || ''}</p>`
         );
       }
     });
-    // 替换后移除占位信息
-    mermaidIds = [];
-    mermaidTasks = [];
 
     // console.timeEnd(`${editorId}-asyncReplace`);
     return unresolveHtml;
