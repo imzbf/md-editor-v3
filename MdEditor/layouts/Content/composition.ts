@@ -297,6 +297,9 @@ export const useMarked = (props: ContentProps) => {
     ttl: 600000
   });
 
+  // mermaid图表
+  const mermaidData = useMermaid(props);
+
   // marked渲染实例
   let renderer = new marked.Renderer();
 
@@ -346,15 +349,16 @@ export const useMarked = (props: ContentProps) => {
           if (cacheSvg) {
             return `<p class="${prefix}-mermaid" data-processed>${cacheSvg}</p>`;
           }
+
           // 主动转换
           const mermaid = mermaidIns || window.mermaid;
-          if (mermaid) {
+          if (mermaidData.mermaidInited) {
             // @9以下使用renderAsync，@10以上使用render
             const render = mermaid.renderAsync || mermaid.render;
             const mermaidRenderTask = render(idRand, code);
             mermaidRenderTask.then((svg: any) => {
               // 9:10
-              mermaidCache.set(code, svg instanceof String ? svg : svg.svg);
+              mermaidCache.set(code, typeof svg === 'string' ? svg : svg.svg);
             });
 
             mermaidTasks.push(mermaidRenderTask);
@@ -481,8 +485,6 @@ export const useMarked = (props: ContentProps) => {
   }
 
   const katexInited = useKatex(props, marked);
-  // mermaid图表
-  const mermaidData = useMermaid(props);
 
   // 在created阶段构造一次
   // 这里的不包括异步编译内容（mermaid@10）
@@ -495,6 +497,7 @@ export const useMarked = (props: ContentProps) => {
     /**
      * 未处理占位符的html
      */
+    // console.time(`${editorId}-asyncReplace`);
     let unresolveHtml = props.sanitize(marked(props.value || '', { renderer }));
 
     const taskResults = await Promise.allSettled(mermaidTasks);
@@ -518,6 +521,7 @@ export const useMarked = (props: ContentProps) => {
     mermaidIds = [];
     mermaidTasks = [];
 
+    // console.timeEnd(`${editorId}-asyncReplace`);
     return unresolveHtml;
   };
 
@@ -886,35 +890,30 @@ export const useMermaid = (props: ContentProps) => {
 
   const mermaidData = reactive({
     reRender: false,
-    mermaidInited: !!mermaidConf?.instance
+    mermaidInited: false
   });
 
-  const reSetMermaidTheme = () => {
+  const setMermaidTheme = () => {
     if (!props.noMermaid) {
-      // 提供了外部实例
-      if (mermaidConf?.instance) {
-        mermaidConf.instance.initialize({
-          startOnLoad: false,
-          theme: theme.value === 'dark' ? 'dark' : 'default'
-        });
-      } else if (window.mermaid) {
-        window.mermaid.initialize({
-          startOnLoad: false,
-          theme: theme.value === 'dark' ? 'dark' : 'default'
-        });
-      }
-
+      const mermaid = mermaidConf?.instance || window.mermaid;
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: theme.value === 'dark' ? 'dark' : 'default'
+      });
       mermaidData.reRender = !mermaidData.reRender;
     }
   };
 
-  watch(() => theme.value, reSetMermaidTheme);
+  watch(() => theme.value, setMermaidTheme);
 
-  let mermaidScript: HTMLScriptElement;
   onMounted(() => {
-    // 引入mermaid
-    if (!props.noMermaid && !mermaidConf?.instance) {
-      mermaidScript = document.createElement('script');
+    if (props.noMermaid) {
+      return;
+    }
+
+    // 没有提供实例，引入mermaid
+    if (!mermaidConf?.instance) {
+      const mermaidScript = document.createElement('script');
       mermaidScript.id = `${prefix}-mermaid`;
       const jsSrc = mermaidConf?.js || mermaidUrl;
 
@@ -925,17 +924,15 @@ export const useMermaid = (props: ContentProps) => {
         mermaidScript.src = jsSrc;
       }
       mermaidScript.onload = () => {
-        window.mermaid.initialize({
-          startOnLoad: false,
-          theme: theme.value === 'dark' ? 'dark' : 'default',
-          logLevel: import.meta.env.MODE === 'development' ? 'Error' : 'Fatal'
-        });
+        setMermaidTheme();
         mermaidData.mermaidInited = true;
       };
 
       appendHandler(mermaidScript, 'mermaid');
-    } else if (!props.noMermaid) {
-      reSetMermaidTheme();
+    } else {
+      // 提供了实例，直接设置
+      setMermaidTheme();
+      mermaidData.mermaidInited = true;
     }
   });
 
