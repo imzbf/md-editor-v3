@@ -8,7 +8,8 @@ import {
   reactive,
   onMounted,
   onBeforeUnmount,
-  toRef
+  toRef,
+  computed
 } from 'vue';
 import { marked, Renderer } from 'marked';
 import copy from 'copy-to-clipboard';
@@ -299,6 +300,13 @@ export const useMarked = (props: ContentProps) => {
 
   // mermaid图表
   const mermaidData = useMermaid(props);
+  const katexInited = useKatex(props, marked);
+
+  // 三个影响编译内容的扩展同时初始化完成后再重新编译
+  // 减少编译次数
+  const extensionsInited = computed(() => {
+    return mermaidData.mermaidInited && highlightInited.value && katexInited.value;
+  });
 
   // marked渲染实例
   let renderer = new marked.Renderer();
@@ -484,8 +492,6 @@ export const useMarked = (props: ContentProps) => {
     });
   }
 
-  const katexInited = useKatex(props, marked);
-
   // 在created阶段构造一次
   // 这里的不包括异步编译内容（mermaid@10）
   const html = ref(props.sanitize(marked(props.value || '', { renderer })));
@@ -493,12 +499,12 @@ export const useMarked = (props: ContentProps) => {
   /**
    * 手动替换占位符
    */
-  const asyncReplace = async () => {
+  const asyncReplace = async (value: string) => {
     /**
      * 未处理占位符的html
      */
     // console.time(`${editorId}-asyncReplace`);
-    let unresolveHtml = props.sanitize(marked(props.value || '', { renderer }));
+    let unresolveHtml = props.sanitize(marked(value, { renderer }));
 
     const mermaidTasksCopy = [...mermaidTasks];
     const mermaidIdsCopy = [...mermaidIds];
@@ -533,7 +539,7 @@ export const useMarked = (props: ContentProps) => {
       // 清理历史标题
       heads.value = [];
       // 编译文本并替换异步任务模板占位
-      const resolveHtml = await asyncReplace();
+      const resolveHtml = await asyncReplace(props.value || '');
       html.value = resolveHtml;
       // 触发异步的保存事件（html总是会比text后更新）
       bus.emit(editorId, 'buildFinished', html.value);
@@ -548,13 +554,7 @@ export const useMarked = (props: ContentProps) => {
 
   // 监听调用
   watch(
-    [
-      highlightInited,
-      toRef(mermaidData, 'reRender'),
-      toRef(mermaidData, 'mermaidInited'),
-      katexInited,
-      toRef(props, 'value')
-    ],
+    [extensionsInited, toRef(mermaidData, 'reRender'), toRef(props, 'value')],
     markHtml
   );
 
@@ -922,7 +922,7 @@ export const useMermaid = (props: ContentProps) => {
 
       if (/\.mjs/.test(jsSrc)) {
         mermaidScript.setAttribute('type', 'module');
-        mermaidScript.innerHTML = `import mermaid from "${jsSrc}";window.mermaid=mermaid;document.getElementById('${prefix}-mermaid').onload()`;
+        mermaidScript.innerHTML = `import mermaid from "${jsSrc}";window.mermaid=mermaid;document.getElementById('${prefix}-mermaid').dispatchEvent(new Event('load'));`;
       } else {
         mermaidScript.src = jsSrc;
       }

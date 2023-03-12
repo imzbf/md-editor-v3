@@ -56,15 +56,24 @@ export const keyMove = (
 export const appendHandler = (ele: HTMLElement, checkKey = '') => {
   const insertedEle = document.getElementById(ele.id);
 
+  const onload = (e: Event) => {
+    if (typeof ele.onload === 'function') {
+      ele.onload(e);
+    }
+
+    ele.removeEventListener('load', onload);
+  };
+
   if (!insertedEle) {
+    ele.addEventListener('load', onload);
     document.head.appendChild(ele);
   } else if (checkKey !== '' && ele.onload instanceof Function) {
     if (Reflect.get(window, checkKey)) {
       // 实例已存在，直接触发load事件
-      ele.onload(new Event('load'));
+      ele.dispatchEvent(new Event('load'));
     } else {
       // 实例不存在，将load事件挂载到已插入的节点上
-      insertedEle.addEventListener('load', ele.onload);
+      insertedEle.addEventListener('load', onload);
     }
   }
 };
