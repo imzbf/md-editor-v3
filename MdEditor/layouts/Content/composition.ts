@@ -305,7 +305,11 @@ export const useMarked = (props: ContentProps) => {
   // 三个影响编译内容的扩展同时初始化完成后再重新编译
   // 减少编译次数
   const extensionsInited = computed(() => {
-    return mermaidData.mermaidInited && highlightInited.value && katexInited.value;
+    return (
+      (props.noMermaid || mermaidData.mermaidInited) &&
+      highlightInited.value &&
+      (props.noKatex || katexInited.value)
+    );
   });
 
   // marked渲染实例
