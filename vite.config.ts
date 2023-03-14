@@ -2,14 +2,15 @@ import path from 'path';
 import { UserConfigExport, ConfigEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import dts from 'vite-plugin-dts';
+
 import nodeService from './vitePlugins/nodeService';
 import markdownImport from './vitePlugins/markdownImport';
 
-// https://segmentfault.com/a/1190000040127796
-import dts from 'vite-plugin-dts';
+const OUT_DIR = 'lib';
 
 const libBuildOptions = {
-  outDir: path.resolve(__dirname, 'lib'),
+  outDir: path.resolve(__dirname, OUT_DIR),
   lib: {
     entry: path.resolve(__dirname, './MdEditor'),
     name: 'MdEditorV3'
@@ -48,6 +49,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       mode !== 'production' && markdownImport(),
       mode === 'production' &&
         dts({
+          outputDir: `${OUT_DIR}/MdEditor`,
           include: [
             './MdEditor/type.ts',
             './MdEditor/Editor.tsx',
