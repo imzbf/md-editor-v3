@@ -1,3 +1,4 @@
+/* eslint-disable vue/require-default-prop */
 import { defineComponent, PropType } from 'vue';
 import Editor from '../../MdEditor';
 import { Theme } from '../App';

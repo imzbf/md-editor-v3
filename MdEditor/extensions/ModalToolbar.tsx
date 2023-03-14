@@ -58,7 +58,10 @@ export default defineComponent({
   name: 'ModalToolbar',
   props: modalToolbarProps(),
   emits: ['onClick', 'onClose', 'onAdjust'],
-  setup(props: ModalToolbarProps, ctx: SetupContext) {
+  setup(
+    props: ModalToolbarProps,
+    ctx: SetupContext<Array<'onClick' | 'onClose' | 'onAdjust'>>
+  ) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const Default = getSlot({ props, ctx }, 'default');

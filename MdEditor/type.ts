@@ -1,4 +1,7 @@
 import { marked, Renderer, Slugger } from 'marked';
+import { LooseRequired } from '@vue/shared';
+import { ExtractPropTypes, SetupContext } from 'vue';
+import { editorProps } from './props';
 
 declare global {
   interface Window {
@@ -383,3 +386,21 @@ export interface ExposeParam {
    */
   focus(): void;
 }
+
+export type EditorProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<typeof editorProps>>>
+>;
+
+export type EditorEmits = Array<
+  | 'onChange'
+  | 'onSave'
+  | 'onUploadImg'
+  | 'onHtmlChanged'
+  | 'onGetCatalog'
+  | 'onError'
+  | 'update:modelValue'
+  | 'onBlur'
+  | 'onFocus'
+>;
+
+export type EditorContext = SetupContext<EditorEmits>;

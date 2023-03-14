@@ -1,3 +1,4 @@
+/* eslint-disable vue/require-default-prop */
 import { defineComponent, PropType } from 'vue';
 import './index.less';
 import { Theme } from '../App';

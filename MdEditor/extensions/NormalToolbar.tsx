@@ -25,7 +25,7 @@ export default defineComponent({
   name: 'NormalToolbar',
   props: normalToolbarProps(),
   emits: ['onClick'],
-  setup(props: NormalToolbarProps, ctx: SetupContext) {
+  setup(props: NormalToolbarProps, ctx: SetupContext<Array<'onClick'>>) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
 

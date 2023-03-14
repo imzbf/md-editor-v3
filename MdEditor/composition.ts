@@ -5,7 +5,6 @@ import {
   onMounted,
   onBeforeUnmount,
   provide,
-  SetupContext,
   ref,
   Ref
 } from 'vue';
@@ -24,7 +23,7 @@ import {
   configOption
 } from './config';
 
-import { EditorProps } from './props';
+import { EditorContext, EditorProps } from './type';
 import {
   CHANGE_CATALOG_VISIBLE,
   CHANGE_FULL_SCREEN,
@@ -37,7 +36,7 @@ import {
   TEXTAREA_FOCUS
 } from './static/event-name';
 
-export const useKeyBoard = (props: EditorProps, context: SetupContext) => {
+export const useKeyBoard = (props: EditorProps, context: EditorContext) => {
   const { editorId, noPrettier, previewOnly } = props;
 
   const state = reactive({
@@ -460,7 +459,7 @@ export const useExpansion = (props: EditorProps) => {
   });
 };
 
-export const useErrorCatcher = (props: EditorProps, context: SetupContext) => {
+export const useErrorCatcher = (props: EditorProps, context: EditorContext) => {
   const { editorId } = props;
 
   onMounted(() => {
@@ -479,7 +478,7 @@ export const useErrorCatcher = (props: EditorProps, context: SetupContext) => {
 
 export const useConfig = (
   props: EditorProps,
-  context: SetupContext
+  context: EditorContext
 ): [setting: SettingType, updateSetting: UpdateSetting] => {
   const { editorId, previewOnly } = props;
 
@@ -582,7 +581,7 @@ export const useCatalog = (props: EditorProps) => {
  */
 export const useExpose = (
   props: EditorProps,
-  ctx: SetupContext,
+  ctx: EditorContext,
   catalogVisible: Ref<boolean>,
   setting: SettingType,
   updateSetting: UpdateSetting

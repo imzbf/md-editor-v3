@@ -33,7 +33,7 @@ export default defineComponent({
   name: 'DropdownToolbar',
   props: dropdownToolbarProps(),
   emits: ['onChange'],
-  setup(props: DropdownToolbarProps, ctx: SetupContext) {
+  setup(props: DropdownToolbarProps, ctx: SetupContext<Array<'onChange'>>) {
     const editorId = inject('editorId');
 
     return () => {

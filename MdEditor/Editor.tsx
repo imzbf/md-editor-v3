@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeUnmount, SetupContext, reactive } from 'vue';
+import { defineComponent, onBeforeUnmount, reactive } from 'vue';
 import { prefix } from './config';
 import {
   useKeyBoard,
@@ -14,30 +14,21 @@ import Footer from './layouts/Footer';
 import MdCatalog from './extensions/MdCatalog';
 import bus from './utils/event-bus';
 
-import { HeadList } from './type';
+import { HeadList, EditorProps, EditorContext } from './type';
 import { getSlot } from './utils/vue-tsx';
 
-import { editorProps, EditorProps } from './props';
+import { editorProps, editorEmits } from './props';
 
 import './styles/index.less';
 import '@vavt/markdown-theme/css/all.css';
 
 const Editor = defineComponent({
   name: 'MdEditorV3',
-  props: editorProps(),
-  emits: [
-    'onChange',
-    'onSave',
-    'onUploadImg',
-    'onHtmlChanged',
-    'onGetCatalog',
-    'onError',
-    'update:modelValue',
-    'onBlur',
-    'onFocus'
-  ],
-  setup(props: EditorProps, context: SetupContext) {
+  props: editorProps,
+  emits: editorEmits,
+  setup(props: EditorProps, context: EditorContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
+    // eslint-disable-next-line vue/no-setup-props-destructure
     const { editorId, previewOnly, noKatex, noMermaid, noPrettier, noUploadImg } = props;
 
     const state = reactive({

@@ -1,3 +1,4 @@
+/* eslint-disable vue/require-default-prop */
 import {
   defineComponent,
   reactive,
@@ -13,7 +14,7 @@ import { Theme } from '../App';
 import axios from 'axios';
 import 'katex/dist/katex.min.css';
 
-// import screenfull from 'screenfull';
+import screenfull from 'screenfull';
 // import katex from 'katex';
 // import Cropper from 'cropperjs';
 // import 'cropperjs/dist/cropper.css';
@@ -63,9 +64,9 @@ Editor.config({
     // cropper: {
     //   instance: Cropper
     // },
-    mermaid: {
-      instance: mermaid
-    }
+    // mermaid: {
+    //   instance: mermaid
+    // }
   }
 });
 

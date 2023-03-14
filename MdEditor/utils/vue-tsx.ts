@@ -1,4 +1,4 @@
-import { ComponentPublicInstance, SetupContext, EmitsOptions } from 'vue';
+import { ComponentPublicInstance, SetupContext } from 'vue';
 
 /**
  * 获取指定插槽内容
@@ -15,7 +15,7 @@ export const getSlot = (
     props = {}
   }: {
     instance?: ComponentPublicInstance;
-    ctx?: SetupContext<EmitsOptions>;
+    ctx?: SetupContext<Array<any>>;
     props?: any;
   },
   name = 'default'

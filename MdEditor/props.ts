@@ -1,5 +1,4 @@
-import { PropType, CSSProperties, ExtractPropTypes } from 'vue';
-import { LooseRequired } from '@vue/shared';
+import { PropType, CSSProperties } from 'vue';
 import {
   StaticTextDefaultKey,
   ToolbarNames,
@@ -12,12 +11,15 @@ import {
   UploadImgEvent,
   HtmlChangedEvent,
   GetCatalogEvent,
-  ErrorEvent
+  ErrorEvent,
+  EditorEmits
 } from './type';
 
 import { allToolbar, allFooter, defaultEditorId } from './config';
 
-export const editorProps = () => ({
+export const markedHeadingId: MarkedHeadingId = (text) => text;
+
+export const editorProps = {
   /**
    * 主题
    *
@@ -394,10 +396,16 @@ export const editorProps = () => ({
   onFocus: {
     type: Function as PropType<(event: FocusEvent) => void>
   }
-});
+};
 
-export const markedHeadingId: MarkedHeadingId = (text) => text;
-
-export type EditorProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof editorProps>>>>
->;
+export const editorEmits: EditorEmits = [
+  'onChange',
+  'onSave',
+  'onUploadImg',
+  'onHtmlChanged',
+  'onGetCatalog',
+  'onError',
+  'update:modelValue',
+  'onBlur',
+  'onFocus'
+];
