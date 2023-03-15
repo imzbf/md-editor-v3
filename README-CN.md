@@ -48,7 +48,7 @@ yarn add @vavt/md-editor-extension
 
 ```vue
 <template>
-  <md-editor v-model="text" preview-only />
+  <MdEditor v-model="text" previewOnly />
 </template>
 
 <script setup>
@@ -276,10 +276,10 @@ export interface StaticTextDefaultValue {
 
 ```vue
 <template>
-  <md-editor ref="editorRef" />
+  <MdEditor ref="editorRef" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import MdEditor from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
@@ -289,7 +289,7 @@ import 'md-editor-v3/lib/style.css';
 const editorRef = ref<ExposeParam>();
 
 onMounted(() => {
-  editorRef.value?.on('catalog', console.log)
+  editorRef.value?.on('catalog', console.log);
 });
 </script>
 ```
@@ -423,17 +423,17 @@ editorRef.value?.focus();
 
 ```vue
 <template>
-  <md-editor>
+  <MdEditor>
     <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="handler">
+      <NormalToolbar title="mark" @onClick="handler">
         <template #trigger>
           <svg class="md-editor-icon" aria-hidden="true">
             <use xlink:href="#md-editor-icon-mark"></use>
           </svg>
         </template>
-      </normal-toolbar>
+      </NormalToolbar>
     </template>
-  </md-editor>
+  </MdEditor>
 </template>
 
 <script setup>
@@ -629,11 +629,11 @@ _请注意，快捷键仅在输入框获取到焦点时可用！_
 
 ## 🪤 内部组件
 
-扩展组件作为编辑器组件的属性值来使用，例如：`Editor.DropdownToolbar`。使用参考：[文档页面](https://imzbf.github.io/md-editor-v3)
+扩展组件作为编辑器组件的属性值来使用，例如：`MdEditor.DropdownToolbar`。使用参考：[文档页面](https://imzbf.github.io/md-editor-v3)
 
 ### 🐣 普通扩展工具栏
 
-`Editor.NormalToolbar`
+`MdEditor.NormalToolbar`
 
 - **props**
 
@@ -649,7 +649,7 @@ _请注意，快捷键仅在输入框获取到焦点时可用！_
 
 ### 🐼 下拉扩展工具栏
 
-`Editor.DropdownToolbar`
+`MdEditor.DropdownToolbar`
 
 - **props**
 
@@ -667,7 +667,7 @@ _请注意，快捷键仅在输入框获取到焦点时可用！_
 
 ### 🦉 弹窗扩展工具栏
 
-`Editor.ModalToolbar`
+`MdEditor.ModalToolbar`
 
 - **props**
 
@@ -692,7 +692,7 @@ _请注意，快捷键仅在输入框获取到焦点时可用！_
 
 ### 🐻 目录导航
 
-`Editor.MdCatalog`
+`MdEditor.MdCatalog`
 
 - **props**
 
@@ -712,7 +712,7 @@ _请注意，快捷键仅在输入框获取到焦点时可用！_
 
 ### 🎸 Jsx 模板
 
-```js
+```jsx
 import { defineComponent, reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
@@ -737,11 +737,12 @@ export default defineComponent({
 
 ```vue
 <template>
-  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+  <MdEditor v-model="text" @onUploadImg="onUploadImg" />
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 

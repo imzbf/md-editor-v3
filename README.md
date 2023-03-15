@@ -49,7 +49,7 @@ For more ways to use or contribute, please refer to: [md-editor-extension](https
 
 ```vue
 <template>
-  <md-editor v-model="text" preview-only />
+  <MdEditor v-model="text" previewOnly />
 </template>
 
 <script setup>
@@ -266,10 +266,10 @@ After 2.5.0, Editor exposes several methods on the instance, used to get or chan
 
 ```vue
 <template>
-  <md-editor ref="editorRef" />
+  <MdEditor ref="editorRef" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import MdEditor from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
@@ -413,17 +413,17 @@ editorRef.value?.focus();
 
 ```vue
 <template>
-  <md-editor>
+  <MdEditor>
     <template #defToolbars>
-      <normal-toolbar title="mark" @onClick="handler">
+      <NormalToolbar title="mark" @onClick="handler">
         <template #trigger>
           <svg class="md-editor-icon" aria-hidden="true">
             <use xlink:href="#md-editor-icon-mark"></use>
           </svg>
         </template>
-      </normal-toolbar>
+      </NormalToolbar>
     </template>
-  </md-editor>
+  </MdEditor>
 </template>
 
 <script setup>
@@ -615,11 +615,11 @@ _Pay attention: shortcut keys are only available when the textarea is focused!_
 
 ## 🪤 Components
 
-They are used as attributes of the editor component, eg: `Editor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
+They are used as attributes of the editor component, eg: `MdEditor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
 
 ### 🐣 NormalToolbar
 
-`Editor.NormalToolbar`
+`MdEditor.NormalToolbar`
 
 - **props**
 
@@ -635,7 +635,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
 
 ### 🐼 DropdownToolbar
 
-`Editor.DropdownToolbar`
+`MdEditor.DropdownToolbar`
 
 - **props**
 
@@ -653,7 +653,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
 
 ### 🦉 ModalToolbar
 
-`Editor.ModalToolbar`
+`MdEditor.ModalToolbar`
 
 - **props**
 
@@ -678,7 +678,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
 
 ### 🐻 MdCatalog
 
-`Editor.MdCatalog`
+`MdEditor.MdCatalog`
 
 - **props**
 
@@ -698,7 +698,7 @@ They are used as attributes of the editor component, eg: `Editor.DropdownToolbar
 
 ### 🎸 Jsx Template
 
-```js
+```jsx
 import { defineComponent, reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
@@ -721,11 +721,12 @@ export default defineComponent({
 
 ```vue
 <template>
-  <md-editor v-model="text" @onUploadImg="onUploadImg" />
+  <MdEditor v-model="text" @onUploadImg="onUploadImg" />
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
