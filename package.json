@@ -36,17 +36,17 @@
     "@vavt/md-editor-extension": "^2.0.0",
     "axios": "^0.27.2",
     "dayjs": "^1.11.2",
-    "md-editor-v3": "^2.9.3",
+    "md-editor-v3": "^2.10.0-beta.1",
     "nprogress": "^0.2.0",
-    "vue": "^3.2.33",
+    "vue": "^3.2.47",
     "vue-router": "^4.0.11",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
-    "@types/marked": "^4.0.7",
-    "@types/node": "16",
+    "@types/marked": "^4.0.8",
+    "@types/node": "^18.15.3",
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
@@ -93,7 +93,30 @@
       "prettier"
     ],
     "rules": {
-      "@typescript-eslint/no-explicit-any": "off"
+      "@typescript-eslint/no-explicit-any": "off",
+      "vue/attribute-hyphenation": [
+        "error",
+        "never",
+        {
+          "ignore": []
+        }
+      ],
+      "vue/v-on-event-hyphenation": [
+        "error",
+        "never",
+        {
+          "autofix": true,
+          "ignore": []
+        }
+      ],
+      "vue/component-name-in-template-casing": [
+        "error",
+        "PascalCase",
+        {
+          "registeredComponentsOnly": false,
+          "ignores": []
+        }
+      ]
     },
     "globals": {
       "defineProps": "readonly",
