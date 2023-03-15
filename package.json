@@ -53,7 +53,7 @@
     "@types/prettier": "^2.7.2",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
-    "@vavt/markdown-theme": "^2.2.1",
+    "@vavt/markdown-theme": "^2.2.2",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "@vue/eslint-config-prettier": "^7.1.0",
