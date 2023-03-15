@@ -49,7 +49,7 @@ yarn add md-editor-v3
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -93,7 +93,7 @@ export default defineComponent({
 
 ```vue
 <template>
-  <md-editor v-model="state.text" :theme="state.theme" />
+  <MdEditor v-model="state.text" :theme="state.theme" />
 </template>
 
 <script setup>
@@ -116,11 +116,11 @@ const state = reactive({
 
   ```vue
   <template>
-    <md-editor v-model="state.text" :preview-theme="state.theme" />
+    <MdEditor v-model="state.text" :previewTheme="state.theme" />
   </template>
 
   <script setup>
-  import { defineComponent } from 'vue';
+  import { reactive } from 'vue';
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
@@ -151,8 +151,10 @@ const state = reactive({
 
   3. 设置`previewTheme`为 xxx
 
-  ```html
-  <md-editor preview-theme="xxx" />
+  ```vue
+  <template>
+    <MdEditor previewTheme="xxx" />
+  </template>
   ```
 
 #### 🎄 代码主题
@@ -163,7 +165,7 @@ const state = reactive({
 
   ```vue
   <template>
-    <md-editor v-model="state.text" :code-theme="state.theme" />
+    <MdEditor v-model="state.text" :codeTheme="state.theme" />
   </template>
 
   <script setup>
@@ -207,8 +209,10 @@ const state = reactive({
 
   2. 设置`codeTheme`
 
-  ```html
-  <md-editor code-theme="xxxxx" />
+  ```vue
+  <template>
+    <MdEditor codeTheme="xxxxx" />
+  </template>
   ```
 
 ### 🛠 扩展库替换
@@ -221,7 +225,7 @@ highlight、prettier、cropper、screenfull 均使用外链引入，在无外网
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -249,7 +253,7 @@ const text = ref('');
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -277,11 +281,12 @@ const text = ref('');
 
 ```vue
 <template>
-  <md-editor v-model="text" @on-upload-img="onUploadImg" />
+  <MdEditor v-model="text" @onUploadImg="onUploadImg" />
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
@@ -315,7 +320,7 @@ const onUploadImg = async (files, callback) => {
 
 ```vue
 <template>
-  <md-editor v-model="state.text" :language="state.language" />
+  <MdEditor v-model="state.text" :language="state.language" />
 </template>
 
 <script setup>
@@ -427,7 +432,7 @@ const state = reactive({
 
 ```vue
 <template>
-  <md-editor v-model="text" :marked-heading-id="markedHeadingId" />
+  <MdEditor v-model="text" :markedHeadingId="markedHeadingId" />
 </template>
 
 <script setup>
@@ -466,7 +471,7 @@ MdEditor.config({
 
   ```vue
   <template>
-    <md-editor v-model="text" @on-get-catalog="onGetCatalog" />
+    <MdEditor v-model="text" @onGetCatalog="onGetCatalog" />
   </template>
 
   <script setup>
@@ -491,17 +496,13 @@ MdEditor.config({
 
   ```vue
   <template>
-    <md-editor
+    <MdEditor
       v-model="state.text"
       :editorId="state.id"
       :theme="state.theme"
-      preview-only
+      previewOnly
     />
-    <md-catalog
-      :editorId="state.id"
-      :scroll-element="scrollElement"
-      :theme="state.theme"
-    />
+    <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
   </template>
 
   <script setup>
@@ -527,7 +528,7 @@ MdEditor.config({
 
 ```vue
 <template>
-  <md-editor v-model="text" :toolbars="toolbars" />
+  <MdEditor v-model="text" :toolbars="toolbars" />
 </template>
 
 <script setup>
@@ -592,7 +593,7 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -617,7 +618,7 @@ import 'highlight.js/styles/tokyo-night-dark.css';
 import prettier from 'prettier';
 import parserMarkdown from 'prettier/parser-markdown';
 
-Editor.config({
+MdEditor.config({
   editorExtensions: {
     prettier: {
       prettierInstance: prettier,
@@ -657,7 +658,7 @@ yarn add sanitize-html
 
 ```vue
 <template>
-  <md-editor :sanitize="sanitize" />
+  <MdEditor :sanitize="sanitize" />
 </template>
 
 <script setup>

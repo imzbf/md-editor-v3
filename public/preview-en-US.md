@@ -22,7 +22,7 @@ Markdown Editor for Vue3, developed in jsx and typescript, support different the
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>

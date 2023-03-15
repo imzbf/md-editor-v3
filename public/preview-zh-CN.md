@@ -22,7 +22,7 @@ Markdown 编辑器，vue3 版本，使用 jsx 模板 和 typescript 开发，支
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>

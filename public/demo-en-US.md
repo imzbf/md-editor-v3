@@ -24,7 +24,7 @@ Use production version in html directly:
       <md-editor-v3 v-model="text" />
     </div>
     <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.js"></script>
+    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.cjs"></script>
     <script>
       const App = {
         data() {
@@ -49,7 +49,7 @@ yarn add md-editor-v3
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -63,7 +63,7 @@ const text = ref('Hello Editor!');
 
 #### 🤗 Jsx Template
 
-```js
+```jsx
 import { defineComponent, ref } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
@@ -72,9 +72,7 @@ export default defineComponent({
   name: 'MdEditor',
   setup() {
     const text = ref('');
-    return () => (
-      <MdEditor modelValue={text.value} onChange={(v: string) => (text.value = v)} />
-    );
+    return () => <MdEditor modelValue={text.value} onChange={(v) => (text.value = v)} />;
   }
 });
 ```
@@ -93,7 +91,7 @@ Support `light` and `dark` default.
 
 ```vue
 <template>
-  <md-editor v-model="state.text" :theme="state.theme" />
+  <MdEditor v-model="state.text" :theme="state.theme" />
 </template>
 
 <script setup>
@@ -116,11 +114,11 @@ There are 6 kinds of themes: `default`, `github`, `vuepress`, `mk-cute`, `smart-
 
   ```vue
   <template>
-    <md-editor v-model="state.text" :preview-theme="state.theme" />
+    <MdEditor v-model="state.text" :previewTheme="state.theme" />
   </template>
 
   <script setup>
-  import { defineComponent } from 'vue';
+  import { reactive } from 'vue';
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
@@ -151,8 +149,10 @@ There are 6 kinds of themes: `default`, `github`, `vuepress`, `mk-cute`, `smart-
 
   3. Set `previewTheme`
 
-  ```html
-  <md-editor preview-theme="xxx" />
+  ```vue
+  <template>
+    <MdEditor previewTheme="xxx" />
+  </template>
   ```
 
 #### 🎄 Code Theme
@@ -163,7 +163,7 @@ There are 8 kinds of themes: `atom`, `a11y`, `github`, `gradient`, `kimbie`, `pa
 
   ```vue
   <template>
-    <md-editor v-model="state.text" :code-theme="state.theme" />
+    <MdEditor v-model="state.text" :codeTheme="state.theme" />
   </template>
 
   <script setup>
@@ -207,8 +207,10 @@ There are 8 kinds of themes: `atom`, `a11y`, `github`, `gradient`, `kimbie`, `pa
 
   2. Set `codeTheme`
 
-  ```html
-  <md-editor code-theme="xxxxx" />
+  ```vue
+  <template>
+    <MdEditor codeTheme="xxxxx" />
+  </template>
   ```
 
 ### 🛠 Config Extensions
@@ -221,7 +223,7 @@ Example for `screenfull`:
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -248,7 +250,7 @@ Get files from [unpkg.com](https://unpkg.com).
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -276,11 +278,12 @@ By default, you can select multiple pictures. You can paste and upload screensho
 
 ```vue
 <template>
-  <md-editor v-model="text" @on-upload-img="onUploadImg" />
+  <MdEditor v-model="text" @onUploadImg="onUploadImg" />
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
@@ -314,7 +317,7 @@ const onUploadImg = async (files, callback) => {
 
 ```vue
 <template>
-  <md-editor v-model="state.text" :language="state.language" />
+  <MdEditor v-model="state.text" :language="state.language" />
 </template>
 
 <script setup>
@@ -425,7 +428,7 @@ You can install the existing language also: [md-editor-extension](https://github
 
 ```vue
 <template>
-  <MdEditor v-model="text" :marked-heading-id="markedHeadingId" />
+  <MdEditor v-model="text" :markedHeadingId="markedHeadingId" />
 </template>
 
 <script setup>
@@ -464,7 +467,7 @@ MdEditor.config({
 
   ```vue
   <template>
-    <md-editor v-model="text" @on-get-catalog="onGetCatalog" />
+    <MdEditor v-model="text" @onGetCatalog="onGetCatalog" />
   </template>
 
   <script setup>
@@ -489,17 +492,13 @@ MdEditor.config({
 
   ```vue
   <template>
-    <md-editor
+    <MdEditor
       v-model="state.text"
-      :editor-id="state.id"
+      :editorId="state.id"
       :theme="state.theme"
-      preview-only
+      previewOnly
     />
-    <md-catalog
-      :editor-id="state.id"
-      :scroll-element="scrollElement"
-      :theme="state.theme"
-    />
+    <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
   </template>
 
   <script setup>
@@ -525,7 +524,7 @@ MdEditor.config({
 
 ```vue
 <template>
-  <md-editor v-model="text" :toolbars="toolbars" />
+  <MdEditor v-model="text" :toolbars="toolbars" />
 </template>
 
 <script setup>
@@ -586,7 +585,7 @@ Change background color in dark mode:
 
 ```vue
 <template>
-  <md-editor v-model="text" />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -611,7 +610,7 @@ import 'highlight.js/styles/tokyo-night-dark.css';
 import prettier from 'prettier';
 import parserMarkdown from 'prettier/parser-markdown';
 
-Editor.config({
+MdEditor.config({
   editorExtensions: {
     prettier: {
       prettierInstance: prettier,
@@ -651,7 +650,7 @@ yarn add sanitize-html
 
 ```vue
 <template>
-  <md-editor :sanitize="sanitize" />
+  <MdEditor :sanitize="sanitize" />
 </template>
 
 <script setup>

@@ -9,8 +9,8 @@
 
   Markdown content.
 
-  ```html
-  <md-editor v-model="xxx" />
+  ```vue
+  <MdEditor v-model="xxx" />
   ```
 
 ---
@@ -22,8 +22,8 @@
 
   Editor's theme.
 
-  ```html
-  <md-editor theme="dark" />
+  ```vue
+  <MdEditor theme="dark" />
   ```
 
 ---
@@ -208,8 +208,8 @@
 
   2. Set `previewTheme`
 
-  ```html
-  <md-editor preview-theme="xxx" />
+  ```vue
+  <MdEditor previewTheme="xxx" />
   ```
 
   For more, refer to [markdown-theme](https://github.com/imzbf/markdown-theme).
@@ -232,8 +232,8 @@
 
   Preset the size of the table, [columns, rows].
 
-  ```html
-  <md-editor :table-shape="[8, 4]" />
+  ```vue
+  <MdEditor :tableShape="[8, 4]" />
   ```
 
   ![Preview](https://imzbf.github.io/md-editor-v3/imgs/20211216165424.png)
@@ -247,8 +247,8 @@
 
   Do not want to use `mermaid`, set it to `true`.
 
-  ```html
-  <md-editor no-mermaid />
+  ```vue
+  <MdEditor noMermaid />
   ```
 
 ---
@@ -269,8 +269,8 @@
 
   Do not want to use `katex`, set it to `true`.
 
-  ```html
-  <md-editor no-katex />
+  ```vue
+  <MdEditor noKatex />
   ```
 
 ---
@@ -311,8 +311,8 @@
 
   2. Set `codeTheme`
 
-  ```html
-  <md-editor code-theme="xxx" />
+  ```vue
+  <MdEditor codeTheme="xxx" />
   ```
 
 ---
@@ -326,7 +326,7 @@
 
   ```vue
   <template>
-    <md-editor :marked-heading-id="generateId" />
+    <MdEditor :markedHeadingId="generateId" />
   </template>
 
   <script setup>
@@ -362,7 +362,7 @@
 
   ```vue
   <template>
-    <md-editor :sanitize="sanitize" />
+    <MdEditor :sanitize="sanitize" />
   </template>
 
   <script setup>
@@ -403,7 +403,7 @@
 
   ```vue
   <template>
-    <md-editor no-iconfont />
+    <MdEditor noIconfont />
   </template>
 
   <script setup>
@@ -425,14 +425,14 @@
 
   ```vue
   <template>
-    <md-editor :format-copied-text="formatCopiedText" />
+    <MdEditor :formatCopiedText="formatCopiedText" />
   </template>
 
   <script setup>
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
-  const formatCopiedText = (text: string) => {
+  const formatCopiedText = (text) => {
     return `${text}  - from md-editor-v3`;
   };
   </script>
@@ -448,14 +448,7 @@
   Not show the entrance to upload pictures
 
   ```vue
-  <template>
-    <md-editor no-upload-img />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-  </script>
+  <MdEditor noUploadImg />
   ```
 
 ---
@@ -533,17 +526,17 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
 
   ```vue
   <template>
-    <md-editor :toolbars="toolbars">
+    <MdEditor :toolbars="toolbars">
       <template #defToolbars>
-        <normal-toolbar title="mark" @onClick="handler">
+        <NormalToolbar title="mark" @onClick="handler">
           <template #trigger>
             <svg class="md-editor-icon" aria-hidden="true">
               <use xlink:href="#icon-mark"></use>
             </svg>
           </template>
-        </normal-toolbar>
+        </NormalToolbar>
       </template>
-    </md-editor>
+    </MdEditor>
   </template>
 
   <script setup>
@@ -580,7 +573,7 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
                     <use xlinkHref="#icon-strike-through" />
                   </svg>
                 }
-              ></MdEditor.NormalToolbar>
+              />
             </>
           }
         />
@@ -603,12 +596,12 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   ```vue
   <template>
-    <md-editor :footers="footers">
+    <MdEditor :footers="footers">
       <template #defFooters>
         <span>￥_￥</span>
         <span>^_^</span>
       </template>
-    </md-editor>
+    </MdEditor>
   </template>
 
   <script setup>
@@ -665,7 +658,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   ```vue
   <template>
-    <md-editor @on-save="onSave" />
+    <MdEditor @onSave="onSave" />
   </template>
 
   <script setup>
@@ -692,13 +685,13 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   ```vue
   <template>
-    <md-editor @on-upload-img="onUploadImg" />
+    <MdEditor @onUploadImg="onUploadImg" />
   </template>
 
   <script setup>
+  import axios from 'axios';
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-  import axios from 'axios';
 
   const onUploadImg = async (files, callback) => {
     const res = await Promise.all(
@@ -750,7 +743,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   ```vue
   <template>
-    <md-editor @on-error="onError" />
+    <MdEditor @onError="onError" />
   </template>
 
   <script setup>
@@ -773,7 +766,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   ```vue
   <template>
-    <md-editor @on-blur="onBlur" />
+    <MdEditor @onBlur="onBlur" />
   </template>
 
   <script setup>
@@ -802,10 +795,10 @@ After 2.5.0, Editor exposes several methods on the instance, used to get or chan
 
 ```vue
 <template>
-  <md-editor ref="editorRef" />
+  <MdEditor ref="editorRef" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import MdEditor from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
@@ -815,7 +808,7 @@ import 'md-editor-v3/lib/style.css';
 const editorRef = ref<ExposeParam>();
 
 onMounted(() => {
-  editorRef.value?.on('catalog', console.log)
+  editorRef.value?.on('catalog', console.log);
 });
 </script>
 ```
@@ -986,14 +979,14 @@ Custom `marked renderer` in `MdEditor.config(option: ConfigOption)`.
 
   ```vue
   <template>
-    <md-editor :marked-heading-id="markedHeadingId" />
+    <MdEditor :markedHeadingId="markedHeadingId" />
   </template>
 
   <script setup>
   import MdEditor from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
-  const markedHeadingId = (text, level, index) => `heading-${index}`;
+  const markedHeadingId = (_text, _level, index) => `heading-${index}`;
 
   MdEditor.config({
     markedRenderer(renderer) {
@@ -1274,17 +1267,17 @@ usage:
 
 ```vue
 <template>
-  <md-editor v-model="text">
+  <MdEditor v-model="text">
     <template #defToolbars>
-      <normal-toolbar title="mark" @on-click="callback">
+      <NormalToolbar title="mark" @onClick="callback">
         <template #trigger>
           <svg class="md-editor-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
           </svg>
         </template>
-      </normal-toolbar>
+      </NormalToolbar>
     </template>
-  </md-editor>
+  </MdEditor>
 </template>
 
 <script setup>
@@ -1324,12 +1317,12 @@ usage:
 
 ```vue
 <template>
-  <md-editor v-model="text">
+  <MdEditor v-model="state.text">
     <template #defToolbars>
-      <dropdown-toolbar
+      <DropdownToolbar
         title="emoji"
-        :visible="data.emojiVisible"
-        :on-change="emojiVisibleChanged"
+        :visible="state.emojiVisible"
+        :onChange="emojiVisibleChanged"
       >
         <template #overlay>
           <div class="emoji-container">
@@ -1348,19 +1341,30 @@ usage:
             <use xlink:href="#icon-emoji"></use>
           </svg>
         </template>
-      </dropdown-toolbar>
+      </DropdownToolbar>
     </template>
-  </md-editor>
+  </MdEditor>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const DropdownToolbar = MdEditor.DropdownToolbar;
 
-const text = ref('');
+const emojis = ['😀', '😃'];
+
+const state = reactive({
+  text: '',
+  emojiVisible: false
+});
+
+const emojiVisibleChanged = () => {
+  state.emojiVisible = !state.emojiVisible;
+};
+
+const emojiHandler = () => {};
 </script>
 ```
 
@@ -1393,19 +1397,19 @@ const text = ref('');
 
 ```vue
 <template>
-  <md-editor v-model="data.text">
+  <MdEditor v-model="data.text">
     <template #defToolbars>
-      <modal-toolbar
+      <ModalToolbar
         :visible="data.modalVisible"
-        :is-fullscreen="data.modalFullscreen"
-        show-adjust
+        :isFullscreen="data.modalFullscreen"
+        showAdjust
         title="Preview"
-        modal-title="Page Preview"
+        modalTitle="Page Preview"
         width="870px"
         height="600px"
-        @on-click="data.modalVisible = true"
-        @on-close="data.modalVisible = false"
-        @on-adjust="data.modalFullscreen = !data.modalFullscreen"
+        @onClick="data.modalVisible = true"
+        @onClose="data.modalVisible = false"
+        @onAdjust="data.modalFullscreen = !data.modalFullscreen"
       >
         <span>content</span>
         <template #trigger>
@@ -1413,9 +1417,9 @@ const text = ref('');
             <use xlink:href="#icon-read"></use>
           </svg>
         </template>
-      </modal-toolbar>
+      </ModalToolbar>
     </template>
-  </md-editor>
+  </MdEditor>
 </template>
 
 <script setup>
@@ -1457,17 +1461,8 @@ usage:
 
 ```vue
 <template>
-  <md-editor
-    v-model="state.text"
-    :editor-id="state.id"
-    :theme="state.theme"
-    preview-only
-  />
-  <md-catalog
-    :editor-id="state.id"
-    :scroll-element="scrollElement"
-    :theme="state.theme"
-  />
+  <MdEditor v-model="state.text" :editorId="state.id" :theme="state.theme" previewOnly />
+  <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>
