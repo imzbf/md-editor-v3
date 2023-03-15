@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="doc">
-      <iz-preview-content :editor-id="editorId" :model-value="mdText" />
-      <iz-catalog :editor-id="editorId" />
+      <IzPreviewContent :editorId="editorId" :modelValue="mdText" />
+      <IzCatalog :editorId="editorId" />
     </div>
   </div>
 </template>

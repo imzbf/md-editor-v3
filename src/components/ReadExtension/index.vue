@@ -1,26 +1,26 @@
 <template>
-  <modal-toolbar
-    :visible="state.visible"
-    :is-fullscreen="state.modalFullscreen"
-    show-adjust
+  <ModalToolbar
+    showAdjust
     title="帮助"
-    modal-title="编辑预览"
+    modalTitle="编辑预览"
     width="870px"
     height="600px"
-    @on-click="state.visible = true"
-    @on-close="state.visible = false"
-    @on-adjust="state.modalFullscreen = !state.modalFullscreen"
+    :visible="state.visible"
+    :isFullscreen="state.modalFullscreen"
+    @onClick="state.visible = true"
+    @onClose="state.visible = false"
+    @onAdjust="() => (state.modalFullscreen = !state.modalFullscreen)"
   >
     <div style="height: 100%; padding: 20px; overflow: auto">
-      <md-editor-v3
+      <MdEditorV3
         :theme="store.state.theme"
         :language="store.state.lang"
-        :preview-theme="store.state.previewTheme"
-        :code-theme="store.state.codeTheme"
-        editor-id="edit2preview"
-        preview-only
-        :model-value="props.mdText"
-        :marked-heading-id="readingHeadingId"
+        :previewTheme="store.state.previewTheme"
+        :codeTheme="store.state.codeTheme"
+        editorId="edit2preview"
+        previewOnly
+        :modelValue="props.mdText"
+        :markedHeadingId="readingHeadingId"
       />
     </div>
     <template #trigger>
@@ -28,7 +28,7 @@
         <use xlink:href="#icon-read"></use>
       </svg>
     </template>
-  </modal-toolbar>
+  </ModalToolbar>
 </template>
 
 <script lang="ts" setup>

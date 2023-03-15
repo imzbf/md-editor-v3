@@ -5,7 +5,7 @@
         md-editor-v3<sup>@{{ version }}</sup>
       </h1>
       <p class="project-desc">{{ texts.desc }}</p>
-      <iz-navigation />
+      <IzNavigation />
       <p class="header-actions">
         <button class="btn btn-header" @click="store.commit('changeTheme', 'light')">
           {{ texts.defaultTheme }}
@@ -13,34 +13,34 @@
         <button class="btn btn-header" @click="store.commit('changeTheme', 'dark')">
           {{ texts.darkTheme }}
         </button>
-        <iz-dropdown>
+        <IzDropdown>
           <button class="btn btn-header">{{ texts.previewBtn }}</button>
           <template #content>
-            <iz-dropdown-menu>
-              <iz-dropdown-menu-item
+            <IzDropdownMenu>
+              <IzDropdownMenuItem
                 v-for="item of data.previewThemes"
                 :key="`preview-theme-${item}`"
                 @click="store.commit('changePreviewTheme', item)"
               >
                 {{ item }}
-              </iz-dropdown-menu-item>
-            </iz-dropdown-menu>
+              </IzDropdownMenuItem>
+            </IzDropdownMenu>
           </template>
-        </iz-dropdown>
-        <iz-dropdown>
+        </IzDropdown>
+        <IzDropdown>
           <button class="btn btn-header">{{ texts.codeBtn }}</button>
           <template #content>
-            <iz-dropdown-menu>
-              <iz-dropdown-menu-item
+            <IzDropdownMenu>
+              <IzDropdownMenuItem
                 v-for="item of data.codeThemes"
                 :key="`code-theme-${item}`"
                 @click="store.commit('changeCodeTheme', item)"
               >
                 {{ item }}
-              </iz-dropdown-menu-item>
-            </iz-dropdown-menu>
+              </IzDropdownMenuItem>
+            </IzDropdownMenu>
           </template>
-        </iz-dropdown>
+        </IzDropdown>
       </p>
     </section>
   </header>

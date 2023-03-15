@@ -1,12 +1,12 @@
 <template>
   <div class="docs-page">
-    <iz-header />
-    <router-view />
-    <back-top>
+    <IzHeader />
+    <RouterView />
+    <BackTop>
       <svg class="icon" aria-hidden="true" style="font-size: 26px; cursor: pointer">
         <use xlink:href="#icon-top"></use>
       </svg>
-    </back-top>
+    </BackTop>
   </div>
 </template>
 

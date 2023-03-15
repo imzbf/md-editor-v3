@@ -1,28 +1,28 @@
 <template>
   <ul class="nav-list">
     <li class="nav-item">
-      <router-link to="/">
+      <RouterLink to="/">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-online"></use>
         </svg>
         {{ linkNames.home }}
-      </router-link>
+      </RouterLink>
     </li>
     <li class="nav-item">
-      <router-link to="/docs">
+      <RouterLink to="/docs">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-docs"></use>
         </svg>
         {{ linkNames.docs }}
-      </router-link>
+      </RouterLink>
     </li>
     <li class="nav-item">
-      <router-link to="/demo">
+      <RouterLink to="/demo">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-demo"></use>
         </svg>
         {{ linkNames.demo }}
-      </router-link>
+      </RouterLink>
     </li>
     <li class="nav-item">
       <a href="https://github.com/imzbf/md-editor-v3" target="_blank">
@@ -33,20 +33,20 @@
       </a>
     </li>
     <li className="nav-item">
-      <router-link to="/grammar">
+      <RouterLink to="/grammar">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-grammar"></use>
         </svg>
         {{ linkNames.grammar }}
-      </router-link>
+      </RouterLink>
     </li>
     <li class="nav-item">
-      <router-link to="/about">
+      <RouterLink to="/about">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-about"></use>
         </svg>
         {{ linkNames.about }}
-      </router-link>
+      </RouterLink>
     </li>
     <li class="nav-item" @click="store.commit('changeLang')">
       <svg class="icon" aria-hidden="true">

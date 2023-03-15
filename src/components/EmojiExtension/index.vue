@@ -1,5 +1,5 @@
 <template>
-  <dropdown-toolbar title="emoji" :visible="state.visible" @on-change="onChange">
+  <DropdownToolbar title="emoji" :visible="state.visible" @onChange="onChange">
     <template #overlay>
       <div class="emoji-container">
         <ol class="emojis">
@@ -17,7 +17,7 @@
         <use xlink:href="#icon-emoji"></use>
       </svg>
     </template>
-  </dropdown-toolbar>
+  </DropdownToolbar>
 </template>
 
 <script lang="ts" setup>

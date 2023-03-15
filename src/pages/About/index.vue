@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="doc">
-      <iz-preview-content editor-id="md-about" :model-value="mdText" />
+      <IzPreviewContent editorId="md-about" :modelValue="mdText" />
     </div>
   </div>
 </template>

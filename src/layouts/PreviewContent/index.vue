@@ -1,15 +1,15 @@
 <template>
   <div class="content">
-    <md-editor-v3
-      :editor-id="props.editorId"
+    <MdEditorV3
+      previewOnly
+      :editorId="props.editorId"
       :theme="store.state.theme"
-      :model-value="props.modelValue"
-      :preview-theme="store.state.previewTheme"
+      :modelValue="props.modelValue"
+      :previewTheme="store.state.previewTheme"
       :language="store.state.lang"
-      preview-only
-      :show-code-row-number="props.showCodeRowNumber"
-      :code-theme="store.state.codeTheme"
-      @on-html-changed="onHtmlChanged"
+      :showCodeRowNumber="props.showCodeRowNumber"
+      :codeTheme="store.state.codeTheme"
+      @onHtmlChanged="onHtmlChanged"
     />
   </div>
 </template>

@@ -1,29 +1,29 @@
 <template>
   <div class="project-preview">
     <div class="container">
-      <md-editor-v3
+      <MdEditorV3
         ref="editorRef"
         v-model="state.text"
-        :editor-id="editorId"
+        :editorId="editorId"
         :language="store.state.lang"
         :theme="store.state.theme"
-        :preview-theme="store.state.previewTheme"
-        :code-theme="store.state.codeTheme"
+        :previewTheme="store.state.previewTheme"
+        :codeTheme="store.state.codeTheme"
         :toolbars="toolbars"
         :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
-        show-code-row-number
-        auto-detect-code
-        @on-upload-img="uploadImg"
+        showCodeRowNumber
+        autoDetectCode
+        @onUploadImg="uploadImg"
       >
         <template #defToolbars>
-          <mark-extension :on-insert="insert" />
-          <emoji-extension :on-insert="insert" />
-          <read-extension :md-text="state.text" />
+          <MarkExtension :onInsert="insert" />
+          <EmojiExtension :onInsert="insert" />
+          <ReadExtension :mdText="state.text" />
         </template>
         <template #defFooters>
-          <time-now />
+          <TimeNow />
         </template>
-      </md-editor-v3>
+      </MdEditorV3>
       <br />
       <span class="tips-text">
         {{ tips

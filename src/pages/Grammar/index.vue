@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <div class="doc">
-      <iz-preview-content
-        :editor-id="editorId"
-        :model-value="mdText"
-        :show-code-row-number="false"
+      <IzPreviewContent
+        :editorId="editorId"
+        :modelValue="mdText"
+        :showCodeRowNumber="false"
       />
-      <iz-catalog :editor-id="editorId" />
+      <IzCatalog :editorId="editorId" />
     </div>
   </div>
 </template>

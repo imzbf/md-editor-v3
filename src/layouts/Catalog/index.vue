@@ -1,12 +1,12 @@
 <template>
   <div class="catalog">
     <div class="affix">
-      <md-catalog
-        :editor-id="props.editorId"
+      <MdCatalog
+        :editorId="props.editorId"
         :theme="store.state.theme"
-        :scroll-element="scrollElement"
-        :scroll-element-offset-top="10"
-        @on-click="onClick"
+        :scrollElement="scrollElement"
+        :scrollElementOffsetTop="10"
+        @onClick="onClick"
       />
     </div>
   </div>
