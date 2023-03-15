@@ -87,5 +87,8 @@
     "printWidth": 90,
     "proseWrap": "never",
     "endOfLine": "auto"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.47"
   }
 }
