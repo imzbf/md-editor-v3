@@ -31,12 +31,12 @@
   ],
   "type": "module",
   "types": "./lib/MdEditor/index.d.ts",
-  "main": "./lib/md-editor-v3.umd.cjs",
-  "module": "./lib/md-editor-v3.js",
+  "main": "./lib/md-editor-v3.cjs",
+  "module": "./lib/md-editor-v3.mjs",
   "exports": {
     ".": {
-      "import": "./lib/md-editor-v3.js",
-      "require": "./lib/md-editor-v3.umd.cjs"
+      "import": "./lib/md-editor-v3.mjs",
+      "require": "./lib/md-editor-v3.cjs"
     },
     "./lib/style.css": "./lib/style.css"
   },
