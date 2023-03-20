@@ -3,7 +3,7 @@ import { UserConfigExport, ConfigEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import nodeService from './vitePlugins/nodeService';
-import markdownImport from './vitePlugins/markdownImport';
+import markdown from '@vavt/vite-plugin-import-markdown';
 
 import { homepage } from './package.json';
 
@@ -25,7 +25,12 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         '@': path.resolve(__dirname, './src')
       }
     },
-    plugins: [vue(), vueJsx(), mode !== 'production' && nodeService(), markdownImport()],
+    plugins: [
+      vue(),
+      vueJsx(),
+      mode !== 'production' && nodeService(),
+      mode !== 'production' && markdown()
+    ],
     css: {
       modules: {
         localsConvention: 'camelCase' // 默认只支持驼峰，修改为同事支持横线和驼峰
