@@ -5,7 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import dts from 'vite-plugin-dts';
 
 import nodeService from './vitePlugins/nodeService';
-import markdownImport from './vitePlugins/markdownImport';
+import markdown from '@vavt/vite-plugin-import-markdown';
 
 import { name } from './package.json';
 
@@ -62,7 +62,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       vue(),
       vueJsx(),
       mode !== 'production' && nodeService(),
-      mode !== 'production' && markdownImport(),
+      mode !== 'production' && markdown(),
       mode === 'production' &&
         dts({
           outputDir: `${OUT_DIR}/MdEditor`,

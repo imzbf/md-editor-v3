@@ -728,6 +728,11 @@
   resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-2.2.2.tgz#3695e8eaa7c1b4a0b4dd51bffd33b22b71f42782"
   integrity sha512-gn5y3BAusDZIc9qdGiJQDXH3bgTuVl1J0VAMvOkq8sEO1FjISPyx+81d4EJLe5lJUCuYpO5qqtQiCEUvqA6oDg==
 
+"@vavt/vite-plugin-import-markdown@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@vavt/vite-plugin-import-markdown/-/vite-plugin-import-markdown-1.0.0.tgz#2d6da8582aa6881cb6fe59e8fa1f4181640a23be"
+  integrity sha512-zBpv4UJAmCdk8/hsNXGi/KrMoASt/8GkmgkwcerD823+HvMJdrEqA43zk81hvYs/dfDSgGBaarepBDqpcDiXcg==
+
 "@vitejs/plugin-vue-jsx@^3.0.0":
   version "3.0.0"
   resolved "https://registry.npmjs.org/@vitejs/plugin-vue-jsx/-/plugin-vue-jsx-3.0.0.tgz#42e89d6d9eb89604d109ff9a615d77c3c080dd25"
