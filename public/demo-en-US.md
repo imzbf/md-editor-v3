@@ -23,8 +23,8 @@ Use production version in html directly:
     <div id="md-editor-v3">
       <md-editor-v3 v-model="text" />
     </div>
-    <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.cjs"></script>
+    <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.js"></script>
     <script>
       const App = {
         data() {
