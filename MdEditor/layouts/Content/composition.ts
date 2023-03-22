@@ -474,28 +474,6 @@ export const useMarked = (props: ContentProps) => {
     extensions: [alertExtension]
   });
 
-  if (highlightIns) {
-    // 提供了hljs，在创建阶段即完成设置
-    marked.setOptions({
-      highlight: (code, language) => {
-        let codeHtml;
-        const hljsLang = highlightIns.getLanguage(language);
-        if (language && hljsLang) {
-          codeHtml = highlightIns.highlight(code, {
-            language,
-            ignoreIllegals: true
-          }).value;
-        } else {
-          codeHtml = highlightIns.highlightAuto(code).value;
-        }
-
-        return showCodeRowNumber
-          ? generateCodeRowNumber(codeHtml)
-          : `<span class="code-block">${codeHtml}</span>`;
-      }
-    });
-  }
-
   // 在created阶段构造一次
   // 这里的不包括异步编译内容（mermaid@10）
   const html = ref(props.sanitize(marked(props.value || '', { renderer })));
