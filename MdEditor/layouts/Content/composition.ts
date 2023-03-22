@@ -601,18 +601,19 @@ export const useMarked = (props: ContentProps) => {
       appendHandler(katexLink);
     }
 
-    if (!highlightIns) {
-      const highlightLink = document.createElement('link');
-      highlightLink.rel = 'stylesheet';
-      highlightLink.href = highlightUrl.value.css;
-      highlightLink.id = `${prefix}-hlCss`;
+    const highlightLink = document.createElement('link');
+    highlightLink.rel = 'stylesheet';
+    highlightLink.href = highlightUrl.value.css;
+    highlightLink.id = `${prefix}-hlCss`;
 
+    appendHandler(highlightLink);
+
+    if (!highlightIns) {
       const highlightScript = document.createElement('script');
       highlightScript.src = highlightUrl.value.js;
       highlightScript.onload = highlightLoad;
       highlightScript.id = `${prefix}-hljs`;
 
-      appendHandler(highlightLink);
       appendHandler(highlightScript, 'hljs');
     }
   });
@@ -879,8 +880,9 @@ export const useMermaid = (props: ContentProps) => {
   });
 
   const setMermaidTheme = () => {
-    if (!props.noMermaid) {
-      const mermaid = mermaidConf?.instance || window.mermaid;
+    const mermaid = mermaidConf?.instance || window.mermaid;
+
+    if (!props.noMermaid && mermaid) {
       mermaid.initialize({
         startOnLoad: false,
         theme: theme.value === 'dark' ? 'dark' : 'default'
