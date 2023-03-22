@@ -67,7 +67,7 @@ export const appendHandler = (ele: HTMLElement, checkKey = '') => {
   if (!insertedEle) {
     ele.addEventListener('load', onload);
     document.head.appendChild(ele);
-  } else if (checkKey !== '' && ele.onload instanceof Function) {
+  } else if (checkKey !== '' && typeof ele.onload === 'function') {
     if (Reflect.get(window, checkKey)) {
       // 实例已存在，直接触发load事件
       ele.dispatchEvent(new Event('load'));
