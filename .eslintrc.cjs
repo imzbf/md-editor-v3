@@ -17,6 +17,8 @@ module.exports = {
     'vue/prefer-import-from-vue': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-empty-function': 'off'
+    '@typescript-eslint/no-empty-function': 'off',
+    // a.x!
+    '@typescript-eslint/no-non-null-assertion': 'off'
   }
 };
