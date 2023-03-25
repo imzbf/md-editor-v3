@@ -137,4 +137,8 @@ export default class CodeMirrorUt {
   setPlaceholder(t: string) {
     this.togglePlaceholder(placeholder(t));
   }
+
+  foucs() {
+    this.view.focus();
+  }
 }

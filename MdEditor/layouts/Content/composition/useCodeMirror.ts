@@ -13,6 +13,7 @@ import { ContentProps } from '../props';
 import { oneDark } from '../codemirror/themeOneDark';
 import CodeMirrorUt from '../codemirror';
 import usePasteUpload from './usePasteUpload';
+import useAttach from './useAttach';
 
 const useCodeMirror = (props: ContentProps) => {
   const tabWidth = inject('tabWidth') as number;
@@ -21,8 +22,6 @@ const useCodeMirror = (props: ContentProps) => {
   const inputWrapperRef = ref<HTMLDivElement>();
 
   const codeMirrorUt = ref<CodeMirrorUt>();
-
-  usePasteUpload(props, inputWrapperRef);
 
   const defaultExtensions = [
     keymap.of([
@@ -128,7 +127,10 @@ const useCodeMirror = (props: ContentProps) => {
     }
   );
 
-  watch;
+  // 粘贴上传
+  usePasteUpload(props, inputWrapperRef);
+  // 附带的设置
+  useAttach(codeMirrorUt);
 
   return {
     inputWrapperRef

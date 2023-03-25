@@ -5,8 +5,7 @@ import {
   useCodeMirror,
   useMarked,
   // useAutoGenrator,
-  userZoom,
-  useAttach
+  userZoom
 } from './composition/index';
 import { prefix } from '../../config';
 // import bus from '../../utils/event-bus';
@@ -44,9 +43,6 @@ export default defineComponent({
     // useAutoGenrator(props);
     // 图片点击放大
     userZoom(props, html);
-
-    // // 附带的设置
-    // useAttach(textAreaRef);
 
     return () => {
       // 原生属性
