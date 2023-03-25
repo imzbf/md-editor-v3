@@ -4,14 +4,15 @@ import { EditorState } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { languages } from '@codemirror/language-data';
 import { markdown } from '@codemirror/lang-markdown';
-import { indentWithTab, undo, redo } from '@codemirror/commands';
+import { indentWithTab, undo, redo, deleteLine } from '@codemirror/commands';
+import { directive2flag, ToolDirective } from '~/utils/content-help';
 import { Themes } from '~/type';
 import bus from '~/utils/event-bus';
 
 import { ContentProps } from '../props';
-import CodeMirrorUt from '../codemirror/codemirror';
 import { oneDark } from '../codemirror/themeOneDark';
-import { directive2flag, ToolDirective } from '~/utils/content-help';
+import CodeMirrorUt from '../codemirror';
+import usePasteUpload from './usePasteUpload';
 
 const useCodeMirror = (props: ContentProps) => {
   const tabWidth = inject('tabWidth') as number;
@@ -21,9 +22,19 @@ const useCodeMirror = (props: ContentProps) => {
 
   const codeMirrorUt = ref<CodeMirrorUt>();
 
+  usePasteUpload(props, inputWrapperRef);
+
   const defaultExtensions = [
+    keymap.of([
+      indentWithTab,
+      {
+        key: 'Ctrl-d',
+        mac: 'Cmd-d',
+        run: deleteLine,
+        preventDefault: true
+      }
+    ]),
     basicSetup,
-    keymap.of([indentWithTab]),
     markdown({ codeLanguages: languages }),
     // 横向换行
     EditorView.lineWrapping,
@@ -91,8 +102,6 @@ const useCodeMirror = (props: ContentProps) => {
       name: 'replace',
       callback(direct: ToolDirective, params = {}) {
         const { text, options } = directive2flag(direct, codeMirrorUt.value!, params);
-
-        console.log({ text, options });
         codeMirrorUt.value?.replaceSelectedText(text, options);
       }
     });

@@ -5,7 +5,7 @@ import { ContentProps } from '../props';
 /**
  * 处理粘贴板
  */
-const usePasteUpload = (props: ContentProps, textAreaRef: Ref) => {
+const usePasteUpload = (props: ContentProps, inputWrapperRef: Ref) => {
   const editorId = inject('editorId') as string;
   const previewOnly = inject('previewOnly') as boolean;
 
@@ -45,13 +45,13 @@ const usePasteUpload = (props: ContentProps, textAreaRef: Ref) => {
 
   onMounted(() => {
     if (!previewOnly) {
-      textAreaRef.value.addEventListener('paste', pasteHandler);
+      inputWrapperRef.value.addEventListener('paste', pasteHandler);
     }
   });
 
   onBeforeUnmount(() => {
     if (!previewOnly) {
-      textAreaRef.value.removeEventListener('paste', pasteHandler);
+      inputWrapperRef.value.removeEventListener('paste', pasteHandler);
     }
   });
 };

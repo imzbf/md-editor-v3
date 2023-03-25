@@ -5,7 +5,6 @@ import {
   useCodeMirror,
   useMarked,
   // useAutoGenrator,
-  usePasteUpload,
   userZoom,
   useAttach
 } from './composition/index';
@@ -43,8 +42,6 @@ export default defineComponent({
     useAutoScroll(props, html, '.cm-scroller', previewRef, htmlRef);
     // 自动监听生成md内容
     // useAutoGenrator(props);
-    // // 粘贴上传
-    // usePasteUpload(props, textAreaRef);
     // 图片点击放大
     userZoom(props, html);
 

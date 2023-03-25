@@ -78,9 +78,16 @@ export default class CodeMirrorUt {
       // 选中时，开始位置的偏移量
       deviationStart: 0,
       // 结束的偏移量
-      deviationEnd: 0
+      deviationEnd: 0,
+      // 直接替换所有文本
+      replaceAll: false
     }
   ) => {
+    if (options.replaceAll) {
+      this.setValue(text);
+      return;
+    }
+
     const { from } = this.view.state.selection.main;
 
     this.view.dispatch(this.view.state.replaceSelection(text));

@@ -1,7 +1,7 @@
-import bus from '../utils/event-bus';
-import { configOption } from '../config';
-import { InsertContentGenerator } from '../type';
-import CodeMirrorUt from '~/layouts/Content/codemirror/codemirror';
+import bus from '~/utils/event-bus';
+import { configOption } from '~/config';
+import { InsertContentGenerator } from '~/type';
+import CodeMirrorUt from '~/layouts/Content/codemirror';
 
 export type ToolDirective =
   | 'bold'
@@ -25,13 +25,7 @@ export type ToolDirective =
   | 'table'
   | 'sub'
   | 'sup'
-  | 'help'
   | 'prettier'
-  | 'tab'
-  | 'shiftTab'
-  | 'ctrlC'
-  | 'ctrlX'
-  | 'ctrlD'
   | 'flow'
   | 'sequence'
   | 'gantt'
@@ -43,51 +37,6 @@ export type ToolDirective =
   | 'katexInline'
   | 'katexBlock'
   | 'universal';
-
-/**
- * 快速获取分割内容
- *
- * @param textarea
- * @returns
- */
-export const splitHelp = (textarea: HTMLTextAreaElement) => {
-  const text = textarea.value;
-
-  // 选中前半部分
-  const prefixStr = text.substring(0, textarea.selectionStart);
-  // 选中后半部分
-  const subfixStr = text.substring(textarea.selectionEnd, text.length);
-
-  const prefixStrIndexOfLineCode = prefixStr.lastIndexOf('\n');
-  // 选中行前所有行
-  const prefixStrEndRow = prefixStr.substring(0, prefixStrIndexOfLineCode + 1);
-
-  const subfixStrIndexOfLineCode = subfixStr.indexOf('\n');
-  // 选中行后所有行
-  // 如果后面的内容没有换行符，代表该行就是最后一行，即不存在后续行内容
-  const subfixStrEndRow = subfixStr.substring(
-    subfixStrIndexOfLineCode === -1 ? subfixStr.length : subfixStrIndexOfLineCode,
-    subfixStr.length
-  );
-
-  // 选中当前行前面未选中部分
-  const prefixSupply = prefixStr.substring(
-    prefixStrIndexOfLineCode + 1,
-    prefixStr.length
-  );
-
-  // 选中当前行后面未选中部分
-  const subfixSupply = subfixStr.substring(0, subfixStrIndexOfLineCode);
-
-  return {
-    prefixStr,
-    subfixStr,
-    prefixStrEndRow,
-    subfixStrEndRow,
-    prefixSupply,
-    subfixSupply
-  };
-};
 
 /**
  *
@@ -110,6 +59,8 @@ export const directive2flag = (
   let deviationEnd = 0;
   // 是否选中
   let select = true;
+  // 直接替换所有文本
+  let replaceAll = false;
 
   const selectedText = codeMirrorUt.getSelectedText();
 
@@ -146,6 +97,7 @@ export const directive2flag = (
     }
 
     select = false;
+    replaceAll = true;
   } else {
     switch (direct) {
       case 'bold': {
@@ -271,14 +223,6 @@ export const directive2flag = (
 
         break;
       }
-
-      // case 'ctrlD': {
-      //   // 删除行规则：无论有没有选中，均删除当前行
-      //   const { prefixStrEndRow, subfixStrEndRow } = splitHelp(inputArea);
-      //   setPosition(inputArea, prefixStrEndRow.length);
-
-      //   return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
-      // }
       // 流程图
       case 'flow': {
         targetValue = `\`\`\`mermaid\n${
@@ -394,7 +338,9 @@ export const directive2flag = (
       // 选中时，开始位置的偏移量
       deviationStart,
       // 结束的偏移量
-      deviationEnd
+      deviationEnd,
+      // 是否整个替换
+      replaceAll
     }
   };
 
