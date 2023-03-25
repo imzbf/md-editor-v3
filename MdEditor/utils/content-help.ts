@@ -1,8 +1,7 @@
-import copy from 'copy-to-clipboard';
-import { insert, setPosition } from '.';
 import bus from '../utils/event-bus';
 import { configOption } from '../config';
 import { InsertContentGenerator } from '../type';
+import CodeMirrorUt from '~/layouts/Content/codemirror/codemirror';
 
 export type ToolDirective =
   | 'bold'
@@ -93,17 +92,16 @@ export const splitHelp = (textarea: HTMLTextAreaElement) => {
 /**
  *
  * @param direct 操作指令
- * @param selectedText 输入框选中的内容记录
- * @param inputArea 输入框
+ * @param codeMirrorUt 编辑区辅助实例
  * @param params 自定义参数
+ *
  * @returns string
  */
 export const directive2flag = (
   direct: ToolDirective,
-  selectedText = '',
-  inputArea: HTMLTextAreaElement,
+  codeMirrorUt: CodeMirrorUt,
   params?: any
-): string => {
+) => {
   // 目标值
   let targetValue = '';
   // 光标开始位置偏移量
@@ -111,11 +109,9 @@ export const directive2flag = (
   // 结束位置偏移量
   let deviationEnd = 0;
   // 是否选中
-  let select = false;
-  // 选中前半部分内容
-  let prefixVal;
-  // 后半部分
-  let subfixVal;
+  let select = true;
+
+  const selectedText = codeMirrorUt.getSelectedText();
 
   const mermaidTemplate = configOption.editorConfig?.mermaidTemplate;
 
@@ -141,13 +137,15 @@ export const directive2flag = (
         name: 'prettier',
         message: 'prettier is undefined'
       });
-      return inputArea.value;
+      targetValue = codeMirrorUt.getValue();
+    } else {
+      targetValue = prettier.format(codeMirrorUt.getValue(), {
+        parser: 'markdown',
+        plugins: prettierPlugins
+      });
     }
 
-    return prettier.format(inputArea.value, {
-      parser: 'markdown',
-      plugins: prettierPlugins
-    });
+    select = false;
   } else {
     switch (direct) {
       case 'bold': {
@@ -210,7 +208,6 @@ export const directive2flag = (
       case 'task': {
         targetValue = `- [ ] ${selectedText}`;
         deviationStart = 6;
-        select = true;
         break;
       }
       case 'code': {
@@ -221,7 +218,6 @@ export const directive2flag = (
         targetValue = `\`\`\`${mode}\n${text}\n\`\`\`\n`;
         deviationStart = 3;
         deviationEnd = 3 + mode.length - targetValue.length;
-        select = true;
         break;
       }
       case 'table': {
@@ -252,12 +248,12 @@ export const directive2flag = (
 
         deviationStart = 2;
         deviationEnd = 5 - targetValue.length;
-        select = true;
         break;
       }
       case 'link': {
         const { desc, url } = params;
         targetValue = `[${desc}](${url})`;
+        select = false;
         break;
       }
       case 'image': {
@@ -271,225 +267,25 @@ export const directive2flag = (
           targetValue = `![${desc}](${url})\n`;
         }
 
-        break;
-      }
-      case 'tab': {
-        // 缩进
-        // 1. 未选中内容，在当前位置添加两个空格
-        // 2. 选中单行或中间内容，
-        // 3. 选中多行
-
-        const { tabWidth = 2 } = params;
-        const retract = new Array(tabWidth).fill(' ').join('');
-
-        if (selectedText === '') {
-          targetValue = retract;
-        } else if (/\n/.test(selectedText)) {
-          const { prefixStr, subfixStr, prefixSupply, subfixSupply } =
-            splitHelp(inputArea);
-
-          // 整个待调整的内容
-          const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
-
-          // 分割出每一行，从而给每一行添加缩进
-          const str2AdjustRows = str2adjust.split('\n');
-
-          targetValue = str2AdjustRows
-            .map((strItem) => {
-              return `${retract}${strItem}`;
-            })
-            .join('\n');
-
-          prefixVal = prefixStr.substring(0, prefixStr.length - prefixSupply.length);
-          subfixVal = subfixStr.substring(subfixSupply.length, subfixStr.length);
-
-          // 设置选中内容
-          select = true;
-          // 设置选中开始位置偏移tabWidth宽度
-          deviationStart = tabWidth;
-          // 设置选中结束位置偏移，由于只选中中间部分，需减去上面补充选择内容和后面补充选择内容的长度
-          deviationEnd = -prefixSupply.length - subfixSupply.length;
-        } else {
-          const mdText = inputArea.value;
-          const prefixStr = mdText.substring(0, inputArea.selectionStart);
-
-          if (/\n$/.test(prefixStr) || prefixStr === '') {
-            // 选择当前行全部内容，给当前行整体添加缩进
-            targetValue = `${retract}${selectedText}`;
-            select = true;
-          } else {
-            // 选中中间部分内容，清空内容添加空格
-            targetValue = retract;
-          }
-        }
+        select = false;
 
         break;
       }
-      case 'shiftTab': {
-        // 当选择内容后使用该快捷键，未及时清空缓存内容，所以该功能直接重新获取选中内容
 
-        const { tabWidth = 2 } = params;
+      // case 'ctrlD': {
+      //   // 删除行规则：无论有没有选中，均删除当前行
+      //   const { prefixStrEndRow, subfixStrEndRow } = splitHelp(inputArea);
+      //   setPosition(inputArea, prefixStrEndRow.length);
 
-        const {
-          prefixStr,
-          prefixStrEndRow,
-          subfixStrEndRow,
-          prefixSupply,
-          subfixSupply
-        } = splitHelp(inputArea);
-
-        const normalReg = new RegExp(`^\\s{${tabWidth}}`);
-
-        /**
-         *
-         * @param selected 是否修改后选中内容
-         * @param row 是否是整行
-         * @returns string
-         */
-        const notMultiRow = (selected = false, row = false) => {
-          // 当前所在行内容
-          const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
-
-          // 拼接内容
-          if (normalReg.test(str2adjust)) {
-            // 以tabWidth或者更多个空格开头
-            const startPos = prefixStr.length - (row ? 0 : tabWidth);
-            const endPos = selected
-              ? startPos + selectedText.length - tabWidth
-              : startPos;
-            setPosition(inputArea, startPos, endPos);
-
-            return `${prefixStrEndRow}${str2adjust.replace(
-              normalReg,
-              ''
-            )}${subfixStrEndRow}`;
-          } else if (/^\s/.test(str2adjust)) {
-            // 不足但是存在
-            const deletedTabStr = str2adjust.replace(/^\s/, '');
-            const deletedLength = str2adjust.length - deletedTabStr.length;
-
-            const startPos = inputArea.selectionStart - (row ? 0 : deletedLength);
-            // 选中了内容，将正确设置结束位置
-            const endPos = selected
-              ? startPos + selectedText.length - deletedLength
-              : startPos;
-            setPosition(inputArea, startPos, endPos);
-
-            return `${prefixStrEndRow}${deletedTabStr}${subfixStrEndRow}`;
-          } else {
-            targetValue = selectedText;
-          }
-        };
-
-        if (selectedText === '') {
-          // 未选中任何内容，执行获取当前行，去除行首tabWidth个空格，只到无空格可去除
-          const newContent = notMultiRow();
-
-          if (newContent) {
-            return newContent;
-          }
-        } else if (/\n/.test(selectedText)) {
-          // 选中了多行
-
-          // 整个待调整的内容
-          const str2adjust = `${prefixSupply}${selectedText}${subfixSupply}`;
-
-          // 分割出每一行，从而给每一行添加缩进
-          const str2AdjustRows = str2adjust.split('\n');
-
-          // 首行减少空格数，用于计算选中开始位置
-          // 总共减少空格数，用于计算选中结束位置
-          let [firstRowDelNum, totalRowDelNum] = [0, 0];
-
-          const str2AdjustRowsMod = str2AdjustRows
-            .map((strItem, index) => {
-              if (normalReg.test(strItem)) {
-                // 以tabWidth或者更多个空格开头
-                if (index === 0) {
-                  firstRowDelNum = tabWidth;
-                }
-
-                totalRowDelNum += tabWidth;
-
-                return strItem.replace(normalReg, '');
-              } else if (/^\s/.test(strItem)) {
-                const deletedTabStr = strItem.replace(/^\s/, '');
-
-                totalRowDelNum += strItem.length - deletedTabStr.length;
-
-                // 不足但是存在
-                return deletedTabStr;
-              }
-
-              return strItem;
-            })
-            .join('\n');
-
-          setPosition(
-            inputArea,
-            inputArea.selectionStart - firstRowDelNum,
-            inputArea.selectionEnd - totalRowDelNum
-          );
-
-          return `${prefixStrEndRow}${str2AdjustRowsMod}${subfixStrEndRow}`;
-        } else {
-          // 选中的单行或部分吗，表现与未选中一致
-
-          const newContent = notMultiRow(true, true);
-
-          if (newContent) {
-            return newContent;
-          }
-        }
-
-        break;
-      }
-      case 'ctrlC': {
-        const { prefixSupply, subfixSupply } = splitHelp(inputArea);
-
-        if (selectedText === '') {
-          // 未选中，复制整行
-          copy(`${prefixSupply}${subfixSupply}`);
-        } else {
-          copy(selectedText);
-        }
-
-        return inputArea.value;
-      }
-      case 'ctrlX': {
-        const {
-          prefixStrEndRow,
-          subfixStrEndRow,
-          prefixStr,
-          subfixStr,
-          prefixSupply,
-          subfixSupply
-        } = splitHelp(inputArea);
-
-        if (selectedText === '') {
-          // 未选中，复制整行
-          copy(`${prefixSupply}${subfixSupply}`);
-          setPosition(inputArea, prefixStrEndRow.length);
-          return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
-        } else {
-          copy(selectedText);
-          setPosition(inputArea, prefixStr.length);
-          return `${prefixStr}${subfixStr}`;
-        }
-      }
-      case 'ctrlD': {
-        // 删除行规则：无论有没有选中，均删除当前行
-        const { prefixStrEndRow, subfixStrEndRow } = splitHelp(inputArea);
-        setPosition(inputArea, prefixStrEndRow.length);
-
-        return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
-      }
+      //   return `${prefixStrEndRow}${subfixStrEndRow.replace(/^\n/, '')}`;
+      // }
       // 流程图
       case 'flow': {
         targetValue = `\`\`\`mermaid\n${
           mermaidTemplate?.flow || 'flowchart TD \n  Start --> Stop'
         }\n\`\`\`\n`;
-        deviationStart = 2;
+        deviationStart = 3;
+        deviationEnd = 10 - targetValue.length;
         break;
       }
       // 时序图
@@ -498,7 +294,8 @@ export const directive2flag = (
           mermaidTemplate?.sequence ||
           'sequenceDiagram\n  A->>B: hello!\n  B-->>A: hi!\n  A-)B: bye!'
         }\n\`\`\`\n`;
-        deviationStart = 2;
+        deviationStart = 3;
+        deviationEnd = 10 - targetValue.length;
         break;
       }
       // 甘特图
@@ -507,7 +304,8 @@ export const directive2flag = (
           mermaidTemplate?.gantt ||
           'gantt\ntitle A Gantt Diagram\ndateFormat  YYYY-MM-DD\nsection Section\nA task  :a1, 2014-01-01, 30d\nAnother task  :after a1, 20d'
         }\n\`\`\`\n`;
-        deviationStart = 2;
+        deviationStart = 3;
+        deviationEnd = 10 - targetValue.length;
         break;
       }
       // 类图
@@ -515,7 +313,8 @@ export const directive2flag = (
         targetValue = `\`\`\`mermaid\n${
           mermaidTemplate?.class || 'classDiagram\n  class Animal\n  Vehicle <|-- Car'
         }\n\`\`\`\n`;
-        deviationStart = 2;
+        deviationStart = 3;
+        deviationEnd = 10 - targetValue.length;
         break;
       }
       // 状态图
@@ -523,7 +322,8 @@ export const directive2flag = (
         targetValue = `\`\`\`mermaid\n${
           mermaidTemplate?.state || 'stateDiagram-v2\n  s1 --> s2'
         }\n\`\`\`\n`;
-        deviationStart = 2;
+        deviationStart = 3;
+        deviationEnd = 10 - targetValue.length;
         break;
       }
       // 饼图
@@ -532,7 +332,8 @@ export const directive2flag = (
           mermaidTemplate?.pie ||
           'pie title Pets adopted by volunteers\n  "Dogs" : 386\n  "Cats" : 85\n  "Rats" : 15'
         }\n\`\`\`\n`;
-        deviationStart = 2;
+        deviationStart = 3;
+        deviationEnd = 10 - targetValue.length;
         break;
       }
 
@@ -542,7 +343,8 @@ export const directive2flag = (
           mermaidTemplate?.relationship ||
           'erDiagram\n  CAR ||--o{ NAMED-DRIVER : allows\n  PERSON ||--o{ NAMED-DRIVER : is'
         }\n\`\`\`\n`;
-        deviationStart = 2;
+        deviationStart = 3;
+        deviationEnd = 10 - targetValue.length;
         break;
       }
 
@@ -552,7 +354,8 @@ export const directive2flag = (
           mermaidTemplate?.journey ||
           'journey\n  title My working day\n  section Go to work\n    Make tea: 5: Me\n    Go upstairs: 3: Me\n    Do work: 1: Me, Cat\n  section Go home\n    Go downstairs: 5: Me\n    Sit down: 5: Me'
         }\n\`\`\`\n`;
-        deviationStart = 2;
+        deviationStart = 3;
+        deviationEnd = 10 - targetValue.length;
         break;
       }
       // 行内公式
@@ -565,7 +368,7 @@ export const directive2flag = (
       // 行内公式
       case 'katexBlock': {
         targetValue = '$$\n\n$$\n';
-        deviationStart = 1;
+        deviationStart = 3;
         deviationEnd = -4;
         break;
       }
@@ -583,11 +386,23 @@ export const directive2flag = (
     }
   }
 
-  return insert(inputArea, targetValue, {
-    deviationStart,
-    deviationEnd,
-    select,
-    prefixVal,
-    subfixVal
-  });
+  return {
+    text: targetValue,
+    options: {
+      // 是否选中
+      select,
+      // 选中时，开始位置的偏移量
+      deviationStart,
+      // 结束的偏移量
+      deviationEnd
+    }
+  };
+
+  // return insert(inputArea, targetValue, {
+  //   deviationStart,
+  //   deviationEnd,
+  //   select,
+  //   prefixVal,
+  //   subfixVal
+  // });
 };

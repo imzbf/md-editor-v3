@@ -1,25 +1,25 @@
 import { defineComponent, inject, ref, ComputedRef } from 'vue';
 import { PreviewThemes } from '../../type';
 import {
-  useAutoGenrator,
   useAutoScroll,
-  useHistory,
+  useCodeMirror,
   useMarked,
+  // useAutoGenrator,
   usePasteUpload,
   userZoom,
   useAttach
-} from './composition';
+} from './composition/index';
 import { prefix } from '../../config';
-import bus from '../../utils/event-bus';
-import { omit } from '../../utils';
+// import bus from '../../utils/event-bus';
+// import { omit } from '../../utils';
 import { contentProps, ContentProps } from './props';
 
 export default defineComponent({
   name: 'MDEditorContent',
   props: contentProps(),
   setup(props: ContentProps) {
-    // 输入状态，在输入中文等时，暂停保存
-    const completeStatus = ref(true);
+    // // 输入状态，在输入中文等时，暂停保存
+    // const completeStatus = ref(true);
     // 仅预览
     const previewOnly = inject('previewOnly') as boolean;
     // 是否显示行号
@@ -29,53 +29,52 @@ export default defineComponent({
 
     const editorId = inject('editorId') as string;
 
-    // 输入框
-    const textAreaRef = ref<HTMLTextAreaElement>();
+    // // 输入框
+    // const textAreaRef = ref<HTMLTextAreaElement>();
     // 预览框
     const previewRef = ref<HTMLDivElement>();
     // html代码预览框
     const htmlRef = ref<HTMLDivElement>();
 
+    const { inputWrapperRef } = useCodeMirror(props);
     // markdown => html
     const html = useMarked(props);
-    // 自动滚动
-    useAutoScroll(props, html, textAreaRef, previewRef, htmlRef);
+    // // 自动滚动
+    useAutoScroll(props, html, '.cm-scroller', previewRef, htmlRef);
     // 自动监听生成md内容
-    useAutoGenrator(props, textAreaRef);
-    // 历史记录
-    useHistory(props, textAreaRef, completeStatus);
-    // 粘贴上传
-    usePasteUpload(props, textAreaRef);
+    // useAutoGenrator(props);
+    // // 粘贴上传
+    // usePasteUpload(props, textAreaRef);
     // 图片点击放大
     userZoom(props, html);
 
-    // 附带的设置
-    useAttach(textAreaRef);
+    // // 附带的设置
+    // useAttach(textAreaRef);
 
     return () => {
       // 原生属性
-      const attrs = omit(props, [
-        'formatCopiedText',
-        'markedHeadingId',
-        'noKatex',
-        'noMermaid',
-        'onChange',
-        'onGetCatalog',
-        'onHtmlChanged',
-        'sanitize',
-        'scrollAuto',
-        'setting',
-        'autoDetectCode',
-        'onBlur',
-        'onFocus'
-      ]);
+      // const attrs = omit(props, [
+      //   'formatCopiedText',
+      //   'markedHeadingId',
+      //   'noKatex',
+      //   'noMermaid',
+      //   'onChange',
+      //   'onGetCatalog',
+      //   'onHtmlChanged',
+      //   'sanitize',
+      //   'scrollAuto',
+      //   'setting',
+      //   'autoDetectCode',
+      //   'onBlur',
+      //   'onFocus'
+      // ]);
 
       return (
         <>
           <div class={`${prefix}-content`}>
             {!previewOnly && (
-              <div class={`${prefix}-input-wrapper`}>
-                <textarea
+              <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}>
+                {/* <textarea
                   {...attrs}
                   id={`${editorId}-textarea`}
                   class={[
@@ -103,7 +102,7 @@ export default defineComponent({
                   onCompositionend={() => {
                     completeStatus.value = true;
                   }}
-                />
+                /> */}
               </div>
             )}
 

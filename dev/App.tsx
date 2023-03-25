@@ -1,7 +1,7 @@
 import { defineComponent, ref, watch } from 'vue';
 import Header from './Header';
 import Preview from './Preview';
-import PreviewOnly from './PreviewOnly';
+// import PreviewOnly from './PreviewOnly';
 
 // import VueTemplate from './VueTemplate.vue';
 
@@ -46,11 +46,11 @@ export default defineComponent({
             codeTheme={codeTheme.value}
             lang={lang.value}
           />
-          <PreviewOnly
+          {/* <PreviewOnly
             theme={theme.value}
             previewTheme={previewTheme.value}
             codeTheme={codeTheme.value}
-          />
+          /> */}
         </div>
       </div>
     );

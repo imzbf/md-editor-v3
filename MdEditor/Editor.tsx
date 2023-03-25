@@ -36,7 +36,7 @@ const Editor = defineComponent({
     });
 
     // 快捷键监听
-    useKeyBoard(props, context);
+    // useKeyBoard(props, context);
     // provide 部分prop
     useProvide(props);
     // 插入扩展的外链

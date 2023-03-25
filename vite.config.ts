@@ -32,7 +32,17 @@ const libBuildOptions: BuildOptions = {
     }
   },
   rollupOptions: {
-    external: ['vue'],
+    external: [
+      'vue',
+      'marked',
+      'medium-zoom',
+      'lru-cache',
+      'copy-to-clipboard',
+      '@vavt/markdown-theme',
+      'codemirror',
+      /@codemirror\/.*/,
+      /@lezer\/.*/
+    ],
     output: {
       globals: {
         vue: 'Vue'
@@ -55,7 +65,8 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './dev')
+        '@': path.resolve(__dirname, './dev'),
+        '~': path.resolve(__dirname, './MdEditor')
       }
     },
     plugins: [

@@ -14,7 +14,8 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["dev/*"]
+      "@/*": ["dev/*"],
+      "~/*": ["MdEditor/*"]
     }
   },
   "include": [
