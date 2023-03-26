@@ -65,8 +65,9 @@ const useCodeMirror = (props: ContentProps) => {
 
     codeMirrorUt.value = new CodeMirrorUt(view);
 
-    codeMirrorUt.value?.setTabSize(tabWidth);
+    codeMirrorUt.value.setTabSize(tabWidth);
     codeMirrorUt.value.setExtensions(getExtensions());
+    codeMirrorUt.value.setPlaceholder(props.placeholder);
 
     // view.dispatch({
     //   changes: { from: 10, insert: '*' },
@@ -133,6 +134,13 @@ const useCodeMirror = (props: ContentProps) => {
       if (codeMirrorUt.value?.getValue() !== props.value) {
         codeMirrorUt.value?.setValue(props.value);
       }
+    }
+  );
+
+  watch(
+    () => props.value,
+    () => {
+      codeMirrorUt.value?.setPlaceholder(props.placeholder);
     }
   );
 
