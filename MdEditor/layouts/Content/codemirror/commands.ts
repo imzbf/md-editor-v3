@@ -1,9 +1,9 @@
 import { KeyBinding } from '@codemirror/view';
 import { deleteLine } from '@codemirror/commands';
-import bus from '~/utils/event-bus';
 import { ToolDirective } from '~/utils/content-help';
 import { ON_SAVE } from '~/static/event-name';
 import { ContentProps } from '../props';
+import bus from '~/utils/event-bus';
 
 const createCommands = (id: string, contentProps: ContentProps) => {
   const CtrlB: KeyBinding = {

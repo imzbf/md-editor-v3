@@ -30,6 +30,10 @@ import './index.less';
 // import { cdnBase } from '../../MdEditor/config';
 
 Editor.config({
+  // codeMirrorExtensions(theme, extensions, keyBindings) {
+  //   console.log(theme, extensions, keyBindings);
+  //   return extensions;
+  // },
   // markedRenderer(renderer) {
   //   renderer.link = (href, title, text) => {
   //     return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;

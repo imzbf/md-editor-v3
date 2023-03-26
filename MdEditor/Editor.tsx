@@ -1,5 +1,11 @@
 import { defineComponent, onBeforeUnmount, reactive } from 'vue';
-import { prefix } from './config';
+import { prefix } from '~/config';
+
+import ToolBar from '~/layouts/Toolbar';
+import Content from '~/layouts/Content';
+import Footer from '~/layouts/Footer';
+import MdCatalog from '~/extensions/MdCatalog';
+import bus from '~/utils/event-bus';
 import {
   useOnSave,
   useProvide,
@@ -8,18 +14,12 @@ import {
   useCatalog,
   useExpose
 } from './composition';
-import ToolBar from './layouts/Toolbar';
-import Content from './layouts/Content';
-import Footer from './layouts/Footer';
-import MdCatalog from './extensions/MdCatalog';
-import bus from './utils/event-bus';
-
-import { HeadList, EditorProps, EditorContext } from './type';
-import { getSlot } from './utils/vue-tsx';
+import { HeadList, EditorProps, EditorContext } from '~/type';
+import { getSlot } from '~/utils/vue-tsx';
 
 import { editorProps, editorEmits } from './props';
 
-import './styles/index.less';
+import '~/styles/index.less';
 import '@vavt/markdown-theme/css/all.css';
 
 const Editor = defineComponent({

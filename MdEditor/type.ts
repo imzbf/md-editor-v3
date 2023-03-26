@@ -1,6 +1,8 @@
 import { marked, Renderer, Slugger } from 'marked';
 import { LooseRequired } from '@vue/shared';
 import { ExtractPropTypes, SetupContext } from 'vue';
+import { Extension } from '@codemirror/state';
+import { KeyBinding } from '@codemirror/view';
 import { editorProps } from './props';
 
 declare global {
@@ -258,6 +260,18 @@ export interface ConfigOption {
      */
     renderDelay?: number;
   };
+  /**
+   * 根据主题和内部默认的codeMirror扩展自定义新的扩展
+   *
+   * @params theme 当前主题
+   * @params innerExtensions 当前主题下的扩展列表 [keymap, basicSetup, markdown,EditorView.lineWrapping, EditorView.updateListener, oneDark]
+   * @params keyBindings md-editor-v3内置的快捷键
+   */
+  codeMirrorExtensions?: (
+    theme: Themes,
+    extensions: Array<Extension>,
+    keyBindings: Array<KeyBinding>
+  ) => Array<Extension>;
 }
 
 /**

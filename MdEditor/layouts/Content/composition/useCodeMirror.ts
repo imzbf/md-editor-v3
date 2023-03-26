@@ -7,6 +7,7 @@ import { markdown } from '@codemirror/lang-markdown';
 import { indentWithTab, undo, redo } from '@codemirror/commands';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
 import { Themes } from '~/type';
+import { configOption } from '~/config';
 import bus from '~/utils/event-bus';
 
 import { ContentProps } from '../props';
@@ -21,7 +22,6 @@ const useCodeMirror = (props: ContentProps) => {
   const editorId = inject('editorId') as string;
   const theme = inject('theme') as ComputedRef<Themes>;
   const inputWrapperRef = ref<HTMLDivElement>();
-
   const codeMirrorUt = ref<CodeMirrorUt>();
 
   const mdEditorCommands = createCommands(editorId, props);
@@ -37,6 +37,22 @@ const useCodeMirror = (props: ContentProps) => {
     })
   ];
 
+  const getExtensions = () => {
+    if (theme.value === 'light') {
+      return configOption.codeMirrorExtensions!(
+        theme.value,
+        defaultExtensions,
+        mdEditorCommands
+      );
+    }
+
+    return configOption.codeMirrorExtensions!(
+      theme.value,
+      [...defaultExtensions, oneDark],
+      mdEditorCommands
+    );
+  };
+
   onMounted(() => {
     const startState = EditorState.create({
       doc: props.value
@@ -50,7 +66,7 @@ const useCodeMirror = (props: ContentProps) => {
     codeMirrorUt.value = new CodeMirrorUt(view);
 
     codeMirrorUt.value?.setTabSize(tabWidth);
-    codeMirrorUt.value.setExtensions(defaultExtensions);
+    codeMirrorUt.value.setExtensions(getExtensions());
 
     // view.dispatch({
     //   changes: { from: 10, insert: '*' },
@@ -103,9 +119,9 @@ const useCodeMirror = (props: ContentProps) => {
     () => theme.value,
     () => {
       if (theme.value === 'dark') {
-        codeMirrorUt.value?.setExtensions([...defaultExtensions, oneDark]);
+        codeMirrorUt.value?.setExtensions(getExtensions());
       } else {
-        codeMirrorUt.value?.setExtensions(defaultExtensions);
+        codeMirrorUt.value?.setExtensions(getExtensions());
       }
     }
   );
