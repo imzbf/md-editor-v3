@@ -4,7 +4,7 @@ import { EditorState } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { languages } from '@codemirror/language-data';
 import { markdown } from '@codemirror/lang-markdown';
-import { indentWithTab, undo, redo, deleteLine } from '@codemirror/commands';
+import { indentWithTab, undo, redo } from '@codemirror/commands';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
 import { Themes } from '~/type';
 import bus from '~/utils/event-bus';
@@ -14,6 +14,7 @@ import { oneDark } from '../codemirror/themeOneDark';
 import CodeMirrorUt from '../codemirror';
 import usePasteUpload from './usePasteUpload';
 import useAttach from './useAttach';
+import createCommands from '../codemirror/commands';
 
 const useCodeMirror = (props: ContentProps) => {
   const tabWidth = inject('tabWidth') as number;
@@ -23,22 +24,14 @@ const useCodeMirror = (props: ContentProps) => {
 
   const codeMirrorUt = ref<CodeMirrorUt>();
 
+  const mdEditorCommands = createCommands(editorId, props);
+
   const defaultExtensions = [
-    keymap.of([
-      indentWithTab,
-      {
-        key: 'Ctrl-d',
-        mac: 'Cmd-d',
-        run: deleteLine,
-        preventDefault: true
-      }
-    ]),
+    keymap.of([...mdEditorCommands, indentWithTab]),
     basicSetup,
     markdown({ codeLanguages: languages }),
     // 横向换行
     EditorView.lineWrapping,
-    // 主题
-    // oneDark,
     EditorView.updateListener.of((update) => {
       props.onChange(update.state.doc.toString());
     })

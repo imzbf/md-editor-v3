@@ -1,7 +1,7 @@
 import { defineComponent, onBeforeUnmount, reactive } from 'vue';
 import { prefix } from './config';
 import {
-  useKeyBoard,
+  useOnSave,
   useProvide,
   useExpansion,
   useConfig,
@@ -36,7 +36,7 @@ const Editor = defineComponent({
     });
 
     // 快捷键监听
-    // useKeyBoard(props, context);
+    useOnSave(props, context);
     // provide 部分prop
     useProvide(props);
     // 插入扩展的外链
@@ -85,6 +85,7 @@ const Editor = defineComponent({
             setting={setting}
             markedHeadingId={props.markedHeadingId}
             noMermaid={noMermaid}
+            noPrettier={noPrettier}
             sanitize={props.sanitize}
             placeholder={props.placeholder}
             noKatex={noKatex}

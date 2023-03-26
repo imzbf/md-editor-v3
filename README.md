@@ -600,7 +600,7 @@ _Pay attention: shortcut keys are only available when the textarea is focused!_
 | CTRL + 1-6 | h1-h6 | `# title` |
 | CTRL + ↑ | superscript | `<sup>superscript</sup>` |
 | CTRL + ↓ | subscript | `<sub>subscript</sub>` |
-| CTRL + Q | quote | `> quote` |
+| CTRL + Q | quote | `> quote`, deprecated in `^3.0.0` |
 | CTRL + O | ordered list | `1. ordered list` |
 | CTRL + L | link | `[link](https://github.com/imzbf/md-editor-v3)` |
 | CTRL + Z | withdraw | Withdraw history in editor, not the function of system |

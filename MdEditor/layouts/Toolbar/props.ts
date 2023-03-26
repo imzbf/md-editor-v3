@@ -2,7 +2,7 @@ import { PropType, VNode, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { ToolbarNames, SettingType, UpdateSetting } from '../../type';
 
-export const toolbarProps = () => ({
+export const toolbarProps = {
   noPrettier: {
     type: Boolean as PropType<boolean>
   },
@@ -42,8 +42,8 @@ export const toolbarProps = () => ({
   noUploadImg: {
     type: Boolean as PropType<boolean>
   }
-});
+};
 
 export type ToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof toolbarProps>>>>
+  LooseRequired<Readonly<ExtractPropTypes<typeof toolbarProps>>>
 >;

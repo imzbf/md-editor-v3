@@ -14,7 +14,7 @@ import { contentProps, ContentProps } from './props';
 
 export default defineComponent({
   name: 'MDEditorContent',
-  props: contentProps(),
+  props: contentProps,
   setup(props: ContentProps) {
     // // 输入状态，在输入中文等时，暂停保存
     // const completeStatus = ref(true);

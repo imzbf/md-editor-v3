@@ -22,7 +22,7 @@ import { CHANGE_CATALOG_VISIBLE, ON_SAVE } from '../../static/event-name';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
-  props: toolbarProps(),
+  props: toolbarProps,
   setup(props: ToolbarProps) {
     // 获取Id
     const editorId = inject('editorId') as string;
@@ -53,7 +53,7 @@ export default defineComponent({
 
     // 链接
     const modalData = reactive<{
-      type: 'link' | 'image' | 'help';
+      type: 'link' | 'image';
       linkVisible: boolean;
       clipVisible: boolean;
     }>({

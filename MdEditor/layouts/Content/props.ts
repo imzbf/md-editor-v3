@@ -2,7 +2,7 @@ import { ExtractPropTypes, PropType } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { HeadList, SettingType, MarkedHeadingId } from '../../type';
 
-export const contentProps = () => ({
+export const contentProps = {
   value: {
     type: String as PropType<string>,
     default: ''
@@ -81,9 +81,12 @@ export const contentProps = () => ({
   onFocus: {
     type: Function as PropType<(event: FocusEvent) => void>,
     default: () => {}
+  },
+  noPrettier: {
+    type: Boolean as PropType<boolean>
   }
-});
+};
 
 export type ContentProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof contentProps>>>>
+  LooseRequired<Readonly<ExtractPropTypes<typeof contentProps>>>
 >;
