@@ -1,7 +1,7 @@
 import { defineComponent, ref, watch } from 'vue';
 import Header from './Header';
 import Preview from './Preview';
-// import PreviewOnly from './PreviewOnly';
+import PreviewOnly from './PreviewOnly';
 
 // import VueTemplate from './VueTemplate.vue';
 

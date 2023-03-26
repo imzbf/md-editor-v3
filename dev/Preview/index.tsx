@@ -182,8 +182,30 @@ export default defineComponent({
             previewTheme={props.previewTheme}
             theme={props.theme}
             modelValue={md.text}
+            // pageFullscreen
+            // preview={false}
+            // htmlPreview
             language={props.lang}
+            // toolbarsExclude={['github']}
+            // noPrettier
+            // tabWidth={4}
+            // showCodeRowNumber
             // katex={katex}
+            // tableShape={[10, 10]}
+            // noMermaid
+            // placeholder="placeholder"
+            // noKatex
+            // markedHeadingId={(t, l, index) => `heading-${index}`}
+            // sanitize={(h) => `<a href="#">aaa</a>${h}`}
+            // scrollAuto={false}
+            // noIconfont
+            // codeStyleReverse={false}
+            // codeStyleReverseList={['mk-cute']}
+            // autoFocus
+            // disabled
+            // readOnly
+            // maxLength={10}
+            autoDetectCode
             onSave={(v, h) => {
               console.log('onSave');
               h.then((html) => {
@@ -225,6 +247,8 @@ export default defineComponent({
             onError={(error) => {
               console.log(error);
             }}
+            // onBlur={console.log}
+            // onFocus={console.log}
             toolbars={[
               'bold',
               'underline',

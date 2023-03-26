@@ -26,6 +26,9 @@ const useCodeMirror = (props: ContentProps) => {
 
   const mdEditorCommands = createCommands(editorId, props);
 
+  // 粘贴上传
+  const pasteHandler = usePasteUpload(props);
+
   const defaultExtensions = [
     keymap.of([...mdEditorCommands, indentWithTab]),
     basicSetup,
@@ -34,6 +37,11 @@ const useCodeMirror = (props: ContentProps) => {
     EditorView.lineWrapping,
     EditorView.updateListener.of((update) => {
       props.onChange(update.state.doc.toString());
+    }),
+    EditorView.domEventHandlers({
+      paste: pasteHandler,
+      blur: props.onBlur,
+      focus: props.onFocus
     })
   ];
 
@@ -68,6 +76,8 @@ const useCodeMirror = (props: ContentProps) => {
     codeMirrorUt.value.setTabSize(tabWidth);
     codeMirrorUt.value.setExtensions(getExtensions());
     codeMirrorUt.value.setPlaceholder(props.placeholder);
+    codeMirrorUt.value.setDisabled(props.disabled!);
+    codeMirrorUt.value.setReadOnly(props.readonly!);
 
     // view.dispatch({
     //   changes: { from: 10, insert: '*' },
@@ -88,7 +98,13 @@ const useCodeMirror = (props: ContentProps) => {
     // console.log(view.state.selection.main);
     // console.log(view.state.sliceDoc());
 
-    view.focus();
+    if (props.autofocus) {
+      view.focus();
+    }
+
+    if (props.maxlength) {
+      codeMirrorUt.value.setMaxLength(props.maxlength);
+    }
     // console.log()
     // view.dispatch(view.state.replaceSelection('`vscode`'));
 
@@ -144,8 +160,29 @@ const useCodeMirror = (props: ContentProps) => {
     }
   );
 
-  // 粘贴上传
-  usePasteUpload(props, inputWrapperRef);
+  watch(
+    () => props.disabled,
+    () => {
+      codeMirrorUt.value?.setDisabled(props.disabled!);
+    }
+  );
+
+  watch(
+    () => props.readonly,
+    () => {
+      codeMirrorUt.value?.setDisabled(props.readonly!);
+    }
+  );
+
+  watch(
+    () => props.maxlength,
+    () => {
+      if (props.maxlength) {
+        codeMirrorUt.value?.setMaxLength(props.maxlength);
+      }
+    }
+  );
+
   // 附带的设置
   useAttach(codeMirrorUt);
 

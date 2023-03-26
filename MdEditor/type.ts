@@ -264,7 +264,10 @@ export interface ConfigOption {
    * 根据主题和内部默认的codeMirror扩展自定义新的扩展
    *
    * @params theme 当前主题
-   * @params innerExtensions 当前主题下的扩展列表 [keymap, basicSetup, markdown,EditorView.lineWrapping, EditorView.updateListener, oneDark]
+   * @params innerExtensions 当前主题下的扩展列表
+   * [keymap, basicSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark?]
+   * [快捷键, 基础配置, markdown识别, 横向自动换行, 更新时间, dom事件, oneDark主题(暗夜模式下)]
+   *
    * @params keyBindings md-editor-v3内置的快捷键
    */
   codeMirrorExtensions?: (

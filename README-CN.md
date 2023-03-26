@@ -79,10 +79,10 @@ const text = ref('# Hello Editor');
 | modelValue | `string` | '' | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
 | theme | `light \| dark` | 'light' | 主题切换 |
 | class | `string` | '' | 编辑器类名 |
-| historyLength | `number` | 10 | 最大记录操作数（太大会占用内存） |
+| historyLength<sup>`deprecated^3.0.0`</sup> | `number` | 10 | 最大记录操作数（太大会占用内存）。`^3.0.0`使用`@codemirror/commands`的`history`扩展替代。 |
 | pageFullscreen | `boolean` | false | 页面内全屏 |
 | preview | `boolean` | true | 是否预览 |
-| htmlPreview | `boolean` | false | 是否 html 预览 |
+| htmlPreview | `boolean` | false | 是否 html 预览(如果是 true，preview 需要设置为 false) |
 | previewOnly | `boolean` | false | 仅预览模式，不显示 bar 和编辑框，_不支持响应式，仅能初始设置一次_ |
 | language | `string` | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
 | toolbars | `Array<ToolbarNames \| number>` | [toolbars] | 选择性展示工具栏，可选内容<sup>见下方`toolbars`</sup> |
@@ -614,7 +614,7 @@ _请注意，快捷键仅在输入框获取到焦点时可用！_
 | CTRL + 1-6 | 1-6 级标题 | `# 标题` |
 | CTRL + ↑ | 上角标 | `<sup>上角标</sup>` |
 | CTRL + ↓ | 下角标 | `<sub>下角标</sub>` |
-| CTRL + Q | 引用 | 原`> 引用`，`^3.0.0`已废弃 |
+| CTRL + Q<sup>`已废弃^3.0.0`</sup> | 引用 | `> 引用` |
 | CTRL + O | 有序列表 | `1. 有序列表` |
 | CTRL + L | 链接 | `[链接](https://imzbf.cc)` |
 | CTRL + Z | 撤回 | 触发编辑器内内容撤回，与系统无关 |

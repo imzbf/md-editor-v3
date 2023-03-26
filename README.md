@@ -80,10 +80,10 @@ mark and emoji extensions
 | modelValue | `string` | '' | Markdown content, use `v-model` in vue template |
 | theme | `'light' \| 'dark'` | 'light' | Editor theme |
 | class | `string` | '' |  |
-| historyLength | `number` | 10 | The max length of history(if it is too big, editor will use more `RAM`) |
+| historyLength<sup>`deprecated^3.0.0`</sup> | `number` | 10 | The max length of history. `^3.0.0` uses the `history` extension of `@codemirror/commands` instead. |
 | pageFullscreen | `boolean` | false | Screenfull in web page |
 | preview | `boolean` | true | Preview content in editor |
-| htmlPreview | `boolean` | false | Preview html in editor |
+| htmlPreview | `boolean` | false | Preview html in editor(If true, preview must be false) |
 | previewOnly | `boolean` | false | Only render preview of content, no toolbar, no editing area |
 | language | `string` | 'zh-CN' | Build-in language('zh-CN','en-US') |
 | toolbars | `Array<ToolbarNames \| number>` | [toolbars] | Show contents of toolbar, all keys<sup>see `toolbars` below</sup> |
@@ -600,7 +600,7 @@ _Pay attention: shortcut keys are only available when the textarea is focused!_
 | CTRL + 1-6 | h1-h6 | `# title` |
 | CTRL + ↑ | superscript | `<sup>superscript</sup>` |
 | CTRL + ↓ | subscript | `<sub>subscript</sub>` |
-| CTRL + Q | quote | `> quote`, deprecated in `^3.0.0` |
+| CTRL + Q<sup>`^3.0.0`deprecated</sup> | quote | `> quote` |
 | CTRL + O | ordered list | `1. ordered list` |
 | CTRL + L | link | `[link](https://github.com/imzbf/md-editor-v3)` |
 | CTRL + Z | withdraw | Withdraw history in editor, not the function of system |

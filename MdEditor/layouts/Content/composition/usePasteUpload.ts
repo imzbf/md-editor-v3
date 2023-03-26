@@ -1,13 +1,12 @@
-import { inject, Ref, onMounted, onBeforeUnmount } from 'vue';
+import { inject } from 'vue';
 import bus from '~/utils/event-bus';
 import { ContentProps } from '../props';
 
 /**
  * 处理粘贴板
  */
-const usePasteUpload = (props: ContentProps, inputWrapperRef: Ref) => {
+const usePasteUpload = (props: ContentProps) => {
   const editorId = inject('editorId') as string;
-  const previewOnly = inject('previewOnly') as boolean;
 
   // 粘贴板上传
   const pasteHandler = (e: ClipboardEvent) => {
@@ -43,17 +42,7 @@ const usePasteUpload = (props: ContentProps, inputWrapperRef: Ref) => {
     }
   };
 
-  onMounted(() => {
-    if (!previewOnly) {
-      inputWrapperRef.value.addEventListener('paste', pasteHandler);
-    }
-  });
-
-  onBeforeUnmount(() => {
-    if (!previewOnly) {
-      inputWrapperRef.value.removeEventListener('paste', pasteHandler);
-    }
-  });
+  return pasteHandler;
 };
 
 export default usePasteUpload;
