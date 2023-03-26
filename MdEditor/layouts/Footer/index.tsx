@@ -1,11 +1,11 @@
 import { defineComponent, PropType, computed, VNode, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { allFooter, prefix } from '../../config';
-import { Footers } from '../../type';
+import { allFooter, prefix } from '~/config';
+import { Footers } from '~/type';
 import MarkdownTotal from './MarkdownTotal';
 import ScrollAuto from './ScrollAuto';
 
-const footerProps = () => ({
+const props = {
   modelValue: {
     type: String as PropType<string>,
     default: ''
@@ -24,15 +24,13 @@ const footerProps = () => ({
   defFooters: {
     type: Object as PropType<VNode>
   }
-});
+};
 
-type FooterProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof footerProps>>>>
->;
+type FooterProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
   name: 'MDEditorFooter',
-  props: footerProps(),
+  props,
   setup(props: FooterProps) {
     const splitedItems = computed(() => {
       const moduleSplitIndex = props.footers.indexOf('=');

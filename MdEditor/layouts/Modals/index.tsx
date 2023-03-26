@@ -3,7 +3,7 @@ import { LooseRequired } from '@vue/shared';
 import LinkModal from './Link';
 import ClipModal from './Clip';
 
-const modalsProps = () => ({
+const props = {
   type: {
     type: String as PropType<'link' | 'image' | 'help'>,
     default: 'link'
@@ -24,16 +24,14 @@ const modalsProps = () => ({
     type: Function as PropType<(data?: any) => void>,
     default: () => {}
   }
-});
+};
 
-type modalsProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof modalsProps>>>>
->;
+type ModalsProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 // 链接弹窗\图片弹窗\帮助弹窗
 export default defineComponent({
-  props: modalsProps(),
-  setup(props: modalsProps) {
+  props,
+  setup(props: ModalsProps) {
     return () => (
       <>
         <LinkModal

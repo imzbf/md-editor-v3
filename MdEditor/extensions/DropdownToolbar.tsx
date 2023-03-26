@@ -1,10 +1,10 @@
 import { defineComponent, PropType, inject, SetupContext, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { prefix } from '../config';
-import { getSlot } from '../utils/vue-tsx';
-import Dropdown from '../components/Dropdown';
+import { prefix } from '~/config';
+import { getSlot } from '~/utils/vue-tsx';
+import Dropdown from '~/components/Dropdown';
 
-const dropdownToolbarProps = () => ({
+const props = {
   title: {
     type: String as PropType<string>,
     default: ''
@@ -23,15 +23,15 @@ const dropdownToolbarProps = () => ({
   overlay: {
     type: [String, Object] as PropType<string | JSX.Element>
   }
-});
+};
 
 type DropdownToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof dropdownToolbarProps>>>>
+  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
 >;
 
 export default defineComponent({
   name: 'DropdownToolbar',
-  props: dropdownToolbarProps(),
+  props,
   emits: ['onChange'],
   setup(props: DropdownToolbarProps, ctx: SetupContext<Array<'onChange'>>) {
     const editorId = inject('editorId');

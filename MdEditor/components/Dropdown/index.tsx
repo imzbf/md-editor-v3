@@ -13,7 +13,8 @@ import {
   ExtractPropTypes
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { getSlot } from '../../utils/vue-tsx';
+import { getSlot } from '~/utils/vue-tsx';
+import { prefix } from '~/config';
 
 import './style.less';
 
@@ -24,9 +25,7 @@ interface CtlTypes {
   overlayHover: boolean;
 }
 
-import { prefix } from '../../config';
-
-const dropdownToolbarProps = () => ({
+const props = {
   trigger: {
     type: String as PropType<'hover' | 'click'>,
     default: 'hover'
@@ -48,14 +47,14 @@ const dropdownToolbarProps = () => ({
     type: String as PropType<string>,
     default: 'html'
   }
-});
+};
 
 type DropdownToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof dropdownToolbarProps>>>>
+  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
 >;
 
 export default defineComponent({
-  props: dropdownToolbarProps(),
+  props,
   setup(props: DropdownToolbarProps, ctx: SetupContext<EmitsOptions>) {
     const HIDDEN_CLASS = `${prefix}-dropdown-hidden`;
 

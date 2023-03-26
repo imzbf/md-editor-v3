@@ -1,13 +1,13 @@
 import { defineComponent, PropType, reactive, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { prefix } from '../../config';
+import { prefix } from '~/config';
 
 interface HoverData {
   x: number;
   y: number;
 }
 
-const tableShapeProps = () => ({
+const props = {
   tableShape: {
     type: Array as PropType<Array<number>>,
     default: () => [6, 4]
@@ -16,15 +16,13 @@ const tableShapeProps = () => ({
     type: Function as PropType<(data: HoverData) => void>,
     default: () => {}
   }
-});
+};
 
-type TableShapeProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof tableShapeProps>>>>
->;
+type TableShapeProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 const TableShape = defineComponent({
   name: 'TableShape',
-  props: tableShapeProps(),
+  props,
   setup(props: TableShapeProps) {
     const hoverPosition = reactive<HoverData>({
       x: -1,

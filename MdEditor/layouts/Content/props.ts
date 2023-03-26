@@ -1,6 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { HeadList, SettingType, MarkedHeadingId } from '../../type';
+import { HeadList, SettingType, MarkedHeadingId } from '~/type';
 
 export const contentProps = {
   value: {

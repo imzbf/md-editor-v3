@@ -343,12 +343,4 @@ export const directive2flag = (
       replaceAll
     }
   };
-
-  // return insert(inputArea, targetValue, {
-  //   deviationStart,
-  //   deviationEnd,
-  //   select,
-  //   prefixVal,
-  //   subfixVal
-  // });
 };

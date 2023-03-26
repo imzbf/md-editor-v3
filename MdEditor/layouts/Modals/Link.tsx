@@ -9,12 +9,11 @@ import {
   ExtractPropTypes
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import Modal from '../../components/Modal';
+import Modal from '~/components/Modal';
+import { StaticTextDefaultValue } from '~/type';
+import { prefix } from '~/config';
 
-import { StaticTextDefaultValue } from '../../type';
-import { prefix } from '../../config';
-
-const linkProps = () => ({
+const props = {
   type: {
     type: String as PropType<'link' | 'image' | 'help'>,
     default: 'link'
@@ -31,14 +30,12 @@ const linkProps = () => ({
     type: Function as PropType<(data?: any) => void>,
     default: () => {}
   }
-});
+};
 
-type LinkProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof linkProps>>>>
->;
+type LinkProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
-  props: linkProps(),
+  props,
   setup(props: LinkProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;

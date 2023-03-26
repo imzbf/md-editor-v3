@@ -1,10 +1,10 @@
 import { defineComponent, PropType, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { TocItem } from './index';
-import { MarkedHeadingId } from '../../type';
-import { prefix } from '../../config';
+import { MarkedHeadingId } from '~/type';
+import { prefix } from '~/config';
+import { TocItem } from '.';
 
-const catalogLinkProps = () => ({
+const props = {
   tocItem: {
     type: Object as PropType<TocItem>,
     default: () => ({})
@@ -25,14 +25,14 @@ const catalogLinkProps = () => ({
     type: Number as PropType<number>,
     default: 0
   }
-});
+};
 
 export type CatalogLinkProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof catalogLinkProps>>>>
+  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
 >;
 
 const CatalogLink = defineComponent({
-  props: catalogLinkProps(),
+  props,
   setup(props: CatalogLinkProps) {
     return () => {
       const { tocItem, markedHeadingId, scrollElement, onClick, scrollElementOffsetTop } =

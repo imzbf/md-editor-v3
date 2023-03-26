@@ -1,10 +1,10 @@
 import { defineComponent, PropType, SetupContext, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { prefix } from '../config';
-import { getSlot } from '../utils/vue-tsx';
-import Modal from '../components/Modal';
+import { prefix } from '~/config';
+import { getSlot } from '~/utils/vue-tsx';
+import Modal from '~/components/Modal';
 
-const modalToolbarProps = () => ({
+const props = {
   title: {
     type: String as PropType<string>,
     default: ''
@@ -48,15 +48,15 @@ const modalToolbarProps = () => ({
   onAdjust: {
     type: Function as PropType<(val: boolean) => void>
   }
-});
+};
 
 type ModalToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof modalToolbarProps>>>>
+  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
 >;
 
 export default defineComponent({
   name: 'ModalToolbar',
-  props: modalToolbarProps(),
+  props,
   emits: ['onClick', 'onClose', 'onAdjust'],
   setup(
     props: ModalToolbarProps,

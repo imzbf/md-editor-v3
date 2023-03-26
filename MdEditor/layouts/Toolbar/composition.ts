@@ -1,9 +1,9 @@
 import { onMounted, inject, ref } from 'vue';
-import { configOption, prefix, screenfullUrl } from '../../config';
-import { appendHandler } from '../../utils/dom';
-import bus from '../../utils/event-bus';
+import { configOption, prefix, screenfullUrl } from '~/config';
+import { appendHandler } from '~/utils/dom';
+import bus from '~/utils/event-bus';
+import { CHANGE_FULL_SCREEN } from '~/static/event-name';
 import { ToolbarProps } from './props';
-import { CHANGE_FULL_SCREEN } from '../../static/event-name';
 
 export const useSreenfull = (props: ToolbarProps) => {
   const editorId = inject('editorId') as string;

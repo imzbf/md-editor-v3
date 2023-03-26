@@ -1,9 +1,9 @@
 import { defineComponent, PropType, SetupContext, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { prefix } from '../config';
-import { getSlot } from '../utils/vue-tsx';
+import { prefix } from '~/config';
+import { getSlot } from '~/utils/vue-tsx';
 
-const normalToolbarProps = () => ({
+const props = {
   title: {
     type: String as PropType<string>,
     default: ''
@@ -15,15 +15,15 @@ const normalToolbarProps = () => ({
   onClick: {
     type: Function as PropType<(e: MouseEvent) => void>
   }
-});
+};
 
 type NormalToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof normalToolbarProps>>>>
+  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
 >;
 
 export default defineComponent({
   name: 'NormalToolbar',
-  props: normalToolbarProps(),
+  props,
   emits: ['onClick'],
   setup(props: NormalToolbarProps, ctx: SetupContext<Array<'onClick'>>) {
     return () => {

@@ -8,13 +8,14 @@ import {
   nextTick
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import bus from '../../utils/event-bus';
-import { HeadList, MarkedHeadingId, Themes } from '../../type';
-import { prefix } from '../../config';
+import { HeadList, MarkedHeadingId, Themes } from '~/type';
+import { prefix } from '~/config';
+import { throttle, getRelativeTop } from '~/utils';
+import { PREVIEW_CHANGED } from '~/static/event-name';
+import bus from '~/utils/event-bus';
 import CatalogLink from './CatalogLink';
-import { throttle, getRelativeTop } from '../../utils';
+
 import './style.less';
-import { PREVIEW_CHANGED } from '../../static/event-name';
 
 export interface TocItem {
   text: string;
@@ -24,7 +25,7 @@ export interface TocItem {
   children?: Array<TocItem>;
 }
 
-const mdCatalogProps = () => ({
+const props = {
   /**
    * 编辑器的Id，务必与需要绑定的编辑器Id相同
    */
@@ -73,15 +74,13 @@ const mdCatalogProps = () => ({
   onClick: {
     type: Function as PropType<(e: MouseEvent, t: TocItem) => void>
   }
-});
+};
 
-type MdCatalogProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof mdCatalogProps>>>>
->;
+type MdCatalogProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 const MdCatalog = defineComponent({
   name: 'MdCatalog',
-  props: mdCatalogProps(),
+  props,
   emits: ['onClick'],
   setup(props: MdCatalogProps, ctx) {
     // 获取Id

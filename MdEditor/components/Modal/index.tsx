@@ -11,12 +11,13 @@ import {
   ExtractPropTypes
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { prefix } from '../../config';
-import { getSlot } from '../../utils/vue-tsx';
-import { keyMove } from '../../utils/dom';
+import { prefix } from '~/config';
+import { getSlot } from '~/utils/vue-tsx';
+import { keyMove } from '~/utils/dom';
+
 import './style.less';
 
-const modalProps = () => ({
+const props = {
   title: {
     type: String as PropType<string>,
     default: ''
@@ -52,14 +53,12 @@ const modalProps = () => ({
   class: {
     type: String as PropType<string>
   }
-});
+};
 
-type ModalProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof modalProps>>>>
->;
+type ModalProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
-  props: modalProps(),
+  props,
   setup(props: ModalProps, ctx) {
     const modalVisible = ref(props.visible);
 

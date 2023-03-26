@@ -7,22 +7,22 @@ import {
   reactive,
   ref
 } from 'vue';
-import Divider from '../../components/Divider';
-import Dropdown from '../../components/Dropdown';
-import { StaticTextDefaultValue, ToolbarNames } from '../../type';
-import bus from '../../utils/event-bus';
-import { goto } from '../../utils';
-import Modals from '../Modals';
-import { ToolDirective } from '../../utils/content-help';
+import Divider from '~/components/Divider';
+import Dropdown from '~/components/Dropdown';
+import bus from '~/utils/event-bus';
+import { StaticTextDefaultValue, ToolbarNames } from '~/type';
+import { goto } from '~/utils';
+import { ToolDirective } from '~/utils/content-help';
+import { allToolbar, prefix } from '~/config';
+import { toolbarProps as props, ToolbarProps } from './props';
+import { CHANGE_CATALOG_VISIBLE, ON_SAVE } from '~/static/event-name';
 import { useSreenfull } from './composition';
 import TableShape from './TableShape';
-import { allToolbar, prefix } from '../../config';
-import { toolbarProps, ToolbarProps } from './props';
-import { CHANGE_CATALOG_VISIBLE, ON_SAVE } from '../../static/event-name';
+import Modals from '../Modals';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
-  props: toolbarProps,
+  props,
   setup(props: ToolbarProps) {
     // 获取Id
     const editorId = inject('editorId') as string;

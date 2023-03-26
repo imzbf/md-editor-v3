@@ -53,6 +53,12 @@ export const keyMove = (
   };
 };
 
+/**
+ * 向页面插入外链标签
+ *
+ * @param ele
+ * @param checkKey 全局名称
+ */
 export const appendHandler = (ele: HTMLElement, checkKey = '') => {
   const insertedEle = document.getElementById(ele.id);
 

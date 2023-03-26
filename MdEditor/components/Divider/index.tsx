@@ -1,8 +1,7 @@
 import { defineComponent } from 'vue';
+import { prefix } from '~/config';
 
 import './index.less';
-
-import { prefix } from '../../config';
 
 export default defineComponent({
   setup() {

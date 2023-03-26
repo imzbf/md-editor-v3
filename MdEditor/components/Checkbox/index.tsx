@@ -1,9 +1,10 @@
 import { defineComponent, PropType, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { prefix } from '../../config';
+import { prefix } from '~/config';
+
 import './style.less';
 
-const checkboxProps = () => ({
+const props = {
   checked: {
     type: Boolean as PropType<boolean>,
     default: false
@@ -12,14 +13,12 @@ const checkboxProps = () => ({
     type: Function as PropType<(checked: boolean) => void>,
     default: () => {}
   }
-});
+};
 
-type CheckboxProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof checkboxProps>>>>
->;
+type CheckboxProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
-  props: checkboxProps(),
+  props,
   setup(props: CheckboxProps) {
     return () => {
       return (

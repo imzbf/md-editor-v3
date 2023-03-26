@@ -10,15 +10,15 @@ import {
   ExtractPropTypes
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import Modal from '../../components/Modal';
-import { StaticTextDefaultValue } from '../../type';
-import { configOption, prefix } from '../../config';
-import { base642File } from '../../utils';
-import bus from '../../utils/event-bus';
+import { StaticTextDefaultValue } from '~/type';
+import { configOption, prefix } from '~/config';
+import { base642File } from '~/utils';
+import Modal from '~/components/Modal';
+import bus from '~/utils/event-bus';
 
 import './style.less';
 
-const clipProps = () => ({
+const props = {
   visible: {
     type: Boolean as PropType<boolean>,
     default: false
@@ -31,14 +31,12 @@ const clipProps = () => ({
     type: Function as PropType<(data?: any) => void>,
     default: () => {}
   }
-});
+};
 
-type ClipProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<ReturnType<typeof clipProps>>>>
->;
+type ClipProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
-  props: clipProps(),
+  props,
   setup(props: ClipProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;

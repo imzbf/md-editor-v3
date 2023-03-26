@@ -92,6 +92,11 @@ export const useOnSave = (props: EditorProps, context: EditorContext) => {
   });
 };
 
+/**
+ * 向下提供部分公共参数
+ *
+ * @param props
+ */
 export const useProvide = (props: EditorProps) => {
   const { editorId, previewOnly } = props;
   const highlightConfig = configOption?.editorExtensions?.highlight;
@@ -162,6 +167,11 @@ export const useProvide = (props: EditorProps) => {
   );
 };
 
+/**
+ * 插入编辑器支持的扩展外链
+ *
+ * @param props
+ */
 export const useExpansion = (props: EditorProps) => {
   // 这部分内容只配置，不需要响应式更新
   const { noPrettier, previewOnly, noIconfont, noUploadImg } = props;
@@ -229,6 +239,12 @@ export const useExpansion = (props: EditorProps) => {
   });
 };
 
+/**
+ * 错误收集
+ *
+ * @param props
+ * @param context
+ */
 export const useErrorCatcher = (props: EditorProps, context: EditorContext) => {
   const { editorId } = props;
 
@@ -246,6 +262,13 @@ export const useErrorCatcher = (props: EditorProps, context: EditorContext) => {
   });
 };
 
+/**
+ * 收集整理公共配置
+ *
+ * @param props
+ * @param context
+ * @returns
+ */
 export const useConfig = (
   props: EditorProps,
   context: EditorContext
@@ -314,6 +337,12 @@ export const useConfig = (
   return [setting, updateSetting];
 };
 
+/**
+ * 目录状态整理
+ *
+ * @param props
+ * @returns
+ */
 export const useCatalog = (props: EditorProps) => {
   const { editorId } = props;
   const catalogVisible = ref(false);

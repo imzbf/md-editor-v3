@@ -1,8 +1,7 @@
 import { watch, inject, ref, onMounted } from 'vue';
 
-import bus from '~/utils/event-bus';
-import { getSelectionText } from '~/utils';
-import { ToolDirective, directive2flag } from '~/utils/content-help';
+// import bus from '~/utils/event-bus';
+// import { ToolDirective, directive2flag } from '~/utils/content-help';
 
 import { ContentProps } from '../props';
 
@@ -13,9 +12,9 @@ import { ContentProps } from '../props';
  * @param textAreaRef 输入框
  */
 const useAutoGenrator = (props: ContentProps) => {
-  const previewOnly = inject('previewOnly') as boolean;
-  const tabWidth = inject('tabWidth') as number;
-  const editorId = inject('editorId') as string;
+  // const previewOnly = inject('previewOnly') as boolean;
+  // const tabWidth = inject('tabWidth') as number;
+  // const editorId = inject('editorId') as string;
   const selectedText = ref('');
 
   onMounted(() => {

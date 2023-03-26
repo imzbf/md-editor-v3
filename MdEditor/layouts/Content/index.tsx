@@ -1,5 +1,6 @@
 import { defineComponent, inject, ref, ComputedRef } from 'vue';
-import { PreviewThemes } from '../../type';
+import { PreviewThemes } from '~/type';
+import { prefix } from '~/config';
 import {
   useAutoScroll,
   useCodeMirror,
@@ -7,17 +8,12 @@ import {
   // useAutoGenrator,
   userZoom
 } from './composition/index';
-import { prefix } from '../../config';
-// import bus from '../../utils/event-bus';
-// import { omit } from '../../utils';
-import { contentProps, ContentProps } from './props';
+import { contentProps as props, ContentProps } from './props';
 
 export default defineComponent({
   name: 'MDEditorContent',
-  props: contentProps,
+  props,
   setup(props: ContentProps) {
-    // // 输入状态，在输入中文等时，暂停保存
-    // const completeStatus = ref(true);
     // 仅预览
     const previewOnly = inject('previewOnly') as boolean;
     // 是否显示行号
@@ -27,8 +23,6 @@ export default defineComponent({
 
     const editorId = inject('editorId') as string;
 
-    // // 输入框
-    // const textAreaRef = ref<HTMLTextAreaElement>();
     // 预览框
     const previewRef = ref<HTMLDivElement>();
     // html代码预览框
@@ -45,58 +39,11 @@ export default defineComponent({
     userZoom(props, html);
 
     return () => {
-      // 原生属性
-      // const attrs = omit(props, [
-      //   'formatCopiedText',
-      //   'markedHeadingId',
-      //   'noKatex',
-      //   'noMermaid',
-      //   'onChange',
-      //   'onGetCatalog',
-      //   'onHtmlChanged',
-      //   'sanitize',
-      //   'scrollAuto',
-      //   'setting',
-      //   'autoDetectCode',
-      //   'onBlur',
-      //   'onFocus'
-      // ]);
-
       return (
         <>
           <div class={`${prefix}-content`}>
             {!previewOnly && (
-              <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}>
-                {/* <textarea
-                  {...attrs}
-                  id={`${editorId}-textarea`}
-                  class={[
-                    props.setting.preview || props.setting.htmlPreview
-                      ? ''
-                      : 'textarea-only'
-                  ]}
-                  ref={textAreaRef}
-                  onBlur={(e) => {
-                    // 失焦自动保存当前选中内容
-                    bus.emit(editorId, 'selectTextChange');
-                    props.onBlur(e);
-                  }}
-                  onFocus={props.onFocus}
-                  onKeydown={() => {
-                    bus.emit(editorId, 'saveHistoryPos', true);
-                  }}
-                  onCompositionstart={() => {
-                    completeStatus.value = false;
-                  }}
-                  onInput={(e) => {
-                    // 触发更新
-                    props.onChange((e.target as HTMLTextAreaElement).value);
-                  }}
-                  onCompositionend={() => {
-                    completeStatus.value = true;
-                  }}
-                /> */}
-              </div>
+              <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}></div>
             )}
 
             {props.setting.preview && (

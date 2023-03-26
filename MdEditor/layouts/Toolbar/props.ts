@@ -1,6 +1,6 @@
 import { PropType, VNode, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { ToolbarNames, SettingType, UpdateSetting } from '../../type';
+import { ToolbarNames, SettingType, UpdateSetting } from '~/type';
 
 export const toolbarProps = {
   noPrettier: {

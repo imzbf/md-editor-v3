@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * @from https://github.com/xiefucai/marked-admonition-extension.
  */
@@ -57,7 +55,7 @@ const Alert: marked.TokenizerExtension & marked.RendererExtension = {
 
       if (sections.length) {
         const section = sections[0];
-        const [_, icon, title] = startReg.exec(lines[section.x]) || [];
+        const [, icon, title] = startReg.exec(lines[section.x]) || [];
         const text = lines.slice(section.x + 1, section.y).join('\n');
         const raw = lines.slice(section.x, section.y + 1).join('\n');
         const token = {

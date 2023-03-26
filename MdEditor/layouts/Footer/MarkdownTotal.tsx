@@ -1,6 +1,6 @@
 import { defineComponent, inject, ComputedRef, PropType } from 'vue';
-import { prefix } from '../../config';
-import { StaticTextDefaultValue } from '../../type';
+import { prefix } from '~/config';
+import { StaticTextDefaultValue } from '~/type';
 
 export default defineComponent({
   props: {

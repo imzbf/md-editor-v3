@@ -234,23 +234,6 @@ export const splitKatexValue = (str: string, key = '$'): Array<string> => {
 };
 
 /**
- * 兼容firefox获取选中文本
- *
- * @param textarea 输入框element
- * @returns selectedText
- */
-export const getSelectionText = (textarea: HTMLTextAreaElement): string => {
-  const userAgent = navigator.userAgent;
-
-  if (userAgent.indexOf('Firefox') > -1) {
-    // firefox没法通过window.getSelection()?.toString()获取选中文本
-    return textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
-  }
-
-  return window.getSelection()?.toString() || '';
-};
-
-/**
  * 获取元素相对目标元素顶部位置
  * 代码来自antd
  *
@@ -268,27 +251,6 @@ export const getRelativeTop = (element: HTMLElement, container: HTMLElement): nu
   const conRect = container?.getBoundingClientRect();
 
   return eleRect.top - conRect.top;
-};
-
-/**
- *
- * 移除对象中部分属性
- *
- * @param obj 目标对象
- * @param keys 待移除key列表
- * @returns 不包含keys的对象
- */
-export const omit = <T extends Record<any, unknown>, K extends keyof T>(
-  obj: T,
-  keys: Array<K>
-): Omit<T, K> => {
-  const omitObj = { ...obj };
-
-  keys.forEach((k) => {
-    Reflect.deleteProperty(omitObj, k);
-  });
-
-  return omitObj;
 };
 
 /**
