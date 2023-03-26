@@ -265,8 +265,8 @@ export interface ConfigOption {
    *
    * @params theme 当前主题
    * @params innerExtensions 当前主题下的扩展列表
-   * [keymap, basicSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark?]
-   * [快捷键, 基础配置, markdown识别, 横向自动换行, 更新时间, dom事件, oneDark主题(暗夜模式下)]
+   * [keymap, minimalSetup, lineNumbers, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark?]
+   * [快捷键, 最低配置, 行号, markdown识别, 横向自动换行, 更新时间, dom事件, oneDark主题(暗夜模式下)]
    *
    * @params keyBindings md-editor-v3内置的快捷键
    */
