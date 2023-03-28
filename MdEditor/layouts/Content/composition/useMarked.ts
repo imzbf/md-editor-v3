@@ -208,8 +208,8 @@ const useMarked = (props: ContentProps) => {
         }
 
         return showCodeRowNumber
-          ? generateCodeRowNumber(codeHtml)
-          : `<span class="code-block">${codeHtml}</span>`;
+          ? generateCodeRowNumber(codeHtml.trim())
+          : `<span class="code-block">${codeHtml.trim()}</span>`;
       }
     });
   }
@@ -318,8 +318,8 @@ const useMarked = (props: ContentProps) => {
         }
 
         return showCodeRowNumber
-          ? generateCodeRowNumber(codeHtml)
-          : `<span class="code-block">${codeHtml}</span>`;
+          ? generateCodeRowNumber(codeHtml.trim())
+          : `<span class="code-block">${codeHtml.trim()}</span>`;
       }
     });
 

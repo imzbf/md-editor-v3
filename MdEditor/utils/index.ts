@@ -130,7 +130,7 @@ export const base642File = (base64: string, fileName = 'image.png') => {
  * @returns string
  */
 export const generateCodeRowNumber = (code: string) => {
-  if (!code.trim()) {
+  if (!code) {
     return code;
   }
 
