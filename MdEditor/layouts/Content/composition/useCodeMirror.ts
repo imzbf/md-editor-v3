@@ -1,7 +1,10 @@
 import { ref, onMounted, inject, ComputedRef, watch } from 'vue';
 import { EditorView, minimalSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
-import { keymap, lineNumbers } from '@codemirror/view';
+import {
+  keymap
+  // lineNumbers
+} from '@codemirror/view';
 import { languages } from '@codemirror/language-data';
 import { markdown } from '@codemirror/lang-markdown';
 import { indentWithTab, undo, redo } from '@codemirror/commands';
@@ -12,6 +15,7 @@ import bus from '~/utils/event-bus';
 
 import { ContentProps } from '../props';
 import { oneDark } from '../codemirror/themeOneDark';
+import { oneLight } from '../codemirror/themeLight';
 import CodeMirrorUt from '../codemirror';
 import usePasteUpload from './usePasteUpload';
 import useAttach from './useAttach';
@@ -32,7 +36,7 @@ const useCodeMirror = (props: ContentProps) => {
   const defaultExtensions = [
     keymap.of([...mdEditorCommands, indentWithTab]),
     minimalSetup,
-    lineNumbers(),
+    // lineNumbers(),
     markdown({ codeLanguages: languages }),
     // 横向换行
     EditorView.lineWrapping,
@@ -50,7 +54,7 @@ const useCodeMirror = (props: ContentProps) => {
     if (theme.value === 'light') {
       return configOption.codeMirrorExtensions!(
         theme.value,
-        defaultExtensions,
+        [...defaultExtensions, oneLight],
         mdEditorCommands
       );
     }

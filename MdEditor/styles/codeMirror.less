@@ -9,4 +9,18 @@
 
 .cm-scroller {
   overflow-y: scroll;
+
+  // 当没有代码行号的时候，给编辑区一个10的内间距
+  .cm-content[contenteditable='true'] {
+    padding: 10px;
+  }
+
+  // 当有代码行号时，把内间距设置为默认值
+  .cm-gutters + .cm-content[contenteditable='true'] {
+    padding: 4px 0;
+  }
+}
+
+.ͼ1 .cm-scroller {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

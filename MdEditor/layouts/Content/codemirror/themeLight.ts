@@ -1,29 +1,26 @@
 /**
  * From https://github.com/codemirror/theme-one-dark
  */
-
 import { EditorView } from '@codemirror/view';
 import { Extension } from '@codemirror/state';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 
-// Using https://github.com/one-dark/vscode-one-dark-theme/ as reference for the colors
-
 const chalky = '#e5c07b',
-  coral = '#abb2bf',
+  coral = '#3f4a54',
   cyan = '#56b6c2',
-  invalid = '#ffffff',
-  ivory = '#abb2bf',
+  invalid = '#fff',
+  ivory = '#3f4a54',
   stone = '#7d8799', // Brightened compared to original to increase contrast
   malibu = '#61afef',
-  sage = '#e5c07b',
+  sage = '#65261c',
   whiskey = '#d19a66',
   violet = '#c678dd',
   darkBackground = '#21252b',
   highlightBackground = '#2c313a',
-  background = '#000',
+  background = '#fff',
   tooltipBackground = '#353a42',
-  selection = '#ceedfa33',
+  selection = '#bad5fa',
   cursor = '#528bff';
 
 /// The colors used in the theme, as CSS color strings.
@@ -47,7 +44,7 @@ export const color = {
 };
 
 /// The editor theme styles for One Dark.
-export const oneDarkTheme = EditorView.theme(
+export const oneLightTheme = EditorView.theme(
   {
     '&': {
       color: ivory,
@@ -121,7 +118,7 @@ export const oneDarkTheme = EditorView.theme(
 );
 
 /// The highlighting style for code in the One Dark theme.
-export const oneDarkHighlightStyle = HighlightStyle.define([
+export const oneLightHighlightStyle = HighlightStyle.define([
   { tag: t.keyword, color: violet },
   { tag: [t.name, t.deleted, t.character, t.propertyName, t.macroName], color: coral },
   { tag: [t.function(t.variableName), t.labelName], color: malibu },
@@ -165,7 +162,7 @@ export const oneDarkHighlightStyle = HighlightStyle.define([
 
 /// Extension to enable the One Dark theme (both the editor theme and
 /// the highlight style).
-export const oneDark: Extension = [
-  oneDarkTheme,
-  syntaxHighlighting(oneDarkHighlightStyle)
+export const oneLight: Extension = [
+  oneLightTheme,
+  syntaxHighlighting(oneLightHighlightStyle)
 ];
