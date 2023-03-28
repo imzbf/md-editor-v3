@@ -1,8 +1,8 @@
 import { ref, onMounted } from 'vue';
 import { prefix, katexUrl, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
-import kaTexExtensions from '~/utils/katex';
 import { ContentProps } from '../props';
+import kaTexExtensions from '../marked/katex';
 
 /**
  * 注册katex扩展到marked

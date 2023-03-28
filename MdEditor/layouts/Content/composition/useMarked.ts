@@ -1,16 +1,16 @@
 import { watch, inject, ref, ComputedRef, onMounted, toRef, computed } from 'vue';
 import { marked, Renderer } from 'marked';
 import LRUCache from 'lru-cache';
+import bus from '~/utils/event-bus';
 import { HeadList, RewriteHeading } from '~/type';
 import { prefix, katexUrl, configOption } from '~/config';
-import bus from '~/utils/event-bus';
 import { generateCodeRowNumber, debounce, uuid } from '~/utils';
 import { appendHandler, updateHandler } from '~/utils/dom';
-import alertExtension from '~/utils/alert';
 import { isServer } from '~/static/env';
 import { ContentProps } from '../props';
-import useMermaid from './useMermaid';
 import { useKatex } from './useKatex';
+import useMermaid from './useMermaid';
+import alertExtension from '../marked/alert';
 
 /**
  * markdown编译逻辑

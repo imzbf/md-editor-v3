@@ -1,4 +1,4 @@
-import { splitKatexValue } from '.';
+import { splitKatexValue } from '~/utils';
 
 export default {
   block(prefix: string, katex: any) {
