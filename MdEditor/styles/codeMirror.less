@@ -10,9 +10,9 @@
 .cm-scroller {
   overflow-y: scroll;
 
-  // 当没有代码行号的时候，给编辑区一个10的内间距
+  // 当没有代码行号的时候，给编辑区一个10的外间距
   .cm-content[contenteditable='true'] {
-    padding: 10px;
+    margin: 10px;
   }
 
   // 当有代码行号时，把内间距设置为默认值
