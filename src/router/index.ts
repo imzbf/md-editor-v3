@@ -13,7 +13,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/index',
+    redirect: '/en-US/index'
+  },
+  {
+    path: '/:l',
+    name: 'VLIndex',
+    redirect: '/en-US/index',
     component: Layout,
     children: [
       {

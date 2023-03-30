@@ -49,8 +49,8 @@ export default createStore({
       state.codeTheme = value;
       localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     },
-    changeLang(state: StateType) {
-      state.lang = state.lang === 'zh-CN' ? 'en-US' : 'zh-CN';
+    changeLang(state: StateType, lang) {
+      state.lang = lang ? lang : state.lang === 'zh-CN' ? 'en-US' : 'zh-CN';
       localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(state));
     }
   }

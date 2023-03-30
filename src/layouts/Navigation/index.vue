@@ -1,7 +1,7 @@
 <template>
   <ul class="nav-list">
     <li class="nav-item">
-      <RouterLink to="/">
+      <RouterLink :to="routePrefix">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-online"></use>
         </svg>
@@ -9,7 +9,7 @@
       </RouterLink>
     </li>
     <li class="nav-item">
-      <RouterLink to="/docs">
+      <RouterLink :to="`${routePrefix}/docs`">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-docs"></use>
         </svg>
@@ -17,7 +17,7 @@
       </RouterLink>
     </li>
     <li class="nav-item">
-      <RouterLink to="/demo">
+      <RouterLink :to="`${routePrefix}/demo`">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-demo"></use>
         </svg>
@@ -33,7 +33,7 @@
       </a>
     </li>
     <li className="nav-item">
-      <RouterLink to="/grammar">
+      <RouterLink :to="`${routePrefix}/grammar`">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-grammar"></use>
         </svg>
@@ -41,14 +41,14 @@
       </RouterLink>
     </li>
     <li class="nav-item">
-      <RouterLink to="/about">
+      <RouterLink :to="`${routePrefix}/about`">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-about"></use>
         </svg>
         {{ linkNames.about }}
       </RouterLink>
     </li>
-    <li class="nav-item" @click="store.commit('changeLang')">
+    <li class="nav-item" @click="changeLang">
       <svg class="icon" aria-hidden="true">
         <use :xlink:href="linkNames.langIcon"></use>
       </svg>
@@ -58,12 +58,19 @@
 </template>
 
 <script setup lang="ts">
+import { StateType } from '@/store';
 import { computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import './index.less';
 
-const store = useStore();
+const store = useStore<StateType>();
+const router = useRouter();
+const route = useRoute();
+
+const routePrefix = computed(() => {
+  return `/${store.state.lang}`;
+});
 
 const linkNames = computed(() => {
   return store.state.lang === 'zh-CN'
@@ -88,6 +95,11 @@ const linkNames = computed(() => {
         langIcon: '#icon-d-cn'
       };
 });
+
+const changeLang = () => {
+  store.commit('changeLang');
+  router.replace(route.fullPath.replace(/\/[a-zA-Z-]+/, routePrefix.value));
+};
 </script>
 
 <script lang="ts">

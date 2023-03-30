@@ -12,12 +12,14 @@
 
 <script setup lang="ts">
 import { watch, onMounted } from 'vue';
-import { RouterView } from 'vue-router';
+import { RouterView, useRoute } from 'vue-router';
 import BackTop from '@/components/BackTop/index.vue';
 import IzHeader from './Header/index.vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
+const { params } = useRoute();
+store.commit('changeLang', params.l);
 
 const changeClass = () => {
   if (store.state.theme === 'dark') {
