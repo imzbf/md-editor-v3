@@ -76,6 +76,9 @@ const useCodeMirror = (props: ContentProps) => {
       parent: inputWrapperRef.value
     });
 
+    // window.view = view;
+    // window.ddd = EditorView;
+
     codeMirrorUt.value = new CodeMirrorUt(view);
 
     codeMirrorUt.value.setTabSize(tabWidth);
@@ -192,7 +195,8 @@ const useCodeMirror = (props: ContentProps) => {
   useAttach(codeMirrorUt);
 
   return {
-    inputWrapperRef
+    inputWrapperRef,
+    codeMirrorUt
   };
 };
 

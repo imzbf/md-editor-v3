@@ -24,7 +24,7 @@ const toggleWith = (view: EditorView) => {
 };
 
 export default class CodeMirrorUt {
-  private view: EditorView;
+  view: EditorView;
 
   // 切换tabSize的执行方法。切换时，Compartment实例需要相同
   private toggleTabSize: (extension: Extension) => boolean;

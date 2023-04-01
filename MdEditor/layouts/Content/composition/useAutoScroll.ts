@@ -1,63 +1,21 @@
-import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
-import copy from 'copy-to-clipboard';
-import { prefix } from '~/config';
-import { StaticTextDefaultValue } from '~/type';
-import { scrollAuto } from '~/utils';
+import { inject, nextTick, onMounted, Ref, watch } from 'vue';
+import scrollAuto from '~/utils/scroll-auto';
 import { ContentProps } from '../props';
+import { SourceLine } from '../marked/calcSourceLine';
+import CodeMirrorUt from '../codemirror';
 
-/**
- * 自动滚动逻辑
- */
 const useAutoScroll = (
   props: ContentProps,
   html: Ref<string>,
-  inputWrapper: Ref<HTMLDivElement | undefined> | string,
   previewRef: Ref<HTMLDivElement | undefined>,
-  htmlRef: Ref<HTMLDivElement | undefined>
+  htmlRef: Ref<HTMLDivElement | undefined>,
+  relatedListRef: Ref<SourceLine[]>,
+  codeMirrorUt: Ref<CodeMirrorUt | undefined>
 ) => {
   const previewOnly = inject('previewOnly') as boolean;
-  const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-  const editorId = inject('editorId') as string;
 
   let clearScrollAuto = () => {};
   let initScrollAuto = () => {};
-
-  // 向页面代码块注入复制按钮
-  const initCopyEntry = () => {
-    document.querySelectorAll(`#${editorId}-preview pre`).forEach((pre: Element) => {
-      // 恢复进程ID
-      let clearTimer = -1;
-
-      // 如果存在复制按钮，则移除
-      pre.querySelector('.copy-button')?.remove();
-
-      const copyBtnText = ult.value.copyCode?.text || '复制代码';
-      const copyButton = document.createElement('span');
-      copyButton.setAttribute('class', 'copy-button');
-      copyButton.dataset.tips = copyBtnText;
-
-      copyButton.innerHTML = `<svg class="${prefix}-icon" aria-hidden="true"><use xlink:href="#${prefix}-icon-copy"></use></svg>`;
-
-      copyButton.addEventListener('click', () => {
-        // 多次点击移除上次的恢复进程
-        clearTimeout(clearTimer);
-
-        const codeText = (pre.querySelector('code') as HTMLElement).innerText;
-
-        const success = copy(props.formatCopiedText(codeText));
-
-        const succssTip = ult.value.copyCode?.successTips || '已复制！';
-        const failTip = ult.value.copyCode?.failTips || '已复制！';
-
-        copyButton.dataset.tips = success ? succssTip : failTip;
-
-        clearTimer = window.setTimeout(() => {
-          copyButton.dataset.tips = copyBtnText;
-        }, 1500);
-      });
-      pre.appendChild(copyButton);
-    });
-  };
 
   // 编译事件
   const htmlChanged = () => {
@@ -67,9 +25,6 @@ const useAutoScroll = (
         clearScrollAuto();
         initScrollAuto();
       }
-
-      // 重新设置复制按钮
-      initCopyEntry();
     });
   };
 
@@ -78,25 +33,21 @@ const useAutoScroll = (
     if (nVal && !previewOnly) {
       nextTick(() => {
         clearScrollAuto();
-
-        const inputWrapperElement =
-          typeof inputWrapper === 'string'
-            ? document.querySelector(inputWrapper)
-            : inputWrapper.value;
+        const cmScroller = document.querySelector<HTMLDivElement>('.cm-scroller');
 
         // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
         [initScrollAuto, clearScrollAuto] = scrollAuto(
-          inputWrapperElement as HTMLElement,
-          (previewRef.value as HTMLElement) || htmlRef.value
+          cmScroller!,
+          previewRef.value! || htmlRef.value,
+          relatedListRef,
+          codeMirrorUt.value!
         );
         initScrollAuto();
-        initCopyEntry();
       });
     }
   };
 
   watch(() => html.value, htmlChanged);
-  watch(() => ult.value, initCopyEntry);
   watch(() => props.setting.preview, settingPreviewChanged);
   watch(() => props.setting.htmlPreview, settingPreviewChanged);
   watch(
@@ -111,17 +62,14 @@ const useAutoScroll = (
   );
 
   onMounted(() => {
-    initCopyEntry();
-
-    const inputWrapperElement =
-      typeof inputWrapper === 'string'
-        ? document.querySelector(inputWrapper)
-        : inputWrapper.value;
+    const cmScroller = document.querySelector<HTMLDivElement>('.cm-scroller');
 
     if (!previewOnly && (previewRef.value || htmlRef.value)) {
       [initScrollAuto, clearScrollAuto] = scrollAuto(
-        inputWrapperElement as HTMLElement,
-        (previewRef.value as HTMLElement) || htmlRef.value
+        cmScroller!,
+        previewRef.value! || htmlRef.value,
+        relatedListRef,
+        codeMirrorUt.value!
       );
     }
 

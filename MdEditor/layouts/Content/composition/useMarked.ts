@@ -11,6 +11,7 @@ import { ContentProps } from '../props';
 import { useKatex } from './useKatex';
 import useMermaid from './useMermaid';
 import alertExtension from '../marked/alert';
+import calcSourceLine, { SourceLine } from '../marked/calcSourceLine';
 
 /**
  * markdown编译逻辑
@@ -54,6 +55,9 @@ const useMarked = (props: ContentProps) => {
     // 缓存10分钟
     ttl: 600000
   });
+
+  // 编辑区元素和展示区元素的关联数据，用于关联模块同步滚动
+  const relatedList = ref<SourceLine[]>([]);
 
   // mermaid图表
   const mermaidData = useMermaid(props);
@@ -233,7 +237,9 @@ const useMarked = (props: ContentProps) => {
 
   // 在created阶段构造一次
   // 这里的不包括异步编译内容（mermaid@10）
-  const html = ref(props.sanitize(marked(props.value || '', { renderer })));
+  const tokenList = marked.lexer(props.value);
+  const html = ref(props.sanitize(marked.parse(props.value, { renderer })));
+  relatedList.value = calcSourceLine(tokenList);
 
   /**
    * 手动替换占位符
@@ -243,7 +249,9 @@ const useMarked = (props: ContentProps) => {
      * 未处理占位符的html
      */
     // console.time(`${editorId}-asyncReplace`);
-    let unresolveHtml = props.sanitize(marked(value, { renderer }));
+    const tokenList = marked.lexer(value, { renderer });
+    let unresolveHtml = props.sanitize(marked.parse(value, { renderer }));
+    relatedList.value = calcSourceLine(tokenList);
 
     const mermaidTasksCopy = [...mermaidTasks];
     const mermaidIdsCopy = [...mermaidIds];
@@ -392,7 +400,7 @@ const useMarked = (props: ContentProps) => {
     });
   });
 
-  return html;
+  return { html, relatedList };
 };
 
 export default useMarked;
