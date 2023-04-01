@@ -15,9 +15,13 @@
     margin: 10px;
   }
 
-  // 当有代码行号时，把内间距设置为默认值
+  // 当有代码行号时，把外间距设置为默认值
   .cm-gutters + .cm-content[contenteditable='true'] {
-    padding: 4px 0;
+    margin: 0;
+  }
+
+  .cm-line {
+    line-height: 20px;
   }
 }
 

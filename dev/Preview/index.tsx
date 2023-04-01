@@ -15,7 +15,7 @@ import axios from 'axios';
 import 'katex/dist/katex.min.css';
 
 // import { Extension } from '@codemirror/state';
-// import { lineNumbers } from '@codemirror/view';
+import { lineNumbers } from '@codemirror/view';
 // import screenfull from 'screenfull';
 // import katex from 'katex';
 // import Cropper from 'cropperjs';
@@ -33,10 +33,10 @@ import './index.less';
 
 Editor.config({
   codeMirrorExtensions(theme, extensions, keyBindings) {
-    console.log(theme, extensions, keyBindings);
+    // console.log(theme, extensions, keyBindings);
 
-    return extensions;
-    // return [...extensions, lineNumbers()];
+    // return extensions;
+    return [...extensions, lineNumbers()];
   },
   // markedRenderer(renderer) {
   //   renderer.link = (href, title, text) => {

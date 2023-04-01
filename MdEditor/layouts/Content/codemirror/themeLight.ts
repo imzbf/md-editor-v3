@@ -7,13 +7,13 @@ import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 
 const chalky = '#e5c07b',
-  coral = '#2d8cf0',
+  coral = '#3f4a54',
   cyan = '#56b6c2',
   invalid = '#fff',
   ivory = '#3f4a54',
   stone = '#2d8cf0',
   malibu = '#2d8cf0',
-  sage = '#2d8cf0', // 标题等符号
+  sage = '#3f4a54', // 标题等符号
   whiskey = '#d19a66',
   violet = '#c678dd',
   darkBackground = '#21252b',
@@ -21,7 +21,7 @@ const chalky = '#e5c07b',
   background = '#fff',
   tooltipBackground = '#353a42',
   selection = '#bad5fa',
-  cursor = '#528bff';
+  cursor = '#3f4a54';
 
 /// The colors used in the theme, as CSS color strings.
 export const color = {
@@ -80,7 +80,7 @@ export const oneLightTheme = EditorView.theme(
 
     '.cm-gutters': {
       backgroundColor: background,
-      color: stone,
+      color: ivory,
       borderRight: '1px solid',
       borderColor: 'var(--md-border-color)'
     },
