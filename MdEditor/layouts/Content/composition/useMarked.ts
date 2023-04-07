@@ -8,7 +8,7 @@ import { generateCodeRowNumber, debounce, uuid } from '~/utils';
 import { appendHandler, updateHandler } from '~/utils/dom';
 import { isServer } from '~/static/env';
 import { ContentProps } from '../props';
-import { useKatex } from './useKatex';
+import useKatex from './useKatex';
 import useMermaid from './useMermaid';
 import alertExtension from '../marked/alert';
 import calcSourceLine, { SourceLine } from '../marked/calcSourceLine';
@@ -199,6 +199,8 @@ const useMarked = (props: ContentProps) => {
   if (highlightIns) {
     // 提供了hljs，在创建阶段即完成设置
     marked.setOptions({
+      gfm: true,
+      breaks: true,
       highlight: (code, language) => {
         let codeHtml;
         const hljsLang = highlightIns.getLanguage(language);
@@ -249,9 +251,14 @@ const useMarked = (props: ContentProps) => {
      * 未处理占位符的html
      */
     // console.time(`${editorId}-asyncReplace`);
-    const tokenList = marked.lexer(value, { renderer });
+    const lexer = new marked.Lexer({ renderer });
+
+    console.log('lexer', lexer);
+    const tokenList = lexer.lex(value); // marked.lexer(value, { renderer });
     let unresolveHtml = props.sanitize(marked.parse(value, { renderer }));
     relatedList.value = calcSourceLine(tokenList);
+
+    console.log('sList', tokenList, lexer);
 
     const mermaidTasksCopy = [...mermaidTasks];
     const mermaidIdsCopy = [...mermaidIds];

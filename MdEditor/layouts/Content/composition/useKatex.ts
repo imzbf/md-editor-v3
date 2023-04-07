@@ -1,41 +1,29 @@
-import { ref, onMounted } from 'vue';
+import { onMounted, shallowRef } from 'vue';
 import { prefix, katexUrl, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { ContentProps } from '../props';
-import kaTexExtensions from '../marked/katex';
 
 /**
- * 注册katex扩展到marked
+ * 注册katex扩展到页面
  *
  * @param props 内容组件props
- * @param marked -
  */
-export const useKatex = (props: ContentProps, marked: any) => {
+const useKatex = (props: ContentProps) => {
   // 获取相应的扩展配置链接
   const katexConf = configOption.editorExtensions?.katex;
   const katexIns = katexConf?.instance;
 
   // katex是否加载完成
-  const katexInited = ref(false);
-
-  // 当没有设置不使用katex，直接扩展组件
-  if (!props.noKatex) {
-    marked.use({
-      extensions: [
-        kaTexExtensions.inline(prefix, katexIns),
-        kaTexExtensions.block(prefix, katexIns)
-      ]
-    });
-  }
+  const katex = shallowRef(katexIns);
 
   onMounted(() => {
     // 标签引入katex
-    if (!props.noKatex && !katexIns) {
+    if (!props.noKatex && !katex.value) {
       const katexScript = document.createElement('script');
 
       katexScript.src = katexConf?.js || katexUrl.js;
       katexScript.onload = () => {
-        katexInited.value = true;
+        katex.value = window.katex;
       };
       katexScript.id = `${prefix}-katex`;
 
@@ -49,5 +37,7 @@ export const useKatex = (props: ContentProps, marked: any) => {
     }
   });
 
-  return katexInited;
+  return katex;
 };
+
+export default useKatex;

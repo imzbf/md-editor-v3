@@ -48,13 +48,24 @@
   "dependencies": {
     "@codemirror/lang-markdown": "^6.1.0",
     "@codemirror/language-data": "^6.1.0",
-    "@vavt/markdown-theme": "^2.2.2",
     "@types/marked": "^4.0.8",
+    "@vavt/markdown-theme": "^2.2.2",
     "codemirror": "^6.0.1",
     "copy-to-clipboard": "^3.3.3",
+    "hast-util-to-text": "^3.1.2",
     "lru-cache": "^8.0.4",
     "marked": "^4.3.0",
-    "medium-zoom": "^1.0.8"
+    "medium-zoom": "^1.0.8",
+    "parse-entities": "^4.0.1",
+    "rehype-parse": "^8.0.4",
+    "rehype-raw": "^6.1.1",
+    "rehype-stringify": "^9.0.3",
+    "remark-gfm": "^3.0.1",
+    "remark-math": "^5.1.1",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2",
+    "unist-util-remove-position": "^4.0.2"
   },
   "devDependencies": {
     "@types/katex": "^0.16.0",

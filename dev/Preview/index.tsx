@@ -21,7 +21,7 @@ import { lineNumbers } from '@codemirror/view';
 // import Cropper from 'cropperjs';
 // import 'cropperjs/dist/cropper.css';
 // import mermaid from 'mermaid';
-import highlight from 'highlight.js';
+// import highlight from 'highlight.js';
 // import 'highlight.js/styles/tokyo-night-dark.css';
 
 // import prettier from 'prettier';
@@ -55,7 +55,7 @@ Editor.config({
     //   parserMarkdownInstance: parserMarkdown
     // },
     highlight: {
-      instance: highlight
+      // instance: highlight
       // css: {
       //   'tokyo-night': {
       //     light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
@@ -193,7 +193,7 @@ export default defineComponent({
             // toolbarsExclude={['github']}
             // noPrettier
             // tabWidth={4}
-            // showCodeRowNumber
+            showCodeRowNumber
             // katex={katex}
             // tableShape={[10, 10]}
             // noMermaid
@@ -209,7 +209,7 @@ export default defineComponent({
             // disabled
             // readOnly
             // maxLength={10}
-            autoDetectCode
+            // autoDetectCode
             onSave={(v, h) => {
               console.log('onSave');
               h.then((html) => {

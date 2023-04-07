@@ -84,6 +84,9 @@ export const contentProps = {
   },
   noPrettier: {
     type: Boolean as PropType<boolean>
+  },
+  noHighlight: {
+    type: Boolean as PropType<boolean>
   }
 };
 

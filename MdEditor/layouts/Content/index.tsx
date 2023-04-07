@@ -2,11 +2,12 @@ import { defineComponent, inject, ref, ComputedRef } from 'vue';
 import { PreviewThemes } from '~/type';
 import { prefix } from '~/config';
 import {
-  useAutoScroll,
+  // useAutoScroll,
   useCopyCode,
   useCodeMirror,
-  useMarked,
-  userZoom
+  // useMarked,
+  userZoom,
+  useUnified
 } from './composition/index';
 import { contentProps as props, ContentProps } from './props';
 
@@ -30,9 +31,11 @@ export default defineComponent({
     // 输入框
     const { inputWrapperRef, codeMirrorUt } = useCodeMirror(props);
     // markdown => html
-    const { html, relatedList } = useMarked(props);
+    // const { html, relatedList } = useMarked(props);
+    const { html } = useUnified(props);
+
     // 自动滚动
-    useAutoScroll(props, html, previewRef, htmlRef, relatedList, codeMirrorUt);
+    // useAutoScroll(props, html, previewRef, htmlRef, relatedList, codeMirrorUt);
     // 复制代码
     useCopyCode(props, html);
     // 图片点击放大

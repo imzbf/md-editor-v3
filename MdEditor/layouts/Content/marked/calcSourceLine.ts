@@ -26,7 +26,7 @@ const calcSourceLine = (tokenList: marked.TokensList) => {
     }
   });
 
-  // console.log('sList', sList);
+  // console.log('sList', tokenList, sList);
 
   return sList;
 };
