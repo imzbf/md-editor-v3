@@ -273,12 +273,13 @@ export const codeCss: CodeCss = {
 };
 
 export const configOption: ConfigOption = {
-  markedRenderer: (r) => r,
-  markedExtensions: [],
-  markedOptions: {},
+  // markedRenderer: (r) => r,
+  // markedExtensions: [],
+  // markedOptions: {},
   editorExtensions: {},
   editorConfig: {},
-  codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions
+  codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions,
+  markdownItConfig: () => {}
 };
 
 export const config: Config = (option) => {

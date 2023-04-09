@@ -1,15 +1,13 @@
 import { inject, nextTick, onMounted, Ref, watch } from 'vue';
 import scrollAuto from '~/utils/scroll-auto';
-import { ContentProps } from '../props';
-import { SourceLine } from '../marked/calcSourceLine';
 import CodeMirrorUt from '../codemirror';
+import { ContentProps } from '../props';
 
 const useAutoScroll = (
   props: ContentProps,
   html: Ref<string>,
   previewRef: Ref<HTMLDivElement | undefined>,
   htmlRef: Ref<HTMLDivElement | undefined>,
-  relatedListRef: Ref<SourceLine[]>,
   codeMirrorUt: Ref<CodeMirrorUt | undefined>
 ) => {
   const previewOnly = inject('previewOnly') as boolean;
@@ -39,7 +37,7 @@ const useAutoScroll = (
         [initScrollAuto, clearScrollAuto] = scrollAuto(
           cmScroller!,
           previewRef.value! || htmlRef.value,
-          relatedListRef,
+          html,
           codeMirrorUt.value!
         );
         initScrollAuto();
@@ -68,7 +66,7 @@ const useAutoScroll = (
       [initScrollAuto, clearScrollAuto] = scrollAuto(
         cmScroller!,
         previewRef.value! || htmlRef.value,
-        relatedListRef,
+        html,
         codeMirrorUt.value!
       );
     }

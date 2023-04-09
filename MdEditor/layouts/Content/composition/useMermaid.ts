@@ -1,10 +1,13 @@
-import { watch, inject, ComputedRef, reactive, onMounted } from 'vue';
+import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick } from 'vue';
+import LRUCache from 'lru-cache';
 import { prefix, mermaidUrl, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
+import { uuid } from '~/utils';
+
 import { ContentProps } from '../props';
 
 /**
- * 注册katex扩展到marked
+ * 注册katex扩展到页面
  *
  */
 const useMermaid = (props: ContentProps) => {
@@ -12,9 +15,13 @@ const useMermaid = (props: ContentProps) => {
   const { editorExtensions } = configOption;
   const mermaidConf = editorExtensions?.mermaid;
 
-  const mermaidData = reactive({
-    reRender: false,
-    mermaidInited: false
+  const mermaidRef = shallowRef(mermaidConf?.instance);
+  const reRenderRef = shallowRef(false);
+
+  const mermaidCache = new LRUCache({
+    max: 1000,
+    // 缓存10分钟
+    ttl: 600000
   });
 
   const setMermaidTheme = () => {
@@ -25,11 +32,17 @@ const useMermaid = (props: ContentProps) => {
         startOnLoad: false,
         theme: theme.value === 'dark' ? 'dark' : 'default'
       });
-      mermaidData.reRender = !mermaidData.reRender;
+      reRenderRef.value = !reRenderRef.value;
     }
   };
 
-  watch(() => theme.value, setMermaidTheme);
+  watch(
+    () => theme.value,
+    () => {
+      mermaidCache.clear();
+      setMermaidTheme();
+    }
+  );
 
   onMounted(() => {
     if (props.noMermaid) {
@@ -49,19 +62,48 @@ const useMermaid = (props: ContentProps) => {
         mermaidScript.src = jsSrc;
       }
       mermaidScript.onload = () => {
+        mermaidRef.value = window.mermaid;
         setMermaidTheme();
-        mermaidData.mermaidInited = true;
       };
 
       appendHandler(mermaidScript, 'mermaid');
-    } else {
-      // 提供了实例，直接设置
-      setMermaidTheme();
-      mermaidData.mermaidInited = true;
     }
   });
 
-  return mermaidData;
+  const replaceMermaid = () => {
+    nextTick(() => {
+      if (!props.noMermaid && mermaidRef.value) {
+        const mermaidSourceEles = document.querySelectorAll<HTMLElement>(
+          `div.${prefix}-mermaid`
+        );
+
+        mermaidSourceEles.forEach(async (item) => {
+          let mermaidHtml = mermaidCache.get(item.innerText) as string;
+
+          if (!mermaidHtml) {
+            const idRand = uuid();
+            // @9以下使用renderAsync，@10以上使用render
+            const render = mermaidRef.value.renderAsync || mermaidRef.value.render;
+
+            const svg = await render(idRand, item.innerText);
+
+            // 9:10
+            mermaidHtml = typeof svg === 'string' ? svg : svg.svg;
+            mermaidCache.set(item.innerText, mermaidHtml);
+          }
+
+          const p = document.createElement('p');
+          p.className = `${prefix}-mermaid`;
+          p.setAttribute('data-processed', '');
+          p.innerHTML = mermaidHtml;
+
+          item.replaceWith(p);
+        });
+      }
+    });
+  };
+
+  return { mermaidRef, reRenderRef, replaceMermaid };
 };
 
 export default useMermaid;

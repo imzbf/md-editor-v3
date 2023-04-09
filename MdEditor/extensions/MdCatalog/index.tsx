@@ -8,7 +8,7 @@ import {
   nextTick
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { HeadList, MarkedHeadingId, Themes } from '~/type';
+import { HeadList, MdHeadingId, Themes } from '~/type';
 import { prefix } from '~/config';
 import { throttle, getRelativeTop } from '~/utils';
 import { PREVIEW_CHANGED } from '~/static/event-name';
@@ -36,8 +36,8 @@ const props = {
     type: String,
     default: ''
   },
-  markedHeadingId: {
-    type: Function as PropType<MarkedHeadingId>,
+  mdHeadingId: {
+    type: Function as PropType<MdHeadingId>,
     default: (text: string) => text
   },
   /**
@@ -182,7 +182,7 @@ const MdCatalog = defineComponent({
           const { activeHead } = state.list.reduce(
             (activeData, link, index) => {
               const linkEle = document.getElementById(
-                props.markedHeadingId(link.text, link.level, index + 1)
+                props.mdHeadingId(link.text, link.level, index + 1)
               );
 
               if (linkEle instanceof HTMLElement) {
@@ -244,7 +244,7 @@ const MdCatalog = defineComponent({
         {catalogs.value.map((item) => {
           return (
             <CatalogLink
-              markedHeadingId={props.markedHeadingId}
+              mdHeadingId={props.mdHeadingId}
               tocItem={item}
               key={`link-${item.level}-${item.text}`}
               scrollElement={state.scrollElement}

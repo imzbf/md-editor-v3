@@ -92,7 +92,7 @@ const text = ref('# Hello Editor');
 | placeholder | `string` | '' |  |
 | noKatex | `boolean` | false | 不使用 katex 展示数学公式 |
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | 代码块 highlight 样式名称，扩展更多见下方 |
-| markedHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | 标题`ID`计算方式 |
+| mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | 标题`ID`计算方式 |
 | sanitize | `(html: string) => string` | (html) => html | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
 | footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | 页脚显示内容，`=`左右分割，设置为`[]`不显示页脚 |
 | scrollAuto | `boolean` | true | 默认左右滚动状态 |
@@ -107,7 +107,7 @@ const text = ref('# Hello Editor');
 | maxLength | `number` |  | 文本区域允许的最大字符数 |
 | autoDetectCode | `boolean` | false | 是否启用自动识别粘贴代码类别，目前仅支持从`vscode`复制的内容 |
 
-> 如果你重新定义了标题，请务必通过`markedHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
+> 如果你重新定义了标题，请务必通过`mdHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
 <details>
  <summary>『toolbars』</summary>
@@ -692,7 +692,7 @@ _请注意，快捷键仅在输入框获取到焦点时可用！_
 
   - `editorId`: `string`，必须，对应编辑器的`editorId`，在内部注册目录变化监听事件。
   - `class`: `string`，非必须，目录组件最外层类名。
-  - `markedHeadingId`: `MarkedHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
+  - `mdHeadingId`: `MdHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
   - `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`。
   - `theme`: `'light' | 'dark'`，非必须，当需要切换主题时提供，同编辑器的`theme`。
   - `offsetTop`: `number`，非必须，标题距离顶部该像素时高亮当前目录项，默认 20 像素。

@@ -5,7 +5,7 @@ import {
   useAutoScroll,
   useCopyCode,
   useCodeMirror,
-  useMarked,
+  useMarkdownIt,
   userZoom
 } from './composition/index';
 import { contentProps as props, ContentProps } from './props';
@@ -30,9 +30,9 @@ export default defineComponent({
     // 输入框
     const { inputWrapperRef, codeMirrorUt } = useCodeMirror(props);
     // markdown => html
-    const { html, relatedList } = useMarked(props);
+    const { html } = useMarkdownIt(props);
     // 自动滚动
-    useAutoScroll(props, html, previewRef, htmlRef, relatedList, codeMirrorUt);
+    useAutoScroll(props, html, previewRef, htmlRef, codeMirrorUt);
     // 复制代码
     useCopyCode(props, html);
     // 图片点击放大
@@ -40,42 +40,40 @@ export default defineComponent({
 
     return () => {
       return (
-        <>
-          <div class={`${prefix}-content`}>
-            {!previewOnly && (
-              <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}></div>
-            )}
+        <div class={`${prefix}-content`}>
+          {!previewOnly && (
+            <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}></div>
+          )}
 
-            {props.setting.preview && (
-              <div
-                id={`${editorId}-preview-wrapper`}
-                class={`${prefix}-preview-wrapper`}
-                ref={previewRef}
-                key="content-preview-wrapper"
-              >
-                <article
-                  id={`${editorId}-preview`}
-                  class={[
-                    `${prefix}-preview`,
-                    `${previewTheme?.value}-theme`,
-                    showCodeRowNumber && `${prefix}-scrn`
-                  ]}
-                  innerHTML={html.value}
-                />
-              </div>
-            )}
+          {props.setting.preview && (
+            <div
+              id={`${editorId}-preview-wrapper`}
+              class={`${prefix}-preview-wrapper`}
+              ref={previewRef}
+              key="content-preview-wrapper"
+            >
+              <article
+                id={`${editorId}-preview`}
+                class={[
+                  `${prefix}-preview`,
+                  `${previewTheme?.value}-theme`,
+                  showCodeRowNumber && `${prefix}-scrn`
+                ]}
+                innerHTML={html.value}
+              />
+            </div>
+          )}
 
-            {props.setting.htmlPreview && (
-              <div
-                class={`${prefix}-preview-wrapper`}
-                ref={htmlRef}
-                key="html-preview-wrapper"
-              >
-                <div class={`${prefix}-html`}>{html.value}</div>
-              </div>
-            )}
-          </div>
-        </>
+          {props.setting.htmlPreview && (
+            <div
+              class={`${prefix}-preview-wrapper`}
+              ref={htmlRef}
+              key="html-preview-wrapper"
+            >
+              <div class={`${prefix}-html`}>{html.value}</div>
+            </div>
+          )}
+        </div>
       );
     };
   }

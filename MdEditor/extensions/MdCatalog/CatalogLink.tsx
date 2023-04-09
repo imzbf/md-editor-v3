@@ -1,6 +1,6 @@
 import { defineComponent, PropType, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { MarkedHeadingId } from '~/type';
+import { MdHeadingId } from '~/type';
 import { prefix } from '~/config';
 import { TocItem } from '.';
 
@@ -9,8 +9,8 @@ const props = {
     type: Object as PropType<TocItem>,
     default: () => ({})
   },
-  markedHeadingId: {
-    type: Function as PropType<MarkedHeadingId>,
+  mdHeadingId: {
+    type: Function as PropType<MdHeadingId>,
     default: () => {}
   },
   scrollElement: {
@@ -35,7 +35,7 @@ const CatalogLink = defineComponent({
   props,
   setup(props: CatalogLinkProps) {
     return () => {
-      const { tocItem, markedHeadingId, scrollElement, onClick, scrollElementOffsetTop } =
+      const { tocItem, mdHeadingId, scrollElement, onClick, scrollElementOffsetTop } =
         props;
 
       return (
@@ -44,7 +44,7 @@ const CatalogLink = defineComponent({
           onClick={(e) => {
             onClick(e, tocItem);
             e.stopPropagation();
-            const id = markedHeadingId(tocItem.text, tocItem.level, tocItem.index);
+            const id = mdHeadingId(tocItem.text, tocItem.level, tocItem.index);
             const targetHeadEle = document.getElementById(id);
             const scrollContainer =
               scrollElement instanceof Element
@@ -76,7 +76,7 @@ const CatalogLink = defineComponent({
             {tocItem.children &&
               tocItem.children.map((item) => (
                 <CatalogLink
-                  markedHeadingId={markedHeadingId}
+                  mdHeadingId={mdHeadingId}
                   key={`${tocItem.text}-link-${item.level}-${item.text}`}
                   tocItem={item}
                   scrollElement={scrollElement}

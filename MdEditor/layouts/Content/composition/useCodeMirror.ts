@@ -1,10 +1,7 @@
 import { ref, onMounted, inject, ComputedRef, watch } from 'vue';
 import { EditorView, minimalSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
-import {
-  keymap
-  // lineNumbers
-} from '@codemirror/view';
+import { keymap } from '@codemirror/view';
 import { languages } from '@codemirror/language-data';
 import { markdown } from '@codemirror/lang-markdown';
 import { indentWithTab, undo, redo } from '@codemirror/commands';
@@ -21,6 +18,12 @@ import usePasteUpload from './usePasteUpload';
 import useAttach from './useAttach';
 import createCommands from '../codemirror/commands';
 
+/**
+ * 文本编辑区组件
+ *
+ * @param props
+ * @returns
+ */
 const useCodeMirror = (props: ContentProps) => {
   const tabWidth = inject('tabWidth') as number;
   const editorId = inject('editorId') as string;
@@ -36,7 +39,6 @@ const useCodeMirror = (props: ContentProps) => {
   const defaultExtensions = [
     keymap.of([...mdEditorCommands, indentWithTab]),
     minimalSetup,
-    // lineNumbers(),
     markdown({ codeLanguages: languages }),
     // 横向换行
     EditorView.lineWrapping,

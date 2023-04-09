@@ -1,6 +1,5 @@
 import { Ref } from 'vue';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
-import { SourceLine } from '~/layouts/Content/marked/calcSourceLine';
 import { debounce } from '.';
 
 /**
@@ -13,268 +12,274 @@ import { debounce } from '.';
 const scrollAuto = (
   pEle: HTMLElement,
   cEle: HTMLElement,
-  relatedList: Ref<SourceLine[]>,
+  html: Ref<string>,
   codeMirrorUt: CodeMirrorUt
 ) => {
   const { view } = codeMirrorUt;
   // 注册一个防抖监听事件函数
-  const addEvent = debounce(() => {
-    // 宿主绑定事件
-    pEle.removeEventListener('scroll', scrollHandler);
-    pEle.addEventListener('scroll', scrollHandler);
+  // const addEvent = debounce(() => {
+  //   // 宿主绑定事件
+  //   pEle.removeEventListener('scroll', scrollHandler);
+  //   pEle.addEventListener('scroll', scrollHandler);
 
-    // 寄主绑定事件
-    cEle.removeEventListener('scroll', scrollHandler);
-    cEle.addEventListener('scroll', scrollHandler);
-  }, 50);
+  //   // 寄主绑定事件
+  //   cEle.removeEventListener('scroll', scrollHandler);
+  //   cEle.addEventListener('scroll', scrollHandler);
+  // }, 50);
 
-  const scrollHandler = debounce((e: Event) => {
-    const blockInfo = view.lineBlockAtHeight(view.scrollDOM.scrollTop);
-    const firstLineInView = view.state.doc.lineAt(blockInfo.from);
-    const firstLineScrollTop = view.scrollDOM.scrollTop - blockInfo.top;
+  // const scrollHandler = debounce((e: Event) => {
+  //   const blockInfo = view.lineBlockAtHeight(view.scrollDOM.scrollTop);
+  //   const firstLineInView = view.state.doc.lineAt(blockInfo.from);
+  //   const firstLineScrollTop = view.scrollDOM.scrollTop - blockInfo.top;
 
-    // console.log(firstLineInView, blockInfo.height, firstLineScrollTop);
+  //   // console.log(firstLineInView, blockInfo.height, firstLineScrollTop);
 
-    // const cmLines = document.querySelectorAll<HTMLDivElement>('.cm-line');
+  //   // const cmLines = document.querySelectorAll<HTMLDivElement>('.cm-line');
 
-    // const pHeight = pEle.clientHeight;
-    // const cHeight = cEle.clientHeight;
+  //   // const pHeight = pEle.clientHeight;
+  //   // const cHeight = cEle.clientHeight;
 
-    // const pScrollHeight = pEle.scrollHeight;
-    // const cScrollHeight = cEle.scrollHeight;
+  //   // const pScrollHeight = pEle.scrollHeight;
+  //   // const cScrollHeight = cEle.scrollHeight;
 
-    if (e.target === pEle) {
-      // ====================
-      // for (let i = 0; i < cmLines.length; i++) {
-      //   currLineNum = i;
+  //   if (e.target === pEle) {
+  //     // ====================
+  //     // for (let i = 0; i < cmLines.length; i++) {
+  //     //   currLineNum = i;
 
-      //   // console.log('accHeight', accHeight, 'pEle.scrollTop', pEle.scrollTop);
+  //     //   // console.log('accHeight', accHeight, 'pEle.scrollTop', pEle.scrollTop);
 
-      //   if (cmLines[i].offsetTop > pEle.scrollTop) {
-      //     // console.log(cmLines[i]);
-      //     break;
-      //   }
-      // }
+  //     //   if (cmLines[i].offsetTop > pEle.scrollTop) {
+  //     //     // console.log(cmLines[i]);
+  //     //     break;
+  //     //   }
+  //     // }
 
-      // console.log('currLineNum', currLineNum);
+  //     // console.log('currLineNum', currLineNum);
 
-      // 可视区域第一行行号
-      const { number } = firstLineInView;
+  //     // 可视区域第一行行号
+  //     const { number } = firstLineInView;
 
-      // 预览框
-      const childBlockNodes = Array.from(cEle.childNodes[0].childNodes).filter(
-        (item) => item.nodeType === 1
-      );
+  //     // 预览框
+  //     const childBlockNodes = Array.from(cEle.childNodes[0].childNodes).filter(
+  //       (item) => item.nodeType === 1
+  //     );
 
-      // 预览区域滚动元素
-      let cScrollNode = null;
-      // 滚动元素的下一个元素，计算margin重叠
-      let cNextScrollNode = null;
-      let lineStart = number;
-      let lineEnd = number;
+  //     // 预览区域滚动元素
+  //     let cScrollNode = null;
+  //     // 滚动元素的下一个元素，计算margin重叠
+  //     let cNextScrollNode = null;
+  //     let lineStart = number;
+  //     let lineEnd = number;
 
-      for (let i = 0; i < relatedList.value.length; i++) {
-        const { start, end } = relatedList.value[i];
-        // // 把当前结束位置定位到下一个开始位置，末尾取自己结束
-        const vend =
-          i + 1 >= relatedList.value.length ? end : relatedList.value[i + 1].start - 1;
+  //     const datalines = Array.from(document.querySelectorAll('[data-line]')).map(
+  //       (item) => {
+  //         return (item as HTMLElement).dataset.line;
+  //       }
+  //     );
 
-        if (number >= start && number <= vend) {
-          cScrollNode = childBlockNodes[i];
-          cNextScrollNode = childBlockNodes[i + 1];
-          lineStart = start;
-          lineEnd = vend;
-        }
-      }
+  //     for (let i = 0; i < datalines.length; i++) {
+  //       const start = datalines[i];
+  //       // // 把当前结束位置定位到下一个开始位置，末尾取自己结束
+  //       const vend =
+  //         i + 1 >= relatedList.value.length ? end : relatedList.value[i + 1].start - 1;
 
-      // 当前模块滚动隐藏的高度
-      let blockHeightToStart = 0;
-      // console.log('=mdBlockHeight', lineEnd, mdBlockHeight);
+  //       if (number >= start && number <= vend) {
+  //         cScrollNode = childBlockNodes[i];
+  //         cNextScrollNode = childBlockNodes[i + 1];
+  //         lineStart = start;
+  //         lineEnd = vend;
+  //       }
+  //     }
 
-      // console.log(lineStart, lineEnd);
+  //     // 当前模块滚动隐藏的高度
+  //     let blockHeightToStart = 0;
+  //     // console.log('=mdBlockHeight', lineEnd, mdBlockHeight);
 
-      for (;;) {
-        // 当前循环位置的模块对象
-        const forBlock = view.lineBlockAtHeight(blockInfo.top - blockHeightToStart - 1);
-        // 获取到行号
-        const { number } = view.state.doc.lineAt(forBlock.from);
+  //     // console.log(lineStart, lineEnd);
 
-        // console.log('=number', lineEnd, mdBlockHeight, number);
-        // console.log(
-        //   'number',
-        //   number,
-        //   forBlock.height,
-        //   'lineStart',
-        //   lineStart,
-        //   'blockHeightToStart',
-        //   blockHeightToStart
-        // );
+  //     for (;;) {
+  //       // 当前循环位置的模块对象
+  //       const forBlock = view.lineBlockAtHeight(blockInfo.top - blockHeightToStart - 1);
+  //       // 获取到行号
+  //       const { number } = view.state.doc.lineAt(forBlock.from);
 
-        // 如果行号与开始相同，则已取得了大模块开始距离滚动位置的距离
-        if (number < lineStart) {
-          // console.log(
-          //   'number',
-          //   number,
-          //   forBlock.height,
-          //   'blockHeightToStart',
-          //   blockHeightToStart
-          // );
+  //       // console.log('=number', lineEnd, mdBlockHeight, number);
+  //       // console.log(
+  //       //   'number',
+  //       //   number,
+  //       //   forBlock.height,
+  //       //   'lineStart',
+  //       //   lineStart,
+  //       //   'blockHeightToStart',
+  //       //   blockHeightToStart
+  //       // );
 
-          break;
-        } else if (number === lineStart) {
-          if (number !== firstLineInView.number) blockHeightToStart += forBlock.height;
+  //       // 如果行号与开始相同，则已取得了大模块开始距离滚动位置的距离
+  //       if (number < lineStart) {
+  //         // console.log(
+  //         //   'number',
+  //         //   number,
+  //         //   forBlock.height,
+  //         //   'blockHeightToStart',
+  //         //   blockHeightToStart
+  //         // );
 
-          break;
-        }
+  //         break;
+  //       } else if (number === lineStart) {
+  //         if (number !== firstLineInView.number) blockHeightToStart += forBlock.height;
 
-        blockHeightToStart += forBlock.height;
-      }
+  //         break;
+  //       }
 
-      // 将距离结束位置设置为当前行的高度
-      let blockHeightToEnd = blockInfo.height;
-      // console.log(blockInfo.height, firstLineScrollTop);
+  //       blockHeightToStart += forBlock.height;
+  //     }
 
-      // console.log('==================');
-      for (let i = 0; ; i++) {
-        const forBlock = view.lineBlockAtHeight(blockInfo.top + blockHeightToEnd + 1);
-        const { number } = view.state.doc.lineAt(forBlock.from);
+  //     // 将距离结束位置设置为当前行的高度
+  //     let blockHeightToEnd = blockInfo.height;
+  //     // console.log(blockInfo.height, firstLineScrollTop);
 
-        if (number > lineEnd) {
-          // console.log('=number', number, 'blockHeightToEnd', blockHeightToEnd);
+  //     // console.log('==================');
+  //     for (let i = 0; ; i++) {
+  //       const forBlock = view.lineBlockAtHeight(blockInfo.top + blockHeightToEnd + 1);
+  //       const { number } = view.state.doc.lineAt(forBlock.from);
 
-          // console.log('===i', i);
-          // if (i === 0) {
-          //   blockHeightToEnd = 0;
-          // }
-          break;
-        } else if (number === lineStart) {
-          if (number !== firstLineInView.number) blockHeightToEnd += forBlock.height;
+  //       if (number > lineEnd) {
+  //         // console.log('=number', number, 'blockHeightToEnd', blockHeightToEnd);
 
-          break;
-        }
+  //         // console.log('===i', i);
+  //         // if (i === 0) {
+  //         //   blockHeightToEnd = 0;
+  //         // }
+  //         break;
+  //       } else if (number === lineStart) {
+  //         if (number !== firstLineInView.number) blockHeightToEnd += forBlock.height;
 
-        blockHeightToEnd += forBlock.height;
-      }
+  //         break;
+  //       }
 
-      const blockHeight = blockHeightToStart + blockHeightToEnd;
+  //       blockHeightToEnd += forBlock.height;
+  //     }
 
-      // console.log('blockHeight', blockHeightToStart, blockHeightToEnd);
+  //     const blockHeight = blockHeightToStart + blockHeightToEnd;
 
-      // console.log(
-      //   '==',
-      //   blockInfo.top,
-      //   mdBlockHeight,
-      //   view.state.doc.lineAt(view.lineBlockAtHeight(blockInfo.top + mdBlockHeight).from)
-      //     .number
-      // );
+  //     // console.log('blockHeight', blockHeightToStart, blockHeightToEnd);
 
-      // 计算一个高度比
-      const scale = (blockHeightToStart + firstLineScrollTop) / blockHeight;
+  //     // console.log(
+  //     //   '==',
+  //     //   blockInfo.top,
+  //     //   mdBlockHeight,
+  //     //   view.state.doc.lineAt(view.lineBlockAtHeight(blockInfo.top + mdBlockHeight).from)
+  //     //     .number
+  //     // );
 
-      // console.log(blockHeightToStart, firstLineScrollTop, blockHeight);
+  //     // 计算一个高度比
+  //     const scale = (blockHeightToStart + firstLineScrollTop) / blockHeight;
 
-      // console.log(lineEnd, view.lineBlockAt(lineEnd));
+  //     // console.log(blockHeightToStart, firstLineScrollTop, blockHeight);
 
-      // console.log('currLineNum', number, cScrollNode?.offsetTop);
-      // ====================
+  //     // console.log(lineEnd, view.lineBlockAt(lineEnd));
 
-      // 清除寄主监听
-      cEle.removeEventListener('scroll', scrollHandler);
+  //     // console.log('currLineNum', number, cScrollNode?.offsetTop);
+  //     // ====================
 
-      if (cScrollNode) {
-        const { height, marginTop, marginBottom, paddingTop, paddingBottom } =
-          getComputedStyle(cScrollNode as HTMLElement);
+  //     // 清除寄主监听
+  //     cEle.removeEventListener('scroll', scrollHandler);
 
-        let cNextScrollNodeMarginTop = '0';
+  //     if (cScrollNode) {
+  //       const { height, marginTop, marginBottom, paddingTop, paddingBottom } =
+  //         getComputedStyle(cScrollNode as HTMLElement);
 
-        if (cNextScrollNode) {
-          cNextScrollNodeMarginTop = getComputedStyle(
-            cNextScrollNode as HTMLElement
-          ).marginTop;
-        }
+  //       let cNextScrollNodeMarginTop = '0';
 
-        // console.log('cNextScrollNodeMarginTop', cNextScrollNodeMarginTop);
+  //       if (cNextScrollNode) {
+  //         cNextScrollNodeMarginTop = getComputedStyle(
+  //           cNextScrollNode as HTMLElement
+  //         ).marginTop;
+  //       }
 
-        const nodeHeight =
-          parseFloat(height) +
-          parseFloat(marginTop) +
-          parseFloat(marginBottom) +
-          parseFloat(paddingTop) +
-          parseFloat(paddingBottom) -
-          parseFloat(cNextScrollNodeMarginTop);
-        const scrollToTop =
-          (cScrollNode as HTMLElement).offsetTop -
-          parseFloat(marginTop) +
-          nodeHeight * scale;
+  //       // console.log('cNextScrollNodeMarginTop', cNextScrollNodeMarginTop);
 
-        // console.log((cScrollNode as HTMLElement).offsetTop, marginTop, nodeHeight, scale);
+  //       const nodeHeight =
+  //         parseFloat(height) +
+  //         parseFloat(marginTop) +
+  //         parseFloat(marginBottom) +
+  //         parseFloat(paddingTop) +
+  //         parseFloat(paddingBottom) -
+  //         parseFloat(cNextScrollNodeMarginTop);
+  //       const scrollToTop =
+  //         (cScrollNode as HTMLElement).offsetTop -
+  //         parseFloat(marginTop) +
+  //         nodeHeight * scale;
 
-        cEle.scrollTo({
-          top: scrollToTop,
-          behavior: 'auto'
-        });
-      }
+  //       // console.log((cScrollNode as HTMLElement).offsetTop, marginTop, nodeHeight, scale);
 
-      // console.log('relatedList', [...relatedList.value]);
+  //       cEle.scrollTo({
+  //         top: scrollToTop,
+  //         behavior: 'auto'
+  //       });
+  //     }
 
-      addEvent();
-    } else {
-      //
-      const cScrollTop = cEle.scrollTop;
-      // console.log(cScrollTop);
+  //     // console.log('relatedList', [...relatedList.value]);
 
-      // 预览区域滚动的元素下标
-      let number = 0;
+  //     addEvent();
+  //   } else {
+  //     //
+  //     const cScrollTop = cEle.scrollTop;
+  //     // console.log(cScrollTop);
 
-      const { childNodes } = cEle.childNodes[0];
-      for (let i = 0; i < childNodes.length; i++) {
-        if (childNodes[i].nodeType === 1) {
-          const { offsetTop, offsetHeight } = childNodes[i] as HTMLElement;
+  //     // 预览区域滚动的元素下标
+  //     let number = 0;
 
-          const { marginBottom } = getComputedStyle(childNodes[i] as HTMLElement, null);
-          if (offsetTop + offsetHeight + parseFloat(marginBottom) >= cScrollTop) {
-            break;
-          }
-          number++;
-        }
-      }
+  //     const { childNodes } = cEle.childNodes[0];
+  //     for (let i = 0; i < childNodes.length; i++) {
+  //       if (childNodes[i].nodeType === 1) {
+  //         const { offsetTop, offsetHeight } = childNodes[i] as HTMLElement;
 
-      const { start, end } = relatedList.value[number];
+  //         const { marginBottom } = getComputedStyle(childNodes[i] as HTMLElement, null);
+  //         if (offsetTop + offsetHeight + parseFloat(marginBottom) >= cScrollTop) {
+  //           break;
+  //         }
+  //         number++;
+  //       }
+  //     }
 
-      // console.log(cScrollTop, number, start, end);
+  //     const { start, end } = relatedList.value[number];
 
-      const blockInfo = view.lineBlockAtHeight(view.scrollDOM.scrollTop);
-      const firstLineInView = view.state.doc.lineAt(blockInfo.from);
+  //     // console.log(cScrollTop, number, start, end);
 
-      if (firstLineInView.number < start) {
-        // 当前目标内容下面
-      } else if (firstLineInView.number >= start && firstLineInView.number <= end) {
-        // 当前在目标内容中间
-      } else {
-        // 当前在目标内容上方
-      }
+  //     const blockInfo = view.lineBlockAtHeight(view.scrollDOM.scrollTop);
+  //     const firstLineInView = view.state.doc.lineAt(blockInfo.from);
 
-      // 获取到当前滚动块
-      console.log('预览滚动');
-      // // 清除宿主监听
-      pEle.removeEventListener('scroll', scrollHandler);
-      // pEle.scrollTo({
-      //   top: cEle.scrollTop * scale
-      //   // behavior: 'smooth'
-      // });
-      addEvent();
-    }
-  }, 2);
+  //     if (firstLineInView.number < start) {
+  //       // 当前目标内容下面
+  //     } else if (firstLineInView.number >= start && firstLineInView.number <= end) {
+  //       // 当前在目标内容中间
+  //     } else {
+  //       // 当前在目标内容上方
+  //     }
+
+  //     // 获取到当前滚动块
+  //     console.log('预览滚动');
+  //     // // 清除宿主监听
+  //     pEle.removeEventListener('scroll', scrollHandler);
+  //     // pEle.scrollTo({
+  //     //   top: cEle.scrollTop * scale
+  //     //   // behavior: 'smooth'
+  //     // });
+  //     addEvent();
+  //   }
+  // }, 2);
 
   return [
     () => {
-      addEvent().finally(() => {
-        pEle.dispatchEvent(new Event('scroll'));
-      });
+      // addEvent().finally(() => {
+      //   pEle.dispatchEvent(new Event('scroll'));
+      // });
     },
     () => {
-      pEle.removeEventListener('scroll', scrollHandler);
-      cEle.removeEventListener('scroll', scrollHandler);
+      // pEle.removeEventListener('scroll', scrollHandler);
+      // cEle.removeEventListener('scroll', scrollHandler);
     }
   ];
 };

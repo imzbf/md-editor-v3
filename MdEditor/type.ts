@@ -1,4 +1,3 @@
-import { marked, Renderer, Slugger } from 'marked';
 import { LooseRequired } from '@vue/shared';
 import { ExtractPropTypes, SetupContext } from 'vue';
 import { Extension } from '@codemirror/state';
@@ -144,7 +143,7 @@ export interface HeadList {
   active?: boolean;
 }
 
-export type MarkedHeadingId = (text: string, level: number, index: number) => string;
+export type MdHeadingId = (text: string, level: number, index: number) => string;
 
 export interface MermaidTemplate {
   /**
@@ -181,35 +180,7 @@ export interface MermaidTemplate {
   journey?: string;
 }
 
-export type RewriteHeading = (
-  text: string,
-  level: 1 | 2 | 3 | 4 | 5 | 6,
-  raw: string,
-  slugger: Slugger,
-  index: number,
-  headingId: string
-) => string;
-
-export interface RewriteRenderer extends Omit<Renderer, 'heading'> {
-  heading: RewriteHeading;
-}
-
 export interface ConfigOption {
-  /**
-   * 覆盖编辑器默认的renderer属性
-   * @see https://marked.js.org/using_pro#renderer
-   */
-  markedRenderer?: (renderer: RewriteRenderer) => RewriteRenderer;
-  /**
-   * 自定义 marked 扩展
-   * @see https://marked.js.org/using_pro#extensions
-   */
-  markedExtensions?: Array<marked.TokenizerExtension & marked.RendererExtension>;
-  /**
-   * 自定义 marked option，不推荐在这么覆盖renderer，这会导致内部逻辑混乱！
-   * @see https://marked.js.org/using_advanced#options
-   */
-  markedOptions?: marked.MarkedOptions;
   /**
    * 编辑器内部依赖库
    */
@@ -275,6 +246,10 @@ export interface ConfigOption {
     extensions: Array<Extension>,
     keyBindings: Array<KeyBinding>
   ) => Array<Extension>;
+  /**
+   * 自定义markdown-it核心库扩展、属性等
+   */
+  markdownItConfig?: (md: markdownit) => void;
 }
 
 /**

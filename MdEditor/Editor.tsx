@@ -28,7 +28,15 @@ const Editor = defineComponent({
   setup(props: EditorProps, ctx: EditorContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
     // eslint-disable-next-line vue/no-setup-props-destructure
-    const { editorId, previewOnly, noKatex, noMermaid, noPrettier, noUploadImg } = props;
+    const {
+      editorId,
+      previewOnly,
+      noKatex,
+      noMermaid,
+      noPrettier,
+      noUploadImg,
+      noHighlight
+    } = props;
 
     const state = reactive({
       scrollAuto: props.scrollAuto
@@ -82,7 +90,7 @@ const Editor = defineComponent({
           <Content
             value={props.modelValue}
             setting={setting}
-            markedHeadingId={props.markedHeadingId}
+            mdHeadingId={props.mdHeadingId}
             noMermaid={noMermaid}
             noPrettier={noPrettier}
             sanitize={props.sanitize}
@@ -95,6 +103,7 @@ const Editor = defineComponent({
             readonly={props.readOnly}
             maxlength={props.maxLength}
             autoDetectCode={props.autoDetectCode}
+            noHighlight={noHighlight}
             onChange={(value) => {
               if (props.onChange) {
                 props.onChange(value);
@@ -149,7 +158,7 @@ const Editor = defineComponent({
               }}
               class={`${prefix}-catalog-editor`}
               editorId={editorId}
-              markedHeadingId={props.markedHeadingId}
+              mdHeadingId={props.mdHeadingId}
             />
           )}
         </div>

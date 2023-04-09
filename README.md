@@ -93,7 +93,7 @@ mark and emoji extensions
 | placeholder | `string` | '' |  |
 | noKatex | `boolean` | false | Use katex or not |
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | Highlight code style, can be customized also |
-| markedHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
+| mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
 | sanitize | `(html: string) => string` | (html) => html | Sanitize the html, prevent XSS |
 | footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
 | scrollAuto | `boolean` | true | Scroll default setting |
@@ -678,7 +678,7 @@ They are used as attributes of the editor component, eg: `MdEditor.DropdownToolb
 
   - `editorId`: `string`, necessary, same as editor's `editorId`, used to register listening events.
   - `class`: `string`, not necessary.
-  - `markedHeadingId`: `MarkedHeadingId`, not necessary, same as editor.
+  - `mdHeadingId`: `MdHeadingId`, not necessary, same as editor.
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: `'light' | 'dark'`, not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
   - `offsetTop`: `number`, not necessary, highlight current item of catalogs when title is `offsetTop` pixels from the top, defalut 20.

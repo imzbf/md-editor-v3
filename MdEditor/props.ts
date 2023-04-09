@@ -3,7 +3,7 @@ import {
   StaticTextDefaultKey,
   ToolbarNames,
   PreviewThemes,
-  MarkedHeadingId,
+  MdHeadingId,
   Themes,
   Footers,
   ChangeEvent,
@@ -17,7 +17,7 @@ import {
 
 import { allToolbar, allFooter, defaultEditorId } from './config';
 
-export const markedHeadingId: MarkedHeadingId = (text) => text;
+export const mdHeadingId: MdHeadingId = (text) => text;
 
 export const editorProps = {
   /**
@@ -206,9 +206,9 @@ export const editorProps = {
    *
    * @default (text: string) => text
    */
-  markedHeadingId: {
-    type: Function as PropType<MarkedHeadingId>,
-    default: markedHeadingId
+  mdHeadingId: {
+    type: Function as PropType<MdHeadingId>,
+    default: mdHeadingId
   },
   /**
    * 表格预设格子数
@@ -395,6 +395,10 @@ export const editorProps = {
    */
   onFocus: {
     type: Function as PropType<(event: FocusEvent) => void>
+  },
+  noHighlight: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 

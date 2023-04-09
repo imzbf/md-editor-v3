@@ -12,7 +12,7 @@ import Editor, { ExposeParam } from '../../MdEditor';
 import mdText from '../data.md';
 import { Theme } from '../App';
 import axios from 'axios';
-import 'katex/dist/katex.min.css';
+// import 'katex/dist/katex.min.css';
 
 // import { Extension } from '@codemirror/state';
 import { lineNumbers } from '@codemirror/view';
@@ -32,23 +32,13 @@ import './index.less';
 // import { cdnBase } from '../../MdEditor/config';
 
 Editor.config({
-  codeMirrorExtensions(theme, extensions, keyBindings) {
+  codeMirrorExtensions(theme, extensions) {
     // console.log(theme, extensions, keyBindings);
 
     // return extensions;
     return [...extensions, lineNumbers()];
   },
-  // markedRenderer(renderer) {
-  //   renderer.link = (href, title, text) => {
-  //     return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
-  //   };
-
-  //   renderer.image = (href: string, _: string, desc: string) => {
-  //     return `<img src="${href}" alt="${desc}">`;
-  //   };
-
-  //   return renderer;
-  // },
+  // markdownItConfig: (md) => {},
   editorExtensions: {
     // prettier: {
     //   prettierInstance: prettier,
@@ -68,7 +58,7 @@ Editor.config({
     // },
     // katex: {
     //   instance: katex
-    // },
+    // }
     // cropper: {
     //   instance: Cropper
     // },
@@ -193,13 +183,13 @@ export default defineComponent({
             // toolbarsExclude={['github']}
             // noPrettier
             // tabWidth={4}
-            // showCodeRowNumber
+            showCodeRowNumber
             // katex={katex}
             // tableShape={[10, 10]}
             // noMermaid
             // placeholder="placeholder"
             // noKatex
-            // markedHeadingId={(t, l, index) => `heading-${index}`}
+            mdHeadingId={(t, l, index) => `heading-${index}`}
             // sanitize={(h) => `<a href="#">aaa</a>${h}`}
             // scrollAuto={false}
             // noIconfont
@@ -210,6 +200,7 @@ export default defineComponent({
             // readOnly
             // maxLength={10}
             autoDetectCode
+            // onHtmlChanged={console.log}
             onSave={(v, h) => {
               console.log('onSave');
               h.then((html) => {

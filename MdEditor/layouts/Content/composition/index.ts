@@ -1,7 +1,7 @@
 import useAutoScroll from './useAutoScroll';
 import useCodeMirror from './useCodeMirror';
-import useMarked from './useMarked';
 import userZoom from './userZoom';
 import useCopyCode from './useCopyCode';
+import useMarkdownIt from './useMarkdownIt';
 
-export { useAutoScroll, useCodeMirror, useMarked, userZoom, useCopyCode };
+export { useAutoScroll, useCodeMirror, userZoom, useCopyCode, useMarkdownIt };

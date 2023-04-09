@@ -1,6 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { HeadList, SettingType, MarkedHeadingId } from '~/type';
+import { HeadList, SettingType, MdHeadingId } from '~/type';
 
 export const contentProps = {
   value: {
@@ -23,8 +23,8 @@ export const contentProps = {
     type: Function as PropType<(list: HeadList[]) => void>,
     default: () => {}
   },
-  markedHeadingId: {
-    type: Function as PropType<MarkedHeadingId>,
+  mdHeadingId: {
+    type: Function as PropType<MdHeadingId>,
     default: () => ''
   },
   noMermaid: {
@@ -84,6 +84,10 @@ export const contentProps = {
   },
   noPrettier: {
     type: Boolean as PropType<boolean>
+  },
+  noHighlight: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 
