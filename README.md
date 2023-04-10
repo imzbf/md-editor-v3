@@ -74,7 +74,7 @@ mark and emoji extensions
 | modelValue | `string` | '' | Markdown content, use `v-model` in vue template |
 | theme | `'light' \| 'dark'` | 'light' | Editor theme |
 | class | `string` | '' |  |
-| historyLength<sup>`deprecated^3.0.0`</sup> | `number` | 10 | The max length of history. `^3.0.0` uses the `history` extension of `@codemirror/commands` instead. |
+| historyLength<sup>`deleted^3.0.0`</sup> | `number` | 10 | The max length of history. `^3.0.0` uses the `history` extension of `@codemirror/commands` instead of it. |
 | pageFullscreen | `boolean` | false | Screenfull in web page |
 | preview | `boolean` | true | Preview content in editor |
 | htmlPreview | `boolean` | false | Preview html in editor(If true, preview must be false) |
@@ -93,6 +93,7 @@ mark and emoji extensions
 | placeholder | `string` | '' |  |
 | noKatex | `boolean` | false | Use katex or not |
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | Highlight code style, can be customized also |
+| markedHeadingId<sup>`deleted^3.0.0`</sup> | `(text: string, level: number, index: number) => string` | (text) => text | Use `mdHeadingId` instead of it |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
 | sanitize | `(html: string) => string` | (html) => html | Sanitize the html, prevent XSS |
 | footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
@@ -107,6 +108,7 @@ mark and emoji extensions
 | readOnly | `boolean` | false | same as `readonly` in native textarea |
 | maxLength | `number` |  | same as `maxlength` in native textarea |
 | autoDetectCode | `boolean` | false | auto detect the type of pasted code, only support that copied from `vscode` |
+| noHighlight | `boolean` | false | never highlight code |
 
 <details>
  <summary>『toolbars』</summary>
@@ -446,62 +448,39 @@ const handler = () => {
 
 ## 💴 Config Editor
 
-Use `MdEditor.config(option: ConfigOption)` to reconfigure `renderer`.
+Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
 
-- markedRenderer: `(renderer: RewriteRenderer) => RewriteRenderer`
+- codeMirrorExtensions: Customize new extensions based on theme and default extensions f codeMirror.
 
-  Open target page in a new browser window:
+  Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
 
   ```js
-  MdEditor.config({
-    markedRenderer(renderer) {
-      renderer.link = (href, title, text) => {
-        return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
-      };
+  import MdEditor from 'md-editor-v3';
+  import { lineNumbers } from '@codemirror/view';
 
-      return renderer;
+  MdEditor.config({
+    codeMirrorExtensions(_theme, extensions) {
+      return [...extensions, lineNumbers()];
     }
   });
   ```
 
-  > Reference: https://marked.js.org/using_pro#renderer, RewriteRenderer extends Renderer and rewrites heading, now provides `index` as the fifth parameter and `headingId` as the sixth parameter.
-  >
-  > ```ts
-  > type RewriteHeading = (
-  >   text: string,
-  >   level: 1 | 2 | 3 | 4 | 5 | 6,
-  >   raw: string,
-  >   slugger: Slugger,
-  >   index: number,
-  >   headingId: string
-  > ) => string;
-  > ```
+- markdownItConfig: Customize extensions, attributes of `markdown-it`, etc.
 
-- markedExtensions: `Array<marked.TokenizerExtension & marked.RendererExtension>`
+  Example: Use `markdown-it-anchor` to render a hyperlink symbol to the right of the title
 
   ```js
   import MdEditor from 'md-editor-v3';
+  import ancher from 'markdown-it-anchor';
 
   MdEditor.config({
-    markedExtensions: [your extension]
+    markdownItConfig(mdit) {
+      mdit.use(ancher, {
+        permalink: true
+      });
+    }
   });
   ```
-
-  > Reference: https://marked.js.org/using_pro#extensions
-
-- markedOptions: `marked.MarkedOptions`
-
-  Do not render `<br>` on a single line break:
-
-  ```js
-  import MdEditor from 'md-editor-v3';
-
-  MdEditor.config({
-    markedOptions: { breaks: false }
-  });
-  ```
-
-  > Reference: https://marked.js.org/using_advanced#options
 
 - editorConfig: Add more languages, reset `mermaid` template or delay rendering time:
 
@@ -594,7 +573,7 @@ _Pay attention: shortcut keys are only available when the textarea is focused!_
 | CTRL + 1-6 | h1-h6 | `# title` |
 | CTRL + ↑ | superscript | `<sup>superscript</sup>` |
 | CTRL + ↓ | subscript | `<sub>subscript</sub>` |
-| CTRL + Q<sup>`^3.0.0`deprecated</sup> | quote | `> quote` |
+| CTRL + Q<sup>`deleted^3.0.0`</sup> | quote | `> quote` |
 | CTRL + O | ordered list | `1. ordered list` |
 | CTRL + L | link | `[link](https://github.com/imzbf/md-editor-v3)` |
 | CTRL + Z | withdraw | Withdraw history in editor, not the function of system |
@@ -678,6 +657,7 @@ They are used as attributes of the editor component, eg: `MdEditor.DropdownToolb
 
   - `editorId`: `string`, necessary, same as editor's `editorId`, used to register listening events.
   - `class`: `string`, not necessary.
+  - `markedHeadingId`<sup>`deleted^3.0.0`</sup>: use `mdHeadingId` instead of it.
   - `mdHeadingId`: `MdHeadingId`, not necessary, same as editor.
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: `'light' | 'dark'`, not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.

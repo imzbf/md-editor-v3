@@ -21,11 +21,13 @@ import { lineNumbers } from '@codemirror/view';
 // import Cropper from 'cropperjs';
 // import 'cropperjs/dist/cropper.css';
 // import mermaid from 'mermaid';
-import highlight from 'highlight.js';
+// import highlight from 'highlight.js';
 // import 'highlight.js/styles/tokyo-night-dark.css';
 
 // import prettier from 'prettier';
 // import parserMarkdown from 'prettier/parser-markdown';
+
+// import ancher from 'markdown-it-anchor';
 
 import './index.less';
 
@@ -38,21 +40,25 @@ Editor.config({
     // return extensions;
     return [...extensions, lineNumbers()];
   },
-  // markdownItConfig: (md) => {},
+  // markdownItConfig: (mdit) => {
+  //   mdit.use(ancher, {
+  //     permalink: true
+  //   });
+  // },
   editorExtensions: {
     // prettier: {
     //   prettierInstance: prettier,
     //   parserMarkdownInstance: parserMarkdown
     // },
-    highlight: {
-      instance: highlight
-      // css: {
-      //   'tokyo-night': {
-      //     light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
-      //     dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
-      //   }
-      // }
-    }
+    // highlight: {
+    // instance: highlight
+    // css: {
+    //   'tokyo-night': {
+    //     light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
+    //     dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
+    //   }
+    // }
+    // }
     // screenfull: {
     //   instance: screenfull
     // },
@@ -189,6 +195,7 @@ export default defineComponent({
             // noMermaid
             // placeholder="placeholder"
             // noKatex
+            // noHighlight
             mdHeadingId={(t, l, index) => `heading-${index}`}
             // sanitize={(h) => `<a href="#">aaa</a>${h}`}
             // scrollAuto={false}
