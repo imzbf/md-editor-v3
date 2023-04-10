@@ -1,4 +1,3 @@
-import { Ref } from 'vue';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 import { debounce } from '.';
 
@@ -73,12 +72,7 @@ export const scrollAutoWithScale = (pEle: HTMLElement, cEle: HTMLElement) => {
  * @param cEle 寄主区域
  * @returns 清除监听的方法
  */
-const scrollAuto = (
-  pEle: HTMLElement,
-  cEle: HTMLElement,
-  html: Ref<string>,
-  codeMirrorUt: CodeMirrorUt
-) => {
+const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirrorUt) => {
   const { view } = codeMirrorUt;
   // 注册一个防抖监听事件函数
   const addEvent = debounce(() => {

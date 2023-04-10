@@ -38,7 +38,6 @@ const useAutoScroll = (
         [initScrollAuto, clearScrollAuto] = scrollHandler(
           cmScroller!,
           previewRef.value! || htmlRef.value,
-          html,
           codeMirrorUt.value!
         );
         initScrollAuto();
@@ -69,7 +68,6 @@ const useAutoScroll = (
       [initScrollAuto, clearScrollAuto] = scrollHandler(
         cmScroller!,
         previewRef.value! || htmlRef.value,
-        html,
         codeMirrorUt.value!
       );
     }
