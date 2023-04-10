@@ -20,7 +20,7 @@ import HeadingPlugin from '../markdownIt/heading';
 
 const addCodeLanguageAttr = (html: string) => {
   return html.replace(
-    /<pre><code\sclass="language-([^>]*)">/,
+    /<pre><code\sclass="language-([^>]*)">/g,
     '<pre><code class="language-$1" language="$1">'
   );
 };
