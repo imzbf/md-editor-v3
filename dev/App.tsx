@@ -46,11 +46,11 @@ export default defineComponent({
             codeTheme={codeTheme.value}
             lang={lang.value}
           />
-          {/* <PreviewOnly
+          <PreviewOnly
             theme={theme.value}
             previewTheme={previewTheme.value}
             codeTheme={codeTheme.value}
-          /> */}
+          />
         </div>
       </div>
     );

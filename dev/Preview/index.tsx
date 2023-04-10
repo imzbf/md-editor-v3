@@ -76,6 +76,8 @@ Editor.config({
 
 const SAVE_KEY = 'XHMPGLJIZTDB';
 
+const mdHeadingId = (t: string, l: number, index: number) => `heading-${index}`;
+
 export default defineComponent({
   props: {
     theme: String as PropType<Theme>,
@@ -146,7 +148,11 @@ export default defineComponent({
             top: '170px'
           }}
         >
-          <Editor.MdCatalog editorId="md-prev" theme={props.theme} />
+          <Editor.MdCatalog
+            editorId="md-prev"
+            theme={props.theme}
+            mdHeadingId={mdHeadingId}
+          />
         </div>
         <button
           style={{
@@ -196,7 +202,7 @@ export default defineComponent({
             // placeholder="placeholder"
             // noKatex
             // noHighlight
-            mdHeadingId={(t, l, index) => `heading-${index}`}
+            mdHeadingId={mdHeadingId}
             // sanitize={(h) => `<a href="#">aaa</a>${h}`}
             // scrollAuto={false}
             // noIconfont
@@ -206,7 +212,7 @@ export default defineComponent({
             // disabled
             // readOnly
             // maxLength={10}
-            autoDetectCode
+            // autoDetectCode
             // onHtmlChanged={console.log}
             onSave={(v, h) => {
               console.log('onSave');

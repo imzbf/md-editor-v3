@@ -1,5 +1,5 @@
 import { inject, nextTick, onMounted, Ref, watch } from 'vue';
-import scrollAuto from '~/utils/scroll-auto';
+import scrollAuto, { scrollAutoWithScale } from '~/utils/scroll-auto';
 import CodeMirrorUt from '../codemirror';
 import { ContentProps } from '../props';
 
@@ -32,9 +32,10 @@ const useAutoScroll = (
       nextTick(() => {
         clearScrollAuto();
         const cmScroller = document.querySelector<HTMLDivElement>('.cm-scroller');
+        const scrollHandler = previewRef.value ? scrollAuto : scrollAutoWithScale;
 
         // 需要等到页面挂载完成后再注册，否则不能正确获取到预览dom
-        [initScrollAuto, clearScrollAuto] = scrollAuto(
+        [initScrollAuto, clearScrollAuto] = scrollHandler(
           cmScroller!,
           previewRef.value! || htmlRef.value,
           html,
@@ -63,7 +64,9 @@ const useAutoScroll = (
     const cmScroller = document.querySelector<HTMLDivElement>('.cm-scroller');
 
     if (!previewOnly && (previewRef.value || htmlRef.value)) {
-      [initScrollAuto, clearScrollAuto] = scrollAuto(
+      const scrollHandler = previewRef.value ? scrollAuto : scrollAutoWithScale;
+
+      [initScrollAuto, clearScrollAuto] = scrollHandler(
         cmScroller!,
         previewRef.value! || htmlRef.value,
         html,
