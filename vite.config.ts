@@ -34,14 +34,14 @@ const libBuildOptions: BuildOptions = {
   rollupOptions: {
     external: [
       'vue',
-      'marked',
       'medium-zoom',
       'lru-cache',
       'copy-to-clipboard',
       '@vavt/markdown-theme',
       'codemirror',
       /@codemirror\/.*/,
-      /@lezer\/.*/
+      /@lezer\/.*/,
+      /markdown-it.*/
     ],
     output: {
       globals: {
