@@ -47,15 +47,7 @@ export const editorProps = {
     type: String,
     default: ''
   },
-  /**
-   * 历史记录最长条数
-   *
-   * @default 10
-   */
-  historyLength: {
-    type: Number as PropType<number>,
-    default: 10
-  },
+
   /**
    * input回调事件
    */

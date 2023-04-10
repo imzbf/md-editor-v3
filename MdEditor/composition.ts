@@ -135,9 +135,6 @@ export const useProvide = (props: EditorProps) => {
     })
   );
 
-  // 注入历史设置
-  provide('historyLength', props.historyLength);
-
   // 注入是否仅预览
   provide('previewOnly', previewOnly);
 
