@@ -107,9 +107,7 @@ const useMarkdownIt = (props: ContentProps) => {
     async () => {
       // 清理历史标题
       headsRef.value = [];
-      console.time();
       html.value = props.sanitize(addCodeLanguageAttr(md.render(props.value)));
-      console.timeEnd();
       // 触发异步的保存事件（html总是会比text后更新）
       bus.emit(editorId, 'buildFinished', html.value);
       props.onHtmlChanged(html.value);
