@@ -13,7 +13,7 @@ export interface AdmonitionPluginOps {
 const AdmonitionPlugin = (md: markdownit, options: AdmonitionPluginOps) => {
   options = options || {};
 
-  const minMarkers = 3,
+  const markers = 3,
     markerStr = options.marker || '!',
     markerChar = markerStr.charCodeAt(0),
     markerLen = markerStr.length;
@@ -80,7 +80,7 @@ const AdmonitionPlugin = (md: markdownit, options: AdmonitionPluginOps) => {
       }
 
       const markerCount = Math.floor((pos - start) / markerLen);
-      if (markerCount < minMarkers) {
+      if (markerCount !== markers) {
         return false;
       }
       pos -= (pos - start) % markerLen;
