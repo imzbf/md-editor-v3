@@ -1117,10 +1117,10 @@
     "@typescript-eslint/types" "5.23.0"
     eslint-visitor-keys "^3.0.0"
 
-"@vavt/md-editor-extension@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@vavt/md-editor-extension/-/md-editor-extension-2.0.0.tgz#b702715ac5f2d02eb2ad8f6150e5e38c65ebb236"
-  integrity sha512-pkJkGGzy6UoEjS90WsoLWCVzhdm36MVZ8qkGaEOMq3WQiXIhQsmPrVcwDb2JvEREC8A8BtqDsX1DhFNrYaIaQQ==
+"@vavt/md-editor-extension@^3.0.0-beta.0":
+  version "3.0.0-beta.0"
+  resolved "https://registry.npmjs.org/@vavt/md-editor-extension/-/md-editor-extension-3.0.0-beta.0.tgz#36cb99c4337890d1387f85743a638e1c8e5a9809"
+  integrity sha512-YXoKOsv6dW/0+YhXwfl2I5qwPXK61a91UfxAJsC9/m0fnDfeo3F02yZglhLptRJtOZel0v5r8ao3WZ3pQBowKQ==
 
 "@vavt/vite-plugin-import-markdown@^1.0.0":
   version "1.0.0"
@@ -2361,6 +2361,11 @@ make-dir@^2.1.0:
   dependencies:
     pify "^4.0.1"
     semver "^5.6.0"
+
+markdown-it-mark@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/markdown-it-mark/-/markdown-it-mark-3.0.1.tgz#51257db58787d78aaf46dc13418d99a9f3f0ebd3"
+  integrity sha512-HyxjAu6BRsdt6Xcv6TKVQnkz/E70TdGXEFHRYBGLncRE9lBFwDNLVtFojKxjJWgJ+5XxUwLaHXy+2sGBbDn+4A==
 
 md-editor-v3@^2.11.0:
   version "2.11.0"

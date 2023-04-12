@@ -8,23 +8,14 @@ import 'nprogress/nprogress.css';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-import MarkExtension from './utils/marked-mark';
+import MarkExtension from 'markdown-it-mark';
 
 import ZH_TW from '@vavt/md-editor-extension/dist/locale/zh-TW';
 import '@vavt/md-editor-extension/dist/previewTheme/arknights.css';
 
 MdEditor.config({
-  markedExtensions: [MarkExtension],
-  markedRenderer(renderer) {
-    renderer.heading = (text, level, _r, _s, _index, headingId) => {
-      return `<h${level} id="${headingId}"><a href="#${headingId}">${text}</a></h${level}>`;
-    };
-
-    renderer.link = (href, title, text) => {
-      return `<a href="${href}" title="${title || ''}" target="_blank">${text}</a>`;
-    };
-
-    return renderer;
+  markdownItConfig(md) {
+    md.use(MarkExtension);
   },
   editorConfig: {
     languageUserDefined: {

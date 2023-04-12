@@ -22,7 +22,7 @@ const props = defineProps({
 const markHandler = () => {
   const generator: InsertContentGenerator = (selectedText) => {
     return {
-      targetValue: `@${selectedText}@`,
+      targetValue: `==${selectedText}==`,
       select: true,
       deviationStart: 0,
       deviationEnd: 0
