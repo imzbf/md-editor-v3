@@ -3,20 +3,20 @@ import { UserConfigExport, ConfigEnv, BuildOptions } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import dts from 'vite-plugin-dts';
-
-import nodeService from './vitePlugins/nodeService';
 import markdown from '@vavt/vite-plugin-import-markdown';
 
-import { name } from './package.json';
+import nodeService from './plugins/nodeService';
 
-const OUT_DIR = 'lib';
+import { name } from '../package.json';
+
+const OUT_DIR = '../lib';
 
 const libBuildOptions: BuildOptions = {
   outDir: path.resolve(__dirname, OUT_DIR),
   lib: {
-    entry: path.resolve(__dirname, './MdEditor'),
+    entry: path.resolve(__dirname, '../MdEditor'),
     name: 'MdEditorV3',
-    formats: ['es', 'cjs', 'umd'],
+    formats: ['es', 'cjs'],
     fileName(format) {
       switch (format) {
         case 'es': {
@@ -25,8 +25,8 @@ const libBuildOptions: BuildOptions = {
         case 'cjs': {
           return `${name}.cjs`;
         }
-        case 'umd': {
-          return `${name}.umd.js`;
+        default: {
+          return '';
         }
       }
     }
@@ -51,12 +51,14 @@ const libBuildOptions: BuildOptions = {
   }
 };
 
+const resolvePath = (p: string) => path.resolve(__dirname, p);
+
 export default ({ mode }: ConfigEnv): UserConfigExport => {
   console.log('mode：', mode);
 
   return {
     base: '/',
-    publicDir: mode === 'production' ? false : './dev/public',
+    publicDir: mode === 'production' ? false : '../dev/public',
     server: {
       host: 'localhost',
       open: true,
@@ -65,8 +67,8 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './dev'),
-        '~': path.resolve(__dirname, './MdEditor')
+        '@': resolvePath('../dev'),
+        '~': resolvePath('../MdEditor')
       }
     },
     plugins: [
@@ -76,14 +78,14 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       mode !== 'production' && markdown(),
       mode === 'production' &&
         dts({
-          outputDir: `${OUT_DIR}/MdEditor`,
+          outputDir: resolvePath(`${OUT_DIR}/MdEditor`),
           include: [
-            './MdEditor/type.ts',
-            './MdEditor/Editor.tsx',
-            './MdEditor/extensions/**/*.tsx',
-            './MdEditor/index.ts',
-            './MdEditor/config.ts',
-            './MdEditor/layouts/Content/composition/type.d.ts'
+            resolvePath('../MdEditor/type.ts'),
+            resolvePath('../MdEditor/Editor.tsx'),
+            resolvePath('../MdEditor/extensions/**/*.tsx'),
+            resolvePath('../MdEditor/index.ts'),
+            resolvePath('../MdEditor/config.ts'),
+            resolvePath('../MdEditor/layouts/Content/composition/type.d.ts')
           ]
         })
     ],

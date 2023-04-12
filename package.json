@@ -42,8 +42,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build"
+    "dev": "vite -c vite/config.ts",
+    "build": "vue-tsc && vite build -c vite/config.ts && vite build -c vite/umd.config.ts --emptyOutDir false"
   },
   "dependencies": {
     "@codemirror/lang-markdown": "^6.1.0",
