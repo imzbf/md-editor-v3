@@ -13,8 +13,8 @@ export default { name: 'ContrastPage' };
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import mdEN from '../../../public/contrast-en-US.md';
-import mdCN from '../../../public/contrast-zh-CN.md';
+import mdEN from '../../../public/contrast-en-US-3.md';
+import mdCN from '../../../public/contrast-zh-CN-3.md';
 import IzPreviewContent from '@/layouts/PreviewContent/index.vue';
 
 const store = useStore();

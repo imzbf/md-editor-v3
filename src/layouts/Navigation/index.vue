@@ -40,6 +40,14 @@
         {{ linkNames.grammar }}
       </RouterLink>
     </li>
+    <li className="nav-item">
+      <RouterLink :to="`${routePrefix}/contrast`">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-wenda"></use>
+        </svg>
+        {{ linkNames.contrast }}
+      </RouterLink>
+    </li>
     <li class="nav-item">
       <RouterLink :to="`${routePrefix}/about`">
         <svg class="icon" aria-hidden="true">
@@ -80,6 +88,7 @@ const linkNames = computed(() => {
         demo: '示例',
         github: '源码',
         grammar: '语法',
+        contrast: '对比',
         about: '关于',
         lang: 'English',
         langIcon: '#icon-d-en'
@@ -90,6 +99,7 @@ const linkNames = computed(() => {
         demo: 'Demo',
         github: 'Github',
         grammar: 'Grammar',
+        contrast: 'Contrast',
         about: 'About',
         lang: '中文',
         langIcon: '#icon-d-cn'
