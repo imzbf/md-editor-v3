@@ -1,4 +1,4 @@
-import { inject, nextTick, onMounted, Ref, watch } from 'vue';
+import { inject, nextTick, onMounted, Ref, toRef, watch } from 'vue';
 import scrollAuto, { scrollAutoWithScale } from '~/utils/scroll-auto';
 import CodeMirrorUt from '../codemirror';
 import { ContentProps } from '../props';
@@ -16,10 +16,14 @@ const useAutoScroll = (
   let initScrollAuto = () => {};
 
   // 编译事件
-  const htmlChanged = () => {
+  const rebindEvent = () => {
     nextTick(() => {
       // 更新完毕后判断是否需要重新绑定滚动事件
-      if (props.setting.preview && !previewOnly && props.scrollAuto) {
+      if (
+        (props.setting.preview || props.setting.htmlPreview) &&
+        !previewOnly &&
+        props.scrollAuto
+      ) {
         clearScrollAuto();
         initScrollAuto();
       }
@@ -38,16 +42,24 @@ const useAutoScroll = (
         [initScrollAuto, clearScrollAuto] = scrollHandler(
           cmScroller!,
           previewRef.value! || htmlRef.value,
-          codeMirrorUt.value!
+          codeMirrorUt.value!,
+          props.value
         );
         initScrollAuto();
       });
     }
   };
 
-  watch(() => html.value, htmlChanged);
+  watch(() => html.value, rebindEvent);
   watch(() => props.setting.preview, settingPreviewChanged);
   watch(() => props.setting.htmlPreview, settingPreviewChanged);
+
+  watch(
+    [toRef(props.setting, 'fullscreen'), toRef(props.setting, 'pageFullscreen')],
+    rebindEvent
+  );
+
+  // 切换滚动状态
   watch(
     () => props.scrollAuto,
     (sa) => {
@@ -68,7 +80,8 @@ const useAutoScroll = (
       [initScrollAuto, clearScrollAuto] = scrollHandler(
         cmScroller!,
         previewRef.value! || htmlRef.value,
-        codeMirrorUt.value!
+        codeMirrorUt.value!,
+        props.value
       );
     }
 
