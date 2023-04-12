@@ -10,13 +10,13 @@ import { tags as t } from '@lezer/highlight';
 // Using https://github.com/one-dark/vscode-one-dark-theme/ as reference for the colors
 
 const chalky = '#e5c07b',
-  coral = '#abb2bf',
+  coral = 'var(--md-color)',
   cyan = '#56b6c2',
   invalid = '#ffffff',
-  ivory = '#abb2bf',
+  ivory = 'var(--md-color)',
   stone = '#e5c07b', // Brightened compared to original to increase contrast
   malibu = '#e5c07b',
-  sage = '#abb2bf', // 标题等符号
+  sage = 'var(--md-color)', // 标题等符号
   whiskey = '#d19a66',
   violet = '#c678dd',
   darkBackground = '#21252b',
