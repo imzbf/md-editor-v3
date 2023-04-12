@@ -141,6 +141,8 @@ const scrollAuto = (
       };
       sourceLineHeightMap.push(lineData);
     });
+
+    tempEle.remove();
   };
 
   const scrollHandler = debounce((e: Event) => {
