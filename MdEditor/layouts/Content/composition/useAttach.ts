@@ -13,7 +13,7 @@ const useAttach = (codeMirrorUt: Ref<CodeMirrorUt | undefined>) => {
     bus.on(editorId, {
       name: TEXTAREA_FOCUS,
       callback() {
-        codeMirrorUt.value?.foucs();
+        codeMirrorUt.value?.focus();
       }
     });
   });
