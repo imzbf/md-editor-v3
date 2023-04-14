@@ -78,13 +78,12 @@ export const appendHandler = (ele: HTMLElement, checkKey = '') => {
   if (!insertedEle) {
     ele.addEventListener('load', onload);
     document.head.appendChild(ele);
-  } else if (checkKey !== '' && typeof ele.onload === 'function') {
+  } else if (checkKey !== '') {
+    insertedEle.addEventListener('load', onload);
+
     if (Reflect.get(window, checkKey)) {
       // 实例已存在，直接触发load事件
-      ele.dispatchEvent(new Event('load'));
-    } else {
-      // 实例不存在，将load事件挂载到已插入的节点上
-      insertedEle.addEventListener('load', onload);
+      insertedEle.dispatchEvent(new Event('load'));
     }
   }
 };
