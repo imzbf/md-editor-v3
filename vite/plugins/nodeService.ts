@@ -3,7 +3,7 @@ import multiparty from 'multiparty';
 import fs from 'fs';
 import path from 'path';
 
-const LOCAL_IMG_PATH = path.resolve(__dirname, '../dev/public/temp.local');
+const LOCAL_IMG_PATH = path.resolve(__dirname, '../../dev/public/temp.local');
 
 export default (): Plugin => {
   return {
