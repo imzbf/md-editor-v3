@@ -62,9 +62,14 @@ export const keyMove = (
 export const appendHandler = (ele: HTMLElement, checkKey = '') => {
   const insertedEle = document.getElementById(ele.id);
 
-  const onload = (e: Event) => {
-    if (typeof ele.onload === 'function') {
-      ele.onload(e);
+  // 备份
+  const onload_ = ele.onload;
+  // 清空
+  ele.onload = null;
+
+  const onload = function (this: GlobalEventHandlers, e: Event) {
+    if (typeof onload_ === 'function') {
+      onload_.bind(this)(e);
     }
 
     ele.removeEventListener('load', onload);
