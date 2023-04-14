@@ -219,7 +219,7 @@ export const useKatex = (props: ContentProps, marked: any) => {
   const katexIns = katexConf?.instance;
 
   // katex是否加载完成
-  const katexInited = ref(false);
+  const katexInited = ref(!!katexIns);
 
   // 当没有设置不使用katex，直接扩展组件
   if (!props.noKatex) {
@@ -276,13 +276,9 @@ export const useMarked = (props: ContentProps) => {
   // 获取相应的扩展实例
   const highlightIns = editorExtensions?.highlight?.instance;
   const mermaidIns = editorExtensions?.mermaid?.instance;
-  const katexIns = editorExtensions?.katex?.instance;
-
-  // 获取相应的扩展配置链接
-  const katexConf = editorExtensions?.katex;
 
   // ~~
-  const highlightInited = ref(false);
+  const highlightInited = ref(!!highlightIns);
 
   // 标题列表，扁平结构
   const heads = ref<HeadList[]>([]);
@@ -582,25 +578,6 @@ export const useMarked = (props: ContentProps) => {
 
   // =====插入依赖扩展=====
   onMounted(() => {
-    // 标签引入katex
-    if (!props.noKatex && !katexIns) {
-      const katexScript = document.createElement('script');
-
-      katexScript.src = katexConf?.js || katexUrl.js;
-      katexScript.onload = () => {
-        katexInited.value = true;
-      };
-      katexScript.id = `${prefix}-katex`;
-
-      const katexLink = document.createElement('link');
-      katexLink.rel = 'stylesheet';
-      katexLink.href = katexConf?.css || katexUrl.css;
-      katexLink.id = `${prefix}-katexCss`;
-
-      appendHandler(katexScript, 'katex');
-      appendHandler(katexLink);
-    }
-
     const highlightLink = document.createElement('link');
     highlightLink.rel = 'stylesheet';
     highlightLink.href = highlightUrl.value.css;
@@ -876,7 +853,7 @@ export const useMermaid = (props: ContentProps) => {
 
   const mermaidData = reactive({
     reRender: false,
-    mermaidInited: false
+    mermaidInited: !!mermaidConf?.instance
   });
 
   const setMermaidTheme = () => {
