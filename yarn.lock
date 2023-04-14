@@ -2362,10 +2362,10 @@ make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-md-editor-v3@^2.11.0:
-  version "2.11.0"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.11.0.tgz#80bc8f53bafc20961909742af4abe249898fd1b9"
-  integrity sha512-k94hCH7PUEOfZkKhWMfv7WHbJOetN59eTSPZoMutXZ3NLKNa8GqEdllHSfdy6XytnVSHlQBbQrmMu7PYyIruvQ==
+md-editor-v3@^2.11.1:
+  version "2.11.1"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.11.1.tgz#1d7f482cff5847f5d80b24465b543d219b831d39"
+  integrity sha512-Hjhv1acbk+Bu4/+IVA8umPn1Kh8SJj5XqTgdKEDK1bP8iMpo5MBZhWSlCApzLBo/YWKufOA1CZhPvzoBu7C2PQ==
 
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"
