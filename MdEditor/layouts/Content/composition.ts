@@ -451,8 +451,8 @@ export const useMarked = (props: ContentProps) => {
         }
 
         return showCodeRowNumber
-          ? generateCodeRowNumber(codeHtml)
-          : `<span class="code-block">${codeHtml}</span>`;
+          ? generateCodeRowNumber(codeHtml.trim())
+          : `<span class="code-block">${codeHtml.trim()}</span>`;
       }
     });
   }
@@ -561,8 +561,8 @@ export const useMarked = (props: ContentProps) => {
         }
 
         return showCodeRowNumber
-          ? generateCodeRowNumber(codeHtml)
-          : `<span class="code-block">${codeHtml}</span>`;
+          ? generateCodeRowNumber(codeHtml.trim())
+          : `<span class="code-block">${codeHtml.trim()}</span>`;
       }
     });
 
