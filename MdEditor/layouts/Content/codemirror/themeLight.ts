@@ -17,7 +17,7 @@ const chalky = '#e5c07b',
   whiskey = '#d19a66',
   violet = '#c678dd',
   darkBackground = '#21252b',
-  highlightBackground = '#2c313a',
+  highlightBackground = '#ceedfa33',
   background = '#fff',
   tooltipBackground = '#353a42',
   selection = '#bad5fa',
@@ -56,7 +56,7 @@ export const oneLightTheme = EditorView.theme(
     },
 
     '.cm-cursor, .cm-dropCursor': { borderLeftColor: cursor },
-    '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection':
+    '&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection':
       { backgroundColor: selection },
 
     '.cm-panels': { backgroundColor: darkBackground, color: ivory },
