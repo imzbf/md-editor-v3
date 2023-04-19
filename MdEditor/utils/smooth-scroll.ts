@@ -16,7 +16,7 @@ const smoothScroll = (ele: HTMLElement, top: number, cb?: () => void) => {
 
     if (Math.abs(distance) < 1) {
       ele.scrollTo(0, top);
-      cb && cb();
+      cb && setTimeout(cb, 100);
     } else {
       ele.scrollTo(0, scrollTop);
       requestAnimationFrame(scrollHandler);
