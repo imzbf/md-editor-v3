@@ -43,7 +43,7 @@ const useCodeMirror = (props: ContentProps) => {
     // 横向换行
     EditorView.lineWrapping,
     EditorView.updateListener.of((update) => {
-      props.onChange(update.state.doc.toString());
+      update.docChanged && props.onChange(update.state.doc.toString());
     }),
     EditorView.domEventHandlers({
       paste: pasteHandler,
