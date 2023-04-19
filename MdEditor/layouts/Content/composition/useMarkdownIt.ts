@@ -18,13 +18,6 @@ import KatexPlugin from '../markdownIt/katex';
 import AdmonitionPlugin from '../markdownIt/admonition';
 import HeadingPlugin from '../markdownIt/heading';
 
-const addCodeLanguageAttr = (html: string) => {
-  return html.replace(
-    /<pre><code\sclass="language-([^>]*)">/g,
-    '<pre><code class="language-$1" language="$1">'
-  );
-};
-
 const useMarkdownIt = (props: ContentProps) => {
   const { editorConfig, markdownItConfig } = configOption;
   //
@@ -73,44 +66,40 @@ const useMarkdownIt = (props: ContentProps) => {
 
   md.set({
     highlight: (str, language) => {
-      // 不高亮或者没有实例，返回默认
-      if (props.noHighlight) {
-        return str;
-      }
-      if (!hljsRef.value) {
-        return str;
-      }
-
-      // 如果是mermaid
-
-      const hljsLang = hljsRef.value.getLanguage(language);
       let codeHtml;
-      if (hljsLang) {
-        codeHtml = hljsRef.value.highlight(str, {
-          language,
-          ignoreIllegals: true
-        }).value;
+
+      // 不高亮或者没有实例，返回默认
+      if (!props.noHighlight && hljsRef.value) {
+        const hljsLang = hljsRef.value.getLanguage(language);
+        if (hljsLang) {
+          codeHtml = hljsRef.value.highlight(str, {
+            language,
+            ignoreIllegals: true
+          }).value;
+        } else {
+          codeHtml = hljsRef.value.highlightAuto(str).value;
+        }
       } else {
-        codeHtml = hljsRef.value.highlightAuto(str).value;
+        codeHtml = md.utils.escapeHtml(str);
       }
 
-      // console.log(str, language);
-
-      return showCodeRowNumber
+      const codeSpan = showCodeRowNumber
         ? generateCodeRowNumber(codeHtml.trim())
         : `<span class="code-block">${codeHtml.trim()}</span>`;
+
+      return `<pre><code class="language-${language}" language=${language}>${codeSpan}</code></pre>`;
     }
   });
 
   markdownItConfig!(md);
 
-  const html = ref(props.sanitize(addCodeLanguageAttr(md.render(props.value))));
+  const html = ref(props.sanitize(md.render(props.value)));
 
   const markHtml = debounce(
     async () => {
       // 清理历史标题
       headsRef.value = [];
-      html.value = props.sanitize(addCodeLanguageAttr(md.render(props.value)));
+      html.value = props.sanitize(md.render(props.value));
       // 触发异步的保存事件（html总是会比text后更新）
       bus.emit(editorId, 'buildFinished', html.value);
       props.onHtmlChanged(html.value);
