@@ -97,6 +97,10 @@ const useMermaid = (props: ContentProps) => {
           p.setAttribute('data-processed', '');
           p.innerHTML = mermaidHtml;
 
+          if (item.dataset.line !== undefined) {
+            p.dataset.line = item.dataset.line;
+          }
+
           item.replaceWith(p);
         });
       }
