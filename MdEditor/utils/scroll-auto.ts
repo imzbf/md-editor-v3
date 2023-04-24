@@ -233,7 +233,14 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       let eleEnd = cEle.firstElementChild?.lastElementChild as HTMLElement;
       for (; elesHasLineNumer.length > 0; ) {
         const vEleIndex = elesHasLineNumer.indexOf(vEle);
+
+        // 左边没有滚动条，右边有滚动条，可能会出现找不到vEleNext
+        if (vEleIndex + 1 >= elesHasLineNumer.length) {
+          break;
+        }
+
         const vEleNext = elesHasLineNumer[vEleIndex + 1];
+
         // 判断这个元素是否在可视区域上方，下一个有明确标记的元素是否处于下方
         const vEleOffsetTop = vEle.offsetTop;
         if (vEleOffsetTop > cScrollTop) {
