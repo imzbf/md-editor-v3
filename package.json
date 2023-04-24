@@ -46,8 +46,8 @@
     "build": "vue-tsc && vite build -c vite/config.ts && vite build -c vite/umd.config.ts --emptyOutDir false"
   },
   "dependencies": {
-    "@codemirror/lang-markdown": "^6.1.0",
-    "@codemirror/language-data": "^6.1.0",
+    "@codemirror/lang-markdown": "^6.1.1",
+    "@codemirror/language-data": "^6.3.0",
     "@types/markdown-it": "^12.2.3",
     "@vavt/markdown-theme": "^2.2.2",
     "codemirror": "^6.0.1",
