@@ -1,4 +1,4 @@
-import { ref, onMounted, inject, ComputedRef, watch } from 'vue';
+import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
 import { EditorView, minimalSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
@@ -29,7 +29,10 @@ const useCodeMirror = (props: ContentProps) => {
   const editorId = inject('editorId') as string;
   const theme = inject('theme') as ComputedRef<Themes>;
   const inputWrapperRef = ref<HTMLDivElement>();
-  const codeMirrorUt = ref<CodeMirrorUt>();
+
+  // 编辑器的实例不能用ref包裹，vue会处理内部属性
+  // https://discuss.codemirror.net/t/invalid-child-in-posbefore-codemirror6/3371/5
+  const codeMirrorUt = shallowRef<CodeMirrorUt>();
 
   const mdEditorCommands = createCommands(editorId, props);
 
