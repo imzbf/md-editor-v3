@@ -119,7 +119,7 @@ export const directive2flag = (
         break;
       }
       case 'strikeThrough': {
-        targetValue = `~${selectedText}~`;
+        targetValue = `~~${selectedText}~~`;
         deviationStart = 1;
         deviationEnd = -1;
         break;
