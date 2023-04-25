@@ -41,6 +41,14 @@ export default defineComponent({
 });
 ```
 
+```shell [install:yarn]
+yarn add md-editor-v3
+```
+
+```shell [install:npm]
+npm i md-editor-v3
+```
+
 ## 3. 文本演示
 
 依照普朗克长度这项单位，目前可观测的宇宙的直径估计值（直径约 930 亿光年，即 8.8 × 10<sup>26</sup> 米）即为 5.4 × 10<sup>61</sup>倍普朗克长度。而可观测宇宙体积则为 8.4 × 10<sup>184</sup>立方普朗克长度（普朗克体积）。
