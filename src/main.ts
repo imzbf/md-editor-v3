@@ -10,12 +10,21 @@ import 'md-editor-v3/lib/style.css';
 
 import MarkExtension from 'markdown-it-mark';
 
+import { lineNumbers } from '@codemirror/view';
+// import { basicSetup } from 'codemirror';
+
 import ZH_TW from '@vavt/md-editor-extension/dist/locale/zh-TW';
 import '@vavt/md-editor-extension/dist/previewTheme/arknights.css';
 
 MdEditor.config({
   markdownItConfig(md) {
     md.use(MarkExtension);
+  },
+  codeMirrorExtensions(theme, extensions) {
+    const _exs = [...extensions, lineNumbers()];
+
+    // _exs[1] = basicSetup;
+    return _exs;
   },
   editorConfig: {
     languageUserDefined: {

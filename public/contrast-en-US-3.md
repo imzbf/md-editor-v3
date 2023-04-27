@@ -1,6 +1,15 @@
-## Upgrade from 1.x to 2.x
+# Upgrade from 2.x to 3.x
 
 This is the content that 3.x is incompatible with version 2.x only.
+
+## Grammar
+
+- Strikethrough
+
+  ```diff
+  - ~It is a dream deeply rooted in the American dream.~
+  + ~~It is a dream deeply rooted in the American dream.~~
+  ```
 
 ## Props
 

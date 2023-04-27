@@ -20,7 +20,7 @@
         editorId="edit2preview"
         previewOnly
         :modelValue="props.mdText"
-        :markedHeadingId="readingHeadingId"
+        :mdHeadingId="readingHeadingId"
       />
     </div>
     <template #trigger>

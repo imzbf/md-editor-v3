@@ -28,10 +28,10 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🐹 删除线
 
-~It is a dream deeply rooted in the American dream.~
+~~It is a dream deeply rooted in the American dream.~~
 
 ```markdown
-~It is a dream deeply rooted in the American dream.~
+~~It is a dream deeply rooted in the American dream.~~
 ```
 
 ---
@@ -104,6 +104,36 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 ````
+
+### 🗄 代码组合
+
+```shell [id:yarn]
+yarn add md-editor-v3
+```
+
+```shell [id:npm]
+npm install md-editor-v3
+```
+
+```shell [id:pnpm]
+pnpm install md-editor-v3
+```
+
+````markdown
+```shell [id:yarn]
+yarn add md-editor-v3
+```
+
+```shell [id:npm]
+npm install md-editor-v3
+```
+
+```shell [id:pnpm]
+pnpm install md-editor-v3
+```
+````
+
+---
 
 ## 🐻‍❄️ 引用
 
@@ -240,6 +270,8 @@ gitGraph
 ````
 
 更多图形示例参考：[https://mermaid.js.org/syntax/flowchart.html](https://mermaid.js.org/syntax/flowchart.html)
+
+---
 
 ## 🙈 提示
 

@@ -24,8 +24,8 @@ const markHandler = () => {
     return {
       targetValue: `==${selectedText}==`,
       select: true,
-      deviationStart: 0,
-      deviationEnd: 0
+      deviationStart: 2,
+      deviationEnd: -2
     };
   };
 

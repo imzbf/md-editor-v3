@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <div class="doc">
-      <IzPreviewContent
-        :editorId="editorId"
-        :modelValue="mdText"
-        :showCodeRowNumber="false"
-      />
+      <IzPreviewContent :editorId="editorId" :modelValue="mdText" />
       <IzCatalog :editorId="editorId" />
     </div>
   </div>
