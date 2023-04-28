@@ -31,14 +31,14 @@ const useHighlight = (props: ContentProps) => {
       };
       highlightScript.id = `${prefix}-hljs`;
       appendHandler(highlightScript, 'hljs');
+
+      const highlightLink = document.createElement('link');
+      highlightLink.rel = 'stylesheet';
+      highlightLink.href = highlightUrl.value.css;
+      highlightLink.id = `${prefix}-hlCss`;
+
+      appendHandler(highlightLink);
     }
-
-    const highlightLink = document.createElement('link');
-    highlightLink.rel = 'stylesheet';
-    highlightLink.href = highlightUrl.value.css;
-    highlightLink.id = `${prefix}-hlCss`;
-
-    appendHandler(highlightLink);
   });
 
   watch(
