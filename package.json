@@ -49,7 +49,7 @@
     "@codemirror/lang-markdown": "^6.1.1",
     "@codemirror/language-data": "^6.3.0",
     "@types/markdown-it": "^12.2.3",
-    "@vavt/markdown-theme": "^2.2.2",
+    "@vavt/markdown-theme": "^3.0.0",
     "codemirror": "^6.0.1",
     "copy-to-clipboard": "^3.3.3",
     "lru-cache": "^8.0.4",
