@@ -41,8 +41,12 @@
 
 ### 🤖 NPM 安装
 
-```shell
+```shell [install:yarn]
 yarn add md-editor-v3
+```
+
+```shell [install:npm]
+npm install md-editor-v3
 ```
 
 #### 🥱 Setup 模板
@@ -82,6 +86,189 @@ export default defineComponent({
 ## 🥂 扩展功能
 
 这里包含了一些编辑器`api`的使用示范
+
+### 🥶 自定义快捷键
+
+内置的快捷键配置的源码：[commands.ts](https://github.com/imzbf/md-editor-v3/blob/develop/MdEditor/layouts/Content/codemirror/commands.ts)，它们作为扩展项被添加到了`codemirror`。
+
+想要替换、删除快捷键的基本原理是找到对应的扩展，然后遍历这个快捷键配置的数组，找到并处理它。
+
+事实上，`MdEditor.config`中`codeMirrorExtensions`的第二入参`extensions`是一个数组，它的第一项就是快捷键扩展，第三入参就是默认的快捷键配置。
+
+#### 💅 修改快捷键
+
+将`Ctrl-b`修改为`Ctrl-m`
+
+```js
+import MdEditor from 'md-editor-v3';
+import { keymap } from '@codemirror/view';
+
+MdEditor.config({
+  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
+  codeMirrorExtensions(theme, extensions, mdEditorCommands) {
+    const newExtensions = [...extensions];
+    // 1. 先把默认的快捷键扩展移除
+    newExtensions.shift();
+
+    // 2. 参考快捷键配置的源码，找到CtrlB的配置项在mdEditorCommands中的位置
+    const CtrlB = mdEditorCommands[0];
+
+    // 3. 配置codemirror快捷键的文档
+    // https://codemirror.net/docs/ref/#commands
+    const CtrlM = {
+      // 这里我们需要CtrlB默认触发执行的run方法，如果是新增快捷键等，就需要自行处理触发逻辑
+      ...CtrlB,
+      key: 'Ctrl-m',
+      mac: 'Cmd-m'
+    };
+
+    // 4. 把修改后的快捷键放到待构建扩展的数组中
+    const newMdEditorCommands = [
+      CtrlM,
+      ...mdEditorCommands.filter((i) => i.key !== 'Ctrl-b')
+    ];
+
+    newExtensions.push(keymap.of(newMdEditorCommands));
+
+    return newExtensions;
+  }
+});
+```
+
+#### ✂️ 删除快捷键
+
+禁用所有快捷键
+
+```js
+import MdEditor from 'md-editor-v3';
+
+MdEditor.config({
+  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
+  codeMirrorExtensions(theme, extensions) {
+    const newExtensions = [...extensions];
+    // 1. 把默认的快捷键扩展移除
+    newExtensions.shift();
+
+    // 2. 返回扩展列表即可
+    return newExtensions;
+  }
+});
+```
+
+#### 💉 新增快捷键
+
+如果涉及到向编辑框插入内容，这是需要借助组件实例上绑定的`insert`方法，参考[手动向文本框插入内容](/md-editor-v3/zh-CN/docs#%F0%9F%92%89%20insert)。
+
+如果不是在编辑器所在的组件中使用`MdEditor.config`，这是无法拿到编辑器组件实例，这时，你可能需要借助`event-bus`。
+
+示例实现`Ctrl+m`向编辑框插入标记模块(`==mark==`)
+
+`index.ts`
+
+```js
+import MdEditor from 'md-editor-v3';
+import { keymap, KeyBinding } from '@codemirror/view';
+// 假设你使用了EventBus
+import bus from '@/utils/event-bus';
+
+MdEditor.config({
+  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
+  codeMirrorExtensions(theme, extensions, mdEditorCommands) {
+    const newExtensions = [...extensions];
+    // 1. 先把默认的快捷键扩展移除
+    newExtensions.shift();
+
+    // 2. 创建一个新的快捷键配置，参考https://codemirror.net/docs/ref/#commands
+    const CtrlM: KeyBinding = {
+      key: 'Ctrl-m',
+      mac: 'Cmd-m',
+      run: () => {
+        bus.emit('insertMarkBlock');
+        return true;
+      }
+    };
+
+    // 4. 把新的快捷键添加到数组中
+    const newMdEditorCommands = [...mdEditorCommands, CtrlM];
+
+    newExtensions.push(keymap.of(newMdEditorCommands));
+
+    return newExtensions;
+  }
+});
+```
+
+接下来在编辑器所在组件监听`insertMarkBlock`这个事件
+
+`index.vue`
+
+```vue
+<template>
+  <MdEditor ref="mdEditorRef" v-model="text" />
+</template>
+
+<script setup lang="ts">
+import MdEditor from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
+import { ref, onMounted } from 'vue';
+// 假设你使用了EventBus
+import bus from '@/utils/event-bus';
+
+const text = ref<string>('## md-editor-v3\n\n');
+
+const mdEditorRef = ref<ExposeParam>();
+
+onMounted(() => {
+  bus.on('insertMarkBlock', () => {
+    mdEditorRef.value?.insert((selectedText) => {
+      return {
+        targetValue: `==${selectedText}==`,
+        select: true,
+        deviationStart: 2,
+        deviationEnd: -2
+      };
+    });
+  });
+});
+</script>
+```
+
+附：`EventBus`最简单实现
+
+```ts
+/* eslint-disable @typescript-eslint/ban-types */
+class EventBus {
+  private events: Map<string, Function[]>;
+
+  constructor() {
+    this.events = new Map();
+  }
+
+  on(eventName: string, fn: Function) {
+    if (!eventName) {
+      console.error('无效的事件名称');
+      return false;
+    }
+
+    if (!(fn instanceof Function)) {
+      console.error('无效的回调方法');
+      return false;
+    }
+
+    const fns = this.events.get(eventName) || [];
+    fns.push(fn);
+    this.events.set(eventName, fns);
+  }
+
+  emit(eventName: string, ...args: any[]) {
+    this.events.get(eventName)?.forEach((fn) => {
+      fn(args);
+    });
+  }
+}
+
+export default new EventBus();
+```
 
 ### 🍦 主题切换
 
