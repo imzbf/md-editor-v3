@@ -578,13 +578,6 @@ export const useMarked = (props: ContentProps) => {
 
   // =====插入依赖扩展=====
   onMounted(() => {
-    const highlightLink = document.createElement('link');
-    highlightLink.rel = 'stylesheet';
-    highlightLink.href = highlightUrl.value.css;
-    highlightLink.id = `${prefix}-hlCss`;
-
-    appendHandler(highlightLink);
-
     if (!highlightIns) {
       const highlightScript = document.createElement('script');
       highlightScript.src = highlightUrl.value.js;
@@ -592,6 +585,13 @@ export const useMarked = (props: ContentProps) => {
       highlightScript.id = `${prefix}-hljs`;
 
       appendHandler(highlightScript, 'hljs');
+
+      const highlightLink = document.createElement('link');
+      highlightLink.rel = 'stylesheet';
+      highlightLink.href = highlightUrl.value.css;
+      highlightLink.id = `${prefix}-hlCss`;
+
+      appendHandler(highlightLink);
     }
   });
 
