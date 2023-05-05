@@ -221,6 +221,8 @@ export default defineComponent({
               });
               localStorage.setItem(SAVE_KEY, v);
             }}
+            // onHtmlChanged={console.log}
+            // onGetCatalog={console.log}
             codeTheme={props.codeTheme}
             // toolbars={['bold', 'link', '=', 'prettier', 'link']}
             // toolbarsExclude={['github']}

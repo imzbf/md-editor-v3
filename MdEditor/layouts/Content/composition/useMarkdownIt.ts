@@ -118,6 +118,14 @@ const useMarkdownIt = (props: ContentProps) => {
   markdownItConfig!(md);
 
   const html = ref(props.sanitize(md.render(props.value)));
+  // 触发异步的保存事件（html总是会比text后更新）
+  bus.emit(editorId, 'buildFinished', html.value);
+  props.onHtmlChanged(html.value);
+  // 传递标题
+  props.onGetCatalog(headsRef.value);
+  // 生成目录
+  bus.emit(editorId, 'catalogChanged', headsRef.value);
+  replaceMermaid();
 
   const markHtml = debounce(
     async () => {
@@ -127,6 +135,10 @@ const useMarkdownIt = (props: ContentProps) => {
       // 触发异步的保存事件（html总是会比text后更新）
       bus.emit(editorId, 'buildFinished', html.value);
       props.onHtmlChanged(html.value);
+      // 传递标题
+      props.onGetCatalog(headsRef.value);
+      // 生成目录
+      bus.emit(editorId, 'catalogChanged', headsRef.value);
       replaceMermaid();
     },
     editorConfig?.renderDelay !== undefined
@@ -137,23 +149,10 @@ const useMarkdownIt = (props: ContentProps) => {
   );
 
   const needReRender = computed(() => {
-    return props.noHighlight || hljsRef.value;
-
-    // return (props.noKatex || katexRef.value) && (props.noHighlight || hljsRef.value);
+    return (props.noKatex || katexRef.value) && (props.noHighlight || hljsRef.value);
   });
 
   watch([toRef(props, 'value'), needReRender, reRenderRef], markHtml);
-
-  watch(
-    () => headsRef.value,
-    (list) => {
-      // 传递标题
-      props.onGetCatalog(list);
-
-      // 生成目录
-      bus.emit(editorId, 'catalogChanged', list);
-    }
-  );
 
   // 添加目录主动触发接收监听
   onMounted(() => {
