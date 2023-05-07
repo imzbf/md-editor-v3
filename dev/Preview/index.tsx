@@ -8,7 +8,14 @@ import {
   ref,
   onMounted
 } from 'vue';
-import Editor, { ExposeParam } from '../../MdEditor';
+import {
+  MdEditor,
+  MdCatalog,
+  NormalToolbar,
+  DropdownToolbar,
+  ModalToolbar
+} from '~~/index';
+import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
 import { Theme } from '../App';
 import axios from 'axios';
@@ -33,7 +40,7 @@ import './index.less';
 
 // import { cdnBase } from '../../MdEditor/config';
 
-Editor.config({
+MdEditor.config({
   codeMirrorExtensions(theme, extensions) {
     // console.log(theme, extensions, keyBindings);
 
@@ -148,11 +155,7 @@ export default defineComponent({
             top: '170px'
           }}
         >
-          <Editor.MdCatalog
-            editorId="md-prev"
-            theme={props.theme}
-            mdHeadingId={mdHeadingId}
-          />
+          <MdCatalog editorId="md-prev" theme={props.theme} mdHeadingId={mdHeadingId} />
         </div>
         <button
           style={{
@@ -182,7 +185,7 @@ export default defineComponent({
           1
         </button>
         <div class="container">
-          <Editor
+          <MdEditor
             ref={editorRef}
             editorId="md-prev"
             previewTheme={props.previewTheme}
@@ -298,15 +301,15 @@ export default defineComponent({
             ]}
             defToolbars={
               <>
-                <Editor.NormalToolbar
+                <NormalToolbar
                   title="普通扩展"
                   trigger={
                     <svg class={`md-editor-icon`} aria-hidden="true">
                       <use xlinkHref="#md-editor-icon-strike-through" />
                     </svg>
                   }
-                ></Editor.NormalToolbar>
-                <Editor.DropdownToolbar
+                ></NormalToolbar>
+                <DropdownToolbar
                   title="下拉扩展"
                   visible={md.visible}
                   trigger={
@@ -318,8 +321,8 @@ export default defineComponent({
                     md.visible = visible;
                   }}
                   overlay={<div>下拉内容</div>}
-                ></Editor.DropdownToolbar>
-                <Editor.ModalToolbar
+                ></DropdownToolbar>
+                <ModalToolbar
                   title="弹窗扩展"
                   modalTitle="外置弹窗"
                   showAdjust
@@ -346,7 +349,7 @@ export default defineComponent({
                       height: '300px'
                     }}
                   ></div>
-                </Editor.ModalToolbar>
+                </ModalToolbar>
               </>
             }
             footers={['markdownTotal', '=', 0, 'scrollSwitch']}
@@ -355,7 +358,7 @@ export default defineComponent({
                 <span>^_^</span>
               </>
             }
-          ></Editor>
+          ></MdEditor>
           <br />
           {/* <Editor
             editorId="md-prev-2"

@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import MdEditor from '../MdEditor';
+import MdEditor from '~~/MdEditor';
 import data from './data.md';
 
 const text = ref(data);

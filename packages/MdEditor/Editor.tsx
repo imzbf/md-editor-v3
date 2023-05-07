@@ -3,8 +3,13 @@ import { prefix } from '~/config';
 import ToolBar from '~/layouts/Toolbar';
 import Content from '~/layouts/Content';
 import Footer from '~/layouts/Footer';
-import MdCatalog from '~/extensions/MdCatalog';
 import bus from '~/utils/event-bus';
+
+import { EditorProps, EditorContext } from '~/type';
+import { getSlot } from '~/utils/vue-tsx';
+
+import MdCatalog from '~~/MdCatalog';
+
 import {
   useOnSave,
   useProvide,
@@ -13,8 +18,6 @@ import {
   useCatalog,
   useExpose
 } from './composition';
-import { EditorProps, EditorContext } from '~/type';
-import { getSlot } from '~/utils/vue-tsx';
 
 import { editorProps as props, editorEmits as emits } from './props';
 

@@ -27,23 +27,24 @@
     "url": "https://github.com/imzbf/md-editor-v3/issues"
   },
   "files": [
-    "lib"
+    "cjs",
+    "es",
+    "umd"
   ],
   "type": "module",
-  "types": "./lib/MdEditor/index.d.ts",
-  "main": "./lib/md-editor-v3.cjs",
-  "module": "./lib/md-editor-v3.mjs",
+  "types": "./es/index.d.ts",
+  "main": "./cjs/index.cjs",
+  "module": "./es/index.mjs",
   "exports": {
     ".": {
-      "import": "./lib/md-editor-v3.mjs",
-      "require": "./lib/md-editor-v3.cjs"
-    },
-    "./lib/style.css": "./lib/style.css"
+      "import": "./es/index.mjs",
+      "require": "./cjs/index.cjs"
+    }
   },
   "license": "MIT",
   "scripts": {
-    "dev": "vite -c vite/config.ts",
-    "build": "vue-tsc && vite build -c vite/config.ts && vite build -c vite/umd.config.ts --emptyOutDir false"
+    "dev": "tsx ./scripts/dev",
+    "build": "vue-tsc && tsx ./scripts/build"
   },
   "dependencies": {
     "@codemirror/lang-markdown": "^6.1.1",
@@ -83,9 +84,10 @@
     "multiparty": "^4.2.3",
     "prettier": "^2.8.4",
     "screenfull": "^6.0.2",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.4",
-    "vite-plugin-dts": "^2.1.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.5",
+    "vite-plugin-dts": "^2.3.0",
     "vue": "^3.2.47",
     "vue-tsc": "^1.2.0"
   },

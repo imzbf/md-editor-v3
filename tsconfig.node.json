@@ -6,10 +6,5 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "vite/config.ts",
-    "vite/umd.config.ts",
-    "vite/plugins/*.ts",
-    "./package.json"
-  ]
+  "include": ["scripts/**/*.ts", "./package.json"]
 }
