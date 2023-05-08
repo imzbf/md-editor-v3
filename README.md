@@ -24,6 +24,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - Theme of preview, `defalut`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Refer to example page).
 - `mermaid`(>=1.8.0), `katex` mathematical formula(>=1.9.0).
 - Customize the toolbar as you like.
+- On-demand Import(>=4.0.0).
 
 ## 📦 Install
 
@@ -41,17 +42,39 @@ For more ways to use or contribute, please refer to: [md-editor-extension](https
 
 ## 💡 Usage
 
+### ✍🏻 Display Editor
+
 ```vue
 <template>
-  <MdEditor v-model="text" previewOnly />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { MdEditor } from 'md-editor-v3';
 
 const text = ref('# Hello Editor');
+</script>
+```
+
+> `^4.0.0`, internal components can be imported on-demand and styles are automatically imported too.
+
+> If there are multiple editors on the page, please set different `editorId` for each editor!
+
+### 📖 Preview Only
+
+```vue
+<template>
+  <MdPreview :editorId="id" :modelValue="text" />
+  <MdCatalog :editorId="id" :scrollElement="scrollElement" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { MdPreview, MdCatalog } from 'md-editor-v3';
+
+const text = ref('# Hello Editor');
+const scrollElement = document.documentElement;
 </script>
 ```
 
@@ -67,48 +90,52 @@ mark and emoji extensions
 
 ## 🎁 Apis
 
-### 🔩 Props
+### 🔩 MdPreivew Props
 
 | name | type | default | description |
 | --- | --- | --- | --- |
 | modelValue | `string` | '' | Markdown content, use `v-model` in vue template |
 | theme | `'light' \| 'dark'` | 'light' | Editor theme |
 | class | `string` | '' |  |
-| historyLength<sup>`deleted^3.0.0`</sup> | `number` | 10 | The max length of history. `^3.0.0` uses the `history` extension of `@codemirror/commands` instead of it. |
-| pageFullscreen | `boolean` | false | Screenfull in web page |
-| preview | `boolean` | true | Preview content in editor |
-| htmlPreview | `boolean` | false | Preview html in editor(If true, preview must be false) |
-| previewOnly | `boolean` | false | Only render preview of content, no toolbar, no editing area |
 | language | `string` | 'zh-CN' | Build-in language('zh-CN','en-US') |
-| toolbars | `Array<ToolbarNames \| number>` | [toolbars] | Show contents of toolbar, all keys<sup>see `toolbars` below</sup> |
-| toolbarsExclude | `Array<ToolbarNames \| number>` | [] | Don't show contents of toolbar, all keys`toolbars` |
-| noPrettier | `boolean` | false | Use prettier to beautify content or not |
 | editorId | `string` | 'md-editor-v3' | Editor's id, it is used when there are more than two editors in the same page |
-| tabWidth | `number` | 2 | One tab eq some spaces |
 | showCodeRowNumber | `boolean` | false | Show row number for code block or not |
 | previewTheme | `'default' \| 'github' \| 'vuepress' \| 'mk-cute' \| 'smart-blue' \| 'cyanosis'` | 'default' | Theme of preview, can be customized |
 | style | `string \| CSSProperties` | {} | Inline style |
-| tableShape | `[number, number]` | [6, 4] | Preset the size of the table, [columns, rows] |
 | noMermaid | `boolean` | false | Use mermaid or not |
-| placeholder | `string` | '' |  |
 | noKatex | `boolean` | false | Use katex or not |
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | Highlight code style, can be customized also |
-| markedHeadingId<sup>`deleted^3.0.0`</sup> | `(text: string, level: number, index: number) => string` | (text) => text | Use `mdHeadingId` instead of it |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
 | sanitize | `(html: string) => string` | (html) => html | Sanitize the html, prevent XSS |
-| footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
-| scrollAuto | `boolean` | true | Scroll default setting |
 | noIconfont | `boolean` | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js) and import it by yourself |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
-| noUploadImg | `boolean` | false | Not show the entrance to upload pictures |
 | codeStyleReverse | `boolean` | true | Code style will be reversed to dark while code block of the theme has a dark background |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | Themes to be reversed |
+| noHighlight | `boolean` | false | never highlight code |
+
+### 🔩 MdEditor Props
+
+Except for the same as `MdPreview`:
+
+| name | type | default | description |
+| --- | --- | --- | --- |
+| pageFullscreen | `boolean` | false | Screenfull in web page |
+| preview | `boolean` | true | Preview content in editor |
+| htmlPreview | `boolean` | false | Preview html in editor(If true, preview must be false) |
+| toolbars | `Array<ToolbarNames \| number>` | [toolbars] | Show contents of toolbar, all keys<sup>see `toolbars` below</sup> |
+| toolbarsExclude | `Array<ToolbarNames \| number>` | [] | Don't show contents of toolbar, all keys`toolbars` |
+| noPrettier | `boolean` | false | Use prettier to beautify content or not |
+| tabWidth | `number` | 2 | One tab eq some spaces |
+| tableShape | `[number, number]` | [6, 4] | Preset the size of the table, [columns, rows] |
+| placeholder | `string` | '' |  |
+| footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | Show contents of footer, they are divided by `'='`. Set it to `[]` to hidden footer |
+| scrollAuto | `boolean` | true | Scroll default setting |
+| noUploadImg | `boolean` | false | Not show the entrance to upload pictures |
 | autoFocus | `boolean` | false | same as `autofocus` in native textarea |
 | disabled | `boolean` | false | same as `disabled` in native textarea |
 | readOnly | `boolean` | false | same as `readonly` in native textarea |
 | maxLength | `number` |  | same as `maxlength` in native textarea |
 | autoDetectCode | `boolean` | false | auto detect the type of pasted code, only support that copied from `vscode` |
-| noHighlight | `boolean` | false | never highlight code |
 
 <details>
  <summary>『toolbars』</summary>
@@ -151,9 +178,9 @@ mark and emoji extensions
 
 </details>
 
-> After v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
+> You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
 
-> After v1.10.0, you can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs).
+> You can customize the toolbar. To display them, put index of `defToolbars` into `toolbars`(this is not standard), for more usage, please refer to [docs](https://imzbf.github.io/md-editor-v3/docs).
 
 <details>
  <summary>『StaticTextDefaultValue』</summary>
@@ -267,16 +294,13 @@ After 2.5.0, Editor exposes several methods on the instance, used to get or chan
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
-
-import 'md-editor-v3/lib/style.css';
 
 const editorRef = ref<ExposeParam>();
 
 onMounted(() => {
   editorRef.value?.on('catalog', console.log);
-
   editorRef.value?.toggleCatalog(true);
 });
 </script>
@@ -422,10 +446,8 @@ editorRef.value?.focus();
   </MdEditor>
 </template>
 
-<script setup>
-import MdEditor from 'md-editor-v3';
-
-const NormalToolbar = MdEditor.NormalToolbar;
+<script setup lang="ts">
+import { MdEditor, NormalToolbar } from 'md-editor-v3';
 
 const handler = () => {
   console.log('NormalToolbar clicked!');
@@ -433,32 +455,39 @@ const handler = () => {
 </script>
 ```
 
-### 🪢 Events
+### 🪢 MdPreview Events
+
+| name | param | description |
+| --- | --- | --- |
+| onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
+| onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
+
+### 🪢 MdEditor Events
+
+Except for the same as `MdPreview`:
 
 | name | param | description |
 | --- | --- | --- |
 | onChange | `value: string` | Content changed event(bind to `oninput` of `textarea`) |
 | onSave | `value: string, html: Promise<string>` | Save content event, `ctrl+s`and click button will be triggered also |
 | onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
-| onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
-| onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
 | onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded |
 | onBlur | `event: FocusEvent` | Blur the `textarea` element |
 | onFocus | `event: FocusEvent` | Focus the `textarea` element |
 
 ## 💴 Config Editor
 
-Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
+Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
 
 - codeMirrorExtensions: Customize new extensions based on theme and default extensions f codeMirror.
 
   Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
   import { lineNumbers } from '@codemirror/view';
 
-  MdEditor.config({
+  config({
     codeMirrorExtensions(_theme, extensions) {
       return [...extensions, lineNumbers()];
     }
@@ -470,10 +499,10 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so 
   Example: Use `markdown-it-anchor` to render a hyperlink symbol to the right of the title
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
   import ancher from 'markdown-it-anchor';
 
-  MdEditor.config({
+  config({
     markdownItConfig(mdit) {
       mdit.use(ancher, {
         permalink: true
@@ -485,9 +514,9 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so 
 - editorConfig: Add more languages, reset `mermaid` template or delay rendering time:
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
 
-  MdEditor.config({
+  config({
     editorConfig: {
       languageUserDefined: { lang: StaticTextDefaultValue },
       mermaidTemplate: {
@@ -503,9 +532,9 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so 
 - editorExtensions: Config some dependency libraries, like highlight..
 
   ```typescript
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
 
-  MdEditor.config({
+  config({
     editorExtensions: { iconfont: 'https://xxx.cc' }
   });
   ```
@@ -514,9 +543,7 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so 
     <summary>『EditorExtensions』</summary>
 
   ```ts
-  import MdEditor from 'md-editor-v3';
-
-  interface EditorExtensions {
+  export interface EditorExtensions {
     highlight?: {
       instance?: any;
       js?: string;
@@ -573,14 +600,13 @@ _Pay attention: shortcut keys are only available when the textarea is focused!_
 | CTRL + 1-6 | h1-h6 | `# title` |
 | CTRL + ↑ | superscript | `<sup>superscript</sup>` |
 | CTRL + ↓ | subscript | `<sub>subscript</sub>` |
-| CTRL + Q<sup>`deleted^3.0.0`</sup> | quote | `> quote` |
 | CTRL + O | ordered list | `1. ordered list` |
 | CTRL + L | link | `[link](https://github.com/imzbf/md-editor-v3)` |
 | CTRL + Z | withdraw | Withdraw history in editor, not the function of system |
 | CTRL + SHIFT + S | line-through | `~line-through~` |
 | CTRL + SHIFT + U | unordered list | `- unordered list` |
 | CTRL + SHIFT + C | code block |  |
-| CTRL + SHIFT + I | picture | `![picture](https://imzbf.cc)` |
+| CTRL + SHIFT + I | picture | `![picture](https://imzbf.github.io/md-editor-v3/imgs/preview-light.png)` |
 | CTRL + SHIFT + Z | forward | Forward history in editor, not the function of system |
 | CTRL + SHIFT + F | Beautify |  |
 | CTRL + ALT + C | code row |  |
@@ -588,11 +614,17 @@ _Pay attention: shortcut keys are only available when the textarea is focused!_
 
 ## 🪤 Components
 
-They are used as attributes of the editor component, eg: `MdEditor.DropdownToolbar`. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
+```vue
+<script lang="ts" setup>
+import { NormalToolbar } from 'md-editor-v3';
+</script>
+```
+
+On-demand import. For more examples, refer to [document](https://imzbf.github.io/md-editor-v3).
 
 ### 🐣 NormalToolbar
 
-`MdEditor.NormalToolbar`
+`NormalToolbar`
 
 - **props**
 
@@ -608,7 +640,7 @@ They are used as attributes of the editor component, eg: `MdEditor.DropdownToolb
 
 ### 🐼 DropdownToolbar
 
-`MdEditor.DropdownToolbar`
+`DropdownToolbar`
 
 - **props**
 
@@ -626,7 +658,7 @@ They are used as attributes of the editor component, eg: `MdEditor.DropdownToolb
 
 ### 🦉 ModalToolbar
 
-`MdEditor.ModalToolbar`
+`ModalToolbar`
 
 - **props**
 
@@ -651,13 +683,12 @@ They are used as attributes of the editor component, eg: `MdEditor.DropdownToolb
 
 ### 🐻 MdCatalog
 
-`MdEditor.MdCatalog`
+`MdCatalog`
 
 - **props**
 
   - `editorId`: `string`, necessary, same as editor's `editorId`, used to register listening events.
   - `class`: `string`, not necessary.
-  - `markedHeadingId`<sup>`deleted^3.0.0`</sup>: use `mdHeadingId` instead of it.
   - `mdHeadingId`: `MdHeadingId`, not necessary, same as editor.
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: `'light' | 'dark'`, not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
@@ -674,8 +705,7 @@ They are used as attributes of the editor component, eg: `MdEditor.DropdownToolb
 
 ```jsx
 import { defineComponent, reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { MdEditor } from 'md-editor-v3';
 
 export default defineComponent({
   setup() {
@@ -701,8 +731,7 @@ export default defineComponent({
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { MdEditor } from 'md-editor-v3';
 
 const text = ref('# Hello Editor');
 
