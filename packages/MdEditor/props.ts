@@ -407,12 +407,13 @@ export const editorProps = {
   }
 };
 
+export const mdPreviewEmits: EditorEmits = ['onHtmlChanged', 'onGetCatalog'];
+
 export const editorEmits: EditorEmits = [
+  ...mdPreviewEmits,
   'onChange',
   'onSave',
   'onUploadImg',
-  'onHtmlChanged',
-  'onGetCatalog',
   'onError',
   'update:modelValue',
   'onBlur',

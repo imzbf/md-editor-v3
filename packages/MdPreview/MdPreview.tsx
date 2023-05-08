@@ -5,7 +5,7 @@ import { useProvidePreview, useExpansionPreview } from '~/composition';
 
 import ContentPreview from '~/layouts/Content/ContentPreview';
 import { MdPreviewProps } from '~/type';
-import { mdPreviewProps as props } from '~/props';
+import { mdPreviewProps as props, mdPreviewEmits as emits } from '~/props';
 
 import '~/styles/index.less';
 import '@vavt/markdown-theme/css/all.css';
@@ -13,7 +13,8 @@ import '@vavt/markdown-theme/css/all.css';
 const MdPreview = defineComponent({
   name: 'MdPreview',
   props,
-  setup(props: MdPreviewProps) {
+  emits,
+  setup(props: MdPreviewProps, ctx) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
     // eslint-disable-next-line vue/no-setup-props-destructure
     const { editorId, noKatex, noMermaid, noHighlight } = props;
@@ -41,8 +42,20 @@ const MdPreview = defineComponent({
         >
           <ContentPreview
             modelValue={props.modelValue}
-            onHtmlChanged={props.onHtmlChanged}
-            onGetCatalog={props.onGetCatalog}
+            onHtmlChanged={(html) => {
+              if (props.onHtmlChanged) {
+                props.onHtmlChanged(html);
+              } else {
+                ctx.emit('onHtmlChanged', html);
+              }
+            }}
+            onGetCatalog={(list) => {
+              if (props.onGetCatalog) {
+                props.onGetCatalog(list);
+              } else {
+                ctx.emit('onGetCatalog', list);
+              }
+            }}
             mdHeadingId={props.mdHeadingId}
             noMermaid={noMermaid}
             sanitize={props.sanitize}
