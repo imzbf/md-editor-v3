@@ -1,0 +1,21 @@
+@import '~/styles/vars';
+
+.@{prefix} {
+  &-content {
+    display: flex;
+    // height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 1px);
+    flex: 1;
+    height: 0;
+    flex-shrink: 0;
+  }
+
+  &-input-wrapper {
+    flex: 1;
+    box-sizing: border-box;
+  }
+
+  &-html {
+    font-size: 16px;
+    word-break: break-all;
+  }
+}

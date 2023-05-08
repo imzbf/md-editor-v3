@@ -21,7 +21,7 @@ import {
 
 import { editorProps as props, editorEmits as emits } from './props';
 
-import '~/styles/index.less';
+import './index.less';
 import '@vavt/markdown-theme/css/all.css';
 
 const Editor = defineComponent({

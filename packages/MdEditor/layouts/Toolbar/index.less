@@ -1,0 +1,123 @@
+@import '~/styles/vars';
+
+@toolBarHeight: 35px;
+@toolBarPadding: 4px;
+
+.@{prefix} {
+  &-menu {
+    margin: 0;
+    padding: 0;
+    border-radius: 3px;
+    border: 1px solid var(--md-border-color);
+    background-color: inherit;
+
+    &-item {
+      list-style: none;
+      font-size: 12px;
+      color: var(--md-color);
+      padding: 4px 10px;
+      cursor: pointer;
+      line-height: 16px;
+
+      &:first-of-type {
+        padding-top: 8px;
+      }
+
+      &:last-of-type {
+        padding-bottom: 8px;
+      }
+
+      &:hover {
+        background-color: var(--md-bk-hover-color);
+      }
+    }
+  }
+
+  &-table-shape {
+    padding: 4px;
+    border-radius: 3px;
+    border: 1px solid var(--md-border-color);
+    display: flex;
+    flex-direction: column;
+
+    &-row {
+      display: flex;
+    }
+
+    &-col {
+      padding: 2px;
+      cursor: pointer;
+
+      &-default {
+        width: 16px;
+        height: 16px;
+        background-color: #e0e0e0;
+        border-radius: 3px;
+        transition: all 0.2s;
+      }
+
+      &-include {
+        background-color: #aaa;
+      }
+    }
+  }
+
+  &-toolbar-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    height: @toolBarHeight;
+    flex-shrink: 0;
+    padding: @toolBarPadding;
+    border-bottom: 1px solid var(--md-border-color);
+
+    &::-webkit-scrollbar {
+      height: 0 !important;
+    }
+
+    .@{prefix}-toolbar {
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: content-box;
+
+      &-item {
+        height: 24px;
+        display: inline-block;
+        padding: 0 4px;
+        transition: all 0.3s;
+        border-radius: 0;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+
+        &:hover {
+          border-radius: 3px;
+          background-color: var(--md-bk-color-outstand);
+        }
+      }
+
+      &-left,
+      &-right {
+        padding: 1px 0;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.@{prefix}-dark {
+  .@{prefix}-table-shape {
+    &-col {
+      &-default {
+        background-color: #222;
+      }
+
+      &-include {
+        background-color: #555;
+      }
+    }
+  }
+}

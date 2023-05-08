@@ -1,6 +1,7 @@
 {
   "name": "md-editor-v3",
   "version": "3.0.1",
+  "license": "MIT",
   "keywords": [
     "vue",
     "vue3",
@@ -35,13 +36,9 @@
   "types": "./es/index.d.ts",
   "main": "./cjs/index.cjs",
   "module": "./es/index.mjs",
-  "exports": {
-    ".": {
-      "import": "./es/index.mjs",
-      "require": "./cjs/index.cjs"
-    }
-  },
-  "license": "MIT",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "dev": "tsx ./scripts/dev",
     "build": "vue-tsc && tsx ./scripts/build"
@@ -88,6 +85,7 @@
     "typescript": "^5.0.4",
     "vite": "^4.3.5",
     "vite-plugin-dts": "^2.3.0",
+    "vite-plugin-lib-inject-css": "^1.2.0",
     "vue": "^3.2.47",
     "vue-tsc": "^1.2.0"
   },

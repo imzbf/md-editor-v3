@@ -2,4 +2,6 @@ import { createApp } from 'vue';
 import App from './App';
 // import App from './VueTemplate.vue';
 
-createApp(App).mount('#app');
+import { MdEditor } from '~~/index';
+
+createApp(App).use(MdEditor).mount('#app');

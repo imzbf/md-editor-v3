@@ -4,7 +4,7 @@ import { build } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import dts from 'vite-plugin-dts';
-// import { libInjectCss } from 'vite-plugin-lib-inject-css';
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const resolvePath = (p: string) => path.resolve(__dirname, p);
@@ -46,7 +46,7 @@ targetArr = targetArr.length === 0 ? Object.keys(fileConfig) : targetArr;
         plugins: [
           vue(),
           vueJsx(),
-          // libInjectCss(),
+          libInjectCss(),
           ['es', 'cjs'].includes(format) &&
             dts({
               outputDir: resolvePath(format),
@@ -76,7 +76,8 @@ targetArr = targetArr.length === 0 ? Object.keys(fileConfig) : targetArr;
                     NormalToolbar: resolvePath('packages/NormalToolbar'),
                     DropdownToolbar: resolvePath('packages/DropdownToolbar'),
                     ModalToolbar: resolvePath('packages/ModalToolbar'),
-                    MdCatalog: resolvePath('packages/MdCatalog')
+                    MdCatalog: resolvePath('packages/MdCatalog'),
+                    config: resolvePath('packages/config')
                   },
             name: 'MdEditorV3',
             formats: [format]

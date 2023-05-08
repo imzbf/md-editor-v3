@@ -2686,6 +2686,13 @@ magic-string@^0.29.0:
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.4.13"
 
+magic-string@^0.30.0:
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/magic-string/-/magic-string-0.30.0.tgz#fd58a4748c5c4547338a424e90fa5dd17f4de529"
+  integrity sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==
+  dependencies:
+    "@jridgewell/sourcemap-codec" "^1.4.13"
+
 make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/make-dir/-/make-dir-2.1.0.tgz#5f0310e18b8be898cc07009295a30ae41e91e6f5"
@@ -3394,6 +3401,14 @@ vite-plugin-dts@^2.3.0:
     kolorist "^1.7.0"
     magic-string "^0.29.0"
     ts-morph "18.0.0"
+
+vite-plugin-lib-inject-css@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/vite-plugin-lib-inject-css/-/vite-plugin-lib-inject-css-1.2.0.tgz#40ffdd51f6e96e47a72b2df66e1cea6a23f495b2"
+  integrity sha512-mELCOWG0f0auFkDGQHAL7Ks9oQ6RhB0xHlZ6GA0mTLMkkQcHCrZ8mkJFoH+ryZTNqxNLlYTLqbrnPClOO0Fq/Q==
+  dependencies:
+    magic-string "^0.30.0"
+    picocolors "^1.0.0"
 
 vite@^4.3.5:
   version "4.3.5"

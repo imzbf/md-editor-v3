@@ -2,7 +2,7 @@ import { defineComponent, PropType, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { MdHeadingId } from '~/type';
 import { prefix } from '~/config';
-import { TocItem } from '.';
+import { TocItem } from './MdCatalog';
 
 const props = {
   tocItem: {

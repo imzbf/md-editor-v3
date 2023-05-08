@@ -13,7 +13,8 @@ import {
   MdCatalog,
   NormalToolbar,
   DropdownToolbar,
-  ModalToolbar
+  ModalToolbar,
+  config
 } from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
@@ -40,7 +41,7 @@ import './index.less';
 
 // import { cdnBase } from '../../MdEditor/config';
 
-MdEditor.config({
+config({
   codeMirrorExtensions(theme, extensions) {
     // console.log(theme, extensions, keyBindings);
 
