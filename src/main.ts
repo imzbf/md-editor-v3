@@ -5,8 +5,7 @@ import store from './store';
 import './styles/common.less';
 import 'nprogress/nprogress.css';
 
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { config } from 'md-editor-v3';
 
 import MarkExtension from 'markdown-it-mark';
 
@@ -16,7 +15,7 @@ import { lineNumbers } from '@codemirror/view';
 import ZH_TW from '@vavt/md-editor-extension/dist/locale/zh-TW';
 import '@vavt/md-editor-extension/dist/previewTheme/arknights.css';
 
-MdEditor.config({
+config({
   markdownItConfig(md) {
     md.use(MarkExtension);
   },
@@ -44,4 +43,4 @@ MdEditor.config({
   }
 });
 
-createApp(App).use(store).use(router).use(MdEditor).mount('#app');
+createApp(App).use(store).use(router).mount('#app');

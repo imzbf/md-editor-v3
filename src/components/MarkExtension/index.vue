@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue';
+import { NormalToolbar } from 'md-editor-v3';
 import type { InsertContentGenerator } from 'md-editor-v3';
 
 const props = defineProps({

@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <MdEditorV3
+    <MdPreview
       previewOnly
       :editorId="props.editorId"
       :theme="store.state.theme"
@@ -23,6 +23,7 @@ export default {
 <script setup lang="ts">
 import type { PropType } from 'vue';
 import { useStore } from 'vuex';
+import { MdPreview } from 'md-editor-v3';
 import { debounce } from '@/utils';
 import type { StateType } from '@/store';
 const store = useStore<StateType>();

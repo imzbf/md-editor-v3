@@ -1,7 +1,7 @@
 <template>
   <div class="project-preview">
     <div class="container">
-      <MdEditorV3
+      <MdEditor
         ref="editorRef"
         v-model="state.text"
         :editorId="editorId"
@@ -23,7 +23,7 @@
         <template #defFooters>
           <TimeNow />
         </template>
-      </MdEditorV3>
+      </MdEditor>
       <br />
       <span class="tips-text">
         {{ tips
@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { computed, reactive, watch, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam, InsertContentGenerator } from 'md-editor-v3';
 import mdEN from '../../../public/preview-en-US.md';
 import mdCN from '../../../public/preview-zh-CN.md';

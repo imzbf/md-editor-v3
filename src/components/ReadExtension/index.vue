@@ -7,12 +7,12 @@
     height="600px"
     :visible="state.visible"
     :isFullscreen="state.modalFullscreen"
-    @onClick="state.visible = true"
-    @onClose="state.visible = false"
+    @onClick="() => (state.visible = true)"
+    @onClose="() => (state.visible = false)"
     @onAdjust="() => (state.modalFullscreen = !state.modalFullscreen)"
   >
     <div style="height: 100%; padding: 20px; overflow: auto">
-      <MdEditorV3
+      <MdPreview
         :theme="store.state.theme"
         :language="store.state.lang"
         :previewTheme="store.state.previewTheme"
@@ -35,6 +35,7 @@
 import { reactive } from 'vue';
 import type { PropType } from 'vue';
 import { useStore } from 'vuex';
+import { MdPreview, ModalToolbar } from 'md-editor-v3';
 
 const props = defineProps({
   mdText: {

@@ -21,7 +21,8 @@ export default {
 <script setup lang="ts">
 import type { PropType } from 'vue';
 import { useStore } from 'vuex';
-import type { TocItem } from 'md-editor-v3/lib/MdEditor/extensions/MdCatalog';
+import { MdCatalog } from 'md-editor-v3';
+import type { TocItem } from 'md-editor-v3/es/MdCatalog/MdCatalog';
 
 const store = useStore();
 

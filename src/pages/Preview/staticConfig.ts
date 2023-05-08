@@ -1,4 +1,6 @@
-export const toolbars = [
+import type { ToolbarNames } from 'md-editor-v3';
+
+export const toolbars: ToolbarNames[] = [
   'bold',
   'underline',
   'italic',

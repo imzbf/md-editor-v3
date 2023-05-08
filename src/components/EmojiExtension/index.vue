@@ -23,6 +23,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import type { PropType } from 'vue';
+import { DropdownToolbar } from 'md-editor-v3';
 import type { InsertContentGenerator } from 'md-editor-v3';
 import { emojis } from './data';
 
