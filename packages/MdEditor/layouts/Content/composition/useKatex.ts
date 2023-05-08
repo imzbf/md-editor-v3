@@ -1,14 +1,14 @@
 import { onMounted, shallowRef } from 'vue';
 import { prefix, katexUrl, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
-import { ContentProps } from '../props';
+import { ContentPreviewProps } from '../ContentPreview';
 
 /**
  * 注册katex扩展到页面
  *
  * @param props 内容组件props
  */
-const useKatex = (props: ContentProps) => {
+const useKatex = (props: ContentPreviewProps) => {
   // 获取相应的扩展配置链接
   const katexConf = configOption.editorExtensions?.katex;
   const katexIns = katexConf?.instance;

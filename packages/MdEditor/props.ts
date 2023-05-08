@@ -19,11 +19,11 @@ import { allToolbar, allFooter, defaultEditorId } from './config';
 
 export const mdHeadingId: MdHeadingId = (text) => text;
 
-export const editorProps = {
+export const mdPreviewProps = {
   /**
-   * 主题
+   * markdown content.
    *
-   * @default 'light'
+   * @default ''
    */
   modelValue: {
     type: String as PropType<string>,
@@ -47,6 +47,152 @@ export const editorProps = {
     type: String,
     default: ''
   },
+  /**
+   * 预设语言名称
+   *
+   * @default 'zh-CN'
+   */
+  language: {
+    type: String as PropType<StaticTextDefaultKey | string>,
+    default: 'zh-CN'
+  },
+  /**
+   * html变化事件
+   */
+  onHtmlChanged: {
+    type: Function as PropType<HtmlChangedEvent>
+  },
+  /**
+   * 获取目录结构
+   */
+  onGetCatalog: {
+    type: Function as PropType<GetCatalogEvent>
+  },
+  /**
+   * 编辑器唯一标识
+   *
+   * @default 'md-editor-v3'
+   */
+  editorId: {
+    type: String as PropType<string>,
+    default: defaultEditorId
+  },
+  /**
+   * 预览中代码是否显示行号
+   *
+   * @default false
+   */
+  showCodeRowNumber: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  /**
+   * 预览内容样式
+   *
+   * @default 'default'
+   */
+  previewTheme: {
+    type: String as PropType<PreviewThemes>,
+    default: 'default'
+  },
+  /**
+   * 编辑器样式
+   */
+  style: {
+    type: Object as PropType<CSSProperties | string>,
+    default: () => ({})
+  },
+  /**
+   * 标题的id生成方式
+   *
+   * @default (text: string) => text
+   */
+  mdHeadingId: {
+    type: Function as PropType<MdHeadingId>,
+    default: mdHeadingId
+  },
+  /**
+   *
+   * 不能保证文本正确的情况，在marked编译md文本后通过该方法处理
+   * 推荐DOMPurify、sanitize-html
+   *
+   * @default (text: string) => text
+   */
+  sanitize: {
+    type: Function as PropType<(html: string) => string>,
+    default: (html: string) => html
+  },
+  /**
+   * 不使用该mermaid
+   *
+   * @default false
+   */
+  noMermaid: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  /**
+   * 不使用katex
+   *
+   * @default false
+   */
+  noKatex: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  /**
+   * 代码主题
+   *
+   * @default 'atom'
+   */
+  codeTheme: {
+    type: String as PropType<string>,
+    default: 'atom'
+  },
+  /**
+   * 不插入iconfont链接
+   *
+   * @default false
+   */
+  noIconfont: {
+    type: Boolean as PropType<boolean>
+  },
+  /**
+   * 复制代码格式化方法
+   *
+   * @default (text) => text
+   */
+  formatCopiedText: {
+    type: Function as PropType<(text: string) => string>,
+    default: (text: string) => text
+  },
+  /**
+   * 某些预览主题的代码模块背景是暗色系
+   * 将这个属性设置为true，会自动在该主题下的light模式下使用暗色系的代码风格
+   *
+   * @default true
+   */
+  codeStyleReverse: {
+    type: Boolean as PropType<boolean>,
+    default: true
+  },
+  /**
+   * 需要自动调整的预览主题
+   *
+   * @default ['default', 'mk-cute']
+   */
+  codeStyleReverseList: {
+    type: Array as PropType<Array<string>>,
+    default: ['default', 'mk-cute']
+  },
+  noHighlight: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  }
+};
+
+export const editorProps = {
+  ...mdPreviewProps,
 
   /**
    * input回调事件
@@ -102,15 +248,7 @@ export const editorProps = {
     type: Boolean as PropType<boolean>,
     default: false
   },
-  /**
-   * 预设语言名称
-   *
-   * @default 'zh-CN'
-   */
-  language: {
-    type: String as PropType<StaticTextDefaultKey | string>,
-    default: 'zh-CN'
-  },
+
   /**
    * 工具栏选择显示
    *
@@ -138,27 +276,7 @@ export const editorProps = {
     type: Boolean as PropType<boolean>,
     default: false
   },
-  /**
-   * html变化事件
-   */
-  onHtmlChanged: {
-    type: Function as PropType<HtmlChangedEvent>
-  },
-  /**
-   * 获取目录结构
-   */
-  onGetCatalog: {
-    type: Function as PropType<GetCatalogEvent>
-  },
-  /**
-   * 编辑器唯一标识
-   *
-   * @default 'md-editor-v3'
-   */
-  editorId: {
-    type: String as PropType<string>,
-    default: defaultEditorId
-  },
+
   /**
    * 一个tab等于空格数
    *
@@ -168,40 +286,7 @@ export const editorProps = {
     type: Number as PropType<number>,
     default: 2
   },
-  /**
-   * 预览中代码是否显示行号
-   *
-   * @default false
-   */
-  showCodeRowNumber: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
-  /**
-   * 预览内容样式
-   *
-   * @default 'default'
-   */
-  previewTheme: {
-    type: String as PropType<PreviewThemes>,
-    default: 'default'
-  },
-  /**
-   * 编辑器样式
-   */
-  style: {
-    type: Object as PropType<CSSProperties | string>,
-    default: () => ({})
-  },
-  /**
-   * 标题的id生成方式
-   *
-   * @default (text: string) => text
-   */
-  mdHeadingId: {
-    type: Function as PropType<MdHeadingId>,
-    default: mdHeadingId
-  },
+
   /**
    * 表格预设格子数
    *
@@ -211,26 +296,7 @@ export const editorProps = {
     type: Array as PropType<Array<number>>,
     default: () => [6, 4]
   },
-  /**
-   * 不使用该mermaid
-   *
-   * @default false
-   */
-  noMermaid: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
-  /**
-   *
-   * 不能保证文本正确的情况，在marked编译md文本后通过该方法处理
-   * 推荐DOMPurify、sanitize-html
-   *
-   * @default (text: string) => text
-   */
-  sanitize: {
-    type: Function as PropType<(html: string) => string>,
-    default: (html: string) => html
-  },
+
   /**
    * 空提示
    *
@@ -240,15 +306,7 @@ export const editorProps = {
     type: String as PropType<string>,
     default: ''
   },
-  /**
-   * 不使用katex
-   *
-   * @default false
-   */
-  noKatex: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
+
   /**
    * 自定义的工具栏列表
    */
@@ -261,15 +319,7 @@ export const editorProps = {
   onError: {
     type: Function as PropType<ErrorEvent>
   },
-  /**
-   * 代码主题
-   *
-   * @default 'atom'
-   */
-  codeTheme: {
-    type: String as PropType<string>,
-    default: 'atom'
-  },
+
   /**
    * 页脚列表显示顺序
    */
@@ -292,23 +342,7 @@ export const editorProps = {
   defFooters: {
     type: [String, Object] as PropType<string | JSX.Element>
   },
-  /**
-   * 不插入iconfont链接
-   *
-   * @default false
-   */
-  noIconfont: {
-    type: Boolean as PropType<boolean>
-  },
-  /**
-   * 复制代码格式化方法
-   *
-   * @default (text) => text
-   */
-  formatCopiedText: {
-    type: Function as PropType<(text: string) => string>,
-    default: (text: string) => text
-  },
+
   /**
    * 是否禁用上传图片
    *
@@ -316,25 +350,6 @@ export const editorProps = {
    */
   noUploadImg: {
     type: Boolean as PropType<boolean>
-  },
-  /**
-   * 某些预览主题的代码模块背景是暗色系
-   * 将这个属性设置为true，会自动在该主题下的light模式下使用暗色系的代码风格
-   *
-   * @default true
-   */
-  codeStyleReverse: {
-    type: Boolean as PropType<boolean>,
-    default: true
-  },
-  /**
-   * 需要自动调整的预览主题
-   *
-   * @default ['default', 'mk-cute']
-   */
-  codeStyleReverseList: {
-    type: Array as PropType<Array<string>>,
-    default: ['default', 'mk-cute']
   },
 
   /**
@@ -387,10 +402,6 @@ export const editorProps = {
    */
   onFocus: {
     type: Function as PropType<(event: FocusEvent) => void>
-  },
-  noHighlight: {
-    type: Boolean as PropType<boolean>,
-    default: false
   }
 };
 

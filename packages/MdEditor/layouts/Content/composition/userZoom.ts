@@ -2,7 +2,7 @@ import { watch, inject, Ref, onMounted, toRef } from 'vue';
 import mediumZoom from 'medium-zoom';
 
 import { debounce } from '~/utils';
-import { ContentProps } from '../props';
+import { ContentPreviewProps } from '../ContentPreview';
 
 /**
  * 放大图片
@@ -10,7 +10,7 @@ import { ContentProps } from '../props';
  * @param props 基础属性
  * @param html 编译后的html
  */
-const userZoom = (props: ContentProps, html: Ref<string>) => {
+const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
 
   const zoomHander = debounce(() => {

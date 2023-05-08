@@ -2,9 +2,9 @@ import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
 import copy from 'copy-to-clipboard';
 import { prefix } from '~/config';
 import { StaticTextDefaultValue } from '~/type';
-import { ContentProps } from '../props';
+import { ContentPreviewProps } from '../ContentPreview';
 
-const useCopyCode = (props: ContentProps, html: Ref<string>) => {
+const useCopyCode = (props: ContentPreviewProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
   const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
 

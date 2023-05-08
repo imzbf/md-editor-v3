@@ -1,42 +1,23 @@
-import { defineComponent, inject, ref, ComputedRef } from 'vue';
-import { PreviewThemes } from '~/type';
+import { defineComponent, inject, ref } from 'vue';
 import { prefix } from '~/config';
-import {
-  useAutoScroll,
-  useCopyCode,
-  useCodeMirror,
-  useMarkdownIt,
-  userZoom
-} from './composition/index';
+import { useAutoScroll, useCodeMirror } from './composition/index';
 import { contentProps as props, ContentProps } from './props';
+import ContentPreview from './ContentPreview';
 
 export default defineComponent({
   name: 'MDEditorContent',
   props,
   setup(props: ContentProps) {
+    const editorId = inject('editorId') as string;
     // 仅预览
     const previewOnly = inject('previewOnly') as boolean;
-    // 是否显示行号
-    const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
-    // 预览主题
-    const previewTheme = inject<ComputedRef<PreviewThemes>>('previewTheme');
-    const editorId = inject('editorId') as string;
 
-    // 预览框
-    const previewRef = ref<HTMLDivElement>();
-    // html代码预览框
-    const htmlRef = ref<HTMLDivElement>();
+    const html = ref<string>('');
 
     // 输入框
     const { inputWrapperRef, codeMirrorUt } = useCodeMirror(props);
-    // markdown => html
-    const { html } = useMarkdownIt(props);
     // 自动滚动
-    useAutoScroll(props, html, previewRef, htmlRef, codeMirrorUt);
-    // 复制代码
-    useCopyCode(props, html);
-    // 图片点击放大
-    userZoom(props, html);
+    useAutoScroll(props, html, codeMirrorUt);
 
     return () => {
       return (
@@ -46,28 +27,27 @@ export default defineComponent({
           )}
 
           {props.setting.preview && (
-            <div
-              id={`${editorId}-preview-wrapper`}
-              class={`${prefix}-preview-wrapper`}
-              ref={previewRef}
-              key="content-preview-wrapper"
-            >
-              <article
-                id={`${editorId}-preview`}
-                class={[
-                  `${prefix}-preview`,
-                  `${previewTheme?.value}-theme`,
-                  showCodeRowNumber && `${prefix}-scrn`
-                ]}
-                innerHTML={html.value}
-              />
-            </div>
+            <ContentPreview
+              modelValue={props.value}
+              setting={props.setting}
+              onHtmlChanged={(html_) => {
+                html.value = html_;
+                props.onHtmlChanged(html_);
+              }}
+              onGetCatalog={props.onGetCatalog}
+              mdHeadingId={props.mdHeadingId}
+              noMermaid={props.noMermaid}
+              sanitize={props.sanitize}
+              noKatex={props.noKatex}
+              formatCopiedText={props.formatCopiedText}
+              noHighlight={props.noHighlight}
+            />
           )}
 
           {props.setting.htmlPreview && (
             <div
+              id={`${editorId}-html-wrapper`}
               class={`${prefix}-preview-wrapper`}
-              ref={htmlRef}
               key="html-preview-wrapper"
             >
               <div class={`${prefix}-html`}>{html.value}</div>

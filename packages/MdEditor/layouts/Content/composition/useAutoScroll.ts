@@ -6,10 +6,9 @@ import { ContentProps } from '../props';
 const useAutoScroll = (
   props: ContentProps,
   html: Ref<string>,
-  previewRef: Ref<HTMLDivElement | undefined>,
-  htmlRef: Ref<HTMLDivElement | undefined>,
   codeMirrorUt: Ref<CodeMirrorUt | undefined>
 ) => {
+  const editorId = inject('editorId') as string;
   const previewOnly = inject('previewOnly') as boolean;
 
   let clearScrollAuto = () => {};
@@ -20,12 +19,16 @@ const useAutoScroll = (
     clearScrollAuto();
     const cmScroller = document.querySelector<HTMLDivElement>('.cm-scroller');
 
-    if (!previewOnly && (previewRef.value || htmlRef.value)) {
-      const scrollHandler = previewRef.value ? scrollAuto : scrollAutoWithScale;
+    const previewEle = document.getElementById(`${editorId}-preview-wrapper`);
+    const htmlEle = document.getElementById(`${editorId}-html-wrapper`);
+
+    if (!previewOnly && (previewEle || htmlEle)) {
+      const scrollHandler = previewEle ? scrollAuto : scrollAutoWithScale;
+      const cEle = previewEle || htmlEle;
 
       [initScrollAuto, clearScrollAuto] = scrollHandler(
         cmScroller!,
-        previewRef.value! || htmlRef.value,
+        cEle!,
         codeMirrorUt.value!
       );
     }

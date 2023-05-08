@@ -8,7 +8,6 @@ import { debounce, generateCodeRowNumber } from '~/utils';
 import { HeadList, Themes } from '~/type';
 import { configOption } from '~/config';
 
-import { ContentProps } from '../props';
 import useHighlight from './useHighlight';
 import useMermaid from './useMermaid';
 import useKatex from './useKatex';
@@ -17,6 +16,7 @@ import MermaidPlugin from '../markdownIt/mermaid';
 import KatexPlugin from '../markdownIt/katex';
 import AdmonitionPlugin from '../markdownIt/admonition';
 import HeadingPlugin from '../markdownIt/heading';
+import { ContentPreviewProps } from '../ContentPreview';
 
 const initLineNumber = (md: mdit) => {
   [
@@ -54,7 +54,7 @@ const initLineNumber = (md: mdit) => {
   });
 };
 
-const useMarkdownIt = (props: ContentProps) => {
+const useMarkdownIt = (props: ContentPreviewProps) => {
   const { editorConfig, markdownItConfig } = configOption;
   //
   const editorId = inject('editorId') as string;
@@ -117,7 +117,7 @@ const useMarkdownIt = (props: ContentProps) => {
 
   markdownItConfig!(md);
 
-  const html = ref(props.sanitize(md.render(props.value)));
+  const html = ref(props.sanitize(md.render(props.modelValue)));
   // 触发异步的保存事件（html总是会比text后更新）
   bus.emit(editorId, 'buildFinished', html.value);
   props.onHtmlChanged(html.value);
@@ -131,7 +131,7 @@ const useMarkdownIt = (props: ContentProps) => {
     async () => {
       // 清理历史标题
       headsRef.value = [];
-      html.value = props.sanitize(md.render(props.value));
+      html.value = props.sanitize(md.render(props.modelValue));
       // 触发异步的保存事件（html总是会比text后更新）
       bus.emit(editorId, 'buildFinished', html.value);
       props.onHtmlChanged(html.value);
@@ -152,7 +152,7 @@ const useMarkdownIt = (props: ContentProps) => {
     return (props.noKatex || katexRef.value) && (props.noHighlight || hljsRef.value);
   });
 
-  watch([toRef(props, 'value'), needReRender, reRenderRef], markHtml);
+  watch([toRef(props, 'modelValue'), needReRender, reRenderRef], markHtml);
 
   // 添加目录主动触发接收监听
   onMounted(() => {

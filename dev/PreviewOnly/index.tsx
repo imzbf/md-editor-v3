@@ -1,6 +1,6 @@
 /* eslint-disable vue/require-default-prop */
 import { defineComponent, PropType } from 'vue';
-import { MdEditor } from '~~/index';
+import { MdPreview } from '~~/index';
 import { Theme } from '../App';
 import mdText from '../data.md';
 
@@ -14,12 +14,11 @@ export default defineComponent({
     return () => (
       <div class="doc">
         <div class="container">
-          <MdEditor
+          <MdPreview
             theme={props.theme}
             previewTheme={props.previewTheme}
             codeTheme={props.codeTheme}
             modelValue={mdText}
-            previewOnly
             showCodeRowNumber
           />
         </div>

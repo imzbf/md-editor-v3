@@ -1,5 +1,12 @@
 import { reactive, watch, computed, onMounted, provide, ref, Ref } from 'vue';
-import { InnerError, SettingType, ExposeParam, UpdateSetting, ExposeEvent } from '~/type';
+import {
+  InnerError,
+  SettingType,
+  ExposeParam,
+  UpdateSetting,
+  ExposeEvent,
+  MdPreviewProps
+} from '~/type';
 import { appendHandler } from '~/utils/dom';
 import { EditorContext, EditorProps } from '~/type';
 import {
@@ -93,18 +100,15 @@ export const useOnSave = (props: EditorProps, context: EditorContext) => {
 };
 
 /**
- * 向下提供部分公共参数
+ * 抽离预览组件需要提供的组件全局属性
  *
- * @param props
+ * @param props 预览组件的props
  */
-export const useProvide = (props: EditorProps) => {
-  const { editorId, previewOnly } = props;
+export const useProvidePreview = (props: MdPreviewProps) => {
+  const { editorId } = props;
   const highlightConfig = configOption?.editorExtensions?.highlight;
 
   provide('editorId', editorId);
-
-  // tab=2space
-  provide('tabWidth', props.tabWidth);
 
   provide(
     'theme',
@@ -135,9 +139,6 @@ export const useProvide = (props: EditorProps) => {
     })
   );
 
-  // 注入是否仅预览
-  provide('previewOnly', previewOnly);
-
   // 注入代码行号控制
   provide('showCodeRowNumber', props.showCodeRowNumber);
 
@@ -163,6 +164,34 @@ export const useProvide = (props: EditorProps) => {
     computed(() => props.previewTheme)
   );
 };
+/**
+ * 向下提供部分公共参数
+ *
+ * @param props
+ */
+export const useProvide = (props: EditorProps) => {
+  useProvidePreview(props);
+  // tab=2space
+  provide('tabWidth', props.tabWidth);
+};
+
+/**
+ * 抽离预览组件需要嵌入的脚本
+ *
+ * @param props 预览组件的props
+ */
+export const useExpansionPreview = (props: MdPreviewProps) => {
+  onMounted(() => {
+    // 图标
+    const iconfontScript = document.createElement('script');
+    iconfontScript.src = configOption.editorExtensions?.iconfont || iconfontUrl;
+    iconfontScript.id = `${prefix}-icon`;
+
+    if (!props.noIconfont) {
+      appendHandler(iconfontScript);
+    }
+  });
+};
 
 /**
  * 插入编辑器支持的扩展外链
@@ -171,7 +200,7 @@ export const useProvide = (props: EditorProps) => {
  */
 export const useExpansion = (props: EditorProps) => {
   // 这部分内容只配置，不需要响应式更新
-  const { noPrettier, previewOnly, noIconfont, noUploadImg } = props;
+  const { noPrettier, previewOnly, noUploadImg } = props;
 
   const { editorExtensions } = configOption;
 
@@ -188,11 +217,6 @@ export const useExpansion = (props: EditorProps) => {
     noUploadImg || !!configOption.editorExtensions?.cropper?.instance;
 
   onMounted(() => {
-    // 图标
-    const iconfontScript = document.createElement('script');
-    iconfontScript.src = editorExtensions?.iconfont || iconfontUrl;
-    iconfontScript.id = `${prefix}-icon`;
-
     // prettier
     const prettierScript = document.createElement('script');
     const prettierMDScript = document.createElement('script');
@@ -214,10 +238,6 @@ export const useExpansion = (props: EditorProps) => {
     cropperScript.src = editorExtensions?.cropper?.js || cropperUrl.js;
     cropperScript.id = `${prefix}-cropper`;
 
-    if (!noIconfont) {
-      appendHandler(iconfontScript);
-    }
-
     // 非仅预览模式才添加扩展
     if (!previewOnly) {
       if (!noCropperScript) {
@@ -234,6 +254,8 @@ export const useExpansion = (props: EditorProps) => {
       }
     }
   });
+
+  useExpansionPreview(props);
 };
 
 /**

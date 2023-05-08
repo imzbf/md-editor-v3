@@ -1,14 +1,14 @@
 import { ComputedRef, inject, onMounted, shallowRef, watch } from 'vue';
 import { prefix, configOption } from '~/config';
 import { appendHandler, updateHandler } from '~/utils/dom';
-import { ContentProps } from '../props';
+import { ContentPreviewProps } from '../ContentPreview';
 
 /**
  * 注册代码高亮扩展到页面
  *
  * @param props 内容组件props
  */
-const useHighlight = (props: ContentProps) => {
+const useHighlight = (props: ContentPreviewProps) => {
   // 获取相应的扩展配置链接
   const hljsConf = configOption.editorExtensions?.highlight;
   const hljs = hljsConf?.instance;

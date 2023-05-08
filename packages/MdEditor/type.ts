@@ -2,7 +2,7 @@ import { LooseRequired } from '@vue/shared';
 import { ExtractPropTypes, SetupContext } from 'vue';
 import { Extension } from '@codemirror/state';
 import { KeyBinding } from '@codemirror/view';
-import { editorProps } from './props';
+import { editorProps, mdPreviewProps } from './props';
 
 declare global {
   interface Window {
@@ -381,6 +381,10 @@ export interface ExposeParam {
 
 export type EditorProps = Readonly<
   LooseRequired<Readonly<ExtractPropTypes<typeof editorProps>>>
+>;
+
+export type MdPreviewProps = Readonly<
+  LooseRequired<Readonly<ExtractPropTypes<typeof mdPreviewProps>>>
 >;
 
 export type EditorEmits = Array<
