@@ -39,7 +39,7 @@ import bus from '~/utils/event-bus';
  * @param context
  */
 export const useOnSave = (props: EditorProps, context: EditorContext) => {
-  const { editorId, previewOnly } = props;
+  const { editorId } = props;
 
   const state = reactive({
     // 是否已编译成html
@@ -57,45 +57,43 @@ export const useOnSave = (props: EditorProps, context: EditorContext) => {
   );
 
   onMounted(() => {
-    if (!previewOnly) {
-      bus.on(editorId, {
-        name: 'buildFinished',
-        callback(html: string) {
-          state.buildFinished = true;
-          state.html = html;
-        }
-      });
+    bus.on(editorId, {
+      name: 'buildFinished',
+      callback(html: string) {
+        state.buildFinished = true;
+        state.html = html;
+      }
+    });
 
-      // 注册保存事件
-      bus.on(editorId, {
-        name: ON_SAVE,
-        callback() {
-          const htmlPromise = new Promise<string>((rev) => {
-            if (state.buildFinished) {
-              rev(state.html);
-            } else {
-              // 构建完成出发方法
-              const buildFinishedCallback = (html: string) => {
-                rev(html);
-
-                bus.remove(editorId, 'buildFinished', buildFinishedCallback);
-              };
-
-              bus.on(editorId, {
-                name: 'buildFinished',
-                callback: buildFinishedCallback
-              });
-            }
-          });
-
-          if (props.onSave) {
-            props.onSave(props.modelValue, htmlPromise);
+    // 注册保存事件
+    bus.on(editorId, {
+      name: ON_SAVE,
+      callback() {
+        const htmlPromise = new Promise<string>((rev) => {
+          if (state.buildFinished) {
+            rev(state.html);
           } else {
-            context.emit('onSave', props.modelValue, htmlPromise);
+            // 构建完成出发方法
+            const buildFinishedCallback = (html: string) => {
+              rev(html);
+
+              bus.remove(editorId, 'buildFinished', buildFinishedCallback);
+            };
+
+            bus.on(editorId, {
+              name: 'buildFinished',
+              callback: buildFinishedCallback
+            });
           }
+        });
+
+        if (props.onSave) {
+          props.onSave(props.modelValue, htmlPromise);
+        } else {
+          context.emit('onSave', props.modelValue, htmlPromise);
         }
-      });
-    }
+      }
+    });
   });
 };
 
@@ -200,7 +198,7 @@ export const useExpansionPreview = (props: MdPreviewProps) => {
  */
 export const useExpansion = (props: EditorProps) => {
   // 这部分内容只配置，不需要响应式更新
-  const { noPrettier, previewOnly, noUploadImg } = props;
+  const { noPrettier, noUploadImg } = props;
 
   const { editorExtensions } = configOption;
 
@@ -239,19 +237,17 @@ export const useExpansion = (props: EditorProps) => {
     cropperScript.id = `${prefix}-cropper`;
 
     // 非仅预览模式才添加扩展
-    if (!previewOnly) {
-      if (!noCropperScript) {
-        appendHandler(cropperLink);
-        appendHandler(cropperScript);
-      }
+    if (!noCropperScript) {
+      appendHandler(cropperLink);
+      appendHandler(cropperScript);
+    }
 
-      if (!noPrettierScript) {
-        appendHandler(prettierScript);
-      }
+    if (!noPrettierScript) {
+      appendHandler(prettierScript);
+    }
 
-      if (!noParserMarkdownScript) {
-        appendHandler(prettierMDScript);
-      }
+    if (!noParserMarkdownScript) {
+      appendHandler(prettierMDScript);
     }
   });
 
@@ -292,7 +288,7 @@ export const useConfig = (
   props: EditorProps,
   context: EditorContext
 ): [setting: SettingType, updateSetting: UpdateSetting] => {
-  const { editorId, previewOnly } = props;
+  const { editorId } = props;
 
   // ----编辑器设置----
   const setting = reactive<SettingType>({
@@ -326,28 +322,25 @@ export const useConfig = (
   watch(() => [setting.pageFullscreen, setting.fullscreen], adjustBody);
   // 进入时若默认全屏，调整一次
   onMounted(() => {
-    // 监听上传图片
-    if (!previewOnly) {
-      bus.on(editorId, {
-        name: 'uploadImage',
-        callback(files: Array<File>, cb: () => void) {
-          const insertHanlder = (urls: Array<string>) => {
-            bus.emit(editorId, 'replace', 'image', {
-              desc: '',
-              urls
-            });
+    bus.on(editorId, {
+      name: 'uploadImage',
+      callback(files: Array<File>, cb: () => void) {
+        const insertHanlder = (urls: Array<string>) => {
+          bus.emit(editorId, 'replace', 'image', {
+            desc: '',
+            urls
+          });
 
-            cb && cb();
-          };
+          cb && cb();
+        };
 
-          if (props.onUploadImg) {
-            props.onUploadImg(files, insertHanlder);
-          } else {
-            context.emit('onUploadImg', files, insertHanlder);
-          }
+        if (props.onUploadImg) {
+          props.onUploadImg(files, insertHanlder);
+        } else {
+          context.emit('onUploadImg', files, insertHanlder);
         }
-      });
-    }
+      }
+    });
 
     bodyOverflowHistory = document.body.style.overflow;
     adjustBody();

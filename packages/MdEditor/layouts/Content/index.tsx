@@ -9,8 +9,6 @@ export default defineComponent({
   props,
   setup(props: ContentProps) {
     const editorId = inject('editorId') as string;
-    // 仅预览
-    const previewOnly = inject('previewOnly') as boolean;
 
     const html = ref<string>('');
 
@@ -22,9 +20,7 @@ export default defineComponent({
     return () => {
       return (
         <div class={`${prefix}-content`}>
-          {!previewOnly && (
-            <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}></div>
-          )}
+          <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}></div>
 
           {props.setting.preview && (
             <ContentPreview

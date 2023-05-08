@@ -31,15 +31,7 @@ const Editor = defineComponent({
   setup(props: EditorProps, ctx: EditorContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
     // eslint-disable-next-line vue/no-setup-props-destructure
-    const {
-      editorId,
-      previewOnly,
-      noKatex,
-      noMermaid,
-      noPrettier,
-      noUploadImg,
-      noHighlight
-    } = props;
+    const { editorId, noKatex, noMermaid, noPrettier, noUploadImg, noHighlight } = props;
 
     const state = reactive({
       scrollAuto: props.scrollAuto
@@ -73,23 +65,20 @@ const Editor = defineComponent({
             prefix,
             props.class,
             props.theme === 'dark' && `${prefix}-dark`,
-            setting.fullscreen || setting.pageFullscreen ? `${prefix}-fullscreen` : '',
-            previewOnly && `${prefix}-previewOnly`
+            setting.fullscreen || setting.pageFullscreen ? `${prefix}-fullscreen` : ''
           ]}
           style={props.style}
         >
-          {!previewOnly && (
-            <ToolBar
-              noPrettier={noPrettier}
-              toolbars={props.toolbars}
-              toolbarsExclude={props.toolbarsExclude}
-              setting={setting}
-              updateSetting={updateSetting}
-              tableShape={props.tableShape}
-              defToolbars={defToolbars}
-              noUploadImg={noUploadImg}
-            />
-          )}
+          <ToolBar
+            noPrettier={noPrettier}
+            toolbars={props.toolbars}
+            toolbarsExclude={props.toolbarsExclude}
+            setting={setting}
+            updateSetting={updateSetting}
+            tableShape={props.tableShape}
+            defToolbars={defToolbars}
+            noUploadImg={noUploadImg}
+          />
           <Content
             value={props.modelValue}
             setting={setting}
@@ -144,7 +133,7 @@ const Editor = defineComponent({
               }
             }}
           />
-          {!previewOnly && props.footers?.length > 0 && (
+          {props.footers?.length > 0 && (
             <Footer
               modelValue={props.modelValue}
               footers={props.footers}
@@ -153,7 +142,7 @@ const Editor = defineComponent({
               onScrollAutoChange={(v) => (state.scrollAuto = v)}
             />
           )}
-          {catalogShow.value && !previewOnly && (
+          {catalogShow.value && (
             <MdCatalog
               theme={props.theme}
               style={{

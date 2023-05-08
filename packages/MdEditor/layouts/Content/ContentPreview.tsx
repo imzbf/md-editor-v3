@@ -46,6 +46,10 @@ export const contentPreviewProps = {
   noHighlight: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  previewOnly: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 
@@ -63,7 +67,7 @@ const ContentPreview = defineComponent({
     // 是否显示行号
     const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
     // markdown => html
-    const { html } = useMarkdownIt(props);
+    const { html } = useMarkdownIt(props, props.previewOnly);
     // 复制代码
     useCopyCode(props, html);
     // 图片点击放大

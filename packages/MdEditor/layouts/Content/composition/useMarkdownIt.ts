@@ -54,14 +54,12 @@ const initLineNumber = (md: mdit) => {
   });
 };
 
-const useMarkdownIt = (props: ContentPreviewProps) => {
+const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const { editorConfig, markdownItConfig } = configOption;
   //
   const editorId = inject('editorId') as string;
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
-  // 仅预览
-  const previewOnly = inject('previewOnly') as boolean;
   const themeRef = inject('theme') as ComputedRef<Themes>;
 
   const headsRef = ref<HeadList[]>([]);

@@ -242,12 +242,14 @@ export const editorProps = {
   /**
    * 仅预览模式，不显示toolbar和编辑框
    *
+   * @4.0.0开始移除该设置，使用组件MdPreview替换
+   *
    * @default false
    */
-  previewOnly: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
+  // previewOnly: {
+  //   type: Boolean as PropType<boolean>,
+  //   default: false
+  // },
 
   /**
    * 工具栏选择显示

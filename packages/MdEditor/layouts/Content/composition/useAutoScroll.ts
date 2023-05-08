@@ -9,7 +9,6 @@ const useAutoScroll = (
   codeMirrorUt: Ref<CodeMirrorUt | undefined>
 ) => {
   const editorId = inject('editorId') as string;
-  const previewOnly = inject('previewOnly') as boolean;
 
   let clearScrollAuto = () => {};
   let initScrollAuto = () => {};
@@ -22,7 +21,7 @@ const useAutoScroll = (
     const previewEle = document.getElementById(`${editorId}-preview-wrapper`);
     const htmlEle = document.getElementById(`${editorId}-html-wrapper`);
 
-    if (!previewOnly && (previewEle || htmlEle)) {
+    if (previewEle || htmlEle) {
       const scrollHandler = previewEle ? scrollAuto : scrollAutoWithScale;
       const cEle = previewEle || htmlEle;
 
