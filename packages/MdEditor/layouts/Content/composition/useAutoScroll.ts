@@ -18,8 +18,12 @@ const useAutoScroll = (
     clearScrollAuto();
     const cmScroller = document.querySelector<HTMLDivElement>('.cm-scroller');
 
-    const previewEle = document.getElementById(`${editorId}-preview-wrapper`);
-    const htmlEle = document.getElementById(`${editorId}-html-wrapper`);
+    const previewEle = document.querySelector<HTMLElement>(
+      `[id="${editorId}-preview-wrapper"][data-show="true"]`
+    );
+    const htmlEle = document.querySelector<HTMLElement>(
+      `[id="${editorId}-html-wrapper"][data-show="true"]`
+    );
 
     if (previewEle || htmlEle) {
       const scrollHandler = previewEle ? scrollAuto : scrollAutoWithScale;

@@ -50,6 +50,10 @@ export const contentPreviewProps = {
   previewOnly: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  show: {
+    type: Boolean as PropType<boolean>,
+    default: true
   }
 };
 
@@ -78,6 +82,7 @@ const ContentPreview = defineComponent({
         <div
           id={`${editorId}-preview-wrapper`}
           class={`${prefix}-preview-wrapper`}
+          data-show={props.show}
           key="content-preview-wrapper"
         >
           <article

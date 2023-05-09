@@ -24,33 +24,31 @@ export default defineComponent({
         <div class={`${prefix}-content`}>
           <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}></div>
 
-          {props.setting.preview && (
-            <ContentPreview
-              modelValue={props.value}
-              setting={props.setting}
-              onHtmlChanged={(html_) => {
-                html.value = html_;
-                props.onHtmlChanged(html_);
-              }}
-              onGetCatalog={props.onGetCatalog}
-              mdHeadingId={props.mdHeadingId}
-              noMermaid={props.noMermaid}
-              sanitize={props.sanitize}
-              noKatex={props.noKatex}
-              formatCopiedText={props.formatCopiedText}
-              noHighlight={props.noHighlight}
-            />
-          )}
+          <ContentPreview
+            modelValue={props.value}
+            setting={props.setting}
+            onHtmlChanged={(html_) => {
+              html.value = html_;
+              props.onHtmlChanged(html_);
+            }}
+            onGetCatalog={props.onGetCatalog}
+            mdHeadingId={props.mdHeadingId}
+            noMermaid={props.noMermaid}
+            sanitize={props.sanitize}
+            noKatex={props.noKatex}
+            formatCopiedText={props.formatCopiedText}
+            noHighlight={props.noHighlight}
+            show={props.setting.preview}
+          />
 
-          {props.setting.htmlPreview && (
-            <div
-              id={`${editorId}-html-wrapper`}
-              class={`${prefix}-preview-wrapper`}
-              key="html-preview-wrapper"
-            >
-              <div class={`${prefix}-html`}>{html.value}</div>
-            </div>
-          )}
+          <div
+            id={`${editorId}-html-wrapper`}
+            class={`${prefix}-preview-wrapper`}
+            data-show={props.setting.htmlPreview}
+            key="html-preview-wrapper"
+          >
+            <div class={`${prefix}-html`}>{html.value}</div>
+          </div>
         </div>
       );
     };
