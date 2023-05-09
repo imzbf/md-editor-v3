@@ -72,6 +72,7 @@ const text = ref('# Hello Editor');
 import { ref } from 'vue';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 
+const id = 'preview-only';
 const text = ref('# Hello Editor');
 const scrollElement = document.documentElement;
 </script>
@@ -89,7 +90,7 @@ const scrollElement = document.documentElement;
 
 ## 🎁 Apis
 
-### 🔩 MdPreivew Props
+### 🔖 MdPreivew Props
 
 | 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
@@ -293,7 +294,60 @@ export interface StaticTextDefaultValue {
 
 </details>
 
-### 🤱🏼 实例暴露
+### 🧵 MdPreview 绑定事件
+
+| 名称          | 入参                    | 说明                                      |
+| ------------- | ----------------------- | ----------------------------------------- |
+| onHtmlChanged | `html: string`          | html 变化回调事件，用于获取预览 html 代码 |
+| onGetCatalog  | `list: Array<HeadList>` | 获取`markdown`目录                        |
+
+### 🪢 MdEditor 绑定事件
+
+除去和`MdPreivew`相同的以外：
+
+| 名称 | 入参 | 说明 |
+| --- | --- | --- |
+| onChange | `value: string` | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
+| onSave | `value: string, html: Promise<string>` | 保存事件，快捷键与保存按钮均会触发 |
+| onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
+| onError | `err: { name: string; message: string }` | 运行错误反馈事件，目前包括`Cropper`、`fullscreen`、`prettier`实例未加载完成操作错误 |
+| onBlur | `event: FocusEvent` | 输入框失去焦点时触发事件 |
+| onFocus | `event: FocusEvent` | 输入框获得焦点时触发事件 |
+
+### 🎍 插槽
+
+| 名称 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| defToolbars | `Array<DropdownToolbar \| NormalToolbar \| ModalToolbar>` | null | 使用内置的组件自定义扩展工具栏 |
+| defFooters | `Array<string \| VNode \| JSX.Element>` | null | 自定义扩展页脚 |
+
+使用内置的 3 个组件（说明见下方），自定义工具栏，简单示例：
+
+```vue
+<template>
+  <MdEditor>
+    <template #defToolbars>
+      <NormalToolbar title="mark" @onClick="handler">
+        <template #trigger>
+          <svg class="md-editor-icon" aria-hidden="true">
+            <use xlink:href="#md-editor-icon-mark"></use>
+          </svg>
+        </template>
+      </NormalToolbar>
+    </template>
+  </MdEditor>
+</template>
+
+<script setup lang="ts">
+import { MdEditor, NormalToolbar } from 'md-editor-v3';
+
+const handler = () => {
+  console.log('NormalToolbar clicked!');
+};
+</script>
+```
+
+## 🤱🏼 实例暴露
 
 编辑器暴露了若干方法在组件实例上，用来快捷监听编辑器内部状态或对调整内部状态。
 
@@ -432,59 +486,6 @@ editorRef.value?.insert((selectedText) => {
 ```js
 editorRef.value?.focus();
 ```
-
-### 🎍 插槽
-
-| 名称 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| defToolbars | `Array<DropdownToolbar \| NormalToolbar \| ModalToolbar>` | null | 使用内置的组件自定义扩展工具栏 |
-| defFooters | `Array<string \| VNode \| JSX.Element>` | null | 自定义扩展页脚 |
-
-使用内置的 3 个组件（说明见下方），自定义工具栏，简单示例：
-
-```vue
-<template>
-  <MdEditor>
-    <template #defToolbars>
-      <NormalToolbar title="mark" @onClick="handler">
-        <template #trigger>
-          <svg class="md-editor-icon" aria-hidden="true">
-            <use xlink:href="#md-editor-icon-mark"></use>
-          </svg>
-        </template>
-      </NormalToolbar>
-    </template>
-  </MdEditor>
-</template>
-
-<script setup lang="ts">
-import { MdEditor, NormalToolbar } from 'md-editor-v3';
-
-const handler = () => {
-  console.log('NormalToolbar clicked!');
-};
-</script>
-```
-
-### 🪢 MdPreview 绑定事件
-
-| 名称          | 入参                    | 说明                                      |
-| ------------- | ----------------------- | ----------------------------------------- |
-| onHtmlChanged | `html: string`          | html 变化回调事件，用于获取预览 html 代码 |
-| onGetCatalog  | `list: Array<HeadList>` | 获取`markdown`目录                        |
-
-### 🪢 MdEditor 绑定事件
-
-除去和`MdPreivew`相同的以外：
-
-| 名称 | 入参 | 说明 |
-| --- | --- | --- |
-| onChange | `value: string` | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
-| onSave | `value: string, html: Promise<string>` | 保存事件，快捷键与保存按钮均会触发 |
-| onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传 |
-| onError | `err: { name: string; message: string }` | 运行错误反馈事件，目前包括`Cropper`、`fullscreen`、`prettier`实例未加载完成操作错误 |
-| onBlur | `event: FocusEvent` | 输入框失去焦点时触发事件 |
-| onFocus | `event: FocusEvent` | 输入框获得焦点时触发事件 |
 
 ## 💴 编辑器配置
 

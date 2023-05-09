@@ -73,6 +73,7 @@ const text = ref('# Hello Editor');
 import { ref } from 'vue';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 
+const id = 'preview-only';
 const text = ref('# Hello Editor');
 const scrollElement = document.documentElement;
 </script>
@@ -90,7 +91,7 @@ mark and emoji extensions
 
 ## 🎁 Apis
 
-### 🔩 MdPreivew Props
+### 🔖 MdPreivew Props
 
 | name | type | default | description |
 | --- | --- | --- | --- |
@@ -283,6 +284,59 @@ export interface StaticTextDefaultValue {
 
 </details>
 
+### 🧵 MdPreview Events
+
+| name | param | description |
+| --- | --- | --- |
+| onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
+| onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
+
+### 🪢 MdEditor Events
+
+Except for the same as `MdPreview`:
+
+| name | param | description |
+| --- | --- | --- |
+| onChange | `value: string` | Content changed event(bind to `oninput` of `textarea`) |
+| onSave | `value: string, html: Promise<string>` | Save content event, `ctrl+s`and click button will be triggered also |
+| onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
+| onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded |
+| onBlur | `event: FocusEvent` | Blur the `textarea` element |
+| onFocus | `event: FocusEvent` | Focus the `textarea` element |
+
+### 🎍 Slots
+
+| name | type | default | description |
+| --- | --- | --- | --- |
+| defToolbars | `Array<DropdownToolbar \| NormalToolbar \| ModalToolbar>` | null | Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar` |
+| defFooters | `Array<string \| VNode \| JSX.Element>` | null | Custom footer |
+
+`NormalToolbar` example:
+
+```vue
+<template>
+  <MdEditor>
+    <template #defToolbars>
+      <NormalToolbar title="mark" @onClick="handler">
+        <template #trigger>
+          <svg class="md-editor-icon" aria-hidden="true">
+            <use xlink:href="#md-editor-icon-mark"></use>
+          </svg>
+        </template>
+      </NormalToolbar>
+    </template>
+  </MdEditor>
+</template>
+
+<script setup lang="ts">
+import { MdEditor, NormalToolbar } from 'md-editor-v3';
+
+const handler = () => {
+  console.log('NormalToolbar clicked!');
+};
+</script>
+```
+
 ## 🤱🏼 Expose
 
 After 2.5.0, Editor exposes several methods on the instance, used to get or change the internal status of the editor.
@@ -422,59 +476,6 @@ focus the textarea.
 editorRef.value?.focus();
 ```
 
-### 🎍 Slots
-
-| name | type | default | description |
-| --- | --- | --- | --- |
-| defToolbars | `Array<DropdownToolbar \| NormalToolbar \| ModalToolbar>` | null | Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar` |
-| defFooters | `Array<string \| VNode \| JSX.Element>` | null | Custom footer |
-
-`NormalToolbar` example:
-
-```vue
-<template>
-  <MdEditor>
-    <template #defToolbars>
-      <NormalToolbar title="mark" @onClick="handler">
-        <template #trigger>
-          <svg class="md-editor-icon" aria-hidden="true">
-            <use xlink:href="#md-editor-icon-mark"></use>
-          </svg>
-        </template>
-      </NormalToolbar>
-    </template>
-  </MdEditor>
-</template>
-
-<script setup lang="ts">
-import { MdEditor, NormalToolbar } from 'md-editor-v3';
-
-const handler = () => {
-  console.log('NormalToolbar clicked!');
-};
-</script>
-```
-
-### 🪢 MdPreview Events
-
-| name | param | description |
-| --- | --- | --- |
-| onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
-| onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
-
-### 🪢 MdEditor Events
-
-Except for the same as `MdPreview`:
-
-| name | param | description |
-| --- | --- | --- |
-| onChange | `value: string` | Content changed event(bind to `oninput` of `textarea`) |
-| onSave | `value: string, html: Promise<string>` | Save content event, `ctrl+s`and click button will be triggered also |
-| onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
-| onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded |
-| onBlur | `event: FocusEvent` | Blur the `textarea` element |
-| onFocus | `event: FocusEvent` | Focus the `textarea` element |
-
 ## 💴 Config Editor
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
@@ -612,7 +613,7 @@ _Pay attention: shortcut keys are only available when the textarea is focused!_
 | CTRL + ALT + C | code row |  |
 | CTRL + SHIFT + ALT + T | table | `\|table\|` |
 
-## 🪤 Components
+## 🪤 Internal Components
 
 ```vue
 <script lang="ts" setup>
