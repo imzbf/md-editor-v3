@@ -1,4 +1,4 @@
-import { defineComponent, inject, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { prefix } from '~/config';
 import { useAutoScroll, useCodeMirror } from './composition/index';
 import { contentProps as props, ContentProps } from './props';
@@ -8,8 +8,6 @@ export default defineComponent({
   name: 'MDEditorContent',
   props,
   setup(props: ContentProps) {
-    const editorId = inject('editorId') as string;
-
     const html = ref<string>('');
 
     // 输入框
@@ -36,17 +34,7 @@ export default defineComponent({
             noKatex={props.noKatex}
             formatCopiedText={props.formatCopiedText}
             noHighlight={props.noHighlight}
-            show={props.setting.preview}
           />
-
-          <div
-            id={`${editorId}-html-wrapper`}
-            class={`${prefix}-preview-wrapper`}
-            data-show={props.setting.htmlPreview}
-            key="html-preview-wrapper"
-          >
-            <div class={`${prefix}-html`}>{html.value}</div>
-          </div>
         </div>
       );
     };

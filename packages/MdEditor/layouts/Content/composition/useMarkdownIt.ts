@@ -116,28 +116,26 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   markdownItConfig!(md);
 
   const html = ref(props.sanitize(md.render(props.modelValue)));
-  // 触发异步的保存事件（html总是会比text后更新）
-  bus.emit(editorId, 'buildFinished', html.value);
-  props.onHtmlChanged(html.value);
-  // 传递标题
-  props.onGetCatalog(headsRef.value);
-  // 生成目录
-  bus.emit(editorId, 'catalogChanged', headsRef.value);
-  replaceMermaid();
+
+  const updatedTodo = () => {
+    // 触发异步的保存事件（html总是会比text后更新）
+    bus.emit(editorId, 'buildFinished', html.value);
+    props.onHtmlChanged(html.value);
+    // 传递标题
+    props.onGetCatalog(headsRef.value);
+    // 生成目录
+    bus.emit(editorId, 'catalogChanged', headsRef.value);
+    replaceMermaid();
+  };
+
+  onMounted(updatedTodo);
 
   const markHtml = debounce(
     async () => {
       // 清理历史标题
       headsRef.value = [];
       html.value = props.sanitize(md.render(props.modelValue));
-      // 触发异步的保存事件（html总是会比text后更新）
-      bus.emit(editorId, 'buildFinished', html.value);
-      props.onHtmlChanged(html.value);
-      // 传递标题
-      props.onGetCatalog(headsRef.value);
-      // 生成目录
-      bus.emit(editorId, 'catalogChanged', headsRef.value);
-      replaceMermaid();
+      updatedTodo();
     },
     editorConfig?.renderDelay !== undefined
       ? editorConfig?.renderDelay

@@ -50,10 +50,6 @@ export const contentPreviewProps = {
   previewOnly: {
     type: Boolean as PropType<boolean>,
     default: false
-  },
-  show: {
-    type: Boolean as PropType<boolean>,
-    default: true
   }
 };
 
@@ -79,22 +75,34 @@ const ContentPreview = defineComponent({
 
     return () => {
       return (
-        <div
-          id={`${editorId}-preview-wrapper`}
-          class={`${prefix}-preview-wrapper`}
-          data-show={props.show}
-          key="content-preview-wrapper"
-        >
-          <article
-            id={`${editorId}-preview`}
-            class={[
-              `${prefix}-preview`,
-              `${previewTheme?.value}-theme`,
-              showCodeRowNumber && `${prefix}-scrn`
-            ]}
-            innerHTML={html.value}
-          />
-        </div>
+        <>
+          <div
+            id={`${editorId}-preview-wrapper`}
+            class={`${prefix}-preview-wrapper`}
+            data-show={props.setting.preview}
+            key="content-preview-wrapper"
+          >
+            <article
+              id={`${editorId}-preview`}
+              class={[
+                `${prefix}-preview`,
+                `${previewTheme?.value}-theme`,
+                showCodeRowNumber && `${prefix}-scrn`
+              ]}
+              innerHTML={html.value}
+            />
+          </div>
+          {!props.previewOnly && (
+            <div
+              id={`${editorId}-html-wrapper`}
+              class={`${prefix}-preview-wrapper`}
+              data-show={props.setting.htmlPreview}
+              key="html-preview-wrapper"
+            >
+              <div class={`${prefix}-html`}>{html.value}</div>
+            </div>
+          )}
+        </>
       );
     };
   }
