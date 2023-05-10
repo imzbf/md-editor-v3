@@ -51,12 +51,13 @@ yarn add @vavt/md-editor-extension
 <script setup>
 import { ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const text = ref('# Hello Editor');
 </script>
 ```
 
-> 从`v4.0.0`开始，内部组件支持按需引用，并且自动引入样式。
+> 从`v4.0.0`开始，内部组件支持按需引用。
 
 > 如果页面存在多个编辑器，请给组件设置不相同的`editorId`。
 
@@ -71,6 +72,7 @@ const text = ref('# Hello Editor');
 <script setup>
 import { ref } from 'vue';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
 
 const id = 'preview-only';
 const text = ref('# Hello Editor');
@@ -340,6 +342,7 @@ export interface StaticTextDefaultValue {
 
 <script setup lang="ts">
 import { MdEditor, NormalToolbar } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const handler = () => {
   console.log('NormalToolbar clicked!');
@@ -360,6 +363,7 @@ const handler = () => {
 import { ref, onMounted } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const editorRef = ref<ExposeParam>();
 
@@ -724,6 +728,7 @@ import { NormalToolbar } from 'md-editor-v3';
 ```jsx
 import { defineComponent, reactive } from 'vue';
 import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
   setup() {
@@ -752,6 +757,7 @@ export default defineComponent({
 import { ref } from 'vue';
 import axios from 'axios';
 import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const text = ref('# Hello Editor');
 

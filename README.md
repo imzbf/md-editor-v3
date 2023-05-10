@@ -52,6 +52,7 @@ For more ways to use or contribute, please refer to: [md-editor-extension](https
 <script setup>
 import { ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const text = ref('# Hello Editor');
 </script>
@@ -72,6 +73,7 @@ const text = ref('# Hello Editor');
 <script setup>
 import { ref } from 'vue';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
 
 const id = 'preview-only';
 const text = ref('# Hello Editor');
@@ -330,6 +332,7 @@ Except for the same as `MdPreview`:
 
 <script setup lang="ts">
 import { MdEditor, NormalToolbar } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const handler = () => {
   console.log('NormalToolbar clicked!');
@@ -350,6 +353,7 @@ After 2.5.0, Editor exposes several methods on the instance, used to get or chan
 import { ref, onMounted } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const editorRef = ref<ExposeParam>();
 
@@ -707,6 +711,7 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
 ```jsx
 import { defineComponent, reactive } from 'vue';
 import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
   setup() {
@@ -733,6 +738,7 @@ export default defineComponent({
 import { ref } from 'vue';
 import axios from 'axios';
 import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const text = ref('# Hello Editor');
 
