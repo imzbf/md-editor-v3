@@ -15,8 +15,6 @@ import { prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
 import { keyMove } from '~/utils/dom';
 
-import './style.less';
-
 const props = {
   title: {
     type: String as PropType<string>,

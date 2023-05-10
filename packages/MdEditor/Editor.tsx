@@ -21,9 +21,6 @@ import {
 
 import { editorProps as props, editorEmits as emits } from './props';
 
-import './index.less';
-import '@vavt/markdown-theme/css/all.css';
-
 const Editor = defineComponent({
   name: 'MdEditorV3',
   props,

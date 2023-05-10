@@ -7,9 +7,6 @@ import ContentPreview from '~/layouts/Content/ContentPreview';
 import { MdPreviewProps } from '~/type';
 import { mdPreviewProps as props, mdPreviewEmits as emits } from '~/props';
 
-import '~/styles/index.less';
-import '@vavt/markdown-theme/css/all.css';
-
 const MdPreview = defineComponent({
   name: 'MdPreview',
   props,

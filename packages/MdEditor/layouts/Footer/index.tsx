@@ -5,8 +5,6 @@ import { Footers } from '~/type';
 import MarkdownTotal from './MarkdownTotal';
 import ScrollAuto from './ScrollAuto';
 
-import './index.less';
-
 const props = {
   modelValue: {
     type: String as PropType<string>,

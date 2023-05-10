@@ -16,8 +16,6 @@ import { LooseRequired } from '@vue/shared';
 import { getSlot } from '~/utils/vue-tsx';
 import { prefix } from '~/config';
 
-import './style.less';
-
 interface CtlTypes {
   overlayClass: Array<string>;
   overlayStyle: CSSProperties;

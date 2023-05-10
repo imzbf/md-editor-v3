@@ -2,8 +2,6 @@ import { defineComponent, PropType, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 
-import './style.less';
-
 const props = {
   checked: {
     type: Boolean as PropType<boolean>,

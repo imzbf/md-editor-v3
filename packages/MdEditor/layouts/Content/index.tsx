@@ -4,8 +4,6 @@ import { useAutoScroll, useCodeMirror } from './composition/index';
 import { contentProps as props, ContentProps } from './props';
 import ContentPreview from './ContentPreview';
 
-import './index.less';
-
 export default defineComponent({
   name: 'MDEditorContent',
   props,

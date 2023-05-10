@@ -38,6 +38,7 @@ import { lineNumbers } from '@codemirror/view';
 // import ancher from 'markdown-it-anchor';
 
 import './index.less';
+import '~/styles/style.less';
 
 // import { cdnBase } from '../../MdEditor/config';
 

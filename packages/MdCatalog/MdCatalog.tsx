@@ -15,8 +15,6 @@ import { PREVIEW_CHANGED } from '~/static/event-name';
 import bus from '~/utils/event-bus';
 import CatalogLink from './CatalogLink';
 
-import './style.less';
-
 export interface TocItem {
   text: string;
   level: number;

@@ -16,8 +16,6 @@ import { base642File } from '~/utils';
 import Modal from '~/components/Modal';
 import bus from '~/utils/event-bus';
 
-import './style.less';
-
 const props = {
   visible: {
     type: Boolean as PropType<boolean>,

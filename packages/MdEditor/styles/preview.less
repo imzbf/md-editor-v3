@@ -1,5 +1,7 @@
 // 部分样式来源于其他开源UI库
-@import './vars';
+@import '@vavt/markdown-theme/css/all.css';
+@import '~/styles/vars.less';
+@import '~~/MdCatalog/index.less';
 
 .@{prefix} {
   .css-vars(false);
@@ -44,6 +46,17 @@
 
   ::-webkit-scrollbar-thumb:vertical:active {
     background-color: var(--md-scrollbar-thumb-active-color);
+  }
+
+  .@{prefix}-fullscreen {
+    position: fixed !important;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto !important;
+    height: auto !important;
+    z-index: 10000;
   }
 
   &-icon {

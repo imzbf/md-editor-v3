@@ -20,8 +20,6 @@ import { useSreenfull } from './composition';
 import TableShape from './TableShape';
 import Modals from '../Modals';
 
-import './index.less';
-
 export default defineComponent({
   name: 'MDEditorToolbar',
   props,
