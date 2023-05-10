@@ -108,7 +108,7 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
                     /markdown-it.*/
                   ],
             output: {
-              chunkFileNames: `chunks/[name].${extnames[t]}`,
+              chunkFileNames: `${t}/chunks/[name].${extnames[t]}`,
               assetFileNames: '[name][extname]',
               globals:
                 t === 'umd'

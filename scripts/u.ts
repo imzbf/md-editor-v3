@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-export const removeDir = (dirpath) => {
+export const removeDir = (dirpath: string) => {
+  if (!fs.existsSync(dirpath)) {
+    return;
+  }
   const fileList = fs.readdirSync(dirpath);
   fileList.forEach((x) => {
     const p = path.resolve(dirpath, x);
