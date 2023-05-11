@@ -357,28 +357,30 @@ export const useConfig = (
  */
 export const useCatalog = (props: EditorProps) => {
   const { editorId } = props;
-  const catalogVisible = ref(false);
+  const catalogShow = ref(false);
 
   onMounted(() => {
     bus.on(editorId, {
       name: CHANGE_CATALOG_VISIBLE,
       callback: (v: boolean | undefined) => {
         if (v === undefined) {
-          catalogVisible.value = !catalogVisible.value;
+          catalogShow.value = !catalogShow.value;
         } else {
-          catalogVisible.value = v;
+          catalogShow.value = v;
         }
       }
     });
   });
 
-  const catalogShow = computed(() => {
+  const catalogVisible = computed(() => {
     return (
-      !props.toolbarsExclude.includes('catalog') && props.toolbars.includes('catalog')
+      !props.toolbarsExclude.includes('catalog') &&
+      props.toolbars.includes('catalog') &&
+      catalogShow.value
     );
   });
 
-  return [catalogVisible, catalogShow];
+  return catalogVisible;
 };
 
 /**

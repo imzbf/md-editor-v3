@@ -5,13 +5,13 @@ import {
   defineComponent,
   PropType,
   ExtractPropTypes,
-  nextTick
+  shallowRef,
+  onBeforeUnmount
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { HeadList, MdHeadingId, Themes } from '~/type';
 import { prefix } from '~/config';
 import { throttle, getRelativeTop } from '~/utils';
-import { PREVIEW_CHANGED } from '~/static/event-name';
 import bus from '~/utils/event-bus';
 import CatalogLink from './CatalogLink';
 
@@ -94,12 +94,20 @@ const MdCatalog = defineComponent({
       scrollElement: props.scrollElement || `#${editorId}-preview-wrapper`
     });
 
+    const activeItem = shallowRef<HeadList>();
+
     // 重构的列表
     const catalogs = computed(() => {
       const tocItems: TocItem[] = [];
 
-      state.list.forEach(({ text, level, active }, index) => {
-        const item = { level, text, index: index + 1, active: !!active };
+      state.list.forEach((listItem, index) => {
+        const { text, level } = listItem;
+        const item = {
+          level,
+          text,
+          index: index + 1,
+          active: activeItem.value === listItem
+        };
 
         if (tocItems.length === 0) {
           // 第一个 item 直接 push
@@ -135,105 +143,85 @@ const MdCatalog = defineComponent({
       return tocItems;
     });
 
-    onMounted(() => {
-      bus.on(editorId, {
-        name: 'catalogChanged',
-        callback: (_list: Array<HeadList>) => {
-          state.list = _list.map((item, index) => {
-            if (index === 0) {
-              return {
-                ...item,
-                active: true
-              };
-            }
-
-            return {
-              ...item
-            };
-          });
-        }
-      });
-
-      // 主动触发一次接收
-      bus.emit(editorId, 'pushCatalog');
-    });
-
-    // ==
-    const addScrollElementListener = () => {
+    const getScrollElement = () => {
       const scrollElement =
         state.scrollElement instanceof HTMLElement
           ? state.scrollElement
           : (document.querySelector(state.scrollElement) as HTMLElement);
 
+      return scrollElement;
+    };
+
+    const findActiveHeading = throttle((list: HeadList[]) => {
+      if (list.length === 0) {
+        return false;
+      }
+
+      // 获取标记当前位置的目录
+      const { activeHead } = list.reduce(
+        (activeData, link, index) => {
+          const linkEle = document.getElementById(
+            props.mdHeadingId(link.text, link.level, index + 1)
+          );
+
+          if (linkEle instanceof HTMLElement) {
+            const scrollElement = getScrollElement();
+            // 获得当前标题相对滚动容器视窗的高度
+            const relativeTop = getRelativeTop(linkEle, scrollElement);
+
+            // 当前标题滚动到超出容器的顶部且相比其他的标题最近
+            if (relativeTop < props.offsetTop && relativeTop > activeData.minTop) {
+              return {
+                activeHead: link,
+                minTop: relativeTop
+              };
+            }
+          }
+
+          return activeData;
+        },
+        {
+          activeHead: list[0],
+          minTop: Number.MIN_SAFE_INTEGER
+        }
+      );
+
+      activeItem.value = activeHead;
+      state.list = list;
+    });
+
+    const scrollHandler = () => {
+      findActiveHeading(state.list);
+    };
+
+    onMounted(() => {
+      const scrollElement = getScrollElement();
       // 滚动区域为document.documentElement需要把监听事件绑定在window上
       (scrollElement === document.documentElement
         ? window
         : scrollElement
-      )?.addEventListener(
-        'scroll',
-        throttle(() => {
-          if (state.list.length === 0) {
-            return false;
-          }
-
-          // 获取标记当前位置的目录
-          const { activeHead } = state.list.reduce(
-            (activeData, link, index) => {
-              const linkEle = document.getElementById(
-                props.mdHeadingId(link.text, link.level, index + 1)
-              );
-
-              if (linkEle instanceof HTMLElement) {
-                // 获得当前标题相对滚动容器视窗的高度
-                const relativeTop = getRelativeTop(linkEle, scrollElement);
-
-                // 当前标题滚动到超出容器的顶部且相比其他的标题最近
-                if (relativeTop < props.offsetTop && relativeTop > activeData.minTop) {
-                  return {
-                    activeHead: link,
-                    minTop: relativeTop
-                  };
-                }
-              }
-
-              return activeData;
-            },
-            {
-              activeHead: state.list[0],
-              minTop: Number.MIN_SAFE_INTEGER
-            }
-          );
-
-          state.list = state.list.map((item) => {
-            if (item === activeHead) {
-              return {
-                ...item,
-                active: true
-              };
-            }
-
-            return {
-              ...item,
-              active: false
-            };
-          });
-        })
-      );
-    };
-
-    onMounted(() => {
-      addScrollElementListener();
+      )?.addEventListener('scroll', scrollHandler);
 
       bus.on(editorId, {
-        name: PREVIEW_CHANGED,
-        callback(status: boolean) {
-          if (status) {
-            nextTick(addScrollElementListener);
-          }
+        name: 'catalogChanged',
+        callback: (_list: Array<HeadList>) => {
+          findActiveHeading(_list);
         }
       });
+
+      // 主动触发一次接收
+      bus.emit(editorId, 'pushCatalog');
+    }); // ==
+
+    // 要移除监听事件，特别是全局的
+    onBeforeUnmount(() => {
+      const scrollElement = getScrollElement();
+      // 滚动区域为document.documentElement需要把监听事件绑定在window上
+      (scrollElement === document.documentElement
+        ? window
+        : scrollElement
+      )?.removeEventListener('scroll', scrollHandler);
     });
-    // ==
 
     return () => (
       <div

@@ -43,7 +43,7 @@ const Editor = defineComponent({
     // 部分配置重构
     const [setting, updateSetting] = useConfig(props, ctx);
     // 目录状态
-    const [catalogVisible, catalogShow] = useCatalog(props);
+    const catalogVisible = useCatalog(props);
     // 卸载组件前清空全部事件监听
     onBeforeUnmount(() => {
       bus.clear(editorId);
@@ -139,15 +139,13 @@ const Editor = defineComponent({
               onScrollAutoChange={(v) => (state.scrollAuto = v)}
             />
           )}
-          {catalogShow.value && (
+          {catalogVisible.value && (
             <MdCatalog
               theme={props.theme}
-              style={{
-                display: catalogVisible.value ? 'block' : 'none'
-              }}
               class={`${prefix}-catalog-editor`}
               editorId={editorId}
               mdHeadingId={props.mdHeadingId}
+              key="internal-catalog"
             />
           )}
         </div>
