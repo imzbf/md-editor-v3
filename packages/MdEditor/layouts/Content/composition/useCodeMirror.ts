@@ -1,6 +1,5 @@
 import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
 import { EditorView, minimalSetup } from 'codemirror';
-import { EditorState } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { languages } from '@codemirror/language-data';
 import { markdown } from '@codemirror/lang-markdown';
@@ -72,12 +71,8 @@ const useCodeMirror = (props: ContentProps) => {
   };
 
   onMounted(() => {
-    const startState = EditorState.create({
-      doc: props.value
-    });
-
     const view = new EditorView({
-      state: startState,
+      doc: props.value,
       parent: inputWrapperRef.value
     });
 
@@ -88,9 +83,9 @@ const useCodeMirror = (props: ContentProps) => {
 
     codeMirrorUt.value.setTabSize(tabWidth);
     codeMirrorUt.value.setExtensions(getExtensions());
-    codeMirrorUt.value.setPlaceholder(props.placeholder);
     codeMirrorUt.value.setDisabled(props.disabled!);
     codeMirrorUt.value.setReadOnly(props.readonly!);
+    props.placeholder && codeMirrorUt.value.setPlaceholder(props.placeholder);
 
     // view.dispatch({
     //   changes: { from: 10, insert: '*' },
@@ -159,7 +154,7 @@ const useCodeMirror = (props: ContentProps) => {
   watch(
     () => props.value,
     () => {
-      // 可控组件，只有不是输入的时候才手动设置编辑区的内容
+      // 只有不是输入的时候才手动设置编辑区的内容
       if (codeMirrorUt.value?.getValue() !== props.value) {
         codeMirrorUt.value?.setValue(props.value);
       }
@@ -167,7 +162,7 @@ const useCodeMirror = (props: ContentProps) => {
   );
 
   watch(
-    () => props.value,
+    () => props.placeholder,
     () => {
       codeMirrorUt.value?.setPlaceholder(props.placeholder);
     }
