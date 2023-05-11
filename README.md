@@ -58,7 +58,7 @@ const text = ref('# Hello Editor');
 </script>
 ```
 
-> `^4.0.0`, internal components can be imported on-demand and styles are automatically imported too.
+> `^4.0.0`, internal components can be imported on-demand.
 
 > If there are multiple editors on the page, please set different `editorId` for each editor!
 
