@@ -2,7 +2,6 @@ import { computed, ComputedRef, inject, onMounted, ref, toRef, watch } from 'vue
 import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
 import TaskListPlugin from 'markdown-it-task-lists';
-import CodeTabs from 'markdown-it-codetabs';
 import bus from '~/utils/event-bus';
 import { debounce, generateCodeRowNumber } from '~/utils';
 import { HeadList, Themes } from '~/type';
@@ -16,6 +15,7 @@ import MermaidPlugin from '../markdownIt/mermaid';
 import KatexPlugin from '../markdownIt/katex';
 import AdmonitionPlugin from '../markdownIt/admonition';
 import HeadingPlugin from '../markdownIt/heading';
+import CodeTabsPlugin from '../markdownIt/codetabs';
 import { ContentPreviewProps } from '../ContentPreview';
 
 const initLineNumber = (md: mdit) => {
@@ -78,7 +78,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   md.use(AdmonitionPlugin);
   md.use(TaskListPlugin);
   md.use(HeadingPlugin, { mdHeadingId: props.mdHeadingId, headsRef });
-  md.use(CodeTabs);
+  md.use(CodeTabsPlugin, { editorId });
 
   if (!props.noMermaid) {
     md.use(MermaidPlugin, { themeRef });
