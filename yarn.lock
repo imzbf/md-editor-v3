@@ -1514,11 +1514,6 @@
     "@typescript-eslint/types" "5.23.0"
     eslint-visitor-keys "^3.0.0"
 
-"@vavt/markdown-theme@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-3.0.0.tgz#ce7433428f65ee3397fde6abe5bc14ad70520b07"
-  integrity sha512-Vp/q1woesYOodIyQFUIeDflwrnXdRtLljbQa5tm3IUI75RDNB3K1R9NU/aPUhafkITQvnwl7U2uOXnXd2JJRBA==
-
 "@vavt/md-editor-extension@^3.0.0":
   version "3.0.0"
   resolved "https://registry.npmjs.org/@vavt/md-editor-extension/-/md-editor-extension-3.0.0.tgz#23b71c5e46addc312942bc02d2aca8ad0a159942"
@@ -2806,11 +2801,6 @@ make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-markdown-it-codetabs@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/markdown-it-codetabs/-/markdown-it-codetabs-1.2.0.tgz#e1c2626dee5e726d76c2739c425ebfd4443d2f1e"
-  integrity sha512-kF0ec56hKmBZ4xMSFm1pIOuRT37iInD8uvTq+uaWpVKnja6mAg6gkGMLaeLeBiRx4fAMJmrWy417WPf8GgNWxg==
-
 markdown-it-image-figures@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/markdown-it-image-figures/-/markdown-it-image-figures-2.1.1.tgz#fd32a2d0cec60ed8c3916d74fea70d5f9b56e4c7"
@@ -2837,20 +2827,18 @@ markdown-it@^13.0.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-md-editor-v3@^4.0.0-alpha.4:
-  version "4.0.0-alpha.4"
-  resolved "http://npm.imzbf.top/md-editor-v3/-/md-editor-v3-4.0.0-alpha.4.tgz#e035964a48105e3eb651374d36a9c1f265a6b066"
-  integrity sha512-oBUNAJKbVlQ2IrcudpJHjHQ5d3hpX3XXjKXaUmUSQ0had00W6+48sqPo+JmIt+ZFTynD3SZlCNY7DL57yIXa4Q==
+md-editor-v3@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.0.0.tgz#ca4274780fb2f5e82177d68957dd9da79fd91392"
+  integrity sha512-7fOg1jlnpwbmThxBGmLiU3DE9cuj5YNzK8cyDDnzrbu5yK4DSHZjd8xM2a1hTi+Ttke1yf4ZVWbrkPd0m6Yx0w==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/language-data" "^6.3.0"
     "@types/markdown-it" "^12.2.3"
-    "@vavt/markdown-theme" "^3.0.0"
     codemirror "^6.0.1"
     copy-to-clipboard "^3.3.3"
     lru-cache "^8.0.4"
     markdown-it "^13.0.1"
-    markdown-it-codetabs "^1.2.0"
     markdown-it-image-figures "^2.1.1"
     markdown-it-task-lists "^2.1.1"
     medium-zoom "^1.0.8"

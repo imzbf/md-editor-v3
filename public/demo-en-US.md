@@ -24,7 +24,7 @@ Use production version in html directly:
       <md-editor-v3 v-model="text" />
     </div>
     <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.js"></script>
+    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/umd/index.js"></script>
     <script>
       const App = {
         data() {
@@ -33,7 +33,7 @@ Use production version in html directly:
           };
         }
       };
-      Vue.createApp(App).use(MdEditorV3).mount('#md-editor-v3');
+      Vue.createApp(App).use(MdEditorV3.MdEditor).mount('#md-editor-v3');
     </script>
   </body>
 </html>
@@ -58,7 +58,7 @@ npm install md-editor-v3
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('Hello Editor!');
@@ -69,7 +69,7 @@ const text = ref('Hello Editor!');
 
 ```jsx
 import { defineComponent, ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
@@ -79,6 +79,25 @@ export default defineComponent({
     return () => <MdEditor modelValue={text.value} onChange={(v) => (text.value = v)} />;
   }
 });
+```
+
+#### 📖 Preview Only
+
+```vue
+<template>
+  <MdPreview :editorId="id" :modelValue="text" />
+  <MdCatalog :editorId="id" :scrollElement="scrollElement" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { MdPreview, MdCatalog } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
+
+const id = 'preview-only';
+const text = ref('# Hello Editor');
+const scrollElement = document.documentElement;
+</script>
 ```
 
 ## 🥂 Api Usage
@@ -98,10 +117,10 @@ In fact, The Second input parameter `extensions` of `codeMirrorExtensions` is an
 Change `Ctrl-b` to `Ctrl-m`
 
 ```js
-import MdEditor from 'md-editor-v3';
+import { config } from 'md-editor-v3';
 import { keymap } from '@codemirror/view';
 
-MdEditor.config({
+config({
   // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
   codeMirrorExtensions(theme, extensions, mdEditorCommands) {
     const newExtensions = [...extensions];
@@ -139,9 +158,9 @@ MdEditor.config({
 Disable all shortcut keys
 
 ```js
-import MdEditor from 'md-editor-v3';
+import { config } from 'md-editor-v3';
 
-MdEditor.config({
+config({
   // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
   codeMirrorExtensions(theme, extensions) {
     const newExtensions = [...extensions];
@@ -158,19 +177,19 @@ MdEditor.config({
 
 If you want to insert content into the edit box, you need to use the `insert` method bound on the instance of editor, reference: [Insert content into the edit box](/md-editor-v3/ed-US/docs#%F0%9F%92%89%20insert).
 
-If you are not using `MdEditor.config` in the component where the editor is located, you are unable to obtain instance of editor at this time. You may need to use `EventBus`.
+If you are not using `config` in the component where the editor is located, you are unable to obtain instance of editor at this time. You may need to use `EventBus`.
 
 Add shortcut key `Ctrl+m`, to insert a marking module into the editing box(`==mark==`)
 
 `index.ts`
 
 ```js
-import MdEditor from 'md-editor-v3';
+import { config } from 'md-editor-v3';
 import { keymap, KeyBinding } from '@codemirror/view';
 // If you used EventBus
 import bus from '@/utils/event-bus';
 
-MdEditor.config({
+config({
   // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
   codeMirrorExtensions(theme, extensions, mdEditorCommands) {
     const newExtensions = [...extensions];
@@ -207,7 +226,7 @@ Next, listening 'insertMarkBlock' in the component where the editor is located
 </template>
 
 <script setup lang="ts">
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
 import { ref, onMounted } from 'vue';
 // If you used EventBus
@@ -284,7 +303,7 @@ Support `light` and `dark` default.
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const state = reactive({
@@ -307,7 +326,7 @@ There are 6 kinds of themes: `default`, `github`, `vuepress`, `mk-cute`, `smart-
 
   <script setup>
   import { reactive } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const state = reactive({
@@ -356,7 +375,7 @@ There are 8 kinds of themes: `atom`, `a11y`, `github`, `gradient`, `kimbie`, `pa
 
   <script setup>
   import { reactive } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const state = reactive({
@@ -371,9 +390,9 @@ There are 8 kinds of themes: `atom`, `a11y`, `github`, `gradient`, `kimbie`, `pa
   1. Find or Write your favorite theme, then config them:
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
 
-  MdEditor.config({
+  config({
     editorExtensions: {
       highlight: {
         css: {
@@ -417,10 +436,10 @@ Example for `screenfull`:
 <script setup>
 import { ref } from 'vue';
 import screenfull from 'screenfull';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-MdEditor.config({
+config({
   editorExtensions: {
     screenfull: {
       instance: screenfull
@@ -443,10 +462,10 @@ Get files from [unpkg.com](https://unpkg.com).
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-MdEditor.config({
+config({
   editorExtensions: {
     screenfull: {
       js: 'https://localhost:8090/screenfull@5.2.0/index.js'
@@ -472,7 +491,7 @@ By default, you can select multiple pictures. You can paste and upload screensho
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('# Hello Editor');
@@ -510,10 +529,10 @@ const onUploadImg = async (files, callback) => {
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-MdEditor.config({
+config({
   editorConfig: {
     languageUserDefined: {
       'my-lang': {
@@ -621,7 +640,7 @@ You can install the existing language also: [md-editor-extension](https://github
 
   <script setup>
   import { reactive } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const state = reactive({
@@ -641,21 +660,14 @@ You can install the existing language also: [md-editor-extension](https://github
 
   ```vue
   <template>
-    <MdEditor
-      v-model="state.text"
-      :editorId="state.id"
-      :theme="state.theme"
-      previewOnly
-    />
+    <MdPreview :modelValue="state.text" :editorId="state.id" :theme="state.theme" />
     <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
   </template>
 
   <script setup>
   import { reactive } from 'vue';
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-
-  const MdCatalog = MdEditor.MdCatalog;
+  import { MdPreview, MdCatalog } from 'md-editor-v3';
+  import 'md-editor-v3/lib/preview.css';
 
   const state = reactive({
     theme: 'dark',
@@ -677,7 +689,7 @@ You can install the existing language also: [md-editor-extension](https://github
 </template>
 
 <script setup>
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
@@ -739,7 +751,7 @@ Change background color in dark mode:
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 // <=5.2.0
@@ -759,7 +771,7 @@ import 'highlight.js/styles/tokyo-night-dark.css';
 import prettier from 'prettier';
 import parserMarkdown from 'prettier/parser-markdown';
 
-MdEditor.config({
+config({
   editorExtensions: {
     prettier: {
       prettierInstance: prettier,
@@ -804,7 +816,7 @@ yarn add sanitize-html
 
 <script setup>
 import sanitizeHtml from 'sanitize-html';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const sanitize = (html) => {

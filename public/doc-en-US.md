@@ -1,6 +1,8 @@
 > Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
-## 🤯 Props
+## 🔖 MdPreview Props
+
+This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ### 📃 modelValue
 
@@ -37,6 +39,263 @@
 
 ---
 
+### 🔤 language
+
+- **type**: `string`
+- **default**: `'zh-CN'`
+
+  Build-in language('zh-CN', 'en-US').
+
+  You can install the existing language also: [md-editor-extension](https://github.com/imzbf/md-editor-extension). Refer to extension library for the usage and the way to contribute~
+
+---
+
+### 🎲 editorId
+
+- **type**: `string`
+- **default**: `'md-editor-v3'`
+
+  Editor's id, also the html id, it is used when there are two or more editor and server render.
+
+---
+
+### 🔢 showCodeRowNumber
+
+- **type**: `boolean`
+- **default**: `false`
+
+  Show row number for code block or not.
+
+---
+
+### 🔦 previewTheme
+
+- **type**: `'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'`
+- **default**: `'default'`
+
+  Preview themes.
+
+  Custom:
+
+  1. Write css
+
+  ```css
+  .xxx-theme {
+    color: red;
+  }
+  ```
+
+  2. Set `previewTheme`
+
+  ```vue
+  <MdEditor previewTheme="xxx" />
+  ```
+
+  For more, refer to [markdown-theme](https://github.com/imzbf/markdown-theme).
+
+---
+
+### 🎅🏻 style
+
+- **type**: `string | CSSProperties`
+- **default**: `''`
+
+  Editor's inline style.
+
+---
+
+### ☝️ noMermaid
+
+- **type**: `boolean`
+- **default**: `false`
+
+  Do not want to use `mermaid`, set it to `true`.
+
+  ```vue
+  <MdEditor noMermaid />
+  ```
+
+---
+
+### ❌ noKatex
+
+- **type**: `boolean`
+- **default**: `false`
+
+  Do not want to use `katex`, set it to `true`.
+
+  ```vue
+  <MdEditor noKatex />
+  ```
+
+---
+
+### 🦉 codeTheme
+
+- **type**: `'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'`
+- **default**: `'atom'`
+
+  Highlight code css name. Get Them from `highlight.js`.
+
+  Custom:
+
+  1. Config `editorExtensions`
+
+  ```js
+  import { config } from 'md-editor-v3';
+
+  config({
+    editorExtensions: {
+      highlight: {
+        css: {
+          atom: {
+            light:
+              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
+            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css'
+          },
+          xxx: {
+            light:
+              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
+            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css'
+          }
+        }
+      }
+    }
+  });
+  ```
+
+  2. Set `codeTheme`
+
+  ```vue
+  <MdEditor codeTheme="xxx" />
+  ```
+
+---
+
+### 🎱 mdHeadingId
+
+- **type**: `(text: string, level: number, index: number) => string`
+- **default**: `(text) => text`
+
+  Heading `ID` generator.
+
+  ```vue
+  <template>
+    <MdEditor :mdHeadingId="mdHeadingId" />
+  </template>
+
+  <script setup>
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const mdHeadingId = (_text, _level, index) => `heading-${index}`;
+  </script>
+  ```
+
+---
+
+### 🐣 sanitize
+
+- **type**: `(html: string) => string`
+- **default**: `(html) => html`
+
+  Sanitize the html, prevent XSS. When you can be sure that your content is OK, ignore this.
+
+  `sanitize-html` example:
+
+  ```vue
+  <template>
+    <MdEditor :sanitize="sanitize" />
+  </template>
+
+  <script setup>
+  import sanitizeHtml from 'sanitize-html';
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const sanitize = (html) => sanitizeHtml(html);
+  </script>
+  ```
+
+---
+
+### 🤞🏼 noIconfont
+
+- **type**: `boolean`
+- **default**: `true`
+
+  Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js) and import it by yourself.
+
+  ```vue
+  <template>
+    <MdEditor noIconfont />
+  </template>
+
+  <script setup>
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  import '/assets/iconfont.js';
+  </script>
+  ```
+
+---
+
+### 💅 formatCopiedText
+
+- **type**: `(text: string) => string`
+- **default**: `(text) => text`
+
+  Format copied code
+
+  ```vue
+  <template>
+    <MdEditor :formatCopiedText="formatCopiedText" />
+  </template>
+
+  <script setup>
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const formatCopiedText = (text) => {
+    return `${text}  - from md-editor-v3`;
+  };
+  </script>
+  ```
+
+---
+
+### 🛁 codeStyleReverse
+
+- **type**: `boolean`
+- **default**: `true`
+
+  Code style will be reversed to dark while code block of the theme has a dark background.
+
+---
+
+### 🧼 codeStyleReverseList
+
+- **type**: `Array`
+- **default**: `['default', 'mk-cute']`
+
+  Themes to be reversed.
+
+---
+
+### 🕊 noHighlight
+
+- **type**: `boolean`
+- **default**: `false`
+
+  never highlight code
+
+---
+
+## 🔩 MdEditor Props
+
+Except for the same as `MdPreview`:
+
 ### 💻 pageFullscreen
 
 - **type**: `boolean`
@@ -65,26 +324,6 @@
   ```jsx
   <MdEditor htmlPreview preview={false} />
   ```
-
----
-
-### 📺 previewOnly
-
-- **type**: `boolean`
-- **default**: `false`
-
-  Only render article content, no toolbar, no edit area.
-
----
-
-### 🔤 language
-
-- **type**: `string`
-- **default**: `'zh-CN'`
-
-  Build-in language('zh-CN', 'en-US').
-
-  You can install the existing language also: [md-editor-extension](https://github.com/imzbf/md-editor-extension). Refer to extension library for the usage and the way to contribute~
 
 ---
 
@@ -157,66 +396,12 @@
 
 ---
 
-### 🎲 editorId
-
-- **type**: `string`
-- **default**: `'md-editor-v3'`
-
-  Editor's id, also the html id, it is used when there are two or more editor and server render.
-
----
-
 ### 🤏 tabWidth
 
 - **type**: `number`
 - **default**: `2`
 
   One tab eq some space.
-
----
-
-### 🔢 showCodeRowNumber
-
-- **type**: `boolean`
-- **default**: `false`
-
-  Show row number for code block or not.
-
----
-
-### 🔦 previewTheme
-
-- **type**: `'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'`
-- **default**: `'default'`
-
-  Preview themes.
-
-  Custom:
-
-  1. Write css
-
-  ```css
-  .xxx-theme {
-    color: red;
-  }
-  ```
-
-  2. Set `previewTheme`
-
-  ```vue
-  <MdEditor previewTheme="xxx" />
-  ```
-
-  For more, refer to [markdown-theme](https://github.com/imzbf/markdown-theme).
-
----
-
-### 🎅🏻 style
-
-- **type**: `string | CSSProperties`
-- **default**: `''`
-
-  Editor's inline style.
 
 ---
 
@@ -235,127 +420,12 @@
 
 ---
 
-### ☝️ noMermaid
-
-- **type**: `boolean`
-- **default**: `false`
-
-  Do not want to use `mermaid`, set it to `true`.
-
-  ```vue
-  <MdEditor noMermaid />
-  ```
-
----
-
 ### 🪧 placeholder
 
 - **type**: `string`
 - **default**: `''`
 
   em-\_-！
-
----
-
-### ❌ noKatex
-
-- **type**: `boolean`
-- **default**: `false`
-
-  Do not want to use `katex`, set it to `true`.
-
-  ```vue
-  <MdEditor noKatex />
-  ```
-
----
-
-### 🦉 codeTheme
-
-- **type**: `'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'`
-- **default**: `'atom'`
-
-  Highlight code css name. Get Them from `highlight.js`.
-
-  Custom:
-
-  1. Config `editorExtensions`
-
-  ```js
-  import MdEditor from 'md-editor-v3';
-
-  MdEditor.config({
-    editorExtensions: {
-      highlight: {
-        css: {
-          atom: {
-            light:
-              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
-            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css'
-          },
-          xxx: {
-            light:
-              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
-            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css'
-          }
-        }
-      }
-    }
-  });
-  ```
-
-  2. Set `codeTheme`
-
-  ```vue
-  <MdEditor codeTheme="xxx" />
-  ```
-
----
-
-### 🎱 mdHeadingId
-
-- **type**: `(text: string, level: number, index: number) => string`
-- **default**: `(text) => text`
-
-  Heading `ID` generator.
-
-  ```vue
-  <template>
-    <MdEditor :mdHeadingId="mdHeadingId" />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-
-  const mdHeadingId = (_text, _level, index) => `heading-${index}`;
-  </script>
-  ```
-
----
-
-### 🐣 sanitize
-
-- **type**: `(html: string) => string`
-- **default**: `(html) => html`
-
-  Sanitize the html, prevent XSS. When you can be sure that your content is OK, ignore this.
-
-  `sanitize-html` example:
-
-  ```vue
-  <template>
-    <MdEditor :sanitize="sanitize" />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-  import sanitizeHtml from 'sanitize-html';
-
-  const sanitize = (html) => sanitizeHtml(html);
-  </script>
-  ```
 
 ---
 
@@ -377,52 +447,6 @@
 
 ---
 
-### 🤞🏼 noIconfont
-
-- **type**: `boolean`
-- **default**: `true`
-
-  Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js) and import it by yourself.
-
-  ```vue
-  <template>
-    <MdEditor noIconfont />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-
-  import '/assets/iconfont.js';
-  </script>
-  ```
-
----
-
-### 💅 formatCopiedText
-
-- **type**: `(text: string) => string`
-- **default**: `(text) => text`
-
-  Format copied code
-
-  ```vue
-  <template>
-    <MdEditor :formatCopiedText="formatCopiedText" />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-
-  const formatCopiedText = (text) => {
-    return `${text}  - from md-editor-v3`;
-  };
-  </script>
-  ```
-
----
-
 ### 🥹 noUploadImg
 
 - **type**: `boolean`
@@ -433,24 +457,6 @@
   ```vue
   <MdEditor noUploadImg />
   ```
-
----
-
-### 🛁 codeStyleReverse
-
-- **type**: `boolean`
-- **default**: `true`
-
-  Code style will be reversed to dark while code block of the theme has a dark background.
-
----
-
-### 🧼 codeStyleReverseList
-
-- **type**: `Array`
-- **default**: `['default', 'mk-cute']`
-
-  Themes to be reversed.
 
 ---
 
@@ -499,15 +505,6 @@
 
 ---
 
-### 🕊 noHighlight
-
-- **type**: `boolean`
-- **default**: `false`
-
-  never highlight code
-
----
-
 ## 🎍 slots
 
 ### 💪 defToolbars
@@ -532,10 +529,8 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor, NormalToolbar } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
-  const NormalToolbar = MdEditor.NormalToolbar;
 
   const toolbars = ['bold', '-', 0, '=', 'github'];
 
@@ -549,7 +544,7 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
 
   ```jsx
   import { defineComponent } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor, NormalToolbar } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   export default defineComponent({
@@ -559,7 +554,7 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
           toolbars={['bold', '-', 0, '=', 'github']}
           defToolbars={
             <>
-              <MdEditor.NormalToolbar
+              <NormalToolbar
                 trigger={
                   <svg class="md-editor-icon" aria-hidden="true">
                     <use xlinkHref="#icon-strike-through" />
@@ -597,7 +592,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const footers = ['markdownTotal', 0, '=', 1, 'scrollSwitch'];
@@ -608,7 +603,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   ```jsx
   import { defineComponent } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   export default defineComponent({
@@ -632,7 +627,27 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
 ---
 
-## 🪢 Event
+## 🧵 MdPreview Events
+
+### 🚁 onHtmlChanged
+
+- **type**: `(h: string) => void`
+
+  Compile markdown successful event, ou can use it to get the html code.
+
+---
+
+### 🗒 onGetCatalog
+
+- **type**: `(list: HeadList[]) => void`
+
+  Get catalogue of article.
+
+---
+
+## 🪢 MdEditor Events
+
+Except for the same as `MdPreview`:
 
 ### 📞 onChange
 
@@ -682,7 +697,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
   <script setup>
   import axios from 'axios';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const onUploadImg = async (files, callback) => {
@@ -711,22 +726,6 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
 ---
 
-### 🚁 onHtmlChanged
-
-- **type**: `(h: string) => void`
-
-  Compile markdown successful event, ou can use it to get the html code.
-
----
-
-### 🗒 onGetCatalog
-
-- **type**: `(list: HeadList[]) => void`
-
-  Get catalogue of article.
-
----
-
 ### 💀 onError
 
 - **type**: `(err: { name: string; message: string;}) => void`
@@ -739,7 +738,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const onError = (err) => {
@@ -762,7 +761,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const onBlur = (e) => {
@@ -792,7 +791,7 @@ After 2.5.0, Editor exposes several methods on the instance, used to get or chan
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
 
 import 'md-editor-v3/lib/style.css';
@@ -947,17 +946,17 @@ editorRef.value?.focus();
 
 ## 💴 Config Editor
 
-Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
+Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
 
 - codeMirrorExtensions: Customize new extensions based on theme and default extensions f codeMirror.
 
   Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
   import { lineNumbers } from '@codemirror/view';
 
-  MdEditor.config({
+  config({
     codeMirrorExtensions(_theme, extensions) {
       return [...extensions, lineNumbers()];
     }
@@ -969,10 +968,10 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so 
   Example: Use `markdown-it-anchor` to render a hyperlink symbol to the right of the title
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
   import ancher from 'markdown-it-anchor';
 
-  MdEditor.config({
+  config({
     markdownItConfig(mdit) {
       mdit.use(ancher, {
         permalink: true
@@ -984,9 +983,9 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so 
 - editorConfig: Add more languages, reset `mermaid` template or delay rendering time
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
 
-  MdEditor.config({
+  config({
     editorConfig: {
       languageUserDefined: {
         'en-US': {
@@ -1091,9 +1090,9 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so 
 - editorExtensions: Config some dependency libraries, like highlight..
 
   ```typescript
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
 
-  MdEditor.config({
+  config({
     editorExtensions: { iconfont: 'https://xxx.cc' }
   });
   ```
@@ -1102,9 +1101,7 @@ Use `MdEditor.config(option: ConfigOption)` to reconfigure `markdown-it` and so 
     <summary>EditorExtensions</summary>
 
   ```ts
-  import MdEditor from 'md-editor-v3';
-
-  interface EditorExtensions {
+  export interface EditorExtensions {
     highlight?: {
       instance?: any;
       js?: string;
@@ -1183,7 +1180,7 @@ Shortcut keys are only available when the textarea is focused!
 
 ## 🪤 Internal Components
 
-They are used as attributes of the editor component, eg: `Editor.DropdownToolbar`
+On-demand import, eg: `import { DropdownToolbar } from 'md-editor-v3'`.
 
 ### 🐣 NormalToolbar
 
@@ -1218,10 +1215,8 @@ usage:
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, NormalToolbar } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-
-const NormalToolbar = MdEditor.NormalToolbar;
 
 const text = ref('');
 </script>
@@ -1232,8 +1227,6 @@ const text = ref('');
 ---
 
 ### 🐼 DropdownToolbar
-
-`Editor.DropdownToolbar`
 
 - **props**
 
@@ -1284,10 +1277,8 @@ usage:
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, DropdownToolbar } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-
-const DropdownToolbar = MdEditor.DropdownToolbar;
 
 const emojis = ['😀', '😃'];
 
@@ -1360,10 +1351,8 @@ const emojiHandler = () => {};
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, ModalToolbar } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-
-const ModalToolbar = MdEditor.ModalToolbar;
 
 const data = reactive({
   text: '',
@@ -1397,16 +1386,14 @@ usage:
 
 ```vue
 <template>
-  <MdEditor v-model="state.text" :editorId="state.id" :theme="state.theme" previewOnly />
+  <MdPreview :modelValue="state.text" :editorId="state.id" :theme="state.theme" />
   <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
-const MdCatalog = MdEditor.MdCatalog;
+import { MdPreview, MdCatalog } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
 
 const state = reactive({
   theme: 'dark',

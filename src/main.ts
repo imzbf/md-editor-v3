@@ -6,6 +6,10 @@ import './styles/common.less';
 import 'nprogress/nprogress.css';
 
 import { config } from 'md-editor-v3';
+// 如果项目里面既有编辑器，又有仅预览模块
+// 不要同时引用preview.css和style.css，style.css就包含了preview.css
+// 同时引用会出现重复样式，并且打包工具不会剔除这部分
+import 'md-editor-v3/lib/style.css';
 
 import MarkExtension from 'markdown-it-mark';
 

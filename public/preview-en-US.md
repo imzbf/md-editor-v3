@@ -27,7 +27,7 @@ Markdown Editor for Vue3, developed in jsx and typescript, support different the
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('Hello Editor!');

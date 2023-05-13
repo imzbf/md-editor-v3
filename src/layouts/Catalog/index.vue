@@ -22,7 +22,7 @@ export default {
 import type { PropType } from 'vue';
 import { useStore } from 'vuex';
 import { MdCatalog } from 'md-editor-v3';
-import type { TocItem } from 'md-editor-v3/es/MdCatalog/MdCatalog';
+import type { TocItem } from 'md-editor-v3/lib/types/MdCatalog/MdCatalog';
 
 const store = useStore();
 

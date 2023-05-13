@@ -1,8 +1,8 @@
 > 在线尝试示例：[传送门](https://codesandbox.io/s/epic-bird-2znqo)
 
-## 🤯 Props 说明
+## 🔖 MdPreview Props
 
-这是组件最重要的一部分内容，`md-editor-v3`的属性参数如下：
+这是预览组件`MdPreview`的`Props`，它们同样也是`MdEditor`的：
 
 ### 📃 modelValue
 
@@ -39,6 +39,265 @@
 
 ---
 
+### 🔤 language
+
+- **类型**：`string`
+- **默认值**：`'zh-CN'`
+
+  内置中英文(`'zh-CN'`,`'en-US'`)，可自行扩展其他语言，同时可覆盖内置的中英文。
+
+  你也可以使用现成的扩展语言：[md-editor-extension](https://github.com/imzbf/md-editor-extension)。使用及贡献方式见扩展库文档~
+
+---
+
+### 🎲 editorId
+
+- **类型**：`string`
+- **默认值**：`'md-editor-v3'`
+
+  编辑器唯一标识，非必须项，服务端渲染时，防止产生服务端与客户端渲染内容不一致错误提示，以及单页面多编辑器时做区别。
+
+---
+
+### 🔢 showCodeRowNumber
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  代码块是否显示行号。
+
+---
+
+### 🔦 previewTheme
+
+- **类型**：`'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'`
+- **默认值**：`'default'`
+
+  预览内容主题，支持自定义。
+
+  主题自定义方式：
+
+  1. 编辑 css
+
+  ```css
+  .xxx-theme {
+    color: red;
+  }
+  ```
+
+  2. 设置`previewTheme`
+
+  ```vue
+  <MdEditor previewTheme="xxx" />
+  ```
+
+  参考[markdown-theme](https://github.com/imzbf/markdown-theme)项目。
+
+---
+
+### 🎅🏻 style
+
+- **类型**：`string | CSSProperties`
+- **默认值**：`''`
+
+  编辑器内联样式。
+
+---
+
+### ☝️ noMermaid
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  如果你不希望使用图表展示内容，可以设置关闭。
+
+  ```vue
+  <MdEditor noMermaid />
+  ```
+
+---
+
+### ❌ noKatex
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  如果你不希望使用数学公式展示内容，可以设置关闭。
+
+  ```vue
+  <MdEditor noKatex />
+  ```
+
+---
+
+### 🦉 codeTheme
+
+- **类型**：`'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'`
+- **默认值**：`'atom'`
+
+  代码块高亮样式名称。
+
+  你可以添加自己的样式，把该属性设置为你想要的即可，方式如下：
+
+  1. 配置样式链接
+
+  ```js
+  import { config } from 'md-editor-v3';
+
+  config({
+    editorExtensions: {
+      highlight: {
+        css: {
+          atom: {
+            light:
+              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
+            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css'
+          },
+          xxx: {
+            light:
+              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
+            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css'
+          }
+        }
+      }
+    }
+  });
+  ```
+
+  2. 设置`codeTheme`
+
+  ```vue
+  <MdEditor codeTheme="xxx" />
+  ```
+
+---
+
+### 🎱 mdHeadingId
+
+- **类型**：`(text: string, level: number, index: number) => string`
+- **默认值**：`(text) => text`
+
+  构造标题`ID`的生成方式。
+
+  ```vue
+  <template>
+    <MdEditor :mdHeadingId="mdHeadingId" />
+  </template>
+
+  <script setup>
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const mdHeadingId = (_text, _level, index) => `heading-${index}`;
+  </script>
+  ```
+
+---
+
+### 🐣 sanitize
+
+- **类型**：`(html: string) => string`
+- **默认值**：`(html) => html`
+
+  在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关，当你很确定你的内容不会出现类似情况时，不必设置它。
+
+  使用`sanitize-html`演示
+
+  ```vue
+  <template>
+    <MdEditor :sanitize="sanitize" />
+  </template>
+
+  <script setup>
+  import sanitizeHtml from 'sanitize-html';
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const sanitize = (html) => sanitizeHtml(html);
+  </script>
+  ```
+
+  > 为什么不内置到编辑器：由于类似编辑器大多属于自行处理文本，自身即可确认内容是否安全，并不需要该功能。
+
+---
+
+### 🤞🏼 noIconfont
+
+- **类型**：`boolean`
+- **默认值**：`true`
+
+  不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js)到本地自行引入。
+
+  ```vue
+  <template>
+    <MdEditor noIconfont />
+  </template>
+
+  <script setup>
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  import '/assets/iconfont.js';
+  </script>
+  ```
+
+---
+
+### 💅 formatCopiedText
+
+- **类型**：`(text: string) => string`
+- **默认值**：`(text) => text`
+
+  格式化复制代码
+
+  ```vue
+  <template>
+    <MdEditor :formatCopiedText="formatCopiedText" />
+  </template>
+
+  <script setup>
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const formatCopiedText = (text) => {
+    return `${text}  - from md-editor-v3`;
+  };
+  </script>
+  ```
+
+---
+
+### 🛁 codeStyleReverse
+
+- **类型**：`boolean`
+- **默认值**：`true`
+
+  某些预览主题的代码模块背景是暗色系，将这个属性设置为 true，会自动在该主题下的 light 模式下使用暗色系的代码风格。
+
+---
+
+### 🧼 codeStyleReverseList
+
+- **类型**：`Array`
+- **默认值**：`['default', 'mk-cute']`
+
+  需要自动调整的预览主题，已默认包含 default、mk-cute。
+
+---
+
+### 🕊 noHighlight
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  不高亮代码，也不会加载相应的扩展库
+
+---
+
+## 🔩 MdEditor Props
+
+除去和`MdPreivew`相同的以外：
+
 ### 💻 pageFullscreen
 
 - **类型**：`boolean`
@@ -67,24 +326,6 @@
   ```jsx
   <MdEditor htmlPreview preview={false} />
   ```
-
----
-
-### 📺 previewOnly
-
-- **类型**：`boolean`
-- **默认值**：`false`
-
-  仅预览模式，不显示 bar 和编辑框，不支持响应式，仅能初始设置一次。
-
-### 🔤 language
-
-- **类型**：`string`
-- **默认值**：`'zh-CN'`
-
-  内置中英文(`'zh-CN'`,`'en-US'`)，可自行扩展其他语言，同时可覆盖内置的中英文。
-
-  你也可以使用现成的扩展语言：[md-editor-extension](https://github.com/imzbf/md-editor-extension)。使用及贡献方式见扩展库文档~
 
 ---
 
@@ -157,66 +398,12 @@
 
 ---
 
-### 🎲 editorId
-
-- **类型**：`string`
-- **默认值**：`'md-editor-v3'`
-
-  编辑器唯一标识，非必须项，服务端渲染时，防止产生服务端与客户端渲染内容不一致错误提示，以及单页面多编辑器时做区别。
-
----
-
 ### 🤏 tabWidth
 
 - **类型**：`number`
 - **默认值**：`2`
 
   编辑器一个 TAB 键等于空格数。
-
----
-
-### 🔢 showCodeRowNumber
-
-- **类型**：`boolean`
-- **默认值**：`false`
-
-  代码块是否显示行号。
-
----
-
-### 🔦 previewTheme
-
-- **类型**：`'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'`
-- **默认值**：`'default'`
-
-  预览内容主题，支持自定义。
-
-  主题自定义方式：
-
-  1. 编辑 css
-
-  ```css
-  .xxx-theme {
-    color: red;
-  }
-  ```
-
-  2. 设置`previewTheme`
-
-  ```vue
-  <MdEditor previewTheme="xxx" />
-  ```
-
-  参考[markdown-theme](https://github.com/imzbf/markdown-theme)项目。
-
----
-
-### 🎅🏻 style
-
-- **类型**：`string | CSSProperties`
-- **默认值**：`''`
-
-  编辑器内联样式。
 
 ---
 
@@ -235,129 +422,12 @@
 
 ---
 
-### ☝️ noMermaid
-
-- **类型**：`boolean`
-- **默认值**：`false`
-
-  如果你不希望使用图表展示内容，可以设置关闭。
-
-  ```vue
-  <MdEditor noMermaid />
-  ```
-
----
-
 ### 🪧 placeholder
 
 - **类型**：`string`
 - **默认值**：`''`
 
   啊这-\_-！
-
----
-
-### ❌ noKatex
-
-- **类型**：`boolean`
-- **默认值**：`false`
-
-  如果你不希望使用数学公式展示内容，可以设置关闭。
-
-  ```vue
-  <MdEditor noKatex />
-  ```
-
----
-
-### 🦉 codeTheme
-
-- **类型**：`'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'`
-- **默认值**：`'atom'`
-
-  代码块高亮样式名称。
-
-  你可以添加自己的样式，把该属性设置为你想要的即可，方式如下：
-
-  1. 配置样式链接
-
-  ```js
-  import MdEditor from 'md-editor-v3';
-
-  MdEditor.config({
-    editorExtensions: {
-      highlight: {
-        css: {
-          atom: {
-            light:
-              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
-            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css'
-          },
-          xxx: {
-            light:
-              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
-            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css'
-          }
-        }
-      }
-    }
-  });
-  ```
-
-  2. 设置`codeTheme`
-
-  ```vue
-  <MdEditor codeTheme="xxx" />
-  ```
-
----
-
-### 🎱 mdHeadingId
-
-- **类型**：`(text: string, level: number, index: number) => string`
-- **默认值**：`(text) => text`
-
-  构造标题`ID`的生成方式。
-
-  ```vue
-  <template>
-    <MdEditor :mdHeadingId="mdHeadingId" />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-
-  const mdHeadingId = (_text, _level, index) => `heading-${index}`;
-  </script>
-  ```
-
----
-
-### 🐣 sanitize
-
-- **类型**：`(html: string) => string`
-- **默认值**：`(html) => html`
-
-  在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关，当你很确定你的内容不会出现类似情况时，不必设置它。
-
-  使用`sanitize-html`演示
-
-  ```vue
-  <template>
-    <MdEditor :sanitize="sanitize" />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-  import sanitizeHtml from 'sanitize-html';
-
-  const sanitize = (html) => sanitizeHtml(html);
-  </script>
-  ```
-
-  > 为什么不内置到编辑器：由于类似编辑器大多属于自行处理文本，自身即可确认内容是否安全，并不需要该功能。
 
 ---
 
@@ -379,52 +449,6 @@
 
 ---
 
-### 🤞🏼 noIconfont
-
-- **类型**：`boolean`
-- **默认值**：`true`
-
-  不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js)到本地自行引入。
-
-  ```vue
-  <template>
-    <MdEditor noIconfont />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-
-  import '/assets/iconfont.js';
-  </script>
-  ```
-
----
-
-### 💅 formatCopiedText
-
-- **类型**：`(text: string) => string`
-- **默认值**：`(text) => text`
-
-  格式化复制代码
-
-  ```vue
-  <template>
-    <MdEditor :formatCopiedText="formatCopiedText" />
-  </template>
-
-  <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-
-  const formatCopiedText = (text) => {
-    return `${text}  - from md-editor-v3`;
-  };
-  </script>
-  ```
-
----
-
 ### 🥹 noUploadImg
 
 - **类型**：`boolean`
@@ -438,28 +462,10 @@
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
   </script>
   ```
-
----
-
-### 🛁 codeStyleReverse
-
-- **类型**：`boolean`
-- **默认值**：`true`
-
-  某些预览主题的代码模块背景是暗色系，将这个属性设置为 true，会自动在该主题下的 light 模式下使用暗色系的代码风格。
-
----
-
-### 🧼 codeStyleReverseList
-
-- **类型**：`Array`
-- **默认值**：`['default', 'mk-cute']`
-
-  需要自动调整的预览主题，已默认包含 default、mk-cute。
 
 ---
 
@@ -508,15 +514,6 @@
 
 ---
 
-### 🕊 noHighlight
-
-- **类型**：`boolean`
-- **默认值**：`false`
-
-  不高亮代码，也不会加载相应的扩展库
-
----
-
 ## 🎍 插槽
 
 ### 🪶 defToolbars
@@ -541,10 +538,8 @@
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor, NormalToolbar } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
-  const NormalToolbar = MdEditor.NormalToolbar;
 
   const toolbars = ['bold', '-', 0, '=', 'github'];
 
@@ -558,7 +553,7 @@
 
   ```jsx
   import { defineComponent } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor, NormalToolbar } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   export default defineComponent({
@@ -568,13 +563,13 @@
           toolbars={['bold', '-', 0, '=', 'github']}
           defToolbars={
             <>
-              <MdEditor.NormalToolbar
+              <NormalToolbar
                 trigger={
                   <svg class="md-editor-icon" aria-hidden="true">
                     <use xlinkHref="#icon-strike-through" />
                   </svg>
                 }
-              ></MdEditor.NormalToolbar>
+              ></NormalToolbar>
             </>
           }
         />
@@ -608,7 +603,7 @@
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   // 将插槽中的组件下标放到对应的位置即可显示
@@ -620,7 +615,7 @@
 
   ```jsx
   import { defineComponent } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   export default defineComponent({
@@ -644,9 +639,27 @@
 
 ---
 
-## 🪢 绑定事件
+## 🧵 MdPreview 绑定事件
 
-目前支持的内容如下：
+### 🚁 onHtmlChanged
+
+- **类型**：`(h: string) => void`
+
+  html 变化回调事件，用于获取预览 html 代码。
+
+---
+
+### 🗒 onGetCatalog
+
+- **类型**：`(list: HeadList[]) => void`
+
+  动态获取`markdown`目录。
+
+---
+
+## 🪢 MdEditor 绑定事件
+
+除去和`MdPreivew`相同的以外：
 
 ### 📞 onChange
 
@@ -668,7 +681,7 @@
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const onSave = (v, h) => {
@@ -695,9 +708,9 @@
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
   import axios from 'axios';
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
 
   const onUploadImg = async (files, callback) => {
     const res = await Promise.all(
@@ -725,22 +738,6 @@
 
 ---
 
-### 🚁 onHtmlChanged
-
-- **类型**：`(h: string) => void`
-
-  html 变化回调事件，用于获取预览 html 代码。
-
----
-
-### 🗒 onGetCatalog
-
-- **类型**：`(list: HeadList[]) => void`
-
-  动态获取`markdown`目录。
-
----
-
 ### 💀 onError
 
 - **类型**：`(err: { name: string; message: string;}) => void`
@@ -753,7 +750,7 @@
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const onError = (err) => {
@@ -776,7 +773,7 @@
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const onBlur = (e) => {
@@ -806,7 +803,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
 
 import 'md-editor-v3/lib/style.css';
@@ -963,17 +960,17 @@ editorRef.value?.focus();
 
 ## 💴 配置编辑器
 
-使用`MdEditor.config(option: ConfigOption)`方法，可以对构建实例进行定制。
+使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。
 
 - codeMirrorExtensions: 根据主题和内部默认的 codeMirror 扩展自定义新的扩展。
 
   使用示例：编辑器默认不显示输入框的行号，需要手动添加扩展
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
   import { lineNumbers } from '@codemirror/view';
 
-  MdEditor.config({
+  config({
     codeMirrorExtensions(_theme, extensions) {
       return [...extensions, lineNumbers()];
     }
@@ -985,10 +982,10 @@ editorRef.value?.focus();
   使用示例：配置使用`markdown-it-anchor`并在标题右侧显示一个超链接符号
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
   import ancher from 'markdown-it-anchor';
 
-  MdEditor.config({
+  config({
     markdownItConfig(mdit) {
       mdit.use(ancher, {
         permalink: true
@@ -1000,9 +997,9 @@ editorRef.value?.focus();
 - editorConfig: 编辑器常规配置，语言、`mermaid`默认模板、渲染延迟：
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
 
-  MdEditor.config({
+  config({
     editorConfig: {
       // 语言
       languageUserDefined: {
@@ -1116,9 +1113,9 @@ editorRef.value?.focus();
 - editorExtensions: 类型如下，用于配置编辑器内部的扩展
 
   ```typescript
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
 
-  MdEditor.config({
+  config({
     editorExtensions: { iconfont: 'https://xxx.cc' }
   });
   ```
@@ -1127,9 +1124,7 @@ editorRef.value?.focus();
     <summary>EditorExtensions</summary>
 
   ```ts
-  import MdEditor from 'md-editor-v3';
-
-  interface EditorExtensions {
+  export interface EditorExtensions {
     highlight?: {
       instance?: any;
       js?: string;
@@ -1210,7 +1205,7 @@ editorRef.value?.focus();
 
 ## 🪤 内置组件
 
-扩展组件作为编辑器组件的属性值来使用，例如：`MdEditor.DropdownToolbar`。
+按需引用编辑器的扩展组件，例如：`import { DropdownToolbar } from 'md-editor-v3'`。
 
 ### 🐣 NormalToolbar
 
@@ -1243,10 +1238,8 @@ editorRef.value?.focus();
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, NormalToolbar } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-
-const NormalToolbar = MdEditor.NormalToolbar;
 
 const text = ref('');
 </script>
@@ -1305,10 +1298,8 @@ const text = ref('');
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, DropdownToolbar } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-
-const DropdownToolbar = MdEditor.DropdownToolbar;
 
 const emojis = ['😀', '😃'];
 
@@ -1381,10 +1372,8 @@ const emojiHandler = () => {};
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, ModalToolbar } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-
-const ModalToolbar = MdEditor.ModalToolbar;
 
 const data = reactive({
   text: '',
@@ -1418,16 +1407,14 @@ const data = reactive({
 
 ```vue
 <template>
-  <MdEditor v-model="state.text" :editorId="state.id" :theme="state.theme" previewOnly />
+  <MdPreview :modelValue="state.text" :editorId="state.id" :theme="state.theme" />
   <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdPreview, MdCatalog } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-
-const MdCatalog = MdEditor.MdCatalog;
 
 const state = reactive({
   theme: 'dark',

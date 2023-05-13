@@ -1,7 +1,6 @@
 <template>
   <div class="content">
     <MdPreview
-      previewOnly
       :editorId="props.editorId"
       :theme="store.state.theme"
       :modelValue="props.modelValue"

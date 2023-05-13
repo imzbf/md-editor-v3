@@ -17,10 +17,9 @@
         :language="store.state.lang"
         :previewTheme="store.state.previewTheme"
         :codeTheme="store.state.codeTheme"
-        editorId="edit2preview"
-        previewOnly
         :modelValue="props.mdText"
         :mdHeadingId="readingHeadingId"
+        editorId="edit2preview"
       />
     </div>
     <template #trigger>

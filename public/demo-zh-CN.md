@@ -24,7 +24,7 @@
       <md-editor-v3 v-model="text" />
     </div>
     <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/md-editor-v3.umd.js"></script>
+    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/umd/index.js"></script>
     <script>
       const App = {
         data() {
@@ -33,7 +33,7 @@
           };
         }
       };
-      Vue.createApp(App).use(MdEditorV3).mount('#md-editor-v3');
+      Vue.createApp(App).use(MdEditorV3.MdEditor).mount('#md-editor-v3');
     </script>
   </body>
 </html>
@@ -58,7 +58,7 @@ npm install md-editor-v3
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('Hello Editor!');
@@ -69,7 +69,7 @@ const text = ref('Hello Editor!');
 
 ```js
 import { defineComponent, ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 export default defineComponent({
@@ -83,6 +83,26 @@ export default defineComponent({
 });
 ```
 
+#### 📖 仅预览
+
+```vue
+<template>
+  <MdPreview :editorId="id" :modelValue="text" />
+  <MdCatalog :editorId="id" :scrollElement="scrollElement" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { MdPreview, MdCatalog } from 'md-editor-v3';
+// preview.css相比style.css少了编辑器那部分样式
+import 'md-editor-v3/lib/preview.css';
+
+const id = 'preview-only';
+const text = ref('# Hello Editor');
+const scrollElement = document.documentElement;
+</script>
+```
+
 ## 🥂 扩展功能
 
 这里包含了一些编辑器`api`的使用示范
@@ -93,17 +113,17 @@ export default defineComponent({
 
 想要替换、删除快捷键的基本原理是找到对应的扩展，然后遍历这个快捷键配置的数组，找到并处理它。
 
-事实上，`MdEditor.config`中`codeMirrorExtensions`的第二入参`extensions`是一个数组，它的第一项就是快捷键扩展，第三入参就是默认的快捷键配置。
+事实上，`config`中`codeMirrorExtensions`的第二入参`extensions`是一个数组，它的第一项就是快捷键扩展，第三入参就是默认的快捷键配置。
 
 #### 💅 修改快捷键
 
 将`Ctrl-b`修改为`Ctrl-m`
 
 ```js
-import MdEditor from 'md-editor-v3';
+import { config } from 'md-editor-v3';
 import { keymap } from '@codemirror/view';
 
-MdEditor.config({
+config({
   // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
   codeMirrorExtensions(theme, extensions, mdEditorCommands) {
     const newExtensions = [...extensions];
@@ -140,9 +160,9 @@ MdEditor.config({
 禁用所有快捷键
 
 ```js
-import MdEditor from 'md-editor-v3';
+import { config } from 'md-editor-v3';
 
-MdEditor.config({
+config({
   // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
   codeMirrorExtensions(theme, extensions) {
     const newExtensions = [...extensions];
@@ -159,19 +179,19 @@ MdEditor.config({
 
 如果涉及到向编辑框插入内容，这是需要借助组件实例上绑定的`insert`方法，参考[手动向文本框插入内容](/md-editor-v3/zh-CN/docs#%F0%9F%92%89%20insert)。
 
-如果不是在编辑器所在的组件中使用`MdEditor.config`，这是无法拿到编辑器组件实例，这时，你可能需要借助`event-bus`。
+如果不是在编辑器所在的组件中使用`config`，这是无法拿到编辑器组件实例，这时，你可能需要借助`event-bus`。
 
 示例实现`Ctrl+m`向编辑框插入标记模块(`==mark==`)
 
 `index.ts`
 
 ```js
-import MdEditor from 'md-editor-v3';
+import { config } from 'md-editor-v3';
 import { keymap, KeyBinding } from '@codemirror/view';
 // 假设你使用了EventBus
 import bus from '@/utils/event-bus';
 
-MdEditor.config({
+config({
   // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
   codeMirrorExtensions(theme, extensions, mdEditorCommands) {
     const newExtensions = [...extensions];
@@ -208,7 +228,7 @@ MdEditor.config({
 </template>
 
 <script setup lang="ts">
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
 import { ref, onMounted } from 'vue';
 // 假设你使用了EventBus
@@ -285,7 +305,7 @@ export default new EventBus();
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const state = reactive({
@@ -308,7 +328,7 @@ const state = reactive({
 
   <script setup>
   import { reactive } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const state = reactive({
@@ -357,7 +377,7 @@ const state = reactive({
 
   <script setup>
   import { reactive } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const state = reactive({
@@ -372,9 +392,9 @@ const state = reactive({
   1. 找到你喜欢的代码主题，最好支持暗夜模式
 
   ```js
-  import MdEditor from 'md-editor-v3';
+  import { config } from 'md-editor-v3';
 
-  MdEditor.config({
+  config({
     editorExtensions: {
       highlight: {
         css: {
@@ -419,10 +439,10 @@ highlight、prettier、cropper、screenfull 均使用外链引入，在无外网
 import { ref } from 'vue';
 // 引用screenfull
 import screenfull from 'screenfull';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-MdEditor.config({
+config({
   editorExtensions: {
     screenfull: {
       instance: screenfull
@@ -445,10 +465,10 @@ const text = ref('');
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-MdEditor.config({
+config({
   editorExtensions: {
     screenfull: {
       js: 'https://localhost:8090/screenfull@5.2.0/index.js'
@@ -474,7 +494,7 @@ const text = ref('');
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('# Hello Editor');
@@ -512,10 +532,10 @@ const onUploadImg = async (files, callback) => {
 
 <script setup>
 import { reactive } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-MdEditor.config({
+config({
   editorConfig: {
     languageUserDefined: {
       'my-lang': {
@@ -624,7 +644,7 @@ const state = reactive({
 
   <script setup>
   import { reactive } from 'vue';
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const state = reactive({
@@ -644,21 +664,14 @@ const state = reactive({
 
   ```vue
   <template>
-    <MdEditor
-      v-model="state.text"
-      :editorId="state.id"
-      :theme="state.theme"
-      previewOnly
-    />
+    <MdPreview :modelValue="state.text" :editorId="state.id" :theme="state.theme" />
     <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
   </template>
 
   <script setup>
   import { reactive } from 'vue';
-  import MdEditor from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-
-  const MdCatalog = MdEditor.MdCatalog;
+  import { MdPreview, MdCatalog } from 'md-editor-v3';
+  import 'md-editor-v3/lib/preview.css';
 
   const state = reactive({
     theme: 'dark',
@@ -680,7 +693,7 @@ const state = reactive({
 </template>
 
 <script setup>
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
@@ -746,7 +759,7 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 
 <script setup>
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 // <=5.2.0
@@ -766,7 +779,7 @@ import 'highlight.js/styles/tokyo-night-dark.css';
 import prettier from 'prettier';
 import parserMarkdown from 'prettier/parser-markdown';
 
-MdEditor.config({
+config({
   editorExtensions: {
     prettier: {
       prettierInstance: prettier,
@@ -811,7 +824,7 @@ yarn add sanitize-html
 
 <script setup>
 import sanitizeHtml from 'sanitize-html';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const sanitize = (html) => {
