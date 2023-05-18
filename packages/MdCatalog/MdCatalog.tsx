@@ -154,6 +154,7 @@ const MdCatalog = defineComponent({
 
     const findActiveHeading = throttle((list: HeadList[]) => {
       if (list.length === 0) {
+        state.list = [];
         return false;
       }
 
