@@ -25,7 +25,7 @@ const useMermaid = (props: ContentPreviewProps) => {
   });
 
   const setMermaidTheme = () => {
-    const mermaid = mermaidConf?.instance || window.mermaid;
+    const mermaid = mermaidRef.value;
 
     if (!props.noMermaid && mermaid) {
       mermaid.initialize({
@@ -51,22 +51,25 @@ const useMermaid = (props: ContentPreviewProps) => {
 
     // 没有提供实例，引入mermaid
     if (!mermaidConf?.instance) {
-      const mermaidScript = document.createElement('script');
-      mermaidScript.id = `${prefix}-mermaid`;
       const jsSrc = mermaidConf?.js || mermaidUrl;
 
       if (/\.mjs/.test(jsSrc)) {
-        mermaidScript.setAttribute('type', 'module');
-        mermaidScript.innerHTML = `import mermaid from "${jsSrc}";window.mermaid=mermaid;document.getElementById('${prefix}-mermaid').dispatchEvent(new Event('load'));`;
+        import(/* @vite-ignore */ jsSrc).then((module) => {
+          mermaidRef.value = module.default;
+          setMermaidTheme();
+        });
       } else {
+        const mermaidScript = document.createElement('script');
+        mermaidScript.id = `${prefix}-mermaid`;
         mermaidScript.src = jsSrc;
-      }
-      mermaidScript.onload = () => {
-        mermaidRef.value = window.mermaid;
-        setMermaidTheme();
-      };
 
-      appendHandler(mermaidScript, 'mermaid');
+        mermaidScript.onload = () => {
+          mermaidRef.value = window.mermaid;
+          setMermaidTheme();
+        };
+
+        appendHandler(mermaidScript, 'mermaid');
+      }
     }
   });
 
