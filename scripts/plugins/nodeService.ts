@@ -5,7 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
-const LOCAL_IMG_PATH = path.resolve(__dirname, '../../dev/public/temp.local');
+const LOCAL_IMG_PATH = path.resolve(__dirname, '../dev/public/temp.local');
 
 export default (): Plugin => {
   return {
@@ -14,7 +14,9 @@ export default (): Plugin => {
       server.middlewares.use(async (req, res, next) => {
         if (/^\/api\/img\/upload$/.test(req.url)) {
           if (!fs.existsSync(LOCAL_IMG_PATH)) {
-            fs.mkdirSync(LOCAL_IMG_PATH);
+            fs.mkdirSync(LOCAL_IMG_PATH, {
+              recursive: true
+            });
           }
 
           const form = new multiparty.Form({
