@@ -101,7 +101,6 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
                     'medium-zoom',
                     'lru-cache',
                     'copy-to-clipboard',
-                    '@vavt/markdown-theme',
                     'codemirror',
                     /@codemirror\/.*/,
                     /@lezer\/.*/,
