@@ -54,7 +54,11 @@ const useMermaid = (props: ContentPreviewProps) => {
       const jsSrc = mermaidConf?.js || mermaidUrl;
 
       if (/\.mjs/.test(jsSrc)) {
-        import(/* @vite-ignore */ jsSrc).then((module) => {
+        import(
+          /* @vite-ignore */
+          /* webpackIgnore: true */
+          jsSrc
+        ).then((module) => {
           mermaidRef.value = module.default;
           setMermaidTheme();
         });
