@@ -2827,10 +2827,10 @@ markdown-it@^13.0.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-md-editor-v3@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.0.2.tgz#bf2a94706b40109addbd2ec13ff5e43beb70f152"
-  integrity sha512-wQDBOCcCkbysP9euANLCE4rB8p208M05ticoq7kgo5AzM2EVrmnaXIUPOs0566LHfdzTiL1YNFybXn7Knd4+UA==
+md-editor-v3@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/md-editor-v3/-/md-editor-v3-4.0.3.tgz#dd9e1bddb16e4c4c4001dfaa2d7149d6421e65d5"
+  integrity sha512-rG4DQVEhTJEMUbDikkPV9w8rPUtHO8TmPIq809DO1YFVONoV1nR83Sh8wV/At0wklx34yP8QgkQ3PWjZTzJrbg==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/language-data" "^6.3.0"
@@ -2842,6 +2842,7 @@ md-editor-v3@^4.0.2:
     markdown-it-image-figures "^2.1.1"
     markdown-it-task-lists "^2.1.1"
     medium-zoom "^1.0.8"
+    punycode "^2.3.0"
 
 mdurl@^1.0.1:
   version "1.0.1"
@@ -3086,6 +3087,11 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
+
+punycode@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.0.tgz#f67fa67c94da8f4d0cfff981aee4118064199b8f"
+  integrity sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==
 
 queue-microtask@^1.2.2:
   version "1.2.3"
