@@ -51,7 +51,8 @@
     "markdown-it": "^13.0.1",
     "markdown-it-image-figures": "^2.1.1",
     "markdown-it-task-lists": "^2.1.1",
-    "medium-zoom": "^1.0.8"
+    "medium-zoom": "^1.0.8",
+    "punycode": "^2.3.0"
   },
   "devDependencies": {
     "@types/katex": "^0.16.0",
