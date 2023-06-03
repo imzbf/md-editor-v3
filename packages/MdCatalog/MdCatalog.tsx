@@ -9,9 +9,10 @@ import {
   onBeforeUnmount
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
+import { throttle } from '@vavt/util';
 import { HeadList, MdHeadingId, Themes } from '~/type';
 import { prefix } from '~/config';
-import { throttle, getRelativeTop } from '~/utils';
+import { getRelativeTop } from '~/utils';
 import bus from '~/utils/event-bus';
 import CatalogLink from './CatalogLink';
 

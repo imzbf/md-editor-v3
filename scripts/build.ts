@@ -102,6 +102,7 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
                     'lru-cache',
                     'copy-to-clipboard',
                     'codemirror',
+                    '@vavt/util',
                     /@codemirror\/.*/,
                     /@lezer\/.*/,
                     /markdown-it.*/

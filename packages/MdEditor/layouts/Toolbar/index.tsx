@@ -11,7 +11,7 @@ import Divider from '~/components/Divider';
 import Dropdown from '~/components/Dropdown';
 import bus from '~/utils/event-bus';
 import { StaticTextDefaultValue, ToolbarNames } from '~/type';
-import { goto } from '~/utils';
+import { linkTo } from '@vavt/util';
 import { ToolDirective } from '~/utils/content-help';
 import { allToolbar, prefix } from '~/config';
 import { toolbarProps as props, ToolbarProps } from './props';
@@ -646,7 +646,7 @@ export default defineComponent({
               <div
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.github}
-                onClick={() => goto('https://github.com/imzbf/md-editor-v3')}
+                onClick={() => linkTo('https://github.com/imzbf/md-editor-v3')}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-github" />

@@ -1,7 +1,7 @@
 import { watch, inject, Ref, onMounted, toRef } from 'vue';
 import mediumZoom from 'medium-zoom';
+import { debounce } from '@vavt/util';
 
-import { debounce } from '~/utils';
 import { ContentPreviewProps } from '../ContentPreview';
 
 /**

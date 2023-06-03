@@ -1,4 +1,4 @@
-import { debounce } from '.';
+import { debounce } from '@vavt/util';
 
 /**
  * 设置页面元素可移动

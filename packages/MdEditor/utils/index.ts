@@ -1,38 +1,4 @@
 /**
- * js模拟a链接点击
- *
- * @param {string} url 目标地址
- * @param {*} option 是否新窗口、是否要求不跟踪
- */
-export const goto = (
-  url: string,
-  option = {
-    newWindow: true,
-    nofollow: true
-  }
-) => {
-  if (!url) {
-    console.error('error link!');
-  }
-
-  const aEle = document.createElement('a');
-  aEle.href = url;
-  aEle.style.display = 'none';
-
-  if (option.newWindow) {
-    aEle.target = '_blank';
-  }
-
-  if (option.nofollow) {
-    aEle.rel = 'noopener noreferrer';
-  }
-
-  document.body.appendChild(aEle);
-  aEle.click();
-  document.body.removeChild(aEle);
-};
-
-/**
  * 转换base64为file对象
  * 方法来自网络
  *
@@ -78,66 +44,6 @@ export const generateCodeRowNumber = (code: string) => {
   });
   rowNumberList.push('</span>');
   return `<span class="code-block">${code}</span>${rowNumberList.join('')}`;
-};
-
-/**
- * 防抖方法封装
- *
- * @param fn 目标方法
- * @param ms 防抖延迟
- * @returns
- */
-export const debounce = (fn: (...params: Array<any>) => any, ms = 200) => {
-  let timer = 0;
-
-  return (...params: Array<any>) => {
-    return new Promise((rev) => {
-      if (timer) {
-        clearTimeout(timer);
-        rev('cancel');
-      }
-
-      timer = window.setTimeout(() => {
-        fn.apply(this, params);
-        timer = 0;
-        rev('done');
-      }, ms);
-    });
-  };
-};
-
-/**
- * 节流函数
- *
- * @param fn 目标方法
- * @param ms 节流延迟
- * @returns
- */
-export const throttle = (fn: (...params: Array<any>) => any, ms = 200) => {
-  let start = 0;
-  let _params: null | Array<any> = null;
-
-  return (...params: Array<any>) => {
-    const handler = (timeStamp: number) => {
-      if (start === 0) {
-        start = timeStamp;
-      }
-
-      if (timeStamp - start >= ms) {
-        fn.apply(this, _params as Array<any>);
-        _params = null;
-        start = 0;
-      } else {
-        window.requestAnimationFrame(handler);
-      }
-    };
-
-    if (_params === null) {
-      window.requestAnimationFrame(handler);
-    }
-
-    _params = params;
-  };
 };
 
 /**

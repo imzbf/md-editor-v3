@@ -2,8 +2,9 @@ import { computed, ComputedRef, inject, onMounted, ref, toRef, watch } from 'vue
 import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
 import TaskListPlugin from 'markdown-it-task-lists';
+import { debounce } from '@vavt/util';
 import bus from '~/utils/event-bus';
-import { debounce, generateCodeRowNumber } from '~/utils';
+import { generateCodeRowNumber } from '~/utils';
 import { HeadList, Themes } from '~/type';
 import { configOption } from '~/config';
 

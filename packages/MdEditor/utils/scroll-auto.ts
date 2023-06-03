@@ -1,6 +1,5 @@
+import { debounce, smoothScroll } from '@vavt/util';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
-import { debounce } from '.';
-import smoothScroll from './smooth-scroll';
 
 /**
  * 两块区域同步滚动
