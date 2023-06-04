@@ -1519,6 +1519,11 @@
   resolved "https://registry.npmjs.org/@vavt/md-editor-extension/-/md-editor-extension-3.0.0.tgz#23b71c5e46addc312942bc02d2aca8ad0a159942"
   integrity sha512-ysM/shZo8x5ESPRSK65tqI3UaNE+r/EWlG69TxvNjhE+BnlNeSq2vPw121KCzq09vX0rRnOijN6hiQ3wi9JIMQ==
 
+"@vavt/util@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@vavt/util/-/util-1.0.0.tgz#0ce2b9df247649ebc13feabeb58f3670580f5824"
+  integrity sha512-i7Q8PMoZy2z2l1XFrI4VRrrfdNS0NM+CB231qojUy5r81ED4yk4cQX7wn+lid4FJdS8vidhJ8LRb1hSLhYtXjg==
+
 "@vavt/vite-plugin-import-markdown@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@vavt/vite-plugin-import-markdown/-/vite-plugin-import-markdown-1.0.0.tgz#2d6da8582aa6881cb6fe59e8fa1f4181640a23be"
@@ -2827,14 +2832,15 @@ markdown-it@^13.0.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-md-editor-v3@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/md-editor-v3/-/md-editor-v3-4.0.3.tgz#dd9e1bddb16e4c4c4001dfaa2d7149d6421e65d5"
-  integrity sha512-rG4DQVEhTJEMUbDikkPV9w8rPUtHO8TmPIq809DO1YFVONoV1nR83Sh8wV/At0wklx34yP8QgkQ3PWjZTzJrbg==
+md-editor-v3@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.0.4.tgz#6ac2a869f3099fab57136695ca8964608c552273"
+  integrity sha512-48+FmkeL4M831qX2iBNarhJwPNjhBfF+BCT0xGuhAgnKkpF9ZgsxrNU9c1OWgO7P3cZZatSgSX2URT7OG9ZN0g==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/language-data" "^6.3.0"
     "@types/markdown-it" "^12.2.3"
+    "@vavt/util" "^1.0.0"
     codemirror "^6.0.1"
     copy-to-clipboard "^3.3.3"
     lru-cache "^8.0.4"
