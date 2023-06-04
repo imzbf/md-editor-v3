@@ -220,8 +220,8 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       // 找到相对这个行号较近的有明确标记的元素
       let vEle = cEle.firstElementChild?.firstElementChild as HTMLElement;
       for (let i = vLineNumber; i >= 0; i--) {
-        const vEle_ = cEle.querySelector(`[data-line="${i}"]`) as HTMLElement;
-        if (vEle_) {
+        const vEle_ = cEle.querySelector<HTMLElement>(`[data-line="${i}"]`);
+        if (vEle_ && vEle_.offsetTop <= cScrollTop) {
           vEle = vEle_;
           vLineNumber = i;
           break;
