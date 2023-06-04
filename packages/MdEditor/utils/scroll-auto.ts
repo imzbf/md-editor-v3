@@ -1,4 +1,4 @@
-import { debounce, smoothScroll } from '@vavt/util';
+import { debounce, throttle, smoothScroll } from '@vavt/util';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 
 /**
@@ -122,7 +122,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
   let pLock = 0;
   let cLock = 0;
 
-  const scrollHandler = (e: Event) => {
+  const scrollHandler = throttle((e: Event) => {
     if (!cEle.firstElementChild?.firstElementChild) {
       return;
     }
@@ -240,6 +240,11 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
         const vEleNext = elesHasLineNumer[vEleIndex + 1];
 
+        if (vEleIndex === -1) {
+          eleEnd = vEleNext;
+          break;
+        }
+
         // 判断这个元素是否在可视区域上方，下一个有明确标记的元素是否处于下方
         const vEleOffsetTop = vEle.offsetTop;
         if (vEleOffsetTop > cScrollTop) {
@@ -304,7 +309,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
         cLock--;
       });
     }
-  };
+  }, 10);
 
   return [
     () => {
