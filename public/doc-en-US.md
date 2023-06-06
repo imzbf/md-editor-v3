@@ -1200,9 +1200,9 @@ usage:
 
 ```vue
 <template>
-  <MdEditor v-model="text">
+  <MdEditor ref="editorRef" v-model="text" :toolbars="['bold', 0, 'github']">
     <template #defToolbars>
-      <NormalToolbar title="mark" @onClick="callback">
+      <NormalToolbar title="mark" @onClick="insert">
         <template #trigger>
           <svg class="md-editor-icon" aria-hidden="true">
             <use xlink:href="#icon-mark"></use>
@@ -1213,12 +1213,31 @@ usage:
   </MdEditor>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { MdEditor, NormalToolbar } from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
+const editorRef = ref<ExposeParam>();
+
+const insert = () => {
+  editorRef.value?.insert((selectedText) => {
+    /**
+     * @return targetValue    Content to be inserted
+     * @return select         Automatically select content
+     * @return deviationStart Start position of the selected content
+     * @return deviationEnd   End position of the selected content
+     */
+    return {
+      targetValue: `==${selectedText}==`,
+      select: true,
+      deviationStart: 0,
+      deviationEnd: 0
+    };
+  });
+};
 </script>
 ```
 
@@ -1246,7 +1265,7 @@ usage:
 
 ```vue
 <template>
-  <MdEditor v-model="state.text">
+  <MdEditor ref="editorRef" v-model="state.text" :toolbars="['bold', 0, 'github']">
     <template #defToolbars>
       <DropdownToolbar
         title="emoji"
@@ -1259,7 +1278,7 @@ usage:
               <li
                 v-for="(emoji, index) of emojis"
                 :key="`emoji-${index}`"
-                @click="emojiHandler(emoji)"
+                @click="insert(emoji)"
                 v-text="emoji"
               ></li>
             </ol>
@@ -1275,9 +1294,10 @@ usage:
   </MdEditor>
 </template>
 
-<script setup>
-import { reactive } from 'vue';
+<script setup lang="ts">
+import { reactive, ref } from 'vue';
 import { MdEditor, DropdownToolbar } from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const emojis = ['😀', '😃'];
@@ -1287,11 +1307,28 @@ const state = reactive({
   emojiVisible: false
 });
 
+const editorRef = ref<ExposeParam>();
+
 const emojiVisibleChanged = () => {
   state.emojiVisible = !state.emojiVisible;
 };
 
-const emojiHandler = () => {};
+const insert = (emoji: any) => {
+  editorRef.value?.insert(() => {
+    /**
+     * @return targetValue    Content to be inserted
+     * @return select         Automatically select content
+     * @return deviationStart Start position of the selected content
+     * @return deviationEnd   End position of the selected content
+     */
+    return {
+      targetValue: emoji,
+      select: true,
+      deviationStart: 0,
+      deviationEnd: 0
+    };
+  });
+};
 </script>
 ```
 
@@ -1324,7 +1361,7 @@ const emojiHandler = () => {};
 
 ```vue
 <template>
-  <MdEditor v-model="data.text">
+  <MdEditor ref="editorRef" v-model="data.text" :toolbars="['bold', 0, 'github']">
     <template #defToolbars>
       <ModalToolbar
         :visible="data.modalVisible"
@@ -1338,7 +1375,7 @@ const emojiHandler = () => {};
         @onClose="data.modalVisible = false"
         @onAdjust="data.modalFullscreen = !data.modalFullscreen"
       >
-        <span>content</span>
+        <button @click="insert">Click me</button>
         <template #trigger>
           <svg class="md-editor-icon" aria-hidden="true">
             <use xlink:href="#icon-read"></use>
@@ -1349,9 +1386,10 @@ const emojiHandler = () => {};
   </MdEditor>
 </template>
 
-<script setup>
-import { reactive } from 'vue';
+<script setup lang="ts">
+import { reactive, ref } from 'vue';
 import { MdEditor, ModalToolbar } from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const data = reactive({
@@ -1359,6 +1397,25 @@ const data = reactive({
   modalVisible: false,
   modalFullscreen: false
 });
+
+const editorRef = ref<ExposeParam>();
+
+const insert = () => {
+  editorRef.value?.insert((selectedText) => {
+    /**
+     * @return targetValue    Content to be inserted
+     * @return select         Automatically select content
+     * @return deviationStart Start position of the selected content
+     * @return deviationEnd   End position of the selected content
+     */
+    return {
+      targetValue: `==${selectedText}==`,
+      select: true,
+      deviationStart: 0,
+      deviationEnd: 0
+    };
+  });
+};
 </script>
 ```
 
@@ -1386,7 +1443,8 @@ usage:
 
 ```vue
 <template>
-  <MdPreview :modelValue="state.text" :editorId="state.id" :theme="state.theme" />
+  <!-- Ensure that the editorId is the same -->
+  <MdPreview :editorId="state.id" :modelValue="state.text" :theme="state.theme" />
   <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
 </template>
 
