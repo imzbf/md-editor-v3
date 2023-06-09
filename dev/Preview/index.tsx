@@ -24,6 +24,8 @@ import axios from 'axios';
 
 // import { Extension } from '@codemirror/state';
 import { lineNumbers } from '@codemirror/view';
+import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
+
 // import screenfull from 'screenfull';
 // import katex from 'katex';
 // import Cropper from 'cropperjs';
@@ -42,12 +44,29 @@ import '~/styles/style.less';
 
 // import { cdnBase } from '../../MdEditor/config';
 
+const myCompletions = (context: CompletionContext) => {
+  const word = context.matchBefore(/@|\w*/);
+  if (word!.from == word!.to && !context.explicit) return null;
+
+  return {
+    from: word!.from,
+    options: [
+      { label: '@imzbf', type: 'text' },
+      { label: '@github', type: 'text' },
+      { label: 'match', type: 'keyword' },
+      { label: 'hello', type: 'variable', info: '(World)' },
+      { label: 'helo', type: 'variable', info: '(MD)' },
+      { label: 'magic', type: 'text', apply: '⠁⭒*.✩.*⭒⠁', detail: 'macro' }
+    ]
+  };
+};
+
 config({
   codeMirrorExtensions(theme, extensions) {
     // console.log(theme, extensions, keyBindings);
 
     // return extensions;
-    return [...extensions, lineNumbers()];
+    return [...extensions, lineNumbers(), autocompletion({ override: [myCompletions] })];
   },
   // markdownItConfig: (mdit) => {
   //   mdit.use(ancher, {

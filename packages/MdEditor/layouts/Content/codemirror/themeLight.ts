@@ -19,7 +19,7 @@ const chalky = '#e5c07b',
   darkBackground = '#21252b',
   highlightBackground = '#ceedfa33',
   background = 'var(--md-bk-color)',
-  tooltipBackground = '#353a42',
+  tooltipBackground = 'var(--md-bk-color)',
   selection = '#bad5fa',
   cursor = '#3f4a54';
 
@@ -96,7 +96,7 @@ export const oneLightTheme = EditorView.theme(
     },
 
     '.cm-tooltip': {
-      border: 'none',
+      border: '1px solid var(--md-border-color)',
       backgroundColor: tooltipBackground
     },
     '.cm-tooltip .cm-tooltip-arrow:before': {
@@ -109,12 +109,11 @@ export const oneLightTheme = EditorView.theme(
     },
     '.cm-tooltip-autocomplete': {
       '& > ul > li[aria-selected]': {
-        backgroundColor: highlightBackground,
         color: ivory
       }
     }
-  },
-  { dark: true }
+  }
+  // { dark: true }
 );
 
 /// The highlighting style for code in the One Dark theme.

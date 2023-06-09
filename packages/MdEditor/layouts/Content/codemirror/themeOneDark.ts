@@ -22,7 +22,7 @@ const chalky = '#e5c07b',
   darkBackground = '#21252b',
   highlightBackground = '#2c313a',
   background = 'var(--md-bk-color)',
-  tooltipBackground = '#353a42',
+  tooltipBackground = 'var(--md-bk-color)',
   selection = '#ceedfa33',
   cursor = '#528bff';
 
@@ -99,7 +99,7 @@ export const oneDarkTheme = EditorView.theme(
     },
 
     '.cm-tooltip': {
-      border: 'none',
+      border: '1px solid var(--md-border-color)',
       backgroundColor: tooltipBackground
     },
     '.cm-tooltip .cm-tooltip-arrow:before': {
@@ -112,7 +112,6 @@ export const oneDarkTheme = EditorView.theme(
     },
     '.cm-tooltip-autocomplete': {
       '& > ul > li[aria-selected]': {
-        backgroundColor: highlightBackground,
         color: ivory
       }
     }
