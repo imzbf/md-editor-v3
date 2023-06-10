@@ -1,4 +1,5 @@
 import { PropType, CSSProperties } from 'vue';
+import { CompletionSource } from '@codemirror/autocomplete';
 import {
   StaticTextDefaultKey,
   ToolbarNames,
@@ -404,6 +405,19 @@ export const editorProps = {
    */
   onFocus: {
     type: Function as PropType<(event: FocusEvent) => void>
+  },
+  /**
+   * @codemirror/autocomplete匹配关键词的方法列表
+   *
+   * 它会被像下面这样嵌入编辑器
+   *
+   * import { autocompletion } from '@codemirror/autocomplete';
+   * autocompletion({
+   *   override: [...completions]
+   * })
+   */
+  completions: {
+    type: Array as PropType<Array<CompletionSource>>
   }
 };
 

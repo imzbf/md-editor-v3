@@ -12,6 +12,7 @@ import bus from '~/utils/event-bus';
 import { ContentProps } from '../props';
 import { oneDark } from '../codemirror/themeOneDark';
 import { oneLight } from '../codemirror/themeLight';
+import createAutocompletion from '../codemirror/autocompletion';
 import CodeMirrorUt from '../codemirror';
 import usePasteUpload from './usePasteUpload';
 import useAttach from './useAttach';
@@ -55,19 +56,15 @@ const useCodeMirror = (props: ContentProps) => {
   ];
 
   const getExtensions = () => {
-    if (theme.value === 'light') {
-      return configOption.codeMirrorExtensions!(
-        theme.value,
-        [...defaultExtensions, oneLight],
-        [...mdEditorCommands]
-      );
-    }
+    const extensions = [
+      ...defaultExtensions,
+      theme.value === 'light' ? oneLight : oneDark,
+      createAutocompletion(props.completions)
+    ];
 
-    return configOption.codeMirrorExtensions!(
-      theme.value,
-      [...defaultExtensions, oneDark],
-      [...mdEditorCommands]
-    );
+    return configOption.codeMirrorExtensions!(theme.value, extensions, [
+      ...mdEditorCommands
+    ]);
   };
 
   onMounted(() => {
@@ -87,25 +84,6 @@ const useCodeMirror = (props: ContentProps) => {
     codeMirrorUt.value.setReadOnly(props.readonly!);
     props.placeholder && codeMirrorUt.value.setPlaceholder(props.placeholder);
 
-    // view.dispatch({
-    //   changes: { from: 10, insert: '*' },
-    //   selection: { anchor: 11 }
-    // });
-
-    // view.dispatch({
-    //   selection: EditorSelection.create(
-    //     [
-    //       EditorSelection.range(20, 32),
-    //       // EditorSelection.range(6, 7),
-    //       EditorSelection.cursor(32)
-    //     ],
-    //     1
-    //   )
-    // });
-
-    // console.log(view.state.selection.main);
-    // console.log(view.state.sliceDoc());
-
     if (props.autofocus) {
       view.focus();
     }
@@ -113,8 +91,6 @@ const useCodeMirror = (props: ContentProps) => {
     if (props.maxlength) {
       codeMirrorUt.value.setMaxLength(props.maxlength);
     }
-    // console.log()
-    // view.dispatch(view.state.replaceSelection('`vscode`'));
 
     bus.on(editorId, {
       name: 'ctrlZ',
@@ -141,13 +117,12 @@ const useCodeMirror = (props: ContentProps) => {
   });
 
   watch(
-    () => theme.value,
+    [() => theme.value, props.completions],
     () => {
-      if (theme.value === 'dark') {
-        codeMirrorUt.value?.setExtensions(getExtensions());
-      } else {
-        codeMirrorUt.value?.setExtensions(getExtensions());
-      }
+      codeMirrorUt.value?.setExtensions(getExtensions());
+    },
+    {
+      deep: true
     }
   );
 

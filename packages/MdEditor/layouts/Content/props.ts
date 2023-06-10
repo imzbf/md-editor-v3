@@ -1,4 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
+import { CompletionSource } from '@codemirror/autocomplete';
 import { LooseRequired } from '@vue/shared';
 import { HeadList, SettingType, MdHeadingId } from '~/type';
 
@@ -88,6 +89,9 @@ export const contentProps = {
   noHighlight: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  completions: {
+    type: Array as PropType<Array<CompletionSource>>
   }
 };
 

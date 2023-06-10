@@ -129,6 +129,7 @@ const Editor = defineComponent({
                 ctx.emit('onFocus', e);
               }
             }}
+            completions={props.completions}
           />
           {props.footers?.length > 0 && (
             <Footer
