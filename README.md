@@ -139,6 +139,7 @@ Except for the same as `MdPreview`:
 | readOnly | `boolean` | false | same as `readonly` in native textarea |
 | maxLength | `number` |  | same as `maxlength` in native textarea |
 | autoDetectCode | `boolean` | false | auto detect the type of pasted code, only support that copied from `vscode` |
+| completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete` List of function to match keywords |
 
 <details>
  <summary>『toolbars』</summary>
