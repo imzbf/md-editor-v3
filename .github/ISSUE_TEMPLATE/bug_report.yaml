@@ -1,0 +1,26 @@
+name: Create Issue
+description: Describe a problem
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for your participation. If you are looking for support, participate in the discussion from [here](https://github.com/imzbf/md-editor-v3/discussions).
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version of the editor
+      description: Describe your development environment, such as version of editor or `nodejs` or browser, etc
+    validations:
+      required: true
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction link
+      description: It can help me find problems quickly. If you provide an online code environment or a code repository or a `zip` file for code.
+    validations:
+      required: false

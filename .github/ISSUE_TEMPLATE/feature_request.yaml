@@ -1,0 +1,12 @@
+name: Feature request
+description: Suggest an idea for this project
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for your participation.
+  - type: textarea
+    id: description
+    attributes:
+      label: A great idea
+    validations:
+      required: true
