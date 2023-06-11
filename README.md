@@ -87,9 +87,9 @@ const scrollElement = document.documentElement;
 | --- | --- | --- |
 | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-light.png) | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-dark.png) | ![](https://imzbf.github.io/md-editor-v3/imgs/preview-previewOnly.png) |
 
-mark and emoji extensions
+Inputing prompt and mark, emoji extensions
 
-![mark and emoji extension](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
+![](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
 ## 🎁 Apis
 
