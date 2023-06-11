@@ -505,6 +505,50 @@ Except for the same as `MdPreview`:
 
 ---
 
+### 📝 completions
+
+- **type**: `Array<CompletionSource>`
+- **default**: `[]`
+
+  Additional completion sources.
+
+  ```vue
+  <template>
+    <MdEditor v-model="text" :completions="completions" />
+  </template>
+
+  <script setup lang="ts">
+  import { ref } from 'vue';
+  import { CompletionSource } from '@codemirror/autocomplete';
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const text = ref('');
+
+  const completions = ref<Array<CompletionSource>>([
+    (context) => {
+      const word = context.matchBefore(/@\w*/);
+
+      if (word === null || (word.from == word.to && context.explicit)) {
+        return null;
+      }
+
+      return {
+        from: word.from,
+        options: [
+          {
+            label: '@imzbf',
+            type: 'text'
+          }
+        ]
+      };
+    }
+  ]);
+  </script>
+  ```
+
+---
+
 ## 🎍 slots
 
 ### 💪 defToolbars

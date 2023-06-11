@@ -514,6 +514,50 @@
 
 ---
 
+### 📝 completions
+
+- **类型**：`Array<CompletionSource>`
+- **默认值**：`[]`
+
+  添加额外的输入自动完成来源。
+
+  ```vue
+  <template>
+    <MdEditor v-model="text" :completions="completions" />
+  </template>
+
+  <script setup lang="ts">
+  import { ref } from 'vue';
+  import { CompletionSource } from '@codemirror/autocomplete';
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const text = ref('');
+
+  const completions = ref<Array<CompletionSource>>([
+    (context) => {
+      const word = context.matchBefore(/@\w*/);
+
+      if (word === null || (word.from == word.to && context.explicit)) {
+        return null;
+      }
+
+      return {
+        from: word.from,
+        options: [
+          {
+            label: '@imzbf',
+            type: 'text'
+          }
+        ]
+      };
+    }
+  ]);
+  </script>
+  ```
+
+---
+
 ## 🎍 插槽
 
 ### 🪶 defToolbars
