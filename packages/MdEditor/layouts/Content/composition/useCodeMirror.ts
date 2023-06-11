@@ -1,4 +1,4 @@
-import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
+import { ref, onMounted, inject, ComputedRef, watch, shallowRef, toRef } from 'vue';
 import { EditorView, minimalSetup } from 'codemirror';
 import { keymap } from '@codemirror/view';
 import { languages } from '@codemirror/language-data';
@@ -117,7 +117,7 @@ const useCodeMirror = (props: ContentProps) => {
   });
 
   watch(
-    [() => theme.value, props.completions],
+    [theme, toRef(props, 'completions')],
     () => {
       codeMirrorUt.value?.setExtensions(getExtensions());
     },
