@@ -1531,10 +1531,10 @@
   resolved "https://registry.npmjs.org/@vavt/md-editor-extension/-/md-editor-extension-3.0.0.tgz#23b71c5e46addc312942bc02d2aca8ad0a159942"
   integrity sha512-ysM/shZo8x5ESPRSK65tqI3UaNE+r/EWlG69TxvNjhE+BnlNeSq2vPw121KCzq09vX0rRnOijN6hiQ3wi9JIMQ==
 
-"@vavt/util@^1.0.0":
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/@vavt/util/-/util-1.1.0.tgz#ea58d3d789e8a294b2094ed316f990cd1b74d691"
-  integrity sha512-W5944bw0sCtYmwfYc8y0NnQXrdvlbs6qbTn4HNixGKbyhTubIrPU2dG93O8j89q4t8xiAcyqktjpGCUJtZBpZg==
+"@vavt/util@^1.1.1":
+  version "1.1.1"
+  resolved "http://npm.imzbf.top/@vavt/util/-/util-1.1.1.tgz#4a5571bcfb6122ced51d260deaf1f6feb5ede5d6"
+  integrity sha512-0x+Acegd8k6lFJc7SN4kVhO669fBiMtBjq/WqX2C8Uz5mSgS+nRvfXs0BK2aiV67T0rauBoAmEkQfURQjI2+4Q==
 
 "@vavt/vite-plugin-import-markdown@^1.0.0":
   version "1.0.0"
@@ -2844,15 +2844,15 @@ markdown-it@^13.0.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-md-editor-v3@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.1.0.tgz#5e86d58e9644a997c147e53b07d2213b5261b893"
-  integrity sha512-CbcajO4CLeuivFqP/qzySUdhJhodotmjervRVZCnTTufw6EIym5xW/iwiqW+CB93wgJjazlfnbaQKM6/L3H/Hw==
+md-editor-v3@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.1.1.tgz#7920b6a21c46f2452684551d60af46fa28263cf6"
+  integrity sha512-8/OmdnaP4ugG1SLCT0n1RJyQ8viuEBVAWKM0TmaJaOtknQ5+5GE8KlkIXbcNKKe8Ew5gZzb5dYWzmdB/vLDocw==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/language-data" "^6.3.0"
     "@types/markdown-it" "^12.2.3"
-    "@vavt/util" "^1.0.0"
+    "@vavt/util" "^1.1.1"
     codemirror "^6.0.1"
     copy-to-clipboard "^3.3.3"
     lru-cache "^8.0.4"
