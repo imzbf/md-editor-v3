@@ -84,6 +84,17 @@ const useMermaid = (props: ContentPreviewProps) => {
           `div.${prefix}-mermaid`
         );
 
+        const svgContainingElement = document.createElement('div');
+        svgContainingElement.style.width = document.body.offsetWidth + 'px';
+        svgContainingElement.style.height = document.body.offsetHeight + 'px';
+        svgContainingElement.style.position = 'fixed';
+        svgContainingElement.style.zIndex = '-10000';
+        svgContainingElement.style.top = '-10000';
+
+        document.body.appendChild(svgContainingElement);
+
+        let count = mermaidSourceEles.length;
+
         mermaidSourceEles.forEach(async (item) => {
           let mermaidHtml = mermaidCache.get(item.innerText) as string;
 
@@ -93,7 +104,7 @@ const useMermaid = (props: ContentPreviewProps) => {
             const render = mermaidRef.value.renderAsync || mermaidRef.value.render;
             let svg: { svg: string } | string = '';
             try {
-              svg = await render(idRand, item.innerText);
+              svg = await render(idRand, item.innerText, svgContainingElement);
             } catch (error) {
               // console.error(error);
             }
@@ -113,6 +124,10 @@ const useMermaid = (props: ContentPreviewProps) => {
           }
 
           item.replaceWith(p);
+
+          if (--count === 0) {
+            svgContainingElement.remove();
+          }
         });
       }
     });

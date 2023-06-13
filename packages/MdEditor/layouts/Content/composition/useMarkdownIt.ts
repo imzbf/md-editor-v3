@@ -84,7 +84,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   md.use(CodeTabsPlugin, { editorId });
 
   if (!props.noMermaid) {
-    md.use(MermaidPlugin, { themeRef });
+    md.use(MermaidPlugin, { themeRef, noMermaid: props.noMermaid });
   }
 
   md.set({
@@ -131,7 +131,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   onMounted(updatedTodo);
 
-  const markHtml = debounce(
+  const markHtml = debounce<any, void>(
     async () => {
       // 清理历史标题
       headsRef.value = [];
