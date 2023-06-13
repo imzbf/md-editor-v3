@@ -1,4 +1,4 @@
-name: Create Issue
+name: Create An Issue
 description: Describe a problem
 body:
   - type: markdown
@@ -13,7 +13,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: Version of the editor
+      label: Procedure version
       description: Describe your development environment, such as version of editor or `nodejs` or browser, etc
     validations:
       required: true

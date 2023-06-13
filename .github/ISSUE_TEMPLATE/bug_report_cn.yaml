@@ -1,0 +1,26 @@
+name: 创建一个Bug
+description: 描述一下这个Bug
+body:
+  - type: markdown
+    attributes:
+      value: 感谢您的参与。如果您正在寻求帮助，请从[此处](https://github.com/imzbf/md-editor-v3/discussions)创建讨论。
+  - type: textarea
+    id: description
+    attributes:
+      label: 描述这个Bug
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 版本号
+      description: 描述您的开发环境，例如编辑器、`nodejs`、浏览器的版本等。
+    validations:
+      required: true
+  - type: input
+    id: reproduction
+    attributes:
+      label: 问题重现链接
+      description: 如果您提供在线代码环境或代码存储库或代码的`zip`文件，它可以帮助我快速发现问题。
+    validations:
+      required: false
