@@ -73,24 +73,18 @@ const useCodeMirror = (props: ContentProps) => {
       parent: inputWrapperRef.value
     });
 
-    // window.view = view;
-    // window.ddd = EditorView;
+    const nc = new CodeMirrorUt(view);
+    codeMirrorUt.value = nc;
 
-    codeMirrorUt.value = new CodeMirrorUt(view);
-
-    codeMirrorUt.value.setTabSize(tabWidth);
-    codeMirrorUt.value.setExtensions(getExtensions());
-    codeMirrorUt.value.setDisabled(props.disabled!);
-    codeMirrorUt.value.setReadOnly(props.readonly!);
-    props.placeholder && codeMirrorUt.value.setPlaceholder(props.placeholder);
-
-    if (props.autofocus) {
-      view.focus();
-    }
-
-    if (props.maxlength) {
-      codeMirrorUt.value.setMaxLength(props.maxlength);
-    }
+    setTimeout(() => {
+      nc.setTabSize(tabWidth);
+      nc.setDisabled(props.disabled!);
+      nc.setReadOnly(props.readonly!);
+      nc.setExtensions(getExtensions());
+      props.placeholder && nc.setPlaceholder(props.placeholder);
+      typeof props.maxlength === 'number' && nc.setMaxLength(props.maxlength);
+      props.autofocus && view.focus();
+    }, 0);
 
     bus.on(editorId, {
       name: 'ctrlZ',
