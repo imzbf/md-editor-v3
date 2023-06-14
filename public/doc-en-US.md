@@ -705,7 +705,7 @@ Except for the same as `MdPreview`:
 
 - **type**: `(v: string, h: Promise<string>) => void`
 
-  Save Content event, `ctrl+s` and click button will trigger.
+  Saving content event, `ctrl+s` and clicking button will trigger it.
 
   ```vue
   <template>
@@ -732,7 +732,7 @@ Except for the same as `MdPreview`:
 
 - **type**: `(files: Array<File>, callback: (urls: Array<string>) => void) => void`
 
-  Upload picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
+  Uploading picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
 
   ```vue
   <template>
@@ -797,7 +797,7 @@ Except for the same as `MdPreview`:
 
 - **type**: `(event: FocusEvent) => void`
 
-  Blur the textarea element.
+  Textarea has lost focus.
 
   ```vue
   <template>
@@ -820,7 +820,7 @@ Except for the same as `MdPreview`:
 
 - **type**: `(event: FocusEvent) => void`
 
-  Focus the textarea element.
+  Textarea has received focus.
 
 ---
 
@@ -980,7 +980,7 @@ editorRef.value?.insert((selectedText) => {
 
 ### 🎯 focus
 
-focus the textarea.
+Focus on the textarea.
 
 ```js
 editorRef.value?.focus();
@@ -992,207 +992,247 @@ editorRef.value?.focus();
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
 
-- codeMirrorExtensions: Customize new extensions based on theme and default extensions f codeMirror.
+### 🦪 codeMirrorExtensions
 
-  Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
+Customize new extensions based on theme and default extensions f codeMirror.
 
-  ```js
-  import { config } from 'md-editor-v3';
-  import { lineNumbers } from '@codemirror/view';
+Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
 
-  config({
-    codeMirrorExtensions(_theme, extensions) {
-      return [...extensions, lineNumbers()];
-    }
-  });
-  ```
+```js
+import { config } from 'md-editor-v3';
+import { lineNumbers } from '@codemirror/view';
 
-- markdownItConfig: Customize extensions, attributes of `markdown-it`, etc.
+config({
+  codeMirrorExtensions(_theme, extensions) {
+    return [...extensions, lineNumbers()];
+  }
+});
+```
 
-  Example: Use `markdown-it-anchor` to render a hyperlink symbol to the right of the title
+---
 
-  ```js
-  import { config } from 'md-editor-v3';
-  import ancher from 'markdown-it-anchor';
+### 🍤 markdownItConfig
 
-  config({
-    markdownItConfig(mdit) {
-      mdit.use(ancher, {
-        permalink: true
-      });
-    }
-  });
-  ```
+Customize extensions, attributes of `markdown-it`, etc.
 
-- editorConfig: Add more languages, reset `mermaid` template or delay rendering time
+Example: Use `markdown-it-anchor` to render a hyperlink symbol to the right of the title
 
-  ```js
-  import { config } from 'md-editor-v3';
+```js
+import { config } from 'md-editor-v3';
+import ancher from 'markdown-it-anchor';
 
-  config({
-    editorConfig: {
-      languageUserDefined: {
-        'en-US': {
-          toolbarTips: {
-            bold: 'bold',
-            underline: 'underline',
-            italic: 'italic',
-            strikeThrough: 'strikeThrough',
-            title: 'title',
-            sub: 'subscript',
-            sup: 'superscript',
-            quote: 'quote',
-            unorderedList: 'unordered list',
-            orderedList: 'ordered list',
-            task: 'task list',
-            codeRow: 'inline code',
-            code: 'block-level code',
-            link: 'link',
-            image: 'image',
-            table: 'table',
-            mermaid: 'mermaid',
-            katex: 'formula',
-            revoke: 'revoke',
-            next: 'undo revoke',
-            save: 'save',
-            prettier: 'prettier',
-            pageFullscreen: 'fullscreen in page',
-            fullscreen: 'fullscreen',
-            preview: 'preview',
-            htmlPreview: 'html preview',
-            catalog: 'catalog',
-            github: 'source code'
-          },
-          titleItem: {
-            h1: 'Lv1 Heading',
-            h2: 'Lv2 Heading',
-            h3: 'Lv3 Heading',
-            h4: 'Lv4 Heading',
-            h5: 'Lv5 Heading',
-            h6: 'Lv6 Heading'
-          },
-          imgTitleItem: {
-            link: 'Add Img Link',
-            upload: 'Upload Img',
-            clip2upload: 'Clip Upload'
-          },
-          linkModalTips: {
-            linkTitle: 'Add Link',
-            imageTitle: 'Add Image',
-            descLabel: 'Desc:',
-            descLabelPlaceHolder: 'Enter a description...',
-            urlLabel: 'Link:',
-            urlLabelPlaceHolder: 'Enter a link...',
-            buttonOK: 'OK'
-          },
-          clipModalTips: {
-            title: 'Crop Image',
-            buttonUpload: 'Upload'
-          },
-          copyCode: {
-            text: 'Copy',
-            successTips: 'Copied!',
-            failTips: 'Copy failed!'
-          },
-          mermaid: {
-            flow: 'flow',
-            sequence: 'sequence',
-            gantt: 'gantt',
-            class: 'class',
-            state: 'state',
-            pie: 'pie',
-            relationship: 'relationship',
-            journey: 'journey'
-          },
-          katex: {
-            inline: 'inline',
-            block: 'block'
-          },
-          footer: {
-            markdownTotal: 'Word Count',
-            scrollAuto: 'Scroll Auto'
-          }
+config({
+  markdownItConfig(mdit) {
+    mdit.use(ancher, {
+      permalink: true
+    });
+  }
+});
+```
+
+---
+
+### 🍙 editorConfig
+
+Add more languages, reset `mermaid` template or delay rendering time
+
+#### 🍚 languageUserDefined
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorConfig: {
+    languageUserDefined: {
+      'en-US': {
+        toolbarTips: {
+          bold: 'bold',
+          underline: 'underline',
+          italic: 'italic',
+          strikeThrough: 'strikeThrough',
+          title: 'title',
+          sub: 'subscript',
+          sup: 'superscript',
+          quote: 'quote',
+          unorderedList: 'unordered list',
+          orderedList: 'ordered list',
+          task: 'task list',
+          codeRow: 'inline code',
+          code: 'block-level code',
+          link: 'link',
+          image: 'image',
+          table: 'table',
+          mermaid: 'mermaid',
+          katex: 'formula',
+          revoke: 'revoke',
+          next: 'undo revoke',
+          save: 'save',
+          prettier: 'prettier',
+          pageFullscreen: 'fullscreen in page',
+          fullscreen: 'fullscreen',
+          preview: 'preview',
+          htmlPreview: 'html preview',
+          catalog: 'catalog',
+          github: 'source code'
+        },
+        titleItem: {
+          h1: 'Lv1 Heading',
+          h2: 'Lv2 Heading',
+          h3: 'Lv3 Heading',
+          h4: 'Lv4 Heading',
+          h5: 'Lv5 Heading',
+          h6: 'Lv6 Heading'
+        },
+        imgTitleItem: {
+          link: 'Add Img Link',
+          upload: 'Upload Img',
+          clip2upload: 'Clip Upload'
+        },
+        linkModalTips: {
+          linkTitle: 'Add Link',
+          imageTitle: 'Add Image',
+          descLabel: 'Desc:',
+          descLabelPlaceHolder: 'Enter a description...',
+          urlLabel: 'Link:',
+          urlLabelPlaceHolder: 'Enter a link...',
+          buttonOK: 'OK'
+        },
+        clipModalTips: {
+          title: 'Crop Image',
+          buttonUpload: 'Upload'
+        },
+        copyCode: {
+          text: 'Copy',
+          successTips: 'Copied!',
+          failTips: 'Copy failed!'
+        },
+        mermaid: {
+          flow: 'flow',
+          sequence: 'sequence',
+          gantt: 'gantt',
+          class: 'class',
+          state: 'state',
+          pie: 'pie',
+          relationship: 'relationship',
+          journey: 'journey'
+        },
+        katex: {
+          inline: 'inline',
+          block: 'block'
+        },
+        footer: {
+          markdownTotal: 'Word Count',
+          scrollAuto: 'Scroll Auto'
         }
-      },
-      // mermaid template
-      mermaidTemplate: {
-        flow: `flow tempalte`,
-        sequence: `sequence template`,
-        gantt: `gantt template`,
-        class: `class template`,
-        state: `state template`,
-        pie: `pie template`,
-        relationship: `relationship template`,
-        journey: `journey template`
-      },
-      // delay rendering time(ms)
-      renderDelay: 0
+      }
     }
-  });
-  ```
+  }
+});
+```
 
-- editorExtensions: Config some dependency libraries, like highlight..
+#### 🍘 mermaidTemplate
 
-  ```typescript
-  import { config } from 'md-editor-v3';
+```js
+import { config } from 'md-editor-v3';
 
-  config({
-    editorExtensions: { iconfont: 'https://xxx.cc' }
-  });
-  ```
+config({
+  editorConfig: {
+    // mermaid template
+    mermaidTemplate: {
+      flow: `flow tempalte`,
+      sequence: `sequence template`,
+      gantt: `gantt template`,
+      class: `class template`,
+      state: `state template`,
+      pie: `pie template`,
+      relationship: `relationship template`,
+      journey: `journey template`
+    }
+  }
+});
+```
 
-  <details>
-    <summary>EditorExtensions</summary>
+#### 🍥 renderDelay
 
-  ```ts
-  export interface EditorExtensions {
-    highlight?: {
-      instance?: any;
-      js?: string;
-      css?: {
-        [key: string]: {
-          light: string;
-          dark: string;
-        };
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorConfig: {
+    // delay rendering time(ms)
+    renderDelay: 0
+  }
+});
+```
+
+---
+
+### 🥠 editorExtensions
+
+Config some dependency libraries, like highlight..
+
+```typescript
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: { iconfont: 'https://xxx.cc' }
+});
+```
+
+<details>
+  <summary>EditorExtensions</summary>
+
+```ts
+export interface EditorExtensions {
+  highlight?: {
+    instance?: any;
+    js?: string;
+    css?: {
+      [key: string]: {
+        light: string;
+        dark: string;
       };
     };
-    prettier?: {
-      // >= 2.2.0
-      prettierInstance?: any;
-      parserMarkdownInstance?: any;
+  };
+  prettier?: {
+    // >= 2.2.0
+    prettierInstance?: any;
+    parserMarkdownInstance?: any;
 
-      standaloneJs?: string;
-      parserMarkdownJs?: string;
-    };
-    cropper?: {
-      instance?: any;
-      js?: string;
-      css?: string;
-    };
-    iconfont?: string;
-    screenfull?: {
-      instance?: any;
-      js?: string;
-    };
-    mermaid?: {
-      instance?: any;
-      js?: string;
-    };
-    katex?: {
-      instance?: any;
-      js?: string;
-      css?: string;
-    };
-  }
-  ```
+    standaloneJs?: string;
+    parserMarkdownJs?: string;
+  };
+  cropper?: {
+    instance?: any;
+    js?: string;
+    css?: string;
+  };
+  iconfont?: string;
+  screenfull?: {
+    instance?: any;
+    js?: string;
+  };
+  mermaid?: {
+    instance?: any;
+    js?: string;
+  };
+  katex?: {
+    instance?: any;
+    js?: string;
+    css?: string;
+  };
+}
+```
 
-  </details>
+</details>
+
+---
 
 ## 🪡 Shortcut keys
 
 !!! warning Pay attention
 
-Shortcut keys are only available when the textarea is focused!
+Shortcut keys are only available when the textarea has received focus!
 
 !!!
 

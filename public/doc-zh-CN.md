@@ -1006,210 +1006,250 @@ editorRef.value?.focus();
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。
 
-- codeMirrorExtensions: 根据主题和内部默认的 codeMirror 扩展自定义新的扩展。
+### 🦪 codeMirrorExtensions
 
-  使用示例：编辑器默认不显示输入框的行号，需要手动添加扩展
+根据主题和内部默认的 codeMirror 扩展自定义新的扩展。
 
-  ```js
-  import { config } from 'md-editor-v3';
-  import { lineNumbers } from '@codemirror/view';
+使用示例：编辑器默认不显示输入框的行号，需要手动添加扩展
 
-  config({
-    codeMirrorExtensions(_theme, extensions) {
-      return [...extensions, lineNumbers()];
-    }
-  });
-  ```
+```js
+import { config } from 'md-editor-v3';
+import { lineNumbers } from '@codemirror/view';
 
-- markdownItConfig: 自定义 markdown-it 核心库扩展、属性等。
+config({
+  codeMirrorExtensions(_theme, extensions) {
+    return [...extensions, lineNumbers()];
+  }
+});
+```
 
-  使用示例：配置使用`markdown-it-anchor`并在标题右侧显示一个超链接符号
+---
 
-  ```js
-  import { config } from 'md-editor-v3';
-  import ancher from 'markdown-it-anchor';
+### 🍤 markdownItConfig
 
-  config({
-    markdownItConfig(mdit) {
-      mdit.use(ancher, {
-        permalink: true
-      });
-    }
-  });
-  ```
+自定义 markdown-it 核心库扩展、属性等。
 
-- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板、渲染延迟：
+使用示例：配置使用`markdown-it-anchor`并在标题右侧显示一个超链接符号
 
-  ```js
-  import { config } from 'md-editor-v3';
+```js
+import { config } from 'md-editor-v3';
+import ancher from 'markdown-it-anchor';
 
-  config({
-    editorConfig: {
-      // 语言
-      languageUserDefined: {
-        'zh-CN': {
-          toolbarTips: {
-            bold: '加粗',
-            underline: '下划线',
-            italic: '斜体',
-            strikeThrough: '删除线',
-            title: '标题',
-            sub: '下标',
-            sup: '上标',
-            quote: '引用',
-            unorderedList: '无序列表',
-            orderedList: '有序列表',
-            task: '任务列表',
-            codeRow: '行内代码',
-            code: '块级代码',
-            link: '链接',
-            image: '图片',
-            table: '表格',
-            mermaid: 'mermaid图',
-            katex: 'katex公式',
-            revoke: '后退',
-            next: '前进',
-            save: '保存',
-            prettier: '美化',
-            pageFullscreen: '浏览器全屏',
-            fullscreen: '屏幕全屏',
-            preview: '预览',
-            htmlPreview: 'html代码预览',
-            catalog: '目录',
-            github: '源码地址'
-          },
-          titleItem: {
-            h1: '一级标题',
-            h2: '二级标题',
-            h3: '三级标题',
-            h4: '四级标题',
-            h5: '五级标题',
-            h6: '六级标题'
-          },
-          imgTitleItem: {
-            link: '添加链接',
-            upload: '上传图片',
-            clip2upload: '裁剪上传'
-          },
-          linkModalTips: {
-            linkTitle: '添加链接',
-            imageTitle: '添加图片',
-            descLabel: '链接描述：',
-            descLabelPlaceHolder: '请输入描述...',
-            urlLabel: '链接地址：',
-            urlLabelPlaceHolder: '请输入链接...',
-            buttonOK: '确定'
-          },
-          clipModalTips: {
-            title: '裁剪图片上传',
-            buttonUpload: '上传'
-          },
-          copyCode: {
-            text: '复制代码',
-            successTips: '已复制！',
-            failTips: '复制失败！'
-          },
-          mermaid: {
-            flow: '流程图',
-            sequence: '时序图',
-            gantt: '甘特图',
-            class: '类图',
-            state: '状态图',
-            pie: '饼图',
-            relationship: '关系图',
-            journey: '旅程图'
-          },
-          katex: {
-            inline: '行内公式',
-            block: '块级公式'
-          },
-          footer: {
-            markdownTotal: '字数',
-            scrollAuto: '同步滚动'
-          }
+config({
+  markdownItConfig(mdit) {
+    mdit.use(ancher, {
+      permalink: true
+    });
+  }
+});
+```
+
+---
+
+### 🍙 editorConfig
+
+编辑器常规配置，语言、`mermaid`默认模板、渲染延迟：
+
+#### 🍚 languageUserDefined
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorConfig: {
+    // 语言
+    languageUserDefined: {
+      'zh-CN': {
+        toolbarTips: {
+          bold: '加粗',
+          underline: '下划线',
+          italic: '斜体',
+          strikeThrough: '删除线',
+          title: '标题',
+          sub: '下标',
+          sup: '上标',
+          quote: '引用',
+          unorderedList: '无序列表',
+          orderedList: '有序列表',
+          task: '任务列表',
+          codeRow: '行内代码',
+          code: '块级代码',
+          link: '链接',
+          image: '图片',
+          table: '表格',
+          mermaid: 'mermaid图',
+          katex: 'katex公式',
+          revoke: '后退',
+          next: '前进',
+          save: '保存',
+          prettier: '美化',
+          pageFullscreen: '浏览器全屏',
+          fullscreen: '屏幕全屏',
+          preview: '预览',
+          htmlPreview: 'html代码预览',
+          catalog: '目录',
+          github: '源码地址'
+        },
+        titleItem: {
+          h1: '一级标题',
+          h2: '二级标题',
+          h3: '三级标题',
+          h4: '四级标题',
+          h5: '五级标题',
+          h6: '六级标题'
+        },
+        imgTitleItem: {
+          link: '添加链接',
+          upload: '上传图片',
+          clip2upload: '裁剪上传'
+        },
+        linkModalTips: {
+          linkTitle: '添加链接',
+          imageTitle: '添加图片',
+          descLabel: '链接描述：',
+          descLabelPlaceHolder: '请输入描述...',
+          urlLabel: '链接地址：',
+          urlLabelPlaceHolder: '请输入链接...',
+          buttonOK: '确定'
+        },
+        clipModalTips: {
+          title: '裁剪图片上传',
+          buttonUpload: '上传'
+        },
+        copyCode: {
+          text: '复制代码',
+          successTips: '已复制！',
+          failTips: '复制失败！'
+        },
+        mermaid: {
+          flow: '流程图',
+          sequence: '时序图',
+          gantt: '甘特图',
+          class: '类图',
+          state: '状态图',
+          pie: '饼图',
+          relationship: '关系图',
+          journey: '旅程图'
+        },
+        katex: {
+          inline: '行内公式',
+          block: '块级公式'
+        },
+        footer: {
+          markdownTotal: '字数',
+          scrollAuto: '同步滚动'
         }
-      },
-      // mermaid模板
-      mermaidTemplate: {
-        // 流程图
-        flow: `flow tempalte`,
-        // 时序图
-        sequence: `sequence template`,
-        // 甘特图
-        gantt: `gantt template`,
-        // 类图
-        class: `class template`,
-        // 状态图
-        state: `state template`,
-        // 饼图
-        pie: `pie template`,
-        // 关系图
-        relationship: `relationship template`,
-        // 旅程图
-        journey: `journey template`
-      },
-      // 输入渲染延迟（ms）
-      renderDelay: 0
+      }
     }
-  });
-  ```
+  }
+});
+```
 
-- editorExtensions: 类型如下，用于配置编辑器内部的扩展
+#### 🍘 mermaidTemplate
 
-  ```typescript
-  import { config } from 'md-editor-v3';
+```js
+import { config } from 'md-editor-v3';
 
-  config({
-    editorExtensions: { iconfont: 'https://xxx.cc' }
-  });
-  ```
+config({
+  editorConfig: {
+    // mermaid模板
+    mermaidTemplate: {
+      // 流程图
+      flow: `flow tempalte`,
+      // 时序图
+      sequence: `sequence template`,
+      // 甘特图
+      gantt: `gantt template`,
+      // 类图
+      class: `class template`,
+      // 状态图
+      state: `state template`,
+      // 饼图
+      pie: `pie template`,
+      // 关系图
+      relationship: `relationship template`,
+      // 旅程图
+      journey: `journey template`
+    }
+  }
+});
+```
 
-  <details>
-    <summary>EditorExtensions</summary>
+#### 🍥 renderDelay
 
-  ```ts
-  export interface EditorExtensions {
-    highlight?: {
-      instance?: any;
-      js?: string;
-      css?: {
-        [key: string]: {
-          light: string;
-          dark: string;
-        };
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorConfig: {
+    // 输入渲染延迟（ms）
+    renderDelay: 0
+  }
+});
+```
+
+---
+
+### 🥠 editorExtensions
+
+类型如下，用于配置编辑器内部的扩展
+
+```typescript
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: { iconfont: 'https://xxx.cc' }
+});
+```
+
+<details>
+  <summary>EditorExtensions</summary>
+
+```ts
+export interface EditorExtensions {
+  highlight?: {
+    instance?: any;
+    js?: string;
+    css?: {
+      [key: string]: {
+        light: string;
+        dark: string;
       };
     };
-    prettier?: {
-      // >= 2.2.0
-      prettierInstance?: any;
-      parserMarkdownInstance?: any;
+  };
+  prettier?: {
+    // >= 2.2.0
+    prettierInstance?: any;
+    parserMarkdownInstance?: any;
 
-      standaloneJs?: string;
-      parserMarkdownJs?: string;
-    };
-    cropper?: {
-      instance?: any;
-      js?: string;
-      css?: string;
-    };
-    iconfont?: string;
-    screenfull?: {
-      instance?: any;
-      js?: string;
-    };
-    mermaid?: {
-      instance?: any;
-      js?: string;
-    };
-    katex?: {
-      instance?: any;
-      js?: string;
-      css?: string;
-    };
-  }
-  ```
+    standaloneJs?: string;
+    parserMarkdownJs?: string;
+  };
+  cropper?: {
+    instance?: any;
+    js?: string;
+    css?: string;
+  };
+  iconfont?: string;
+  screenfull?: {
+    instance?: any;
+    js?: string;
+  };
+  mermaid?: {
+    instance?: any;
+    js?: string;
+  };
+  katex?: {
+    instance?: any;
+    js?: string;
+    css?: string;
+  };
+}
+```
 
-  </details>
+</details>
+
+---
 
 ## 🪡 快捷键
 
