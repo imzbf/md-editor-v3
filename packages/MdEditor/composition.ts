@@ -5,7 +5,8 @@ import {
   ExposeParam,
   UpdateSetting,
   ExposeEvent,
-  MdPreviewProps
+  MdPreviewProps,
+  FocusOption
 } from '~/type';
 import { appendHandler } from '~/utils/dom';
 import { EditorContext, EditorProps } from '~/type';
@@ -516,8 +517,8 @@ export const useExpose = (
     insert(generate) {
       bus.emit(editorId, 'replace', 'universal', { generate });
     },
-    focus() {
-      bus.emit(editorId, TEXTAREA_FOCUS);
+    focus(options: FocusOption) {
+      bus.emit(editorId, TEXTAREA_FOCUS, options);
     }
   };
 

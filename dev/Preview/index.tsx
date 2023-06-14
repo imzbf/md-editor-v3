@@ -229,7 +229,7 @@ export default defineComponent({
             //     deviationEnd: 0
             //   };
             // });
-            // editorRef.value?.focus();
+            editorRef.value?.focus();
           }}
         >
           1

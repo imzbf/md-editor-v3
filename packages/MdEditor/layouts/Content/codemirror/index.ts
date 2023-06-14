@@ -7,6 +7,7 @@ import {
 } from '@codemirror/state';
 import { EditorView, placeholder } from '@codemirror/view';
 import { indentUnit } from '@codemirror/language';
+import { FocusOption } from '~~/MdEditor/type';
 
 const toggleWith = (view: EditorView) => {
   const mc = new Compartment();
@@ -146,8 +147,40 @@ export default class CodeMirrorUt {
     this.togglePlaceholder(placeholder(t));
   }
 
-  focus() {
+  focus(options: FocusOption) {
     this.view.focus();
+
+    if (!options) {
+      return;
+    }
+
+    let anchor = 0;
+    let head = 0;
+    let pos = 0;
+
+    switch (options) {
+      case 'start': {
+        break;
+      }
+      case 'end': {
+        const length = this.getValue().length;
+        anchor = head = pos = length;
+        break;
+      }
+      default: {
+        anchor = options.rangeAnchor || options.cursorPos;
+        head = options.rangeHead || options.cursorPos;
+        pos = options.cursorPos;
+      }
+    }
+
+    this.view.dispatch({
+      scrollIntoView: true,
+      selection: EditorSelection.create(
+        [EditorSelection.range(anchor, head), EditorSelection.cursor(pos)],
+        1
+      )
+    });
   }
 
   setDisabled(d: boolean) {

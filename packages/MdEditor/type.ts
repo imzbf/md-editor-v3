@@ -305,6 +305,18 @@ export interface InsertParam {
 
 export type InsertContentGenerator = (selectedText: string) => InsertParam;
 
+export type FocusOption =
+  | 'start'
+  | 'end'
+  | {
+      // 选中的开始位置，默认光标位置
+      rangeAnchor?: number;
+      // 选中的结束位置，默认光标位置
+      rangeHead?: number;
+      // 光标的位置
+      cursorPos: number;
+    };
+
 export interface ExposeParam {
   /**
    * 添加事件监听
@@ -375,8 +387,10 @@ export interface ExposeParam {
 
   /**
    * 手动聚焦
+   *
+   * @param options 聚焦时光标的位置，不提供默认上次失焦时的位置
    */
-  focus(): void;
+  focus(options?: FocusOption): void;
 }
 
 export type EditorProps = Readonly<
