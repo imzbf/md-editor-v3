@@ -982,8 +982,27 @@ editorRef.value?.insert((selectedText) => {
 
 Focus on the textarea.
 
-```js
-editorRef.value?.focus();
+```ts
+import type { FocusOption } from 'md-editor-v3';
+
+const option: FocusOption | undefined = 'start';
+
+// Cursor position when focusing on textarea, default: position when it last lost focus
+editorRef.value?.focus(option);
+```
+
+```ts
+type FocusOption =
+  | 'start'
+  | 'end'
+  | {
+      // Start position, default cursor position
+      rangeAnchor?: number;
+      // End position, default cursor position
+      rangeHead?: number;
+      // Cursor position
+      cursorPos: number;
+    };
 ```
 
 ---
