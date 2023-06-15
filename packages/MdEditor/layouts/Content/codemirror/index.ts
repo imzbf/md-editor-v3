@@ -110,9 +110,9 @@ export default class CodeMirrorUt {
           1
         )
       });
-
-      this.view.focus();
     }
+
+    this.view.focus();
   }
 
   constructor(view: EditorView) {
