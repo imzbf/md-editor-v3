@@ -20,6 +20,7 @@ import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
 import { Theme } from '../App';
 import axios from 'axios';
+// import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
 
 // import { Extension } from '@codemirror/state';
@@ -70,9 +71,11 @@ config({
     return [...extensions, lineNumbers()];
   },
   // markdownItConfig: (mdit) => {
-  //   mdit.use(ancher, {
-  //     permalink: true
-  //   });
+  // mdit.use(ancher, {
+  //   permalink: true
+  // });
+
+  // mdit.use(TargetBlankExtension);
   // },
   editorExtensions: {
     // prettier: {

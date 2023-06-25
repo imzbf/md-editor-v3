@@ -8,14 +8,6 @@ export interface HeadingPluginOps extends markdownit.Options {
 }
 
 const HeadingPlugin = (md: markdownit, options: HeadingPluginOps) => {
-  let Token: any;
-
-  md.core.ruler.push('headingLinks', (state) => {
-    if (!Token) {
-      Token = state.Token;
-    }
-  });
-
   md.renderer.rules.heading_open = (tokens, idx) => {
     const token = tokens[idx];
 

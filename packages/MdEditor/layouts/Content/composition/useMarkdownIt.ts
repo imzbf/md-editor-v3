@@ -26,32 +26,34 @@ const initLineNumber = (md: mdit) => {
     'ordered_list_open',
     'bullet_list_open',
     'blockquote_open',
-    'hr'
+    'hr',
+    'html_block',
+    'fence'
   ].forEach((rule) => {
-    md.renderer.rules[rule] = (tokens, idx, options, _env, self) => {
-      let line;
-      if (tokens[idx].map && tokens[idx].level === 0) {
-        line = tokens[idx].map![0];
-        tokens[idx].attrSet('data-line', String(line));
-      }
-      return self.renderToken(tokens, idx, options);
-    };
-  });
-
-  ['html_block', 'fence'].forEach((rule) => {
     const backup = md.renderer.rules[rule];
 
-    md.renderer.rules[rule] = (tokens, idx, options, env, self) => {
-      let line;
-      const _htmlCode = backup!(tokens, idx, options, env, self);
+    if (!backup) {
+      md.renderer.rules[rule] = (tokens, idx, options, _env, self) => {
+        let line;
+        if (tokens[idx].map && tokens[idx].level === 0) {
+          line = tokens[idx].map![0];
+          tokens[idx].attrSet('data-line', String(line));
+        }
+        return self.renderToken(tokens, idx, options);
+      };
+    } else {
+      md.renderer.rules[rule] = (tokens, idx, options, env, self) => {
+        let line;
+        const _htmlCode = backup(tokens, idx, options, env, self);
 
-      if (tokens[idx].map && tokens[idx].level === 0) {
-        line = tokens[idx].map![0];
-        return _htmlCode.replace(/^(<[^>]*)/, `$1 data-line="${line}"`);
-      }
+        if (tokens[idx].map && tokens[idx].level === 0) {
+          line = tokens[idx].map![0];
+          return _htmlCode.replace(/^(<[^>]*)/, `$1 data-line="${line}"`);
+        }
 
-      return _htmlCode;
-    };
+        return _htmlCode;
+      };
+    }
   });
 };
 
