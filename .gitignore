@@ -15,3 +15,5 @@ node_modules
 .DS_Store
 
 lib/
+
+example/**/yarn.lock
