@@ -24,10 +24,6 @@ interface CtlTypes {
 }
 
 const props = {
-  trigger: {
-    type: String as PropType<'hover' | 'click'>,
-    default: 'hover'
-  },
   overlay: {
     type: [String, Object] as PropType<string | JSX.Element>,
     default: ''
@@ -67,9 +63,7 @@ export default defineComponent({
     const overlayRef = ref();
 
     const triggerHandler = () => {
-      if (props.trigger === 'hover') {
-        ctl.triggerHover = true;
-      }
+      ctl.triggerHover = true;
 
       const triggerEle = triggerRef.value as HTMLElement;
       const overlayEle = overlayRef.value as HTMLElement;
@@ -116,19 +110,6 @@ export default defineComponent({
       }
     );
 
-    // 点击非内容区域时触发关闭
-    const clickHidden = (e: MouseEvent) => {
-      const triggerEle: HTMLElement = triggerRef.value;
-      const overlayEle: HTMLElement = overlayRef.value;
-
-      if (
-        !triggerEle.contains(e.target as HTMLElement) &&
-        !overlayEle.contains(e.target as HTMLElement)
-      ) {
-        props.onChange(false);
-      }
-    };
-
     let hiddenTimer = -1;
     const leaveHidden = (e: MouseEvent) => {
       if (triggerRef.value === e.target) {
@@ -146,37 +127,21 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      if (props.trigger === 'click') {
-        (triggerRef.value as HTMLElement).addEventListener('click', triggerHandler);
-        document.addEventListener('click', clickHidden);
-      } else {
-        (triggerRef.value as HTMLElement).addEventListener('mouseenter', triggerHandler);
-        (triggerRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
+      (triggerRef.value as HTMLElement).addEventListener('mouseenter', triggerHandler);
+      (triggerRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
 
-        (overlayRef.value as HTMLElement).addEventListener('mouseenter', overlayHandler);
-        (overlayRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
-      }
+      (overlayRef.value as HTMLElement).addEventListener('mouseenter', overlayHandler);
+      (overlayRef.value as HTMLElement).addEventListener('mouseleave', leaveHidden);
     });
 
     // 卸载组件时清除监听
     onBeforeUnmount(() => {
-      if (props.trigger === 'click') {
-        (triggerRef.value as HTMLElement).removeEventListener('click', triggerHandler);
-        document.removeEventListener('click', clickHidden);
-      } else {
-        (triggerRef.value as HTMLElement).removeEventListener(
-          'mouseenter',
-          triggerHandler
-        );
-        (triggerRef.value as HTMLElement).removeEventListener('mouseleave', leaveHidden);
+      (triggerRef.value as HTMLElement).removeEventListener('mouseenter', triggerHandler);
+      (triggerRef.value as HTMLElement).removeEventListener('mouseleave', leaveHidden);
 
-        // 同时移除内容区域监听
-        (overlayRef.value as HTMLElement).removeEventListener(
-          'mouseenter',
-          overlayHandler
-        );
-        (overlayRef.value as HTMLElement).removeEventListener('mouseleave', leaveHidden);
-      }
+      // 同时移除内容区域监听
+      (overlayRef.value as HTMLElement).removeEventListener('mouseenter', overlayHandler);
+      (overlayRef.value as HTMLElement).removeEventListener('mouseleave', leaveHidden);
     });
 
     return () => {
