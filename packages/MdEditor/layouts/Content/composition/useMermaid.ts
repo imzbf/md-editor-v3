@@ -91,9 +91,11 @@ const useMermaid = (props: ContentPreviewProps) => {
         svgContainingElement.style.zIndex = '-10000';
         svgContainingElement.style.top = '-10000';
 
-        document.body.appendChild(svgContainingElement);
-
         let count = mermaidSourceEles.length;
+
+        if (count > 0) {
+          document.body.appendChild(svgContainingElement);
+        }
 
         mermaidSourceEles.forEach(async (item) => {
           let mermaidHtml = mermaidCache.get(item.innerText) as string;
