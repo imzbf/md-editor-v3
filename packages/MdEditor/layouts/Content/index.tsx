@@ -1,13 +1,15 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
 import { prefix } from '~/config';
 import { useAutoScroll, useCodeMirror } from './composition/index';
 import { contentProps as props, ContentProps } from './props';
 import ContentPreview from './ContentPreview';
+import MdCatalog from '~~/MdCatalog';
 
 export default defineComponent({
   name: 'MDEditorContent',
   props,
   setup(props: ContentProps) {
+    const editorId = inject('editorId') as string;
     const html = ref<string>('');
 
     // 输入框
@@ -35,6 +37,15 @@ export default defineComponent({
             formatCopiedText={props.formatCopiedText}
             noHighlight={props.noHighlight}
           />
+          {props.catalogVisible && (
+            <MdCatalog
+              theme={props.theme}
+              class={`${prefix}-catalog-editor`}
+              editorId={editorId}
+              mdHeadingId={props.mdHeadingId}
+              key="internal-catalog"
+            />
+          )}
         </div>
       );
     };

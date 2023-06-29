@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { CompletionSource } from '@codemirror/autocomplete';
 import { LooseRequired } from '@vue/shared';
-import { HeadList, SettingType, MdHeadingId } from '~/type';
+import { HeadList, SettingType, MdHeadingId, Themes } from '~/type';
 
 export const contentProps = {
   value: {
@@ -92,6 +92,13 @@ export const contentProps = {
   },
   completions: {
     type: Array as PropType<Array<CompletionSource>>
+  },
+  catalogVisible: {
+    type: Boolean as PropType<boolean>
+  },
+  theme: {
+    type: String as PropType<Themes>,
+    default: 'light'
   }
 };
 

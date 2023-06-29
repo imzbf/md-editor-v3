@@ -8,8 +8,6 @@ import bus from '~/utils/event-bus';
 import { EditorProps, EditorContext } from '~/type';
 import { getSlot } from '~/utils/vue-tsx';
 
-import MdCatalog from '~~/MdCatalog';
-
 import {
   useOnSave,
   useProvide,
@@ -130,6 +128,8 @@ const Editor = defineComponent({
               }
             }}
             completions={props.completions}
+            catalogVisible={catalogVisible.value}
+            theme={props.theme}
           />
           {props.footers?.length > 0 && (
             <Footer
@@ -138,15 +138,6 @@ const Editor = defineComponent({
               defFooters={defFooters}
               scrollAuto={state.scrollAuto}
               onScrollAutoChange={(v) => (state.scrollAuto = v)}
-            />
-          )}
-          {catalogVisible.value && (
-            <MdCatalog
-              theme={props.theme}
-              class={`${prefix}-catalog-editor`}
-              editorId={editorId}
-              mdHeadingId={props.mdHeadingId}
-              key="internal-catalog"
             />
           )}
         </div>
