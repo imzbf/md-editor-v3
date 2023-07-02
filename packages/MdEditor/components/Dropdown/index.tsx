@@ -68,6 +68,11 @@ export default defineComponent({
       const triggerEle = triggerRef.value as HTMLElement;
       const overlayEle = overlayRef.value as HTMLElement;
 
+      // 尝试移除元素不存在的潜在问题（https://github.com/imzbf/md-editor-v3/issues/308）
+      if (!triggerEle || !overlayEle) {
+        return;
+      }
+
       const triggerInfo = triggerEle.getBoundingClientRect();
 
       const triggerTop = triggerEle.offsetTop;

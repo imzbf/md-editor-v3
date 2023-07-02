@@ -84,6 +84,11 @@ export const splitKatexValue = (str: string, key = '$'): Array<string> => {
  * @returns
  */
 export const getRelativeTop = (element: HTMLElement, container: HTMLElement): number => {
+  // 尝试移除元素不存在的潜在问题（https://github.com/imzbf/md-editor-v3/issues/308）
+  if (!element || !container) {
+    return 0;
+  }
+
   const eleRect = element?.getBoundingClientRect();
 
   if (container === document.documentElement) {
