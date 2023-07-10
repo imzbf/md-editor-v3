@@ -4,6 +4,8 @@ import { MdPreview } from '~~/index';
 import { Theme } from '../App';
 import mdText from '../data.md';
 
+import '~/styles/preview.less';
+
 export default defineComponent({
   props: {
     theme: String as PropType<Theme>,

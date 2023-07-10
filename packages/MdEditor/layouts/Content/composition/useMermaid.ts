@@ -16,7 +16,7 @@ const useMermaid = (props: ContentPreviewProps) => {
   const mermaidConf = editorExtensions?.mermaid;
 
   const mermaidRef = shallowRef(mermaidConf?.instance);
-  const reRenderRef = shallowRef(false);
+  const reRenderRef = shallowRef(-1);
 
   const mermaidCache = new LRUCache({
     max: 1000,
@@ -32,7 +32,7 @@ const useMermaid = (props: ContentPreviewProps) => {
         startOnLoad: false,
         theme: theme.value === 'dark' ? 'dark' : 'default'
       });
-      reRenderRef.value = !reRenderRef.value;
+      reRenderRef.value = reRenderRef.value + 1;
     }
   };
 
