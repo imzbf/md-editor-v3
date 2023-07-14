@@ -746,7 +746,7 @@ Change background color in dark mode:
 
 ```vue
 <template>
-  <MdEditor v-model="text" />
+  <MdEditor v-model="text" noIconfont />
 </template>
 
 <script setup>
@@ -754,7 +754,6 @@ import { ref } from 'vue';
 import { MdEditor, config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-// <=5.2.0
 import screenfull from 'screenfull';
 
 import katex from 'katex';
@@ -766,10 +765,17 @@ import 'cropperjs/dist/cropper.css';
 import mermaid from 'mermaid';
 
 import highlight from 'highlight.js';
-import 'highlight.js/styles/tokyo-night-dark.css';
+import 'highlight.js/styles/atom-one-dark.css';
 
+// <3.0
 import prettier from 'prettier';
 import parserMarkdown from 'prettier/parser-markdown';
+// >=3.0
+import * as prettier from 'prettier';
+import parserMarkdown from 'prettier/plugins/markdown';
+
+// https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js
+import './assets/iconfont.js';
 
 config({
   editorExtensions: {
