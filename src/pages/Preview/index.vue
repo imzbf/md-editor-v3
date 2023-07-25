@@ -16,8 +16,8 @@
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
-          <MarkExtension :onInsert="insert" />
-          <EmojiExtension :onInsert="insert" />
+          <MarkExtension />
+          <EmojiExtension />
           <ReadExtension :mdText="state.text" />
         </template>
         <template #defFooters>
@@ -41,7 +41,7 @@
 import { computed, reactive, watch, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { MdEditor } from 'md-editor-v3';
-import type { ExposeParam, InsertContentGenerator } from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
 import mdEN from '../../../public/preview-en-US.md';
 import mdCN from '../../../public/preview-zh-CN.md';
 import axios from '../../utils/request';
@@ -106,10 +106,6 @@ const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void)
   );
 
   callback(res.map((item: any) => item.data.url));
-};
-
-const insert = (generator: InsertContentGenerator) => {
-  editorRef.value?.insert(generator);
 };
 
 onMounted(() => {

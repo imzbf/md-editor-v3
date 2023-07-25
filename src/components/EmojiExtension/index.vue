@@ -28,9 +28,9 @@ import type { InsertContentGenerator } from 'md-editor-v3';
 import { emojis } from './data';
 
 const props = defineProps({
-  onInsert: {
+  insert: {
     type: Function as PropType<(generator: InsertContentGenerator) => void>,
-    default: () => () => null
+    default: () => null
   }
 });
 
@@ -48,7 +48,7 @@ const emojiHandler = (emoji: string) => {
     };
   };
 
-  props.onInsert(generator);
+  props.insert(generator);
 };
 
 const onChange = (visible: boolean) => {

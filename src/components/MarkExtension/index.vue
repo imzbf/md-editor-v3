@@ -14,7 +14,7 @@ import { NormalToolbar } from 'md-editor-v3';
 import type { InsertContentGenerator } from 'md-editor-v3';
 
 const props = defineProps({
-  onInsert: {
+  insert: {
     type: Function as PropType<(generator: InsertContentGenerator) => void>,
     default: () => () => null
   }
@@ -30,7 +30,7 @@ const markHandler = () => {
     };
   };
 
-  props.onInsert(generator);
+  props.insert(generator);
 };
 </script>
 
