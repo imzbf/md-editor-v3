@@ -14,6 +14,12 @@ const props = {
   },
   onClick: {
     type: Function as PropType<(e: MouseEvent) => void>
+  },
+  /**
+   * 没有意义，仅用于规避克隆组件自动嵌入insert方法时，传入的是该组件而产生的waring
+   */
+  insert: {
+    type: Function as PropType<() => void>
   }
 };
 

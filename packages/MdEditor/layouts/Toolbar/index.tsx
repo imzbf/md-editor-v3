@@ -5,12 +5,14 @@ import {
   inject,
   onMounted,
   reactive,
-  ref
+  ref,
+  cloneVNode,
+  VNode
 } from 'vue';
 import Divider from '~/components/Divider';
 import Dropdown from '~/components/Dropdown';
 import bus from '~/utils/event-bus';
-import { StaticTextDefaultValue, ToolbarNames } from '~/type';
+import { InsertContentGenerator, StaticTextDefaultValue, ToolbarNames } from '~/type';
 import { linkTo } from '@vavt/util';
 import { ToolDirective } from '~/utils/content-help';
 import { allToolbar, prefix } from '~/config';
@@ -799,12 +801,30 @@ export default defineComponent({
         // vue3模板，插槽内容永远是个数组对象
         const defItem = props.defToolbars[barItem as number];
 
-        return defItem || '';
+        if (defItem) {
+          const defItemCloned = cloneVNode(defItem, {
+            insert(generate: InsertContentGenerator) {
+              bus.emit(editorId, 'replace', 'universal', { generate });
+            }
+          });
+          return defItemCloned;
+        }
+
+        return '';
       } else if (props.defToolbars && props.defToolbars.children instanceof Array) {
         // jsx语法，<></>包裹下，defToolbars是包裹插槽内容的对象
         const defItem = props.defToolbars.children[barItem as number];
 
-        return defItem || '';
+        if (defItem) {
+          const defItemCloned = cloneVNode(defItem as VNode, {
+            insert(generate: InsertContentGenerator) {
+              bus.emit(editorId, 'replace', 'universal', { generate });
+            }
+          });
+          return defItemCloned;
+        }
+
+        return '';
       } else {
         return '';
       }

@@ -22,6 +22,12 @@ const props = {
   // 下拉框中的内容
   overlay: {
     type: [String, Object] as PropType<string | JSX.Element>
+  },
+  /**
+   * 没有意义，仅用于规避克隆组件自动嵌入insert方法时，传入的是该组件而产生的waring
+   */
+  insert: {
+    type: Function as PropType<() => void>
   }
 };
 
