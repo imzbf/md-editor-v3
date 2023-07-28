@@ -523,6 +523,33 @@ Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
   });
   ```
 
+- markdownItPlugins: Select and add built-in plugins to `markdown-it`.
+
+  Example: Disable image zoom functionality.
+
+  ```js
+  import { config } from 'md-editor-v3';
+
+  config({
+    markdownItPlugins(plugins) {
+      return plugins.map((p) => {
+        if (p.type === 'image') {
+          return {
+            ...p,
+            options: {
+              ...p.options,
+              // just remove classname 'md-zoom'
+              classes: ''
+            }
+          };
+        }
+
+        return p;
+      });
+    }
+  });
+  ```
+
 - editorConfig: Add more languages, reset `mermaid` template or delay rendering time:
 
   ```js

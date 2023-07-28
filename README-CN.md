@@ -534,6 +534,33 @@ editorRef.value?.focus(option);
   });
   ```
 
+- markdownItPlugins: 挑选、新增 markdown-it 核心库已预设的扩展。
+
+  使用示例：取消使用内部放大查看图片的功能。
+
+  ```js
+  import { config } from 'md-editor-v3';
+
+  config({
+    markdownItPlugins(plugins) {
+      return plugins.map((p) => {
+        if (p.type === 'image') {
+          return {
+            ...p,
+            options: {
+              ...p.options,
+              // 移除'md-zoom'类即可
+              classes: ''
+            }
+          };
+        }
+
+        return p;
+      });
+    }
+  });
+  ```
+
 - editorConfig: 编辑器常规配置，语言、`mermaid`默认模板和渲染延迟：
 
   ```js
