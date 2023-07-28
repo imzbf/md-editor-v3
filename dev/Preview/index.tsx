@@ -74,6 +74,10 @@ config({
   // mdit.use(ancher, {
   //   permalink: true
   // });
+  // markdownItPlugins(plugins) {
+  //   console.log(plugins);
+  //   return [];
+  // },
 
   // mdit.use(TargetBlankExtension);
   // },
