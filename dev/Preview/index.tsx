@@ -316,6 +316,7 @@ export default defineComponent({
             }}
             // onBlur={console.log}
             // onFocus={console.log}
+            showToolbarName
             toolbars={[
               'bold',
               'underline',

@@ -418,6 +418,15 @@ export const editorProps = {
    */
   completions: {
     type: Array as PropType<Array<CompletionSource>>
+  },
+  /**
+   * 是否在工具栏下面显示对应的文字名称
+   *
+   * @default false
+   */
+  showToolbarName: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 

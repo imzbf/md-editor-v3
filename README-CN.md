@@ -139,6 +139,7 @@ const scrollElement = document.documentElement;
 | maxLength | `number` |  | 文本区域允许的最大字符数 |
 | autoDetectCode | `boolean` | false | 是否启用自动识别粘贴代码类别，目前仅支持从`vscode`复制的内容 |
 | completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete`匹配关键词的方法列表 |
+| showToolbarName | `boolean` | false | 是否在工具栏下面显示对应的文字名称 |
 
 > 如果你重新定义了标题，请务必通过`mdHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 

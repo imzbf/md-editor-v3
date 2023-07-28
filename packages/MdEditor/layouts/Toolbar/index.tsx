@@ -7,13 +7,15 @@ import {
   reactive,
   ref,
   cloneVNode,
-  VNode
+  VNode,
+  watch,
+  nextTick
 } from 'vue';
+import { linkTo, draggingScroll } from '@vavt/util';
 import Divider from '~/components/Divider';
 import Dropdown from '~/components/Dropdown';
 import bus from '~/utils/event-bus';
 import { InsertContentGenerator, StaticTextDefaultValue, ToolbarNames } from '~/type';
-import { linkTo } from '@vavt/util';
 import { ToolDirective } from '~/utils/content-help';
 import { allToolbar, prefix } from '~/config';
 import { toolbarProps as props, ToolbarProps } from './props';
@@ -36,6 +38,8 @@ export default defineComponent({
 
     // wrapper ID
     const wrapperId = `${editorId}-toolbar-wrapper`;
+
+    const wrapperRef = ref<HTMLDivElement>();
 
     const visible = reactive({
       title: false,
@@ -133,6 +137,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-bold" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.bold}
+                  </div>
+                )}
               </div>
             );
           }
@@ -148,6 +158,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-underline" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.underline}
+                  </div>
+                )}
               </div>
             );
           }
@@ -163,6 +179,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-italic" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.italic}
+                  </div>
+                )}
               </div>
             );
           }
@@ -178,6 +200,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-strike-through" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.strikeThrough}
+                  </div>
+                )}
               </div>
             );
           }
@@ -254,6 +282,12 @@ export default defineComponent({
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use xlinkHref="#md-editor-icon-title" />
                   </svg>
+
+                  {props.showToolbarName && (
+                    <div class={`${prefix}-toolbar-item-name`}>
+                      {ult.value.toolbarTips?.title}
+                    </div>
+                  )}
                 </div>
               </Dropdown>
             );
@@ -270,6 +304,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-sub" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.sub}
+                  </div>
+                )}
               </div>
             );
           }
@@ -285,6 +325,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-sup" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.sup}
+                  </div>
+                )}
               </div>
             );
           }
@@ -300,6 +346,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-quote" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.quote}
+                  </div>
+                )}
               </div>
             );
           }
@@ -316,6 +368,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-unordered-list" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.unorderedList}
+                  </div>
+                )}
               </div>
             );
           }
@@ -331,6 +389,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-ordered-list" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.orderedList}
+                  </div>
+                )}
               </div>
             );
           }
@@ -347,6 +411,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-task" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.task}
+                  </div>
+                )}
               </div>
             );
           }
@@ -363,6 +433,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-code-row" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.codeRow}
+                  </div>
+                )}
               </div>
             );
           }
@@ -378,6 +454,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-code" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.code}
+                  </div>
+                )}
               </div>
             );
           }
@@ -394,6 +476,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-link" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.link}
+                  </div>
+                )}
               </div>
             );
           }
@@ -410,6 +498,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-image" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.image}
+                  </div>
+                )}
               </div>
             ) : (
               <Dropdown
@@ -461,6 +555,12 @@ export default defineComponent({
                     <svg class={`${prefix}-icon`} aria-hidden="true">
                       <use xlinkHref="#md-editor-icon-image" />
                     </svg>
+
+                    {props.showToolbarName && (
+                      <div class={`${prefix}-toolbar-item-name`}>
+                        {ult.value.toolbarTips?.image}
+                      </div>
+                    )}
                   </div>
                 }
               </Dropdown>
@@ -491,6 +591,12 @@ export default defineComponent({
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use xlinkHref="#md-editor-icon-table" />
                   </svg>
+
+                  {props.showToolbarName && (
+                    <div class={`${prefix}-toolbar-item-name`}>
+                      {ult.value.toolbarTips?.table}
+                    </div>
+                  )}
                 </div>
               </Dropdown>
             );
@@ -507,6 +613,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-revoke" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.revoke}
+                  </div>
+                )}
               </div>
             );
           }
@@ -522,6 +634,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-next" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.next}
+                  </div>
+                )}
               </div>
             );
           }
@@ -537,6 +655,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-baocun" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.save}
+                  </div>
+                )}
               </div>
             );
           }
@@ -552,6 +676,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-prettier" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.prettier}
+                  </div>
+                )}
               </div>
             ) : (
               ''
@@ -574,6 +704,12 @@ export default defineComponent({
                       }`}
                     />
                   </svg>
+
+                  {props.showToolbarName && (
+                    <div class={`${prefix}-toolbar-item-name`}>
+                      {ult.value.toolbarTips?.pageFullscreen}
+                    </div>
+                  )}
                 </div>
               )
             );
@@ -594,6 +730,12 @@ export default defineComponent({
                     }`}
                   />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.fullscreen}
+                  </div>
+                )}
               </div>
             );
           }
@@ -609,6 +751,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-preview" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.preview}
+                  </div>
+                )}
               </div>
             );
           }
@@ -624,6 +772,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-coding" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.htmlPreview}
+                  </div>
+                )}
               </div>
             );
           }
@@ -640,6 +794,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-catalog" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.catalog}
+                  </div>
+                )}
               </div>
             );
           }
@@ -653,6 +813,12 @@ export default defineComponent({
                 <svg class={`${prefix}-icon`} aria-hidden="true">
                   <use xlinkHref="#md-editor-icon-github" />
                 </svg>
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.github}
+                  </div>
+                )}
               </div>
             );
           }
@@ -746,6 +912,12 @@ export default defineComponent({
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use xlinkHref="#md-editor-icon-mermaid" />
                   </svg>
+
+                  {props.showToolbarName && (
+                    <div class={`${prefix}-toolbar-item-name`}>
+                      {ult.value.toolbarTips?.mermaid}
+                    </div>
+                  )}
                 </div>
               </Dropdown>
             );
@@ -792,6 +964,12 @@ export default defineComponent({
                   <svg class={`${prefix}-icon`} aria-hidden="true">
                     <use xlinkHref="#md-editor-icon-formula" />
                   </svg>
+
+                  {props.showToolbarName && (
+                    <div class={`${prefix}-toolbar-item-name`}>
+                      {ult.value.toolbarTips?.katex}
+                    </div>
+                  )}
                 </div>
               </Dropdown>
             );
@@ -830,6 +1008,20 @@ export default defineComponent({
       }
     };
 
+    watch(
+      () => props.toolbars,
+      () => {
+        nextTick(() => {
+          if (wrapperRef.value) {
+            draggingScroll(wrapperRef.value);
+          }
+        });
+      },
+      {
+        immediate: true
+      }
+    );
+
     return () => {
       const LeftBar = splitedbar.value[0].map((barItem) => barRender(barItem));
       const RightBar = splitedbar.value[1].map((barItem) => barRender(barItem));
@@ -837,8 +1029,10 @@ export default defineComponent({
       return (
         <>
           {props.toolbars.length > 0 && (
-            <div class={`${prefix}-toolbar-wrapper`} id={wrapperId}>
-              <div class={`${prefix}-toolbar`}>
+            <div class={`${prefix}-toolbar-wrapper`} ref={wrapperRef} id={wrapperId}>
+              <div
+                class={[`${prefix}-toolbar`, props.showToolbarName && `${prefix}-stn`]}
+              >
                 <div class={`${prefix}-toolbar-left`} ref={toolbarLeftRef}>
                   {LeftBar}
                 </div>
