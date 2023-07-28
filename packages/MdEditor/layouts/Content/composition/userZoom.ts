@@ -14,7 +14,7 @@ const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
 
   const zoomHander = debounce<any, void>(() => {
-    const imgs = document.querySelectorAll(`#${editorId}-preview img`);
+    const imgs = document.querySelectorAll(`#${editorId}-preview img.md-zoom`);
 
     if (imgs.length === 0) {
       return;
