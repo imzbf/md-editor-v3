@@ -74,6 +74,10 @@ config({
   // mdit.use(ancher, {
   //   permalink: true
   // });
+  // markdownItPlugins(plugins) {
+  //   console.log(plugins);
+  //   return [];
+  // },
 
   // mdit.use(TargetBlankExtension);
   // },
@@ -316,6 +320,7 @@ export default defineComponent({
             }}
             // onBlur={console.log}
             // onFocus={console.log}
+            showToolbarName
             toolbars={[
               'bold',
               'underline',

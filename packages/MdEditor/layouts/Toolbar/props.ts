@@ -41,6 +41,14 @@ export const toolbarProps = {
   },
   noUploadImg: {
     type: Boolean as PropType<boolean>
+  },
+  /**
+   * 是否在工具栏下面显示对应的文字名称
+   *
+   * @default false
+   */
+  showToolbarName: {
+    type: Boolean as PropType<boolean>
   }
 };
 

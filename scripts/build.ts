@@ -18,6 +18,7 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
     DropdownToolbar: resolvePath('packages/DropdownToolbar'),
     ModalToolbar: resolvePath('packages/ModalToolbar'),
     MdCatalog: resolvePath('packages/MdCatalog'),
+    MdModal: resolvePath('packages/MdEditor/components/Modal'),
     config: resolvePath('packages/config')
   };
   const formats: LibraryFormats[] = ['es', 'cjs', 'umd'];

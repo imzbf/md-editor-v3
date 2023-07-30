@@ -140,6 +140,7 @@ Except for the same as `MdPreview`:
 | maxLength | `number` |  | same as `maxlength` in native textarea |
 | autoDetectCode | `boolean` | false | auto detect the type of pasted code, only support that copied from `vscode` |
 | completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete` List of function to match keywords |
+| showToolbarName | `boolean` | false | Show toolbar name or not |
 
 <details>
  <summary>『toolbars』</summary>
@@ -517,6 +518,33 @@ Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
     markdownItConfig(mdit) {
       mdit.use(ancher, {
         permalink: true
+      });
+    }
+  });
+  ```
+
+- markdownItPlugins: Select and add built-in plugins to `markdown-it`.
+
+  Example: Disable image zoom functionality.
+
+  ```js
+  import { config } from 'md-editor-v3';
+
+  config({
+    markdownItPlugins(plugins) {
+      return plugins.map((p) => {
+        if (p.type === 'image') {
+          return {
+            ...p,
+            options: {
+              ...p.options,
+              // just remove classname 'md-zoom'
+              classes: ''
+            }
+          };
+        }
+
+        return p;
       });
     }
   });

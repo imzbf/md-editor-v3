@@ -47,15 +47,13 @@ const props = {
   onAdjust: {
     type: Function as PropType<(val: boolean) => void>,
     default: () => {}
-  },
-  class: {
-    type: String as PropType<string>
   }
 };
 
 type ModalProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
+  name: 'MdModal',
   props,
   setup(props: ModalProps, ctx) {
     const modalVisible = ref(props.visible);
@@ -155,10 +153,7 @@ export default defineComponent({
       const slotTitle = getSlot({ props, ctx }, 'title');
 
       return (
-        <div
-          class={[props.class]}
-          style={{ display: modalVisible.value ? 'block' : 'none' }}
-        >
+        <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
           <div class={`${prefix}-modal-mask`} onClick={props.onClose} />
           <div
             class={modalClass.value}

@@ -279,7 +279,8 @@ export const configOption: ConfigOption = {
   editorExtensions: {},
   editorConfig: {},
   codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions,
-  markdownItConfig: () => {}
+  markdownItConfig: () => {},
+  markdownItPlugins: (s) => s
 };
 
 export const config: Config = (option) => {

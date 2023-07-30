@@ -73,6 +73,7 @@ const Editor = defineComponent({
             tableShape={props.tableShape}
             defToolbars={defToolbars}
             noUploadImg={noUploadImg}
+            showToolbarName={props.showToolbarName}
           />
           <Content
             value={props.modelValue}
