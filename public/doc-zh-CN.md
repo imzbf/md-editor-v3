@@ -1322,11 +1322,11 @@ export interface EditorExtensions {
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
+  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
 
 ```vue
 <template>
-  <MdEditor ref="editorRef" v-model="text" :toolbars="['bold', 0, 'github']">
+  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
     <template #defToolbars>
       <NormalToolbar title="mark" @onClick="insert">
         <template #trigger>
@@ -1384,8 +1384,8 @@ const insert = () => {
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
-  - `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
+  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
+  - `overlay`: `VNode | JSX.Element`，必须，下拉框中的内容。
 
 ```vue
 <template>
@@ -1480,8 +1480,8 @@ const insert = (emoji: any) => {
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
-  - `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
+  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
+  - `default`: `VNode | JSX.Element`，必须，弹窗中的内容。
 
 ```vue
 <template>

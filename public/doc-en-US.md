@@ -1297,7 +1297,7 @@ On-demand import, eg: `import { DropdownToolbar } from 'md-editor-v3'`.
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
 
 usage:
 
@@ -1361,8 +1361,8 @@ const insert = () => {
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
-  - `overlay`: `string | JSX.Element`, necessary, content of dropdown box.
+  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `overlay`: `VNode | JSX.Element`, necessary, content of dropdown box.
 
 usage:
 
@@ -1459,8 +1459,8 @@ const insert = (emoji: any) => {
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
-  - `overlay`: `string | JSX.Element`, necessary, content of Modal.
+  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `default`: `VNode | JSX.Element`, necessary, content of Modal.
 
 ```vue
 <template>
@@ -1535,8 +1535,8 @@ const insert = () => {
   - `mdHeadingId`: `mdHeadingId`, not necessary, same as editor.
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: 'light' | 'dark', not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
-  - `offsetTop`: `number`, not necessary, highlight current item of catalogs when title is `offsetTop` pixels from the top, defalut 20.
-  - `scrollElementOffsetTop`: `number`, not necessary, offsetTop of the scroll container，defalut 0.
+  - `offsetTop`: `number`, not necessary, highlight current item of catalogs when title is `offsetTop` pixels from the top, default 20.
+  - `scrollElementOffsetTop`: `number`, not necessary, offsetTop of the scroll container, default 0.
 
 - **events**
 
