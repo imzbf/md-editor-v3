@@ -20,7 +20,7 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 - 多语言，支持自行扩展语言；
 - 粘贴上传图片，图片裁剪上传；
 - 仅预览模式（不显示编辑器，只显示 md 预览内容，无额外监听）；
-- 预览主题，内置`defalut`、`vuepress`、`github` 、`cyanosis`、`mk-cute`、`smart-blue` 6 种预览主题（不完全相同），支持自定义主题（参考文档 demo 页示例）；
+- 预览主题，内置`default`、`vuepress`、`github` 、`cyanosis`、`mk-cute`、`smart-blue` 6 种预览主题（不完全相同），支持自定义主题（参考文档 demo 页示例）；
 - `mermaid`绘图（>=1.8.0），`katex`数学公式（>=1.9.0）；
 - 自定义工具栏顺序或显示，自定义扩展工具栏（支持点击类型、下拉菜单类型及弹窗类型）等。
 - 按需引用(>=4.0.0)。
@@ -664,7 +664,7 @@ import { NormalToolbar } from 'md-editor-v3';
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
+  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
 
 ### 🐼 下拉扩展工具栏
 
@@ -681,8 +681,8 @@ import { NormalToolbar } from 'md-editor-v3';
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
-  - `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
+  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
+  - `overlay`: `VNode | JSX.Element`，必须，下拉框中的内容。
 
 ### 🦉 弹窗扩展工具栏
 
@@ -706,8 +706,8 @@ import { NormalToolbar } from 'md-editor-v3';
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
-  - `overlay`: `string | JSX.Element`，必须，下拉框中的内容。
+  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
+  - `default`: `VNode | JSX.Element`，必须，弹窗中的内容。
 
 ### 🐻 目录导航
 
@@ -726,6 +726,30 @@ import { NormalToolbar } from 'md-editor-v3';
 - **events**
 
   - `onClick`: `(e: MouseEvent, t: TocItem) => void`，非必须，导航点击事件。
+
+### 🛸 弹窗组件
+
+`MdModal`
+
+- **props**
+
+  - `title`: `string`，非必须，弹窗标题栏。
+  - `visible`: `boolean`，必须，弹窗显示状态。
+  - `width`: `string`，非必须，弹窗宽度，默认`auto`。
+  - `height`: `string`，同`width`。
+  - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
+  - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
+  - `className`: `string`，非必须，类名。
+  - `style`: `CSSProperties`，非必须，样式。
+
+- **events**
+
+  - `onClose`: `() => void`，必须，弹窗点击关闭事件。
+  - `onAdjust`: `(val: boolean) => void`，弹窗全屏按钮点击事件。
+
+- **slots**
+
+  - `default`: `VNode | JSX.Element`，必须，弹窗中的内容。
 
 ## 🗂 部分示例
 

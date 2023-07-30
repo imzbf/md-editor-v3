@@ -21,7 +21,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - Multi-language, build-in Chinese and English(default: Chinese).
 - Upload picture, paste or clip the picture and upload it.
 - Render article directly(no editor, no event listener, only preview of content).
-- Theme of preview, `defalut`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Refer to example page).
+- Theme of preview, `default`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Refer to example page).
 - `mermaid`(>=1.8.0), `katex` mathematical formula(>=1.9.0).
 - Customize the toolbar as you like.
 - On-demand Import(>=4.0.0).
@@ -647,7 +647,7 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
 
 ### 🐼 DropdownToolbar
 
@@ -664,8 +664,8 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
-  - `overlay`: `string | JSX.Element`, necessary, content of dropdown box.
+  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `overlay`: `VNode | JSX.Element`, necessary, content of dropdown box.
 
 ### 🦉 ModalToolbar
 
@@ -689,8 +689,8 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
 
 - **slots**
 
-  - `trigger`: `string | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
-  - `overlay`: `string | JSX.Element`, necessary, content of Modal.
+  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `default`: `VNode | JSX.Element`, necessary, content of Modal.
 
 ### 🐻 MdCatalog
 
@@ -703,12 +703,36 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
   - `mdHeadingId`: `MdHeadingId`, not necessary, same as editor.
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
   - `theme`: `'light' | 'dark'`, not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
-  - `offsetTop`: `number`, not necessary, highlight current item of catalogs when title is `offsetTop` pixels from the top, defalut 20.
-  - `scrollElementOffsetTop`: `number`, not necessary, offsetTop of the scroll container，defalut 0.
+  - `offsetTop`: `number`, not necessary, highlight current item of catalogs when title is `offsetTop` pixels from the top, default 20.
+  - `scrollElementOffsetTop`: `number`, not necessary, offsetTop of the scroll container，default 0.
 
 - **events**
 
   - `onClick`: `(e: MouseEvent, t: TocItem) => void`, not necessary.
+
+### 🛸 MdModal
+
+`MdModal`
+
+- **props**
+
+  - `title`: `string`, not necessary, title of Modal.
+  - `visible`: `boolean`, necessary, visibility of Modal.
+  - `width`: `string`, not necessary, width of Modal, default `auto`.
+  - `height`: `string`, same as `width`.
+  - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
+  - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
+  - `className`: `string`, not necessary.
+  - `style`: `CSSProperties`, not necessary.
+
+- **events**
+
+  - `onClose`: `() => void`, necessary, close event.
+  - `onAdjust`: `(val: boolean) => void`, fullscreen button click event.
+
+- **slots**
+
+  - `default`: `VNode | JSX.Element`, necessary, content of Modal.
 
 ## 🗂 Examples
 
