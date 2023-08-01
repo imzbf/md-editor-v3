@@ -28,6 +28,9 @@ const props = {
    */
   insert: {
     type: Function as PropType<() => void>
+  },
+  children: {
+    type: [String, Object] as PropType<string | JSX.Element>
   }
 };
 
@@ -45,6 +48,7 @@ export default defineComponent({
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const Overlay = getSlot({ props, ctx }, 'overlay');
+      const children = getSlot({ props, ctx });
 
       return (
         <Dropdown
@@ -61,6 +65,7 @@ export default defineComponent({
         >
           <div class={`${prefix}-toolbar-item`} title={props.title || ''}>
             {Trigger}
+            {children}
           </div>
         </Dropdown>
       );
