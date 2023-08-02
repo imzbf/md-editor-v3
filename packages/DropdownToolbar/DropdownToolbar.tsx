@@ -29,7 +29,7 @@ const props = {
   insert: {
     type: Function as PropType<() => void>
   },
-  children: {
+  default: {
     type: [String, Object] as PropType<string | JSX.Element>
   }
 };
@@ -48,7 +48,7 @@ export default defineComponent({
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const Overlay = getSlot({ props, ctx }, 'overlay');
-      const children = getSlot({ props, ctx });
+      const Default = getSlot({ props, ctx });
 
       return (
         <Dropdown
@@ -65,7 +65,7 @@ export default defineComponent({
         >
           <div class={`${prefix}-toolbar-item`} title={props.title || ''}>
             {Trigger}
-            {children}
+            {Default}
           </div>
         </Dropdown>
       );

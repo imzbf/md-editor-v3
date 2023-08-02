@@ -33,8 +33,7 @@ const props = {
     default: 'auto'
   },
   onClose: {
-    type: Function as PropType<() => void>,
-    default: () => {}
+    type: Function as PropType<() => void>
   },
   showAdjust: {
     type: Boolean as PropType<boolean>,
@@ -55,6 +54,7 @@ type ModalProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>
 export default defineComponent({
   name: 'MdModal',
   props,
+  emits: ['onClose'],
   setup(props: ModalProps, ctx) {
     const modalVisible = ref(props.visible);
 
@@ -154,7 +154,16 @@ export default defineComponent({
 
       return (
         <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
-          <div class={`${prefix}-modal-mask`} onClick={props.onClose} />
+          <div
+            class={`${prefix}-modal-mask`}
+            onClick={() => {
+              if (props.onClose) {
+                props.onClose();
+              } else {
+                ctx.emit('onClose');
+              }
+            }}
+          />
           <div
             class={modalClass.value}
             style={{
@@ -201,7 +210,12 @@ export default defineComponent({
                 class={`${prefix}-modal-close`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  props.onClose && props.onClose();
+
+                  if (props.onClose) {
+                    props.onClose();
+                  } else {
+                    ctx.emit('onClose');
+                  }
                 }}
               >
                 <svg class={`${prefix}-icon`} aria-hidden="true">
