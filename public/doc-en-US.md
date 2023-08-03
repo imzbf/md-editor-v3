@@ -1303,30 +1303,34 @@ usage:
 
 ```vue
 <template>
-  <MdEditor ref="editorRef" v-model="text" :toolbars="['bold', 0, 'github']">
-    <template #defToolbars>
-      <NormalToolbar title="mark" @onClick="insert">
-        <template #trigger>
-          <svg class="md-editor-icon" aria-hidden="true">
-            <use xlink:href="#icon-mark"></use>
-          </svg>
-        </template>
-      </NormalToolbar>
+  <NormalToolbar title="mark" @onClick="handler">
+    <template #trigger>
+      <svg class="md-editor-icon" aria-hidden="true">
+        <use xlink:href="#icon-mark"></use>
+      </svg>
     </template>
-  </MdEditor>
+  </NormalToolbar>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { MdEditor, NormalToolbar } from 'md-editor-v3';
-import type { ExposeParam } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { PropType } from 'vue';
+import { NormalToolbar } from 'md-editor-v3';
+import type { Insert } from 'md-editor-v3';
 
-const text = ref('');
-const editorRef = ref<ExposeParam>();
+const props = defineProps({
+  /**
+   * `insert` will be automatically injected into the component by the editor
+   */
+  insert: {
+    type: Function as PropType<Insert>,
+    default: () => {
+      //
+    }
+  }
+});
 
-const insert = () => {
-  editorRef.value?.insert((selectedText) => {
+const handler = () => {
+  props.insert((selectedText) => {
     /**
      * @return targetValue    Content to be inserted
      * @return select         Automatically select content
@@ -1341,6 +1345,25 @@ const insert = () => {
     };
   });
 };
+</script>
+```
+
+```vue
+<template>
+  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+    <template #defToolbars>
+      <MyToolbar />
+    </template>
+  </MdEditor>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import MyToolbar from './MyToolbar.vue';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('');
 </script>
 ```
 
@@ -1364,60 +1387,56 @@ const insert = () => {
   - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
   - `overlay`: `VNode | JSX.Element`, necessary, content of dropdown box.
 
-usage:
-
 ```vue
 <template>
-  <MdEditor ref="editorRef" v-model="state.text" :toolbars="['bold', 0, 'github']">
-    <template #defToolbars>
-      <DropdownToolbar
-        title="emoji"
-        :visible="state.emojiVisible"
-        :onChange="emojiVisibleChanged"
-      >
-        <template #overlay>
-          <div class="emoji-container">
-            <ol class="emojis">
-              <li
-                v-for="(emoji, index) of emojis"
-                :key="`emoji-${index}`"
-                @click="insert(emoji)"
-                v-text="emoji"
-              ></li>
-            </ol>
-          </div>
-        </template>
-        <template #trigger>
-          <svg class="md-editor-icon" aria-hidden="true">
-            <use xlink:href="#icon-emoji"></use>
-          </svg>
-        </template>
-      </DropdownToolbar>
+  <DropdownToolbar title="emoji" :visible="visible" :onChange="onChange">
+    <template #overlay>
+      <div class="emoji-container">
+        <ol class="emojis">
+          <li
+            v-for="(emoji, index) of emojis"
+            :key="`emoji-${index}`"
+            @click="handler(emoji)"
+            v-text="emoji"
+          ></li>
+        </ol>
+      </div>
     </template>
-  </MdEditor>
+    <template #trigger>
+      <svg class="md-editor-icon" aria-hidden="true">
+        <use xlink:href="#icon-emoji"></use>
+      </svg>
+    </template>
+  </DropdownToolbar>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import { MdEditor, DropdownToolbar } from 'md-editor-v3';
-import type { ExposeParam } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { PropType, ref } from 'vue';
+import { DropdownToolbar } from 'md-editor-v3';
+import type { Insert } from 'md-editor-v3';
 
 const emojis = ['😀', '😃'];
 
-const state = reactive({
-  text: '',
-  emojiVisible: false
+const props = defineProps({
+  /**
+   * `insert` will be automatically injected into the component by the editor
+   */
+  insert: {
+    type: Function as PropType<Insert>,
+    default: () => {
+      //
+    }
+  }
 });
 
-const editorRef = ref<ExposeParam>();
+const visible = ref(false);
 
-const emojiVisibleChanged = () => {
-  state.emojiVisible = !state.emojiVisible;
+const onChange = () => {
+  visible.value = !visible.value;
 };
 
-const insert = (emoji: any) => {
-  editorRef.value?.insert(() => {
+const handler = (emoji: any) => {
+  props.insert(() => {
     /**
      * @return targetValue    Content to be inserted
      * @return select         Automatically select content
@@ -1432,6 +1451,25 @@ const insert = (emoji: any) => {
     };
   });
 };
+</script>
+```
+
+```vue
+<template>
+  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+    <template #defToolbars>
+      <MyToolbar />
+    </template>
+  </MdEditor>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import MyToolbar from './MyToolbar.vue';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('');
 </script>
 ```
 
@@ -1464,47 +1502,51 @@ const insert = (emoji: any) => {
 
 ```vue
 <template>
-  <MdEditor ref="editorRef" v-model="data.text" :toolbars="['bold', 0, 'github']">
-    <template #defToolbars>
-      <ModalToolbar
-        :visible="data.modalVisible"
-        :isFullscreen="data.modalFullscreen"
-        showAdjust
-        title="Preview"
-        modalTitle="Page Preview"
-        width="870px"
-        height="600px"
-        @onClick="data.modalVisible = true"
-        @onClose="data.modalVisible = false"
-        @onAdjust="data.modalFullscreen = !data.modalFullscreen"
-      >
-        <button @click="insert">Click me</button>
-        <template #trigger>
-          <svg class="md-editor-icon" aria-hidden="true">
-            <use xlink:href="#icon-read"></use>
-          </svg>
-        </template>
-      </ModalToolbar>
+  <ModalToolbar
+    :visible="data.modalVisible"
+    :isFullscreen="data.modalFullscreen"
+    showAdjust
+    title="Preview"
+    modalTitle="Page Preview"
+    width="870px"
+    height="600px"
+    @onClick="data.modalVisible = true"
+    @onClose="data.modalVisible = false"
+    @onAdjust="data.modalFullscreen = !data.modalFullscreen"
+  >
+    <button @click="handler">Click me</button>
+    <template #trigger>
+      <svg class="md-editor-icon" aria-hidden="true">
+        <use xlink:href="#icon-read"></use>
+      </svg>
     </template>
-  </MdEditor>
+  </ModalToolbar>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import { MdEditor, ModalToolbar } from 'md-editor-v3';
-import type { ExposeParam } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { PropType, reactive } from 'vue';
+import { ModalToolbar } from 'md-editor-v3';
+import type { Insert } from 'md-editor-v3';
 
 const data = reactive({
-  text: '',
   modalVisible: false,
   modalFullscreen: false
 });
 
-const editorRef = ref<ExposeParam>();
+const props = defineProps({
+  /**
+   * `insert` will be automatically injected into the component by the editor
+   */
+  insert: {
+    type: Function as PropType<Insert>,
+    default: () => {
+      //
+    }
+  }
+});
 
-const insert = () => {
-  editorRef.value?.insert((selectedText) => {
+const handler = () => {
+  props.insert((selectedText) => {
     /**
      * @return targetValue    Content to be inserted
      * @return select         Automatically select content
@@ -1519,6 +1561,25 @@ const insert = () => {
     };
   });
 };
+</script>
+```
+
+```vue
+<template>
+  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+    <template #defToolbars>
+      <MyToolbar />
+    </template>
+  </MdEditor>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import MyToolbar from './MyToolbar.vue';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('');
 </script>
 ```
 
@@ -1563,6 +1624,73 @@ const state = reactive({
 });
 
 const scrollElement = document.documentElement;
+</script>
+```
+
+---
+
+### 🛸 MdModal
+
+It is usually used in conjunction with `DropdownToolbar`.
+
+- **props**
+
+  - `title`: `string`, not necessary, title of Modal.
+  - `visible`: `boolean`, necessary, visibility of Modal.
+  - `width`: `string`, not necessary, width of Modal, default `auto`.
+  - `height`: `string`, same as `width`.
+  - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
+  - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
+  - `className`: `string`, not necessary.
+  - `style`: `string`, not necessary.
+
+- **events**
+
+  - `onClose`: `() => void`, necessary, close event.
+  - `onAdjust`: `(val: boolean) => void`, fullscreen button click event.
+
+- **slots**
+
+  - `default`: `VNode | JSX.Element`, necessary, content of Modal.
+
+```vue
+<template>
+  <DropdownToolbar title="emoji" :visible="state.visible" :onChange="onChange">
+    <template #overlay>
+      <ul>
+        <li @click="state.mVisible = true">option 1</li>
+        <li>option 2</li>
+      </ul>
+    </template>
+    <template #trigger>
+      <svg class="md-editor-icon" aria-hidden="true">
+        <use xlink:href="#icon-emoji"></use>
+      </svg>
+    </template>
+    <template #default>
+      <MdModal title="title" :visible="state.mVisible" @onClose="onClose">
+        Content, Content
+      </MdModal>
+    </template>
+  </DropdownToolbar>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import { DropdownToolbar, MdModal } from 'md-editor-v3';
+
+const state = reactive({
+  visible: false,
+  mVisible: false
+});
+
+const onClose = () => {
+  state.mVisible = !state.mVisible;
+};
+
+const onChange = () => {
+  state.visible = !state.visible;
+};
 </script>
 ```
 

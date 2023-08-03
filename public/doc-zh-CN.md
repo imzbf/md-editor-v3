@@ -1326,30 +1326,34 @@ export interface EditorExtensions {
 
 ```vue
 <template>
-  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
-    <template #defToolbars>
-      <NormalToolbar title="mark" @onClick="insert">
-        <template #trigger>
-          <svg class="md-editor-icon" aria-hidden="true">
-            <use xlink:href="#icon-mark"></use>
-          </svg>
-        </template>
-      </NormalToolbar>
+  <NormalToolbar title="mark" @onClick="handler">
+    <template #trigger>
+      <svg class="md-editor-icon" aria-hidden="true">
+        <use xlink:href="#icon-mark"></use>
+      </svg>
     </template>
-  </MdEditor>
+  </NormalToolbar>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { MdEditor, NormalToolbar } from 'md-editor-v3';
-import type { ExposeParam } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { PropType } from 'vue';
+import { NormalToolbar } from 'md-editor-v3';
+import type { Insert } from 'md-editor-v3';
 
-const text = ref('');
-const editorRef = ref<ExposeParam>();
+const props = defineProps({
+  /**
+   * `insert`方法会由编辑器自动向组件的组件注入。
+   */
+  insert: {
+    type: Function as PropType<Insert>,
+    default: () => {
+      //
+    }
+  }
+});
 
-const insert = () => {
-  editorRef.value?.insert((selectedText) => {
+const handler = () => {
+  props.insert((selectedText) => {
     /**
      * @return targetValue    待插入内容
      * @return select         插入后是否自动选中内容
@@ -1367,7 +1371,26 @@ const insert = () => {
 </script>
 ```
 
-[获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/MarkExtension/index.vue)
+```vue
+<template>
+  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+    <template #defToolbars>
+      <MyToolbar />
+    </template>
+  </MdEditor>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import MyToolbar from './MyToolbar.vue';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('');
+</script>
+```
+
+[标记组件的源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/MarkExtension/index.vue)
 
 ---
 
@@ -1389,56 +1412,54 @@ const insert = () => {
 
 ```vue
 <template>
-  <MdEditor ref="editorRef" v-model="state.text" :toolbars="['bold', 0, 'github']">
-    <template #defToolbars>
-      <DropdownToolbar
-        title="emoji"
-        :visible="state.emojiVisible"
-        :onChange="emojiVisibleChanged"
-      >
-        <template #overlay>
-          <div class="emoji-container">
-            <ol class="emojis">
-              <li
-                v-for="(emoji, index) of emojis"
-                :key="`emoji-${index}`"
-                @click="insert(emoji)"
-                v-text="emoji"
-              ></li>
-            </ol>
-          </div>
-        </template>
-        <template #trigger>
-          <svg class="md-editor-icon" aria-hidden="true">
-            <use xlink:href="#icon-emoji"></use>
-          </svg>
-        </template>
-      </DropdownToolbar>
+  <DropdownToolbar title="emoji" :visible="visible" :onChange="onChange">
+    <template #overlay>
+      <div class="emoji-container">
+        <ol class="emojis">
+          <li
+            v-for="(emoji, index) of emojis"
+            :key="`emoji-${index}`"
+            @click="handler(emoji)"
+            v-text="emoji"
+          ></li>
+        </ol>
+      </div>
     </template>
-  </MdEditor>
+    <template #trigger>
+      <svg class="md-editor-icon" aria-hidden="true">
+        <use xlink:href="#icon-emoji"></use>
+      </svg>
+    </template>
+  </DropdownToolbar>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import { MdEditor, DropdownToolbar } from 'md-editor-v3';
-import type { ExposeParam } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { PropType, ref } from 'vue';
+import { DropdownToolbar } from 'md-editor-v3';
+import type { Insert } from 'md-editor-v3';
 
 const emojis = ['😀', '😃'];
 
-const state = reactive({
-  text: '',
-  emojiVisible: false
+const props = defineProps({
+  /**
+   * `insert`方法会由编辑器自动向组件的组件注入。
+   */
+  insert: {
+    type: Function as PropType<Insert>,
+    default: () => {
+      //
+    }
+  }
 });
 
-const editorRef = ref<ExposeParam>();
+const visible = ref(false);
 
-const emojiVisibleChanged = () => {
-  state.emojiVisible = !state.emojiVisible;
+const onChange = () => {
+  visible.value = !visible.value;
 };
 
-const insert = (emoji: any) => {
-  editorRef.value?.insert(() => {
+const handler = (emoji: any) => {
+  props.insert(() => {
     /**
      * @return targetValue    待插入内容
      * @return select         插入后是否自动选中内容
@@ -1456,7 +1477,26 @@ const insert = (emoji: any) => {
 </script>
 ```
 
-[获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/EmojiExtension/index.vue)
+```vue
+<template>
+  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+    <template #defToolbars>
+      <MyToolbar />
+    </template>
+  </MdEditor>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import MyToolbar from './MyToolbar.vue';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('');
+</script>
+```
+
+[Emoji 组件的源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/EmojiExtension/index.vue)
 
 ---
 
@@ -1485,47 +1525,51 @@ const insert = (emoji: any) => {
 
 ```vue
 <template>
-  <MdEditor ref="editorRef" v-model="data.text" :toolbars="['bold', 0, 'github']">
-    <template #defToolbars>
-      <ModalToolbar
-        :visible="data.modalVisible"
-        :isFullscreen="data.modalFullscreen"
-        showAdjust
-        title="Preview"
-        modalTitle="Page Preview"
-        width="870px"
-        height="600px"
-        @onClick="data.modalVisible = true"
-        @onClose="data.modalVisible = false"
-        @onAdjust="data.modalFullscreen = !data.modalFullscreen"
-      >
-        <button @click="insert">Click me</button>
-        <template #trigger>
-          <svg class="md-editor-icon" aria-hidden="true">
-            <use xlink:href="#icon-read"></use>
-          </svg>
-        </template>
-      </ModalToolbar>
+  <ModalToolbar
+    :visible="data.modalVisible"
+    :isFullscreen="data.modalFullscreen"
+    showAdjust
+    title="Preview"
+    modalTitle="Page Preview"
+    width="870px"
+    height="600px"
+    @onClick="data.modalVisible = true"
+    @onClose="data.modalVisible = false"
+    @onAdjust="data.modalFullscreen = !data.modalFullscreen"
+  >
+    <button @click="handler">Click me</button>
+    <template #trigger>
+      <svg class="md-editor-icon" aria-hidden="true">
+        <use xlink:href="#icon-read"></use>
+      </svg>
     </template>
-  </MdEditor>
+  </ModalToolbar>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import { MdEditor, ModalToolbar } from 'md-editor-v3';
-import type { ExposeParam } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
+import { PropType, reactive } from 'vue';
+import { ModalToolbar } from 'md-editor-v3';
+import type { Insert } from 'md-editor-v3';
 
 const data = reactive({
-  text: '',
   modalVisible: false,
   modalFullscreen: false
 });
 
-const editorRef = ref<ExposeParam>();
+const props = defineProps({
+  /**
+   * `insert`方法会由编辑器自动向组件的组件注入。
+   */
+  insert: {
+    type: Function as PropType<Insert>,
+    default: () => {
+      //
+    }
+  }
+});
 
-const insert = () => {
-  editorRef.value?.insert((selectedText) => {
+const handler = () => {
+  props.insert((selectedText) => {
     /**
      * @return targetValue    待插入内容
      * @return select         插入后是否自动选中内容
@@ -1543,7 +1587,26 @@ const insert = () => {
 </script>
 ```
 
-[获取使用源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/ReadExtension/index.vue)
+```vue
+<template>
+  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+    <template #defToolbars>
+      <MyToolbar />
+    </template>
+  </MdEditor>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import MyToolbar from './MyToolbar.vue';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('');
+</script>
+```
+
+[阅读组件的源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/ReadExtension/index.vue)
 
 ---
 
@@ -1584,6 +1647,73 @@ const state = reactive({
 });
 
 const scrollElement = document.documentElement;
+</script>
+```
+
+---
+
+### 🛸 MdModal
+
+编辑器内部的弹窗组件，它通常配合下拉工具栏组件使用。
+
+- **props**
+
+  - `title`: `string`，非必须，弹窗标题栏。
+  - `visible`: `boolean`，必须，弹窗显示状态。
+  - `width`: `string`，非必须，弹窗宽度，默认`auto`。
+  - `height`: `string`，同`width`。
+  - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
+  - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
+  - `className`: `string`，非必须，类名。
+  - `style`: `string`，非必须，样式。
+
+- **events**
+
+  - `onClose`: `() => void`，必须，弹窗点击关闭事件。
+  - `onAdjust`: `(val: boolean) => void`，弹窗全屏按钮点击事件。
+
+- **slots**
+
+  - `default`: `VNode | JSX.Element`，必须，弹窗中的内容。
+
+```vue
+<template>
+  <DropdownToolbar title="emoji" :visible="state.visible" :onChange="onChange">
+    <template #overlay>
+      <ul>
+        <li @click="state.mVisible = true">option 1</li>
+        <li>option 2</li>
+      </ul>
+    </template>
+    <template #trigger>
+      <svg class="md-editor-icon" aria-hidden="true">
+        <use xlink:href="#icon-emoji"></use>
+      </svg>
+    </template>
+    <template #default>
+      <MdModal title="title" :visible="state.mVisible" @onClose="onClose">
+        Content, Content
+      </MdModal>
+    </template>
+  </DropdownToolbar>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import { DropdownToolbar, MdModal } from 'md-editor-v3';
+
+const state = reactive({
+  visible: false,
+  mVisible: false
+});
+
+const onClose = () => {
+  state.mVisible = !state.mVisible;
+};
+
+const onChange = () => {
+  state.visible = !state.visible;
+};
 </script>
 ```
 
