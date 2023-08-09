@@ -317,6 +317,7 @@ export interface StaticTextDefaultValue {
 | onError | `err: { name: string; message: string }` | 运行错误反馈事件，目前包括`Cropper`、`fullscreen`、`prettier`实例未加载完成操作错误 |
 | onBlur | `event: FocusEvent` | 输入框失去焦点时触发事件 |
 | onFocus | `event: FocusEvent` | 输入框获得焦点时触发事件 |
+| onInput | `event: Event` | 输入框键入内容事件 |
 
 ### 🎍 插槽
 
