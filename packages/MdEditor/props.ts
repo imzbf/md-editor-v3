@@ -427,6 +427,12 @@ export const editorProps = {
   showToolbarName: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  /**
+   * 字符输入事件
+   */
+  onInput: {
+    type: Function as PropType<(event: Event) => void>
   }
 };
 
@@ -440,5 +446,6 @@ export const editorEmits: EditorEmits = [
   'onError',
   'update:modelValue',
   'onBlur',
-  'onFocus'
+  'onFocus',
+  'onInput'
 ];

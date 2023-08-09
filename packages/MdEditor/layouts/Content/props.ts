@@ -99,6 +99,9 @@ export const contentProps = {
   theme: {
     type: String as PropType<Themes>,
     default: 'light'
+  },
+  onInput: {
+    type: Function as PropType<(event: Event) => void>
   }
 };
 

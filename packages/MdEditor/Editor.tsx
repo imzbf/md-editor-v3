@@ -128,6 +128,13 @@ const Editor = defineComponent({
                 ctx.emit('onFocus', e);
               }
             }}
+            onInput={(e) => {
+              if (props.onInput) {
+                props.onInput(e);
+              } else {
+                ctx.emit('onInput', e);
+              }
+            }}
             completions={props.completions}
             catalogVisible={catalogVisible.value}
             theme={props.theme}

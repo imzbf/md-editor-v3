@@ -434,6 +434,7 @@ export type EditorEmits = Array<
   | 'update:modelValue'
   | 'onBlur'
   | 'onFocus'
+  | 'onInput'
 >;
 
 export type EditorContext = SetupContext<EditorEmits>;
