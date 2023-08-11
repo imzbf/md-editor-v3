@@ -304,9 +304,8 @@ Except for the same as `MdPreview`:
 | onChange | `value: string` | Content changed event(bind to `oninput` of `textarea`) |
 | onSave | `value: string, html: Promise<string>` | Saving content event, `ctrl+s` and clicking button will trigger it |
 | onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | Uploading picture event, when picture is uploading the modal will not close, please provide right urls to the callback function |
-| onError | `err: { name: string; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded |
+| onError | `err: { name: 'Cropper' \| 'fullscreen' \| 'prettier' \| 'overlength'; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded. And content exceeds the length limit error |
 | onBlur | `event: FocusEvent` | Textarea has lost focus |
-| onFocus | `event: FocusEvent` | Textarea has received focus |
 | onFocus | `event: FocusEvent` | Textarea has received focus |
 | onInput | `event: Event` | Element gets input |
 
