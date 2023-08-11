@@ -277,8 +277,9 @@ export type Config = (options: ConfigOption) => void;
  * 编辑器操作潜在的错误
  */
 export interface InnerError {
-  name: string;
+  name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength';
   message: string;
+  data: any;
 }
 
 export interface CodeCss {

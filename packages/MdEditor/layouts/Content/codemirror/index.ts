@@ -7,7 +7,8 @@ import {
 } from '@codemirror/state';
 import { EditorView, placeholder } from '@codemirror/view';
 import { indentUnit } from '@codemirror/language';
-import { FocusOption } from '~~/MdEditor/type';
+import { FocusOption } from '~/type';
+import bus from '~/utils/event-bus';
 
 const toggleWith = (view: EditorView) => {
   const mc = new Compartment();
@@ -88,31 +89,44 @@ export default class CodeMirrorUt {
       deviationEnd: 0,
       // 直接替换所有文本
       replaceAll: false
-    }
+    },
+    editorId: string
   ) {
-    if (options.replaceAll) {
-      this.setValue(text);
-      return;
+    try {
+      if (options.replaceAll) {
+        this.setValue(text);
+        return;
+      }
+
+      const { from } = this.view.state.selection.main;
+
+      this.view.dispatch(this.view.state.replaceSelection(text));
+
+      if (options.select) {
+        const to = from + text.length + options.deviationEnd;
+        this.view.dispatch({
+          selection: EditorSelection.create(
+            [
+              EditorSelection.range(from + options.deviationStart, to),
+              EditorSelection.cursor(to)
+            ],
+            1
+          )
+        });
+      }
+
+      this.view.focus();
+    } catch (e: any) {
+      if (e.message?.includes('Selection points outside of document')) {
+        bus.emit(editorId, 'errorCatcher', {
+          name: 'overlength',
+          message: 'The input text is too long',
+          data: text
+        });
+      } else {
+        throw e;
+      }
     }
-
-    const { from } = this.view.state.selection.main;
-
-    this.view.dispatch(this.view.state.replaceSelection(text));
-
-    if (options.select) {
-      const to = from + text.length + options.deviationEnd;
-      this.view.dispatch({
-        selection: EditorSelection.create(
-          [
-            EditorSelection.range(from + options.deviationStart, to),
-            EditorSelection.cursor(to)
-          ],
-          1
-        )
-      });
-    }
-
-    this.view.focus();
   }
 
   constructor(view: EditorView) {

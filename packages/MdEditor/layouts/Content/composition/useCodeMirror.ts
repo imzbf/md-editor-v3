@@ -52,7 +52,18 @@ const useCodeMirror = (props: ContentProps) => {
       paste: pasteHandler,
       blur: props.onBlur,
       focus: props.onFocus,
-      input: props.onInput
+      input: (e) => {
+        props.onInput && props.onInput(e);
+
+        const { data } = e as any;
+        if (props.maxlength && props.value.length + data.length > props.maxlength) {
+          bus.emit(editorId, 'errorCatcher', {
+            name: 'overlength',
+            message: 'The input text is too long',
+            data: data
+          });
+        }
+      }
     })
   ];
 
@@ -106,7 +117,7 @@ const useCodeMirror = (props: ContentProps) => {
       name: 'replace',
       callback(direct: ToolDirective, params = {}) {
         const { text, options } = directive2flag(direct, codeMirrorUt.value!, params);
-        codeMirrorUt.value?.replaceSelectedText(text, options);
+        codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
       }
     });
   });

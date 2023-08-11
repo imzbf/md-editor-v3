@@ -27,6 +27,7 @@ const usePasteUpload = (props: ContentProps) => {
       );
 
       e.preventDefault();
+      return;
     }
 
     // 识别vscode代码
@@ -39,6 +40,16 @@ const usePasteUpload = (props: ContentProps) => {
       });
 
       e.preventDefault();
+      return;
+    }
+
+    const targetValue = e.clipboardData.getData('text/plain');
+    if (props.maxlength && targetValue.length + props.value.length > props.maxlength) {
+      bus.emit(editorId, 'errorCatcher', {
+        name: 'overlength',
+        message: 'The input text is too long',
+        data: targetValue
+      });
     }
   };
 

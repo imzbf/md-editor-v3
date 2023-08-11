@@ -275,6 +275,7 @@ export default defineComponent({
             // maxLength={10}
             // autoDetectCode
             // onHtmlChanged={console.log}
+            // onError={console.log}
             onSave={(v, h) => {
               console.log('onSave');
               h.then((html) => {
@@ -314,9 +315,6 @@ export default defineComponent({
             }}
             formatCopiedText={(text: string) => {
               return `${text} \nfrom @imzbf`;
-            }}
-            onError={(error) => {
-              console.log(error);
             }}
             // onBlur={console.log}
             // onFocus={console.log}

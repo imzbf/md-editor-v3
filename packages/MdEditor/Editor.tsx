@@ -14,7 +14,8 @@ import {
   useExpansion,
   useConfig,
   useCatalog,
-  useExpose
+  useExpose,
+  useErrorCatcher
 } from './composition';
 
 import { editorProps as props, editorEmits as emits } from './props';
@@ -38,6 +39,8 @@ const Editor = defineComponent({
     useProvide(props);
     // 插入扩展的外链
     useExpansion(props);
+    // 错误捕获
+    useErrorCatcher(props, ctx);
     // 部分配置重构
     const [setting, updateSetting] = useConfig(props, ctx);
     // 目录状态
