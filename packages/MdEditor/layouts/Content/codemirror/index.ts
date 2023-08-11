@@ -28,6 +28,8 @@ const toggleWith = (view: EditorView) => {
 export default class CodeMirrorUt {
   view: EditorView;
 
+  maxLength = Number.MAX_SAFE_INTEGER;
+
   // 切换tabSize的执行方法。切换时，Compartment实例需要相同
   private toggleTabSize: (extension: Extension) => boolean;
   private togglePlaceholder: (extension: Extension) => boolean;
@@ -95,7 +97,21 @@ export default class CodeMirrorUt {
     try {
       if (options.replaceAll) {
         this.setValue(text);
+
+        // 全部替换直接对比文本大小
+        if (text.length > this.maxLength) {
+          throw new Error('The input text is too long');
+        }
+
         return;
+      }
+
+      // 局部替换时，模拟替换后对比大小
+      if (
+        this.view.state.doc.length - this.getSelectedText().length + text.length >
+        this.maxLength
+      ) {
+        throw new Error('The input text is too long');
       }
 
       const { from } = this.view.state.selection.main;
@@ -117,10 +133,10 @@ export default class CodeMirrorUt {
 
       this.view.focus();
     } catch (e: any) {
-      if (e.message?.includes('Selection points outside of document')) {
+      if (e.message === 'The input text is too long') {
         bus.emit(editorId, 'errorCatcher', {
           name: 'overlength',
-          message: 'The input text is too long',
+          message: e.message,
           data: text
         });
       } else {
@@ -206,6 +222,7 @@ export default class CodeMirrorUt {
   }
 
   setMaxLength(ml: number) {
+    this.maxLength = ml;
     this.toggleMaxlength([
       EditorState.changeFilter.of((tr) => {
         return tr.newDoc.length <= ml;
