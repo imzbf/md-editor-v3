@@ -772,9 +772,9 @@ Except for the same as `MdPreview`:
 
 ### 💀 onError
 
-- **type**: `(err: { name: string; message: string;}) => void`
+- **type**: `(err: { name: 'Cropper' \| 'fullscreen' \| 'prettier' \| 'overlength'; message: string }) => void`
 
-  Run-Time error event, only be called when `Cropper`, `fullscreen`, `prettier` is not loaded.
+  Run-Time error event, only be called when `Cropper`, `fullscreen`, `prettier` is not loaded. And content exceeds the length limit error.
 
   ```vue
   <template>
