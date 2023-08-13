@@ -549,6 +549,17 @@ Except for the same as `MdPreview`:
 
 ---
 
+### 📥 showToolbarName
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  Show toolbar name or not
+
+![](https://imzbf.github.io/md-editor-v3/imgs/showToolbarName.jpg)
+
+---
+
 ## 🎍 slots
 
 ### 💪 defToolbars

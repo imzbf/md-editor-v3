@@ -558,6 +558,17 @@
 
 ---
 
+### 📥 showToolbarName
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  是否在工具栏下面显示对应的文字名称
+
+![](https://imzbf.github.io/md-editor-v3/imgs/showToolbarName.jpg)
+
+---
+
 ## 🎍 插槽
 
 ### 🪶 defToolbars
