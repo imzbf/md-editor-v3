@@ -44,7 +44,10 @@ const usePasteUpload = (props: ContentProps) => {
     }
 
     const targetValue = e.clipboardData.getData('text/plain');
-    if (props.maxlength && targetValue.length + props.value.length > props.maxlength) {
+    if (
+      props.maxlength &&
+      targetValue.length + props.modelValue.length > props.maxlength
+    ) {
       bus.emit(editorId, 'errorCatcher', {
         name: 'overlength',
         message: 'The input text is too long',

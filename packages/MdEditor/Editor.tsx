@@ -79,7 +79,7 @@ const Editor = defineComponent({
             showToolbarName={props.showToolbarName}
           />
           <Content
-            value={props.modelValue}
+            modelValue={props.modelValue}
             setting={setting}
             mdHeadingId={props.mdHeadingId}
             noMermaid={noMermaid}
@@ -141,6 +141,7 @@ const Editor = defineComponent({
             completions={props.completions}
             catalogVisible={catalogVisible.value}
             theme={props.theme}
+            noImgZoomIn={props.noImgZoomIn}
           />
           {props.footers?.length > 0 && (
             <Footer

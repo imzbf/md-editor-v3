@@ -1,57 +1,10 @@
-import { ComputedRef, defineComponent, inject, ExtractPropTypes, PropType } from 'vue';
+import { ComputedRef, defineComponent, inject, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
-import { HeadList, MdHeadingId, PreviewThemes, SettingType } from '~/type';
+import { PreviewThemes } from '~/type';
 
 import { useCopyCode, userZoom, useMarkdownIt } from './composition';
-
-export const contentPreviewProps = {
-  modelValue: {
-    type: String as PropType<string>,
-    default: ''
-  },
-  setting: {
-    type: Object as PropType<SettingType>,
-    default: () => ({})
-  },
-  onHtmlChanged: {
-    type: Function as PropType<(h: string) => void>,
-    default: () => {}
-  },
-  onGetCatalog: {
-    type: Function as PropType<(list: HeadList[]) => void>,
-    default: () => {}
-  },
-  mdHeadingId: {
-    type: Function as PropType<MdHeadingId>,
-    default: () => ''
-  },
-  noMermaid: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
-  sanitize: {
-    type: Function as PropType<(html: string) => string>,
-    default: (html: string) => html
-  },
-  // 不使用该函数功能
-  noKatex: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
-  formatCopiedText: {
-    type: Function as PropType<(text: string) => string>,
-    default: (text: string) => text
-  },
-  noHighlight: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
-  previewOnly: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  }
-};
+import { contentPreviewProps } from './props';
 
 export type ContentPreviewProps = Readonly<
   LooseRequired<Readonly<ExtractPropTypes<typeof contentPreviewProps>>>

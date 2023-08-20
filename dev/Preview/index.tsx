@@ -289,6 +289,7 @@ export default defineComponent({
             // toolbars={['bold', 'link', '=', 'prettier', 'link']}
             // toolbarsExclude={['github']}
             onChange={(value) => (md.text = value)}
+            // noImgZoomIn
             onUploadImg={async (
               files: Array<File>,
               callback: (urls: string[]) => void

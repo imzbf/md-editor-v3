@@ -3,14 +3,10 @@ import { CompletionSource } from '@codemirror/autocomplete';
 import { LooseRequired } from '@vue/shared';
 import { HeadList, SettingType, MdHeadingId, Themes } from '~/type';
 
-export const contentProps = {
-  value: {
+export const contentPreviewProps = {
+  modelValue: {
     type: String as PropType<string>,
     default: ''
-  },
-  onChange: {
-    type: Function as PropType<(v: string) => void>,
-    default: () => {}
   },
   setting: {
     type: Object as PropType<SettingType>,
@@ -36,23 +32,41 @@ export const contentProps = {
     type: Function as PropType<(html: string) => string>,
     default: (html: string) => html
   },
-  placeholder: {
-    type: String as PropType<string>,
-    default: ''
-  },
   // 不使用该函数功能
   noKatex: {
     type: Boolean as PropType<boolean>,
     default: false
   },
-  scrollAuto: {
-    type: Boolean as PropType<boolean>
-  },
   formatCopiedText: {
     type: Function as PropType<(text: string) => string>,
     default: (text: string) => text
   },
+  noHighlight: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  previewOnly: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  noImgZoomIn: {
+    type: Boolean as PropType<boolean>
+  }
+};
 
+export const contentProps = {
+  ...contentPreviewProps,
+  onChange: {
+    type: Function as PropType<(v: string) => void>,
+    default: () => {}
+  },
+  placeholder: {
+    type: String as PropType<string>,
+    default: ''
+  },
+  scrollAuto: {
+    type: Boolean as PropType<boolean>
+  },
   autofocus: {
     type: Boolean as PropType<boolean>
   },
@@ -85,10 +99,6 @@ export const contentProps = {
   },
   noPrettier: {
     type: Boolean as PropType<boolean>
-  },
-  noHighlight: {
-    type: Boolean as PropType<boolean>,
-    default: false
   },
   completions: {
     type: Array as PropType<Array<CompletionSource>>

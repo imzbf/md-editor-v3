@@ -23,7 +23,7 @@ export default defineComponent({
           <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef}></div>
 
           <ContentPreview
-            modelValue={props.value}
+            modelValue={props.modelValue}
             setting={props.setting}
             onHtmlChanged={(html_) => {
               html.value = html_;
@@ -36,6 +36,7 @@ export default defineComponent({
             noKatex={props.noKatex}
             formatCopiedText={props.formatCopiedText}
             noHighlight={props.noHighlight}
+            noImgZoomIn={props.noImgZoomIn}
           />
           {props.catalogVisible && (
             <MdCatalog

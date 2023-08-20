@@ -189,6 +189,13 @@ export const mdPreviewProps = {
   noHighlight: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  /**
+   * 是否关闭编辑器默认的放大缩小功能
+   */
+  noImgZoomIn: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 

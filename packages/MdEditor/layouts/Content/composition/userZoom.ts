@@ -13,8 +13,11 @@ import { ContentPreviewProps } from '../ContentPreview';
 const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
 
+  // 解构出来，不让它响应式更新
+  const { noImgZoomIn } = props;
+
   const zoomHander = debounce<any, void>(() => {
-    const imgs = document.querySelectorAll(`#${editorId}-preview img.md-zoom`);
+    const imgs = document.querySelectorAll(`#${editorId}-preview img`);
 
     if (imgs.length === 0) {
       return;
@@ -25,8 +28,13 @@ const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
     });
   });
 
-  onMounted(zoomHander);
-  watch([html, toRef(props.setting, 'preview')], zoomHander);
+  onMounted(() => {
+    !noImgZoomIn && zoomHander();
+  });
+
+  watch([html, toRef(props.setting, 'preview')], () => {
+    !noImgZoomIn && zoomHander();
+  });
 };
 
 export default userZoom;
