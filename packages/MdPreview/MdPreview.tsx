@@ -59,6 +59,7 @@ const MdPreview = defineComponent({
             noKatex={noKatex}
             formatCopiedText={props.formatCopiedText}
             noHighlight={noHighlight}
+            noImgZoomIn={props.noImgZoomIn}
             previewOnly
           />
         </div>
