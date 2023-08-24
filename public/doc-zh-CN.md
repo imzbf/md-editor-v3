@@ -294,6 +294,15 @@
 
 ---
 
+### 🕊 noImgZoomIn
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  是否关闭编辑器默认的放大功能（`^4.4.0`）
+
+---
+
 ## 🔩 MdEditor Props
 
 除去和`MdPreivew`相同的以外：
@@ -1077,6 +1086,36 @@ config({
   markdownItConfig(mdit) {
     mdit.use(ancher, {
       permalink: true
+    });
+  }
+});
+```
+
+---
+
+### 🍤 markdownItPlugins
+
+挑选、新增 markdown-it 核心库已预设的扩展。
+
+使用示例：修改图片的类名
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  markdownItPlugins(plugins) {
+    return plugins.map((p) => {
+      if (p.type === 'image') {
+        return {
+          ...p,
+          options: {
+            ...p.options,
+            classes: 'my-class'
+          }
+        };
+      }
+
+      return p;
     });
   }
 });

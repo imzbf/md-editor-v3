@@ -288,7 +288,16 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 - **type**: `boolean`
 - **default**: `false`
 
-  never highlight code
+  Highlight code or not.
+
+---
+
+### 🕊 noImgZoomIn
+
+- **type**: `boolean`
+- **default**: `false`
+
+  Enable the function of enlarging images.
 
 ---
 
@@ -1063,6 +1072,36 @@ config({
   markdownItConfig(mdit) {
     mdit.use(ancher, {
       permalink: true
+    });
+  }
+});
+```
+
+---
+
+### 🍤 markdownItPlugins
+
+Select and add built-in plugins to `markdown-it`.
+
+Example: Modify the class name of the image.
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  markdownItPlugins(plugins) {
+    return plugins.map((p) => {
+      if (p.type === 'image') {
+        return {
+          ...p,
+          options: {
+            ...p.options,
+            classes: 'my-class'
+          }
+        };
+      }
+
+      return p;
     });
   }
 });
