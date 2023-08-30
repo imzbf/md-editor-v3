@@ -13,7 +13,8 @@ import {
   HtmlChangedEvent,
   GetCatalogEvent,
   ErrorEvent,
-  EditorEmits
+  EditorEmits,
+  CustomIcon
 } from './type';
 
 import { allToolbar, allFooter, defaultEditorId } from './config';
@@ -196,6 +197,13 @@ export const mdPreviewProps = {
   noImgZoomIn: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  /**
+   * 自定义的图标
+   */
+  customIcon: {
+    type: Object as PropType<CustomIcon>,
+    default: {}
   }
 };
 

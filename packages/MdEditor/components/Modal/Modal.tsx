@@ -14,6 +14,7 @@ import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
 import { keyMove } from '~/utils/dom';
+import Icon from '../Icon';
 
 const props = {
   title: {
@@ -197,13 +198,7 @@ export default defineComponent({
                     props.onAdjust(!props.isFullscreen);
                   }}
                 >
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use
-                      xlinkHref={`#md-editor-icon-${
-                        props.isFullscreen ? 'suoxiao' : 'fangda'
-                      }`}
-                    />
-                  </svg>
+                  <Icon name={props.isFullscreen ? 'suoxiao' : 'fangda'} />
                 </div>
               )}
               <div
@@ -218,9 +213,7 @@ export default defineComponent({
                   }
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-close" />
-                </svg>
+                <Icon name="close" />
               </div>
             </div>
           </div>

@@ -116,6 +116,7 @@ Inputing prompt and mark, emoji extensions
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | Themes to be reversed |
 | noHighlight | `boolean` | false | Highlight code or not |
 | noImgZoomIn | `boolean` | false | Enable the function of enlarging images |
+| customIcon | `CustomIcon` | {} | Customized icons |
 
 ### 🔩 MdEditor Props
 
@@ -493,134 +494,153 @@ editorRef.value?.focus(option);
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
 
-- codeMirrorExtensions: Customize new extensions based on theme and default extensions f codeMirror.
+### codeMirrorExtensions
 
-  Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
+Customize new extensions based on theme and default extensions f codeMirror.
 
-  ```js
-  import { config } from 'md-editor-v3';
-  import { lineNumbers } from '@codemirror/view';
+Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
 
-  config({
-    codeMirrorExtensions(_theme, extensions) {
-      return [...extensions, lineNumbers()];
-    }
-  });
-  ```
+```js
+import { config } from 'md-editor-v3';
+import { lineNumbers } from '@codemirror/view';
 
-- markdownItConfig: Customize extensions, attributes of `markdown-it`, etc.
+config({
+  codeMirrorExtensions(_theme, extensions) {
+    return [...extensions, lineNumbers()];
+  }
+});
+```
 
-  Example: Use `markdown-it-anchor` to render a hyperlink symbol to the right of the title
+### markdownItConfig
 
-  ```js
-  import { config } from 'md-editor-v3';
-  import ancher from 'markdown-it-anchor';
+Customize extensions, attributes of `markdown-it`, etc.
 
-  config({
-    markdownItConfig(mdit) {
-      mdit.use(ancher, {
-        permalink: true
-      });
-    }
-  });
-  ```
+Example: Use `markdown-it-anchor` to render a hyperlink symbol to the right of the title
 
-- markdownItPlugins: Select and add built-in plugins to `markdown-it`.
+```js
+import { config } from 'md-editor-v3';
+import ancher from 'markdown-it-anchor';
 
-  Example: Modify the class name of the image.
+config({
+  markdownItConfig(mdit) {
+    mdit.use(ancher, {
+      permalink: true
+    });
+  }
+});
+```
 
-  ```js
-  import { config } from 'md-editor-v3';
+### markdownItPlugins
 
-  config({
-    markdownItPlugins(plugins) {
-      return plugins.map((p) => {
-        if (p.type === 'image') {
-          return {
-            ...p,
-            options: {
-              ...p.options,
-              classes: 'my-class'
-            }
-          };
-        }
+Select and add built-in plugins to `markdown-it`.
 
-        return p;
-      });
-    }
-  });
-  ```
+Example: Modify the class name of the image.
 
-- editorConfig: Add more languages, reset `mermaid` template or delay rendering time:
+```js
+import { config } from 'md-editor-v3';
 
-  ```js
-  import { config } from 'md-editor-v3';
-
-  config({
-    editorConfig: {
-      languageUserDefined: { lang: StaticTextDefaultValue },
-      mermaidTemplate: {
-        flow: `flow tempalte`,
-        ...more
-      },
-      // Default 500ms. It is set to 0ms when preview only and not set.
-      renderDelay: 500
-    }
-  });
-  ```
-
-- editorExtensions: Config some dependency libraries, like highlight..
-
-  ```typescript
-  import { config } from 'md-editor-v3';
-
-  config({
-    editorExtensions: { iconfont: 'https://xxx.cc' }
-  });
-  ```
-
-  <details>
-    <summary>『EditorExtensions』</summary>
-
-  ```ts
-  export interface EditorExtensions {
-    highlight?: {
-      instance?: any;
-      js?: string;
-      css?: {
-        [key: string]: {
-          light: string;
-          dark: string;
+config({
+  markdownItPlugins(plugins) {
+    return plugins.map((p) => {
+      if (p.type === 'image') {
+        return {
+          ...p,
+          options: {
+            ...p.options,
+            classes: 'my-class'
+          }
         };
+      }
+
+      return p;
+    });
+  }
+});
+```
+
+### editorConfig
+
+Add more languages, reset `mermaid` template or delay rendering time:
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorConfig: {
+    languageUserDefined: { lang: StaticTextDefaultValue },
+    mermaidTemplate: {
+      flow: `flow tempalte`,
+      ...more
+    },
+    // Default 500ms. It is set to 0ms when preview only and not set.
+    renderDelay: 500
+  }
+});
+```
+
+### editorExtensions
+
+Config some dependency libraries, like highlight..
+
+```typescript
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: { iconfont: 'https://xxx.cc' }
+});
+```
+
+<details>
+  <summary>『EditorExtensions』</summary>
+
+```ts
+export interface EditorExtensions {
+  highlight?: {
+    instance?: any;
+    js?: string;
+    css?: {
+      [key: string]: {
+        light: string;
+        dark: string;
       };
     };
-    prettier?: {
-      standaloneJs?: string;
-      parserMarkdownJs?: string;
-    };
-    cropper?: {
-      instance?: any;
-      js?: string;
-      css?: string;
-    };
-    iconfont?: string;
-    screenfull?: {
-      instance?: any;
-      js?: string;
-    };
-    mermaid?: {
-      instance?: any;
-      js?: string;
-    };
-    katex?: {
-      instance?: any;
-      js?: string;
-      css?: string;
-    };
-  }
-  ```
+  };
+  prettier?: {
+    standaloneJs?: string;
+    parserMarkdownJs?: string;
+  };
+  cropper?: {
+    instance?: any;
+    js?: string;
+    css?: string;
+  };
+  iconfont?: string;
+  screenfull?: {
+    instance?: any;
+    js?: string;
+  };
+  mermaid?: {
+    instance?: any;
+    js?: string;
+  };
+  katex?: {
+    instance?: any;
+    js?: string;
+    css?: string;
+  };
+}
+```
 
-  </details>
+</details>
+
+### iconfontType
+
+Set the way to display icons:
+
+- `svg`: with symbol
+- `class`: with font-class
+
+If the icon is customized through the attribute `customIcon`, the customized icon will be used first.
 
 ## 🪡 Shortcut Key
 

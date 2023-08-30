@@ -13,7 +13,8 @@ import { EditorContext, EditorProps } from '~/type';
 import {
   prefix,
   staticTextDefault,
-  iconfontUrl,
+  iconfontSvgUrl,
+  iconfontClassUrl,
   prettierUrl,
   cropperUrl,
   highlightUrl,
@@ -162,6 +163,12 @@ export const useProvidePreview = (props: MdPreviewProps) => {
     'previewTheme',
     computed(() => props.previewTheme)
   );
+
+  // 自定义的图标和默认的结合
+  provide(
+    'customIcon',
+    computed(() => props.customIcon)
+  );
 };
 /**
  * 向下提供部分公共参数
@@ -181,13 +188,23 @@ export const useProvide = (props: EditorProps) => {
  */
 export const useExpansionPreview = (props: MdPreviewProps) => {
   onMounted(() => {
-    // 图标
-    const iconfontScript = document.createElement('script');
-    iconfontScript.src = configOption.editorExtensions?.iconfont || iconfontUrl;
-    iconfontScript.id = `${prefix}-icon`;
-
     if (!props.noIconfont) {
-      appendHandler(iconfontScript);
+      // 图标
+      if (configOption.iconfontType === 'svg') {
+        const iconfontScript = document.createElement('script');
+        iconfontScript.src = configOption.editorExtensions?.iconfont || iconfontSvgUrl;
+        iconfontScript.id = `${prefix}-icon`;
+
+        appendHandler(iconfontScript);
+      } else {
+        const iconfontLink = document.createElement('link');
+        iconfontLink.rel = 'stylesheet';
+        iconfontLink.href =
+          configOption.editorExtensions?.iconfontClass || iconfontClassUrl;
+        iconfontLink.id = `${prefix}-icon-class`;
+
+        appendHandler(iconfontLink);
+      }
     }
   });
 };

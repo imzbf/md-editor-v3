@@ -24,6 +24,8 @@ import { useSreenfull } from './composition';
 import TableShape from './TableShape';
 import Modals from '../Modals';
 
+import Icon from '~/components/Icon';
+
 export default defineComponent({
   name: 'MDEditorToolbar',
   props,
@@ -134,9 +136,7 @@ export default defineComponent({
                   emitHandler('bold');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-bold" />
-                </svg>
+                <Icon name="bold" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -155,9 +155,7 @@ export default defineComponent({
                   emitHandler('underline');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-underline" />
-                </svg>
+                <Icon name="underline" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -176,9 +174,7 @@ export default defineComponent({
                   emitHandler('italic');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-italic" />
-                </svg>
+                <Icon name="italic" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -197,9 +193,7 @@ export default defineComponent({
                   emitHandler('strikeThrough');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-strike-through" />
-                </svg>
+                <Icon name="strike-through" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -279,9 +273,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.title}
                 >
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#md-editor-icon-title" />
-                  </svg>
+                  <Icon name="title" />
 
                   {props.showToolbarName && (
                     <div class={`${prefix}-toolbar-item-name`}>
@@ -301,9 +293,7 @@ export default defineComponent({
                   emitHandler('sub');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-sub" />
-                </svg>
+                <Icon name="sub" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -322,9 +312,7 @@ export default defineComponent({
                   emitHandler('sup');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-sup" />
-                </svg>
+                <Icon name="sup" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -343,9 +331,7 @@ export default defineComponent({
                   emitHandler('quote');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-quote" />
-                </svg>
+                <Icon name="quote" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -365,9 +351,7 @@ export default defineComponent({
                   emitHandler('unorderedList');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-unordered-list" />
-                </svg>
+                <Icon name="unordered-list" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -386,9 +370,7 @@ export default defineComponent({
                   emitHandler('orderedList');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-ordered-list" />
-                </svg>
+                <Icon name="ordered-list" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -408,9 +390,7 @@ export default defineComponent({
                   emitHandler('task');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-task" />
-                </svg>
+                <Icon name="task" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -430,9 +410,7 @@ export default defineComponent({
                   emitHandler('codeRow');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-code-row" />
-                </svg>
+                <Icon name="code-row" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -451,9 +429,7 @@ export default defineComponent({
                   emitHandler('code');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-code" />
-                </svg>
+                <Icon name="code" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -473,9 +449,7 @@ export default defineComponent({
                   modalData.linkVisible = true;
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-link" />
-                </svg>
+                <Icon name="link" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -495,9 +469,7 @@ export default defineComponent({
                   modalData.linkVisible = true;
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-image" />
-                </svg>
+                <Icon name="image" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -552,9 +524,7 @@ export default defineComponent({
                     class={`${prefix}-toolbar-item`}
                     title={ult.value.toolbarTips?.image}
                   >
-                    <svg class={`${prefix}-icon`} aria-hidden="true">
-                      <use xlinkHref="#md-editor-icon-image" />
-                    </svg>
+                    <Icon name="image" />
 
                     {props.showToolbarName && (
                       <div class={`${prefix}-toolbar-item-name`}>
@@ -588,9 +558,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.table}
                 >
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#md-editor-icon-table" />
-                  </svg>
+                  <Icon name="table" />
 
                   {props.showToolbarName && (
                     <div class={`${prefix}-toolbar-item-name`}>
@@ -610,9 +578,7 @@ export default defineComponent({
                   bus.emit(editorId, 'ctrlZ');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-revoke" />
-                </svg>
+                <Icon name="revoke" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -631,9 +597,7 @@ export default defineComponent({
                   bus.emit(editorId, 'ctrlShiftZ');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-next" />
-                </svg>
+                <Icon name="next" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -652,9 +616,7 @@ export default defineComponent({
                   bus.emit(editorId, ON_SAVE);
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-baocun" />
-                </svg>
+                <Icon name="baocun" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -673,9 +635,7 @@ export default defineComponent({
                   emitHandler('prettier');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-prettier" />
-                </svg>
+                <Icon name="prettier" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -697,13 +657,7 @@ export default defineComponent({
                     props.updateSetting('pageFullscreen');
                   }}
                 >
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use
-                      xlinkHref={`#md-editor-icon-${
-                        props.setting.pageFullscreen ? 'suoxiao' : 'fangda'
-                      }`}
-                    />
-                  </svg>
+                  <Icon name={props.setting.pageFullscreen ? 'suoxiao' : 'fangda'} />
 
                   {props.showToolbarName && (
                     <div class={`${prefix}-toolbar-item-name`}>
@@ -723,13 +677,9 @@ export default defineComponent({
                   fullscreenHandler();
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use
-                    xlinkHref={`#md-editor-icon-${
-                      props.setting.fullscreen ? 'fullscreen-exit' : 'fullscreen'
-                    }`}
-                  />
-                </svg>
+                <Icon
+                  name={props.setting.fullscreen ? 'fullscreen-exit' : 'fullscreen'}
+                />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -748,9 +698,7 @@ export default defineComponent({
                   props.updateSetting('preview');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-preview" />
-                </svg>
+                <Icon name="preview" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -769,9 +717,7 @@ export default defineComponent({
                   props.updateSetting('htmlPreview');
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-coding" />
-                </svg>
+                <Icon name="coding" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -791,9 +737,7 @@ export default defineComponent({
                 }}
                 key="bar-catalog"
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-catalog" />
-                </svg>
+                <Icon name="catalog" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -810,9 +754,7 @@ export default defineComponent({
                 title={ult.value.toolbarTips?.github}
                 onClick={() => linkTo('https://github.com/imzbf/md-editor-v3')}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-github" />
-                </svg>
+                <Icon name="github" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -909,9 +851,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.mermaid}
                 >
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#md-editor-icon-mermaid" />
-                  </svg>
+                  <Icon name="mermaid" />
 
                   {props.showToolbarName && (
                     <div class={`${prefix}-toolbar-item-name`}>
@@ -961,9 +901,7 @@ export default defineComponent({
                   class={`${prefix}-toolbar-item`}
                   title={ult.value.toolbarTips?.katex}
                 >
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#md-editor-icon-formula" />
-                  </svg>
+                  <Icon name="formula" />
 
                   {props.showToolbarName && (
                     <div class={`${prefix}-toolbar-item-name`}>

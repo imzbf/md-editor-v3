@@ -27,7 +27,7 @@ import axios from 'axios';
 import { lineNumbers } from '@codemirror/view';
 import { CompletionSource } from '@codemirror/autocomplete';
 // import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
-
+// import DDD from './.local/DDD.vue';
 // import screenfull from 'screenfull';
 // import katex from 'katex';
 // import Cropper from 'cropperjs';
@@ -43,6 +43,7 @@ import { CompletionSource } from '@codemirror/autocomplete';
 
 import './index.less';
 import '~/styles/style.less';
+import Icon from '~/components/Icon';
 
 // import { cdnBase } from '../../MdEditor/config';
 
@@ -70,6 +71,7 @@ config({
     // return extensions;
     return [...extensions, lineNumbers()];
   },
+  // iconfontType: 'class',
   // markdownItConfig: (mdit) => {
   // mdit.use(ancher, {
   //   permalink: true
@@ -290,6 +292,25 @@ export default defineComponent({
             // toolbarsExclude={['github']}
             onChange={(value) => (md.text = value)}
             // noImgZoomIn
+            // customIcon={{
+            //   bold: {
+            //     component: 'A',
+            //     props: {}
+            //   },
+            //   // copy: '<i class="fa fa-car"></i>',
+            //   preview: {
+            //     component: '<i class="fa fa-car"></i>',
+            //     props: {
+            //       name: 'copy'
+            //     }
+            //   },
+            //   github: {
+            //     component: Icon,
+            //     props: {
+            //       name: 'italic'
+            //     }
+            //   }
+            // }}
             onUploadImg={async (
               files: Array<File>,
               callback: (urls: string[]) => void
@@ -362,20 +383,12 @@ export default defineComponent({
               <>
                 <NormalToolbar
                   title="普通扩展"
-                  trigger={
-                    <svg class={`md-editor-icon`} aria-hidden="true">
-                      <use xlinkHref="#md-editor-icon-strike-through" />
-                    </svg>
-                  }
+                  trigger={<Icon name="strike-through" />}
                 ></NormalToolbar>
                 <DropdownToolbar
                   title="下拉扩展"
                   visible={md.visible}
-                  trigger={
-                    <svg class={`md-editor-icon`} aria-hidden="true">
-                      <use xlinkHref="#md-editor-icon-strike-through" />
-                    </svg>
-                  }
+                  trigger={<Icon name="strike-through" />}
                   onChange={(visible) => {
                     md.visible = visible;
                   }}
@@ -390,11 +403,7 @@ export default defineComponent({
                   onAdjust={(isFullscreen) => {
                     md.isFullscreen = isFullscreen;
                   }}
-                  trigger={
-                    <svg class={`md-editor-icon`} aria-hidden="true">
-                      <use xlinkHref="#md-editor-icon-strike-through" />
-                    </svg>
-                  }
+                  trigger={<Icon name="strike-through" />}
                   onClick={() => {
                     md.modalVisible = true;
                   }}

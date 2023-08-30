@@ -15,6 +15,7 @@ import { configOption, prefix } from '~/config';
 import { base642File } from '~/utils';
 import Modal from '~/components/Modal';
 import bus from '~/utils/event-bus';
+import Icon from '~~/MdEditor/components/Icon';
 
 const props = {
   visible: {
@@ -161,9 +162,7 @@ export default defineComponent({
                   alt=""
                 />
                 <div class={`${prefix}-clip-delete`} onClick={reset}>
-                  <svg class={`${prefix}-icon`} aria-hidden="true">
-                    <use xlinkHref="#md-editor-icon-delete" />
-                  </svg>
+                  <Icon name="delete" />
                 </div>
               </div>
             ) : (
@@ -173,9 +172,7 @@ export default defineComponent({
                   (uploadRef.value as HTMLInputElement).click();
                 }}
               >
-                <svg class={`${prefix}-icon`} aria-hidden="true">
-                  <use xlinkHref="#md-editor-icon-upload" />
-                </svg>
+                <Icon name="upload" />
               </div>
             )}
           </div>

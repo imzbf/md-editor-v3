@@ -115,6 +115,7 @@ const scrollElement = document.documentElement;
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | 代码块为暗色背景的预览主题 |
 | noHighlight | `boolean` | false | 是否不高亮代码 |
 | noImgZoomIn | `boolean` | false | 是否关闭编辑器默认的放大功能 |
+| customIcon | `CustomIcon` | {} | 自定义的图标 |
 
 ### 🔩 MdEditor Props
 
@@ -504,136 +505,155 @@ editorRef.value?.focus(option);
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。
 
-- codeMirrorExtensions: 根据主题和内部默认的 codeMirror 扩展自定义新的扩展。
+### codeMirrorExtensions
 
-  使用示例：编辑器默认不显示输入框的行号，需要手动添加扩展
+根据主题和内部默认的 codeMirror 扩展自定义新的扩展。
 
-  ```js
-  import { config } from 'md-editor-v3';
-  import { lineNumbers } from '@codemirror/view';
+使用示例：编辑器默认不显示输入框的行号，需要手动添加扩展
 
-  config({
-    codeMirrorExtensions(_theme, extensions) {
-      return [...extensions, lineNumbers()];
-    }
-  });
-  ```
+```js
+import { config } from 'md-editor-v3';
+import { lineNumbers } from '@codemirror/view';
 
-- markdownItConfig: 自定义 markdown-it 核心库扩展、属性等。
+config({
+  codeMirrorExtensions(_theme, extensions) {
+    return [...extensions, lineNumbers()];
+  }
+});
+```
 
-  使用示例：配置使用`markdown-it-anchor`并在标题右侧显示一个超链接符号
+### markdownItConfig
 
-  ```js
-  import { config } from 'md-editor-v3';
-  import ancher from 'markdown-it-anchor';
+自定义 markdown-it 核心库扩展、属性等。
 
-  config({
-    markdownItConfig(mdit) {
-      mdit.use(ancher, {
-        permalink: true
-      });
-    }
-  });
-  ```
+使用示例：配置使用`markdown-it-anchor`并在标题右侧显示一个超链接符号
 
-- markdownItPlugins: 挑选、新增 markdown-it 核心库已预设的扩展。
+```js
+import { config } from 'md-editor-v3';
+import ancher from 'markdown-it-anchor';
 
-  使用示例：修改图片的类名
+config({
+  markdownItConfig(mdit) {
+    mdit.use(ancher, {
+      permalink: true
+    });
+  }
+});
+```
 
-  ```js
-  import { config } from 'md-editor-v3';
+### markdownItPlugins
 
-  config({
-    markdownItPlugins(plugins) {
-      return plugins.map((p) => {
-        if (p.type === 'image') {
-          return {
-            ...p,
-            options: {
-              ...p.options,
-              classes: 'my-class'
-            }
-          };
-        }
+挑选、新增 markdown-it 核心库已预设的扩展。
 
-        return p;
-      });
-    }
-  });
-  ```
+使用示例：修改图片的类名
 
-- editorConfig: 编辑器常规配置，语言、`mermaid`默认模板和渲染延迟：
+```js
+import { config } from 'md-editor-v3';
 
-  ```js
-  import { config } from 'md-editor-v3';
-
-  config({
-    editorConfig: {
-      // 语言
-      languageUserDefined: { lang: StaticTextDefaultValue },
-      // mermaid模板
-      mermaidTemplate: {
-        flow: `flow tempalte`,
-        ...more
-      },
-      // 输入渲染延迟，默认500ms。当仅预览模式时，未设置此项默认0ms
-      renderDelay: 500
-    }
-  });
-  ```
-
-- editorExtensions: 类型如下，用于配置编辑器内部的扩展
-
-  ```typescript
-  import { config } from 'md-editor-v3';
-
-  config({
-    editorExtensions: { iconfont: 'https://xxx.cc' }
-  });
-  ```
-
-  <details>
-    <summary>『EditorExtensions』</summary>
-
-  ```ts
-  export interface EditorExtensions {
-    highlight?: {
-      instance?: any;
-      js?: string;
-      css?: {
-        [key: string]: {
-          light: string;
-          dark: string;
+config({
+  markdownItPlugins(plugins) {
+    return plugins.map((p) => {
+      if (p.type === 'image') {
+        return {
+          ...p,
+          options: {
+            ...p.options,
+            classes: 'my-class'
+          }
         };
+      }
+
+      return p;
+    });
+  }
+});
+```
+
+### editorConfig
+
+编辑器常规配置，语言、`mermaid`默认模板和渲染延迟：
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorConfig: {
+    // 语言
+    languageUserDefined: { lang: StaticTextDefaultValue },
+    // mermaid模板
+    mermaidTemplate: {
+      flow: `flow tempalte`,
+      ...more
+    },
+    // 输入渲染延迟，默认500ms。当仅预览模式时，未设置此项默认0ms
+    renderDelay: 500
+  }
+});
+```
+
+### editorExtensions
+
+类型如下，用于配置编辑器内部的扩展
+
+```typescript
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: { iconfont: 'https://xxx.cc' }
+});
+```
+
+<details>
+  <summary>『EditorExtensions』</summary>
+
+```ts
+export interface EditorExtensions {
+  highlight?: {
+    instance?: any;
+    js?: string;
+    css?: {
+      [key: string]: {
+        light: string;
+        dark: string;
       };
     };
-    prettier?: {
-      standaloneJs?: string;
-      parserMarkdownJs?: string;
-    };
-    cropper?: {
-      instance?: any;
-      js?: string;
-      css?: string;
-    };
-    iconfont?: string;
-    screenfull?: {
-      instance?: any;
-      js?: string;
-    };
-    mermaid?: {
-      instance?: any;
-      js?: string;
-    };
-    katex?: {
-      instance?: any;
-      js?: string;
-      css?: string;
-    };
-  }
-  ```
+  };
+  prettier?: {
+    standaloneJs?: string;
+    parserMarkdownJs?: string;
+  };
+  cropper?: {
+    instance?: any;
+    js?: string;
+    css?: string;
+  };
+  iconfont?: string;
+  screenfull?: {
+    instance?: any;
+    js?: string;
+  };
+  mermaid?: {
+    instance?: any;
+    js?: string;
+  };
+  katex?: {
+    instance?: any;
+    js?: string;
+    css?: string;
+  };
+}
+```
 
-  </details>
+</details>
+
+### iconfontType
+
+固定使用那种方式展示图标，可以切换展示的方式
+
+- `svg`: 内置的 svg 图标
+- `class`: 内置的 class 类的图标
+
+如果通过属性`customIcon`自定义的图标，会优先使用自定义的
 
 ## 🪡 快捷键
 

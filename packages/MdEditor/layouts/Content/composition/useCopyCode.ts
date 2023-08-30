@@ -1,12 +1,13 @@
 import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
 import copy from 'copy-to-clipboard';
-import { prefix } from '~/config';
-import { StaticTextDefaultValue } from '~/type';
+import { CustomIcon, StaticTextDefaultValue } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
+import StrIcon from '~/components/Icon/Str';
 
 const useCopyCode = (props: ContentPreviewProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
   const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
+  const customIcon = inject('customIcon') as ComputedRef<CustomIcon>;
 
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
@@ -22,7 +23,7 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>) => {
       copyButton.setAttribute('class', 'copy-button');
       copyButton.dataset.tips = copyBtnText;
 
-      copyButton.innerHTML = `<svg class="${prefix}-icon" aria-hidden="true"><use xlink:href="#${prefix}-icon-copy"></use></svg>`;
+      copyButton.innerHTML = StrIcon('copy', customIcon.value);
 
       copyButton.addEventListener('click', () => {
         // 多次点击移除上次的恢复进程
