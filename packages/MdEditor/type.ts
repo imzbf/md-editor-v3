@@ -460,7 +460,7 @@ export type EditorContext = SetupContext<EditorEmits>;
 export type CustomIcon = {
   [key in IconName]?: {
     component: Component | JSX.Element | string;
-    props: {
+    props?: {
       [key: string | number | symbol]: any;
     };
   };
