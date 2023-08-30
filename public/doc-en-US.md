@@ -301,6 +301,101 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ---
 
+### 😬 customIcon
+
+- **type**: `CustomIcon`
+- **default**: `{}`
+
+  Customized icons
+
+  !!! warning Type Warning
+
+  The icon corresponding to copy can only be a string, while others can be components or strings
+
+  !!!
+
+  ```vue
+  <template>
+    <MdEditor :customIcon="customIcon" />
+  </template>
+
+  <script 😬setup lang="ts">
+  import type { CustomIcon } from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
+  // Assuming you have installed an icon library or customized icon components
+  import { IconFont } from 'tdesign-icons-vue-next';
+  import 'md-editor-v3/lib/style.css';
+
+  const customIcon: CustomIcon = {
+    bold: {
+      component: 'A'
+    },
+    // copy: '<i class="fa fa-car"></i>',
+    preview: {
+      component: '<i class="fa fa-car"></i>'
+    },
+    github: {
+      component: IconFont,
+      props: {
+        name: 'sneer'
+      }
+    }
+  };
+  </script>
+  ```
+
+  Type `CustomIcon`
+
+  ```ts
+  type IconName =
+    | 'bold'
+    | 'underline'
+    | 'italic'
+    | 'strike-through'
+    | 'title'
+    | 'sub'
+    | 'sup'
+    | 'quote'
+    | 'unordered-list'
+    | 'ordered-list'
+    | 'task'
+    | 'code-row'
+    | 'code'
+    | 'link'
+    | 'image'
+    | 'table'
+    | 'revoke'
+    | 'next'
+    | 'baocun'
+    | 'prettier'
+    | 'suoxiao'
+    | 'fangda'
+    | 'fullscreen-exit'
+    | 'fullscreen'
+    | 'preview'
+    | 'coding'
+    | 'catalog'
+    | 'github'
+    | 'mermaid'
+    | 'formula'
+    | 'close'
+    | 'delete'
+    | 'upload';
+
+  type CustomIcon = {
+    [key in IconName]?: {
+      component: Component | JSX.Element | string;
+      props: {
+        [key: string | number | symbol]: any;
+      };
+    };
+  } & {
+    copy?: string;
+  };
+  ```
+
+---
+
 ## 🔩 MdEditor Props
 
 Except for the same as `MdPreview`:
@@ -1302,6 +1397,27 @@ export interface EditorExtensions {
 ```
 
 </details>
+
+---
+
+### 🫨 iconfontType
+
+Set the way to display icons:
+
+- `svg`: with symbol
+- `class`: with font-class
+
+If the icon is customized through the attribute `customIcon`, the customized icon will be used first.
+
+This can be usually used to avoid the issue of incompatible symbol.
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  iconfontType: 'class'
+});
+```
 
 ---
 

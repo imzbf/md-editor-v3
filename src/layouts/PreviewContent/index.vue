@@ -52,7 +52,7 @@ const onHtmlChanged = debounce(() => {
       const targetHeadDom = document.getElementById(headingId);
 
       if (targetHeadDom) {
-        const scrollLength = (targetHeadDom as HTMLHeadElement).offsetTop + 414;
+        const scrollLength = (targetHeadDom as HTMLHeadElement).offsetTop + 414 - 10;
 
         window.scrollTo({
           top: scrollLength,

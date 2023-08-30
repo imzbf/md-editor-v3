@@ -303,6 +303,101 @@
 
 ---
 
+### 😬 customIcon
+
+- **类型**：`CustomIcon`
+- **默认值**：`{}`
+
+  自定义的图标
+
+  !!! warning 类型提示
+
+  copy 对应的图标只能是字符串，其他的都可以是组件或者字符串
+
+  !!!
+
+  ```vue
+  <template>
+    <MdEditor :customIcon="customIcon" />
+  </template>
+
+  <script 😬setup lang="ts">
+  import type { CustomIcon } from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
+  // 假设你使用了三方图标库或者自定义了图标组件
+  import { IconFont } from 'tdesign-icons-vue-next';
+  import 'md-editor-v3/lib/style.css';
+
+  const customIcon: CustomIcon = {
+    bold: {
+      component: 'A'
+    },
+    // copy: '<i class="fa fa-car"></i>',
+    preview: {
+      component: '<i class="fa fa-car"></i>'
+    },
+    github: {
+      component: IconFont,
+      props: {
+        name: 'sneer'
+      }
+    }
+  };
+  </script>
+  ```
+
+  类型`CustomIcon`
+
+  ```ts
+  type IconName =
+    | 'bold'
+    | 'underline'
+    | 'italic'
+    | 'strike-through'
+    | 'title'
+    | 'sub'
+    | 'sup'
+    | 'quote'
+    | 'unordered-list'
+    | 'ordered-list'
+    | 'task'
+    | 'code-row'
+    | 'code'
+    | 'link'
+    | 'image'
+    | 'table'
+    | 'revoke'
+    | 'next'
+    | 'baocun'
+    | 'prettier'
+    | 'suoxiao'
+    | 'fangda'
+    | 'fullscreen-exit'
+    | 'fullscreen'
+    | 'preview'
+    | 'coding'
+    | 'catalog'
+    | 'github'
+    | 'mermaid'
+    | 'formula'
+    | 'close'
+    | 'delete'
+    | 'upload';
+
+  type CustomIcon = {
+    [key in IconName]?: {
+      component: Component | JSX.Element | string;
+      props: {
+        [key: string | number | symbol]: any;
+      };
+    };
+  } & {
+    copy?: string;
+  };
+  ```
+
+---
+
 ## 🔩 MdEditor Props
 
 除去和`MdPreivew`相同的以外：
@@ -1325,6 +1420,27 @@ export interface EditorExtensions {
 ```
 
 </details>
+
+---
+
+### 🫨 iconfontType
+
+固定使用那种方式展示图标，可以切换展示的方式
+
+- `svg`: symbol 方式
+- `class`: font-class 方式
+
+如果通过属性`customIcon`自定义的图标，会优先使用自定义的。
+
+这通常可以用来规避 symbol 方式不兼容的问题。
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  iconfontType: 'class'
+});
+```
 
 ---
 
