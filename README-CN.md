@@ -646,12 +646,12 @@ export interface EditorExtensions {
 
 </details>
 
-### iconfontType
+### 🫨 iconfontType
 
 固定使用那种方式展示图标，可以切换展示的方式
 
-- `svg`: 内置的 svg 图标
-- `class`: 内置的 class 类的图标
+- `svg`: symbol 方式
+- `class`: font-class 方式
 
 如果通过属性`customIcon`自定义的图标，会优先使用自定义的
 
