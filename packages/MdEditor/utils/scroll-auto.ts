@@ -140,6 +140,10 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       return;
     }
 
+    // 预览区域paddingTop
+    let cElePaddingTop = +getComputedStyle(cEle).paddingTop.replace('px', '');
+    const cElePaddingBottom = +getComputedStyle(cEle).paddingBottom.replace('px', '');
+
     if (e.target === pEle) {
       if (cLock !== 0) {
         return;
@@ -149,8 +153,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
       const blockData = blockMap[currLine - 1];
 
-      const endLinePosition =
-        getTopByLine(blockData.end) + getHeightByLine(blockData.end);
+      let endLinePosition = getTopByLine(blockData.end) + getHeightByLine(blockData.end);
 
       // 计算一个高度比
       let scale = 0;
@@ -167,8 +170,19 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       let startEleOffetTop = 0;
 
       if (startTop === 0) {
-        scale = (view.scrollDOM.scrollTop - startTop) / (endLinePosition - startTop);
-        blockHeight = endEle.offsetTop;
+        if (startEle === endEle) {
+          // 开始结束相同时，需要将padding算入滚动区域
+          cElePaddingTop = 0;
+          endLinePosition = view.contentDOM.offsetHeight - view.scrollDOM.offsetHeight;
+
+          scale = view.scrollDOM.scrollTop / endLinePosition;
+          // 如果开始和结束节点相同，则需要将这个节点的高度也算进滚动区域
+          blockHeight = endEle.offsetTop + endEle.offsetHeight - cEle.clientHeight;
+        } else {
+          scale = view.scrollDOM.scrollTop / endLinePosition;
+          // 如果开始和结束节点相同，则需要将这个节点的高度也算进滚动区域
+          blockHeight = endEle.offsetTop;
+        }
       }
       // 如果结束块已经在滚动到底部时的可视区了，那么就将当前块到末尾视为一个整体，达到左侧滚动到底部时，右侧同步滚动到底部的目标
       else if (
@@ -189,8 +203,8 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
         blockHeight = endEleOffetTop - startEleOffetTop;
       }
 
-      // 减去了10的滚动区域paddingTop
-      const scrollToTop = startEleOffetTop - 10 + blockHeight * scale;
+      const scrollToTop = startEleOffetTop - cElePaddingTop + blockHeight * scale;
+
       smoothScroll(cEle, scrollToTop, () => {
         pLock--;
       });
@@ -267,7 +281,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
       // 计算滚动比例
       const eleStartOffsetTop = eleStart.offsetTop;
-      const eleEndOffsetTop = eleEnd.offsetTop;
+      let eleEndOffsetTop = eleEnd.offsetTop;
 
       let scale = 0;
 
@@ -280,8 +294,15 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       let blockHeight = 0;
 
       if (eleStart === cEle.firstElementChild?.firstElementChild) {
+        if (eleStart === eleEnd) {
+          eleEndOffsetTop =
+            eleEnd.offsetHeight - cEle.offsetHeight + cElePaddingTop + cElePaddingBottom;
+          blockHeight = view.contentDOM.offsetHeight - view.scrollDOM.offsetHeight;
+        } else {
+          blockHeight = endLineScrollTop + endLineHeight - firstLineScrollTop;
+        }
+
         scale = Math.max(cScrollTop / eleEndOffsetTop, 0);
-        blockHeight = endLineScrollTop + endLineHeight - firstLineScrollTop;
       } else if (
         endLineScrollTop >
         view.scrollDOM.scrollHeight - view.scrollDOM.clientHeight
