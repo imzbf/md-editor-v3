@@ -947,6 +947,33 @@ Except for the same as `MdPreview`:
 
 ---
 
+### 🔖 onDrop
+
+- **type**: `(event: DragEvent) => void`
+
+  The event occurs when a selection is being dragged.
+
+  ```vue
+  <template>
+    <MdEditor v-model="text" @onDrop="onDrop" />
+  </template>
+
+  <script setup lang="ts">
+  import { ref } from 'vue';
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const text = ref('');
+
+  const onDrop = (e: DragEvent) => {
+    e.stopPropagation();
+    console.log('ee', e.dataTransfer?.files[0]);
+  };
+  </script>
+  ```
+
+---
+
 ## 🤱🏼 Expose
 
 After 2.5.0, Editor exposes several methods on the instance, used to get or change the internal status of the editor.

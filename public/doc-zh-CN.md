@@ -959,6 +959,33 @@
 
 ---
 
+### 🔖 onDrop
+
+- **类型**：`(event: DragEvent) => void`
+
+  拖放内容事件。
+
+  ```vue
+  <template>
+    <MdEditor v-model="text" @onDrop="onDrop" />
+  </template>
+
+  <script setup lang="ts">
+  import { ref } from 'vue';
+  import { MdEditor } from 'md-editor-v3';
+  import 'md-editor-v3/lib/style.css';
+
+  const text = ref('');
+
+  const onDrop = (e: DragEvent) => {
+    e.stopPropagation();
+    console.log('ee', e.dataTransfer?.files[0]);
+  };
+  </script>
+  ```
+
+---
+
 ## 🤱🏼 实例暴露
 
 2.5.0 版本之后，编辑器暴露了若干方法在组件实例上，用来快捷监听编辑器内部状态或对调整内部状态。
