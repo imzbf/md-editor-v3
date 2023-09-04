@@ -15,7 +15,8 @@ import { configOption, prefix } from '~/config';
 import { base642File } from '~/utils';
 import Modal from '~/components/Modal';
 import bus from '~/utils/event-bus';
-import Icon from '~~/MdEditor/components/Icon';
+import Icon from '~/components/Icon';
+import { ERROR_CATCHER, UPLOAD_IMAGE } from '~/static/event-name';
 
 const props = {
   visible: {
@@ -68,7 +69,7 @@ export default defineComponent({
           // 直接定义onchange，防止创建新的实例时遗留事件
           (uploadRef.value as HTMLInputElement).onchange = () => {
             if (!Cropper) {
-              bus.emit(editorId, 'errorCatcher', {
+              bus.emit(editorId, ERROR_CATCHER, {
                 name: 'Cropper',
                 message: 'Cropper is undefined'
               });
@@ -189,7 +190,7 @@ export default defineComponent({
                 const cvs = cropper.getCroppedCanvas();
                 bus.emit(
                   editorId,
-                  'uploadImage',
+                  UPLOAD_IMAGE,
                   [base642File(cvs.toDataURL('image/png'))],
                   props.onOk
                 );

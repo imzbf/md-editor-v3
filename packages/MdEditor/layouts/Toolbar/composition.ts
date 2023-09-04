@@ -2,7 +2,7 @@ import { onMounted, inject, ref } from 'vue';
 import { configOption, prefix, screenfullUrl } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import bus from '~/utils/event-bus';
-import { CHANGE_FULL_SCREEN } from '~/static/event-name';
+import { CHANGE_FULL_SCREEN, ERROR_CATCHER } from '~/static/event-name';
 import { ToolbarProps } from './props';
 
 export const useSreenfull = (props: ToolbarProps) => {
@@ -15,7 +15,7 @@ export const useSreenfull = (props: ToolbarProps) => {
   // 触发器
   const fullscreenHandler = (status?: boolean) => {
     if (!screenfull) {
-      bus.emit(editorId, 'errorCatcher', {
+      bus.emit(editorId, ERROR_CATCHER, {
         name: 'fullscreen',
         message: 'fullscreen is undefined'
       });

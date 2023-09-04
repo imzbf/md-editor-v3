@@ -7,6 +7,7 @@ import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
 import { HeadList, MarkdownItConfigPlugin, Themes } from '~/type';
 import { configOption } from '~/config';
+import { BUILD_FINISHED, CATALOG_CHANGED, PUSH_CATALOG } from '~/static/event-name';
 
 import useHighlight from './useHighlight';
 import useMermaid from './useMermaid';
@@ -156,12 +157,12 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   const updatedTodo = () => {
     // 触发异步的保存事件（html总是会比text后更新）
-    bus.emit(editorId, 'buildFinished', html.value);
+    bus.emit(editorId, BUILD_FINISHED, html.value);
     props.onHtmlChanged(html.value);
     // 传递标题
     props.onGetCatalog(headsRef.value);
     // 生成目录
-    bus.emit(editorId, 'catalogChanged', headsRef.value);
+    bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
     replaceMermaid();
   };
 
@@ -190,9 +191,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   // 添加目录主动触发接收监听
   onMounted(() => {
     bus.on(editorId, {
-      name: 'pushCatalog',
+      name: PUSH_CATALOG,
       callback() {
-        bus.emit(editorId, 'catalogChanged', headsRef.value);
+        bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
       }
     });
   });

@@ -1,6 +1,7 @@
 import { inject } from 'vue';
 import bus from '~/utils/event-bus';
 import { ContentProps } from '../props';
+import { ERROR_CATCHER, REPLACE, UPLOAD_IMAGE } from '~/static/event-name';
 
 /**
  * 处理粘贴板
@@ -20,7 +21,7 @@ const usePasteUpload = (props: ContentProps) => {
 
       bus.emit(
         editorId,
-        'uploadImage',
+        UPLOAD_IMAGE,
         Array.from(files).filter((file) => {
           return /image\/.*/.test(file.type);
         })
@@ -34,7 +35,7 @@ const usePasteUpload = (props: ContentProps) => {
     if (props.autoDetectCode && e.clipboardData.types.includes('vscode-editor-data')) {
       const vscCoodInfo = JSON.parse(e.clipboardData.getData('vscode-editor-data'));
 
-      bus.emit(editorId, 'replace', 'code', {
+      bus.emit(editorId, REPLACE, 'code', {
         mode: vscCoodInfo.mode,
         text: e.clipboardData.getData('text/plain')
       });
@@ -48,7 +49,7 @@ const usePasteUpload = (props: ContentProps) => {
       props.maxlength &&
       targetValue.length + props.modelValue.length > props.maxlength
     ) {
-      bus.emit(editorId, 'errorCatcher', {
+      bus.emit(editorId, ERROR_CATCHER, {
         name: 'overlength',
         message: 'The input text is too long',
         data: targetValue

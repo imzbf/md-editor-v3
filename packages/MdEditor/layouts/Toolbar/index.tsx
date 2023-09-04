@@ -19,7 +19,15 @@ import { InsertContentGenerator, StaticTextDefaultValue, ToolbarNames } from '~/
 import { ToolDirective } from '~/utils/content-help';
 import { allToolbar, prefix } from '~/config';
 import { toolbarProps as props, ToolbarProps } from './props';
-import { CHANGE_CATALOG_VISIBLE, ON_SAVE } from '~/static/event-name';
+import {
+  CHANGE_CATALOG_VISIBLE,
+  CTRL_SHIFT_Z,
+  CTRL_Z,
+  ON_SAVE,
+  OPEN_MODALS,
+  REPLACE,
+  UPLOAD_IMAGE
+} from '~/static/event-name';
 import { useSreenfull } from './composition';
 import TableShape from './TableShape';
 import Modals from '../Modals';
@@ -56,7 +64,7 @@ export default defineComponent({
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
-      bus.emit(editorId, 'replace', direct, params);
+      bus.emit(editorId, REPLACE, direct, params);
     };
 
     // 链接
@@ -75,7 +83,7 @@ export default defineComponent({
     onMounted(() => {
       // 打开弹窗监听事件
       bus.on(editorId, {
-        name: 'openModals',
+        name: OPEN_MODALS,
         callback(type) {
           modalData.type = type;
           modalData.linkVisible = true;
@@ -111,7 +119,7 @@ export default defineComponent({
     const uploadHandler = () => {
       bus.emit(
         editorId,
-        'uploadImage',
+        UPLOAD_IMAGE,
         Array.from((uploadRef.value as HTMLInputElement).files || [])
       );
       // 清空内容，否则无法再次选取同一张图片
@@ -575,7 +583,7 @@ export default defineComponent({
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.revoke}
                 onClick={() => {
-                  bus.emit(editorId, 'ctrlZ');
+                  bus.emit(editorId, CTRL_Z);
                 }}
               >
                 <Icon name="revoke" />
@@ -594,7 +602,7 @@ export default defineComponent({
                 class={`${prefix}-toolbar-item`}
                 title={ult.value.toolbarTips?.next}
                 onClick={() => {
-                  bus.emit(editorId, 'ctrlShiftZ');
+                  bus.emit(editorId, CTRL_SHIFT_Z);
                 }}
               >
                 <Icon name="next" />
@@ -920,7 +928,7 @@ export default defineComponent({
         if (defItem) {
           const defItemCloned = cloneVNode(defItem, {
             insert(generate: InsertContentGenerator) {
-              bus.emit(editorId, 'replace', 'universal', { generate });
+              bus.emit(editorId, REPLACE, 'universal', { generate });
             }
           });
           return defItemCloned;
@@ -934,7 +942,7 @@ export default defineComponent({
         if (defItem) {
           const defItemCloned = cloneVNode(defItem as VNode, {
             insert(generate: InsertContentGenerator) {
-              bus.emit(editorId, 'replace', 'universal', { generate });
+              bus.emit(editorId, REPLACE, 'universal', { generate });
             }
           });
           return defItemCloned;

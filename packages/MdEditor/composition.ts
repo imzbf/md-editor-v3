@@ -30,7 +30,11 @@ import {
   PREVIEW_CHANGED,
   HTML_PREVIEW_CHANGED,
   CATALOG_VISIBLE_CHANGED,
-  TEXTAREA_FOCUS
+  TEXTAREA_FOCUS,
+  BUILD_FINISHED,
+  ERROR_CATCHER,
+  UPLOAD_IMAGE,
+  REPLACE
 } from '~/static/event-name';
 import bus from '~/utils/event-bus';
 
@@ -60,7 +64,7 @@ export const useOnSave = (props: EditorProps, context: EditorContext) => {
 
   onMounted(() => {
     bus.on(editorId, {
-      name: 'buildFinished',
+      name: BUILD_FINISHED,
       callback(html: string) {
         state.buildFinished = true;
         state.html = html;
@@ -79,11 +83,11 @@ export const useOnSave = (props: EditorProps, context: EditorContext) => {
             const buildFinishedCallback = (html: string) => {
               rev(html);
 
-              bus.remove(editorId, 'buildFinished', buildFinishedCallback);
+              bus.remove(editorId, BUILD_FINISHED, buildFinishedCallback);
             };
 
             bus.on(editorId, {
-              name: 'buildFinished',
+              name: BUILD_FINISHED,
               callback: buildFinishedCallback
             });
           }
@@ -283,7 +287,7 @@ export const useErrorCatcher = (props: EditorProps, context: EditorContext) => {
 
   onMounted(() => {
     bus.on(editorId, {
-      name: 'errorCatcher',
+      name: ERROR_CATCHER,
       callback: (err: InnerError) => {
         if (props.onError instanceof Function) {
           props.onError(err);
@@ -341,10 +345,10 @@ export const useConfig = (
   // 进入时若默认全屏，调整一次
   onMounted(() => {
     bus.on(editorId, {
-      name: 'uploadImage',
+      name: UPLOAD_IMAGE,
       callback(files: Array<File>, cb: () => void) {
         const insertHanlder = (urls: Array<string>) => {
-          bus.emit(editorId, 'replace', 'image', {
+          bus.emit(editorId, REPLACE, 'image', {
             desc: '',
             urls
           });
@@ -532,7 +536,7 @@ export const useExpose = (
       bus.emit(editorId, ON_SAVE);
     },
     insert(generate) {
-      bus.emit(editorId, 'replace', 'universal', { generate });
+      bus.emit(editorId, REPLACE, 'universal', { generate });
     },
     focus(options: FocusOption) {
       bus.emit(editorId, TEXTAREA_FOCUS, options);

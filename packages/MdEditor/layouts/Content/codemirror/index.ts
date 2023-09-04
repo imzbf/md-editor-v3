@@ -9,6 +9,7 @@ import { EditorView, placeholder } from '@codemirror/view';
 import { indentUnit } from '@codemirror/language';
 import { FocusOption } from '~/type';
 import bus from '~/utils/event-bus';
+import { ERROR_CATCHER } from '~/static/event-name';
 
 const toggleWith = (view: EditorView) => {
   const mc = new Compartment();
@@ -134,7 +135,7 @@ export default class CodeMirrorUt {
       this.view.focus();
     } catch (e: any) {
       if (e.message === 'The input text is too long') {
-        bus.emit(editorId, 'errorCatcher', {
+        bus.emit(editorId, ERROR_CATCHER, {
           name: 'overlength',
           message: e.message,
           data: text

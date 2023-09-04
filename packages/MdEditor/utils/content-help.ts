@@ -2,6 +2,7 @@ import bus from '~/utils/event-bus';
 import { configOption } from '~/config';
 import { InsertContentGenerator } from '~/type';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
+import { ERROR_CATCHER } from '~/static/event-name';
 
 export type ToolDirective =
   | 'bold'
@@ -84,7 +85,7 @@ export const directive2flag = (
 
     if (!prettier || prettierPlugins[0] === undefined) {
       // CATCH ERROR: 捕获全局错误
-      bus.emit(params.editorId, 'errorCatcher', {
+      bus.emit(params.editorId, ERROR_CATCHER, {
         name: 'prettier',
         message: 'prettier is undefined'
       });

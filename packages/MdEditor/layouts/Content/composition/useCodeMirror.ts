@@ -17,6 +17,7 @@ import CodeMirrorUt from '../codemirror';
 import usePasteUpload from './usePasteUpload';
 import useAttach from './useAttach';
 import createCommands from '../codemirror/commands';
+import { CTRL_SHIFT_Z, CTRL_Z, ERROR_CATCHER, REPLACE } from '~/static/event-name';
 
 /**
  * 文本编辑区组件
@@ -57,7 +58,7 @@ const useCodeMirror = (props: ContentProps) => {
 
         const { data } = e as any;
         if (props.maxlength && props.modelValue.length + data.length > props.maxlength) {
-          bus.emit(editorId, 'errorCatcher', {
+          bus.emit(editorId, ERROR_CATCHER, {
             name: 'overlength',
             message: 'The input text is too long',
             data: data
@@ -99,14 +100,14 @@ const useCodeMirror = (props: ContentProps) => {
     }, 0);
 
     bus.on(editorId, {
-      name: 'ctrlZ',
+      name: CTRL_Z,
       callback() {
         undo(view);
       }
     });
 
     bus.on(editorId, {
-      name: 'ctrlShiftZ',
+      name: CTRL_SHIFT_Z,
       callback() {
         redo(view);
       }
@@ -114,7 +115,7 @@ const useCodeMirror = (props: ContentProps) => {
 
     // 注册指令替换内容事件
     bus.on(editorId, {
-      name: 'replace',
+      name: REPLACE,
       callback(direct: ToolDirective, params = {}) {
         const { text, options } = directive2flag(direct, codeMirrorUt.value!, params);
         codeMirrorUt.value?.replaceSelectedText(text, options, editorId);

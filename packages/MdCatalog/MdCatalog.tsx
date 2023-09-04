@@ -15,6 +15,7 @@ import { prefix } from '~/config';
 import { getRelativeTop } from '~/utils';
 import bus from '~/utils/event-bus';
 import CatalogLink from './CatalogLink';
+import { CATALOG_CHANGED, PUSH_CATALOG } from '~/static/event-name';
 
 export interface TocItem {
   text: string;
@@ -205,14 +206,14 @@ const MdCatalog = defineComponent({
       )?.addEventListener('scroll', scrollHandler);
 
       bus.on(editorId, {
-        name: 'catalogChanged',
+        name: CATALOG_CHANGED,
         callback: (_list: Array<HeadList>) => {
           findActiveHeading(_list);
         }
       });
 
       // 主动触发一次接收
-      bus.emit(editorId, 'pushCatalog');
+      bus.emit(editorId, PUSH_CATALOG);
     }); // ==
 
     // 要移除监听事件，特别是全局的
