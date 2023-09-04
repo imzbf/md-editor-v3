@@ -16,7 +16,9 @@ const useAutoScroll = (
   // 编译事件
   const rebindEvent = () => {
     clearScrollAuto();
-    const cmScroller = document.querySelector<HTMLDivElement>('.cm-scroller');
+    const cmScroller = document.querySelector<HTMLDivElement>(
+      `#${editorId} .cm-scroller`
+    );
 
     const previewEle = document.querySelector<HTMLElement>(
       `[id="${editorId}-preview-wrapper"][data-show="true"]`

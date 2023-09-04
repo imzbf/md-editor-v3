@@ -1,4 +1,4 @@
-import { debounce, throttle, smoothScroll } from '@vavt/util';
+import { debounce, throttle, createSmoothScroll } from '@vavt/util';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 
 /**
@@ -74,6 +74,8 @@ export const scrollAutoWithScale = (pEle: HTMLElement, cEle: HTMLElement) => {
  */
 const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirrorUt) => {
   const { view } = codeMirrorUt;
+
+  const smoothScroll = createSmoothScroll();
 
   const getTopByLine = (line: number) => {
     return view.lineBlockAt(view.state.doc.line(line).from).top;
