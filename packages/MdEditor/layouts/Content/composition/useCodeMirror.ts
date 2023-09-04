@@ -53,6 +53,7 @@ const useCodeMirror = (props: ContentProps) => {
       paste: pasteHandler,
       blur: props.onBlur,
       focus: props.onFocus,
+      drop: props.onDrop,
       input: (e) => {
         props.onInput && props.onInput(e);
 

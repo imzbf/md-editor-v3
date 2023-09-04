@@ -112,6 +112,10 @@ export const contentProps = {
   },
   onInput: {
     type: Function as PropType<(event: Event) => void>
+  },
+  onDrop: {
+    type: Function as PropType<(event: DragEvent) => void>,
+    default: () => {}
   }
 };
 

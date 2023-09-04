@@ -450,6 +450,7 @@ export type EditorEmits = Array<
   | 'onBlur'
   | 'onFocus'
   | 'onInput'
+  | 'onDrop'
 >;
 
 export type EditorContext = SetupContext<EditorEmits>;

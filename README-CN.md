@@ -320,6 +320,7 @@ export interface StaticTextDefaultValue {
 | onBlur | `event: FocusEvent` | 输入框失去焦点时触发事件 |
 | onFocus | `event: FocusEvent` | 输入框获得焦点时触发事件 |
 | onInput | `event: Event` | 输入框键入内容事件 |
+| onDrop | `event: DragEvent` | 拖放所选内容触发事件 |
 
 ### 🎍 插槽
 

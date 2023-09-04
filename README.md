@@ -310,6 +310,7 @@ Except for the same as `MdPreview`:
 | onBlur | `event: FocusEvent` | Textarea has lost focus |
 | onFocus | `event: FocusEvent` | Textarea has received focus |
 | onInput | `event: Event` | Element gets input |
+| onDrop | `event: DragEvent` | The event occurs when a selection is being dragged |
 
 ### 🎍 Slots
 

@@ -3,7 +3,7 @@ import Header from './Header';
 import Preview from './Preview';
 import PreviewOnly from './PreviewOnly';
 
-// import VueTemplate from './VueTemplate.vue';
+import VueTemplate from './VueTemplate.vue';
 
 import './style.less';
 
@@ -46,6 +46,9 @@ export default defineComponent({
             codeTheme={codeTheme.value}
             lang={lang.value}
           />
+
+          <VueTemplate />
+
           <PreviewOnly
             theme={theme.value}
             previewTheme={previewTheme.value}

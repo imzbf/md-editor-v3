@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import App from './App';
-// import App from './VueTemplate.vue';
+
+import '~/styles/style.less';
 
 import { MdEditor } from '~~/index';
 

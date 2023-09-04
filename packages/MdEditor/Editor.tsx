@@ -142,6 +142,13 @@ const Editor = defineComponent({
             catalogVisible={catalogVisible.value}
             theme={props.theme}
             noImgZoomIn={props.noImgZoomIn}
+            onDrop={(e) => {
+              if (props.onDrop) {
+                props.onDrop(e);
+              } else {
+                ctx.emit('onDrop', e);
+              }
+            }}
           />
           {props.footers?.length > 0 && (
             <Footer

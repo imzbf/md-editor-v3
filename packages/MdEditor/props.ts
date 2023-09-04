@@ -448,6 +448,9 @@ export const editorProps = {
    */
   onInput: {
     type: Function as PropType<(event: Event) => void>
+  },
+  onDrop: {
+    type: Function as PropType<(event: DragEvent) => void>
   }
 };
 
@@ -462,5 +465,6 @@ export const editorEmits: EditorEmits = [
   'update:modelValue',
   'onBlur',
   'onFocus',
-  'onInput'
+  'onInput',
+  'onDrop'
 ];

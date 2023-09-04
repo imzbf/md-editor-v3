@@ -42,7 +42,6 @@ import { CompletionSource } from '@codemirror/autocomplete';
 // import ancher from 'markdown-it-anchor';
 
 import './index.less';
-import '~/styles/style.less';
 import Icon from '~/components/Icon';
 
 // import { cdnBase } from '../../MdEditor/config';
@@ -379,6 +378,9 @@ export default defineComponent({
               'catalog',
               'github'
             ]}
+            // onDrop={(e) => {
+            //   console.log('ee', e);
+            // }}
             defToolbars={
               <>
                 <NormalToolbar
