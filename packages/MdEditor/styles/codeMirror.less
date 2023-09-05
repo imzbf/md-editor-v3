@@ -50,12 +50,13 @@
   // 当没有代码行号的时候，给编辑区一个10的外间距
   .cm-content[contenteditable='true'] {
     margin: 10px;
-    min-height: 100%;
+    min-height: calc(100% - 20px);
   }
 
   // 当有代码行号时，把外间距设置为默认值
   .cm-gutters + .cm-content[contenteditable='true'] {
     margin: 0;
+    min-height: 100%;
   }
 
   .cm-line {
