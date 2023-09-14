@@ -11,7 +11,11 @@ const HeadingPlugin = (md: markdownit, options: HeadingPluginOps) => {
   md.renderer.rules.heading_open = (tokens, idx) => {
     const token = tokens[idx];
 
-    const text = tokens[idx + 1].content;
+    const text =
+      tokens[idx + 1].children?.reduce((p, c) => {
+        return p + (c.content || '');
+      }, '') || '';
+
     const level = token.markup.length as 1 | 2 | 3 | 4 | 5 | 6;
 
     options.headsRef.value.push({
