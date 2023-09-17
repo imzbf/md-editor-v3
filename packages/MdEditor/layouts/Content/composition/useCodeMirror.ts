@@ -1,8 +1,9 @@
-import { ref, onMounted, inject, ComputedRef, watch, shallowRef, toRef } from 'vue';
+import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
 import { EditorView, minimalSetup } from 'codemirror';
 import { keymap } from '@codemirror/view';
 import { languages } from '@codemirror/language-data';
 import { markdown } from '@codemirror/lang-markdown';
+import { Compartment } from '@codemirror/state';
 import { indentWithTab, undo, redo } from '@codemirror/commands';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
 import { Themes } from '~/type';
@@ -35,6 +36,10 @@ const useCodeMirror = (props: ContentProps) => {
   // https://discuss.codemirror.net/t/invalid-child-in-posbefore-codemirror6/3371/5
   const codeMirrorUt = shallowRef<CodeMirrorUt>();
 
+  const languageComp = new Compartment(),
+    themeComp = new Compartment(),
+    autocompletionComp = new Compartment();
+
   const mdEditorCommands = createCommands(editorId, props);
 
   // 粘贴上传
@@ -43,7 +48,7 @@ const useCodeMirror = (props: ContentProps) => {
   const defaultExtensions = [
     keymap.of([...mdEditorCommands, indentWithTab]),
     minimalSetup,
-    markdown({ codeLanguages: languages }),
+    languageComp.of(markdown({ codeLanguages: languages })),
     // 横向换行
     EditorView.lineWrapping,
     EditorView.updateListener.of((update) => {
@@ -72,8 +77,8 @@ const useCodeMirror = (props: ContentProps) => {
   const getExtensions = () => {
     const extensions = [
       ...defaultExtensions,
-      theme.value === 'light' ? oneLight : oneDark,
-      createAutocompletion(props.completions)
+      themeComp.of(theme.value === 'light' ? oneLight : oneDark),
+      autocompletionComp.of(createAutocompletion(props.completions))
     ];
 
     return configOption.codeMirrorExtensions!(theme.value, extensions, [
@@ -84,7 +89,8 @@ const useCodeMirror = (props: ContentProps) => {
   onMounted(() => {
     const view = new EditorView({
       doc: props.modelValue,
-      parent: inputWrapperRef.value
+      parent: inputWrapperRef.value,
+      extensions: [getExtensions()]
     });
 
     const nc = new CodeMirrorUt(view);
@@ -94,7 +100,6 @@ const useCodeMirror = (props: ContentProps) => {
       nc.setTabSize(tabWidth);
       nc.setDisabled(props.disabled!);
       nc.setReadOnly(props.readonly!);
-      nc.setExtensions(getExtensions());
       props.placeholder && nc.setPlaceholder(props.placeholder);
       typeof props.maxlength === 'number' && nc.setMaxLength(props.maxlength);
       props.autofocus && view.focus();
@@ -125,9 +130,23 @@ const useCodeMirror = (props: ContentProps) => {
   });
 
   watch(
-    [theme, toRef(props, 'completions')],
+    theme,
     () => {
-      codeMirrorUt.value?.setExtensions(getExtensions());
+      codeMirrorUt.value?.view.dispatch({
+        effects: themeComp.reconfigure(theme.value === 'light' ? oneLight : oneDark)
+      });
+    },
+    {
+      deep: true
+    }
+  );
+
+  watch(
+    () => props.completions,
+    () => {
+      codeMirrorUt.value?.view.dispatch({
+        effects: autocompletionComp.reconfigure(createAutocompletion(props.completions))
+      });
     },
     {
       deep: true

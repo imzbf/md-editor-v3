@@ -10,6 +10,12 @@ import nodeService from './plugins/nodeService';
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const resolvePath = (p: string) => path.resolve(__dirname, p);
 
+// vue3.3.x兼容
+const __defProp = Object.defineProperty;
+const __name = (target, value) =>
+  __defProp(target, 'name', { value, configurable: true });
+globalThis.__name = __name;
+
 !(async () => {
   const server = await createServer({
     base: '/',
