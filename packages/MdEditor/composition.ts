@@ -119,6 +119,11 @@ export const useProvidePreview = (props: MdPreviewProps) => {
     computed(() => props.theme)
   );
 
+  provide(
+    'language',
+    computed(() => props.language)
+  );
+
   // 注入高亮src
   provide(
     'highlight',

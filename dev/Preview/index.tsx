@@ -8,17 +8,11 @@ import {
   ref,
   onMounted
 } from 'vue';
-import {
-  MdEditor,
-  MdCatalog,
-  NormalToolbar,
-  DropdownToolbar,
-  ModalToolbar,
-  config
-} from '~~/index';
+import { MdEditor, MdCatalog, DropdownToolbar, ModalToolbar, config } from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
 import { Theme } from '../App';
+import Normal from './Normal/index.vue';
 import axios from 'axios';
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
@@ -383,10 +377,7 @@ export default defineComponent({
             // }}
             defToolbars={
               <>
-                <NormalToolbar
-                  title="普通扩展"
-                  trigger={<Icon name="strike-through" />}
-                ></NormalToolbar>
+                <Normal />
                 <DropdownToolbar
                   title="下拉扩展"
                   visible={md.visible}
