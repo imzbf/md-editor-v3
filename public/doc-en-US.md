@@ -1486,6 +1486,18 @@ Shortcut keys are only available when the textarea has received focus!
 
 On-demand import, eg: `import { DropdownToolbar } from 'md-editor-v3'`.
 
+!!! info Built-in attribute
+
+To help developers quickly insert content and use editor attributes, the editor component has added the following attribute values to the written extension component by default:
+
+| name | example |
+| --- | --- |
+| insert | Refer to the `DropdownToolbar` component example below |
+| theme | Refer to the extension components in the [ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94) |
+| language | Same as above |
+
+!!!
+
 ### 🐣 NormalToolbar
 
 - **props**

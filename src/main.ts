@@ -16,8 +16,8 @@ import MarkExtension from 'markdown-it-mark';
 import { lineNumbers } from '@codemirror/view';
 // import { basicSetup } from 'codemirror';
 
-import ZH_TW from '@vavt/md-editor-extension/dist/locale/zh-TW';
-import '@vavt/md-editor-extension/dist/previewTheme/arknights.css';
+import ZH_TW from '@vavt/cm-extension/dist/locale/zh-TW';
+import '@vavt/cm-extension/dist/previewTheme/arknights.css';
 
 config({
   markdownItConfig(md) {

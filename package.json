@@ -1,6 +1,6 @@
 {
   "name": "md-editor-v3",
-  "version": "4.6.2",
+  "version": "4.7.0",
   "keywords": [
     "vue",
     "vue3",
@@ -33,11 +33,12 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vavt/md-editor-extension": "^3.0.0",
+    "@vavt/cm-extension": "^1.0.0",
+    "@vavt/v3-extension": "^1.0.1",
     "axios": "^0.27.2",
     "dayjs": "^1.11.2",
     "markdown-it-mark": "^3.0.1",
-    "md-editor-v3": "^4.6.2",
+    "md-editor-v3": "^4.7.0",
     "nprogress": "^0.2.0",
     "vue": "^3.2.47",
     "vue-router": "^4.0.11",

@@ -1511,6 +1511,18 @@ config({
 
 按需引用编辑器的扩展组件，例如：`import { DropdownToolbar } from 'md-editor-v3'`。
 
+!!! info 内置属性提示
+
+为了帮助开发者快速插入和使用编辑器的属性，编辑器组件已经默认向编写的扩展组件添加了下面的属性的值：
+
+| 名称 | 使用示例 |
+| --- | --- |
+| insert | 参考下方的`DropdownToolbar`组件示例 |
+| theme | 参考扩展组件中的[ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94) |
+| language | 同上 |
+
+!!!
+
 ### 🐣 NormalToolbar
 
 - **props**

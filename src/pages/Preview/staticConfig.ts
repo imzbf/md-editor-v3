@@ -24,6 +24,7 @@ export const toolbars: ToolbarNames[] = [
   0,
   1,
   2,
+  3,
   '-',
   'revoke',
   'next',

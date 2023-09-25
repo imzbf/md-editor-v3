@@ -16,8 +16,27 @@
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
-          <MarkExtension />
-          <EmojiExtension />
+          <Mark>
+            <template #trigger>
+              <svg class="md-editor-icon" aria-hidden="true">
+                <use xlink:href="#icon-mark"></use>
+              </svg>
+            </template>
+          </Mark>
+          <Emoji>
+            <template #trigger>
+              <svg class="md-editor-icon" aria-hidden="true">
+                <use xlink:href="#icon-emoji"></use>
+              </svg>
+            </template>
+          </Emoji>
+          <ExportPDF :modelValue="state.text" height="700px">
+            <template #trigger>
+              <svg class="md-editor-icon" aria-hidden="true">
+                <use xlink:href="#icon-export"></use>
+              </svg>
+            </template>
+          </ExportPDF>
           <ReadExtension :mdText="state.text" />
         </template>
         <template #defFooters>
@@ -41,15 +60,15 @@
 import { computed, reactive, watch, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { MdEditor } from 'md-editor-v3';
+import { Emoji, Mark, ExportPDF } from '@vavt/v3-extension';
 import type { ExposeParam } from 'md-editor-v3';
+import '@vavt/v3-extension/lib/asset/style.css';
 import mdEN from '../../../public/preview-en-US.md';
 import mdCN from '../../../public/preview-zh-CN.md';
 import axios from '../../utils/request';
 import { toolbars } from './staticConfig';
 import './index.less';
 
-import EmojiExtension from '@/components/EmojiExtension/index.vue';
-import MarkExtension from '@/components/MarkExtension/index.vue';
 import ReadExtension from '@/components/ReadExtension/index.vue';
 
 import TimeNow from '@/components/TimeNow/index.vue';
