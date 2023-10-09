@@ -15,7 +15,12 @@ import { linkTo, draggingScroll } from '@vavt/util';
 import Divider from '~/components/Divider';
 import Dropdown from '~/components/Dropdown';
 import bus from '~/utils/event-bus';
-import { InsertContentGenerator, StaticTextDefaultValue, ToolbarNames } from '~/type';
+import {
+  InsertContentGenerator,
+  StaticTextDefaultValue,
+  Themes,
+  ToolbarNames
+} from '~/type';
 import { ToolDirective } from '~/utils/content-help';
 import { allToolbar, prefix } from '~/config';
 import { toolbarProps as props, ToolbarProps } from './props';
@@ -42,7 +47,10 @@ export default defineComponent({
     const editorId = inject('editorId') as string;
     // 获取语言设置
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-
+    // 主题
+    const theme = inject('theme') as ComputedRef<Themes>;
+    //语言
+    const language = inject('language') as ComputedRef<string>;
     // 全屏功能
     const { fullscreenHandler } = useSreenfull(props);
 
@@ -927,6 +935,8 @@ export default defineComponent({
 
         if (defItem) {
           const defItemCloned = cloneVNode(defItem, {
+            theme: theme.value,
+            language: language.value,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
             }
@@ -941,6 +951,8 @@ export default defineComponent({
 
         if (defItem) {
           const defItemCloned = cloneVNode(defItem as VNode, {
+            theme: theme.value,
+            language: language.value,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
             }
