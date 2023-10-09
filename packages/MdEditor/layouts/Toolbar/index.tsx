@@ -235,7 +235,7 @@ export default defineComponent({
                     }}
                   >
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
                       onClick={() => {
                         emitHandler('h1');
                       }}
@@ -243,7 +243,7 @@ export default defineComponent({
                       {ult.value.titleItem?.h1}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
                       onClick={() => {
                         emitHandler('h2');
                       }}
@@ -251,7 +251,7 @@ export default defineComponent({
                       {ult.value.titleItem?.h2}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
                       onClick={() => {
                         emitHandler('h3');
                       }}
@@ -259,7 +259,7 @@ export default defineComponent({
                       {ult.value.titleItem?.h3}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
                       onClick={() => {
                         emitHandler('h4');
                       }}
@@ -267,7 +267,7 @@ export default defineComponent({
                       {ult.value.titleItem?.h4}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
                       onClick={() => {
                         emitHandler('h5');
                       }}
@@ -275,7 +275,7 @@ export default defineComponent({
                       {ult.value.titleItem?.h5}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
                       onClick={() => {
                         emitHandler('h6');
                       }}
@@ -508,7 +508,7 @@ export default defineComponent({
                     }}
                   >
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-image`}
                       onClick={() => {
                         modalData.type = 'image';
                         modalData.linkVisible = true;
@@ -517,7 +517,7 @@ export default defineComponent({
                       {ult.value.imgTitleItem?.link}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-image`}
                       onClick={() => {
                         (uploadRef.value as HTMLInputElement).click();
                       }}
@@ -525,7 +525,7 @@ export default defineComponent({
                       {ult.value.imgTitleItem?.upload}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-image`}
                       onClick={() => {
                         modalData.clipVisible = true;
                       }}
@@ -796,7 +796,7 @@ export default defineComponent({
                     }}
                   >
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('flow');
                       }}
@@ -804,7 +804,7 @@ export default defineComponent({
                       {ult.value.mermaid?.flow}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('sequence');
                       }}
@@ -812,7 +812,7 @@ export default defineComponent({
                       {ult.value.mermaid?.sequence}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('gantt');
                       }}
@@ -820,7 +820,7 @@ export default defineComponent({
                       {ult.value.mermaid?.gantt}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('class');
                       }}
@@ -828,7 +828,7 @@ export default defineComponent({
                       {ult.value.mermaid?.class}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('state');
                       }}
@@ -836,7 +836,7 @@ export default defineComponent({
                       {ult.value.mermaid?.state}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('pie');
                       }}
@@ -844,7 +844,7 @@ export default defineComponent({
                       {ult.value.mermaid?.pie}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('relationship');
                       }}
@@ -852,7 +852,7 @@ export default defineComponent({
                       {ult.value.mermaid?.relationship}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('journey');
                       }}
@@ -894,7 +894,7 @@ export default defineComponent({
                     }}
                   >
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
                       onClick={() => {
                         emitHandler('katexInline');
                       }}
@@ -902,7 +902,7 @@ export default defineComponent({
                       {ult.value.katex?.inline}
                     </li>
                     <li
-                      class={`${prefix}-menu-item`}
+                      class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
                       onClick={() => {
                         emitHandler('katexBlock');
                       }}
