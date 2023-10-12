@@ -35,7 +35,7 @@ export default defineComponent({
           />
 
           <div
-            className={`${prefix}-resize-operate`}
+            class={`${prefix}-resize-operate`}
             style={resizeOperateStyle}
             ref={resizeRef}
           />
