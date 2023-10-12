@@ -109,7 +109,7 @@ const scrollElement = document.documentElement;
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | 代码块 highlight 样式名称，扩展更多见下方 |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | 标题`ID`计算方式 |
 | sanitize | `(html: string) => string` | (html) => html | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
-| noIconfont | `boolean` | false | 不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js)到本地自行引入 |
+| noIconfont | `boolean` | false | 不插入 iconfont 链接，你可以下载[SVG 版](https://at.alicdn.com/t/c/font_2605852_prouiefeic.js)或[Font Class 版](https://at.alicdn.com/t/c/font_2605852_prouiefeic.css)到本地自行引入 |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | 格式化复制代码 |
 | codeStyleReverse | `boolean` | true | 代码块为暗色背景的预览主题，将代码风格设置为暗色风格 |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | 代码块为暗色背景的预览主题 |
@@ -142,6 +142,7 @@ const scrollElement = document.documentElement;
 | autoDetectCode | `boolean` | false | 是否启用自动识别粘贴代码类别，目前仅支持从`vscode`复制的内容 |
 | completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete`匹配关键词的方法列表 |
 | showToolbarName | `boolean` | false | 是否在工具栏下面显示对应的文字名称 |
+| inputBoxWitdh | `string` | '50%' | 输入框默认的宽度 |
 
 > 如果你重新定义了标题，请务必通过`mdHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 
@@ -800,6 +801,21 @@ import { NormalToolbar } from 'md-editor-v3';
 - **slots**
 
   - `default`: `VNode | JSX.Element`，必须，弹窗中的内容。
+
+## 🪤 内部配置
+
+```js
+import {
+  iconfontClassUrl,
+  iconfontSvgUrl,
+  allToolbar,
+  allFooter,
+  zh_CN,
+  en_US
+} from 'md-editor-v3';
+
+console.log(iconfontClassUrl, iconfontSvgUrl, allToolbar, allFooter, zh_CN, en_US);
+```
 
 ## 🗂 部分示例
 

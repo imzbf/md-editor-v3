@@ -110,7 +110,7 @@ Inputing prompt and mark, emoji extensions
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | Highlight code style, can be customized also |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
 | sanitize | `(html: string) => string` | (html) => html | Sanitize the html, prevent XSS |
-| noIconfont | `boolean` | false | Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js) and import it by yourself |
+| noIconfont | `boolean` | false | Not append iconfont script, download different versions [SVG](https://at.alicdn.com/t/c/font_2605852_prouiefeic.js)或[Font Class](https://at.alicdn.com/t/c/font_2605852_prouiefeic.css) and import it by yourself |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
 | codeStyleReverse | `boolean` | true | Code style will be reversed to dark while code block of the theme has a dark background |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | Themes to be reversed |
@@ -143,6 +143,7 @@ Except for the same as `MdPreview`:
 | autoDetectCode | `boolean` | false | auto detect the type of pasted code, only support that copied from `vscode` |
 | completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete` List of function to match keywords |
 | showToolbarName | `boolean` | false | Show toolbar name or not |
+| inputBoxWitdh | `string` | '50%' | Default width of input box |
 
 <details>
  <summary>『toolbars』</summary>
@@ -783,6 +784,21 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
 - **slots**
 
   - `default`: `VNode | JSX.Element`, necessary, content of Modal.
+
+## 🪤 Internal Configuration
+
+```js
+import {
+  iconfontClassUrl,
+  iconfontSvgUrl,
+  allToolbar,
+  allFooter,
+  zh_CN,
+  en_US
+} from 'md-editor-v3';
+
+console.log(iconfontClassUrl, iconfontSvgUrl, allToolbar, allFooter, zh_CN, en_US);
+```
 
 ## 🗂 Examples
 

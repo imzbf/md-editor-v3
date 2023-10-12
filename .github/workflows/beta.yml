@@ -31,6 +31,6 @@ jobs:
           cmd: build
 
       - name: Publish
-        run: npm publish --tag beta
+        run: npm publish --access public --tag beta
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

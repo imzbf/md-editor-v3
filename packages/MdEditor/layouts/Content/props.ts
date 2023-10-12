@@ -116,6 +116,9 @@ export const contentProps = {
   onDrop: {
     type: Function as PropType<(event: DragEvent) => void>,
     default: () => {}
+  },
+  inputBoxWitdh: {
+    type: String as PropType<string>
   }
 };
 

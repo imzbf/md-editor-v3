@@ -335,6 +335,7 @@ export default defineComponent({
             // onFocus={console.log}
             // onInput={console.log}
             // showToolbarName
+            // inputBoxWitdh="200px"
             toolbars={[
               'bold',
               'underline',
