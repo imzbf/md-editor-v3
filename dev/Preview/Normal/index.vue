@@ -25,6 +25,4 @@ const props = defineProps({
     type: Function
   }
 });
-
-console.log('props', props);
 </script>

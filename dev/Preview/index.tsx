@@ -245,7 +245,7 @@ export default defineComponent({
             theme={props.theme}
             modelValue={md.text}
             // pageFullscreen
-            // preview={false}
+            preview={false}
             // htmlPreview
             language={props.lang}
             // toolbarsExclude={['github']}
@@ -335,6 +335,7 @@ export default defineComponent({
             // onFocus={console.log}
             // onInput={console.log}
             // showToolbarName
+            // inputBoxWitdh="200px"
             toolbars={[
               'bold',
               'underline',

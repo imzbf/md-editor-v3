@@ -109,7 +109,7 @@ const scrollElement = document.documentElement;
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | 代码块 highlight 样式名称，扩展更多见下方 |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | 标题`ID`计算方式 |
 | sanitize | `(html: string) => string` | (html) => html | 在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关。 |
-| noIconfont | `boolean` | false | 不插入 iconfont 链接，你可以[下载](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js)到本地自行引入 |
+| noIconfont | `boolean` | false | 不插入 iconfont 链接，你可以下载[SVG 版](https://at.alicdn.com/t/c/font_2605852_prouiefeic.js)或[Font Class 版](https://at.alicdn.com/t/c/font_2605852_prouiefeic.css)到本地自行引入 |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | 格式化复制代码 |
 | codeStyleReverse | `boolean` | true | 代码块为暗色背景的预览主题，将代码风格设置为暗色风格 |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | 代码块为暗色背景的预览主题 |

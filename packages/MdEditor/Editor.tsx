@@ -149,6 +149,7 @@ const Editor = defineComponent({
                 ctx.emit('onDrop', e);
               }
             }}
+            inputBoxWitdh={props.inputBoxWitdh}
           />
           {props.footers?.length > 0 && (
             <Footer

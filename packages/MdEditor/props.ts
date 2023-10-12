@@ -451,6 +451,16 @@ export const editorProps = {
   },
   onDrop: {
     type: Function as PropType<(event: DragEvent) => void>
+  },
+  /**
+   * 输入框的默认宽度
+   *
+   * @example '100px'/'50%'
+   * @default '50%
+   */
+  inputBoxWitdh: {
+    type: String as PropType<string>,
+    default: '50%'
   }
 };
 
