@@ -143,6 +143,7 @@ Except for the same as `MdPreview`:
 | autoDetectCode | `boolean` | false | auto detect the type of pasted code, only support that copied from `vscode` |
 | completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete` List of function to match keywords |
 | showToolbarName | `boolean` | false | Show toolbar name or not |
+| inputBoxWitdh | `string` | '50%' | Default width of input box |
 
 <details>
  <summary>『toolbars』</summary>
@@ -783,6 +784,21 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
 - **slots**
 
   - `default`: `VNode | JSX.Element`, necessary, content of Modal.
+
+## 🪤 Internal Configuration
+
+```js
+import {
+  iconfontClassUrl,
+  iconfontSvgUrl,
+  allToolbar,
+  allFooter,
+  zh_CN,
+  en_US
+} from 'md-editor-v3';
+
+console.log(iconfontClassUrl, iconfontSvgUrl, allToolbar, allFooter, zh_CN, en_US);
+```
 
 ## 🗂 Examples
 

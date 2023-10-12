@@ -245,7 +245,7 @@ export default defineComponent({
             theme={props.theme}
             modelValue={md.text}
             // pageFullscreen
-            preview={false}
+            // preview={false}
             // htmlPreview
             language={props.lang}
             // toolbarsExclude={['github']}
