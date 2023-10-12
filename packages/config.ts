@@ -1,1 +1,1 @@
-export { config as default } from '~/config';
+export { config, iconfontClassUrl, iconfontSvgUrl } from '~/config';
