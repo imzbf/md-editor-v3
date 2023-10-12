@@ -15,7 +15,8 @@ const useResize = (
   });
 
   const resizeOperateStyle = reactive({
-    left: props.inputBoxWitdh
+    left: props.inputBoxWitdh,
+    display: 'initial'
   });
 
   const resizeMousemove = (e: MouseEvent) => {
@@ -62,8 +63,10 @@ const useResize = (
       if (!props.setting.htmlPreview && !props.setting.preview) {
         state.resizedWidth = inputWrapperStyle.width;
         inputWrapperStyle.width = '100%';
+        resizeOperateStyle.display = 'none';
       } else {
         inputWrapperStyle.width = state.resizedWidth;
+        resizeOperateStyle.display = 'initial';
       }
     },
     {
