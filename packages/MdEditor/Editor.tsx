@@ -150,6 +150,13 @@ const Editor = defineComponent({
               }
             }}
             inputBoxWitdh={props.inputBoxWitdh}
+            onInputBoxWitdhChange={(width: string) => {
+              if (props.onInputBoxWitdhChange) {
+                props.onInputBoxWitdhChange(width);
+              } else {
+                ctx.emit('onInputBoxWitdhChange', width);
+              }
+            }}
           />
           {props.footers?.length > 0 && (
             <Footer

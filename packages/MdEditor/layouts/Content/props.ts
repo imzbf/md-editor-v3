@@ -119,6 +119,9 @@ export const contentProps = {
   },
   inputBoxWitdh: {
     type: String as PropType<string>
+  },
+  onInputBoxWitdhChange: {
+    type: Function as PropType<(width: string) => void>
   }
 };
 

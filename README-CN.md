@@ -303,7 +303,7 @@ export interface StaticTextDefaultValue {
 
 ### 🧵 MdPreview 绑定事件
 
-| 名称          | 入参                    | 说明                                      |
+| 名称          | 类型                    | 说明                                      |
 | ------------- | ----------------------- | ----------------------------------------- |
 | onHtmlChanged | `html: string`          | html 变化回调事件，用于获取预览 html 代码 |
 | onGetCatalog  | `list: Array<HeadList>` | 获取`markdown`目录                        |
@@ -312,7 +312,7 @@ export interface StaticTextDefaultValue {
 
 除去和`MdPreivew`相同的以外：
 
-| 名称 | 入参 | 说明 |
+| 名称 | 类型 | 说明 |
 | --- | --- | --- |
 | onChange | `value: string` | 内容变化事件（当前与`textare`的`oninput`事件绑定，每输入一个单字即会触发） |
 | onSave | `value: string, html: Promise<string>` | 保存事件，快捷键与保存按钮均会触发 |

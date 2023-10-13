@@ -461,6 +461,12 @@ export const editorProps = {
   inputBoxWitdh: {
     type: String as PropType<string>,
     default: '50%'
+  },
+  /**
+   * 输入框宽度变化事件
+   */
+  onInputBoxWitdhChange: {
+    type: Function as PropType<(width: string) => void>
   }
 };
 
@@ -476,5 +482,6 @@ export const editorEmits: EditorEmits = [
   'onBlur',
   'onFocus',
   'onInput',
-  'onDrop'
+  'onDrop',
+  'onInputBoxWitdhChange'
 ];
