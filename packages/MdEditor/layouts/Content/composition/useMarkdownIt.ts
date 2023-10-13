@@ -144,8 +144,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       }
 
       const codeSpan = showCodeRowNumber
-        ? generateCodeRowNumber(codeHtml.trim())
-        : `<span class="code-block">${codeHtml.trim()}</span>`;
+        ? generateCodeRowNumber(codeHtml.replace(/^\n+|\n+$/g, ''))
+        : `<span class="code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
 
       return `<pre><code class="language-${language}" language=${language}>${codeSpan}</code></pre>`;
     }
