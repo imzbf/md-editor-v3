@@ -168,12 +168,12 @@ export interface StaticTextDefaultValue {
 | CTRL + ↓ | 下角标 | `<sub>下角标</sub>` | v1.0.0 |
 | CTRL + Q | 引用 | `> 引用` | v1.0.0 |
 | CTRL + O | 有序列表 | `1. 有序列表` | v1.0.0 |
-| CTRL + L | 链接 | `[链接](https://imzbf.cc)` | v1.0.0 |
+| CTRL + L | 链接 | `[链接](https://github.com/imzbf)` | v1.0.0 |
 | CTRL + Z | 撤回 | 触发编辑器内内容撤回，与系统无关 | v1.0.0 |
 | CTRL + SHIFT + S | 删除线 | `~删除线~` | v1.0.0 |
 | CTRL + SHIFT + U | 无序列表 | `- 无序列表` | v1.0.0 |
 | CTRL + SHIFT + C | 块级代码 | 多行代码块 | v1.0.0 |
-| CTRL + SHIFT + I | 图片链接 | `![图片](https://imzbf.cc)` | v1.0.0 |
+| CTRL + SHIFT + I | 图片链接 | `![图片](https://github.com/imzbf)` | v1.0.0 |
 | CTRL + SHIFT + Z | 前进一步 | 触发编辑器内内容前进，与系统无关 | v1.0.0 |
 | CTRL + SHIFT + F | 美化内容 |  | v1.0.0 |
 | CTRL + ALT + C | 行内代码 | 行内代码块 | v1.0.0 |

@@ -1,6 +1,6 @@
 {
   "name": "md-editor-v3",
-  "version": "4.7.0",
+  "version": "4.8.0",
   "keywords": [
     "vue",
     "vue3",
@@ -16,7 +16,7 @@
   "description": "Markdown编辑器，基于vue3，使用jsx和typescript语法开发，支持切换主题，支持prettier美化文本，图片粘贴上传，图片裁剪上传，支持仅预览模式，支持在tsx项目使用。",
   "author": {
     "name": "zbf",
-    "url": "https://imzbf.cc"
+    "url": "https://github.com/imzbf"
   },
   "homepage": "https://imzbf.github.io/md-editor-v3/",
   "repository": {
@@ -38,7 +38,7 @@
     "axios": "^0.27.2",
     "dayjs": "^1.11.2",
     "markdown-it-mark": "^3.0.1",
-    "md-editor-v3": "^4.7.0",
+    "md-editor-v3": "^4.8.0",
     "nprogress": "^0.2.0",
     "vue": "^3.2.47",
     "vue-router": "^4.0.11",

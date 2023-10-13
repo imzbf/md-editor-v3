@@ -673,6 +673,17 @@
 
 ---
 
+### 📥 inputBoxWitdh
+
+- **类型**：`string`
+- **默认值**：`50%`
+
+  输入框默认的宽度
+
+![](https://imzbf.github.io/md-editor-v3/imgs/drag-width.jpg)
+
+---
+
 ## 🎍 插槽
 
 ### 🪶 defToolbars
@@ -983,6 +994,14 @@
   };
   </script>
   ```
+
+---
+
+### 🔖 onInputBoxWitdhChange
+
+- **类型**：`(width: string) => void`
+
+  调整输入框宽度事件
 
 ---
 
@@ -1496,12 +1515,12 @@ config({
 | CTRL + ↑ | 上角标 | `<sup>上角标</sup>` |
 | CTRL + ↓ | 下角标 | `<sub>下角标</sub>` |
 | CTRL + O | 有序列表 | `1. 有序列表` |
-| CTRL + L | 链接 | `[链接](https://imzbf.cc)` |
+| CTRL + L | 链接 | `[链接](https://github.com/imzbf)` |
 | CTRL + Z | 撤回 | 触发编辑器内内容撤回，与系统无关 |
 | CTRL + SHIFT + S | 删除线 | `~删除线~` |
 | CTRL + SHIFT + U | 无序列表 | `- 无序列表` |
 | CTRL + SHIFT + C | 块级代码 | 多行代码块 |
-| CTRL + SHIFT + I | 图片链接 | `![图片](https://imzbf.cc)` |
+| CTRL + SHIFT + I | 图片链接 | `![图片](https://github.com/imzbf)` |
 | CTRL + SHIFT + Z | 前进一步 | 触发编辑器内内容前进，与系统无关 |
 | CTRL + SHIFT + F | 美化内容 |  |
 | CTRL + ALT + C | 行内代码 | 行内代码块 |
@@ -1931,6 +1950,21 @@ const onChange = () => {
 ```
 
 ---
+
+## 🪤 内部配置
+
+```js
+import {
+  iconfontClassUrl,
+  iconfontSvgUrl,
+  allToolbar,
+  allFooter,
+  zh_CN,
+  en_US
+} from 'md-editor-v3';
+
+console.log(iconfontClassUrl, iconfontSvgUrl, allToolbar, allFooter, zh_CN, en_US);
+```
 
 ## ✍️ 编辑此页面
 

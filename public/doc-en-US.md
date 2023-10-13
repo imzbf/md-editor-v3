@@ -655,12 +655,23 @@ Except for the same as `MdPreview`:
 
 ### 📥 showToolbarName
 
-- **类型**：`boolean`
-- **默认值**：`false`
+- **type**: `boolean`
+- **default**: `false`
 
   Show toolbar name or not
 
 ![](https://imzbf.github.io/md-editor-v3/imgs/showToolbarName.jpg)
+
+---
+
+### 📥 inputBoxWitdh
+
+- **type**: `string`
+- **default**: `50%`
+
+  Default width of input box
+
+![](https://imzbf.github.io/md-editor-v3/imgs/drag-width.jpg)
 
 ---
 
@@ -971,6 +982,14 @@ Except for the same as `MdPreview`:
   };
   </script>
   ```
+
+---
+
+### 🔖 onInputBoxWitdhChange
+
+- **type**: `(width: string) => void`
+
+  Event occurs when width of input box has been changed
 
 ---
 
@@ -1476,7 +1495,7 @@ Shortcut keys are only available when the textarea has received focus!
 | CTRL + SHIFT + S | line-through | `~line-through~` |
 | CTRL + SHIFT + U | unordered list | `- unordered list` |
 | CTRL + SHIFT + C | code block |  |
-| CTRL + SHIFT + I | picture | `![picture](https://imzbf.cc)` |
+| CTRL + SHIFT + I | picture | `![picture](https://github.com/imzbf)` |
 | CTRL + SHIFT + Z | forward | Forward history in editor, not the function of system |
 | CTRL + SHIFT + F | Beautify |  |
 | CTRL + ALT + C | code row |  |
@@ -1908,6 +1927,21 @@ const onChange = () => {
 ```
 
 ---
+
+## 🪤 Internal Configuration
+
+```js
+import {
+  iconfontClassUrl,
+  iconfontSvgUrl,
+  allToolbar,
+  allFooter,
+  zh_CN,
+  en_US
+} from 'md-editor-v3';
+
+console.log(iconfontClassUrl, iconfontSvgUrl, allToolbar, allFooter, zh_CN, en_US);
+```
 
 ## ✍️ Edit This Page
 
