@@ -47,7 +47,8 @@ const initLineNumber = (md: mdit) => {
         let line;
         const _htmlCode = backup(tokens, idx, options, env, self);
 
-        if (tokens[idx].map && tokens[idx].level === 0) {
+        // 不向注释行添加行号
+        if (tokens[idx].map && tokens[idx].level === 0 && !/^<!--/.test(_htmlCode)) {
           line = tokens[idx].map![0];
           return _htmlCode.replace(/^(<[^>]*)/, `$1 data-line="${line}"`);
         }
