@@ -32,10 +32,16 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 yarn add md-editor-v3
 ```
 
-Install existing extension of language and theme of preview:
+Use existing extension of language and theme, such as Japanese
 
 ```shell
-yarn add @vavt/md-editor-extension
+yarn add @vavt/cm-extension
+```
+
+Use existing components of toolbar, such as exporting content as PDF
+
+```shell
+yarn add @vavt/v3-extension
 ```
 
 For more ways to use or contribute, please refer to: [md-editor-extension](https://github.com/imzbf/md-editor-extension)

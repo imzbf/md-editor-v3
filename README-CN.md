@@ -31,10 +31,16 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 yarn add md-editor-v3
 ```
 
-使用语言、预览主题扩展库：
+使用已存在的语言、主题扩展，例如：日语
 
 ```shell
-yarn add @vavt/md-editor-extension
+yarn add @vavt/cm-extension
+```
+
+使用更多的扩展工具栏组件，例如：导出内容为 PDF
+
+```shell
+yarn add @vavt/v3-extension
 ```
 
 更多使用及贡献方式参考：[md-editor-extension](https://github.com/imzbf/md-editor-extension)
