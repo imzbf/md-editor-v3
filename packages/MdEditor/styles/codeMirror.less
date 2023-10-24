@@ -44,9 +44,13 @@
   }
 }
 
-.cm-scroller {
-  overflow-y: scroll;
+.has-preview {
+  .cm-scroller {
+    overflow-y: scroll;
+  }
+}
 
+.cm-scroller {
   // 当没有代码行号的时候，给编辑区一个10的外间距
   .cm-content[contenteditable='true'] {
     margin: 10px;

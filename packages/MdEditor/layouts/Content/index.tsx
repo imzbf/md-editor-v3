@@ -27,18 +27,25 @@ export default defineComponent({
 
     return () => {
       return (
-        <div class={`${prefix}-content`} ref={contentRef}>
+        <div
+          class={`${prefix}-content${
+            props.setting.htmlPreview || props.setting.preview ? ' has-preview' : ''
+          }`}
+          ref={contentRef}
+        >
           <div
             class={`${prefix}-input-wrapper`}
             style={inputWrapperStyle}
             ref={inputWrapperRef}
           />
 
-          <div
-            class={`${prefix}-resize-operate`}
-            style={resizeOperateStyle}
-            ref={resizeRef}
-          />
+          {(props.setting.htmlPreview || props.setting.preview) && (
+            <div
+              class={`${prefix}-resize-operate`}
+              style={resizeOperateStyle}
+              ref={resizeRef}
+            />
+          )}
 
           <ContentPreview
             modelValue={props.modelValue}
