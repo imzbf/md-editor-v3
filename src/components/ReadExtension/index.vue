@@ -11,7 +11,7 @@
     @onClose="() => (state.visible = false)"
     @onAdjust="() => (state.modalFullscreen = !state.modalFullscreen)"
   >
-    <div style="height: 100%; padding: 20px; overflow: auto">
+    <div style="height: 100%; padding: 20px; overflow: auto; box-sizing: border-box">
       <MdPreview
         :theme="store.state.theme"
         :language="store.state.lang"

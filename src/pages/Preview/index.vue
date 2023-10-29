@@ -30,6 +30,7 @@
               </svg>
             </template>
           </Emoji>
+          <ReadExtension :mdText="state.text" />
           <ExportPDF :modelValue="state.text" height="700px">
             <template #trigger>
               <svg class="md-editor-icon" aria-hidden="true">
@@ -37,7 +38,6 @@
               </svg>
             </template>
           </ExportPDF>
-          <ReadExtension :mdText="state.text" />
         </template>
         <template #defFooters>
           <TimeNow />

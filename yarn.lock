@@ -1621,20 +1621,20 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
-"@vavt/cm-extension@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@vavt/cm-extension/-/cm-extension-1.0.0.tgz#1f3d683e4eed295f821f7635ac05939e2e3ef6e6"
-  integrity sha512-KfP/J8JGkCPi1PlV09lsMw/0LF8SgymbaCJ2eu+Zxc05mxFS2RZ1Ahd/X9kl+mdgAXL3wE+xXwgC8WwrQqeCOg==
+"@vavt/cm-extension@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@vavt/cm-extension/-/cm-extension-1.2.1.tgz#268e145ba0a1ae7ce67e1fb82970fb2f36dd91ed"
+  integrity sha512-fsh5J8X1R8b2SU7uPdMYAprZwRw5SiHP4KiVTcNFy+Qe0E4Er8p87s0rboG0zOeBRComo/MVOqFAPtYXHObsmQ==
 
 "@vavt/util@^1.3.0":
   version "1.3.0"
   resolved "https://registry.npmjs.org/@vavt/util/-/util-1.3.0.tgz#1d3263239ba664ad81561efef9d7ecce8c39d1c9"
   integrity sha512-Zy3f4Okt0/ddg0TIYoRafDTX4+JwPZgux9XcyP1EmidiHIhO8Q5Nq7uu/vFzGWZcbHe3WWJJzkXaNUor6rmiag==
 
-"@vavt/v3-extension@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.0.2.tgz#c3d76512c2339ee4b37d5059db7d58fa2be8579b"
-  integrity sha512-/7Cqxp/vPVxyBBvA1/NXqPxKWP+YjSEPkGzKwZLZQgjo8NeuBkaBkfUd6VqOIAYZdvWyuiR+ZZyXioorxKxpfQ==
+"@vavt/v3-extension@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.0.3.tgz#769f07f2d6aff8ae1b72feed74ba45499f8a1193"
+  integrity sha512-04vesUwGE3aa+VTFEAlj0W0YyrSV9sbsIdkcldJgtdV4nQWKBb1YUOdy5o6AJPfQYamem2MZqvWHNu1ExdFncA==
   dependencies:
     html2pdf.js "^0.10.1"
 
