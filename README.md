@@ -32,10 +32,16 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 yarn add md-editor-v3
 ```
 
-Install existing extension of language and theme of preview:
+Use existing extension of language and theme, such as Japanese
 
 ```shell
-yarn add @vavt/md-editor-extension
+yarn add @vavt/cm-extension
+```
+
+Use existing components of toolbar, such as exporting content as PDF
+
+```shell
+yarn add @vavt/v3-extension
 ```
 
 For more ways to use or contribute, please refer to: [md-editor-extension](https://github.com/imzbf/md-editor-extension)
@@ -293,7 +299,7 @@ export interface StaticTextDefaultValue {
 
 ### 🧵 MdPreview Events
 
-| name | param | description |
+| name | type | description |
 | --- | --- | --- |
 | onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
 | onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
@@ -302,7 +308,7 @@ export interface StaticTextDefaultValue {
 
 Except for the same as `MdPreview`:
 
-| name | param | description |
+| name | type | description |
 | --- | --- | --- |
 | onChange | `value: string` | Content changed event(bind to `oninput` of `textarea`) |
 | onSave | `value: string, html: Promise<string>` | Saving content event, `ctrl+s` and clicking button will trigger it |
@@ -312,6 +318,7 @@ Except for the same as `MdPreview`:
 | onFocus | `event: FocusEvent` | Textarea has received focus |
 | onInput | `event: Event` | Element gets input |
 | onDrop | `event: DragEvent` | The event occurs when a selection is being dragged |
+| onInputBoxWitdhChange | `(width: string) => void` | Event occurs when width of input box has been changed |
 
 ### 🎍 Slots
 

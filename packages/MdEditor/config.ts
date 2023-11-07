@@ -293,3 +293,8 @@ export const config: Config = (option) => {
     }
   }
 };
+
+/**
+ * 拖拽时最小的宽度
+ */
+export const MinInputBoxWidth = 170;

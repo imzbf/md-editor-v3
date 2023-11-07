@@ -451,6 +451,7 @@ export type EditorEmits = Array<
   | 'onFocus'
   | 'onInput'
   | 'onDrop'
+  | 'onInputBoxWitdhChange'
 >;
 
 export type EditorContext = SetupContext<EditorEmits>;

@@ -1,4 +1,6 @@
 import { Ref, onBeforeUnmount, onMounted, reactive, toRef, watch } from 'vue';
+import { MinInputBoxWidth } from '~/config';
+
 import { ContentProps } from '../props';
 
 const useResize = (
@@ -28,15 +30,18 @@ const useResize = (
     // 新的宽度 = 鼠标的位置 - 图标的一半宽度 - 内容区域的横坐标
     let nextWidth = e.x - contentX;
 
-    if (nextWidth < 100) {
-      nextWidth = 100;
-    } else if (nextWidth > maxWidth - 100) {
-      nextWidth = maxWidth - 100;
+    if (nextWidth < MinInputBoxWidth) {
+      nextWidth = MinInputBoxWidth;
+    } else if (nextWidth > maxWidth - MinInputBoxWidth) {
+      nextWidth = maxWidth - MinInputBoxWidth;
     }
 
-    inputWrapperStyle.width = `${nextWidth}px`;
-    resizeOperateStyle.left = `${nextWidth}px`;
-    state.resizedWidth = `${nextWidth}px`;
+    const ibw = `${nextWidth}px`;
+
+    inputWrapperStyle.width = ibw;
+    resizeOperateStyle.left = ibw;
+    state.resizedWidth = ibw;
+    props.onInputBoxWitdhChange?.(ibw);
   };
 
   const resizeMousedown = () => {
@@ -58,10 +63,19 @@ const useResize = (
   });
 
   watch(
+    () => props.inputBoxWitdh,
+    (nVal) => {
+      if (nVal) {
+        inputWrapperStyle.width = nVal;
+        resizeOperateStyle.left = nVal;
+      }
+    }
+  );
+
+  watch(
     [toRef(props.setting, 'htmlPreview'), toRef(props.setting, 'preview')],
     () => {
       if (!props.setting.htmlPreview && !props.setting.preview) {
-        state.resizedWidth = inputWrapperStyle.width;
         inputWrapperStyle.width = '100%';
         resizeOperateStyle.display = 'none';
       } else {
