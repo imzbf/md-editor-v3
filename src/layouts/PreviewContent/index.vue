@@ -23,7 +23,7 @@ export default {
 import type { PropType } from 'vue';
 import { useStore } from 'vuex';
 import { MdPreview } from 'md-editor-v3';
-import { debounce } from '@/utils';
+import { debounce } from '@vavt/util';
 import type { StateType } from '@/store';
 const store = useStore<StateType>();
 

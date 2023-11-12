@@ -9,9 +9,10 @@ import {
   Teleport,
   CSSProperties
 } from 'vue';
+import { debounce } from '@vavt/util';
 import Menu from './Menu/index.vue';
 import MenuItem from './MenuItem/index.vue';
-import { debounce, getOffset } from '@/utils';
+import { getOffset } from '@/utils';
 import './index.less';
 
 const IzDropdown = defineComponent({
@@ -52,7 +53,7 @@ const IzDropdown = defineComponent({
     };
 
     const setVisible = debounce((visible = true) => {
-      state.visible = visible;
+      state.visible = visible as boolean;
     });
 
     watch(

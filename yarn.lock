@@ -1631,10 +1631,10 @@
   resolved "https://registry.npmjs.org/@vavt/util/-/util-1.3.0.tgz#1d3263239ba664ad81561efef9d7ecce8c39d1c9"
   integrity sha512-Zy3f4Okt0/ddg0TIYoRafDTX4+JwPZgux9XcyP1EmidiHIhO8Q5Nq7uu/vFzGWZcbHe3WWJJzkXaNUor6rmiag==
 
-"@vavt/v3-extension@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.0.3.tgz#769f07f2d6aff8ae1b72feed74ba45499f8a1193"
-  integrity sha512-04vesUwGE3aa+VTFEAlj0W0YyrSV9sbsIdkcldJgtdV4nQWKBb1YUOdy5o6AJPfQYamem2MZqvWHNu1ExdFncA==
+"@vavt/v3-extension@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.1.0.tgz#4c81f8cc202429d4c2a0de4c85330351c2c1cae1"
+  integrity sha512-fLlOvuBRlpi3EMd0YjEyTJuWARnX3CNvE0IUqozqS8+Zc/+DFWT/yD8dyronXTwXs6gc7YhJoqyV//wtTHtXvg==
   dependencies:
     html2pdf.js "^0.10.1"
 
@@ -2962,10 +2962,10 @@ markdown-it@^13.0.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-md-editor-v3@^4.8.2:
-  version "4.8.2"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.8.2.tgz#cf6790c5e71ee76b042f37666af6e894f1ba337d"
-  integrity sha512-79DekUYiYMYjvpE9BSWVnL45HwZHFcIhh3CVEJxQ874H/2ZeBYE9zPuOS7QzO80ZWIHciq8xQOmIKTdvSSX9UQ==
+md-editor-v3@^4.8.3:
+  version "4.8.3"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.8.3.tgz#96c1e3d82b5496e3471980d6c316503b26e9d6da"
+  integrity sha512-yzxAGZyg/TAhb2Ph1f6VF3ZmdCt5Y3RWBFGOjost8o/dexqCG/rjBoN+4D+zlVi7u/Pp1STqqMWy327gAEmjOQ==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/language-data" "^6.3.0"

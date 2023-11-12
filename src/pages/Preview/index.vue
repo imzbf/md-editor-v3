@@ -16,28 +16,10 @@
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>
-          <Mark>
-            <template #trigger>
-              <svg class="md-editor-icon" aria-hidden="true">
-                <use xlink:href="#icon-mark"></use>
-              </svg>
-            </template>
-          </Mark>
-          <Emoji>
-            <template #trigger>
-              <svg class="md-editor-icon" aria-hidden="true">
-                <use xlink:href="#icon-emoji"></use>
-              </svg>
-            </template>
-          </Emoji>
+          <Mark />
+          <Emoji />
           <ReadExtension :mdText="state.text" />
-          <ExportPDF :modelValue="state.text" height="700px">
-            <template #trigger>
-              <svg class="md-editor-icon" aria-hidden="true">
-                <use xlink:href="#icon-export"></use>
-              </svg>
-            </template>
-          </ExportPDF>
+          <ExportPDF :modelValue="state.text" height="700px" />
         </template>
         <template #defFooters>
           <TimeNow />
