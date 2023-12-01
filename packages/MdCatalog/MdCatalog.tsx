@@ -9,7 +9,6 @@ import {
   onBeforeUnmount
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { throttle } from '@vavt/util';
 import { HeadList, MdHeadingId, Themes } from '~/type';
 import { prefix } from '~/config';
 import { getRelativeTop } from '~/utils';
@@ -154,7 +153,7 @@ const MdCatalog = defineComponent({
       return scrollElement;
     };
 
-    const findActiveHeading = throttle((list: HeadList[]) => {
+    const findActiveHeading = (list: HeadList[]) => {
       if (list.length === 0) {
         state.list = [];
         return false;
@@ -191,7 +190,7 @@ const MdCatalog = defineComponent({
 
       activeItem.value = activeHead;
       state.list = list;
-    });
+    };
 
     const scrollHandler = () => {
       findActiveHeading(state.list);
@@ -200,15 +199,19 @@ const MdCatalog = defineComponent({
     onMounted(() => {
       const scrollElement = getScrollElement();
       // 滚动区域为document.documentElement需要把监听事件绑定在window上
-      (scrollElement === document.documentElement
-        ? window
-        : scrollElement
-      )?.addEventListener('scroll', scrollHandler);
+      const eventEle =
+        scrollElement === document.documentElement ? window : scrollElement;
+
+      eventEle?.addEventListener('scroll', scrollHandler);
 
       bus.on(editorId, {
         name: CATALOG_CHANGED,
         callback: (_list: Array<HeadList>) => {
+          eventEle?.removeEventListener('scroll', scrollHandler);
+
           findActiveHeading(_list);
+
+          eventEle?.addEventListener('scroll', scrollHandler);
         }
       });
 
