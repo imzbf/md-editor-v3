@@ -809,7 +809,13 @@ const text = ref('');
 
 ## 🔒 XSS
 
-after`1.8.0`, please use `sanitize` to sanitize `html`. eg: `sanitize-html`
+!!! warning Pay Attention
+
+After 3.x, dangerous code has been processed by default. Here is usage for versions 2.x and below
+
+!!!
+
+Using `sanitize` to sanitize `html`. eg: `sanitize-html`
 
 ```shell
 yarn add sanitize-html

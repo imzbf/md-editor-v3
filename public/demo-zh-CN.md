@@ -817,7 +817,13 @@ const text = ref('');
 
 ## 🔒 XSS
 
-在`1.8.0`之后，通过`sanitize`事件，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
+!!! warning 提示
+
+3.x 以后已内置危险代码处理，下面是 2.x 及以下版本的使用方式
+
+!!!
+
+通过`sanitize`事件，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
 
 ```shell
 yarn add sanitize-html

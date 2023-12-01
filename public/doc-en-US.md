@@ -201,6 +201,12 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   Sanitize the html, prevent XSS. When you can be sure that your content is OK, ignore this.
 
+  !!! warning Pay Attention
+
+  After 3.x, dangerous code has been processed by default. Please do not use this attribute unless there are special requirements
+
+  !!!
+
   `sanitize-html` example:
 
   ```vue
@@ -1834,6 +1840,7 @@ const text = ref('');
 - **events**
 
   - `onClick`: `(e: MouseEvent, t: TocItem) => void`, not necessary.
+  - `onActive`: `(heading: HeadList | undefined) => void`, not necessary, heading was highlighted.
 
 usage:
 

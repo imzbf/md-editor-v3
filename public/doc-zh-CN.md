@@ -199,7 +199,13 @@
 - **类型**：`(html: string) => string`
 - **默认值**：`(html) => html`
 
-  在每次生成 html 后，通过该方法移除危险内容，比如 xss 相关，当你很确定你的内容不会出现类似情况时，不必设置它。
+  通过该方法移除危险内容，比如 xss 相关，当你很确定你的内容不会出现类似情况时，不必设置它。
+
+  !!! warning 提示
+
+  3.x 以后已内置危险代码处理，非特殊需求请勿使用该属性
+
+  !!!
 
   使用`sanitize-html`演示
 
@@ -216,8 +222,6 @@
   const sanitize = (html) => sanitizeHtml(html);
   </script>
   ```
-
-  > 为什么不内置到编辑器：由于类似编辑器大多属于自行处理文本，自身即可确认内容是否安全，并不需要该功能。
 
 ---
 
@@ -1857,6 +1861,7 @@ const text = ref('');
 - **events**
 
   - `onClick`: `(e: MouseEvent, t: TocItem) => void`，非必须，导航点击事件。
+  - `onActive`: `(heading: HeadList | undefined) => void`，非必须，高亮的标题变化事件。
 
 > `scrollElement`说明：仅预览下，该元素必须已定位的并且支持滚动。
 
