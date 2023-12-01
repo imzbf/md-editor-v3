@@ -6,7 +6,8 @@ import {
   PropType,
   ExtractPropTypes,
   shallowRef,
-  onBeforeUnmount
+  onBeforeUnmount,
+  watch
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { HeadList, MdHeadingId, Themes } from '~/type';
@@ -72,6 +73,9 @@ const props = {
   },
   onClick: {
     type: Function as PropType<(e: MouseEvent, t: TocItem) => void>
+  },
+  onActive: {
+    type: Function as PropType<(heading: HeadList | undefined) => void>
   }
 };
 
@@ -80,7 +84,7 @@ type MdCatalogProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof pr
 const MdCatalog = defineComponent({
   name: 'MdCatalog',
   props,
-  emits: ['onClick'],
+  emits: ['onClick', 'onActive'],
   setup(props: MdCatalogProps, ctx) {
     // 获取Id
     const editorId = props.editorId as string;
@@ -195,6 +199,18 @@ const MdCatalog = defineComponent({
     const scrollHandler = () => {
       findActiveHeading(state.list);
     };
+
+    watch(
+      () => activeItem.value,
+      (nVal) => {
+        const activeHeading = nVal ? { ...nVal } : undefined;
+        if (props.onActive) {
+          props.onActive(activeHeading);
+        } else {
+          ctx.emit('onActive', activeHeading);
+        }
+      }
+    );
 
     onMounted(() => {
       const scrollElement = getScrollElement();

@@ -20,6 +20,9 @@ globalThis.__name = __name;
   const server = await createServer({
     base: '/',
     publicDir: resolvePath('dev/public'),
+    server: {
+      port: 6100
+    },
     resolve: {
       alias: {
         '@': resolvePath('dev'),
