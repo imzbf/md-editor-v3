@@ -6,7 +6,7 @@ Markdown 编辑器，基于 react，使用 jsx 和 typescript 语法开发，支
 
 ### 1.1 基本演示
 
-**加粗**，<u>下划线</u>，_斜体_，~删除线~，上标<sup>26</sup>，下标<sub>[1]</sub>，`inline code`，[超链接](https://imzbf.top)
+**加粗**，<u>下划线</u>，_斜体_，~删除线~，上标<sup>26</sup>，下标<sub>[1]</sub>，`inline code`，[超链接](https://github.com/imzbf)
 
 1. 打开冰箱
 2. 钻进去
