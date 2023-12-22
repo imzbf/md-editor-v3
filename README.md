@@ -123,6 +123,7 @@ Inputing prompt and mark, emoji extensions
 | noHighlight | `boolean` | false | Highlight code or not |
 | noImgZoomIn | `boolean` | false | Enable the function of enlarging images |
 | customIcon | `CustomIcon` | {} | Customized icons |
+| sanitizeMermaid | `(h: string) => Promise<string>` | (h: string) => Promise.resolve(h) | Convert the generated mermaid code |
 
 ### 🔩 MdEditor Props
 
@@ -524,6 +525,15 @@ config({
 
 Customize extensions, attributes of `markdown-it`, etc.
 
+```ts
+type MarkdownItConfig = (
+  md: markdownit,
+  options: {
+    editorId: string;
+  }
+) => void;
+```
+
 Example: Use `markdown-it-anchor` to render a hyperlink symbol to the right of the title
 
 ```js
@@ -542,6 +552,15 @@ config({
 ### markdownItPlugins
 
 Select and add built-in plugins to `markdown-it`.
+
+```ts
+type MarkdownItPlugins = (
+  plugins: Array<MarkdownItConfigPlugin>,
+  options: {
+    editorId: string;
+  }
+) => Array<MarkdownItConfigPlugin>;
+```
 
 Example: Modify the class name of the image.
 
@@ -650,6 +669,23 @@ Set the way to display icons:
 - `class`: with font-class
 
 If the icon is customized through the attribute `customIcon`, the customized icon will be used first.
+
+### 🎨 mermaidConfig
+
+Configure `mermaid`, [Details](https://mermaid.js.org/config/schema-docs/config.html)
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  mermaidConfig(base: any) {
+    return {
+      ...base,
+      logLevel: 'error'
+    };
+  }
+});
+```
 
 ## 🪡 Shortcut Key
 
