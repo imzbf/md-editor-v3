@@ -78,7 +78,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     breaks: true
   });
 
-  markdownItConfig!(md);
+  markdownItConfig!(md, {
+    editorId
+  });
 
   const plugins: MarkdownItConfigPlugin[] = [
     {
@@ -121,7 +123,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     });
   }
 
-  markdownItPlugins!(plugins).forEach((item) => {
+  markdownItPlugins!(plugins, {
+    editorId
+  }).forEach((item) => {
     md.use(item.plugin, item.options);
   });
 
