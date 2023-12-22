@@ -62,6 +62,7 @@ export default defineComponent({
             formatCopiedText={props.formatCopiedText}
             noHighlight={props.noHighlight}
             noImgZoomIn={props.noImgZoomIn}
+            sanitizeMermaid={props.sanitizeMermaid}
           />
           {props.catalogVisible && (
             <MdCatalog

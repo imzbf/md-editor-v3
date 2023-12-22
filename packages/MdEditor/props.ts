@@ -204,6 +204,10 @@ export const mdPreviewProps = {
   customIcon: {
     type: Object as PropType<CustomIcon>,
     default: {}
+  },
+  sanitizeMermaid: {
+    type: Function as PropType<(h: string) => Promise<string>>,
+    default: (h: string) => Promise.resolve(h)
   }
 };
 
