@@ -280,6 +280,13 @@ export interface ConfigOption {
    * 以规避某些问题，例如Shadow Dom对Svg use的支持问题
    */
   iconfontType: 'svg' | 'class';
+  /**
+   * mermaid配置项
+   *
+   * @param base
+   * @returns
+   */
+  mermaidConfig: (base: any) => any;
 }
 
 /**

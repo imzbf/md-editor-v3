@@ -12,7 +12,7 @@ import { ContentPreviewProps } from '../ContentPreview';
  */
 const useMermaid = (props: ContentPreviewProps) => {
   const theme = inject('theme') as ComputedRef<string>;
-  const { editorExtensions } = configOption;
+  const { editorExtensions, mermaidConfig } = configOption;
   const mermaidConf = editorExtensions?.mermaid;
 
   const mermaidRef = shallowRef(mermaidConf?.instance);
@@ -24,14 +24,16 @@ const useMermaid = (props: ContentPreviewProps) => {
     ttl: 600000
   });
 
-  const setMermaidTheme = () => {
+  const configMermaid = () => {
     const mermaid = mermaidRef.value;
 
     if (!props.noMermaid && mermaid) {
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: theme.value === 'dark' ? 'dark' : 'default'
-      });
+      mermaid.initialize(
+        mermaidConfig({
+          startOnLoad: false,
+          theme: theme.value === 'dark' ? 'dark' : 'default'
+        })
+      );
       reRenderRef.value = reRenderRef.value + 1;
     }
   };
@@ -40,7 +42,7 @@ const useMermaid = (props: ContentPreviewProps) => {
     () => theme.value,
     () => {
       mermaidCache.clear();
-      setMermaidTheme();
+      configMermaid();
     }
   );
 
@@ -60,7 +62,7 @@ const useMermaid = (props: ContentPreviewProps) => {
           jsSrc
         ).then((module) => {
           mermaidRef.value = module.default;
-          setMermaidTheme();
+          configMermaid();
         });
       } else {
         const mermaidScript = document.createElement('script');
@@ -69,7 +71,7 @@ const useMermaid = (props: ContentPreviewProps) => {
 
         mermaidScript.onload = () => {
           mermaidRef.value = window.mermaid;
-          setMermaidTheme();
+          configMermaid();
         };
 
         appendHandler(mermaidScript, 'mermaid');

@@ -230,7 +230,7 @@ export const staticTextDefault: StaticTextDefault = {
   }
 };
 
-export const mermaidUrl = `${cdnBase}/mermaid/10.1.0/mermaid.esm.min.mjs`;
+export const mermaidUrl = `${cdnBase}/mermaid/10.6.1/mermaid.esm.min.mjs`;
 // export const mermaidUrl = `${cdnBase}/mermaid/9.4.0/mermaid.min.js`;
 
 export const katexUrl = {
@@ -279,7 +279,8 @@ export const configOption: ConfigOption = {
   codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions,
   markdownItConfig: () => {},
   markdownItPlugins: (s) => s,
-  iconfontType: 'svg'
+  iconfontType: 'svg',
+  mermaidConfig: (c) => c
 };
 
 export const config: Config = (option) => {
