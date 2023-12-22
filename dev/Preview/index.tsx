@@ -76,6 +76,9 @@ config({
 
   // mdit.use(TargetBlankExtension);
   // },
+  mermaidConfig: (base) => {
+    return base;
+  },
   editorExtensions: {
     // prettier: {
     //   prettierInstance: prettier,

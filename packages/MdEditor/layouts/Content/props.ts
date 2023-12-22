@@ -51,6 +51,9 @@ export const contentPreviewProps = {
   },
   noImgZoomIn: {
     type: Boolean as PropType<boolean>
+  },
+  sanitizeMermaid: {
+    type: Function as PropType<(h: string) => Promise<string>>
   }
 };
 

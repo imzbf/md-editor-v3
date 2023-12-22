@@ -61,6 +61,7 @@ const MdPreview = defineComponent({
             noHighlight={noHighlight}
             noImgZoomIn={props.noImgZoomIn}
             previewOnly
+            sanitizeMermaid={props.sanitizeMermaid}
           />
         </div>
       );

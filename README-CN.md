@@ -122,6 +122,7 @@ const scrollElement = document.documentElement;
 | noHighlight | `boolean` | false | 是否不高亮代码 |
 | noImgZoomIn | `boolean` | false | 是否关闭编辑器默认的放大功能 |
 | customIcon | `CustomIcon` | {} | 自定义的图标 |
+| sanitizeMermaid | `(h: string) => Promise<string>` | (h: string) => Promise.resolve(h) | 转换生成的 mermaid 代码 |
 
 ### 🔩 MdEditor Props
 
@@ -534,6 +535,15 @@ config({
 
 自定义 markdown-it 核心库扩展、属性等。
 
+```ts
+type MarkdownItConfig = (
+  md: markdownit,
+  options: {
+    editorId: string;
+  }
+) => void;
+```
+
 使用示例：配置使用`markdown-it-anchor`并在标题右侧显示一个超链接符号
 
 ```js
@@ -552,6 +562,15 @@ config({
 ### markdownItPlugins
 
 挑选、新增 markdown-it 核心库已预设的扩展。
+
+```ts
+type MarkdownItPlugins = (
+  plugins: Array<MarkdownItConfigPlugin>,
+  options: {
+    editorId: string;
+  }
+) => Array<MarkdownItConfigPlugin>;
+```
 
 使用示例：修改图片的类名
 
@@ -662,6 +681,23 @@ export interface EditorExtensions {
 - `class`: font-class 方式
 
 如果通过属性`customIcon`自定义的图标，会优先使用自定义的
+
+### 🎨 mermaidConfig
+
+mermaid 配置项，[配置详情](https://mermaid.js.org/config/schema-docs/config.html)
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  mermaidConfig(base: any) {
+    return {
+      ...base,
+      logLevel: 'error'
+    };
+  }
+});
+```
 
 ## 🪡 快捷键
 
