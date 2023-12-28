@@ -277,6 +277,24 @@ export default defineComponent({
             // autoDetectCode
             // onHtmlChanged={console.log}
             // onError={console.log}
+            onDrop={async (e) => {
+              e.stopPropagation();
+
+              const form = new FormData();
+              form.append('file', e.dataTransfer?.files[0] as any);
+
+              const res = await axios.post('/api/img/upload', form, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              });
+
+              editorRef.value?.insert(() => {
+                return {
+                  targetValue: `![](${res.data.url})`
+                };
+              });
+            }}
             onSave={(v, h) => {
               console.log('onSave');
               h.then((html) => {
@@ -383,9 +401,6 @@ export default defineComponent({
               'catalog',
               'github'
             ]}
-            // onDrop={(e) => {
-            //   console.log('ee', e);
-            // }}
             defToolbars={
               <>
                 <Normal />

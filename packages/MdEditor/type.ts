@@ -342,11 +342,11 @@ export interface InsertParam {
   // 插入的内容
   targetValue: string;
   // 是否选中插入的内容
-  select: boolean;
+  select?: boolean;
   // 选中位置的开始偏移量
-  deviationStart: number;
+  deviationStart?: number;
   // 选中位置的结束偏移量
-  deviationEnd: number;
+  deviationEnd?: number;
 }
 /**
  * 插入的内容的构造函数

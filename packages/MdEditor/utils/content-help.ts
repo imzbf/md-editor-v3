@@ -324,9 +324,9 @@ export const directive2flag = (
         const insertOptions = generate(selectedText);
 
         targetValue = insertOptions.targetValue;
-        select = insertOptions.select;
-        deviationStart = insertOptions.deviationStart;
-        deviationEnd = insertOptions.deviationEnd;
+        select = insertOptions.select || true;
+        deviationStart = insertOptions.deviationStart || 0;
+        deviationEnd = insertOptions.deviationEnd || 0;
       }
     }
   }
