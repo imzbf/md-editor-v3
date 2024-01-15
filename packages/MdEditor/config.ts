@@ -12,7 +12,7 @@ export const iconfontClassUrl = 'https://at.alicdn.com/t/c/font_2605852_prouiefe
 export const cdnBase = 'https://cdnjs.cloudflare.com/ajax/libs';
 
 // 代码高亮cdn链接
-export const highlightUrl = `${cdnBase}/highlight.js/11.9.0/highlight.min.js`;
+export const highlightUrl = `${cdnBase}/highlight.js/11.8.0/highlight.min.js`;
 
 // 美化代码cdn连接
 export const prettierUrl = {
@@ -240,36 +240,36 @@ export const katexUrl = {
 
 export const codeCss: CodeCss = {
   a11y: {
-    light: `${cdnBase}/highlight.js/11.9.0/styles/a11y-light.min.css`,
-    dark: `${cdnBase}/highlight.js/11.9.0/styles/a11y-dark.min.css`
+    light: `${cdnBase}/highlight.js/11.8.0/styles/a11y-light.min.css`,
+    dark: `${cdnBase}/highlight.js/11.8.0/styles/a11y-dark.min.css`
   },
   atom: {
-    light: `${cdnBase}/highlight.js/11.9.0/styles/atom-one-light.min.css`,
-    dark: `${cdnBase}/highlight.js/11.9.0/styles/atom-one-dark.min.css`
+    light: `${cdnBase}/highlight.js/11.8.0/styles/atom-one-light.min.css`,
+    dark: `${cdnBase}/highlight.js/11.8.0/styles/atom-one-dark.min.css`
   },
   github: {
-    light: `${cdnBase}/highlight.js/11.9.0/styles/github.min.css`,
-    dark: `${cdnBase}/highlight.js/11.9.0/styles/github-dark.min.css`
+    light: `${cdnBase}/highlight.js/11.8.0/styles/github.min.css`,
+    dark: `${cdnBase}/highlight.js/11.8.0/styles/github-dark.min.css`
   },
   gradient: {
-    light: `${cdnBase}/highlight.js/11.9.0/styles/gradient-light.min.css`,
-    dark: `${cdnBase}/highlight.js/11.9.0/styles/gradient-dark.min.css`
+    light: `${cdnBase}/highlight.js/11.8.0/styles/gradient-light.min.css`,
+    dark: `${cdnBase}/highlight.js/11.8.0/styles/gradient-dark.min.css`
   },
   kimbie: {
-    light: `${cdnBase}/highlight.js/11.9.0/styles/kimbie-light.min.css`,
-    dark: `${cdnBase}/highlight.js/11.9.0/styles/kimbie-dark.min.css`
+    light: `${cdnBase}/highlight.js/11.8.0/styles/kimbie-light.min.css`,
+    dark: `${cdnBase}/highlight.js/11.8.0/styles/kimbie-dark.min.css`
   },
   paraiso: {
-    light: `${cdnBase}/highlight.js/11.9.0/styles/paraiso-light.min.css`,
-    dark: `${cdnBase}/highlight.js/11.9.0/styles/paraiso-dark.min.css`
+    light: `${cdnBase}/highlight.js/11.8.0/styles/paraiso-light.min.css`,
+    dark: `${cdnBase}/highlight.js/11.8.0/styles/paraiso-dark.min.css`
   },
   qtcreator: {
-    light: `${cdnBase}/highlight.js/11.9.0/styles/qtcreator-light.min.css`,
-    dark: `${cdnBase}/highlight.js/11.9.0/styles/qtcreator-dark.min.css`
+    light: `${cdnBase}/highlight.js/11.8.0/styles/qtcreator-light.min.css`,
+    dark: `${cdnBase}/highlight.js/11.8.0/styles/qtcreator-dark.min.css`
   },
   stackoverflow: {
-    light: `${cdnBase}/highlight.js/11.9.0/styles/stackoverflow-light.min.css`,
-    dark: `${cdnBase}/highlight.js/11.9.0/styles/stackoverflow-dark.min.css`
+    light: `${cdnBase}/highlight.js/11.8.0/styles/stackoverflow-light.min.css`,
+    dark: `${cdnBase}/highlight.js/11.8.0/styles/stackoverflow-dark.min.css`
   }
 };
 
