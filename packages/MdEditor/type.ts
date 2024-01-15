@@ -444,6 +444,10 @@ export interface ExposeParam {
    * @param options 聚焦时光标的位置，不提供默认上次失焦时的位置
    */
   focus(options?: FocusOption): void;
+  /**
+   * 手动重新渲染
+   */
+  rerender(): void;
 }
 
 export type EditorProps = Readonly<

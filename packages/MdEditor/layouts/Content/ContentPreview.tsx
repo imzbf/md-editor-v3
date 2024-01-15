@@ -20,7 +20,7 @@ const ContentPreview = defineComponent({
     // 是否显示行号
     const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
     // markdown => html
-    const { html } = useMarkdownIt(props, props.previewOnly);
+    const { html, key } = useMarkdownIt(props, props.previewOnly);
     // 复制代码
     useCopyCode(props, html);
     // 图片点击放大
@@ -36,6 +36,7 @@ const ContentPreview = defineComponent({
             key="content-preview-wrapper"
           >
             <article
+              key={key.value}
               id={`${editorId}-preview`}
               class={[
                 `${prefix}-preview`,

@@ -34,7 +34,8 @@ import {
   BUILD_FINISHED,
   ERROR_CATCHER,
   UPLOAD_IMAGE,
-  REPLACE
+  REPLACE,
+  RERENDER
 } from '~/static/event-name';
 import bus from '~/utils/event-bus';
 
@@ -545,6 +546,10 @@ export const useExpose = (
     },
     focus(options: FocusOption) {
       bus.emit(editorId, TEXTAREA_FOCUS, options);
+    },
+
+    rerender() {
+      bus.emit(editorId, RERENDER);
     }
   };
 

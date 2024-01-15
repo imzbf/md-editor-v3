@@ -50,3 +50,5 @@ export const CATALOG_CHANGED = 'catalogChanged';
 
 // 主动推送目录
 export const PUSH_CATALOG = 'pushCatalog';
+
+export const RERENDER = 'rerender';

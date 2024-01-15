@@ -500,6 +500,14 @@ const option: FocusOption | undefined = 'start';
 editorRef.value?.focus(option);
 ```
 
+### ✒️ rerender
+
+Re render the content.
+
+```js
+editorRef.current?.rerender();
+```
+
 ## 💴 Config Editor
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.

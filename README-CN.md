@@ -510,6 +510,14 @@ const option: FocusOption | undefined = 'start';
 editorRef.value?.focus(option);
 ```
 
+### ✒️ rerender
+
+手动重新渲染内容。
+
+```js
+editorRef.current?.rerender();
+```
+
 ## 💴 编辑器配置
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。
