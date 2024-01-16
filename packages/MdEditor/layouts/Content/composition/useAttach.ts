@@ -5,6 +5,8 @@ import CodeMirrorUt from '../codemirror';
 
 /**
  * 一些附带的设置
+ *
+ * @deprecated 暂时没啥用
  */
 const useAttach = (codeMirrorUt: Ref<CodeMirrorUt | undefined>) => {
   const editorId = inject('editorId') as string;

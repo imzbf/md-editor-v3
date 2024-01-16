@@ -342,11 +342,11 @@ export interface InsertParam {
   // 插入的内容
   targetValue: string;
   // 是否选中插入的内容
-  select: boolean;
+  select?: boolean;
   // 选中位置的开始偏移量
-  deviationStart: number;
+  deviationStart?: number;
   // 选中位置的结束偏移量
-  deviationEnd: number;
+  deviationEnd?: number;
 }
 /**
  * 插入的内容的构造函数
@@ -444,6 +444,18 @@ export interface ExposeParam {
    * @param options 聚焦时光标的位置，不提供默认上次失焦时的位置
    */
   focus(options?: FocusOption): void;
+  /**
+   * 手动重新渲染
+   */
+  rerender(): void;
+  /**
+   * 获取当前选中的文本
+   */
+  getSelectedText(): string | undefined;
+  /**
+   * 重置已经存在的历史记录
+   */
+  resetHistory(): void;
 }
 
 export type EditorProps = Readonly<

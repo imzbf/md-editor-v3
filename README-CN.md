@@ -482,9 +482,9 @@ editorRef.value?.triggerSave();
 editorRef.value?.insert((selectedText) => {
   /**
    * @return targetValue    待插入内容
-   * @return select         插入后是否自动选中内容
-   * @return deviationStart 插入后选中内容鼠标开始位置
-   * @return deviationEnd   插入后选中内容鼠标结束位置
+   * @return select         插入后是否自动选中内容，默认：true
+   * @return deviationStart 插入后选中内容鼠标开始位置，默认：0
+   * @return deviationEnd   插入后选中内容鼠标结束位置，默认：0
    */
   return {
     targetValue: `${selectedText}`,
@@ -509,6 +509,26 @@ const option: FocusOption | undefined = 'start';
 // 聚焦时光标的位置，不提供默认上次失焦时的位置
 editorRef.value?.focus(option);
 ```
+
+### ✒️ rerender
+
+手动重新渲染内容。
+
+```js
+editorRef.current?.rerender();
+```
+
+### 🔍 getSelectedText
+
+获取当前选中的文字。
+
+```js
+console.log(editorRef.current?.getSelectedText());
+```
+
+### 🗑 resetHistory
+
+清除当前的历史记录。
 
 ## 💴 编辑器配置
 

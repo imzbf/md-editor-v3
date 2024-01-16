@@ -30,13 +30,14 @@ import {
   PREVIEW_CHANGED,
   HTML_PREVIEW_CHANGED,
   CATALOG_VISIBLE_CHANGED,
-  TEXTAREA_FOCUS,
   BUILD_FINISHED,
   ERROR_CATCHER,
   UPLOAD_IMAGE,
-  REPLACE
+  REPLACE,
+  RERENDER
 } from '~/static/event-name';
 import bus from '~/utils/event-bus';
+import { ContentExposeParam } from './layouts/Content/type';
 
 /**
  * 处理保存逻辑，主要是需要异步返回编译后的html
@@ -424,7 +425,8 @@ export const useExpose = (
   ctx: EditorContext,
   catalogVisible: Ref<boolean>,
   setting: SettingType,
-  updateSetting: UpdateSetting
+  updateSetting: UpdateSetting,
+  codeRef: Ref<ContentExposeParam | undefined>
 ) => {
   const { editorId } = props;
 
@@ -544,7 +546,16 @@ export const useExpose = (
       bus.emit(editorId, REPLACE, 'universal', { generate });
     },
     focus(options: FocusOption) {
-      bus.emit(editorId, TEXTAREA_FOCUS, options);
+      codeRef.value?.focus(options);
+    },
+    rerender() {
+      bus.emit(editorId, RERENDER);
+    },
+    getSelectedText() {
+      return codeRef.value?.getSelectedText();
+    },
+    resetHistory() {
+      codeRef.value?.resetHistory();
     }
   };
 

@@ -2,12 +2,17 @@ import { computed, ComputedRef, inject, onMounted, ref, toRef, watch } from 'vue
 import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
 import TaskListPlugin from 'markdown-it-task-lists';
-import { debounce } from '@vavt/util';
+import { debounce, uuid } from '@vavt/util';
 import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
 import { HeadList, MarkdownItConfigPlugin, Themes } from '~/type';
 import { configOption } from '~/config';
-import { BUILD_FINISHED, CATALOG_CHANGED, PUSH_CATALOG } from '~/static/event-name';
+import {
+  BUILD_FINISHED,
+  CATALOG_CHANGED,
+  PUSH_CATALOG,
+  RERENDER
+} from '~/static/event-name';
 
 import useHighlight from './useHighlight';
 import useMermaid from './useMermaid';
@@ -166,6 +171,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   initLineNumber(md);
 
+  // 文章节点的key
+  const key = ref(`_article-key_${uuid()}`);
+
   const html = ref(props.sanitize(md.render(props.modelValue)));
 
   const updatedTodo = () => {
@@ -181,25 +189,28 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   onMounted(updatedTodo);
 
-  const markHtml = debounce<any, void>(
-    async () => {
-      // 清理历史标题
-      headsRef.value = [];
-      html.value = props.sanitize(md.render(props.modelValue));
-      updatedTodo();
-    },
-    editorConfig?.renderDelay !== undefined
-      ? editorConfig?.renderDelay
-      : previewOnly
-      ? 0
-      : 500
-  );
+  const markHtml = () => {
+    // 清理历史标题
+    headsRef.value = [];
+    html.value = props.sanitize(md.render(props.modelValue));
+    updatedTodo();
+  };
 
   const needReRender = computed(() => {
     return (props.noKatex || katexRef.value) && (props.noHighlight || hljsRef.value);
   });
 
-  watch([toRef(props, 'modelValue'), needReRender, reRenderRef], markHtml);
+  watch(
+    [toRef(props, 'modelValue'), needReRender, reRenderRef],
+    debounce<any, void>(
+      markHtml,
+      editorConfig?.renderDelay !== undefined
+        ? editorConfig?.renderDelay
+        : previewOnly
+        ? 0
+        : 500
+    )
+  );
 
   // 添加目录主动触发接收监听
   onMounted(() => {
@@ -209,9 +220,18 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
       }
     });
+
+    bus.on(editorId, {
+      name: RERENDER,
+      callback: () => {
+        markHtml();
+        // 强制更新节点
+        key.value = `_article-key_${uuid()}`;
+      }
+    });
   });
 
-  return { html };
+  return { html, key };
 };
 
 export default useMarkdownIt;

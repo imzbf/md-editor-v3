@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeUnmount, reactive } from 'vue';
+import { defineComponent, onBeforeUnmount, reactive, ref } from 'vue';
 import { prefix } from '~/config';
 import ToolBar from '~/layouts/Toolbar';
 import Content from '~/layouts/Content';
@@ -19,6 +19,7 @@ import {
 } from './composition';
 
 import { editorProps as props, editorEmits as emits } from './props';
+import { ContentExposeParam } from './layouts/Content/type';
 
 const Editor = defineComponent({
   name: 'MdEditorV3',
@@ -32,6 +33,8 @@ const Editor = defineComponent({
     const state = reactive({
       scrollAuto: props.scrollAuto
     });
+
+    const codeRef = ref<ContentExposeParam>();
 
     // 快捷键监听
     useOnSave(props, ctx);
@@ -50,7 +53,7 @@ const Editor = defineComponent({
       bus.clear(editorId);
     });
 
-    useExpose(props, ctx, catalogVisible, setting, updateSetting);
+    useExpose(props, ctx, catalogVisible, setting, updateSetting, codeRef);
 
     return () => {
       const defToolbars = getSlot({ props, ctx }, 'defToolbars');
@@ -79,6 +82,7 @@ const Editor = defineComponent({
             showToolbarName={props.showToolbarName}
           />
           <Content
+            ref={codeRef}
             modelValue={props.modelValue}
             setting={setting}
             mdHeadingId={props.mdHeadingId}
@@ -98,45 +102,41 @@ const Editor = defineComponent({
             onChange={(value) => {
               if (props.onChange) {
                 props.onChange(value);
-              } else {
-                ctx.emit('update:modelValue', value);
-                ctx.emit('onChange', value);
               }
+
+              ctx.emit('update:modelValue', value);
+              ctx.emit('onChange', value);
             }}
             onHtmlChanged={(html) => {
               if (props.onHtmlChanged) {
                 props.onHtmlChanged(html);
-              } else {
-                ctx.emit('onHtmlChanged', html);
               }
+
+              ctx.emit('onHtmlChanged', html);
             }}
             onGetCatalog={(list) => {
               if (props.onGetCatalog) {
                 props.onGetCatalog(list);
-              } else {
-                ctx.emit('onGetCatalog', list);
               }
+              ctx.emit('onGetCatalog', list);
             }}
             onBlur={(e) => {
               if (props.onBlur) {
                 props.onBlur(e);
-              } else {
-                ctx.emit('onBlur', e);
               }
+              ctx.emit('onBlur', e);
             }}
             onFocus={(e) => {
               if (props.onFocus) {
                 props.onFocus(e);
-              } else {
-                ctx.emit('onFocus', e);
               }
+              ctx.emit('onFocus', e);
             }}
             onInput={(e) => {
               if (props.onInput) {
                 props.onInput(e);
-              } else {
-                ctx.emit('onInput', e);
               }
+              ctx.emit('onInput', e);
             }}
             completions={props.completions}
             catalogVisible={catalogVisible.value}
@@ -145,17 +145,15 @@ const Editor = defineComponent({
             onDrop={(e) => {
               if (props.onDrop) {
                 props.onDrop(e);
-              } else {
-                ctx.emit('onDrop', e);
               }
+              ctx.emit('onDrop', e);
             }}
             inputBoxWitdh={props.inputBoxWitdh}
             onInputBoxWitdhChange={(width: string) => {
               if (props.onInputBoxWitdhChange) {
                 props.onInputBoxWitdhChange(width);
-              } else {
-                ctx.emit('onInputBoxWitdhChange', width);
               }
+              ctx.emit('onInputBoxWitdhChange', width);
             }}
             sanitizeMermaid={props.sanitizeMermaid}
           />
