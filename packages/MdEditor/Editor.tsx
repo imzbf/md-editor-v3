@@ -102,45 +102,41 @@ const Editor = defineComponent({
             onChange={(value) => {
               if (props.onChange) {
                 props.onChange(value);
-              } else {
-                ctx.emit('update:modelValue', value);
-                ctx.emit('onChange', value);
               }
+
+              ctx.emit('update:modelValue', value);
+              ctx.emit('onChange', value);
             }}
             onHtmlChanged={(html) => {
               if (props.onHtmlChanged) {
                 props.onHtmlChanged(html);
-              } else {
-                ctx.emit('onHtmlChanged', html);
               }
+
+              ctx.emit('onHtmlChanged', html);
             }}
             onGetCatalog={(list) => {
               if (props.onGetCatalog) {
                 props.onGetCatalog(list);
-              } else {
-                ctx.emit('onGetCatalog', list);
               }
+              ctx.emit('onGetCatalog', list);
             }}
             onBlur={(e) => {
               if (props.onBlur) {
                 props.onBlur(e);
-              } else {
-                ctx.emit('onBlur', e);
               }
+              ctx.emit('onBlur', e);
             }}
             onFocus={(e) => {
               if (props.onFocus) {
                 props.onFocus(e);
-              } else {
-                ctx.emit('onFocus', e);
               }
+              ctx.emit('onFocus', e);
             }}
             onInput={(e) => {
               if (props.onInput) {
                 props.onInput(e);
-              } else {
-                ctx.emit('onInput', e);
               }
+              ctx.emit('onInput', e);
             }}
             completions={props.completions}
             catalogVisible={catalogVisible.value}
@@ -149,17 +145,15 @@ const Editor = defineComponent({
             onDrop={(e) => {
               if (props.onDrop) {
                 props.onDrop(e);
-              } else {
-                ctx.emit('onDrop', e);
               }
+              ctx.emit('onDrop', e);
             }}
             inputBoxWitdh={props.inputBoxWitdh}
             onInputBoxWitdhChange={(width: string) => {
               if (props.onInputBoxWitdhChange) {
                 props.onInputBoxWitdhChange(width);
-              } else {
-                ctx.emit('onInputBoxWitdhChange', width);
               }
+              ctx.emit('onInputBoxWitdhChange', width);
             }}
             sanitizeMermaid={props.sanitizeMermaid}
           />
