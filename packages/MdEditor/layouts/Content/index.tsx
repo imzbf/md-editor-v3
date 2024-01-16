@@ -17,7 +17,7 @@ export default defineComponent({
     const resizeRef = ref<HTMLDivElement>();
 
     // 输入框
-    const { inputWrapperRef, codeMirrorUt } = useCodeMirror(props);
+    const { inputWrapperRef, codeMirrorUt, resetHistory } = useCodeMirror(props);
     const { inputWrapperStyle, resizeOperateStyle } = useResize(
       props,
       contentRef,
@@ -32,7 +32,8 @@ export default defineComponent({
       },
       focus(options: FocusOption) {
         codeMirrorUt.value?.focus(options);
-      }
+      },
+      resetHistory
     });
 
     return () => {

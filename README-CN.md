@@ -526,6 +526,10 @@ editorRef.current?.rerender();
 console.log(editorRef.current?.getSelectedText());
 ```
 
+### 🗑 resetHistory
+
+清除当前的历史记录。
+
 ## 💴 编辑器配置
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。

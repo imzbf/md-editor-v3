@@ -1,10 +1,17 @@
 import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
-import { EditorView, minimalSetup } from 'codemirror';
+import { EditorView } from 'codemirror';
 import { keymap } from '@codemirror/view';
 import { languages } from '@codemirror/language-data';
 import { markdown } from '@codemirror/lang-markdown';
 import { Compartment } from '@codemirror/state';
-import { indentWithTab, undo, redo } from '@codemirror/commands';
+import {
+  indentWithTab,
+  defaultKeymap,
+  history,
+  historyKeymap,
+  undo,
+  redo
+} from '@codemirror/commands';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
 import { Themes } from '~/type';
 import { configOption } from '~/config';
@@ -38,7 +45,8 @@ const useCodeMirror = (props: ContentProps) => {
 
   const languageComp = new Compartment(),
     themeComp = new Compartment(),
-    autocompletionComp = new Compartment();
+    autocompletionComp = new Compartment(),
+    historyComp = new Compartment();
 
   const mdEditorCommands = createCommands(editorId, props);
 
@@ -46,8 +54,8 @@ const useCodeMirror = (props: ContentProps) => {
   const pasteHandler = usePasteUpload(props);
 
   const defaultExtensions = [
-    keymap.of([...mdEditorCommands, indentWithTab]),
-    minimalSetup,
+    keymap.of([...defaultKeymap, ...historyKeymap, ...mdEditorCommands, indentWithTab]),
+    historyComp.of(history()),
     languageComp.of(markdown({ codeLanguages: languages })),
     // 横向换行
     EditorView.lineWrapping,
@@ -198,7 +206,16 @@ const useCodeMirror = (props: ContentProps) => {
 
   return {
     inputWrapperRef,
-    codeMirrorUt
+    codeMirrorUt,
+    resetHistory() {
+      codeMirrorUt.value?.view.dispatch({
+        effects: historyComp.reconfigure([])
+      });
+
+      codeMirrorUt.value?.view.dispatch({
+        effects: historyComp.reconfigure(history())
+      });
+    }
   };
 };
 

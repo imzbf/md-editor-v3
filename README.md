@@ -516,6 +516,10 @@ Get the currently selected text.
 console.log(editorRef.current?.getSelectedText());
 ```
 
+### 🗑 resetHistory
+
+Clear current history.
+
 ## 💴 Config Editor
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.

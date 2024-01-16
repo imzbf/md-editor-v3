@@ -11,4 +11,8 @@ export interface ContentExposeParam {
    * 获取当前选中的文本
    */
   getSelectedText(): string | undefined;
+  /**
+   * 重置已经存在的历史记录
+   */
+  resetHistory(): void;
 }

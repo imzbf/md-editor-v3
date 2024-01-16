@@ -238,7 +238,8 @@ export default defineComponent({
             //   };
             // });
             // editorRef.value?.rerender();
-            console.log(editorRef.value?.getSelectedText());
+            // console.log(editorRef.value?.getSelectedText());
+            editorRef.value?.resetHistory();
             // editorRef.value?.focus();
           }}
         >
