@@ -448,6 +448,10 @@ export interface ExposeParam {
    * 手动重新渲染
    */
   rerender(): void;
+  /**
+   * 获取当前选中的文本
+   */
+  getSelectedText(): string | undefined;
 }
 
 export type EditorProps = Readonly<

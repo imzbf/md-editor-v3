@@ -518,6 +518,14 @@ editorRef.value?.focus(option);
 editorRef.current?.rerender();
 ```
 
+### 🔍 getSelectedText
+
+获取当前选中的文字。
+
+```js
+console.log(editorRef.current?.getSelectedText());
+```
+
 ## 💴 编辑器配置
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。

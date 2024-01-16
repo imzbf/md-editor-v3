@@ -4,11 +4,12 @@ import { useAutoScroll, useCodeMirror, useResize } from './composition';
 import { contentProps as props, ContentProps } from './props';
 import ContentPreview from './ContentPreview';
 import MdCatalog from '~~/MdCatalog';
+import { FocusOption } from '~/type';
 
 export default defineComponent({
   name: 'MDEditorContent',
   props,
-  setup(props: ContentProps) {
+  setup(props: ContentProps, ctx) {
     const editorId = inject('editorId') as string;
     const html = ref<string>('');
 
@@ -24,6 +25,15 @@ export default defineComponent({
     );
     // 自动滚动
     useAutoScroll(props, html, codeMirrorUt);
+
+    ctx.expose({
+      getSelectedText() {
+        return codeMirrorUt.value?.getSelectedText();
+      },
+      focus(options: FocusOption) {
+        codeMirrorUt.value?.focus(options);
+      }
+    });
 
     return () => {
       return (

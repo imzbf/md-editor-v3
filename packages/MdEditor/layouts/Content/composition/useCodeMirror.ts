@@ -16,7 +16,7 @@ import { oneLight } from '../codemirror/themeLight';
 import createAutocompletion from '../codemirror/autocompletion';
 import CodeMirrorUt from '../codemirror';
 import usePasteUpload from './usePasteUpload';
-import useAttach from './useAttach';
+// import useAttach from './useAttach';
 import createCommands from '../codemirror/commands';
 import { CTRL_SHIFT_Z, CTRL_Z, ERROR_CATCHER, REPLACE } from '~/static/event-name';
 
@@ -194,7 +194,7 @@ const useCodeMirror = (props: ContentProps) => {
   );
 
   // 附带的设置
-  useAttach(codeMirrorUt);
+  // useAttach(codeMirrorUt);
 
   return {
     inputWrapperRef,

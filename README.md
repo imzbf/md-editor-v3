@@ -508,6 +508,14 @@ Re render the content.
 editorRef.current?.rerender();
 ```
 
+### 🔍 getSelectedText
+
+Get the currently selected text.
+
+```js
+console.log(editorRef.current?.getSelectedText());
+```
+
 ## 💴 Config Editor
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.

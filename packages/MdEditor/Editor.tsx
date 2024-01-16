@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeUnmount, reactive } from 'vue';
+import { defineComponent, onBeforeUnmount, reactive, ref } from 'vue';
 import { prefix } from '~/config';
 import ToolBar from '~/layouts/Toolbar';
 import Content from '~/layouts/Content';
@@ -19,6 +19,7 @@ import {
 } from './composition';
 
 import { editorProps as props, editorEmits as emits } from './props';
+import { ContentExposeParam } from './layouts/Content/type';
 
 const Editor = defineComponent({
   name: 'MdEditorV3',
@@ -32,6 +33,8 @@ const Editor = defineComponent({
     const state = reactive({
       scrollAuto: props.scrollAuto
     });
+
+    const codeRef = ref<ContentExposeParam>();
 
     // 快捷键监听
     useOnSave(props, ctx);
@@ -50,7 +53,7 @@ const Editor = defineComponent({
       bus.clear(editorId);
     });
 
-    useExpose(props, ctx, catalogVisible, setting, updateSetting);
+    useExpose(props, ctx, catalogVisible, setting, updateSetting, codeRef);
 
     return () => {
       const defToolbars = getSlot({ props, ctx }, 'defToolbars');
@@ -79,6 +82,7 @@ const Editor = defineComponent({
             showToolbarName={props.showToolbarName}
           />
           <Content
+            ref={codeRef}
             modelValue={props.modelValue}
             setting={setting}
             mdHeadingId={props.mdHeadingId}
