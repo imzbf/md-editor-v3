@@ -505,7 +505,7 @@ editorRef.value?.focus(option);
 Re render the content.
 
 ```js
-editorRef.current?.rerender();
+editorRef.value?.rerender();
 ```
 
 ### 🔍 getSelectedText
@@ -513,7 +513,7 @@ editorRef.current?.rerender();
 Get the currently selected text.
 
 ```js
-console.log(editorRef.current?.getSelectedText());
+console.log(editorRef.value?.getSelectedText());
 ```
 
 ### 🗑 resetHistory

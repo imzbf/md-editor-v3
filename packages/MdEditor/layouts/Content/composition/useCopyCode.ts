@@ -4,7 +4,7 @@ import { CustomIcon, StaticTextDefaultValue } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
 import StrIcon from '~/components/Icon/Str';
 
-const useCopyCode = (props: ContentPreviewProps, html: Ref<string>) => {
+const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<string>) => {
   const editorId = inject('editorId') as string;
   const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
   const customIcon = inject('customIcon') as ComputedRef<CustomIcon>;
@@ -59,7 +59,7 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>) => {
     }
   };
 
-  watch(() => html.value, htmlChanged);
+  watch([html, key], htmlChanged);
   watch(() => props.setting.preview, settingPreviewChanged);
   watch(() => props.setting.htmlPreview, settingPreviewChanged);
   watch(() => ult.value, initCopyEntry);

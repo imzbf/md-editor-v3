@@ -22,7 +22,7 @@ const ContentPreview = defineComponent({
     // markdown => html
     const { html, key } = useMarkdownIt(props, props.previewOnly);
     // 复制代码
-    useCopyCode(props, html);
+    useCopyCode(props, html, key);
     // 图片点击放大
     userZoom(props, html);
 

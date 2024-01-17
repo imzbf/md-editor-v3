@@ -515,7 +515,7 @@ editorRef.value?.focus(option);
 手动重新渲染内容。
 
 ```js
-editorRef.current?.rerender();
+editorRef.value?.rerender();
 ```
 
 ### 🔍 getSelectedText
@@ -523,7 +523,7 @@ editorRef.current?.rerender();
 获取当前选中的文字。
 
 ```js
-console.log(editorRef.current?.getSelectedText());
+console.log(editorRef.value?.getSelectedText());
 ```
 
 ### 🗑 resetHistory
