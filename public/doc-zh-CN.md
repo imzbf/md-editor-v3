@@ -1032,6 +1032,9 @@ import { ref, onMounted } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import type { ExposeParam } from 'md-editor-v3';
 
+//
+// import type { ExposePreviewParam } from 'md-editor-v3';
+
 import 'md-editor-v3/lib/style.css';
 
 const editorRef = ref<ExposeParam>();
@@ -1041,6 +1044,21 @@ onMounted(() => {
 });
 </script>
 ```
+
+| Name                 | MdEditor | MdPreview |
+| -------------------- | -------- | --------- |
+| on                   | √        | ×         |
+| togglePageFullscreen | √        | ×         |
+| toggleFullscreen     | √        | ×         |
+| togglePreview        | √        | ×         |
+| toggleHtmlPreview    | √        | ×         |
+| toggleCatalog        | √        | ×         |
+| triggerSave          | √        | ×         |
+| insert               | √        | ×         |
+| focus                | √        | ×         |
+| rerender             | √        | √         |
+| getSelectedText      | √        | ×         |
+| resetHistory         | √        | ×         |
 
 ### 👂🏼 on
 
@@ -1200,6 +1218,32 @@ type FocusOption =
       cursorPos: number;
     };
 ```
+
+---
+
+### ✒️ rerender
+
+手动重新渲染内容。
+
+```js
+editorRef.value?.rerender();
+```
+
+---
+
+### 🔍 getSelectedText
+
+获取当前选中的文字。
+
+```js
+console.log(editorRef.value?.getSelectedText());
+```
+
+---
+
+### 🗑 resetHistory
+
+清除当前的历史记录。
 
 ---
 
