@@ -35,7 +35,7 @@ const ContentPreview = defineComponent({
             data-show={props.setting.preview}
             key="content-preview-wrapper"
           >
-            <article
+            <div
               key={key.value}
               id={`${editorId}-preview`}
               class={[

@@ -6,6 +6,7 @@ import { useProvidePreview, useExpansionPreview } from '~/composition';
 import ContentPreview from '~/layouts/Content/ContentPreview';
 import { MdPreviewProps } from '~/type';
 import { mdPreviewProps as props, mdPreviewEmits as emits } from '~/props';
+import { useExpose } from './composition/useExpose';
 
 const MdPreview = defineComponent({
   name: 'MdPreview',
@@ -20,6 +21,9 @@ const MdPreview = defineComponent({
     useProvidePreview(props);
     // 插入扩展的外链
     useExpansionPreview(props);
+
+    useExpose(props, ctx);
+
     // 卸载组件前清空全部事件监听
     onBeforeUnmount(() => {
       bus.clear(editorId);

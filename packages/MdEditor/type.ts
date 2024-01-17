@@ -458,6 +458,8 @@ export interface ExposeParam {
   resetHistory(): void;
 }
 
+export type ExposePreviewParam = Pick<ExposeParam, 'rerender'>;
+
 export type EditorProps = Readonly<
   LooseRequired<Readonly<ExtractPropTypes<typeof editorProps>>>
 >;
