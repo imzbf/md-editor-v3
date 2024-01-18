@@ -1626,15 +1626,15 @@
   resolved "https://registry.npmjs.org/@vavt/cm-extension/-/cm-extension-1.2.1.tgz#268e145ba0a1ae7ce67e1fb82970fb2f36dd91ed"
   integrity sha512-fsh5J8X1R8b2SU7uPdMYAprZwRw5SiHP4KiVTcNFy+Qe0E4Er8p87s0rboG0zOeBRComo/MVOqFAPtYXHObsmQ==
 
-"@vavt/util@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@vavt/util/-/util-1.3.0.tgz#1d3263239ba664ad81561efef9d7ecce8c39d1c9"
-  integrity sha512-Zy3f4Okt0/ddg0TIYoRafDTX4+JwPZgux9XcyP1EmidiHIhO8Q5Nq7uu/vFzGWZcbHe3WWJJzkXaNUor6rmiag==
+"@vavt/util@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/@vavt/util/-/util-1.4.1.tgz#41569e172a8821b5a3fb89074f0fae60961827d0"
+  integrity sha512-EhYyvt5w+GE6IO1JzDFZLmJOXQmWHnx3OBvA3YY/ZB1kWqHlhJTpL4x7TuANTzK7q1Y6G/okk4eFpLVWxvEBVA==
 
-"@vavt/v3-extension@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.1.0.tgz#4c81f8cc202429d4c2a0de4c85330351c2c1cae1"
-  integrity sha512-fLlOvuBRlpi3EMd0YjEyTJuWARnX3CNvE0IUqozqS8+Zc/+DFWT/yD8dyronXTwXs6gc7YhJoqyV//wtTHtXvg==
+"@vavt/v3-extension@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.1.2.tgz#7b87103ac4396a0480733ec031cc14cb27908f51"
+  integrity sha512-xuXsMNxBjWNSa0egyCFm5fa0cjuODzKErRM8buYrkbVePCJOqS72ojk6m3WF+0NrhWCCdoI2pd3WdV2MWW/3og==
   dependencies:
     html2pdf.js "^0.10.1"
 
@@ -2962,15 +2962,15 @@ markdown-it@^13.0.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-md-editor-v3@^4.10.0:
-  version "4.10.0"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.10.0.tgz#f9e98bf45cf1812eda6c35b6dcc5c32e784d31f7"
-  integrity sha512-Sz9tAd6RZbc4l7Ys//GvGFX9mklk8bmQwfjbpbgMNX/4U8DkTeXpQlO8oSNzRGWE9QgZjt4ZTdxjljAIbYLdgQ==
+md-editor-v3@^4.11.0:
+  version "4.11.0"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.11.0.tgz#f149b239ba443801bf911e06009c8cfbc3ae555b"
+  integrity sha512-xSzmhqyHfx6r8AzI8/ioll/YScAVNHjc3Hob4qv7cyxigJDuDmk7aBWk3+uA8SzA7z6p6v+4cyvxHexVwPbWZw==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/language-data" "^6.3.0"
     "@types/markdown-it" "^12.2.3"
-    "@vavt/util" "^1.3.0"
+    "@vavt/util" "^1.4.1"
     codemirror "^6.0.1"
     copy-to-clipboard "^3.3.3"
     lru-cache "^8.0.4"
