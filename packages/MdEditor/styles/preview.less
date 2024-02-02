@@ -85,6 +85,8 @@
   &-preview {
     font-size: 16px;
     word-break: break-all;
+    // 需要设置为bfc，父级才能正确获取到滚动高度
+    overflow: hidden;
   }
 
   [data-show='false'] {
