@@ -1,6 +1,6 @@
 import bus from '~/utils/event-bus';
 import { configOption } from '~/config';
-import { InsertContentGenerator } from '~/type';
+import { InsertContentGenerator, UploadImgCallBackParam } from '~/type';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 import { ERROR_CATCHER } from '~/static/event-name';
 
@@ -213,8 +213,15 @@ export const directive2flag = (
         const { desc, url, urls } = params;
 
         if (urls instanceof Array) {
-          targetValue = urls.reduce((pVal, url) => {
-            return pVal + `![${desc}](${url})\n`;
+          targetValue = (urls as UploadImgCallBackParam).reduce<string>((pVal, _url) => {
+            const {
+              url = '',
+              alt = '',
+              title = ''
+            } = typeof _url === 'object' ? _url : { url: _url };
+
+            // ![alt](url 'title')
+            return pVal + `![${alt}](${url}${title ? " '" + title + "'" : ''})\n`;
           }, '');
         } else {
           targetValue = `![${desc}](${url})\n`;

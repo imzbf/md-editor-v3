@@ -6,7 +6,8 @@ import {
   UpdateSetting,
   ExposeEvent,
   MdPreviewProps,
-  FocusOption
+  FocusOption,
+  UploadImgCallBack
 } from '~/type';
 import { appendHandler } from '~/utils/dom';
 import { EditorContext, EditorProps } from '~/type';
@@ -353,7 +354,7 @@ export const useConfig = (
     bus.on(editorId, {
       name: UPLOAD_IMAGE,
       callback(files: Array<File>, cb: () => void) {
-        const insertHanlder = (urls: Array<string>) => {
+        const insertHanlder: UploadImgCallBack = (urls) => {
           bus.emit(editorId, REPLACE, 'image', {
             desc: '',
             urls

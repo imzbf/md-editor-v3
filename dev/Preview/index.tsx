@@ -331,10 +331,7 @@ export default defineComponent({
             //     }
             //   }
             // }}
-            onUploadImg={async (
-              files: Array<File>,
-              callback: (urls: string[]) => void
-            ) => {
+            onUploadImg={async (files, callback) => {
               const res = await Promise.all(
                 files.map((file) => {
                   return new Promise((rev, rej) => {
@@ -353,7 +350,13 @@ export default defineComponent({
                 })
               );
 
-              callback(res.map((item: any) => item.data.url));
+              callback(
+                res.map((item: any) => ({
+                  url: item.data.url,
+                  alt: 'alt',
+                  title: 'title'
+                }))
+              );
             }}
             formatCopiedText={(text: string) => {
               return `${text} \nfrom @imzbf`;

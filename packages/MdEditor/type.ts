@@ -322,10 +322,13 @@ export type UpdateSetting = (k: keyof SettingType, v?: boolean) => void;
 
 export type ChangeEvent = (v: string) => void;
 export type SaveEvent = (v: string, h: Promise<string>) => void;
-export type UploadImgEvent = (
-  files: Array<File>,
-  callBack: (urls: string[]) => void
-) => void;
+
+export type UploadImgCallBackParam =
+  | string[]
+  | Array<{ url: string; alt: string; title: string }>;
+export type UploadImgCallBack = (urls: UploadImgCallBackParam) => void;
+export type UploadImgEvent = (files: Array<File>, callBack: UploadImgCallBack) => void;
+
 export type HtmlChangedEvent = (h: string) => void;
 export type GetCatalogEvent = (list: HeadList[]) => void;
 export type ErrorEvent = (err: InnerError) => void;
