@@ -2962,10 +2962,10 @@ markdown-it@^13.0.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-md-editor-v3@^4.11.1:
-  version "4.11.1"
-  resolved "https://registry.npmmirror.com/md-editor-v3/-/md-editor-v3-4.11.1.tgz#233faecf1e2273e1138980421aea202ab8721c90"
-  integrity sha512-u5dScQNt7uwWEuKLEooAz7gzn+ImSv/CQy6+Uu0z1pe4unChyNBWUyKmCk1RhivqZpcBiI37Ix9jecIAEC8yyQ==
+md-editor-v3@^4.11.2:
+  version "4.11.2"
+  resolved "https://registry.npmmirror.com/md-editor-v3/-/md-editor-v3-4.11.2.tgz#c48e73c0caf8296fd82f4af7f20d173c8d766c3c"
+  integrity sha512-By9GeY2h5wvxvijXiy5QzqYrPzP7H5+dFvi5Irs/76sLiXt4TP+AE1y5uJ9hEcDTpz1EFbKWAk4ywfJytHrlIw==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/language-data" "^6.3.0"
