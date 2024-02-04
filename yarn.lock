@@ -1192,10 +1192,10 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
-"@vavt/markdown-theme@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-3.1.0.tgz#7641a1dcd7780df93d0f0e55bb8c346baf409449"
-  integrity sha512-++hwUo3Wrq4NkJRLQiYlDrBBh0HYq/scOKSaHOn81PoSZnX3QU62NirWZxQXEC/gTEA8ymIHR3c070laA7/rDg==
+"@vavt/markdown-theme@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.npmmirror.com/@vavt/markdown-theme/-/markdown-theme-3.2.0.tgz#17b181daa3ce1107bbef98b470623e2be00cc5de"
+  integrity sha512-II3Vhta6QroXeJJEo15piq8KvOS7iSPKGMAawCdxbZI1TrIivDKcs1aYPRJq3qUPAlPsjPo2X6PkizaLSVCEzA==
 
 "@vavt/util@^1.4.1":
   version "1.4.1"
