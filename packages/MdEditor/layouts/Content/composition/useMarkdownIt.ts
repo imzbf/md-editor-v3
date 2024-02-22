@@ -2,6 +2,7 @@ import { computed, ComputedRef, inject, onMounted, ref, toRef, watch } from 'vue
 import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
 import TaskListPlugin from 'markdown-it-task-lists';
+import XSSPlugin from 'markdown-it-xss';
 import { debounce, uuid } from '@vavt/util';
 import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
@@ -117,6 +118,20 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       type: 'codeTabs',
       plugin: CodeTabsPlugin,
       options: { editorId }
+    },
+    {
+      type: 'xss',
+      plugin: XSSPlugin,
+      options: {
+        // https://github.com/leizongmin/js-xss/blob/master/README.zh.md
+        xss(xss: any) {
+          return {
+            whiteList: Object.assign({}, xss.getDefaultWhiteList(), {
+              input: ['class', 'disabled', 'type', 'checked']
+            })
+          };
+        }
+      }
     }
   ];
 
