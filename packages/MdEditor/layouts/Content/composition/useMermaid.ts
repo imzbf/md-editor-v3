@@ -1,5 +1,5 @@
 import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick } from 'vue';
-import LRUCache from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 import { prefix, mermaidUrl, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { uuid } from '@vavt/util';

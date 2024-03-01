@@ -99,3 +99,14 @@ export const getRelativeTop = (element: HTMLElement, container: HTMLElement): nu
 
   return eleRect.top - conRect.top;
 };
+
+/**
+ * 获取递增的ID
+ */
+export const getNextId = (() => {
+  let count = 0;
+
+  return (prefix: string) => {
+    return prefix + ++count;
+  };
+})();

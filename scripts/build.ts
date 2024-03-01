@@ -63,7 +63,7 @@ globalThis.__name = __name;
           vueJsx(),
           t === 'es' &&
             dts({
-              outputDir: resolvePath('lib/types'),
+              outDir: resolvePath('lib/types'),
               include: [resolvePath('packages')]
             })
         ],

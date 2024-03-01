@@ -12,21 +12,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           registry-url: https://registry.npmjs.org/
 
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install
-        uses: borales/actions-yarn@v3.0.0
+        uses: borales/actions-yarn@v5
         with:
           cmd: install
 
       - name: Build
-        uses: borales/actions-yarn@v3.0.0
+        uses: borales/actions-yarn@v5
         with:
           cmd: build
 

@@ -3,12 +3,7 @@
     <div style="margin: 1em 0">
       <button @click="changeVisible">点击</button>
     </div>
-    <MdEditorV3
-      v-if="visible"
-      v-model="text"
-      editor-id="vue-template"
-      @on-drop="onDrop"
-    />
+    <MdEditorV3 v-if="visible" v-model="text" @on-drop="onDrop" />
   </div>
 </template>
 

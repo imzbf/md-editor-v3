@@ -1,6 +1,6 @@
 # 🎄 md-editor-v3
 
-![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/bundlephobia/min/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
 
 English \| [中文](https://github.com/imzbf/md-editor-v3/blob/develop/README-CN.md)
 
@@ -313,7 +313,7 @@ Except for the same as `MdPreview`:
 | --- | --- | --- |
 | onChange | `value: string` | Content changed(bind to `oninput` of `textarea`) |
 | onSave | `value: string, html: Promise<string>` | Saving content, `ctrl+s` and clicking button will trigger it |
-| onUploadImg | `files: Array<File>, callback: (urls: Array<string>) => void` | Uploading picture, when picture is uploading the modal will not close, please provide right urls to the callback function |
+| onUploadImg | `files: Array<File>, callback: (urls: string[] \| { url: string; alt: string; title: string }[]) => void` | Uploading picture, when picture is uploading the modal will not close, please provide right urls to the callback function |
 | onError | `err: { name: 'Cropper' \| 'fullscreen' \| 'prettier' \| 'overlength'; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded. And content exceeds the length limit error |
 | onBlur | `event: FocusEvent` | Textarea has lost focus |
 | onFocus | `event: FocusEvent` | Textarea has received focus |
@@ -921,7 +921,17 @@ const onUploadImg = async (files, callback) => {
     })
   );
 
+  // Approach 1
   callback(res.map((item) => item.data.url));
+
+  // Approach 2
+  // callback(
+  //   res.map((item: any) => ({
+  //     url: item.data.url,
+  //     alt: 'alt',
+  //     title: 'title'
+  //   }))
+  // );
 };
 </script>
 ```
