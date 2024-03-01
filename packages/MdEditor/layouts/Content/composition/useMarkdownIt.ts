@@ -127,7 +127,21 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         xss(xss: any) {
           return {
             whiteList: Object.assign({}, xss.getDefaultWhiteList(), {
-              input: ['class', 'disabled', 'type', 'checked']
+              // 支持任务列表
+              input: ['class', 'disabled', 'type', 'checked'],
+              // 主要支持youtobe、腾讯视频、哔哩哔哩等内嵌视频代码
+              iframe: [
+                'class',
+                'width',
+                'height',
+                'src',
+                'title',
+                'border',
+                'frameborder',
+                'framespacing',
+                'allow',
+                'allowfullscreen'
+              ]
             })
           };
         }
