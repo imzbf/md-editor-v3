@@ -17,7 +17,8 @@ import {
   CustomIcon
 } from './type';
 
-import { allToolbar, allFooter, defaultEditorId } from './config';
+import { allToolbar, allFooter } from './config';
+import { getNextId } from './utils';
 
 export const mdHeadingId: MdHeadingId = (text) => text;
 
@@ -77,7 +78,7 @@ export const mdPreviewProps = {
    */
   editorId: {
     type: String as PropType<string>,
-    default: defaultEditorId
+    default: () => getNextId('md-editor-v3_')
   },
   /**
    * 预览中代码是否显示行号
