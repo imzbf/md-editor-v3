@@ -26,7 +26,6 @@ export default defineComponent({
         </button>
         <div class="container">
           <MdPreview
-            editorId="preview-id"
             ref={previewRef}
             theme={props.theme}
             previewTheme={props.previewTheme}

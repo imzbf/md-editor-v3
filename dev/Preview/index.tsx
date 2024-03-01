@@ -249,7 +249,6 @@ export default defineComponent({
           <MdEditor
             completions={completions.list}
             ref={editorRef}
-            editorId="md-prev"
             previewTheme={props.previewTheme}
             theme={props.theme}
             modelValue={md.text}
