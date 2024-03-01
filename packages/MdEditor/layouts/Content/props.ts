@@ -10,7 +10,7 @@ export const contentPreviewProps = {
   },
   setting: {
     type: Object as PropType<SettingType>,
-    default: () => ({})
+    default: () => ({ preview: true })
   },
   onHtmlChanged: {
     type: Function as PropType<(h: string) => void>,

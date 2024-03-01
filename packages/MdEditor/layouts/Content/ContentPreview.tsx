@@ -29,28 +29,29 @@ const ContentPreview = defineComponent({
     return () => {
       return (
         <>
-          <div
-            id={`${editorId}-preview-wrapper`}
-            class={`${prefix}-preview-wrapper`}
-            data-show={props.setting.preview}
-            key="content-preview-wrapper"
-          >
+          {props.setting.preview && (
             <div
-              key={key.value}
-              id={`${editorId}-preview`}
-              class={[
-                `${prefix}-preview`,
-                `${previewTheme?.value}-theme`,
-                showCodeRowNumber && `${prefix}-scrn`
-              ]}
-              innerHTML={html.value}
-            />
-          </div>
-          {!props.previewOnly && (
+              id={`${editorId}-preview-wrapper`}
+              class={`${prefix}-preview-wrapper`}
+              key="content-preview-wrapper"
+            >
+              <div
+                key={key.value}
+                id={`${editorId}-preview`}
+                class={[
+                  `${prefix}-preview`,
+                  `${previewTheme?.value}-theme`,
+                  showCodeRowNumber && `${prefix}-scrn`
+                ]}
+                innerHTML={html.value}
+              />
+            </div>
+          )}
+
+          {!props.previewOnly && props.setting.htmlPreview && (
             <div
               id={`${editorId}-html-wrapper`}
               class={`${prefix}-preview-wrapper`}
-              data-show={props.setting.htmlPreview}
               key="html-preview-wrapper"
             >
               <div class={`${prefix}-html`}>{html.value}</div>

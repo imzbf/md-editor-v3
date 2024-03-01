@@ -21,10 +21,10 @@ const useAutoScroll = (
     );
 
     const previewEle = document.querySelector<HTMLElement>(
-      `[id="${editorId}-preview-wrapper"][data-show="true"]`
+      `[id="${editorId}-preview-wrapper"]`
     );
     const htmlEle = document.querySelector<HTMLElement>(
-      `[id="${editorId}-html-wrapper"][data-show="true"]`
+      `[id="${editorId}-html-wrapper"]`
     );
 
     if (previewEle || htmlEle) {

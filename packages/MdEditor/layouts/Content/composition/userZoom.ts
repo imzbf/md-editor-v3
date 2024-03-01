@@ -1,4 +1,4 @@
-import { watch, inject, Ref, onMounted } from 'vue';
+import { watch, inject, Ref, toRef } from 'vue';
 import mediumZoom from 'medium-zoom';
 import { debounce } from '@vavt/util';
 
@@ -28,13 +28,17 @@ const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
     });
   });
 
-  onMounted(() => {
-    !noImgZoomIn && props.setting.preview && zoomHander();
-  });
-
-  watch([html], () => {
-    !noImgZoomIn && zoomHander();
-  });
+  watch(
+    [html, toRef(props.setting, 'preview')],
+    () => {
+      if (!noImgZoomIn && props.setting.preview) {
+        zoomHander();
+      }
+    },
+    {
+      immediate: true
+    }
+  );
 };
 
 export default userZoom;
