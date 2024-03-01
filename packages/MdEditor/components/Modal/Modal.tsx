@@ -3,12 +3,14 @@ import {
   PropType,
   ref,
   onMounted,
-  onBeforeUnmount,
   reactive,
   watch,
   nextTick,
   computed,
-  ExtractPropTypes
+  ExtractPropTypes,
+  Teleport,
+  shallowRef,
+  CSSProperties
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
@@ -47,10 +49,27 @@ const props = {
   onAdjust: {
     type: Function as PropType<(val: boolean) => void>,
     default: () => {}
+  },
+  class: {
+    type: String as PropType<string>
+  },
+  style: {
+    type: Object as PropType<CSSProperties>,
+    default: () => ({})
   }
 };
 
 type ModalProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
+
+const toClass = `.${prefix}-modal-container`;
+
+const getNextIndex = (() => {
+  let startIndex = 20000;
+
+  return () => {
+    return ++startIndex;
+  };
+})();
 
 export default defineComponent({
   name: 'MdModal',
@@ -64,10 +83,24 @@ export default defineComponent({
     const modalRef = ref();
     const modalHeaderRef = ref();
 
+    // 创建的弹窗容器，存放在document.body末尾
+    const containerRef = shallowRef<HTMLDivElement>();
+
     // 移动元素方法返回清除监听事件方法。
     let keyMoveClear = () => {};
 
-    const state = reactive({
+    const state = reactive<{
+      maskStyle: CSSProperties;
+      modalStyle: CSSProperties;
+      initPos: CSSProperties;
+      historyPos: CSSProperties;
+    }>({
+      maskStyle: {
+        zIndex: -1
+      },
+      modalStyle: {
+        zIndex: -1
+      },
       initPos: {
         left: '0px',
         top: '0px'
@@ -93,14 +126,16 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      keyMoveClear = keyMove(modalHeaderRef.value, (left: number, top: number) => {
-        state.initPos.left = left + 'px';
-        state.initPos.top = top + 'px';
-      });
-    });
+      containerRef.value =
+        document.querySelector<HTMLDivElement>(`.${prefix}-modal-container`) ?? undefined;
 
-    onBeforeUnmount(() => {
-      keyMoveClear();
+      if (!containerRef.value) {
+        containerRef.value = document.createElement('div');
+        containerRef.value.setAttribute('class', `${prefix}-modal-container`);
+
+        // 不主动移除
+        document.body.appendChild(containerRef.value);
+      }
     });
 
     watch(
@@ -110,9 +145,11 @@ export default defineComponent({
         if (nVal) {
           keyMoveClear();
         } else {
-          keyMoveClear = keyMove(modalHeaderRef.value, (left: number, top: number) => {
-            state.initPos.left = left + 'px';
-            state.initPos.top = top + 'px';
+          nextTick(() => {
+            keyMoveClear = keyMove(modalHeaderRef.value, (left, top) => {
+              state.initPos.left = left + 'px';
+              state.initPos.top = top + 'px';
+            });
           });
         }
       }
@@ -122,6 +159,9 @@ export default defineComponent({
       () => props.visible,
       (nVal) => {
         if (nVal) {
+          state.maskStyle.zIndex = getNextIndex();
+          state.modalStyle.zIndex = getNextIndex();
+
           modalClass.value.push('zoom-in');
           modalVisible.value = nVal;
 
@@ -134,6 +174,14 @@ export default defineComponent({
 
             state.initPos.left = halfClientWidth - halfWidth + 'px';
             state.initPos.top = halfClientHeight - halfHeight + 'px';
+
+            // 如果预设了全屏展示弹窗，就不需要注册拖动事件
+            if (!props.isFullscreen) {
+              keyMoveClear = keyMove(modalHeaderRef.value, (left, top) => {
+                state.initPos.left = left + 'px';
+                state.initPos.top = top + 'px';
+              });
+            }
           });
 
           setTimeout(() => {
@@ -141,6 +189,9 @@ export default defineComponent({
           }, 140);
         } else {
           modalClass.value.push('zoom-out');
+
+          keyMoveClear();
+
           setTimeout(() => {
             modalClass.value = modalClass.value.filter((item) => item !== 'zoom-out');
             modalVisible.value = nVal;
@@ -154,70 +205,82 @@ export default defineComponent({
       const slotTitle = getSlot({ props, ctx }, 'title');
 
       return (
-        <div style={{ display: modalVisible.value ? 'block' : 'none' }}>
-          <div
-            class={`${prefix}-modal-mask`}
-            onClick={() => {
-              if (props.onClose) {
-                props.onClose();
-              } else {
-                ctx.emit('onClose');
-              }
-            }}
-          />
-          <div
-            class={modalClass.value}
-            style={{
-              ...state.initPos,
-              ...innerSize.value
-            }}
-            ref={modalRef}
-          >
-            <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
-              {slotTitle || ''}
-            </div>
-            <div class={`${prefix}-modal-body`}>{slotDefault}</div>
-            <div class={`${prefix}-modal-func`}>
-              {props.showAdjust && (
-                <div
-                  class={`${prefix}-modal-adjust`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-
-                    // 全屏时，保存上次位置
-                    if (!props.isFullscreen) {
-                      state.historyPos = state.initPos;
-                      state.initPos = {
-                        left: '0',
-                        top: '0'
-                      };
-                    } else {
-                      state.initPos = state.historyPos;
-                    }
-
-                    props.onAdjust(!props.isFullscreen);
-                  }}
-                >
-                  <Icon name={props.isFullscreen ? 'suoxiao' : 'fangda'} />
-                </div>
-              )}
+        containerRef.value && (
+          <Teleport to={toClass}>
+            <div
+              class={props.class}
+              style={{
+                ...props.style,
+                display: modalVisible.value ? 'block' : 'none'
+              }}
+            >
               <div
-                class={`${prefix}-modal-close`}
-                onClick={(e) => {
-                  e.stopPropagation();
-
+                class={`${prefix}-modal-mask`}
+                style={state.maskStyle}
+                onClick={() => {
                   if (props.onClose) {
                     props.onClose();
                   } else {
                     ctx.emit('onClose');
                   }
                 }}
+              />
+              <div
+                class={modalClass.value}
+                style={{
+                  ...state.modalStyle,
+                  ...state.initPos,
+                  ...innerSize.value
+                }}
+                ref={modalRef}
               >
-                <Icon name="close" />
+                <div class={`${prefix}-modal-header`} ref={modalHeaderRef}>
+                  {slotTitle || ''}
+                </div>
+                <div class={`${prefix}-modal-body`}>{slotDefault}</div>
+                <div class={`${prefix}-modal-func`}>
+                  {props.showAdjust && (
+                    <div
+                      class={`${prefix}-modal-adjust`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+
+                        // 全屏时，保存上次位置
+                        if (!props.isFullscreen) {
+                          state.historyPos = state.initPos;
+                          state.initPos = {
+                            left: '0',
+                            top: '0'
+                          };
+                        } else {
+                          state.initPos = state.historyPos;
+                        }
+
+                        props.onAdjust(!props.isFullscreen);
+                      }}
+                    >
+                      <Icon name={props.isFullscreen ? 'suoxiao' : 'fangda'} />
+                    </div>
+                  )}
+                  <div
+                    class={`${prefix}-modal-close`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+
+                      if (props.onClose) {
+                        props.onClose();
+                      } else {
+                        ctx.emit('onClose');
+                      }
+                    }}
+                  >
+                    <Icon name="close" />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Teleport>
+        )
       );
     };
   }
