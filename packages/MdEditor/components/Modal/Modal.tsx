@@ -2,7 +2,6 @@ import {
   defineComponent,
   PropType,
   ref,
-  onMounted,
   reactive,
   watch,
   nextTick,
@@ -10,12 +9,15 @@ import {
   ExtractPropTypes,
   Teleport,
   shallowRef,
-  CSSProperties
+  CSSProperties,
+  inject,
+  ComputedRef
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
 import { keyMove } from '~/utils/dom';
+import { Themes } from '~/type';
 import Icon from '../Icon';
 
 const props = {
@@ -61,7 +63,7 @@ const props = {
 
 type ModalProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
-const toClass = `.${prefix}-modal-container`;
+const toClass = `${prefix}-modal-container`;
 
 const getNextIndex = (() => {
   let startIndex = 20000;
@@ -76,6 +78,8 @@ export default defineComponent({
   props,
   emits: ['onClose'],
   setup(props: ModalProps, ctx) {
+    const themeRef = inject('theme') as ComputedRef<Themes>;
+
     const modalVisible = ref(props.visible);
 
     const modalClass = ref([`${prefix}-modal`]);
@@ -122,19 +126,6 @@ export default defineComponent({
           width: props.width,
           height: props.height
         };
-      }
-    });
-
-    onMounted(() => {
-      containerRef.value =
-        document.querySelector<HTMLDivElement>(`.${prefix}-modal-container`) ?? undefined;
-
-      if (!containerRef.value) {
-        containerRef.value = document.createElement('div');
-        containerRef.value.setAttribute('class', `${prefix}-modal-container`);
-
-        // 不主动移除
-        document.body.appendChild(containerRef.value);
       }
     });
 
@@ -205,8 +196,8 @@ export default defineComponent({
       const slotTitle = getSlot({ props, ctx }, 'title');
 
       return (
-        containerRef.value && (
-          <Teleport to={toClass}>
+        <Teleport to={document.body}>
+          <div ref={containerRef} class={toClass} data-theme={themeRef.value}>
             <div
               class={props.class}
               style={{
@@ -279,8 +270,8 @@ export default defineComponent({
                 </div>
               </div>
             </div>
-          </Teleport>
-        )
+          </div>
+        </Teleport>
       );
     };
   }
