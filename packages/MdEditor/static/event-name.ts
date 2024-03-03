@@ -52,3 +52,6 @@ export const CATALOG_CHANGED = 'catalogChanged';
 export const PUSH_CATALOG = 'pushCatalog';
 
 export const RERENDER = 'rerender';
+
+// 监听dom原始事件
+export const EVENT_LISTENER = 'eventListener';

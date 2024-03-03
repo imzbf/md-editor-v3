@@ -2,7 +2,7 @@ import { LooseRequired } from '@vue/shared';
 import markdownit from 'markdown-it/lib';
 import { Component, ExtractPropTypes, SetupContext } from 'vue';
 import { Extension } from '@codemirror/state';
-import { KeyBinding } from '@codemirror/view';
+import { KeyBinding, EditorView } from '@codemirror/view';
 import { editorProps, mdPreviewProps } from './props';
 import { IconName } from './components/Icon/Icon';
 
@@ -341,6 +341,13 @@ export interface ExposeEvent {
   catalog(status: boolean): void;
 }
 
+export type DOMEventHandlers = {
+  [e in keyof HTMLElementEventMap]?: (
+    event: HTMLElementEventMap[e],
+    view: EditorView
+  ) => boolean | void;
+};
+
 export interface InsertParam {
   // 插入的内容
   targetValue: string;
@@ -459,6 +466,12 @@ export interface ExposeParam {
    * 重置已经存在的历史记录
    */
   resetHistory(): void;
+  /**
+   * codemirror事件
+   *
+   * @param handlers
+   */
+  domEventHandlers(handlers: DOMEventHandlers): void;
 }
 
 export type ExposePreviewParam = Pick<ExposeParam, 'rerender'>;

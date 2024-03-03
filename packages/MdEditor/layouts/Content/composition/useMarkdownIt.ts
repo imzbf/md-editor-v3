@@ -236,8 +236,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       editorConfig?.renderDelay !== undefined
         ? editorConfig?.renderDelay
         : previewOnly
-        ? 0
-        : 500
+          ? 0
+          : 500
     )
   );
 

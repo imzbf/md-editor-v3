@@ -166,6 +166,12 @@ export default defineComponent({
       editorRef.value?.on('catalog', (status) => {
         console.log('catalog', status);
       });
+
+      editorRef.value?.domEventHandlers({
+        compositionstart: () => {
+          console.log('compositionstart');
+        }
+      });
     });
 
     onUnmounted(() => {

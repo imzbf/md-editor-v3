@@ -13,7 +13,7 @@ import {
   redo
 } from '@codemirror/commands';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
-import { Themes } from '~/type';
+import { Themes, DOMEventHandlers } from '~/type';
 import { configOption } from '~/config';
 import bus from '~/utils/event-bus';
 
@@ -25,7 +25,13 @@ import CodeMirrorUt from '../codemirror';
 import usePasteUpload from './usePasteUpload';
 // import useAttach from './useAttach';
 import createCommands from '../codemirror/commands';
-import { CTRL_SHIFT_Z, CTRL_Z, ERROR_CATCHER, REPLACE } from '~/static/event-name';
+import {
+  CTRL_SHIFT_Z,
+  CTRL_Z,
+  ERROR_CATCHER,
+  EVENT_LISTENER,
+  REPLACE
+} from '~/static/event-name';
 
 /**
  * 文本编辑区组件
@@ -46,12 +52,34 @@ const useCodeMirror = (props: ContentProps) => {
   const languageComp = new Compartment(),
     themeComp = new Compartment(),
     autocompletionComp = new Compartment(),
-    historyComp = new Compartment();
+    historyComp = new Compartment(),
+    eventComp = new Compartment();
 
   const mdEditorCommands = createCommands(editorId, props);
 
   // 粘贴上传
   const pasteHandler = usePasteUpload(props);
+
+  const domEventHandlers: DOMEventHandlers = {
+    paste: pasteHandler,
+    blur: props.onBlur,
+    focus: props.onFocus,
+    drop: props.onDrop,
+    input: (e) => {
+      if (props.onInput) {
+        props.onInput(e);
+      }
+
+      const { data } = e as any;
+      if (props.maxlength && props.modelValue.length + data.length > props.maxlength) {
+        bus.emit(editorId, ERROR_CATCHER, {
+          name: 'overlength',
+          message: 'The input text is too long',
+          data: data
+        });
+      }
+    }
+  };
 
   const defaultExtensions = [
     keymap.of([...defaultKeymap, ...historyKeymap, ...mdEditorCommands, indentWithTab]),
@@ -60,26 +88,11 @@ const useCodeMirror = (props: ContentProps) => {
     // 横向换行
     EditorView.lineWrapping,
     EditorView.updateListener.of((update) => {
-      update.docChanged && props.onChange(update.state.doc.toString());
-    }),
-    EditorView.domEventHandlers({
-      paste: pasteHandler,
-      blur: props.onBlur,
-      focus: props.onFocus,
-      drop: props.onDrop,
-      input: (e) => {
-        props.onInput && props.onInput(e);
-
-        const { data } = e as any;
-        if (props.maxlength && props.modelValue.length + data.length > props.maxlength) {
-          bus.emit(editorId, ERROR_CATCHER, {
-            name: 'overlength',
-            message: 'The input text is too long',
-            data: data
-          });
-        }
+      if (update.docChanged) {
+        props.onChange(update.state.doc.toString());
       }
-    })
+    }),
+    eventComp.of(EditorView.domEventHandlers(domEventHandlers))
   ];
 
   const getExtensions = () => {
@@ -133,6 +146,41 @@ const useCodeMirror = (props: ContentProps) => {
       callback(direct: ToolDirective, params = {}) {
         const { text, options } = directive2flag(direct, codeMirrorUt.value!, params);
         codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+      }
+    });
+
+    // 原始事件
+    bus.on(editorId, {
+      name: EVENT_LISTENER,
+      callback(handlers: DOMEventHandlers) {
+        const nextDomEventHandlers: DOMEventHandlers = {
+          ...domEventHandlers
+        };
+
+        const defaultEventNames = Object.keys(domEventHandlers);
+
+        for (const eventName in handlers) {
+          const en = eventName as keyof HTMLElementEventMap;
+
+          if (defaultEventNames.includes(en)) {
+            nextDomEventHandlers[en] = (e, v) => {
+              handlers[en]!(e as any, v);
+
+              // 如果用户自行监听的事件调用了preventDefault，则不再执行内部的方法
+              if (!e.defaultPrevented) {
+                domEventHandlers[en]!(e as any, v);
+              }
+            };
+          } else {
+            nextDomEventHandlers[en] = handlers[en] as any;
+          }
+        }
+
+        codeMirrorUt.value?.view.dispatch({
+          effects: eventComp.reconfigure(
+            EditorView.domEventHandlers(nextDomEventHandlers)
+          )
+        });
       }
     });
   });
