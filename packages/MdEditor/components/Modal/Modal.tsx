@@ -11,7 +11,8 @@ import {
   shallowRef,
   CSSProperties,
   inject,
-  ComputedRef
+  ComputedRef,
+  onMounted
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
@@ -63,8 +64,6 @@ const props = {
 
 type ModalProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
-const toClass = `${prefix}-modal-container`;
-
 const getNextIndex = (() => {
   let startIndex = 20000;
 
@@ -86,6 +85,8 @@ export default defineComponent({
 
     const modalRef = ref();
     const modalHeaderRef = ref();
+
+    const bodyRef = ref<HTMLElement>();
 
     // 创建的弹窗容器，存放在document.body末尾
     const containerRef = shallowRef<HTMLDivElement>();
@@ -191,13 +192,21 @@ export default defineComponent({
       }
     );
 
+    onMounted(() => {
+      bodyRef.value = document.body;
+    });
+
     return () => {
       const slotDefault = getSlot({ ctx });
       const slotTitle = getSlot({ props, ctx }, 'title');
 
-      return (
-        <Teleport to={document.body}>
-          <div ref={containerRef} class={toClass} data-theme={themeRef.value}>
+      return bodyRef.value ? (
+        <Teleport to={bodyRef.value}>
+          <div
+            ref={containerRef}
+            class={`${prefix}-modal-container`}
+            data-theme={themeRef.value}
+          >
             <div
               class={props.class}
               style={{
@@ -272,6 +281,8 @@ export default defineComponent({
             </div>
           </div>
         </Teleport>
+      ) : (
+        ''
       );
     };
   }

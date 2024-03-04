@@ -81,6 +81,7 @@ globalThis.__name = __name;
           emptyOutDir: false,
           cssCodeSplit: true,
           outDir: resolvePath('lib'),
+          minify: false,
           lib: {
             entry: entries[t],
             name: 'MdEditorV3',
