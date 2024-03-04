@@ -871,19 +871,22 @@ Except for the same as `MdPreview`:
 
 ### 📸 onUploadImg
 
-- **type**: `(files: Array<File>, callback: (urls: Array<string>) => void) => void`
+- **type**: `files: Array<File>, callback: (urls: string[] | { url: string; alt: string; title: string }[]) => void`
 
   Uploading picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
 
   ```vue
   <template>
-    <MdEditor @onUploadImg="onUploadImg" />
+    <MdEditor v-model="text" @onUploadImg="onUploadImg" />
   </template>
 
   <script setup>
+  import { ref } from 'vue';
   import axios from 'axios';
   import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
+
+  const text = ref('# Hello Editor');
 
   const onUploadImg = async (files, callback) => {
     const res = await Promise.all(
@@ -904,7 +907,17 @@ Except for the same as `MdPreview`:
       })
     );
 
+    // Approach 1
     callback(res.map((item) => item.data.url));
+
+    // Approach 2
+    // callback(
+    //   res.map((item: any) => ({
+    //     url: item.data.url,
+    //     alt: 'alt',
+    //     title: 'title'
+    //   }))
+    // );
   };
   </script>
   ```

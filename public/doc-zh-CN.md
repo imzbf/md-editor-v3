@@ -881,19 +881,22 @@
 
 ### 📸 onUploadImg
 
-- **类型**：`(files: Array<File>, callback: (urls: Array<string>) => void) => void`
+- **类型**：`files: Array<File>, callback: (urls: string[] | { url: string; alt: string; title: string }[]) => void`
 
   上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传。
 
   ```vue
   <template>
-    <MdEditor @onUploadImg="onUploadImg" />
+    <MdEditor v-model="text" @onUploadImg="onUploadImg" />
   </template>
 
   <script setup>
+  import { ref } from 'vue';
   import axios from 'axios';
   import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
+
+  const text = ref('# Hello Editor');
 
   const onUploadImg = async (files, callback) => {
     const res = await Promise.all(
@@ -914,7 +917,17 @@
       })
     );
 
+    // 方式一
     callback(res.map((item) => item.data.url));
+
+    // 方式二
+    // callback(
+    //   res.map((item: any) => ({
+    //     url: item.data.url,
+    //     alt: 'alt',
+    //     title: 'title'
+    //   }))
+    // );
   };
   </script>
   ```
