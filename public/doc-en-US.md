@@ -1235,6 +1235,20 @@ Clear current history.
 
 ---
 
+### 🎛 domEventHandlers
+
+Supports listening to all DOM events.
+
+```js
+editorRef.value?.domEventHandlers({
+  compositionstart: () => {
+    console.log('compositionstart');
+  }
+});
+```
+
+---
+
 ## 💴 Config Editor
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.

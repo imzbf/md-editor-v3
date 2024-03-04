@@ -13,6 +13,8 @@ import 'md-editor-v3/lib/style.css';
 
 import MarkExtension from 'markdown-it-mark';
 
+import LinkAttr from 'markdown-it-link-attributes';
+
 import { lineNumbers } from '@codemirror/view';
 // import { basicSetup } from 'codemirror';
 
@@ -22,6 +24,11 @@ import '@vavt/cm-extension/dist/previewTheme/arknights.css';
 config({
   markdownItConfig(md) {
     md.use(MarkExtension);
+    md.use(LinkAttr, {
+      attrs: {
+        target: '_blank'
+      }
+    });
   },
   codeMirrorExtensions(theme, extensions) {
     const _exs = [...extensions, lineNumbers()];

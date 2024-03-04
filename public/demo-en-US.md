@@ -9,7 +9,7 @@ Now, we can develop vue3 project by `jsx` friendly. Editor is compatible for som
 Use production version in html directly:
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -807,13 +807,87 @@ const text = ref('');
 
 > Tips: While import highlight styles by yourself, editor will not be able to change code styles.
 
-## 🔒 XSS
+### 🔒 Compile-time Prevention of XSS
 
-!!! warning Pay Attention
+The plugin `markdown-it-xss` has already processed dangerous code during compilation, and currently supports displaying some properties of the `input ` and `iframe` tags by default:
 
-After 3.x, dangerous code has been processed by default. Here is usage for versions 2.x and below
+```json
+{
+  // Task List
+  "input": ["class", "disabled", "type", "checked"],
+  // Embedded video codes such as YouTube, WeTV, and Bilibili
+  "iframe": [
+    "class",
+    "width",
+    "height",
+    "src",
+    "title",
+    "border",
+    "frameborder",
+    "framespacing",
+    "allow",
+    "allowfullscreen"
+  ]
+}
+```
 
-!!!
+#### 🔓 Remove XSS extension
+
+```js
+config({
+  markdownItPlugins(plugins) {
+    return plugins.filter((p) => p.type !== 'xss');
+  }
+});
+```
+
+#### 🔏 Modify XSS configuration
+
+Add a configuration that allows for events where image loading fails
+
+```js
+config({
+  markdownItPlugins(plugins) {
+    return plugins.map((p) => {
+      if (p.type === 'xss') {
+        return {
+          ...p,
+          options: {
+            xss(xss) {
+              return {
+                whiteList: Object.assign({}, xss.getDefaultWhiteList(), {
+                  // If you need to use task list, please keep this configuration
+                  input: ['class', 'disabled', 'type', 'checked'],
+                  // If you need to use embedded video code, please keep this configuration
+                  iframe: [
+                    'class',
+                    'width',
+                    'height',
+                    'src',
+                    'title',
+                    'border',
+                    'frameborder',
+                    'framespacing',
+                    'allow',
+                    'allowfullscreen'
+                  ],
+                  img: ['onerror']
+                })
+              };
+            }
+          }
+        };
+      }
+
+      return p;
+    });
+  }
+});
+```
+
+More configuration references: [js-xss](https://github.com/leizongmin/js-xss/tree/master)
+
+### 🔒 Prevent XSS after compilation
 
 Using `sanitize` to sanitize `html`. eg: `sanitize-html`
 

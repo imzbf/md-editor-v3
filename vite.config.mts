@@ -16,8 +16,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     server: {
       host: 'localhost',
       open: '/md-editor-v3/zh-CN/index',
-      port: 3344,
-      https: false
+      port: 3344
     },
     resolve: {
       alias: {

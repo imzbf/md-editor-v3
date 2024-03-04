@@ -9,7 +9,7 @@
 通过直接链接生产版本来使用，下面是一个小例子：
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -815,15 +815,89 @@ const text = ref('');
 
 > 注意：highlight 的样式自行引入后，将不支持切换代码样式。
 
-## 🔒 XSS
+### 🔒 编译时防范 XSS
 
-!!! warning 提示
+内置的`markdown-it-xss`已经在编译中处理了危险代码，目前默认支持展示`input`和`iframe`标签的部分属性：
 
-3.x 以后已内置危险代码处理，下面是 2.x 及以下版本的使用方式
+```json
+{
+  // 支持任务列表
+  "input": ["class", "disabled", "type", "checked"],
+  // 主要支持youtobe、腾讯视频、哔哩哔哩等内嵌视频代码
+  "iframe": [
+    "class",
+    "width",
+    "height",
+    "src",
+    "title",
+    "border",
+    "frameborder",
+    "framespacing",
+    "allow",
+    "allowfullscreen"
+  ]
+}
+```
 
-!!!
+#### 🔓 移除 xss 扩展
 
-通过`sanitize`事件，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
+```js
+config({
+  markdownItPlugins(plugins) {
+    return plugins.filter((p) => p.type !== 'xss');
+  }
+});
+```
+
+#### 🔏 修改 xss 配置
+
+我们添加一个允许图片加载失败的事件
+
+```js
+config({
+  markdownItPlugins(plugins) {
+    return plugins.map((p) => {
+      if (p.type === 'xss') {
+        return {
+          ...p,
+          options: {
+            xss(xss) {
+              return {
+                whiteList: Object.assign({}, xss.getDefaultWhiteList(), {
+                  // 如果你需要使用任务列表，请保留这项配置
+                  input: ['class', 'disabled', 'type', 'checked'],
+                  // 如果你需要使用嵌入视频代码，请保留这项配置
+                  iframe: [
+                    'class',
+                    'width',
+                    'height',
+                    'src',
+                    'title',
+                    'border',
+                    'frameborder',
+                    'framespacing',
+                    'allow',
+                    'allowfullscreen'
+                  ],
+                  img: ['onerror']
+                })
+              };
+            }
+          }
+        };
+      }
+
+      return p;
+    });
+  }
+});
+```
+
+更新详细配置参考 [js-xss](https://github.com/leizongmin/js-xss/blob/master/README.zh.md)
+
+### 🔒 编译后防范 XSS
+
+通过`sanitize`属性，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
 
 ```shell
 yarn add sanitize-html

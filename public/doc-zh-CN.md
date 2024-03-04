@@ -1247,6 +1247,20 @@ console.log(editorRef.value?.getSelectedText());
 
 ---
 
+### 🎛 domEventHandlers
+
+支持监听全部的dom事件。
+
+```js
+editorRef.value?.domEventHandlers({
+  compositionstart: () => {
+    console.log('compositionstart');
+  }
+});
+```
+
+---
+
 ## 💴 配置编辑器
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。

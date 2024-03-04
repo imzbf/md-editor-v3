@@ -12,3 +12,4 @@ declare module '*.md' {
 }
 
 declare module 'markdown-it-mark';
+declare module 'markdown-it-link-attributes';
