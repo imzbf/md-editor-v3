@@ -253,6 +253,7 @@ export default defineComponent({
         </button>
         <div class="container">
           <MdEditor
+            editorId="md-prev"
             completions={completions.list}
             ref={editorRef}
             previewTheme={props.previewTheme}
