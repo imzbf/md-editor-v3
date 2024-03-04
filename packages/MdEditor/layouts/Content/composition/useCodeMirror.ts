@@ -57,6 +57,9 @@ const useCodeMirror = (props: ContentProps) => {
 
   const mdEditorCommands = createCommands(editorId, props);
 
+  // 输入状态，取消拼字时的回调
+  const spelling = ref(false);
+
   // 粘贴上传
   const pasteHandler = usePasteUpload(props);
 
@@ -65,6 +68,18 @@ const useCodeMirror = (props: ContentProps) => {
     blur: props.onBlur,
     focus: props.onFocus,
     drop: props.onDrop,
+    compositionstart: () => {
+      console.log('compositionstart');
+      spelling.value = true;
+    },
+    compositionend: (_e, view) => {
+      console.log('compositionend');
+
+      spelling.value = false;
+      // spelling状态调整后updateListener不能立刻获取到
+      // 所以需要手动触发一次onChange
+      props.updateModelValue(view.state.doc.toString());
+    },
     input: (e) => {
       if (props.onInput) {
         props.onInput(e);
@@ -90,6 +105,10 @@ const useCodeMirror = (props: ContentProps) => {
     EditorView.updateListener.of((update) => {
       if (update.docChanged) {
         props.onChange(update.state.doc.toString());
+
+        if (!spelling.value) {
+          props.updateModelValue(update.state.doc.toString());
+        }
       }
     }),
     eventComp.of(EditorView.domEventHandlers(domEventHandlers))

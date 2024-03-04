@@ -59,6 +59,10 @@ export const contentPreviewProps = {
 
 export const contentProps = {
   ...contentPreviewProps,
+  updateModelValue: {
+    type: Function as PropType<(v: string) => void>,
+    default: () => {}
+  },
   onChange: {
     type: Function as PropType<(v: string) => void>,
     default: () => {}

@@ -99,12 +99,15 @@ const Editor = defineComponent({
             maxlength={props.maxLength}
             autoDetectCode={props.autoDetectCode}
             noHighlight={noHighlight}
+            // 区别v-model，它在compositionend之前不会触发
+            updateModelValue={(value) => {
+              ctx.emit('update:modelValue', value);
+            }}
             onChange={(value) => {
               if (props.onChange) {
                 props.onChange(value);
               }
 
-              ctx.emit('update:modelValue', value);
               ctx.emit('onChange', value);
             }}
             onHtmlChanged={(html) => {
