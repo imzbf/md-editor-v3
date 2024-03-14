@@ -21,7 +21,7 @@ export default defineComponent({
         <label
           class={`${prefix}-footer-label`}
         >{`${ult.value.footer?.markdownTotal}:`}</label>
-        <span>{countWords(props.modelValue)}</span>
+        <span>{props.modelValue ? countWords(props.modelValue) : 0}</span>
       </div>
     );
   }
