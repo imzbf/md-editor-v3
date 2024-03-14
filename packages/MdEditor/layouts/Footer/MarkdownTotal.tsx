@@ -12,12 +12,16 @@ export default defineComponent({
   setup(props) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
 
+    const countWords = (text: string) => {
+      return text.trim().split(/\s+/).length;
+    };
+
     return () => (
       <div class={`${prefix}-footer-item`}>
         <label
           class={`${prefix}-footer-label`}
         >{`${ult.value.footer?.markdownTotal}:`}</label>
-        <span>{props.modelValue?.length || 0}</span>
+        <span>{countWords(props.modelValue)}</span>
       </div>
     );
   }
