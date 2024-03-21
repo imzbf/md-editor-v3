@@ -81,7 +81,8 @@ globalThis.__name = __name;
           emptyOutDir: false,
           cssCodeSplit: true,
           outDir: resolvePath('lib'),
-          minify: false,
+          // nuxt识别出，压缩后的h与vue导出的冲突了
+          minify: t === 'umd',
           lib: {
             entry: entries[t],
             name: 'MdEditorV3',

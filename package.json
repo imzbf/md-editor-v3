@@ -63,7 +63,7 @@
     "@types/prettier": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
-    "@vavt/markdown-theme": "^3.2.1",
+    "@vavt/markdown-theme": "^3.2.2",
     "@vavt/vite-plugin-import-markdown": "^1.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
@@ -82,10 +82,10 @@
     "prettier": "^3.2.5",
     "screenfull": "^6.0.2",
     "tsx": "^4.7.1",
-    "typescript": "^5.3.3",
+    "typescript": "5.3.3",
     "vite": "^5.1.4",
     "vite-plugin-dts": "^3.7.3",
-    "vue": "^3.2.47",
+    "vue": "3.2.47",
     "vue-tsc": "^1.8.27"
   },
   "peerDependencies": {
