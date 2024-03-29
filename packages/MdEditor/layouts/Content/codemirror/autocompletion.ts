@@ -50,7 +50,7 @@ const getApply = (_label: string): Completion['apply'] => {
 const createAutocompletion = (completions: Array<CompletionSource> | undefined) => {
   const defaultCompletion = (context: CompletionContext): CompletionResult | null => {
     const word = context.matchBefore(
-      /^#+|^-\s*\[*\s*\]*|`+|\[|!\[*|^\|\s?\|?|^\$\$?|!+\s*\w*/
+      /^#+|^-\s*\[*\s*\]*|`+|\[|!\[*|^\|\s?\|?|\$\$?|!+\s*\w*/
     );
 
     if (word === null || (word.from == word!.to && context.explicit)) {
