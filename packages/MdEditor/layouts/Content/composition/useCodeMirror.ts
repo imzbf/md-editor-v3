@@ -69,12 +69,9 @@ const useCodeMirror = (props: ContentProps) => {
     focus: props.onFocus,
     drop: props.onDrop,
     compositionstart: () => {
-      console.log('compositionstart');
       spelling.value = true;
     },
     compositionend: (_e, view) => {
-      console.log('compositionend');
-
       spelling.value = false;
       // spelling状态调整后updateListener不能立刻获取到
       // 所以需要手动触发一次onChange
