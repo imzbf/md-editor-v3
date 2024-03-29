@@ -32,6 +32,7 @@ import {
   EVENT_LISTENER,
   REPLACE
 } from '~/static/event-name';
+import { throttle } from '@vavt/util';
 
 /**
  * 文本编辑区组件
@@ -168,7 +169,7 @@ const useCodeMirror = (props: ContentProps) => {
     // 原始事件
     bus.on(editorId, {
       name: EVENT_LISTENER,
-      callback(handlers: DOMEventHandlers) {
+      callback: throttle((handlers: DOMEventHandlers) => {
         const nextDomEventHandlers: DOMEventHandlers = {
           ...domEventHandlers
         };
@@ -197,7 +198,7 @@ const useCodeMirror = (props: ContentProps) => {
             EditorView.domEventHandlers(nextDomEventHandlers)
           )
         });
-      }
+      })
     });
   });
 
