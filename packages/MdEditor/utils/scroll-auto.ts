@@ -260,7 +260,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
         } else {
           // 说明下一个带有行号的行也不在可视区域，行号需要往下走
           if (
-            i + 1 <= startLines.length &&
+            i + 1 < startLines.length &&
             elesHasLineNumber[i + 1].offsetTop < cScrollTop
           ) {
             i++;
@@ -289,7 +289,12 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
         default: {
           realEleStart = elesHasLineNumber[startLineIndex];
-          realEleEnd = elesHasLineNumber[startLineIndex + 1];
+          realEleEnd =
+            elesHasLineNumber[
+              startLineIndex + 1 === elesHasLineNumber.length
+                ? startLineIndex
+                : startLineIndex + 1
+            ];
         }
       }
     }
@@ -312,7 +317,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     // 开始行的滚动高度
     const firstLineScrollTop = getTopByLine(start);
     // 结束行的滚动高度
-    let endLineScrollTop = getTopByLine(end + 1);
+    let endLineScrollTop = getTopByLine(end === view.state.doc.lines ? end : end + 1);
     let blockHeight = 0;
 
     // 最后一行距离顶部高度超出了可以滚动的高度，则将当前开始行到最后一个节点视为同一个模块
@@ -385,7 +390,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     } else {
       cEleHandler();
     }
-  }, 8);
+
+    // 计算位置的函数一般在1ms以内
+  }, 1);
 
   return [
     () => {
