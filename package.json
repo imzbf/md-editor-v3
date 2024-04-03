@@ -41,7 +41,7 @@
     "markdown-it-mark": "^4.0.0",
     "md-editor-v3": "^4.12.4",
     "nprogress": "^0.2.0",
-    "vue": "^3.2.47",
+    "vue": "3.2.47",
     "vue-router": "^4.3.0",
     "vuex": "^4.0.2"
   },
