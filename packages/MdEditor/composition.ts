@@ -7,10 +7,12 @@ import {
   ExposeEvent,
   MdPreviewProps,
   FocusOption,
-  UploadImgCallBack
+  UploadImgCallBack,
+  StaticTextDefaultValue,
+  EditorProps,
+  EditorContext
 } from '~/type';
 import { appendHandler } from '~/utils/dom';
-import { EditorContext, EditorProps } from '~/type';
 import {
   prefix,
   staticTextDefault,
@@ -40,6 +42,7 @@ import {
 } from '~/static/event-name';
 import bus from '~/utils/event-bus';
 import { ContentExposeParam } from './layouts/Content/type';
+import { deepClone, deepMerge } from '@vavt/util';
 
 /**
  * 处理保存逻辑，主要是需要异步返回编译后的html
@@ -155,17 +158,16 @@ export const useProvidePreview = (props: MdPreviewProps) => {
   provide('showCodeRowNumber', props.showCodeRowNumber);
 
   // 注入语言设置
-  const usedLanguageText = computed(() => {
-    const allText: any = {
+  const usedLanguageText = computed((): StaticTextDefaultValue => {
+    const allText: { [key: string]: StaticTextDefaultValue } = {
       ...staticTextDefault,
       ...configOption?.editorConfig?.languageUserDefined
     };
 
-    if (allText[props.language]) {
-      return allText[props.language];
-    } else {
-      return staticTextDefault['zh-CN'];
-    }
+    return deepMerge(
+      deepClone(staticTextDefault['en-US']),
+      allText[props.language] || ({} as StaticTextDefaultValue)
+    );
   });
 
   provide('usedLanguageText', usedLanguageText);
