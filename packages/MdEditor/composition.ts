@@ -38,7 +38,8 @@ import {
   UPLOAD_IMAGE,
   REPLACE,
   RERENDER,
-  EVENT_LISTENER
+  EVENT_LISTENER,
+  PREVIEW_ONLY_CHANGED
 } from '~/static/event-name';
 import bus from '~/utils/event-bus';
 import { ContentExposeParam } from './layouts/Content/type';
@@ -327,15 +328,22 @@ export const useConfig = (
     pageFullscreen: props.pageFullscreen,
     fullscreen: false,
     preview: props.preview,
-    htmlPreview: props.preview ? false : props.htmlPreview
+    htmlPreview: props.preview ? false : props.htmlPreview,
+    previewOnly: false
   });
 
   const updateSetting: UpdateSetting = (k, v) => {
     setting[k] = v === undefined ? !setting[k] : v;
-    if (k === 'preview' && setting.preview) {
+
+    if (k === 'preview') {
       setting.htmlPreview = false;
-    } else if (k === 'htmlPreview' && setting.htmlPreview) {
+      setting.previewOnly = false;
+    } else if (k === 'htmlPreview') {
       setting.preview = false;
+      setting.previewOnly = false;
+    } else if (k === 'previewOnly' && !setting.preview && !setting.htmlPreview) {
+      // 如果没有显示预览模块，则需要手动展示
+      setting.preview = true;
     }
   };
 
@@ -456,6 +464,13 @@ export const useExpose = (
   );
 
   watch(
+    () => setting.previewOnly,
+    (newVal) => {
+      bus.emit(editorId, PREVIEW_ONLY_CHANGED, newVal);
+    }
+  );
+
+  watch(
     () => setting.htmlPreview,
     (newVal) => {
       bus.emit(editorId, HTML_PREVIEW_CHANGED, newVal);
@@ -501,6 +516,17 @@ export const useExpose = (
           break;
         }
 
+        case 'previewOnly': {
+          bus.on(editorId, {
+            name: PREVIEW_ONLY_CHANGED,
+            callback(status: boolean) {
+              (callBack as ExposeEvent['previewOnly'])(status);
+            }
+          });
+
+          break;
+        }
+
         case 'htmlPreview': {
           bus.on(editorId, {
             name: HTML_PREVIEW_CHANGED,
@@ -536,6 +562,9 @@ export const useExpose = (
     },
     togglePreview(status) {
       updateSetting('preview', status);
+    },
+    togglePreviewOnly(status) {
+      updateSetting('previewOnly', status);
     },
     toggleHtmlPreview(status) {
       updateSetting('htmlPreview', status);

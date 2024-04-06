@@ -36,10 +36,10 @@ const useAutoScroll = (
         cEle!,
         codeMirrorUt.value!
       );
-    }
 
-    if (props.scrollAuto) {
-      initScrollAuto();
+      if (props.scrollAuto) {
+        initScrollAuto();
+      }
     }
   };
 
@@ -64,6 +64,18 @@ const useAutoScroll = (
         initScrollAuto();
       } else {
         clearScrollAuto();
+      }
+    }
+  );
+
+  // 编辑状态的仅预览
+  watch(
+    () => props.setting.previewOnly,
+    (po) => {
+      if (po) {
+        clearScrollAuto();
+      } else {
+        initScrollAuto();
       }
     }
   );

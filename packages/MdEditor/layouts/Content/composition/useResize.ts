@@ -88,6 +88,20 @@ const useResize = (
     }
   );
 
+  // 编辑模式仅预览
+  watch(
+    () => props.setting.previewOnly,
+    (po) => {
+      if (po) {
+        inputWrapperStyle.width = '0%';
+        resizeOperateStyle.display = 'none';
+      } else {
+        inputWrapperStyle.width = state.resizedWidth;
+        resizeOperateStyle.display = 'initial';
+      }
+    }
+  );
+
   return { inputWrapperStyle, resizeOperateStyle };
 };
 

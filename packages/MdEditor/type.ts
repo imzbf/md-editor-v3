@@ -44,6 +44,7 @@ export interface ToolbarTips {
   pageFullscreen?: string;
   fullscreen?: string;
   preview?: string;
+  previewOnly?: string;
   htmlPreview?: string;
   catalog?: string;
   github?: string;
@@ -128,6 +129,7 @@ export interface SettingType {
   fullscreen: boolean;
   preview: boolean;
   htmlPreview: boolean;
+  previewOnly: boolean;
 }
 
 export type Themes = 'light' | 'dark';
@@ -337,6 +339,7 @@ export interface ExposeEvent {
   pageFullscreen(status: boolean): void;
   fullscreen(status: boolean): void;
   preview(status: boolean): void;
+  previewOnly(status: boolean): void;
   htmlPreview(status: boolean): void;
   catalog(status: boolean): void;
 }
@@ -412,6 +415,8 @@ export interface ExposeParam {
    * @param status 是否显示预览
    */
   togglePreview(status?: boolean): void;
+
+  togglePreviewOnly(status?: boolean): void;
 
   /**
    * 切换是否显示html预览

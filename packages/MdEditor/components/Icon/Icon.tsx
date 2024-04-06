@@ -26,6 +26,7 @@ export type IconName =
   | 'fangda'
   | 'fullscreen-exit'
   | 'fullscreen'
+  | 'preview-only'
   | 'preview'
   | 'coding'
   | 'catalog'

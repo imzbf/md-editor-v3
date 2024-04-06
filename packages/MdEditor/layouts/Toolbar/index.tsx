@@ -724,6 +724,25 @@ export default defineComponent({
               </div>
             );
           }
+          case 'previewOnly': {
+            return (
+              <div
+                class={`${prefix}-toolbar-item`}
+                title={ult.value.toolbarTips?.previewOnly}
+                onClick={() => {
+                  props.updateSetting('previewOnly');
+                }}
+              >
+                <Icon name="preview-only" />
+
+                {props.showToolbarName && (
+                  <div class={`${prefix}-toolbar-item-name`}>
+                    {ult.value.toolbarTips?.previewOnly}
+                  </div>
+                )}
+              </div>
+            );
+          }
           case 'htmlPreview': {
             return (
               <div

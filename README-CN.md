@@ -186,6 +186,7 @@ const scrollElement = document.documentElement;
   'pageFullscreen',
   'fullscreen',
   'preview',
+  'previewOnly',
   'htmlPreview',
   'catalog',
   'github'
@@ -231,6 +232,7 @@ export interface ToolbarTips {
   fullscreen?: string;
   catalog?: string;
   preview?: string;
+  previewOnly?: string;
   htmlPreview?: string;
   github?: string;
   '-'?: string;
@@ -411,6 +413,12 @@ onMounted(() => {
   editorRef.value?.on('preview', (status) => console.log(status));
   ```
 
+- previewOnly
+
+  ```js
+  editorRef.value?.on('previewOnly', (status) => console.log(status));
+  ```
+
 - htmlPreview
 
   ```js
@@ -445,6 +453,14 @@ editorRef.value?.toggleFullscreen(true);
 
 ```js
 editorRef.value?.togglePreview(true);
+```
+
+### 📖 togglePreviewOnly
+
+切换仅预览状态。
+
+```js
+editorRef.value?.togglePreviewOnly(true);
 ```
 
 ### 📼 toggleHtmlPreview

@@ -185,6 +185,7 @@ Except for the same as `MdPreview`:
   'pageFullscreen',
   'fullscreen',
   'preview',
+  'previewOnly',
   'htmlPreview',
   'catalog',
   'github'
@@ -230,6 +231,7 @@ export interface ToolbarTips {
   fullscreen?: string;
   catalog?: string;
   preview?: string;
+  previewOnly?: string;
   htmlPreview?: string;
   github?: string;
   '-'?: string;
@@ -403,6 +405,12 @@ Get the internal state of the editor, including pageFullscreen, fullscreen, prev
   editorRef.value?.on('preview', (status) => console.log(status));
   ```
 
+- previewOnly
+
+  ```js
+  editorRef.value?.on('previewOnly', (status) => console.log(status));
+  ```
+
 - htmlPreview
 
   ```js
@@ -437,6 +445,14 @@ Toggle status of preview.
 
 ```js
 editorRef.value?.togglePreview(true);
+```
+
+### 📖 togglePreviewOnly
+
+Toggle into Preview Only Mode.
+
+```js
+editorRef.value?.togglePreviewOnly(true);
 ```
 
 ### 📼 toggleHtmlPreview

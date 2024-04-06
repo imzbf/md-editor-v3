@@ -6,8 +6,8 @@ export const prefix = 'md-editor';
 export const defaultEditorId = 'md-editor-v3';
 
 // 字体链接
-export const iconfontSvgUrl = 'https://at.alicdn.com/t/c/font_2605852_prouiefeic.js';
-export const iconfontClassUrl = 'https://at.alicdn.com/t/c/font_2605852_prouiefeic.css';
+export const iconfontSvgUrl = 'https://at.alicdn.com/t/c/font_2605852_rfu1p40qggh.js';
+export const iconfontClassUrl = 'https://at.alicdn.com/t/c/font_2605852_rfu1p40qggh.css';
 
 export const cdnBase = 'https://cdnjs.cloudflare.com/ajax/libs';
 
@@ -58,6 +58,7 @@ export const allToolbar = [
   'pageFullscreen',
   'fullscreen',
   'preview',
+  'previewOnly',
   'htmlPreview',
   'catalog',
   'github'
@@ -93,6 +94,7 @@ export const staticTextDefault: StaticTextDefault = {
       pageFullscreen: '浏览器全屏',
       fullscreen: '屏幕全屏',
       preview: '预览',
+      previewOnly: '仅预览',
       htmlPreview: 'html代码预览',
       catalog: '目录',
       github: '源码地址'
@@ -174,6 +176,7 @@ export const staticTextDefault: StaticTextDefault = {
       pageFullscreen: 'fullscreen in page',
       fullscreen: 'fullscreen',
       preview: 'preview',
+      previewOnly: 'preview only',
       htmlPreview: 'html preview',
       catalog: 'catalog',
       github: 'source code'

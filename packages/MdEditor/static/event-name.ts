@@ -15,6 +15,8 @@ export const FULL_SCREEN_CHANGED = 'fullscreenChanged';
 // 预览状态变化
 export const PREVIEW_CHANGED = 'previewChanged';
 
+export const PREVIEW_ONLY_CHANGED = 'previewOnlyChanged';
+
 // html代码变化
 export const HTML_PREVIEW_CHANGED = 'htmlPreviewChanged';
 

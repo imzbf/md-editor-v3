@@ -151,6 +151,10 @@ export default defineComponent({
         console.log('preview', status);
       });
 
+      editorRef.value?.on('previewOnly', (status) => {
+        console.log('previewOnly', status);
+      });
+
       editorRef.value?.on('htmlPreview', (status) => {
         console.log('htmlPreview', status);
       });
@@ -234,6 +238,7 @@ export default defineComponent({
             // editorRef.value?.toggleCatalog();
             // editorRef.value?.toggleHtmlPreview();
             // editorRef.value?.togglePreview();
+            editorRef.value?.togglePreviewOnly();
             // editorRef.value?.triggerSave();
             // editorRef.value?.insert((selectedText) => {
             //   return {
@@ -245,7 +250,7 @@ export default defineComponent({
             // });
             // editorRef.value?.rerender();
             // console.log(editorRef.value?.getSelectedText());
-            editorRef.value?.resetHistory();
+            // editorRef.value?.resetHistory();
             // editorRef.value?.focus();
           }}
         >
@@ -409,6 +414,7 @@ export default defineComponent({
               'pageFullscreen',
               'fullscreen',
               'preview',
+              'previewOnly',
               'htmlPreview',
               'catalog',
               'github'
