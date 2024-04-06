@@ -558,6 +558,14 @@ editorRef.value?.domEventHandlers({
 });
 ```
 
+### 🎛 execCommand
+
+通过触发器向编辑器插入内容。
+
+```js
+editorRef.value?.execCommand('bold');
+```
+
 ## 💴 编辑器配置
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。

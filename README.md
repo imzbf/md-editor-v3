@@ -548,6 +548,14 @@ editorRef.value?.domEventHandlers({
 });
 ```
 
+### 🎛 execCommand
+
+Insert content into the editor via trigger.
+
+```js
+editorRef.value?.execCommand('bold');
+```
+
 ## 💴 Config Editor
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.

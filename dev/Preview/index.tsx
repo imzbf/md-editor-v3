@@ -238,7 +238,7 @@ export default defineComponent({
             // editorRef.value?.toggleCatalog();
             // editorRef.value?.toggleHtmlPreview();
             // editorRef.value?.togglePreview();
-            editorRef.value?.togglePreviewOnly();
+            // editorRef.value?.togglePreviewOnly();
             // editorRef.value?.triggerSave();
             // editorRef.value?.insert((selectedText) => {
             //   return {
@@ -252,6 +252,7 @@ export default defineComponent({
             // console.log(editorRef.value?.getSelectedText());
             // editorRef.value?.resetHistory();
             // editorRef.value?.focus();
+            editorRef.value?.execCommand('gantt');
           }}
         >
           1
