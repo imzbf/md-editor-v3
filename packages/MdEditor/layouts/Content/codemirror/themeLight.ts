@@ -16,7 +16,7 @@ const chalky = '#e5c07b',
   sage = '#3f4a54', // 标题等符号
   whiskey = '#d19a66',
   violet = '#c678dd',
-  darkBackground = '#21252b',
+  darkBackground = '#f6f6f6',
   highlightBackground = '#ceedfa33',
   background = 'var(--md-bk-color)',
   tooltipBackground = 'var(--md-bk-color)',
@@ -60,8 +60,8 @@ export const oneLightTheme = EditorView.theme(
       { backgroundColor: selection },
 
     '.cm-panels': { backgroundColor: darkBackground, color: ivory },
-    '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
-    '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
+    '.cm-panels.cm-panels-top': { borderBottom: '1px solid var(--md-border-color)' },
+    '.cm-panels.cm-panels-bottom': { borderTop: '1px solid var(--md-border-color)' },
 
     '.cm-searchMatch': {
       backgroundColor: '#72a1ff59',

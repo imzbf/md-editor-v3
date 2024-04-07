@@ -63,8 +63,8 @@ export const oneDarkTheme = EditorView.theme(
       { backgroundColor: selection },
 
     '.cm-panels': { backgroundColor: darkBackground, color: ivory },
-    '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
-    '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
+    '.cm-panels.cm-panels-top': { borderBottom: '1px solid var(--md-border-color)' },
+    '.cm-panels.cm-panels-bottom': { borderTop: '1px solid var(--md-border-color)' },
 
     '.cm-searchMatch': {
       backgroundColor: '#72a1ff59',

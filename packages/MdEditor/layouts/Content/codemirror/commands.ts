@@ -1,5 +1,6 @@
 import { KeyBinding } from '@codemirror/view';
 import { deleteLine } from '@codemirror/commands';
+import { searchKeymap } from '@codemirror/search';
 import { ToolDirective } from '~/utils/content-help';
 import { ON_SAVE, OPEN_MODALS, REPLACE } from '~/static/event-name';
 import { ContentProps } from '../props';
@@ -224,7 +225,8 @@ const createCommands = (id: string, contentProps: ContentProps) => {
     CtrlC,
     CtrlL,
     CtrlF,
-    CtrlT
+    CtrlT,
+    ...searchKeymap
   ];
 };
 
