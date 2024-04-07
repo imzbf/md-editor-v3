@@ -472,6 +472,16 @@ export const editorProps = {
    */
   onInputBoxWitdhChange: {
     type: Function as PropType<(width: string) => void>
+  },
+  /**
+   * 替换粘贴的图片链接
+   *
+   * @param t 图片链接
+   * @returns
+   */
+  transformImgUrl: {
+    type: Function as PropType<(t: string) => string>,
+    default: (t: string) => t
   }
 };
 

@@ -62,7 +62,7 @@ const useCodeMirror = (props: ContentProps) => {
   const spelling = ref(false);
 
   // 粘贴上传
-  const pasteHandler = usePasteUpload(props);
+  const pasteHandler = usePasteUpload(props, codeMirrorUt);
 
   const domEventHandlers: DOMEventHandlers = {
     paste: pasteHandler,

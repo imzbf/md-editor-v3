@@ -159,6 +159,7 @@ const Editor = defineComponent({
               ctx.emit('onInputBoxWitdhChange', width);
             }}
             sanitizeMermaid={props.sanitizeMermaid}
+            transformImgUrl={props.transformImgUrl}
           />
           {props.footers?.length > 0 && (
             <Footer

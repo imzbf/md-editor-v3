@@ -129,6 +129,10 @@ export const contentProps = {
   },
   onInputBoxWitdhChange: {
     type: Function as PropType<(width: string) => void>
+  },
+  transformImgUrl: {
+    type: Function as PropType<(t: string) => string>,
+    default: (t: string) => t
   }
 };
 
