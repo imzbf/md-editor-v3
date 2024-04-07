@@ -34,6 +34,7 @@ export const toolbars: ToolbarNames[] = [
   'pageFullscreen',
   'fullscreen',
   'preview',
+  'previewOnly',
   'htmlPreview',
   'catalog',
   'github'

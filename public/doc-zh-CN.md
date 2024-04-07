@@ -489,6 +489,7 @@
     'pageFullscreen',
     'fullscreen',
     'preview',
+    'previewOnly',
     'htmlPreview',
     'catalog',
     'github'
@@ -694,6 +695,15 @@
   输入框默认的宽度
 
 ![](https://imzbf.github.io/md-editor-v3/imgs/drag-width.jpg)
+
+---
+
+### 🪒 transformImgUrl
+
+- **类型**：`(imgUrl: string) => string`
+- **默认值**：`t => t`
+
+  转换图片链接
 
 ---
 
@@ -1064,6 +1074,7 @@ onMounted(() => {
 | togglePageFullscreen | √        | ×         |
 | toggleFullscreen     | √        | ×         |
 | togglePreview        | √        | ×         |
+| togglePreviewOnly    | √        | ×         |
 | toggleHtmlPreview    | √        | ×         |
 | toggleCatalog        | √        | ×         |
 | triggerSave          | √        | ×         |
@@ -1093,6 +1104,12 @@ onMounted(() => {
 
   ```js
   editorRef.value?.on('preview', (status) => console.log(status));
+  ```
+
+- previewOnly
+
+  ```js
+  editorRef.value?.on('previewOnly', (status) => console.log(status));
   ```
 
 - htmlPreview
@@ -1139,6 +1156,18 @@ editorRef.value?.toggleFullscreen(true);
 
 ```js
 editorRef.value?.togglePreview(true);
+```
+
+> 不设置入参切换为相反状态
+
+---
+
+### 📖 togglePreviewOnly
+
+切换仅预览状态。
+
+```js
+editorRef.value?.togglePreviewOnly(true);
 ```
 
 > 不设置入参切换为相反状态
@@ -1270,6 +1299,16 @@ editorRef.value?.domEventHandlers({
     console.log('compositionstart');
   }
 });
+```
+
+---
+
+### 🎛 execCommand
+
+通过触发器向编辑器插入内容。
+
+```js
+editorRef.value?.execCommand('bold');
 ```
 
 ---
@@ -1406,6 +1445,7 @@ config({
           pageFullscreen: '浏览器全屏',
           fullscreen: '屏幕全屏',
           preview: '预览',
+          previewOnly: '仅预览',
           htmlPreview: 'html代码预览',
           catalog: '目录',
           github: '源码地址'

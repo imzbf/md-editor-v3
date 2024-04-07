@@ -489,6 +489,7 @@ Except for the same as `MdPreview`:
     'pageFullscreen',
     'fullscreen',
     'preview',
+    'previewOnly',
     'htmlPreview',
     'catalog',
     'github'
@@ -687,6 +688,15 @@ Except for the same as `MdPreview`:
   Default width of input box
 
 ![](https://imzbf.github.io/md-editor-v3/imgs/drag-width.jpg)
+
+---
+
+### 📥 transformImgUrl
+
+- **type**: `(imgUrl: string) => string`
+- **default**: `t => t`
+
+  Transform image links
 
 ---
 
@@ -1054,6 +1064,7 @@ onMounted(() => {
 | togglePageFullscreen | √        | ×         |
 | toggleFullscreen     | √        | ×         |
 | togglePreview        | √        | ×         |
+| togglePreviewOnly    | √        | ×         |
 | toggleHtmlPreview    | √        | ×         |
 | toggleCatalog        | √        | ×         |
 | triggerSave          | √        | ×         |
@@ -1083,6 +1094,12 @@ Get the internal state of the editor, including pageFullscreen, fullscreen, prev
 
   ```js
   editorRef.value?.on('preview', (status) => console.log(status));
+  ```
+
+- previewOnly
+
+  ```js
+  editorRef.value?.on('previewOnly', (status) => console.log(status));
   ```
 
 - htmlPreview
@@ -1129,6 +1146,18 @@ Toggle status of preview.
 
 ```js
 editorRef.value?.togglePreview(true);
+```
+
+> Switched to the opposite status, without input parameter.
+
+---
+
+### 📖 togglePreviewOnly
+
+Toggle into Preview Only Mode.
+
+```js
+editorRef.value?.togglePreviewOnly(true);
 ```
 
 > Switched to the opposite status, without input parameter.
@@ -1258,6 +1287,16 @@ editorRef.value?.domEventHandlers({
     console.log('compositionstart');
   }
 });
+```
+
+---
+
+### 🎛 execCommand
+
+Insert content into the editor via trigger.
+
+```js
+editorRef.value?.execCommand('bold');
 ```
 
 ---
@@ -1393,6 +1432,7 @@ config({
           pageFullscreen: 'fullscreen in page',
           fullscreen: 'fullscreen',
           preview: 'preview',
+          previewOnly: 'previewOnly',
           htmlPreview: 'html preview',
           catalog: 'catalog',
           github: 'source code'
