@@ -700,7 +700,7 @@
 
 ### 🪒 transformImgUrl
 
-- **类型**：`(imgUrl: string) => string`
+- **类型**：`(imgUrl: string) => string | Promise<string>`
 - **默认值**：`t => t`
 
   转换图片链接

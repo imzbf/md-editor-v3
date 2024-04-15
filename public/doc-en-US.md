@@ -693,7 +693,7 @@ Except for the same as `MdPreview`:
 
 ### 📥 transformImgUrl
 
-- **type**: `(imgUrl: string) => string`
+- **type**: `(imgUrl: string) => string | Promise<string>`
 - **default**: `t => t`
 
   Transform image links
