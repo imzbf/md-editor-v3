@@ -1036,7 +1036,8 @@ export default defineComponent({
               if (data) {
                 emitHandler(modalData.type, {
                   desc: data.desc,
-                  url: data.url
+                  url: data.url,
+                  transform: modalData.type === 'image'
                 });
               }
               modalData.linkVisible = false;

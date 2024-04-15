@@ -150,7 +150,7 @@ const scrollElement = document.documentElement;
 | completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete`匹配关键词的方法列表 |
 | showToolbarName | `boolean` | false | 是否在工具栏下面显示对应的文字名称 |
 | inputBoxWitdh | `string` | '50%' | 输入框默认的宽度 |
-| transformImgUrl | `(imgUrl: string) => string` | t => t | 转换图片链接 |
+| transformImgUrl | `(imgUrl: string) => string \| Promise<string>` | t => t | 转换图片链接 |
 
 > 如果你重新定义了标题，请务必通过`mdHeadingId`告诉编辑器你生成标题 ID 的算法。以便生成的内部目录能够正确导航。
 

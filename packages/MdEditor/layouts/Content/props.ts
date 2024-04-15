@@ -131,7 +131,7 @@ export const contentProps = {
     type: Function as PropType<(width: string) => void>
   },
   transformImgUrl: {
-    type: Function as PropType<(t: string) => string>,
+    type: Function as PropType<(t: string) => string | Promise<string>>,
     default: (t: string) => t
   }
 };

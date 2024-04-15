@@ -13,6 +13,30 @@ const usePasteUpload = (
 ) => {
   const editorId = inject('editorId') as string;
 
+  const imgInsert = (tv: string | Promise<string>) => {
+    if (tv instanceof Promise) {
+      tv.then((targetValue) => {
+        bus.emit(editorId, REPLACE, 'universal', {
+          generate() {
+            return {
+              targetValue
+            };
+          }
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
+    } else {
+      bus.emit(editorId, REPLACE, 'universal', {
+        generate() {
+          return {
+            targetValue: tv
+          };
+        }
+      });
+    }
+  };
+
   // 粘贴板上传
   const pasteHandler = (e: ClipboardEvent) => {
     if (!e.clipboardData) {
@@ -47,28 +71,15 @@ const usePasteUpload = (
     const templateIn = /!\[.*\]\((.*)\s?.*\)/.test(targetValue);
 
     if (templateStart) {
-      bus.emit(editorId, REPLACE, 'universal', {
-        generate() {
-          return {
-            targetValue: props.transformImgUrl(targetValue)
-          };
-        }
-      });
+      const tv = props.transformImgUrl(targetValue);
+      imgInsert(tv);
 
       e.preventDefault();
       return;
     } else if (templateIn) {
       const matchArr = targetValue.match(/(?<=!\[.*\]\()\S+(?=\s?["']?.*["']?\))/);
-
-      bus.emit(editorId, REPLACE, 'universal', {
-        generate() {
-          return {
-            targetValue: matchArr
-              ? targetValue.replace(matchArr[0], props.transformImgUrl(matchArr[0]))
-              : targetValue
-          };
-        }
-      });
+      const tv = matchArr ? props.transformImgUrl(matchArr[0]) : targetValue;
+      imgInsert(tv);
 
       e.preventDefault();
       return;

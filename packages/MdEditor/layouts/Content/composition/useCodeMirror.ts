@@ -61,6 +61,8 @@ const useCodeMirror = (props: ContentProps) => {
   // 输入状态，取消拼字时的回调
   const spelling = ref(false);
 
+  // 粘贴、弹窗添加图片
+
   // 粘贴上传
   const pasteHandler = usePasteUpload(props, codeMirrorUt);
 
@@ -161,8 +163,31 @@ const useCodeMirror = (props: ContentProps) => {
     bus.on(editorId, {
       name: REPLACE,
       callback(direct: ToolDirective, params = {}) {
-        const { text, options } = directive2flag(direct, codeMirrorUt.value!, params);
-        codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+        // 弹窗插入图片时，将链接使用transformImgUrl转换后再插入
+        if (direct === 'image' && params.transform) {
+          const tv = props.transformImgUrl(params.url);
+
+          if (tv instanceof Promise) {
+            tv.then((url) => {
+              const { text, options } = directive2flag(direct, codeMirrorUt.value!, {
+                ...params,
+                url
+              });
+              codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+            }).catch((err) => {
+              console.error(err);
+            });
+          } else {
+            const { text, options } = directive2flag(direct, codeMirrorUt.value!, {
+              ...params,
+              url: tv
+            });
+            codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+          }
+        } else {
+          const { text, options } = directive2flag(direct, codeMirrorUt.value!, params);
+          codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+        }
       }
     });
 

@@ -480,7 +480,7 @@ export const editorProps = {
    * @returns
    */
   transformImgUrl: {
-    type: Function as PropType<(t: string) => string>,
+    type: Function as PropType<(t: string) => string | Promise<string>>,
     default: (t: string) => t
   }
 };

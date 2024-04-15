@@ -151,7 +151,7 @@ Except for the same as `MdPreview`:
 | completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete` List of function to match keywords |
 | showToolbarName | `boolean` | false | Show toolbar name or not |
 | inputBoxWitdh | `string` | '50%' | Default width of input box |
-| transformImgUrl | `(imgUrl: string) => string` | t => t | Transform image links |
+| transformImgUrl | `(imgUrl: string) => string \| Promise<string>` | t => t | Transform image links |
 
 <details>
  <summary>『toolbars』</summary>

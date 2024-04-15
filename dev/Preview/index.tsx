@@ -294,7 +294,9 @@ export default defineComponent({
             transformImgUrl={(t) => {
               console.log(t);
 
-              return 'https://imzbf.github.io/md-editor-rt/imgs/preview-light.png';
+              return Promise.resolve(
+                'https://imzbf.github.io/md-editor-rt/imgs/preview-light.png'
+              );
             }}
             // onError={console.log}
             onDrop={async (e) => {
