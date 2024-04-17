@@ -68,7 +68,7 @@ const usePasteUpload = (
     // 图片语法在当前行开头
     const templateStart = /!\[.*\]\(\s*$/.test(lineStart);
     // 图片语法在粘贴的内容中
-    const templateIn = /!\[.*\]\((.*)\s?.*\)/.test(targetValue);
+    const templateIn = /^!\[.*\]\((.*)\s?.*\)$/.test(targetValue);
 
     if (templateStart) {
       const tv = props.transformImgUrl(targetValue);
