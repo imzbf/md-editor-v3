@@ -68,7 +68,7 @@ const usePasteUpload = (
     // 图片语法在当前行开头
     const templateStart = /!\[.*\]\(\s*$/.test(lineStart);
     // 图片语法在粘贴的内容中
-    const templateIn = /^!\[.*\]\((.*)\s?.*\)$/.test(targetValue);
+    const templateIn = /!\[.*\]\((.*)\s?.*\)/.test(targetValue);
 
     if (templateStart) {
       const tv = props.transformImgUrl(targetValue);
@@ -77,9 +77,23 @@ const usePasteUpload = (
       e.preventDefault();
       return;
     } else if (templateIn) {
-      const matchArr = targetValue.match(/(?<=!\[.*\]\()\S+(?=\s?["']?.*["']?\))/);
-      const tv = matchArr ? props.transformImgUrl(matchArr[0]) : targetValue;
-      imgInsert(tv);
+      const matchArr = targetValue.match(/(?<=!\[.*\]\()([^)\s]+)(?=\s?["']?.*["']?\))/g);
+
+      if (matchArr) {
+        Promise.all(
+          matchArr.map((img) => {
+            return props.transformImgUrl(img);
+          })
+        ).then((newUrls) => {
+          imgInsert(
+            newUrls.reduce((prev, curr, index) => {
+              return prev.replace(matchArr[index], curr);
+            }, targetValue)
+          );
+        });
+      } else {
+        imgInsert(targetValue);
+      }
 
       e.preventDefault();
       return;
