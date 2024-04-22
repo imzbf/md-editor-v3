@@ -4,9 +4,7 @@
  * 该代码只是正对md-editor-v3系列功能做了适配
  */
 import { ShallowRef } from 'vue';
-import ParserBlock from 'markdown-it/lib/parser_block';
-import ParserInline from 'markdown-it/lib/parser_inline';
-import StateInline from 'markdown-it/lib/rules_inline/state_inline';
+import markdownit, { ParserBlock, ParserInline, StateInline } from 'markdown-it';
 import { prefix } from '~/config';
 
 // Test if potential opening or closing delimieter

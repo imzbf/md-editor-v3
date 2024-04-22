@@ -6,9 +6,7 @@
  * 源码如果在页面中存在多个编辑器，但是内容又是相同的时候，第二个开始的内容有点混乱
  * 需要与编辑器的editorId绑定
  */
-import markdownit from 'markdown-it/lib';
-import Renderer from 'markdown-it/lib/renderer';
-import Token from 'markdown-it/lib/token';
+import markdownit, { Renderer, Token } from 'markdown-it';
 
 export interface CodeTabsPluginOps extends markdownit.Options {
   editorId: string;

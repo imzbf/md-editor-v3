@@ -3,7 +3,7 @@
  *
  * 该代码只是正对md-editor-v3系列功能做了适配
  */
-import Renderer from 'markdown-it/lib/renderer';
+import markdownit, { Renderer } from 'markdown-it';
 import { prefix } from '~/config';
 
 export interface AdmonitionPluginOps {

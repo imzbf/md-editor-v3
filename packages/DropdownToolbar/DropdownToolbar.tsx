@@ -1,4 +1,11 @@
-import { defineComponent, PropType, inject, SetupContext, ExtractPropTypes } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  inject,
+  SetupContext,
+  ExtractPropTypes,
+  VNode
+} from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
@@ -15,14 +22,14 @@ const props = {
   },
   // 展示在工具栏的内容，通常是个图标
   trigger: {
-    type: [String, Object] as PropType<string | JSX.Element>
+    type: [String, Object] as PropType<string | VNode>
   },
   onChange: {
     type: Function as PropType<(visible: boolean) => void>
   },
   // 下拉框中的内容
   overlay: {
-    type: [String, Object] as PropType<string | JSX.Element>
+    type: [String, Object] as PropType<string | VNode>
   },
   /**
    * ==没有意义，仅用于规避克隆组件自动嵌入insert方法时，传入的是该组件而产生的waring
@@ -40,7 +47,7 @@ const props = {
    * ==结束
    */
   default: {
-    type: [String, Object] as PropType<string | JSX.Element>
+    type: [String, Object] as PropType<string | Element>
   }
 };
 

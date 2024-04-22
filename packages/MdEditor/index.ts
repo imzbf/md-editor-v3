@@ -8,7 +8,7 @@ import ModalToolbar from '~~/ModalToolbar';
 import MdPreview from '~~/MdPreview';
 
 Editor.install = (app: App) => {
-  app.component(Editor.name, Editor);
+  app.component(Editor.name as string, Editor);
 
   app
     .use(NormalToolbar)

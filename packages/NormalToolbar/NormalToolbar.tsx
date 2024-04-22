@@ -1,4 +1,4 @@
-import { defineComponent, PropType, SetupContext, ExtractPropTypes } from 'vue';
+import { defineComponent, PropType, SetupContext, ExtractPropTypes, VNode } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
@@ -11,7 +11,7 @@ const props = {
   },
   // 展示在工具栏的内容，通常是个图标
   trigger: {
-    type: [String, Object] as PropType<string | JSX.Element>
+    type: [String, Object] as PropType<string | VNode>
   },
   onClick: {
     type: Function as PropType<(e: MouseEvent) => void>

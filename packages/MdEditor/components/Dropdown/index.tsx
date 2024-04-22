@@ -10,7 +10,8 @@ import {
   ref,
   onMounted,
   onBeforeUnmount,
-  ExtractPropTypes
+  ExtractPropTypes,
+  VNode
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { getSlot } from '~/utils/vue-tsx';
@@ -25,7 +26,7 @@ interface CtlTypes {
 
 const props = {
   overlay: {
-    type: [String, Object] as PropType<string | JSX.Element>,
+    type: [String, Object] as PropType<string | VNode>,
     default: ''
   },
   visible: {

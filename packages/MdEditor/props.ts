@@ -1,4 +1,4 @@
-import { PropType, CSSProperties } from 'vue';
+import { PropType, CSSProperties, VNode } from 'vue';
 import { CompletionSource } from '@codemirror/autocomplete';
 import {
   StaticTextDefaultKey,
@@ -334,7 +334,7 @@ export const editorProps = {
    * 自定义的工具栏列表
    */
   defToolbars: {
-    type: [String, Object] as PropType<string | JSX.Element>
+    type: [String, Object] as PropType<string | VNode>
   },
   /**
    * 内部错误捕获
@@ -363,7 +363,7 @@ export const editorProps = {
    * 自定义的也叫工具组件列表
    */
   defFooters: {
-    type: [String, Object] as PropType<string | JSX.Element>
+    type: [String, Object] as PropType<string | VNode>
   },
 
   /**

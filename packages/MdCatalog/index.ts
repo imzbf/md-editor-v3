@@ -3,7 +3,7 @@ import { App } from 'vue';
 import MdCatalog from './MdCatalog';
 
 MdCatalog.install = (app: App) => {
-  app.component(MdCatalog.name, MdCatalog);
+  app.component(MdCatalog.name as string, MdCatalog);
 
   return app;
 };

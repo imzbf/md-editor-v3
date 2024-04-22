@@ -1,4 +1,4 @@
-import markdownit from 'markdown-it/lib';
+import markdownit from 'markdown-it';
 import { Ref } from 'vue';
 import { HeadList, MdHeadingId } from '~/type';
 

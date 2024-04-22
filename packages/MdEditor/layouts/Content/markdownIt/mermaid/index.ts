@@ -1,6 +1,7 @@
 import { ComputedRef } from 'vue';
 import { Themes } from '~/type';
 import { prefix } from '~/config';
+import markdownit from 'markdown-it';
 
 const MermaidPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> }) => {
   const temp = md.renderer.rules.fence!.bind(md.renderer.rules);

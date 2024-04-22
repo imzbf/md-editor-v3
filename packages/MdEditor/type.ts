@@ -1,6 +1,6 @@
 import { LooseRequired } from '@vue/shared';
-import markdownit from 'markdown-it/lib';
-import { Component, ExtractPropTypes, SetupContext } from 'vue';
+import markdownit from 'markdown-it';
+import { Component, ExtractPropTypes, SetupContext, VNode } from 'vue';
 import { Extension } from '@codemirror/state';
 import { KeyBinding, EditorView } from '@codemirror/view';
 import { editorProps, mdPreviewProps } from './props';
@@ -518,7 +518,7 @@ export type EditorContext = SetupContext<EditorEmits>;
  */
 export type CustomIcon = {
   [key in IconName]?: {
-    component: Component | JSX.Element | string;
+    component: Component | VNode | string;
     props?: {
       [key: string | number | symbol]: any;
     };
