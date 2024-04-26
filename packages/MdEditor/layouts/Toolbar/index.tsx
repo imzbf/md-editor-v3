@@ -17,6 +17,7 @@ import Dropdown from '~/components/Dropdown';
 import bus from '~/utils/event-bus';
 import {
   InsertContentGenerator,
+  PreviewThemes,
   StaticTextDefaultValue,
   Themes,
   ToolbarNames
@@ -49,6 +50,8 @@ export default defineComponent({
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     // 主题
     const theme = inject('theme') as ComputedRef<Themes>;
+    // 预览主题
+    const previewTheme = inject('previewTheme') as ComputedRef<PreviewThemes>;
     //语言
     const language = inject('language') as ComputedRef<string>;
     // 全屏功能
@@ -955,6 +958,7 @@ export default defineComponent({
         if (defItem) {
           const defItemCloned = cloneVNode(defItem, {
             theme: theme.value,
+            previewTheme: previewTheme.value,
             language: language.value,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
@@ -971,6 +975,7 @@ export default defineComponent({
         if (defItem) {
           const defItemCloned = cloneVNode(defItem as VNode, {
             theme: theme.value,
+            previewTheme: previewTheme.value,
             language: language.value,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
