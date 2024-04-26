@@ -1473,10 +1473,10 @@
     "@typescript-eslint/types" "7.7.0"
     eslint-visitor-keys "^3.4.3"
 
-"@vavt/markdown-theme@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-3.2.3.tgz#f22e53cbddfdbc8653d7802c4cba0470fbb2271d"
-  integrity sha512-nFhgyk1VLwNHrlUov9qmYsipjlHgv810et9zvNEi/SWYyjogHvw4Mwnni/e71gGV11V8FLZ8TfvswWClZxdGeg==
+"@vavt/markdown-theme@^3.2.4":
+  version "3.2.4"
+  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-3.2.4.tgz#770192c5f4ac6913b41b7ac4e9fd268356011cb1"
+  integrity sha512-m5z5yqjOORQxmLq8q9eL0mcKNVkKZsXBQz/nyVWjNAuk9+bFJ9aLnwF+fGCrDaBI8mD4UPC4UiP+r069uWkpNA==
 
 "@vavt/util@^1.5.1":
   version "1.5.1"

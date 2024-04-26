@@ -166,7 +166,8 @@ export default defineComponent({
       const trigger = cloneVNode(
         slotDefault instanceof Array ? slotDefault[0] : slotDefault,
         {
-          ref: triggerRef
+          ref: triggerRef,
+          key: 'cloned-dropdown-trigger'
         }
       );
 
