@@ -1698,6 +1698,7 @@ config({
 | --- | --- |
 | insert | 参考下方的`DropdownToolbar`组件示例 |
 | theme | 参考扩展组件中的[ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94) |
+| previewtheme | 同上 |
 | language | 同上 |
 
 !!!
