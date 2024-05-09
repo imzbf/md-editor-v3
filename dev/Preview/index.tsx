@@ -274,7 +274,7 @@ export default defineComponent({
             // tabWidth={4}
             showCodeRowNumber
             // katex={katex}
-            // tableShape={[10, 10]}
+            tableShape={[6, 4, 12, 8]}
             // noMermaid
             // placeholder="placeholder"
             // noKatex

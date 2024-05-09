@@ -137,7 +137,7 @@ const scrollElement = document.documentElement;
 | toolbarsExclude | `Array<ToolbarNames \| number>` | [] | 选择性不展示工具栏，内容同`toolbars` |
 | noPrettier | `boolean` | false | 是否启用 prettier 优化 md 内容 |
 | tabWidth | `number` | 2 | 编辑器 TAB 键位等于空格数 |
-| tableShape | `[number, number]` | [6, 4] | 标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数。 |
+| tableShape | `[number, number] \| [number, number, number, number]` | [6, 4] | 标题栏添加表格时，预设待选表格大小，[列数，行数，扩展最大列数，扩展最大行数] |
 | placeholder | `string` | '' |  |
 | footers | `Array<'markdownTotal' \| '=' \| 'scrollSwitch' \| number>` | ['markdownTotal', '=', 'scrollSwitch'] | 页脚显示内容，`=`左右分割，设置为`[]`不显示页脚 |
 | scrollAuto | `boolean` | true | 默认左右滚动状态 |

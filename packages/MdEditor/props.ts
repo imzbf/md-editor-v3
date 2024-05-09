@@ -313,11 +313,12 @@ export const editorProps = {
   /**
    * 表格预设格子数
    *
+   * 也可以是[6, 4, 10, 8]
+   *
    * @default [6, 4]
    */
   tableShape: {
-    type: Array as PropType<Array<number>>,
-    default: () => [6, 4]
+    type: Array as PropType<Array<number>>
   },
 
   /**

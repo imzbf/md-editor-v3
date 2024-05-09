@@ -1,4 +1,4 @@
-import { defineComponent, PropType, reactive, ExtractPropTypes } from 'vue';
+import { defineComponent, PropType, reactive, ExtractPropTypes, ref, watch } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 
@@ -29,23 +29,71 @@ const TableShape = defineComponent({
       y: -1
     });
 
+    const initShape = () => {
+      const shape = [...props.tableShape];
+
+      if (!shape[2] || shape[2] < shape[0]) {
+        shape[2] = shape[0];
+      }
+
+      if (!shape[3] || shape[3] < shape[3]) {
+        shape[3] = shape[1];
+      }
+
+      return shape;
+    };
+
+    const tableShape = ref(initShape());
+
+    watch(
+      () => props.tableShape,
+      () => {
+        tableShape.value = initShape();
+      }
+    );
+
     return () => (
       <div
         class={`${prefix}-table-shape`}
         onMouseleave={() => {
+          tableShape.value = initShape();
           hoverPosition.x = -1;
           hoverPosition.y = -1;
         }}
       >
-        {new Array(props.tableShape[1]).fill('').map((_, rowIndex) => (
+        {new Array(tableShape.value[1]).fill('').map((_, rowIndex) => (
           <div class={`${prefix}-table-shape-row`} key={`table-shape-row-${rowIndex}`}>
-            {new Array(props.tableShape[0]).fill('').map((_, colIndex) => (
+            {new Array(tableShape.value[0]).fill('').map((_, colIndex) => (
               <div
                 class={`${prefix}-table-shape-col`}
                 key={`table-shape-col-${colIndex}`}
                 onMouseenter={() => {
                   hoverPosition.x = rowIndex;
                   hoverPosition.y = colIndex;
+
+                  if (
+                    colIndex + 1 === tableShape.value[0] &&
+                    colIndex + 1 < tableShape.value[2]
+                  ) {
+                    tableShape.value[0]++;
+                  } else if (
+                    colIndex + 2 < tableShape.value[0] &&
+                    tableShape.value[0] > props.tableShape[0]
+                  ) {
+                    tableShape.value[0]--;
+                  }
+
+                  if (
+                    rowIndex + 1 === tableShape.value[1] &&
+                    rowIndex + 1 < tableShape.value[3]
+                  ) {
+                    tableShape.value[1]++;
+                  } else if (
+                    rowIndex + 2 < tableShape.value[1] &&
+                    tableShape.value[1] > props.tableShape[1]
+                  ) {
+                    tableShape.value[1]--;
+                  }
                 }}
                 onClick={() => {
                   props.onSelected(hoverPosition);
