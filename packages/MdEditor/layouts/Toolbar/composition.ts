@@ -1,5 +1,5 @@
 import { onMounted, inject, ref } from 'vue';
-import { configOption, prefix, screenfullUrl } from '~/config';
+import { configOption, prefix } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import bus from '~/utils/event-bus';
 import { CHANGE_FULL_SCREEN, ERROR_CATCHER } from '~/static/event-name';
@@ -7,8 +7,8 @@ import { ToolbarProps } from './props';
 
 export const useSreenfull = (props: ToolbarProps) => {
   const editorId = inject('editorId') as string;
-  let screenfull = configOption.editorExtensions?.screenfull?.instance;
-  const screenfullJs = configOption.editorExtensions?.screenfull?.js;
+  let screenfull = configOption.editorExtensions.screenfull!.instance;
+  const screenfullJs = configOption.editorExtensions.screenfull!.js!;
   // 是否组件内部全屏标识
   const screenfullMe = ref(false);
 
@@ -60,7 +60,7 @@ export const useSreenfull = (props: ToolbarProps) => {
 
     if (!screenfull) {
       const screenScript = document.createElement('script');
-      screenScript.src = screenfullJs || screenfullUrl;
+      screenScript.src = screenfullJs;
       screenScript.onload = screenfullLoad;
       screenScript.id = `${prefix}-screenfull`;
 

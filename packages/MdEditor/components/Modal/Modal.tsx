@@ -15,11 +15,12 @@ import {
   onMounted
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { prefix } from '~/config';
+import { configOption, prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
 import { keyMove } from '~/utils/dom';
 import { Themes } from '~/type';
 import Icon from '../Icon';
+import { getZIndexIncrement } from '~/utils';
 
 const props = {
   title: {
@@ -63,14 +64,6 @@ const props = {
 };
 
 type ModalProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
-
-const getNextIndex = (() => {
-  let startIndex = 20000;
-
-  return () => {
-    return ++startIndex;
-  };
-})();
 
 export default defineComponent({
   name: 'MdModal',
@@ -151,8 +144,10 @@ export default defineComponent({
       () => props.visible,
       (nVal) => {
         if (nVal) {
-          state.maskStyle.zIndex = getNextIndex();
-          state.modalStyle.zIndex = getNextIndex();
+          state.maskStyle.zIndex =
+            configOption.editorConfig.zIndex! + getZIndexIncrement();
+          state.modalStyle.zIndex =
+            configOption.editorConfig.zIndex! + getZIndexIncrement();
 
           modalClass.value.push('zoom-in');
           modalVisible.value = nVal;

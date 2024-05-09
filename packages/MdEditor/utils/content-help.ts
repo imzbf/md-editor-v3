@@ -65,7 +65,7 @@ export const directive2flag = (
 
   const selectedText = codeMirrorUt.getSelectedText();
 
-  const mermaidTemplate = configOption.editorConfig?.mermaidTemplate;
+  const mermaidTemplate = configOption.editorConfig.mermaidTemplate;
 
   if (/^h[1-6]{1}$/.test(direct)) {
     const pix = direct.replace(/^h(\d)/, (_, num) => {
@@ -76,11 +76,11 @@ export const directive2flag = (
     deviationStart = pix.length + 1;
   } else if (direct === 'prettier') {
     const prettier =
-      window.prettier || configOption.editorExtensions?.prettier?.prettierInstance;
+      window.prettier || configOption.editorExtensions.prettier!.prettierInstance;
 
     const prettierPlugins = [
       window.prettierPlugins?.markdown ||
-        configOption.editorExtensions?.prettier?.parserMarkdownInstance
+        configOption.editorExtensions.prettier!.parserMarkdownInstance
     ];
 
     if (!prettier || prettierPlugins[0] === undefined) {

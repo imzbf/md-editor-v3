@@ -1,3 +1,4 @@
+import { deepMerge } from '@vavt/util';
 import { CodeCss, Config, ConfigOption, Footers, StaticTextDefault } from './type';
 
 export const prefix = 'md-editor';
@@ -277,8 +278,36 @@ export const codeCss: CodeCss = {
 };
 
 export const configOption: ConfigOption = {
-  editorExtensions: {},
-  editorConfig: {},
+  editorExtensions: {
+    highlight: {
+      js: highlightUrl,
+      css: codeCss
+    },
+    prettier: {
+      standaloneJs: prettierUrl.main,
+      parserMarkdownJs: prettierUrl.markdown
+    },
+    cropper: {
+      ...cropperUrl
+    },
+    iconfont: iconfontSvgUrl,
+    iconfontClass: iconfontClassUrl,
+    screenfull: {
+      js: screenfullUrl
+    },
+    mermaid: {
+      js: mermaidUrl
+    },
+    katex: {
+      ...katexUrl
+    }
+  },
+  editorConfig: {
+    languageUserDefined: {},
+    mermaidTemplate: {},
+    renderDelay: 500,
+    zIndex: 20000
+  },
   codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions,
   markdownItConfig: () => {},
   markdownItPlugins: (s) => s,
@@ -287,15 +316,7 @@ export const configOption: ConfigOption = {
 };
 
 export const config: Config = (option) => {
-  if (option) {
-    for (const key in option) {
-      const optionItem = option[key as keyof ConfigOption] as any;
-
-      if (optionItem) {
-        configOption[key as keyof ConfigOption] = optionItem;
-      }
-    }
-  }
+  return deepMerge(configOption, option);
 };
 
 /**

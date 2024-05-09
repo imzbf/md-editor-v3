@@ -41,7 +41,7 @@ export default defineComponent({
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;
     // 传递下来的图片裁剪构造函数
-    let Cropper = configOption?.editorExtensions?.cropper?.instance;
+    let Cropper = configOption.editorExtensions.cropper!.instance;
 
     const uploadRef = ref();
     const uploadImgRef = ref();

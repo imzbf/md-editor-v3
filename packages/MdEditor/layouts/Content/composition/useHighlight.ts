@@ -10,8 +10,8 @@ import { ContentPreviewProps } from '../ContentPreview';
  */
 const useHighlight = (props: ContentPreviewProps) => {
   // 获取相应的扩展配置链接
-  const hljsConf = configOption.editorExtensions?.highlight;
-  const hljs = hljsConf?.instance;
+  const hljsConf = configOption.editorExtensions.highlight;
+  const hljs = hljsConf!.instance;
   const highlightUrl = inject('highlight') as ComputedRef<{ js: string; css: string }>;
 
   // hljs是否已经提供

@@ -1,5 +1,5 @@
 import { onMounted, shallowRef } from 'vue';
-import { prefix, katexUrl, configOption } from '~/config';
+import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
 
@@ -10,8 +10,8 @@ import { ContentPreviewProps } from '../ContentPreview';
  */
 const useKatex = (props: ContentPreviewProps) => {
   // 获取相应的扩展配置链接
-  const katexConf = configOption.editorExtensions?.katex;
-  const katexIns = katexConf?.instance;
+  const katexConf = configOption.editorExtensions.katex;
+  const katexIns = katexConf!.instance;
 
   // katex是否加载完成
   const katex = shallowRef(katexIns);
@@ -21,7 +21,7 @@ const useKatex = (props: ContentPreviewProps) => {
     if (!props.noKatex && !katex.value) {
       const katexScript = document.createElement('script');
 
-      katexScript.src = katexConf?.js || katexUrl.js;
+      katexScript.src = katexConf!.js!;
       katexScript.onload = () => {
         katex.value = window.katex;
       };
@@ -29,7 +29,7 @@ const useKatex = (props: ContentPreviewProps) => {
 
       const katexLink = document.createElement('link');
       katexLink.rel = 'stylesheet';
-      katexLink.href = katexConf?.css || katexUrl.css;
+      katexLink.href = katexConf!.css!;
       katexLink.id = `${prefix}-katexCss`;
 
       appendHandler(katexScript, 'katex');

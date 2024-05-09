@@ -248,6 +248,11 @@ export interface ConfigOption {
      * 输入渲染延迟（ms）
      */
     renderDelay?: number;
+    /**
+     * 内部的弹窗、下拉框等内联zIndex
+     * @default 20000
+     */
+    zIndex?: number;
   };
   /**
    * 根据主题和内部默认的codeMirror扩展自定义新的扩展

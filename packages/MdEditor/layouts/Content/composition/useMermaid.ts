@@ -1,6 +1,6 @@
 import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick } from 'vue';
 import { LRUCache } from 'lru-cache';
-import { prefix, mermaidUrl, configOption } from '~/config';
+import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { uuid } from '@vavt/util';
 
@@ -13,9 +13,9 @@ import { ContentPreviewProps } from '../ContentPreview';
 const useMermaid = (props: ContentPreviewProps) => {
   const theme = inject('theme') as ComputedRef<string>;
   const { editorExtensions, mermaidConfig } = configOption;
-  const mermaidConf = editorExtensions?.mermaid;
+  const mermaidConf = editorExtensions!.mermaid;
 
-  const mermaidRef = shallowRef(mermaidConf?.instance);
+  const mermaidRef = shallowRef(mermaidConf!.instance);
   const reRenderRef = shallowRef(-1);
 
   const mermaidCache = new LRUCache({
@@ -53,7 +53,7 @@ const useMermaid = (props: ContentPreviewProps) => {
 
     // 没有提供实例，引入mermaid
     if (!mermaidConf?.instance) {
-      const jsSrc = mermaidConf?.js || mermaidUrl;
+      const jsSrc = mermaidConf!.js!;
 
       if (/\.mjs/.test(jsSrc)) {
         import(

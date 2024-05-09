@@ -670,7 +670,9 @@ config({
       ...more
     },
     // 输入渲染延迟，默认500ms。当仅预览模式时，未设置此项默认0ms
-    renderDelay: 500
+    renderDelay: 500,
+    // 内部弹窗的zIndex
+    zIndex: 2000
   }
 });
 ```

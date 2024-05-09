@@ -18,7 +18,7 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
       // 如果存在复制按钮，则移除
       pre.querySelector('.copy-button')?.remove();
 
-      const copyBtnText = ult.value.copyCode?.text || '复制代码';
+      const copyBtnText = ult.value.copyCode!.text;
       const copyButton = document.createElement('span');
       copyButton.setAttribute('class', 'copy-button');
       copyButton.dataset.tips = copyBtnText;
@@ -33,8 +33,8 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
 
         const success = copy(props.formatCopiedText(codeText));
 
-        const succssTip = ult.value.copyCode?.successTips || '已复制！';
-        const failTip = ult.value.copyCode?.failTips || '已复制！';
+        const succssTip = ult.value.copyCode!.successTips;
+        const failTip = ult.value.copyCode!.failTips;
 
         copyButton.dataset.tips = success ? succssTip : failTip;
 

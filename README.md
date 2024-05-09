@@ -658,7 +658,9 @@ config({
       ...more
     },
     // Default 500ms. It is set to 0ms when preview only and not set.
-    renderDelay: 500
+    renderDelay: 500,
+    // for modal component
+    zIndex: 2000
   }
 });
 ```

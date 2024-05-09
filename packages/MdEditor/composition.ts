@@ -13,17 +13,7 @@ import {
   EditorContext
 } from '~/type';
 import { appendHandler } from '~/utils/dom';
-import {
-  prefix,
-  staticTextDefault,
-  iconfontSvgUrl,
-  iconfontClassUrl,
-  prettierUrl,
-  cropperUrl,
-  highlightUrl,
-  codeCss,
-  configOption
-} from '~/config';
+import { prefix, staticTextDefault, codeCss, configOption } from '~/config';
 import {
   CHANGE_CATALOG_VISIBLE,
   CHANGE_FULL_SCREEN,
@@ -117,7 +107,7 @@ export const useOnSave = (props: EditorProps, context: EditorContext) => {
  */
 export const useProvidePreview = (props: MdPreviewProps) => {
   const { editorId } = props;
-  const highlightConfig = configOption?.editorExtensions?.highlight;
+  const highlightConfig = configOption.editorExtensions.highlight;
 
   provide('editorId', editorId);
 
@@ -147,7 +137,7 @@ export const useProvidePreview = (props: MdPreviewProps) => {
           : props.theme;
 
       return {
-        js: highlightConfig?.js || highlightUrl,
+        js: highlightConfig?.js,
         css: cssList[props.codeTheme]
           ? cssList[props.codeTheme][theme]
           : codeCss.atom[theme]
@@ -162,7 +152,7 @@ export const useProvidePreview = (props: MdPreviewProps) => {
   const usedLanguageText = computed((): StaticTextDefaultValue => {
     const allText: { [key: string]: StaticTextDefaultValue } = {
       ...staticTextDefault,
-      ...configOption?.editorConfig?.languageUserDefined
+      ...configOption.editorConfig.languageUserDefined
     };
 
     return deepMerge(
@@ -207,15 +197,14 @@ export const useExpansionPreview = (props: MdPreviewProps) => {
       // 图标
       if (configOption.iconfontType === 'svg') {
         const iconfontScript = document.createElement('script');
-        iconfontScript.src = configOption.editorExtensions?.iconfont || iconfontSvgUrl;
+        iconfontScript.src = configOption.editorExtensions.iconfont!;
         iconfontScript.id = `${prefix}-icon`;
 
         appendHandler(iconfontScript);
       } else {
         const iconfontLink = document.createElement('link');
         iconfontLink.rel = 'stylesheet';
-        iconfontLink.href =
-          configOption.editorExtensions?.iconfontClass || iconfontClassUrl;
+        iconfontLink.href = configOption.editorExtensions.iconfontClass!;
         iconfontLink.id = `${prefix}-icon-class`;
 
         appendHandler(iconfontLink);
@@ -237,36 +226,35 @@ export const useExpansion = (props: EditorProps) => {
 
   // 判断是否需要插入prettier标签
   const noPrettierScript =
-    noPrettier || !!configOption.editorExtensions?.prettier?.prettierInstance;
+    noPrettier || !!configOption.editorExtensions.prettier!.prettierInstance;
 
   // 判断是否需要插入prettier markdown扩展标签
   const noParserMarkdownScript =
-    noPrettier || !!configOption.editorExtensions?.prettier?.parserMarkdownInstance;
+    noPrettier || !!configOption.editorExtensions.prettier!.parserMarkdownInstance;
 
   // 判断是否需要插入裁剪图片标签
   const noCropperScript =
-    noUploadImg || !!configOption.editorExtensions?.cropper?.instance;
+    noUploadImg || !!configOption.editorExtensions.cropper!.instance;
 
   onMounted(() => {
     // prettier
     const prettierScript = document.createElement('script');
     const prettierMDScript = document.createElement('script');
 
-    prettierScript.src = editorExtensions?.prettier?.standaloneJs || prettierUrl.main;
+    prettierScript.src = editorExtensions.prettier!.standaloneJs!;
     prettierScript.id = `${prefix}-prettier`;
 
-    prettierMDScript.src =
-      editorExtensions?.prettier?.parserMarkdownJs || prettierUrl.markdown;
+    prettierMDScript.src = editorExtensions.prettier!.parserMarkdownJs!;
     prettierMDScript.id = `${prefix}-prettierMD`;
 
     // 裁剪图片
     const cropperLink = document.createElement('link');
     cropperLink.rel = 'stylesheet';
-    cropperLink.href = editorExtensions?.cropper?.css || cropperUrl.css;
+    cropperLink.href = editorExtensions.cropper!.css!;
     cropperLink.id = `${prefix}-cropperCss`;
 
     const cropperScript = document.createElement('script');
-    cropperScript.src = editorExtensions?.cropper?.js || cropperUrl.js;
+    cropperScript.src = editorExtensions.cropper!.js!;
     cropperScript.id = `${prefix}-cropper`;
 
     // 非仅预览模式才添加扩展

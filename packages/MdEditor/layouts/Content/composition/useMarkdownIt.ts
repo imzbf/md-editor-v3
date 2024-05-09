@@ -231,14 +231,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   watch(
     [toRef(props, 'modelValue'), needReRender, reRenderRef],
-    debounce<any, void>(
-      markHtml,
-      editorConfig?.renderDelay !== undefined
-        ? editorConfig?.renderDelay
-        : previewOnly
-          ? 0
-          : 500
-    )
+    debounce<any, void>(markHtml, previewOnly ? 0 : editorConfig.renderDelay)
   );
 
   // 添加目录主动触发接收监听

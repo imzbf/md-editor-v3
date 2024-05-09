@@ -161,7 +161,7 @@ const Editor = defineComponent({
             sanitizeMermaid={props.sanitizeMermaid}
             transformImgUrl={props.transformImgUrl}
           />
-          {props.footers?.length > 0 && (
+          {props.footers.length > 0 && (
             <Footer
               modelValue={props.modelValue}
               footers={props.footers}

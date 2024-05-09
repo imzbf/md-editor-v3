@@ -3,7 +3,7 @@ import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
 import Modal from '~/components/Modal';
-import { Themes } from '~/type';
+import { PreviewThemes, Themes } from '~/type';
 
 const props = {
   title: {
@@ -60,6 +60,9 @@ const props = {
   },
   theme: {
     type: String as PropType<Themes>
+  },
+  previewTheme: {
+    type: String as PropType<PreviewThemes>
   }
   /**
    * ==结束
