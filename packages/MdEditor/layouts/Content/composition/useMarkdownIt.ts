@@ -1,4 +1,13 @@
-import { computed, ComputedRef, inject, onMounted, ref, toRef, watch } from 'vue';
+import {
+  computed,
+  ComputedRef,
+  inject,
+  nextTick,
+  onMounted,
+  ref,
+  toRef,
+  watch
+} from 'vue';
 import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
 import TaskListPlugin from 'markdown-it-task-lists';
@@ -232,6 +241,18 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   watch(
     [toRef(props, 'modelValue'), needReRender, reRenderRef],
     debounce<any, void>(markHtml, previewOnly ? 0 : editorConfig.renderDelay)
+  );
+
+  watch(
+    () => props.setting.preview,
+    () => {
+      if (props.setting.preview) {
+        // 生成目录
+        nextTick(() => {
+          bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
+        });
+      }
+    }
   );
 
   // 添加目录主动触发接收监听

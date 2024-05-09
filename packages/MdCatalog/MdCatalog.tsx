@@ -213,26 +213,31 @@ const MdCatalog = defineComponent({
     );
 
     onMounted(() => {
-      const scrollElement = getScrollElement();
       // 滚动区域为document.documentElement需要把监听事件绑定在window上
-      const eventEle =
-        scrollElement === document.documentElement ? window : scrollElement;
+      let scrollContainer: HTMLElement | Window = window;
 
-      eventEle?.addEventListener('scroll', scrollHandler);
+      const findScrollContainer = () => {
+        const scrollElement_ = getScrollElement();
+
+        scrollContainer =
+          scrollElement_ === document.documentElement ? window : scrollElement_;
+      };
 
       bus.on(editorId, {
         name: CATALOG_CHANGED,
         callback: (_list: Array<HeadList>) => {
-          eventEle?.removeEventListener('scroll', scrollHandler);
-
+          scrollContainer?.removeEventListener('scroll', scrollHandler);
           findActiveHeading(_list);
-
-          eventEle?.addEventListener('scroll', scrollHandler);
+          findScrollContainer();
+          scrollContainer?.addEventListener('scroll', scrollHandler);
         }
       });
 
       // 主动触发一次接收
       bus.emit(editorId, PUSH_CATALOG);
+
+      findScrollContainer();
+      scrollContainer?.addEventListener('scroll', scrollHandler);
     }); // ==
 
     // 要移除监听事件，特别是全局的
