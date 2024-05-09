@@ -10,9 +10,10 @@ import {
   UploadImgCallBack,
   StaticTextDefaultValue,
   EditorProps,
-  EditorContext
+  EditorContext,
+  Themes
 } from '~/type';
-import { appendHandler } from '~/utils/dom';
+import { appendHandler, createHTMLElement } from '~/utils/dom';
 import { prefix, staticTextDefault, codeCss, configOption } from '~/config';
 import {
   CHANGE_CATALOG_VISIBLE,
@@ -107,7 +108,8 @@ export const useOnSave = (props: EditorProps, context: EditorContext) => {
  */
 export const useProvidePreview = (props: MdPreviewProps) => {
   const { editorId } = props;
-  const highlightConfig = configOption.editorExtensions.highlight;
+  const hljsUrls = configOption.editorExtensions.highlight;
+  const hljsAttrs = configOption.editorExtensionsAttrs.highlight;
 
   provide('editorId', editorId);
 
@@ -125,22 +127,41 @@ export const useProvidePreview = (props: MdPreviewProps) => {
   provide(
     'highlight',
     computed(() => {
-      // 备选列表
+      // 链接
+      const { js: jsUrl } = hljsUrls!;
       const cssList = {
         ...codeCss,
-        ...highlightConfig?.css
+        ...hljsUrls!.css
       };
 
-      const theme =
+      // 属性
+      const { js: jsAttrs, css: cssAttrs = {} } = hljsAttrs || {};
+
+      const _theme =
         props.codeStyleReverse && props.codeStyleReverseList.includes(props.previewTheme)
           ? 'dark'
-          : props.theme;
+          : (props.theme as Themes);
+
+      // 找到对应代码主题的链接和属性
+      const codeCssHref = cssList[props.codeTheme]
+        ? cssList[props.codeTheme][_theme]
+        : codeCss.atom[_theme];
+      const codeCssAttrs =
+        cssList[props.codeTheme] && cssAttrs[props.codeTheme]
+          ? cssAttrs[props.codeTheme][_theme]
+          : cssAttrs['atom']
+            ? cssAttrs['atom'][_theme]
+            : {};
 
       return {
-        js: highlightConfig?.js,
-        css: cssList[props.codeTheme]
-          ? cssList[props.codeTheme][theme]
-          : codeCss.atom[theme]
+        js: {
+          src: jsUrl,
+          ...jsAttrs
+        },
+        css: {
+          href: codeCssHref,
+          ...codeCssAttrs
+        }
       };
     })
   );
@@ -193,22 +214,29 @@ export const useProvide = (props: EditorProps) => {
  */
 export const useExpansionPreview = (props: MdPreviewProps) => {
   onMounted(() => {
-    if (!props.noIconfont) {
+    const { editorExtensions, editorExtensionsAttrs, iconfontType } = configOption;
+
+    if (props.noIconfont) {
+      return;
+    }
+
+    if (iconfontType === 'svg') {
       // 图标
-      if (configOption.iconfontType === 'svg') {
-        const iconfontScript = document.createElement('script');
-        iconfontScript.src = configOption.editorExtensions.iconfont!;
-        iconfontScript.id = `${prefix}-icon`;
+      const iconfontScript = createHTMLElement('script', {
+        ...editorExtensionsAttrs.iconfont,
+        src: editorExtensions.iconfont,
+        id: `${prefix}-icon`
+      });
+      appendHandler(iconfontScript);
+    } else {
+      const iconfontLink = createHTMLElement('link', {
+        ...editorExtensionsAttrs.iconfontClass,
+        rel: 'stylesheet',
+        href: editorExtensions.iconfontClass,
+        id: `${prefix}-icon-class`
+      });
 
-        appendHandler(iconfontScript);
-      } else {
-        const iconfontLink = document.createElement('link');
-        iconfontLink.rel = 'stylesheet';
-        iconfontLink.href = configOption.editorExtensions.iconfontClass!;
-        iconfontLink.id = `${prefix}-icon-class`;
-
-        appendHandler(iconfontLink);
-      }
+      appendHandler(iconfontLink);
     }
   });
 };
@@ -222,52 +250,61 @@ export const useExpansion = (props: EditorProps) => {
   // 这部分内容只配置，不需要响应式更新
   const { noPrettier, noUploadImg } = props;
 
-  const { editorExtensions } = configOption;
+  const { editorExtensions, editorExtensionsAttrs } = configOption;
 
   // 判断是否需要插入prettier标签
-  const noPrettierScript =
-    noPrettier || !!configOption.editorExtensions.prettier!.prettierInstance;
+  const noPrettierScript = noPrettier || editorExtensions.prettier!.prettierInstance;
 
   // 判断是否需要插入prettier markdown扩展标签
   const noParserMarkdownScript =
-    noPrettier || !!configOption.editorExtensions.prettier!.parserMarkdownInstance;
+    noPrettier || editorExtensions.prettier!.parserMarkdownInstance;
 
   // 判断是否需要插入裁剪图片标签
-  const noCropperScript =
-    noUploadImg || !!configOption.editorExtensions.cropper!.instance;
+  const noCropperScript = noUploadImg || editorExtensions.cropper!.instance;
 
   onMounted(() => {
-    // prettier
-    const prettierScript = document.createElement('script');
-    const prettierMDScript = document.createElement('script');
-
-    prettierScript.src = editorExtensions.prettier!.standaloneJs!;
-    prettierScript.id = `${prefix}-prettier`;
-
-    prettierMDScript.src = editorExtensions.prettier!.parserMarkdownJs!;
-    prettierMDScript.id = `${prefix}-prettierMD`;
-
-    // 裁剪图片
-    const cropperLink = document.createElement('link');
-    cropperLink.rel = 'stylesheet';
-    cropperLink.href = editorExtensions.cropper!.css!;
-    cropperLink.id = `${prefix}-cropperCss`;
-
-    const cropperScript = document.createElement('script');
-    cropperScript.src = editorExtensions.cropper!.js!;
-    cropperScript.id = `${prefix}-cropper`;
-
     // 非仅预览模式才添加扩展
     if (!noCropperScript) {
+      // 裁剪图片
+      const { js = {}, css = {} } = editorExtensionsAttrs.cropper || {};
+      const cropperLink = createHTMLElement('link', {
+        ...css,
+        rel: 'stylesheet',
+        href: editorExtensions.cropper!.css,
+        id: `${prefix}-cropperCss`
+      });
+
+      const cropperScript = createHTMLElement('script', {
+        ...js,
+        src: editorExtensions.cropper!.js,
+        id: `${prefix}-cropper`
+      });
+
       appendHandler(cropperLink);
       appendHandler(cropperScript);
     }
 
     if (!noPrettierScript) {
+      const { standaloneJs = {} } = editorExtensionsAttrs.prettier || {};
+
+      const prettierScript = createHTMLElement('script', {
+        ...standaloneJs,
+        src: editorExtensions.prettier!.standaloneJs,
+        id: `${prefix}-prettier`
+      });
+
       appendHandler(prettierScript);
     }
 
     if (!noParserMarkdownScript) {
+      const { parserMarkdownJs = {} } = editorExtensionsAttrs.prettier || {};
+
+      const prettierMDScript = createHTMLElement('script', {
+        ...parserMarkdownJs,
+        src: editorExtensions.prettier!.parserMarkdownJs,
+        id: `${prefix}-prettierMD`
+      });
+
       appendHandler(prettierMDScript);
     }
   });

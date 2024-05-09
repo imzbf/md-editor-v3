@@ -732,6 +732,22 @@ export interface EditorExtensions {
 
 </details>
 
+### editorExtensionsAttrs
+
+同步添加CDN链接标签的上属性，类型与`editorExtensions`一直，值类型是`HTMLElementTagNameMap<script|link>`
+
+内部提供所有链接的`integrity`值，使用方式如下：
+
+```js
+import { config, editorExtensionsAttrs } from 'md-editor-rt';
+
+config({
+  editorExtensionsAttrs
+});
+```
+
+不要尝试在editorExtensionsAttrs定义script的src\onload\id，link的rel\href\id它们会被默认值覆盖
+
 ### 🫨 iconfontType
 
 固定使用那种方式展示图标，可以切换展示的方式

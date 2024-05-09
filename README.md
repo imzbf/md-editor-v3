@@ -720,6 +720,20 @@ export interface EditorExtensions {
 
 </details>
 
+### editorExtensionsAttrs
+
+Synchronously add attributes to the CDN link tags, consistent with the type of `editorExtensions`, with a value type of `HTMLElementTagNameMap['tagName']`.
+
+```js
+import { config, editorExtensionsAttrs } from 'md-editor-rt';
+
+config({
+  editorExtensionsAttrs
+});
+```
+
+Do not attempt to define the src \ onload \ id of the script and rel \ href \ id of the link in editorExtensionsAttrs, as they will be overwritten by default values
+
 ### 🫨 iconfontType
 
 Set the way to display icons:

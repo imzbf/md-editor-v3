@@ -95,10 +95,32 @@ export const appendHandler = (ele: HTMLElement, checkKey = '') => {
  * @param attr 属性名
  * @param value 属性值
  */
-export const updateHandler = debounce((id: string, attr: string, value: string) => {
-  const ele = document.getElementById(id);
+export const updateHandler = debounce((ele: HTMLElement) => {
+  const insertedEle = document.getElementById(ele.id);
+  insertedEle?.remove();
 
-  if (ele) {
-    ele.setAttribute(attr, value);
-  }
+  appendHandler(ele);
 }, 10);
+
+/**
+ * 创建带属性的原始标签
+ *
+ * @param tagName
+ * @param attributes
+ * @returns
+ */
+export const createHTMLElement = <K extends keyof HTMLElementTagNameMap>(
+  tagName: K,
+  attributes: Partial<HTMLElementTagNameMap[K]>
+): HTMLElementTagNameMap[K] => {
+  const element = document.createElement(tagName);
+
+  // 设置提供的属性到标签上
+  Object.keys(attributes).forEach((key) => {
+    if (attributes[key as keyof HTMLElementTagNameMap[K]] !== undefined) {
+      (element as any)[key] = attributes[key as keyof HTMLElementTagNameMap[K]];
+    }
+  });
+
+  return element;
+};

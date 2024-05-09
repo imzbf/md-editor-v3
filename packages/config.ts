@@ -5,7 +5,8 @@ export {
   iconfontClassUrl,
   iconfontSvgUrl,
   allToolbar,
-  allFooter
+  allFooter,
+  editorExtensionsAttrs
 } from '~/config';
 
 export const zh_CN = staticTextDefault['zh-CN'];

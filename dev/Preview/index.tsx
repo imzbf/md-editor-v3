@@ -8,7 +8,14 @@ import {
   ref,
   onMounted
 } from 'vue';
-import { MdEditor, MdCatalog, DropdownToolbar, ModalToolbar, config } from '~~/index';
+import {
+  MdEditor,
+  MdCatalog,
+  DropdownToolbar,
+  ModalToolbar,
+  config,
+  editorExtensionsAttrs
+} from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
 import { Theme } from '../App';
@@ -109,7 +116,8 @@ console.log(
       // mermaid: {
       //   instance: mermaid
       // }
-    }
+    },
+    editorExtensionsAttrs
   })
 );
 

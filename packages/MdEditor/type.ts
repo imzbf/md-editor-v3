@@ -235,6 +235,42 @@ export interface ConfigOption {
       css?: string;
     };
   };
+
+  /**
+   * 对应editorExtensions中的cdn链接标签属性
+   *
+   * 不要尝试在editorExtensionsAttrs定义script的src\onload\id，link的rel\href\id
+   * 它们会被默认值覆盖
+   */
+  editorExtensionsAttrs: {
+    highlight?: {
+      js?: Partial<HTMLElementTagNameMap['script']>;
+      css?: CodeCssAttrs;
+    };
+    prettier?: {
+      standaloneJs?: Partial<HTMLElementTagNameMap['script']>;
+      parserMarkdownJs?: Partial<HTMLElementTagNameMap['script']>;
+    };
+    cropper?: {
+      js?: Partial<HTMLElementTagNameMap['script']>;
+      css?: Partial<HTMLElementTagNameMap['link']>;
+    };
+    iconfont?: Partial<HTMLElementTagNameMap['script']>;
+    /**
+     * class方式的图标
+     */
+    iconfontClass?: Partial<HTMLElementTagNameMap['link']>;
+    screenfull?: {
+      js?: Partial<HTMLElementTagNameMap['script']>;
+    };
+    mermaid?: {
+      js?: Partial<HTMLElementTagNameMap['script']>;
+    };
+    katex?: {
+      js?: Partial<HTMLElementTagNameMap['script']>;
+      css?: Partial<HTMLElementTagNameMap['link']>;
+    };
+  };
   editorConfig: {
     /**
      * 自定义提示语言
@@ -323,6 +359,13 @@ export interface CodeCss {
   [key: string]: {
     light: string;
     dark: string;
+  };
+}
+
+export interface CodeCssAttrs {
+  [key: string]: {
+    light: Partial<HTMLElementTagNameMap['link']>;
+    dark: Partial<HTMLElementTagNameMap['link']>;
   };
 }
 

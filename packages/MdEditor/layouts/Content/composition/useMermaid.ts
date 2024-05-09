@@ -1,7 +1,7 @@
 import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick } from 'vue';
 import { LRUCache } from 'lru-cache';
 import { prefix, configOption } from '~/config';
-import { appendHandler } from '~/utils/dom';
+import { appendHandler, createHTMLElement } from '~/utils/dom';
 import { uuid } from '@vavt/util';
 
 import { ContentPreviewProps } from '../ContentPreview';
@@ -12,10 +12,9 @@ import { ContentPreviewProps } from '../ContentPreview';
  */
 const useMermaid = (props: ContentPreviewProps) => {
   const theme = inject('theme') as ComputedRef<string>;
-  const { editorExtensions, mermaidConfig } = configOption;
-  const mermaidConf = editorExtensions!.mermaid;
+  const { editorExtensions, editorExtensionsAttrs, mermaidConfig } = configOption;
 
-  const mermaidRef = shallowRef(mermaidConf!.instance);
+  const mermaidRef = shallowRef(editorExtensions!.mermaid!.instance);
   const reRenderRef = shallowRef(-1);
 
   const mermaidCache = new LRUCache({
@@ -47,35 +46,40 @@ const useMermaid = (props: ContentPreviewProps) => {
   );
 
   onMounted(() => {
-    if (props.noMermaid) {
+    if (props.noMermaid || mermaidRef.value?.instance) {
       return;
     }
 
-    // 没有提供实例，引入mermaid
-    if (!mermaidConf?.instance) {
-      const jsSrc = mermaidConf!.js!;
+    const jsSrc = editorExtensions.mermaid!.js as string;
 
-      if (/\.mjs/.test(jsSrc)) {
-        import(
-          /* @vite-ignore */
-          /* webpackIgnore: true */
-          jsSrc
-        ).then((module) => {
-          mermaidRef.value = module.default;
-          configMermaid();
-        });
-      } else {
-        const mermaidScript = document.createElement('script');
-        mermaidScript.id = `${prefix}-mermaid`;
-        mermaidScript.src = jsSrc;
+    if (/\.mjs/.test(jsSrc)) {
+      const modulePreload = createHTMLElement('link', {
+        ...editorExtensionsAttrs.mermaid?.js,
+        rel: 'modulepreload',
+        href: jsSrc,
+        id: `${prefix}-mermaid-m`
+      });
+      appendHandler(modulePreload);
 
-        mermaidScript.onload = () => {
+      import(
+        /* @vite-ignore */
+        /* webpackIgnore: true */
+        jsSrc
+      ).then((module) => {
+        mermaidRef.value = module.default;
+        configMermaid();
+      });
+    } else {
+      const mermaidScript = createHTMLElement('script', {
+        ...editorExtensionsAttrs.mermaid?.js,
+        src: jsSrc,
+        id: `${prefix}-mermaid`,
+        onload() {
           mermaidRef.value = window.mermaid;
           configMermaid();
-        };
-
-        appendHandler(mermaidScript, 'mermaid');
-      }
+        }
+      });
+      appendHandler(mermaidScript, 'mermaid');
     }
   });
 
