@@ -70,17 +70,19 @@ const Editor = defineComponent({
           ]}
           style={props.style}
         >
-          <ToolBar
-            noPrettier={noPrettier}
-            toolbars={props.toolbars}
-            toolbarsExclude={props.toolbarsExclude}
-            setting={setting}
-            updateSetting={updateSetting}
-            tableShape={props.tableShape}
-            defToolbars={defToolbars}
-            noUploadImg={noUploadImg}
-            showToolbarName={props.showToolbarName}
-          />
+          {props.toolbars.length > 0 && (
+            <ToolBar
+              noPrettier={noPrettier}
+              toolbars={props.toolbars}
+              toolbarsExclude={props.toolbarsExclude}
+              setting={setting}
+              updateSetting={updateSetting}
+              tableShape={props.tableShape}
+              defToolbars={defToolbars}
+              noUploadImg={noUploadImg}
+              showToolbarName={props.showToolbarName}
+            />
+          )}
           <Content
             ref={codeRef}
             modelValue={props.modelValue}
