@@ -1,4 +1,4 @@
-import { Ref, onBeforeUnmount, onMounted, reactive, toRef, watch } from 'vue';
+import { Ref, onBeforeUnmount, reactive, toRef, watch } from 'vue';
 import { MinInputBoxWidth } from '~/config';
 
 import { ContentProps } from '../props';
@@ -52,10 +52,16 @@ const useResize = (
     document.removeEventListener('mousemove', resizeMousemove);
   };
 
-  onMounted(() => {
-    resizeRef.value?.addEventListener('mousedown', resizeMousedown);
-    document.addEventListener('mouseup', resizeMouseup);
-  });
+  watch(
+    [resizeRef],
+    () => {
+      resizeRef.value?.addEventListener('mousedown', resizeMousedown);
+      resizeRef.value?.addEventListener('mouseup', resizeMouseup);
+    },
+    {
+      immediate: true
+    }
+  );
 
   onBeforeUnmount(() => {
     resizeRef.value?.removeEventListener('mousedown', resizeMousedown);
