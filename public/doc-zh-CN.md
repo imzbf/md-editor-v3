@@ -527,10 +527,10 @@
 
 ### 📅 tableShape
 
-- **类型**：`[number, number]`
+- **类型**：`[number, number] \| [number, number, number, number]`
 - **默认值**：`[6, 4]`
 
-  标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数。
+  标题栏添加表格时，预设待选表格大小，第一个代表最大列数，第二个代表最大行数，第三个代表扩展最大列数，第四个代表扩展最大行数。
 
   ```vue
   <MdEditor :tableShape="[8, 4]" />
@@ -1550,6 +1550,21 @@ config({
 
 ---
 
+#### 🍥 zIndex
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorConfig: {
+    // 内部弹窗的zIndex
+    zIndex: 2000
+  }
+});
+```
+
+---
+
 ### 🥠 editorExtensions
 
 类型如下，用于配置编辑器内部的扩展
@@ -1608,6 +1623,52 @@ export interface EditorExtensions {
 ```
 
 </details>
+
+---
+
+### 🥠 editorExtensionsAttrs
+
+同步添加CDN链接标签的上属性，类型与`editorExtensions`一直，值类型是`HTMLElementTagNameMap<script|link>` 内部提供所有链接的`integrity`值，使用方式如下：
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensionsAttrs: {
+    highlight: {
+      js: {
+        className: 'hglh-js'
+      },
+      css: {
+        atom: {
+          light: {
+            className: 'atom-light-css'
+          },
+          dark: {
+            className: 'atom-dark-css'
+          }
+        }
+      }
+    }
+  }
+});
+```
+
+使用内置的基础属性配置示例：
+
+```js
+import { config, editorExtensionsAttrs } from 'md-editor-v3';
+
+config({
+  editorExtensionsAttrs
+});
+```
+
+!!! warning 提醒
+
+不要尝试在editorExtensionsAttrs定义script的src\onload\id，link的rel\href\id它们会被默认值覆盖
+
+!!!
 
 ---
 
