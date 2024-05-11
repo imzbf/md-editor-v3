@@ -69,7 +69,7 @@ export const appendHandler = <K extends keyof HTMLElementTagNameMap>(
     const attrsCopy = { ...attributes };
     attrsCopy.onload = null;
     const ele = createHTMLElement(tagName, attrsCopy);
-    onload && ele.addEventListener('load', onload);
+    attributes.onload && ele.addEventListener('load', attributes.onload);
     document.head.appendChild(ele);
   } else if (checkKey !== '') {
     if (Reflect.get(window, checkKey)) {
