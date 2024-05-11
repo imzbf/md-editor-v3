@@ -1,6 +1,6 @@
 import { onMounted, shallowRef } from 'vue';
 import { prefix, configOption } from '~/config';
-import { appendHandler, createHTMLElement } from '~/utils/dom';
+import { appendHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
 
 /**
@@ -19,22 +19,23 @@ const useKatex = (props: ContentPreviewProps) => {
 
     const { editorExtensions } = configOption;
 
-    const katexScript = createHTMLElement('script', {
-      src: editorExtensions.katex!.js,
-      id: `${prefix}-katex`,
-      onload() {
-        katex.value = window.katex;
-      }
-    });
+    appendHandler(
+      'script',
+      {
+        src: editorExtensions.katex!.js,
+        id: `${prefix}-katex`,
+        onload() {
+          katex.value = window.katex;
+        }
+      },
+      'katex'
+    );
 
-    const katexLink = createHTMLElement('link', {
+    appendHandler('link', {
       rel: 'stylesheet',
       href: editorExtensions.katex!.css,
       id: `${prefix}-katexCss`
     });
-
-    appendHandler(katexScript, 'katex');
-    appendHandler(katexLink);
   });
 
   return katex;

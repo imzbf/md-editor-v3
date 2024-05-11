@@ -1,5 +1,3 @@
-import { debounce } from '@vavt/util';
-
 /**
  * 设置页面元素可移动
  *
@@ -59,31 +57,26 @@ export const keyMove = (
  * @param ele
  * @param checkKey 全局名称
  */
-export const appendHandler = (ele: HTMLElement, checkKey = '') => {
-  const insertedEle = document.getElementById(ele.id);
-
-  // 备份
-  const onload_ = ele.onload;
-  // 清空
-  ele.onload = null;
-
-  const onload = function (this: GlobalEventHandlers, e: Event) {
-    if (typeof onload_ === 'function') {
-      onload_.bind(this)(e);
-    }
-
-    ele.removeEventListener('load', onload);
-  };
+export const appendHandler = <K extends keyof HTMLElementTagNameMap>(
+  tagName: K,
+  attributes: Partial<HTMLElementTagNameMap[K]>,
+  checkKey = ''
+) => {
+  const insertedEle = document.getElementById(attributes.id!);
 
   if (!insertedEle) {
-    ele.addEventListener('load', onload);
+    // 浅拷贝
+    const attrsCopy = { ...attributes };
+    attrsCopy.onload = null;
+    const ele = createHTMLElement(tagName, attrsCopy);
+    onload && ele.addEventListener('load', onload);
     document.head.appendChild(ele);
   } else if (checkKey !== '') {
-    insertedEle.addEventListener('load', onload);
-
     if (Reflect.get(window, checkKey)) {
       // 实例已存在，直接触发load事件
-      insertedEle.dispatchEvent(new Event('load'));
+      attributes.onload?.call(insertedEle, new Event('load'));
+    } else {
+      attributes.onload && insertedEle.addEventListener('load', attributes.onload);
     }
   }
 };
@@ -95,12 +88,15 @@ export const appendHandler = (ele: HTMLElement, checkKey = '') => {
  * @param attr 属性名
  * @param value 属性值
  */
-export const updateHandler = debounce((ele: HTMLElement) => {
-  const insertedEle = document.getElementById(ele.id);
+export const updateHandler = <K extends keyof HTMLElementTagNameMap>(
+  tagName: K,
+  attributes: Partial<HTMLElementTagNameMap[K]>
+) => {
+  const insertedEle = document.getElementById(attributes.id!);
   insertedEle?.remove();
 
-  appendHandler(ele);
-}, 10);
+  appendHandler(tagName, attributes);
+};
 
 /**
  * 创建带属性的原始标签

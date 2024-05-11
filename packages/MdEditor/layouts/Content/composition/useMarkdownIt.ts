@@ -99,11 +99,6 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   const plugins: MarkdownItConfigPlugin[] = [
     {
-      type: 'katex',
-      plugin: KatexPlugin,
-      options: { katexRef }
-    },
-    {
       type: 'image',
       plugin: ImageFiguresPlugin,
       options: { figcaption: true, classes: 'md-zoom' }
@@ -157,6 +152,14 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       }
     }
   ];
+
+  if (!props.noKatex) {
+    plugins.push({
+      type: 'katex',
+      plugin: KatexPlugin,
+      options: { katexRef }
+    });
+  }
 
   if (!props.noMermaid) {
     plugins.push({

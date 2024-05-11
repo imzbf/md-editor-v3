@@ -1,6 +1,6 @@
 import { onMounted, inject, ref } from 'vue';
 import { configOption, prefix } from '~/config';
-import { appendHandler, createHTMLElement } from '~/utils/dom';
+import { appendHandler } from '~/utils/dom';
 import bus from '~/utils/event-bus';
 import { CHANGE_FULL_SCREEN, ERROR_CATCHER } from '~/static/event-name';
 import { ToolbarProps } from './props';
@@ -59,14 +59,16 @@ export const useSreenfull = (props: ToolbarProps) => {
     onScreenfullEvent();
 
     if (!screenfull) {
-      const screenScript = createHTMLElement('script', {
-        ...editorExtensionsAttrs.screenfull?.js,
-        src: editorExtensions.screenfull!.js,
-        id: `${prefix}-screenfull`,
-        onload: screenfullLoad
-      });
-
-      appendHandler(screenScript, 'screenfull');
+      appendHandler(
+        'script',
+        {
+          ...editorExtensionsAttrs.screenfull?.js,
+          src: editorExtensions.screenfull!.js,
+          id: `${prefix}-screenfull`,
+          onload: screenfullLoad
+        },
+        'screenfull'
+      );
     }
   });
 

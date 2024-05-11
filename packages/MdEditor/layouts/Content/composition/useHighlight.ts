@@ -1,6 +1,6 @@
 import { ComputedRef, inject, onMounted, shallowRef, watch } from 'vue';
 import { prefix, configOption } from '~/config';
-import { appendHandler, updateHandler, createHTMLElement } from '~/utils/dom';
+import { appendHandler, updateHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
 
 /**
@@ -23,34 +23,32 @@ const useHighlight = (props: ContentPreviewProps) => {
       return;
     }
 
-    const highlightScript = createHTMLElement('script', {
-      ...highlight.value.js,
-      id: `${prefix}-hljs`,
-      onload() {
-        hljsRef.value = window.hljs;
-      }
-    });
-
-    const highlightLink = createHTMLElement('link', {
+    appendHandler('link', {
       ...highlight.value.css,
       rel: 'stylesheet',
       id: `${prefix}-hlCss`
     });
-
-    appendHandler(highlightLink);
-    appendHandler(highlightScript, 'hljs');
+    appendHandler(
+      'script',
+      {
+        ...highlight.value.js,
+        id: `${prefix}-hljs`,
+        onload() {
+          hljsRef.value = window.hljs;
+        }
+      },
+      'hljs'
+    );
   });
 
   watch(
     () => highlight.value.css,
     () => {
-      updateHandler(
-        createHTMLElement('link', {
-          ...highlight.value.css,
-          rel: 'stylesheet',
-          id: `${prefix}-hlCss`
-        })
-      );
+      updateHandler('link', {
+        ...highlight.value.css,
+        rel: 'stylesheet',
+        id: `${prefix}-hlCss`
+      });
     }
   );
 
