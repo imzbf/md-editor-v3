@@ -16,32 +16,26 @@ const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
   // 解构出来，不让它响应式更新
   const { noImgZoomIn } = props;
 
-  let zoomHander = () => {};
+  const zoomHander = debounce<any, void>(() => {
+    const imgs = document.querySelectorAll(`#${editorId}-preview img`);
 
-  watch(
-    [html, toRef(props.setting, 'preview')],
-    () => {
-      if (!noImgZoomIn && props.setting.preview) {
-        zoomHander();
-      }
-    },
-    {
-      immediate: true
+    if (imgs.length === 0) {
+      return;
     }
-  );
+
+    mediumZoom(imgs, {
+      background: '#00000073'
+    });
+  });
 
   onMounted(() => {
-    zoomHander = debounce<any, void>(() => {
-      const imgs = document.querySelectorAll(`#${editorId}-preview img`);
+    zoomHander();
+  });
 
-      if (imgs.length === 0) {
-        return;
-      }
-
-      mediumZoom(imgs, {
-        background: '#00000073'
-      });
-    });
+  watch([html, toRef(props.setting, 'preview')], () => {
+    if (!noImgZoomIn && props.setting.preview) {
+      zoomHander();
+    }
   });
 };
 
