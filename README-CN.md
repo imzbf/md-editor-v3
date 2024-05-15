@@ -123,6 +123,8 @@ const scrollElement = document.documentElement;
 | noImgZoomIn | `boolean` | false | 是否关闭编辑器默认的放大功能 |
 | customIcon | `CustomIcon` | {} | 自定义的图标 |
 | sanitizeMermaid | `(h: string) => Promise<string>` | (h: string) => Promise.resolve(h) | 转换生成的 mermaid 代码 |
+| codeFoldable | `boolean` | true | 是否开启折叠代码功能 |
+| autoFoldThreshold | `number` | 30 | 触发自动折叠代码的行数阈值 |
 
 ### 🔩 MdEditor Props
 

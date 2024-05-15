@@ -74,6 +74,8 @@ export default defineComponent({
             noHighlight={props.noHighlight}
             noImgZoomIn={props.noImgZoomIn}
             sanitizeMermaid={props.sanitizeMermaid}
+            codeFoldable={props.codeFoldable}
+            autoFoldThreshold={props.autoFoldThreshold}
           />
           {props.catalogVisible && (
             <MdCatalog

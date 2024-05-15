@@ -304,13 +304,15 @@ export default defineComponent({
             // maxLength={10}
             // autoDetectCode
             // onHtmlChanged={console.log}
-            transformImgUrl={(t) => {
-              console.log(t);
+            // codeFoldable={false}
+            // autoFoldThreshold={1}
+            // transformImgUrl={(t) => {
+            //   console.log(t);
 
-              return Promise.resolve(
-                'https://imzbf.github.io/md-editor-rt/imgs/preview-light.png'
-              );
-            }}
+            //   return Promise.resolve(
+            //     'https://imzbf.github.io/md-editor-rt/imgs/preview-light.png'
+            //   );
+            // }}
             // onError={console.log}
             onDrop={async (e) => {
               e.stopPropagation();

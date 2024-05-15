@@ -1,3 +1,5 @@
+import { prefix } from '../config';
+
 /**
  * 转换base64为file对象
  * 方法来自网络
@@ -43,7 +45,7 @@ export const generateCodeRowNumber = (code: string) => {
     rowNumberList.push('<span></span>');
   });
   rowNumberList.push('</span>');
-  return `<span class="code-block">${code}</span>${rowNumberList.join('')}`;
+  return `<span class="${prefix}-code-block">${code}</span>${rowNumberList.join('')}`;
 };
 
 /**

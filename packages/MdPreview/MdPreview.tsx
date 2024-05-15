@@ -66,6 +66,8 @@ const MdPreview = defineComponent({
             noImgZoomIn={props.noImgZoomIn}
             previewOnly
             sanitizeMermaid={props.sanitizeMermaid}
+            codeFoldable={props.codeFoldable}
+            autoFoldThreshold={props.autoFoldThreshold}
           />
         </div>
       );

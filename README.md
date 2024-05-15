@@ -124,6 +124,8 @@ Inputing prompt and mark, emoji extensions
 | noImgZoomIn | `boolean` | false | Enable the function of enlarging images |
 | customIcon | `CustomIcon` | {} | Customized icons |
 | sanitizeMermaid | `(h: string) => Promise<string>` | (h: string) => Promise.resolve(h) | Convert the generated mermaid code |
+| codeFoldable | `boolean` | true | Whether to enable code folding feature |
+| autoFoldThreshold | `number` | 30 | Threshold for triggering automatic code folding by line count |
 
 ### 🔩 MdEditor Props
 

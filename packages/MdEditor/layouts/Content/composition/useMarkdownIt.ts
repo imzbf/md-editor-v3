@@ -15,8 +15,8 @@ import XSSPlugin from 'markdown-it-xss';
 import { debounce, uuid } from '@vavt/util';
 import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
-import { HeadList, MarkdownItConfigPlugin, Themes } from '~/type';
-import { configOption } from '~/config';
+import { HeadList, MarkdownItConfigPlugin, StaticTextDefaultValue, Themes } from '~/type';
+import { configOption, prefix } from '~/config';
 import {
   BUILD_FINISHED,
   CATALOG_CHANGED,
@@ -32,7 +32,7 @@ import MermaidPlugin from '../markdownIt/mermaid';
 import KatexPlugin from '../markdownIt/katex';
 import AdmonitionPlugin from '../markdownIt/admonition';
 import HeadingPlugin from '../markdownIt/heading';
-import CodeTabsPlugin from '../markdownIt/codetabs';
+import CodePlugin from '../markdownIt/code';
 import { ContentPreviewProps } from '../ContentPreview';
 
 const initLineNumber = (md: mdit) => {
@@ -78,6 +78,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const { editorConfig, markdownItConfig, markdownItPlugins } = configOption;
   //
   const editorId = inject('editorId') as string;
+  const usedLanguageTextRef = inject(
+    'usedLanguageText'
+  ) as ComputedRef<StaticTextDefaultValue>;
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const themeRef = inject('theme') as ComputedRef<Themes>;
@@ -119,9 +122,15 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       options: { mdHeadingId: props.mdHeadingId, headsRef }
     },
     {
-      type: 'codeTabs',
-      plugin: CodeTabsPlugin,
-      options: { editorId }
+      type: 'code',
+      plugin: CodePlugin,
+      options: {
+        editorId,
+        usedLanguageTextRef,
+        // showCodeRowNumber,
+        codeFoldable: props.codeFoldable,
+        autoFoldThreshold: props.autoFoldThreshold
+      }
     },
     {
       type: 'xss',
@@ -204,7 +213,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
       const codeSpan = showCodeRowNumber
         ? generateCodeRowNumber(codeHtml.replace(/^\n+|\n+$/g, ''))
-        : `<span class="code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
+        : `<span class="${prefix}-code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
 
       return `<pre><code class="language-${language}" language=${language}>${codeSpan}</code></pre>`;
     }

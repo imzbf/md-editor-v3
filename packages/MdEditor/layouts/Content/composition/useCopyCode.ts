@@ -1,49 +1,48 @@
 import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
 import copy from 'copy-to-clipboard';
-import { CustomIcon, StaticTextDefaultValue } from '~/type';
+import { StaticTextDefaultValue } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
-import StrIcon from '~/components/Icon/Str';
+import { prefix } from '~/config';
 
 const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<string>) => {
   const editorId = inject('editorId') as string;
   const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-  const customIcon = inject('customIcon') as ComputedRef<CustomIcon>;
 
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
-    document.querySelectorAll(`#${editorId}-preview pre`).forEach((pre: Element) => {
-      // 恢复进程ID
-      let clearTimer = -1;
+    document
+      .querySelectorAll(`#${editorId} .${prefix}-preview .${prefix}-code`)
+      .forEach((codeBlock: Element) => {
+        // 恢复进程ID
+        let clearTimer = -1;
 
-      // 如果存在复制按钮，则移除
-      pre.querySelector('.copy-button')?.remove();
+        const copyButton = codeBlock.querySelector<HTMLSpanElement>(
+          `.${prefix}-copy-button`
+        );
 
-      const copyBtnText = ult.value.copyCode!.text;
-      const copyButton = document.createElement('span');
-      copyButton.setAttribute('class', 'copy-button');
-      copyButton.dataset.tips = copyBtnText;
+        if (copyButton)
+          copyButton.onclick = (e) => {
+            e.preventDefault();
+            // 多次点击移除上次的恢复进程
+            clearTimeout(clearTimer);
 
-      copyButton.innerHTML = StrIcon('copy', customIcon.value);
+            const activeCode =
+              codeBlock.querySelector('input:checked + pre code') ||
+              codeBlock.querySelector('pre code');
 
-      copyButton.addEventListener('click', () => {
-        // 多次点击移除上次的恢复进程
-        clearTimeout(clearTimer);
+            const codeText = (activeCode as HTMLElement).textContent!;
 
-        const codeText = (pre.querySelector('code') as HTMLElement).innerText;
+            const success = copy(props.formatCopiedText(codeText));
 
-        const success = copy(props.formatCopiedText(codeText));
+            const { text, successTips, failTips } = ult.value.copyCode!;
 
-        const succssTip = ult.value.copyCode!.successTips;
-        const failTip = ult.value.copyCode!.failTips;
+            copyButton.innerHTML = success ? successTips! : failTips!;
 
-        copyButton.dataset.tips = success ? succssTip : failTip;
-
-        clearTimer = window.setTimeout(() => {
-          copyButton.dataset.tips = copyBtnText;
-        }, 1500);
+            clearTimer = window.setTimeout(() => {
+              copyButton.innerHTML = text!;
+            }, 1500);
+          };
       });
-      pre.appendChild(copyButton);
-    });
   };
 
   // 编译事件

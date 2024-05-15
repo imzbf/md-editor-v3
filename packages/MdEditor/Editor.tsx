@@ -162,6 +162,8 @@ const Editor = defineComponent({
             }}
             sanitizeMermaid={props.sanitizeMermaid}
             transformImgUrl={props.transformImgUrl}
+            codeFoldable={props.codeFoldable}
+            autoFoldThreshold={props.autoFoldThreshold}
           />
           {props.footers.length > 0 && (
             <Footer

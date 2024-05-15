@@ -209,6 +209,26 @@ export const mdPreviewProps = {
   sanitizeMermaid: {
     type: Function as PropType<(h: string) => Promise<string>>,
     default: (h: string) => Promise.resolve(h)
+  },
+  /**
+   * 是否开启折叠代码功能
+   * 不开启会使用div标签替代details标签
+   *
+   * @default true
+   */
+  codeFoldable: {
+    type: Boolean as PropType<boolean>,
+    default: true
+  },
+  /**
+   * 触发自动折叠代码的行数阈值
+   *
+   * @default 30
+   */
+
+  autoFoldThreshold: {
+    type: Number as PropType<number>,
+    default: 30
   }
 };
 

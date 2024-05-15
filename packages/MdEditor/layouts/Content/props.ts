@@ -54,6 +54,12 @@ export const contentPreviewProps = {
   },
   sanitizeMermaid: {
     type: Function as PropType<(h: string) => Promise<string>>
+  },
+  codeFoldable: {
+    type: Boolean as PropType<boolean>
+  },
+  autoFoldThreshold: {
+    type: Number as PropType<number>
   }
 };
 
