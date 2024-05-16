@@ -5,43 +5,98 @@
         md-editor-v3<sup>@{{ version }}</sup>
       </h1>
       <p class="project-desc">{{ texts.desc }}</p>
-      <IzNavigation />
-      <p class="header-actions">
-        <button class="btn btn-header" @click="store.commit('changeTheme', 'light')">
-          {{ texts.defaultTheme }}
-        </button>
-        <button class="btn btn-header" @click="store.commit('changeTheme', 'dark')">
-          {{ texts.darkTheme }}
-        </button>
-        <IzDropdown>
-          <button class="btn btn-header">{{ texts.previewBtn }}</button>
+
+      <div class="pc">
+        <IzNavigation />
+        <p class="header-actions">
+          <button class="btn btn-header" @click="store.commit('changeTheme', 'light')">
+            {{ texts.defaultTheme }}
+          </button>
+          <button class="btn btn-header" @click="store.commit('changeTheme', 'dark')">
+            {{ texts.darkTheme }}
+          </button>
+          <IzDropdown>
+            <button class="btn btn-header">{{ texts.previewBtn }}</button>
+            <template #content>
+              <IzDropdownMenu>
+                <IzDropdownMenuItem
+                  v-for="item of data.previewThemes"
+                  :key="`preview-theme-${item}`"
+                  @click="store.commit('changePreviewTheme', item)"
+                >
+                  {{ item }}
+                </IzDropdownMenuItem>
+              </IzDropdownMenu>
+            </template>
+          </IzDropdown>
+          <IzDropdown>
+            <button class="btn btn-header">{{ texts.codeBtn }}</button>
+            <template #content>
+              <IzDropdownMenu>
+                <IzDropdownMenuItem
+                  v-for="item of data.codeThemes"
+                  :key="`code-theme-${item}`"
+                  @click="store.commit('changeCodeTheme', item)"
+                >
+                  {{ item }}
+                </IzDropdownMenuItem>
+              </IzDropdownMenu>
+            </template>
+          </IzDropdown>
+        </p>
+      </div>
+
+      <div class="mb">
+        <IzDrawer>
+          <svg class="icon m-menu-trigger" aria-hidden="true">
+            <use xlink:href="#icon-drawer"></use>
+          </svg>
+
           <template #content>
-            <IzDropdownMenu>
-              <IzDropdownMenuItem
-                v-for="item of data.previewThemes"
-                :key="`preview-theme-${item}`"
-                @click="store.commit('changePreviewTheme', item)"
+            <IzNavigation />
+            <div class="header-hr" />
+            <p class="header-actions">
+              <button
+                class="btn btn-header"
+                @click="store.commit('changeTheme', 'light')"
               >
-                {{ item }}
-              </IzDropdownMenuItem>
-            </IzDropdownMenu>
+                {{ texts.defaultTheme }}
+              </button>
+              <button class="btn btn-header" @click="store.commit('changeTheme', 'dark')">
+                {{ texts.darkTheme }}
+              </button>
+              <IzDropdown>
+                <button class="btn btn-header">{{ texts.previewBtn }}</button>
+                <template #content>
+                  <IzDropdownMenu>
+                    <IzDropdownMenuItem
+                      v-for="item of data.previewThemes"
+                      :key="`preview-theme-${item}`"
+                      @click="store.commit('changePreviewTheme', item)"
+                    >
+                      {{ item }}
+                    </IzDropdownMenuItem>
+                  </IzDropdownMenu>
+                </template>
+              </IzDropdown>
+              <IzDropdown>
+                <button class="btn btn-header">{{ texts.codeBtn }}</button>
+                <template #content>
+                  <IzDropdownMenu>
+                    <IzDropdownMenuItem
+                      v-for="item of data.codeThemes"
+                      :key="`code-theme-${item}`"
+                      @click="store.commit('changeCodeTheme', item)"
+                    >
+                      {{ item }}
+                    </IzDropdownMenuItem>
+                  </IzDropdownMenu>
+                </template>
+              </IzDropdown>
+            </p>
           </template>
-        </IzDropdown>
-        <IzDropdown>
-          <button class="btn btn-header">{{ texts.codeBtn }}</button>
-          <template #content>
-            <IzDropdownMenu>
-              <IzDropdownMenuItem
-                v-for="item of data.codeThemes"
-                :key="`code-theme-${item}`"
-                @click="store.commit('changeCodeTheme', item)"
-              >
-                {{ item }}
-              </IzDropdownMenuItem>
-            </IzDropdownMenu>
-          </template>
-        </IzDropdown>
-      </p>
+        </IzDrawer>
+      </div>
     </section>
   </header>
 </template>
@@ -50,6 +105,7 @@
 import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 import IzDropdown from '@/components/Dropdown';
+import IzDrawer from '@/components/Drawer';
 import IzNavigation from '../Navigation/index.vue';
 import './index.less';
 

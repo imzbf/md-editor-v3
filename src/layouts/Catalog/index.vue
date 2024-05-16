@@ -39,3 +39,17 @@ const onClick = (e: MouseEvent, t: TocItem) => {
   history.replaceState({}, '', `${location.pathname}#${t.text}`);
 };
 </script>
+
+<style lang="less">
+.affix {
+  position: sticky;
+  top: 10px;
+  max-height: 100vh;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
+</style>

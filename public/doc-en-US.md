@@ -411,6 +411,24 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ---
 
+### 🕹 codeFoldable
+
+- **type**: `boolean`
+- **default**: `true`
+
+  Whether to enable code folding feature
+
+---
+
+### ⏲ autoFoldThreshold
+
+- **type**: `number`
+- **default**: `30`
+
+  Threshold for triggering automatic code folding by line count
+
+---
+
 ## 🔩 MdEditor Props
 
 Except for the same as `MdPreview`:
@@ -1556,9 +1574,6 @@ config({
 });
 ```
 
-<details>
-  <summary>EditorExtensions</summary>
-
 ```ts
 export interface EditorExtensions {
   highlight?: {
@@ -1600,8 +1615,6 @@ export interface EditorExtensions {
   };
 }
 ```
-
-</details>
 
 ---
 

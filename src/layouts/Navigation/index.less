@@ -20,3 +20,21 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .nav-list {
+    flex-direction: column;
+    margin: 1rem;
+
+    .nav-item {
+      text-align: left;
+      margin: 0.4rem 0;
+      padding: 0;
+      color: var(--iz-color);
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

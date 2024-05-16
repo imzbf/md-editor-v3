@@ -1,15 +1,18 @@
-@import '../../styles/vars';
-
 .page-header {
-  color: @colorReverse;
-  padding: 4rem 6rem;
+  --page-header-bg-color: hsl(150, 76%, 34%);
+
+  color: var(--iz-color-reverse);
+  // padding: 4rem 6rem;
+  padding: 2em 0;
   text-align: center;
-  background-color: #159957;
+  background-color: var(--page-header-bg-color);
   background-image: linear-gradient(120deg, #155799, #159957);
+  border-bottom: var(--iz-border-color);
+  transition: color 0.2s linear;
 
   .project-name {
     font-size: 3.25rem;
-    margin: 0.5rem;
+    padding: 0.5rem;
     color: inherit;
 
     sup {
@@ -28,77 +31,104 @@
 
   .header-actions {
     padding: 2rem 0 0;
+  }
+}
+
+.btn-header {
+  font-weight: 400;
+  font-size: 1rem;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  line-height: 1.5;
+  background: transparent;
+  height: auto;
+  color: var(--iz-color-reverse);
+  border-color: var(--iz-border-color-reverse);
+
+  &:first-child ~ * {
+    margin-left: 10px;
+  }
+
+  &:hover {
+    color: var(--iz-hover-color-reverse);
+    border-color: var(--iz-border-hover-color-reverse);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:visited {
+      color: inherit;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1em 0;
+    text-align: center;
+
+    .project-name {
+      font-size: 2.25rem;
+      padding: 0.5rem;
+      color: inherit;
+
+      sup {
+        font-size: 1rem;
+        position: relative;
+        top: 0;
+        line-height: initial;
+        vertical-align: top;
+      }
+    }
+
+    .project-desc {
+      font-size: 1rem;
+    }
+
+    .m-menu-trigger {
+      position: fixed;
+      top: 33px;
+      right: 15px;
+      font-size: 26px;
+      z-index: 10;
+      color: var(--iz-color);
+    }
+  }
+
+  .header-hr {
+    margin: 2rem 1rem;
+    background-color: var(--iz-border-color);
+    height: 1px;
+  }
+
+  .header-actions {
+    margin: 1rem;
 
     .btn-header {
-      font-size: 1rem;
-      font-family: inherit;
-      color: @colorReverse;
-      line-height: 1.5;
-      background: transparent;
-      height: auto;
-      padding: 0.5rem 1rem;
-      border-color: @borderColorReverse;
+      color: var(--iz-color);
+      border-color: var(--iz-border-color);
+      margin-top: 1rem;
+      margin-left: 0;
+      width: 138px;
 
-      &:hover {
-        border-color: @borderColor;
-      }
-
-      a {
-        text-decoration: none;
-        color: inherit;
-
-        &:visited {
-          color: inherit;
-        }
+      &:first-of-type {
+        margin-top: 0;
       }
     }
   }
 }
 
-.theme-dark {
+html[class*='theme-dark'] {
   .page-header {
-    color: @colorDark;
-    background-color: @bkColorDark;
-    // background-image: linear-gradient(120deg, #051423, #041b0f);
+    --page-header-bg-color: inherit;
     background-image: none;
-    border-bottom: 1px solid @borderColorDark;
-
-    .project-name {
-      font-size: 3.25rem;
-      margin: 0.5rem;
-    }
-
-    .project-desc {
-      font-size: 1.25rem;
-      padding: 1rem;
-    }
-
-    .header-actions {
-      padding: 2rem 0 0;
-
-      .btn-header {
-        font-size: 1rem;
-        font-family: inherit;
-        color: @colorReverse;
-        line-height: 1.5;
-        background: transparent;
-        height: auto;
-        padding: 0.5rem 1rem;
-        border-color: @borderColorDark;
-        opacity: 0.7;
-
-        &:hover {
-          border-color: @borderColor;
-        }
-
-        a {
-          text-decoration: none;
-
-          &:visited {
-            color: inherit;
-          }
-        }
-      }
-    }
   }
 }

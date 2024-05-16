@@ -1,6 +1,6 @@
 {
   "name": "md-editor-v3",
-  "version": "4.14.1",
+  "version": "4.15.0",
   "keywords": [
     "vue",
     "vue3",
@@ -28,7 +28,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build --mode=preview",
     "serve": "vite preview"
   },
@@ -39,7 +39,7 @@
     "dayjs": "^1.11.10",
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-mark": "^4.0.0",
-    "md-editor-v3": "^4.14.1",
+    "md-editor-v3": "^4.15.0",
     "nprogress": "^0.2.0",
     "vue": "3.2.47",
     "vue-router": "^4.3.0",

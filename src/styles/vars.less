@@ -3,8 +3,11 @@
 @color: #3f4a54;
 @colorDark: #999;
 
+@hover: #bebebe;
+@hoverdark: #fff;
+
 @colorReverse: #eee;
-@colorDarkReverse: #222;
+@colorDarkReverse: #999;
 
 @borderColor: #e6e6e6;
 @borderColorDark: #2d2d2d;
@@ -18,9 +21,6 @@
 @codeBkColor: #282c34;
 @codeBkColorDark: #1a1a1a;
 
-@hover: rgb(230, 230, 230);
-@hoverdark: rgb(70, 70, 70);
-
 // 在默认背景下凸出背景
 @bbkColor: #ececec;
 @bbkColorDark: #111;
@@ -29,17 +29,30 @@
 @primaryColor: #73d13d;
 
 .css-vars(@isDark) {
-  --iz-color: if(@isDark, #999, #222);
-  --iz-hover-color: if(@isDark, #bbb, #000);
-  --iz-bk-color: if(@isDark, #000, #fff);
+  --iz-color: if(@isDark, @colorDark, @color);
+  --iz-color-reverse: if(@isDark, @colorDarkReverse, @colorReverse);
+  --iz-hover-color: if(@isDark, @hoverdark, @hover);
+  --iz-hover-color-reverse: if(@isDark, @hover, @hoverdark);
+
+  --iz-bk-color: if(@isDark, @bkColorDark, @bkColor);
   --iz-bk-color-outstand: if(@isDark, #111, #f6f6f6);
-  --iz-bk-hover-color: if(@isDark, #1b1a1a, #f5f7fa);
+  --iz-bk-hover-color: if(@isDark, @bbkColorDark, @bbkColor);
+
   --iz-border-color: if(@isDark, #2d2d2d, #e6e6e6);
+  --iz-border-color-reverse: if(@isDark, @borderColorDarkReverse, @borderColorReverse);
+
   --iz-border-hover-color: if(@isDark, #636262, #b9b9b9);
+  --iz-border-hover-color-reverse: if(
+    @isDark,
+    @borderColorReverse,
+    @borderColorDarkReverse
+  );
+
   --iz-border-active-color: if(@isDark, #777, #999);
+
   --iz-modal-mask: #00000073;
-  --iz-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
-  --iz-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
-  --iz-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
-  --iz-scrollbar-thumb-active-color: if(@isDark, #3a3a3a, #00000061);
+  --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
+  --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
+  --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
+  --md-scrollbar-thumb-active-color: if(@isDark, #3a3a3a, #00000061);
 }
