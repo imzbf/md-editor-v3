@@ -194,7 +194,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     }
   });
 
-  initLineNumber(md);
+  if (!props.previewOnly) {
+    initLineNumber(md);
+  }
 
   // 文章节点的key
   const key = ref(`_article-key_${uuid()}`);
@@ -254,9 +256,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     bus.on(editorId, {
       name: RERENDER,
       callback: () => {
-        markHtml();
         // 强制更新节点
         key.value = `_article-key_${uuid()}`;
+        markHtml();
       }
     });
   });
