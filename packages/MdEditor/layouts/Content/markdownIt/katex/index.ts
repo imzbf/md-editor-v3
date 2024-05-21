@@ -4,8 +4,15 @@
  * 该代码只是正对md-editor-v3系列功能做了适配
  */
 import { ShallowRef } from 'vue';
-import markdownit, { ParserBlock, ParserInline, StateInline } from 'markdown-it';
+import markdownit, {
+  ParserBlock,
+  ParserInline,
+  Renderer,
+  StateInline,
+  Token
+} from 'markdown-it';
 import { prefix } from '~/config';
+import { mergeAttrs } from '~/utils/markdown-it';
 
 // Test if potential opening or closing delimieter
 // Assumes that there is a "$" at state.src[pos]
@@ -174,30 +181,40 @@ const math_block: ParserBlock.RuleBlock = (state, start, end, silent) => {
   return true;
 };
 
-const KatexPlugin = (md: markdownit, options: { katexRef: ShallowRef }) => {
+const KatexPlugin = (md: markdownit, { katexRef }: { katexRef: ShallowRef }) => {
   // set KaTeX as the renderer for markdown-it-simplemath
-  const katexInline = (str: string) => {
-    if (options.katexRef.value) {
-      const html = options.katexRef.value.renderToString(str, {
+  const katexInline: Renderer.RenderRule = (tokens, idx, options, env, slf) => {
+    const token = tokens[idx];
+    const tmpToken = {
+      attrs: mergeAttrs(token, [['class', `${prefix}-katex-inline`]])
+    };
+
+    if (katexRef.value) {
+      const html = katexRef.value.renderToString(token.content, {
         throwOnError: false
       });
 
-      return `<span class="${prefix}-katex-inline" data-processed>${html}</span>`;
+      return `<span ${slf.renderAttrs(tmpToken as Token)} data-processed>${html}</span>`;
     } else {
-      return `<span class="${prefix}-katex-inline">${str}</span>`;
+      return `<span ${slf.renderAttrs(tmpToken as Token)}>${token.content}</span>`;
     }
   };
 
-  const katexBlock = (str: string, lineNum: number) => {
-    if (options.katexRef.value) {
-      const html = options.katexRef.value.renderToString(str, {
+  const katexBlock: Renderer.RenderRule = (tokens, idx, options, env, slf) => {
+    const token = tokens[idx];
+    const tmpToken = {
+      attrs: mergeAttrs(token, [['class', `${prefix}-katex-block`]])
+    };
+
+    if (katexRef.value) {
+      const html = katexRef.value.renderToString(token.content, {
         throwOnError: false,
         displayMode: true
       });
 
-      return `<p class="${prefix}-katex-block" data-line=${lineNum} data-processed>${html}</p>`;
+      return `<p ${slf.renderAttrs(tmpToken as Token)} data-processed>${html}</p>`;
     } else {
-      return `<p class="${prefix}-katex-block" data-line=${lineNum}>${str}</p>`;
+      return `<p ${slf.renderAttrs(tmpToken as Token)}>${token.content}</p>`;
     }
   };
 
@@ -206,13 +223,8 @@ const KatexPlugin = (md: markdownit, options: { katexRef: ShallowRef }) => {
     alt: ['paragraph', 'reference', 'blockquote', 'list']
   });
 
-  md.renderer.rules.math_inline = (tokens, idx) => {
-    return katexInline(tokens[idx].content);
-  };
-
-  md.renderer.rules.math_block = (tokens, idx) => {
-    return katexBlock(tokens[idx].content, tokens[idx].map![0]) + '\n';
-  };
+  md.renderer.rules.math_inline = katexInline;
+  md.renderer.rules.math_block = katexBlock;
 };
 
 export default KatexPlugin;

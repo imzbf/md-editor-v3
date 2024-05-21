@@ -24,7 +24,6 @@ const HeadingPlugin = (md: markdownit, options: HeadingPluginOps) => {
     });
 
     if (token.map && token.level === 0) {
-      token.attrSet('data-line', String(token.map![0]));
       token.attrSet(
         'id',
         options.mdHeadingId(text, level, options.headsRef.value.length)

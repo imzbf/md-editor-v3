@@ -10,6 +10,7 @@ import markdownit, { Renderer, Token } from 'markdown-it';
 import { Ref } from 'vue';
 import { StaticTextDefaultValue } from '~/type';
 import { prefix } from '~/config';
+import { mergeAttrs } from '~/utils/markdown-it';
 
 export interface CodeTabsPluginOps extends markdownit.Options {
   editorId: string;
@@ -17,22 +18,6 @@ export interface CodeTabsPluginOps extends markdownit.Options {
   codeFoldable: boolean;
   autoFoldThreshold: number;
 }
-
-const mergeAttrs = (token: Token, open: boolean) => {
-  const i = token.attrIndex('class');
-  const tmpAttrs = token.attrs ? token.attrs!.slice() : [];
-
-  if (i < 0) {
-    tmpAttrs.push(['class', `${prefix}-code`]);
-  } else {
-    tmpAttrs[i] = tmpAttrs[i].slice() as [string, string];
-    tmpAttrs[i][1] += ` ${prefix}-code"`;
-  }
-
-  open && tmpAttrs.push(['open', '']);
-
-  return tmpAttrs;
-};
 
 const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   const defaultRender = md.renderer.rules.fence,
@@ -77,8 +62,11 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
     const [GROUP] = getGroupAndTab(tokens[idx]);
     if (GROUP === null) {
       const { open, tagContainer, tagHeader } = getTagType(tokens[idx]);
+      const addAttrs: [[string, string]] = [['class', `${prefix}-code`]];
+      open && addAttrs.push(['open', '']);
+
       const tmpToken = {
-        attrs: mergeAttrs(tokens[idx], open)
+        attrs: mergeAttrs(tokens[idx], addAttrs)
       };
 
       const codeRendered = defaultRender!(tokens, idx, options, env, slf);
@@ -105,8 +93,11 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       langs = '';
 
     const { open, tagContainer, tagHeader } = getTagType(tokens[idx]);
+    const addAttrs: [[string, string]] = [['class', `${prefix}-code`]];
+    open && addAttrs.push(['open', '']);
+
     const tmpToken = {
-      attrs: mergeAttrs(tokens[idx], open)
+      attrs: mergeAttrs(tokens[idx], addAttrs)
     };
 
     for (let i = idx; i < tokens.length; i++) {
