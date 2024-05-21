@@ -68,7 +68,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   const md = mdit({
     html: true,
-    breaks: true
+    breaks: true,
+    linkify: true
   });
 
   markdownItConfig!(md, {
