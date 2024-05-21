@@ -37,8 +37,7 @@ a {
 html {
   .css-vars(false);
 
-  body,
-  .md-editor {
+  body {
     font-size: 16px;
     font-family:
       'Varela Round',
@@ -122,6 +121,34 @@ html[class*='theme-dark'] {
   > ::-webkit-scrollbar-thumb:vertical:active {
     background-color: rgb(58, 58, 58);
   }
+}
+
+.md-editor-preview {
+  overflow: visible !important;
+
+  .generate-heading(@i) when (@i <= 6) {
+    h@{i} {
+      transform: translateX(-1rem);
+      a.header-anchor {
+        margin-right: 0;
+        opacity: 0;
+        // margin-right: 10px;
+        // opacity: 1;
+        transition: 0.3s;
+      }
+
+      &:hover {
+        a.header-anchor {
+          margin-right: 10px;
+          opacity: 1;
+        }
+      }
+    }
+
+    .generate-heading((@i + 1));
+  }
+
+  .generate-heading(1);
 }
 
 @media (max-width: 768px) {

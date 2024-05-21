@@ -12,7 +12,7 @@ import { config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 import MarkExtension from 'markdown-it-mark';
-
+import Anchor from 'markdown-it-anchor';
 import LinkAttr from 'markdown-it-link-attributes';
 
 import { lineNumbers } from '@codemirror/view';
@@ -22,13 +22,33 @@ import ZH_TW from '@vavt/cm-extension/dist/locale/zh-TW';
 import '@vavt/cm-extension/dist/previewTheme/arknights.css';
 
 config({
-  markdownItConfig(md) {
-    md.use(MarkExtension);
-    md.use(LinkAttr, {
-      attrs: {
-        target: '_blank'
+  markdownItPlugins(plugins) {
+    return [
+      ...plugins,
+      {
+        type: 'mark',
+        plugin: MarkExtension,
+        options: {}
+      },
+      {
+        type: 'linkAttr',
+        plugin: LinkAttr,
+        options: {}
+      },
+      {
+        type: 'anchor',
+        plugin: Anchor,
+        options: {
+          permalink: true,
+          permalinkSymbol: '#',
+          permalinkBefore: true,
+          permalinkSpace: false,
+          slugify(s: string) {
+            return s;
+          }
+        }
       }
-    });
+    ];
   },
   codeMirrorExtensions(theme, extensions) {
     const _exs = [...extensions, lineNumbers()];
