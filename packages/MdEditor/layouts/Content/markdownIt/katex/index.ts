@@ -12,7 +12,7 @@ import markdownit, {
   Token
 } from 'markdown-it';
 import { prefix } from '~/config';
-import { mergeAttrs } from '~/utils/markdown-it';
+import { mergeAttrs } from '~/utils/md-it';
 
 // Test if potential opening or closing delimieter
 // Assumes that there is a "$" at state.src[pos]

@@ -10,7 +10,7 @@ import markdownit, { Renderer, Token } from 'markdown-it';
 import { Ref } from 'vue';
 import { StaticTextDefaultValue } from '~/type';
 import { prefix } from '~/config';
-import { mergeAttrs } from '~/utils/markdown-it';
+import { mergeAttrs } from '~/utils/md-it';
 
 export interface CodeTabsPluginOps extends markdownit.Options {
   editorId: string;
