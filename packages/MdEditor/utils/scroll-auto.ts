@@ -197,7 +197,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
     // 如果结束块已经在滚动到底部时的可视区了，那么就将当前块到末尾视为一个整体
     // 达到左侧滚动到底部时，右侧同步滚动到底部的目标
-    if (endLinePosition > scrollDOM.scrollHeight - scrollDOM.clientHeight) {
+    if (endLinePosition >= scrollDOM.scrollHeight - scrollDOM.clientHeight) {
       scale =
         (scrollDOM.scrollTop - startTop) /
         (scrollDOM.scrollHeight - scrollDOM.clientHeight - startTop);
