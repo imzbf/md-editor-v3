@@ -3227,10 +3227,10 @@ marked@*:
   resolved "https://registry.npmjs.org/marked/-/marked-12.0.1.tgz#8ab1eb15560c7cbe3b011074845d7ca6c4d392b0"
   integrity sha512-Y1/V2yafOcOdWQCX0XpAKXzDakPOpn6U0YLxTJs3cww6VxOzZV1BTOOYWLvH3gX38cq+iLwljHHTnMtlDfg01Q==
 
-md-editor-v3@^4.15.1:
-  version "4.15.1"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.15.1.tgz#d1cf749f21d9af776bd4f59d9f70691bffbc1851"
-  integrity sha512-r/2sQy1lBT6VZp6w+wdxHQUpwSw7X1iR59Z0lPL86F+1N/E0/dyypgr86uEK/EMvuOAoNWOtyX8h4/0H3ZrshQ==
+md-editor-v3@^4.15.2:
+  version "4.15.2"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.15.2.tgz#2ac02b63657e4a2612740af41e0cc9b2a3085c36"
+  integrity sha512-YN4g2X71DIfy5kOhn9GN9OsICf45REp//Ucu3Y9+gOzoaZH4UDmUUFM4lnjOt65XAtK/KzT8PShbHKQC6een/w==
   dependencies:
     "@codemirror/lang-markdown" "^6.2.5"
     "@codemirror/language-data" "^6.5.1"

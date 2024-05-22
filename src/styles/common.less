@@ -128,9 +128,9 @@ html[class*='theme-dark'] {
 
   .generate-heading(@i) when (@i <= 6) {
     h@{i} {
-      transform: translateX(-1rem);
+      // transform: translateX(-1rem);
       a.header-anchor {
-        margin-right: 0;
+        margin-left: 0;
         opacity: 0;
         // margin-right: 10px;
         // opacity: 1;
@@ -139,7 +139,7 @@ html[class*='theme-dark'] {
 
       &:hover {
         a.header-anchor {
-          margin-right: 10px;
+          margin-left: 10px;
           opacity: 1;
         }
       }
