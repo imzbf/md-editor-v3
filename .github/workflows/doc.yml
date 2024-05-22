@@ -12,26 +12,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: node env
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4.0.2
         with:
-          node-version: 16
+          node-version: 20
           registry-url: https://registry.npmjs.org/
 
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.6
 
       - name: install
-        uses: borales/actions-yarn@v3.0.0
+        uses: borales/actions-yarn@v5.0.0
         with:
           cmd: install
 
       - name: build
-        uses: borales/actions-yarn@v3.0.0
+        uses: borales/actions-yarn@v5.0.0
         with:
           cmd: build
 
       - name: publish
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        uses: JamesIves/github-pages-deploy-action@v4.6.1
         with:
           branch: docs
           folder: dist
