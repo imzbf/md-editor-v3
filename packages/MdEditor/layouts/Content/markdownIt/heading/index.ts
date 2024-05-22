@@ -13,7 +13,7 @@ const HeadingPlugin = (md: markdownit, options: HeadingPluginOps) => {
 
     const text =
       tokens[idx + 1].children?.reduce((p, c) => {
-        return p + c.type === 'text' ? c.content || '' : '';
+        return p + (['text', 'code_inline'].includes(c.type) ? c.content || '' : '');
       }, '') || '';
 
     const level = token.markup.length as 1 | 2 | 3 | 4 | 5 | 6;
