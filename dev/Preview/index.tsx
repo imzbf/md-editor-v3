@@ -285,7 +285,7 @@ export default defineComponent({
             // toolbarsExclude={['github']}
             // noPrettier
             // tabWidth={4}
-            showCodeRowNumber
+            // showCodeRowNumber
             // katex={katex}
             tableShape={[6, 4, 12, 8]}
             // noMermaid
