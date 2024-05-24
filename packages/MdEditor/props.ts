@@ -83,11 +83,11 @@ export const mdPreviewProps = {
   /**
    * 预览中代码是否显示行号
    *
-   * @default false
+   * @default true
    */
   showCodeRowNumber: {
     type: Boolean as PropType<boolean>,
-    default: false
+    default: true
   },
   /**
    * 预览内容样式

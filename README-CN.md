@@ -47,6 +47,10 @@ yarn add @vavt/v3-extension
 
 ## 💡 用法
 
+当使用服务端渲染时，请务必设置`editorId`为固定值。
+
+从`v4.0.0`开始，内部组件支持按需引用。
+
 ### ✍🏻 编辑器模式
 
 ```vue
@@ -62,10 +66,6 @@ import 'md-editor-v3/lib/style.css';
 const text = ref('# Hello Editor');
 </script>
 ```
-
-> 从`v4.0.0`开始，内部组件支持按需引用。
-
-> 如果页面存在多个编辑器，请给组件设置不相同的`editorId`。
 
 ### 📖 仅预览模式
 
@@ -86,6 +86,8 @@ const scrollElement = document.documentElement;
 </script>
 ```
 
+当使用服务端渲染时，`scrollElement`应该是字符类型，例：`body`、`#id`、`.class`。
+
 ## 🗺 预览图
 
 | 默认模式 | 暗黑模式 | 仅预览 |
@@ -105,11 +107,11 @@ const scrollElement = document.documentElement;
 | modelValue | `string` | '' | md 编辑内容，vue 模板支持双向绑定（v-model="value"） |
 | theme | `light \| dark` | 'light' | 主题切换 |
 | class | `string` | '' | 编辑器类名 |
-| language | `string` | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
-| editorId | `string` | 'md-editor-v3' | 编辑器唯一标识，非必须项，当相同页面存在两个编辑器时，请务必区别该属性 |
-| showCodeRowNumber | `boolean` | false | 代码块是否显示行号 |
-| previewTheme | `'default' \| 'github' \| 'vuepress' \| 'mk-cute' \| 'smart-blue' \| 'cyanosis'` | 'default' | 预览内容主题，自定义主题规则见下方 |
 | style | `string \| CSSProperties` | {} | 编辑器内联样式 |
+| language | `string` | 'zh-CN' | 内置中英文('zh-CN','en-US')，可自行扩展其他语言，同时可覆盖内置的中英文 |
+| editorId | `string` | 'md-editor-v3\_[\d]' | 编辑器唯一标识，默认数字累加，当使用服务端渲染时，请务必设置该属性为固定值 |
+| showCodeRowNumber | `boolean` | true | 代码块是否显示行号 |
+| previewTheme | `'default' \| 'github' \| 'vuepress' \| 'mk-cute' \| 'smart-blue' \| 'cyanosis'` | 'default' | 预览内容主题，自定义主题规则见下方 |
 | noMermaid | `boolean` | false | 如果你不希望使用图表展示内容，可以设置关闭 |
 | noKatex | `boolean` | false | 不使用 katex 展示数学公式 |
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | 代码块 highlight 样式名称，扩展更多见下方 |
