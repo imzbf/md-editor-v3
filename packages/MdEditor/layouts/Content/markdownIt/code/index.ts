@@ -22,7 +22,8 @@ export interface CodeTabsPluginOps extends markdownit.Options {
 const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   const defaultRender = md.renderer.rules.fence,
     unescapeAll = md.utils.unescapeAll,
-    re = /\[(\w*)(?::([\w ]*))?\]/;
+    re = /\[(\w*)(?::([\w ]*))?\]/,
+    mandatoryRe = /::close/;
 
   const getInfo = (token: Token) => {
     return token.info ? unescapeAll(token.info).trim() : '';
@@ -41,9 +42,12 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   };
 
   const getTagType = (token: Token) => {
-    const open = token.content.trim().split('\n').length < _opts.autoFoldThreshold;
-    const tagContainer = _opts.codeFoldable ? 'details' : 'div',
-      tagHeader = _opts.codeFoldable ? 'summary' : 'div';
+    const mandatory = mandatoryRe.test(token.info);
+
+    const open =
+      !mandatory && token.content.trim().split('\n').length < _opts.autoFoldThreshold;
+    const tagContainer = mandatory || _opts.codeFoldable ? 'details' : 'div',
+      tagHeader = mandatory || _opts.codeFoldable ? 'summary' : 'div';
 
     return { open, tagContainer, tagHeader };
   };
@@ -68,6 +72,8 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       const tmpToken = {
         attrs: mergeAttrs(tokens[idx], addAttrs)
       };
+
+      tokens[idx].info = tokens[idx].info.replace(mandatoryRe, '');
 
       const codeRendered = defaultRender!(tokens, idx, options, env, slf);
       return `<${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
@@ -107,7 +113,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
         break;
       }
 
-      token.info = token.info.replace(re, '');
+      token.info = token.info.replace(re, '').replace(mandatoryRe, '');
       token.hidden = true;
 
       const className = `${prefix}-codetab-${_opts.editorId}-${idx}-${i - idx}`;
