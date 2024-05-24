@@ -53,16 +53,16 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 ### 🎲 editorId
 
 - **type**: `string`
-- **default**: `'md-editor-v3'`
+- **default**: `'md-editor-v3\_[\d]'`
 
-  Editor's id, also the html id, it is used when there are two or more editor and server render.
+  Editor's id, default incrementing by number. When using server-side rendering, make sure to set this attribute to a constant value.
 
 ---
 
 ### 🔢 showCodeRowNumber
 
 - **type**: `boolean`
-- **default**: `false`
+- **default**: `true`
 
   Show row number for code block or not.
 

@@ -49,6 +49,8 @@ yarn add md-editor-v3
 npm install md-editor-v3
 ```
 
+When using server-side rendering, make sure to set `editorId` to a constant value.
+
 #### 🥱 Setup Template
 
 ```vue
@@ -99,6 +101,8 @@ const text = ref('# Hello Editor');
 const scrollElement = document.documentElement;
 </script>
 ```
+
+When using server-side rendering, `scrollElement` should be of string type, eg: `body`, `#id`, `.class`.
 
 ## 🥂 Api Usage
 

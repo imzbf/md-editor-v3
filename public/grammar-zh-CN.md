@@ -48,10 +48,10 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🐼 图片
 
-![描述文字](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
+![描述文字](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif 'title')
 
 ```markdown
-![描述文字](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
+![描述文字](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif 'title')
 ```
 
 ---
@@ -133,6 +133,22 @@ pnpm install md-editor-v3
 ```
 ````
 
+### 🤌🏻 强制折叠
+
+```js ::close
+import MdEditor from 'md-editor-rt';
+import 'md-editor-rt/lib/style.css';
+```
+
+````markdown
+```js ::close
+import MdEditor from 'md-editor-rt';
+import 'md-editor-rt/lib/style.css';
+```
+````
+
+据其他编辑器的了解，目前没有其他编辑器使用类似的语法，如果需要拷贝你的内容到其他编辑器展示时，请谨慎使用该语法。
+
 ---
 
 ## 🐻‍❄️ 引用
@@ -189,14 +205,14 @@ pnpm install md-editor-v3
 
 ## 🐮 表格
 
-| 昵称 | 来自      |
-| ---- | --------- |
-| 之间 | 中国-重庆 |
+| 表头1  |  表头2   |  表头3 | 表头4 |
+| :----- | :------: | -----: | ----- |
+| 左对齐 | 中间对齐 | 右对齐 | 默认  |
 
 ```markdown
-| 昵称 | 来自      |
-| ---- | --------- |
-| 之间 | 中国-重庆 |
+| 表头1  |  表头2   |  表头3 | 表头4 |
+| :----- | :------: | -----: | ----- |
+| 左对齐 | 中间对齐 | 右对齐 | 默认  |
 ```
 
 ---

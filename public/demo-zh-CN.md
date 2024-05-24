@@ -49,6 +49,8 @@ yarn add md-editor-v3
 npm install md-editor-v3
 ```
 
+当使用服务端渲染时，请务必设置`editorId`为固定值。
+
 #### 🥱 Setup 模板
 
 ```vue
@@ -102,6 +104,8 @@ const text = ref('# Hello Editor');
 const scrollElement = document.documentElement;
 </script>
 ```
+
+当使用服务端渲染时，`scrollElement`应该是字符类型，例：`body`、`#id`、`.class`。
 
 ## 🥂 扩展功能
 

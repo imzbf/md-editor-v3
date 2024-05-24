@@ -40,9 +40,15 @@ The Old Man and the Sea served to reinvigorate Hemingway's literary reputation a
 
 ## 📈 Table
 
-| nickname | from             |
-| -------- | ---------------- |
-| zhijian  | ChongQing, China |
+| THead1          |      THead2       |           THead3 | THead4  |
+| :-------------- | :---------------: | ---------------: | ------- |
+| text-align:left | text-align:center | text-align:right | default |
+
+```markdown
+| THead1          |      THead2       |           THead3 | THead4  |
+| :-------------- | :---------------: | ---------------: | ------- |
+| text-align:left | text-align:center | text-align:right | default |
+```
 
 ## 📏 Formula
 

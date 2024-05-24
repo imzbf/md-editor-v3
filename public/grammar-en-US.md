@@ -48,10 +48,10 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🐼 Picture
 
-![Description](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
+![Description](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif 'title')
 
 ```markdown
-![Description](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
+![Description](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif 'title')
 ```
 
 ---
@@ -133,6 +133,22 @@ pnpm install md-editor-v3
 ```
 ````
 
+### 🤌🏻 Forcefully fold
+
+```js ::close
+import MdEditor from 'md-editor-rt';
+import 'md-editor-rt/lib/style.css';
+```
+
+````markdown
+```js ::close
+import MdEditor from 'md-editor-rt';
+import 'md-editor-rt/lib/style.css';
+```
+````
+
+According to the understanding of other editors, no other editors currently employ a similar syntax. Exercise caution when using this syntax if you intend to copy your content for display in other editors.
+
 ---
 
 ## 🐻‍❄️ Quote
@@ -189,14 +205,14 @@ pnpm install md-editor-v3
 
 ## 🐮 Table
 
-| nickname | from             |
-| -------- | ---------------- |
-| zhijian  | ChongQing, China |
+| THead1          |      THead2       |           THead3 | THead4  |
+| :-------------- | :---------------: | ---------------: | ------- |
+| text-align:left | text-align:center | text-align:right | default |
 
 ```markdown
-| nickname | from             |
-| -------- | ---------------- |
-| zhijian  | ChongQing, China |
+| THead1          |      THead2       |           THead3 | THead4  |
+| :-------------- | :---------------: | ---------------: | ------- |
+| text-align:left | text-align:center | text-align:right | default |
 ```
 
 ---
