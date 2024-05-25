@@ -813,10 +813,11 @@ const text = ref('');
 
 ### 🔒 Compile-time Prevention of XSS
 
-The plugin `markdown-it-xss` has already processed dangerous code during compilation, and currently supports displaying some properties of the `input ` and `iframe` tags by default:
+The built-in XSS extension has already handled dangerous code during compilation, and on top of the default whitelist, it includes additional tags and attributes:
 
-```json
+```json::close
 {
+  "img": ["class"],
   // Task List
   "input": ["class", "disabled", "type", "checked"],
   // Embedded video codes such as YouTube, WeTV, and Bilibili
@@ -850,6 +851,9 @@ config({
 Add a configuration that allows for events where image loading fails
 
 ```js
+import { config } from 'md-editor-v3';
+// import { getDefaultWhiteList } from 'xss';
+
 config({
   markdownItPlugins(plugins) {
     return plugins.map((p) => {
@@ -857,27 +861,33 @@ config({
         return {
           ...p,
           options: {
-            xss(xss) {
-              return {
-                whiteList: Object.assign({}, xss.getDefaultWhiteList(), {
-                  // If you need to use task list, please keep this configuration
-                  input: ['class', 'disabled', 'type', 'checked'],
-                  // If you need to use embedded video code, please keep this configuration
-                  iframe: [
-                    'class',
-                    'width',
-                    'height',
-                    'src',
-                    'title',
-                    'border',
-                    'frameborder',
-                    'framespacing',
-                    'allow',
-                    'allowfullscreen'
-                  ],
-                  img: ['onerror']
-                })
-              };
+            // Option 1: Extend All by Yourself
+            // xss() {
+            //   return {
+            //     whiteList: Object.assign({}, getDefaultWhiteList(), {
+            //       // If you need to use task list, please keep this configuration
+            //       img: ['class'],
+            //       input: ['class', 'disabled', 'type', 'checked'],
+            //       // If you need to use embedded video code, please keep this configuration
+            //       iframe: [
+            //         'class',
+            //         'width',
+            //         'height',
+            //         'src',
+            //         'title',
+            //         'border',
+            //         'frameborder',
+            //         'framespacing',
+            //         'allow',
+            //         'allowfullscreen'
+            //       ],
+            //       img: ['onerror']
+            //     })
+            //   };
+            // }
+            // Option 2: Add on Top of the Default Whitelist. ^4.15.6
+            extendedWhiteList: {
+              img: ['onerror']
             }
           }
         };
