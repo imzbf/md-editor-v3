@@ -195,9 +195,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     }
   });
 
-  if (!props.previewOnly) {
-    initLineNumber(md);
-  }
+  // if (!props.previewOnly) {
+  initLineNumber(md);
+  // }
 
   // 文章节点的key
   const key = ref(`_article-key_${uuid()}`);
