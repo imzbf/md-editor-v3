@@ -40,15 +40,9 @@ The Old Man and the Sea served to reinvigorate Hemingway's literary reputation a
 
 ## 📈 Table
 
-| THead1          |      THead2       |           THead3 | THead4  |
-| :-------------- | :---------------: | ---------------: | ------- |
-| text-align:left | text-align:center | text-align:right | default |
-
-```markdown
-| THead1          |      THead2       |           THead3 | THead4  |
-| :-------------- | :---------------: | ---------------: | ------- |
-| text-align:left | text-align:center | text-align:right | default |
-```
+| THead1          |      THead2       |           THead3 |
+| :-------------- | :---------------: | ---------------: |
+| text-align:left | text-align:center | text-align:right |
 
 ## 📏 Formula
 

@@ -303,7 +303,17 @@
 - **类型**：`boolean`
 - **默认值**：`false`
 
-  是否关闭编辑器默认的放大功能（`^4.4.0`）
+  是否关闭编辑器默认的放大功能
+
+  ```html
+  <MdEditor noImgZoomIn />
+  ```
+
+  在`4.15.4`以后，也可以设置`.not-zoom`来禁用它
+
+  ```markdown
+  <img class="not-zoom">
+  ```
 
 ---
 

@@ -305,6 +305,16 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   Enable the function of enlarging images.
 
+  ```html
+  <MdEditor noImgZoomIn />
+  ```
+
+  After version `4.15.4`, it is also possible to disable zooming by setting the class `.not-zoom`.
+
+  ```markdown
+  <img class="not-zoom">
+  ```
+
 ---
 
 ### 😬 customIcon
