@@ -17,7 +17,7 @@ const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
   const { noImgZoomIn } = props;
 
   const zoomHander = debounce<any, void>(() => {
-    const imgs = document.querySelectorAll(`#${editorId}-preview img`);
+    const imgs = document.querySelectorAll(`#${editorId}-preview img:not(.not-zoom)`);
 
     if (imgs.length === 0) {
       return;
