@@ -199,11 +199,15 @@
 - **类型**：`(html: string) => string`
 - **默认值**：`(html) => html`
 
-  通过该方法移除危险内容，比如 xss 相关，当你很确定你的内容不会出现类似情况时，不必设置它。
+  通过该属性修改编译后的html内容
 
-  !!! warning 提示
+  !!! warning
 
-  3.x 以后已内置危险代码处理，非特殊需求请勿使用该属性
+  该属性为保留属性
+
+  基本的危险代码处理方案在3.x以后已内置，例如`<script>alert(123)</script>`
+
+  在4.11.3以后实现了更完善的处理方案，[参考](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)
 
   !!!
 

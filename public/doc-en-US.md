@@ -199,11 +199,15 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 - **type**: `(html: string) => string`
 - **default**: `(html) => html`
 
-  Sanitize the html, prevent XSS. When you can be sure that your content is OK, ignore this.
+  This attribute is used to alter the compiled HTML content.
 
-  !!! warning Pay Attention
+  !!! warning
 
-  After 3.x, dangerous code has been processed by default. Please do not use this attribute unless there are special requirements
+  This is a reserved attribute.
+
+  Basic solution for dangerous code has been built-in since version 3.x. eg: `<script>alert(123)</script>`
+
+  A more comprehensive solution has been implemented since version 4.11.3. [Refer to](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0%9F%94%8F%20Modify%20XSS%20configuration)
 
   !!!
 
