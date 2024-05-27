@@ -117,7 +117,7 @@ Inputing prompt and mark, emoji extensions
 | noKatex | `boolean` | false | Use katex or not |
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | Highlight code style, can be customized also |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
-| sanitize | `(html: string) => string` | (html) => html | Sanitize the html, prevent XSS. After 3.x, dangerous code has been processed by default. Please do not use this attribute unless there are special requirements |
+| sanitize | `(html: string) => string` | (html) => html | This attribute is used to alter the compiled HTML content |
 | noIconfont | `boolean` | false | Not append iconfont script, download different versions [SVG](https://at.alicdn.com/t/c/font_2605852_prouiefeic.js)或[Font Class](https://at.alicdn.com/t/c/font_2605852_prouiefeic.css) and import it by yourself |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
 | codeStyleReverse | `boolean` | true | Code style will be reversed to dark while code block of the theme has a dark background |
