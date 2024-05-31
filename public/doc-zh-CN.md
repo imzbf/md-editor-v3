@@ -205,7 +205,7 @@
 
   该属性为保留属性
 
-  基本的危险代码处理方案在3.x以后已内置，例如`<script>alert(123)</script>`
+  基本的危险代码处理方案在3.x以后已内置，例如`<script>alert(123)</script>`，4.11.3之前建议使用该属性来清理更复杂的内容以防止 XSS。
 
   在4.11.3以后实现了更完善的处理方案，[参考](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)
 

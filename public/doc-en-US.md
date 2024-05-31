@@ -205,7 +205,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   This is a reserved attribute.
 
-  Basic solution for dangerous code has been built-in since version 3.x. eg: `<script>alert(123)</script>`
+  Basic solution for dangerous code has been built-in since version 3.x. eg: `<script>alert(123)</script>`. Prior to version 4.11.3, it was recommended to utilize this attribute for cleaning more complex content to prevent XSS attacks.
 
   A more comprehensive solution has been implemented since version 4.11.3. [Refer to](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0%9F%94%8F%20Modify%20XSS%20configuration)
 
