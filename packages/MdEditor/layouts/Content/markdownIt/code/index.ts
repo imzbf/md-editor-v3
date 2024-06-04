@@ -151,6 +151,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   };
 
   md.renderer.rules.fence = fenceGroup;
+  md.renderer.rules.code_block = fenceGroup;
 };
 
 export default codetabs;
