@@ -1,7 +1,18 @@
 import { version } from '../../package.json';
 
+export const replaceTemplate = (
+  text: string,
+  target: {
+    [key: string]: string;
+  }
+) => {
+  return Object.keys(target).reduce((prev, curr) => {
+    return prev.replaceAll(`$\{${curr}}`, target[curr]);
+  }, text);
+};
+
 export const replaceVersion = (text: string): string => {
-  return text.replace(/\$\{EDITOR_VERSION\}/g, version);
+  return replaceTemplate(text, { EDITOR_VERSION: version });
 };
 
 /**

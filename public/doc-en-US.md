@@ -234,7 +234,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 - **type**: `boolean`
 - **default**: `true`
 
-  Not append iconfont script, [download](https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js) and import it by yourself.
+  Not append iconfont script, download [Symbol version](${iconfontSvgUrl}) or [Font class version](${iconfontClassUrl}) and import it by yourself.
 
   ```vue
   <template>
@@ -246,6 +246,10 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
   import 'md-editor-v3/lib/style.css';
 
   import '/assets/iconfont.js';
+
+  // User Font class version
+  // import '/assets/iconfont.css';
+  // config({ iconfontType: 'class' })
   </script>
   ```
 
@@ -330,7 +334,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   !!! warning Type Warning
 
-  The icon corresponding to copy can only be a string, while others can be components or strings
+  The icon corresponding to `copy` and `collapse-tips` can only be a string, while others can be components or strings
 
   !!!
 
@@ -341,7 +345,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   <script 😬setup lang="ts">
   import type { CustomIcon } from 'md-editor-v3';
-  import { MdEditor } from 'md-editor-v3';
+  import { MdEditor, StrIcon } from 'md-editor-v3';
   // Assuming you have installed an icon library or customized icon components
   import { IconFont } from 'tdesign-icons-vue-next';
   import 'md-editor-v3/lib/style.css';
@@ -350,7 +354,10 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
     bold: {
       component: 'A'
     },
+    // Demonstrating the use of default icons
+    copy: StrIcon('copy', {}),
     // copy: '<i class="fa fa-car"></i>',
+    // 'collapse-tips': '<i class="fa fa-car"></i>',
     preview: {
       component: '<i class="fa fa-car"></i>'
     },
@@ -1742,6 +1749,7 @@ Shortcut keys are only available when the textarea has received focus!
 | CTRL + O | ordered list | `1. ordered list` |
 | CTRL + L | link | `[link](https://github.com/imzbf/md-editor-v3)` |
 | CTRL + Z | withdraw | Withdraw history in editor, not the function of system |
+| CTRL + F | find and replace |  |
 | CTRL + SHIFT + S | line-through | `~line-through~` |
 | CTRL + SHIFT + U | unordered list | `- unordered list` |
 | CTRL + SHIFT + C | code block |  |

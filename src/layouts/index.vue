@@ -68,6 +68,7 @@ export default {
     .content {
       width: 75%;
       padding-right: 1rem;
+      flex-shrink: 0;
     }
   }
 }
