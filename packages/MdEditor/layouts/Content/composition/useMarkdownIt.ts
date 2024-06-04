@@ -11,11 +11,16 @@ import {
 import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
 import TaskListPlugin from 'markdown-it-task-lists';
-import XSSPlugin from 'markdown-it-xss';
 import { debounce, uuid } from '@vavt/util';
 import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
-import { HeadList, MarkdownItConfigPlugin, StaticTextDefaultValue, Themes } from '~/type';
+import {
+  CustomIcon,
+  HeadList,
+  MarkdownItConfigPlugin,
+  StaticTextDefaultValue,
+  Themes
+} from '~/type';
 import { configOption, prefix } from '~/config';
 import {
   BUILD_FINISHED,
@@ -33,7 +38,10 @@ import KatexPlugin from '../markdownIt/katex';
 import AdmonitionPlugin from '../markdownIt/admonition';
 import HeadingPlugin from '../markdownIt/heading';
 import CodePlugin from '../markdownIt/code';
+import XSSPlugin from '../markdownIt/xss';
+
 import { ContentPreviewProps } from '../ContentPreview';
+import { XSSPluginType } from '../markdownIt/xss';
 
 const initLineNumber = (md: mdit) => {
   md.core.ruler.push('init-line-number', (state) => {
@@ -53,12 +61,14 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const { editorConfig, markdownItConfig, markdownItPlugins } = configOption;
   //
   const editorId = inject('editorId') as string;
+  const languageRef = inject('language') as ComputedRef<string>;
   const usedLanguageTextRef = inject(
     'usedLanguageText'
   ) as ComputedRef<StaticTextDefaultValue>;
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const themeRef = inject('theme') as ComputedRef<Themes>;
+  const customIconRef = inject('customIcon') as ComputedRef<CustomIcon>;
 
   const headsRef = ref<HeadList[]>([]);
 
@@ -68,7 +78,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   const md = mdit({
     html: true,
-    breaks: true
+    breaks: true,
+    linkify: true
   });
 
   markdownItConfig!(md, {
@@ -104,36 +115,14 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         usedLanguageTextRef,
         // showCodeRowNumber,
         codeFoldable: props.codeFoldable,
-        autoFoldThreshold: props.autoFoldThreshold
+        autoFoldThreshold: props.autoFoldThreshold,
+        customIconRef
       }
     },
     {
       type: 'xss',
       plugin: XSSPlugin,
-      options: {
-        // https://github.com/leizongmin/js-xss/blob/master/README.zh.md
-        xss(xss: any) {
-          return {
-            whiteList: Object.assign({}, xss.getDefaultWhiteList(), {
-              // 支持任务列表
-              input: ['class', 'disabled', 'type', 'checked'],
-              // 主要支持youtobe、腾讯视频、哔哩哔哩等内嵌视频代码
-              iframe: [
-                'class',
-                'width',
-                'height',
-                'src',
-                'title',
-                'border',
-                'frameborder',
-                'framespacing',
-                'allow',
-                'allowfullscreen'
-              ]
-            })
-          };
-        }
-      }
+      options: {} as XSSPluginType
     }
   ];
 
@@ -194,9 +183,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     }
   });
 
-  if (!props.previewOnly) {
-    initLineNumber(md);
-  }
+  // if (!props.previewOnly) {
+  initLineNumber(md);
+  // }
 
   // 文章节点的key
   const key = ref(`_article-key_${uuid()}`);
@@ -227,8 +216,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     return (props.noKatex || katexRef.value) && (props.noHighlight || hljsRef.value);
   });
 
+  // 由于复制按钮被放到了编译内容中，所以切换语言时，需要重新编译一次
   watch(
-    [toRef(props, 'modelValue'), needReRender, reRenderRef],
+    [toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef],
     debounce<any, void>(markHtml, previewOnly ? 0 : editorConfig.renderDelay)
   );
 

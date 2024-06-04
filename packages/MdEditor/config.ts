@@ -7,8 +7,8 @@ export const prefix = 'md-editor';
 export const defaultEditorId = 'md-editor-v3';
 
 // 字体链接
-export const iconfontSvgUrl = 'https://at.alicdn.com/t/c/font_2605852_rfu1p40qggh.js';
-export const iconfontClassUrl = 'https://at.alicdn.com/t/c/font_2605852_rfu1p40qggh.css';
+export const iconfontSvgUrl = 'https://at.alicdn.com/t/c/font_2605852_cmafimm6hot.js';
+export const iconfontClassUrl = 'https://at.alicdn.com/t/c/font_2605852_cmafimm6hot.css';
 
 export const cdnBase = 'https://cdnjs.cloudflare.com/ajax/libs';
 
@@ -409,11 +409,11 @@ export const editorExtensionsAttrs: ConfigOption['editorExtensionsAttrs'] = {
     }
   },
   iconfont: {
-    integrity: 'sha384-re+xpK8m5zCba6cD67TTpnI2Exr9m2LkD1LyD0wsKnETw00YWUOFOpuoPLrRDlgF',
+    integrity: 'sha384-HRrf1e8/EiqrIZQftejl7pMTeuLeYczOz7rolAGxgw86N7UjiXkex67Uf2XTZz5z',
     crossOrigin: 'anonymous'
   },
   iconfontClass: {
-    integrity: 'sha384-aM5RSsvQjertneee/Ntz1poyGMo3kWmIhBciGBibd5+pnaXBlZoMkLO4StM7tH10',
+    integrity: 'sha384-81pjilF/gLoQvAfd8madmeylVdv8IagPQaq1C/OZbysLav7k9g+Ir3XD5qK00Q5r',
     crossOrigin: 'anonymous'
   },
   screenfull: {

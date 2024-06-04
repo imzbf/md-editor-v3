@@ -1,6 +1,6 @@
 {
   "name": "md-editor-v3",
-  "version": "4.15.1-5",
+  "version": "4.15.6",
   "license": "MIT",
   "keywords": [
     "vue",
@@ -52,9 +52,9 @@
     "markdown-it": "^14.0.0",
     "markdown-it-image-figures": "^2.1.1",
     "markdown-it-task-lists": "^2.1.1",
-    "markdown-it-xss": "^1.0.2",
     "medium-zoom": "^1.1.0",
-    "punycode": "^2.3.1"
+    "punycode": "^2.3.1",
+    "xss": "^1.0.15"
   },
   "devDependencies": {
     "@types/katex": "^0.16.7",
@@ -63,7 +63,7 @@
     "@types/prettier": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
-    "@vavt/markdown-theme": "^4.0.3",
+    "@vavt/markdown-theme": "^4.1.0",
     "@vavt/vite-plugin-import-markdown": "^1.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^3.1.0",

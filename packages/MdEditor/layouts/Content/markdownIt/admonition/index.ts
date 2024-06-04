@@ -44,9 +44,9 @@ const AdmonitionPlugin = (md: markdownit, options: AdmonitionPluginOps) => {
       title = params.substring(type.length + 2);
     }
 
-    if (title === '' || !title) {
-      title = type;
-    }
+    // if (title === '' || !title) {
+    //   title = type;
+    // }
 
     // 取消限制
     // return types.includes(type);
@@ -168,17 +168,19 @@ const AdmonitionPlugin = (md: markdownit, options: AdmonitionPluginOps) => {
       token.map = [startLine, nextLine];
 
       // admonition title
-      token = state.push('admonition_title_open', 'p', 1);
-      token.markup = markup + ' ' + type;
-      token.map = [startLine, nextLine];
+      if (title) {
+        token = state.push('admonition_title_open', 'p', 1);
+        token.markup = markup + ' ' + type;
+        token.map = [startLine, nextLine];
 
-      token = state.push('inline', '', 0);
-      token.content = title;
-      token.map = [startLine, state.line - 1];
-      token.children = [];
+        token = state.push('inline', '', 0);
+        token.content = title;
+        token.map = [startLine, state.line - 1];
+        token.children = [];
 
-      token = state.push('admonition_title_close', 'p', -1);
-      token.markup = markup + ' ' + type;
+        token = state.push('admonition_title_close', 'p', -1);
+        token.markup = markup + ' ' + type;
+      }
 
       state.md.block.tokenize(state, startLine + 1, nextLine);
 

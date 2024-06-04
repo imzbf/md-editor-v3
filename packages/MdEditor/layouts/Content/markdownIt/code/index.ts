@@ -7,22 +7,25 @@
  * 需要与编辑器的editorId绑定
  */
 import markdownit, { Renderer, Token } from 'markdown-it';
-import { Ref } from 'vue';
-import { StaticTextDefaultValue } from '~/type';
+import { ComputedRef, Ref } from 'vue';
+import { CustomIcon, StaticTextDefaultValue } from '~/type';
 import { prefix } from '~/config';
 import { mergeAttrs } from '~/utils/md-it';
+import StrIcon from '~/components/Icon/Str';
 
 export interface CodeTabsPluginOps extends markdownit.Options {
   editorId: string;
   usedLanguageTextRef: Ref<StaticTextDefaultValue>;
   codeFoldable: boolean;
   autoFoldThreshold: number;
+  customIconRef: ComputedRef<CustomIcon>;
 }
 
 const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   const defaultRender = md.renderer.rules.fence,
     unescapeAll = md.utils.unescapeAll,
-    re = /\[(\w*)(?::([\w ]*))?\]/;
+    re = /\[(\w*)(?::([\w ]*))?\]/,
+    mandatoryRe = /::close/;
 
   const getInfo = (token: Token) => {
     return token.info ? unescapeAll(token.info).trim() : '';
@@ -41,9 +44,12 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   };
 
   const getTagType = (token: Token) => {
-    const open = token.content.trim().split('\n').length < _opts.autoFoldThreshold;
-    const tagContainer = _opts.codeFoldable ? 'details' : 'div',
-      tagHeader = _opts.codeFoldable ? 'summary' : 'div';
+    const mandatory = mandatoryRe.test(token.info);
+
+    const open =
+      !mandatory && token.content.trim().split('\n').length < _opts.autoFoldThreshold;
+    const tagContainer = mandatory || _opts.codeFoldable ? 'details' : 'div',
+      tagHeader = mandatory || _opts.codeFoldable ? 'summary' : 'div';
 
     return { open, tagContainer, tagHeader };
   };
@@ -59,6 +65,10 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       return '';
     }
 
+    const codeCodeText = _opts.usedLanguageTextRef.value?.copyCode!.text;
+    const copyBtnHtml = _opts.customIconRef.value.copy || codeCodeText;
+    const isIcon = !!_opts.customIconRef.value.copy;
+
     const [GROUP] = getGroupAndTab(tokens[idx]);
     if (GROUP === null) {
       const { open, tagContainer, tagHeader } = getTagType(tokens[idx]);
@@ -69,19 +79,18 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
         attrs: mergeAttrs(tokens[idx], addAttrs)
       };
 
+      tokens[idx].info = tokens[idx].info.replace(mandatoryRe, '');
+
       const codeRendered = defaultRender!(tokens, idx, options, env, slf);
       return `<${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
-    <${tagHeader} class="${prefix}-code-head">
-      <div class="${prefix}-code-flag">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div>
-        <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
-        <span class="${prefix}-copy-button">${_opts.usedLanguageTextRef.value?.copyCode!.text}</span>
-      </div>
-    </${tagHeader}>${codeRendered}</${tagContainer}>`;
+        <${tagHeader} class="${prefix}-code-head">
+          <div class="${prefix}-code-flag"><span></span><span></span><span></span></div>
+          <div class="${prefix}-code-action">
+            <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
+            <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}">${copyBtnHtml}</span>
+            <span class="${prefix}-collapse-tips">${StrIcon('collapse-tips', _opts.customIconRef.value)}</span>
+          </div>
+        </${tagHeader}>${codeRendered}</${tagContainer}>`;
     }
 
     let token,
@@ -107,7 +116,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
         break;
       }
 
-      token.info = token.info.replace(re, '');
+      token.info = token.info.replace(re, '').replace(mandatoryRe, '');
       token.hidden = true;
 
       const className = `${prefix}-codetab-${_opts.editorId}-${idx}-${i - idx}`;
@@ -133,14 +142,16 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       <div class="${prefix}-code-flag">
         <ul class="${prefix}-codetab-label">${labels}</ul>
       </div>
-      <div>
+      <div class="${prefix}-code-action">
         <span class="${prefix}-codetab-lang">${langs}</span>
-        <span class="${prefix}-copy-button">${_opts.usedLanguageTextRef.value?.copyCode!.text}</span>
+        <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}">${copyBtnHtml}</span>
+        <span class="${prefix}-collapse-tips">${StrIcon('collapse-tips', _opts.customIconRef.value)}</span>
       </div>
     </${tagHeader}>${pres}</${tagContainer}>`;
   };
 
   md.renderer.rules.fence = fenceGroup;
+  md.renderer.rules.code_block = fenceGroup;
 };
 
 export default codetabs;
