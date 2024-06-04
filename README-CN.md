@@ -117,7 +117,7 @@ const scrollElement = document.documentElement;
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | 代码块 highlight 样式名称，扩展更多见下方 |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | 标题`ID`计算方式 |
 | sanitize | `(html: string) => string` | (html) => html | 通过该属性修改编译后的html内容 |
-| noIconfont | `boolean` | false | 不插入 iconfont 链接，你可以下载[SVG 版](https://at.alicdn.com/t/c/font_2605852_prouiefeic.js)或[Font Class 版](https://at.alicdn.com/t/c/font_2605852_prouiefeic.css)到本地自行引入 |
+| noIconfont | `boolean` | false | 不插入 iconfont 链接，你可以下载[SVG 版](https://at.alicdn.com/t/c/font_2605852_d06wmn2c1od.js)或[Font Class 版](https://at.alicdn.com/t/c/font_2605852_d06wmn2c1od.css)到本地自行引入 |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | 格式化复制代码 |
 | codeStyleReverse | `boolean` | true | 代码块为暗色背景的预览主题，将代码风格设置为暗色风格 |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | 代码块为暗色背景的预览主题 |

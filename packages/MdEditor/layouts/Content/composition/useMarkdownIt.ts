@@ -14,7 +14,13 @@ import TaskListPlugin from 'markdown-it-task-lists';
 import { debounce, uuid } from '@vavt/util';
 import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
-import { HeadList, MarkdownItConfigPlugin, StaticTextDefaultValue, Themes } from '~/type';
+import {
+  CustomIcon,
+  HeadList,
+  MarkdownItConfigPlugin,
+  StaticTextDefaultValue,
+  Themes
+} from '~/type';
 import { configOption, prefix } from '~/config';
 import {
   BUILD_FINISHED,
@@ -62,6 +68,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   // 是否显示行号
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const themeRef = inject('theme') as ComputedRef<Themes>;
+  const customIconRef = inject('customIcon') as ComputedRef<CustomIcon>;
 
   const headsRef = ref<HeadList[]>([]);
 
@@ -108,7 +115,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         usedLanguageTextRef,
         // showCodeRowNumber,
         codeFoldable: props.codeFoldable,
-        autoFoldThreshold: props.autoFoldThreshold
+        autoFoldThreshold: props.autoFoldThreshold,
+        customIconRef
       }
     },
     {

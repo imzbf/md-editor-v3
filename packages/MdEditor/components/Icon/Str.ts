@@ -1,7 +1,7 @@
 import { prefix, configOption } from '~/config';
 import { CustomIcon } from '~/type';
 
-const StrIcon = (name: 'copy', customIcon: CustomIcon): string => {
+const StrIcon = (name: 'copy' | 'collapse-tips', customIcon: CustomIcon): string => {
   if (typeof customIcon[name] === 'string') {
     return customIcon[name] as string;
   }

@@ -15,6 +15,7 @@ import {
   ModalToolbar,
   config,
   editorExtensionsAttrs
+  // StrIcon
 } from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
@@ -346,25 +347,27 @@ export default defineComponent({
             // toolbarsExclude={['github']}
             onChange={(value) => (md.text = value)}
             // noImgZoomIn
-            // customIcon={{
-            //   bold: {
-            //     component: 'A',
-            //     props: {}
-            //   },
-            //   // copy: '<i class="fa fa-car"></i>',
-            //   preview: {
-            //     component: '<i class="fa fa-car"></i>',
-            //     props: {
-            //       name: 'copy'
-            //     }
-            //   },
-            //   github: {
-            //     component: Icon,
-            //     props: {
-            //       name: 'italic'
-            //     }
-            //   }
-            // }}
+            customIcon={
+              {
+                // bold: {
+                //   component: 'A',
+                //   props: {}
+                // },
+                // copy: StrIcon('copy', {}) // '<i class="fa fa-car"></i>',
+                // preview: {
+                //   component: '<i class="fa fa-car"></i>',
+                //   props: {
+                //     name: 'copy'
+                //   }
+                // },
+                // github: {
+                //   component: Icon,
+                //   props: {
+                //     name: 'italic'
+                //   }
+                // }
+              }
+            }
             onUploadImg={async (files, callback) => {
               const res = await Promise.all(
                 files.map((file) => {

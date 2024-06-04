@@ -7,16 +7,18 @@
  * 需要与编辑器的editorId绑定
  */
 import markdownit, { Renderer, Token } from 'markdown-it';
-import { Ref } from 'vue';
-import { StaticTextDefaultValue } from '~/type';
+import { ComputedRef, Ref } from 'vue';
+import { CustomIcon, StaticTextDefaultValue } from '~/type';
 import { prefix } from '~/config';
 import { mergeAttrs } from '~/utils/md-it';
+import StrIcon from '~/components/Icon/Str';
 
 export interface CodeTabsPluginOps extends markdownit.Options {
   editorId: string;
   usedLanguageTextRef: Ref<StaticTextDefaultValue>;
   codeFoldable: boolean;
   autoFoldThreshold: number;
+  customIconRef: ComputedRef<CustomIcon>;
 }
 
 const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
@@ -59,11 +61,13 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
     env: any,
     slf: Renderer
   ) => {
-    const copyBtnText = _opts.usedLanguageTextRef.value?.copyCode!.text;
-
     if (tokens[idx].hidden) {
       return '';
     }
+
+    const codeCodeText = _opts.usedLanguageTextRef.value?.copyCode!.text;
+    const copyBtnHtml = _opts.customIconRef.value.copy || codeCodeText;
+    const isIcon = !!_opts.customIconRef.value.copy;
 
     const [GROUP] = getGroupAndTab(tokens[idx]);
     if (GROUP === null) {
@@ -81,9 +85,10 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       return `<${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
         <${tagHeader} class="${prefix}-code-head">
           <div class="${prefix}-code-flag"><span></span><span></span><span></span></div>
-          <div>
+          <div class="${prefix}-code-action">
             <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
-            <span class="${prefix}-copy-button" data-tips="${copyBtnText}">${copyBtnText}</span>
+            <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}">${copyBtnHtml}</span>
+            <span class="${prefix}-collapse-tips">${StrIcon('collapse-tips', _opts.customIconRef.value)}</span>
           </div>
         </${tagHeader}>${codeRendered}</${tagContainer}>`;
     }
@@ -137,9 +142,10 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       <div class="${prefix}-code-flag">
         <ul class="${prefix}-codetab-label">${labels}</ul>
       </div>
-      <div>
+      <div class="${prefix}-code-action">
         <span class="${prefix}-codetab-lang">${langs}</span>
-        <span class="${prefix}-copy-button" data-tips="${copyBtnText}">${copyBtnText}</span>
+        <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}">${copyBtnHtml}</span>
+        <span class="${prefix}-collapse-tips">${StrIcon('collapse-tips', _opts.customIconRef.value)}</span>
       </div>
     </${tagHeader}>${pres}</${tagContainer}>`;
   };
