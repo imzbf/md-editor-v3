@@ -55,6 +55,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const { editorConfig, markdownItConfig, markdownItPlugins } = configOption;
   //
   const editorId = inject('editorId') as string;
+  const languageRef = inject('language') as ComputedRef<string>;
   const usedLanguageTextRef = inject(
     'usedLanguageText'
   ) as ComputedRef<StaticTextDefaultValue>;
@@ -207,8 +208,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     return (props.noKatex || katexRef.value) && (props.noHighlight || hljsRef.value);
   });
 
+  // 由于复制按钮被放到了编译内容中，所以切换语言时，需要重新编译一次
   watch(
-    [toRef(props, 'modelValue'), needReRender, reRenderRef],
+    [toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef],
     debounce<any, void>(markHtml, previewOnly ? 0 : editorConfig.renderDelay)
   );
 

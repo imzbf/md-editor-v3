@@ -59,6 +59,8 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
     env: any,
     slf: Renderer
   ) => {
+    const copyBtnText = _opts.usedLanguageTextRef.value?.copyCode!.text;
+
     if (tokens[idx].hidden) {
       return '';
     }
@@ -77,17 +79,13 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
 
       const codeRendered = defaultRender!(tokens, idx, options, env, slf);
       return `<${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
-    <${tagHeader} class="${prefix}-code-head">
-      <div class="${prefix}-code-flag">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div>
-        <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
-        <span class="${prefix}-copy-button">${_opts.usedLanguageTextRef.value?.copyCode!.text}</span>
-      </div>
-    </${tagHeader}>${codeRendered}</${tagContainer}>`;
+        <${tagHeader} class="${prefix}-code-head">
+          <div class="${prefix}-code-flag"><span></span><span></span><span></span></div>
+          <div>
+            <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
+            <span class="${prefix}-copy-button" data-tips="${copyBtnText}">${copyBtnText}</span>
+          </div>
+        </${tagHeader}>${codeRendered}</${tagContainer}>`;
     }
 
     let token,
@@ -141,7 +139,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       </div>
       <div>
         <span class="${prefix}-codetab-lang">${langs}</span>
-        <span class="${prefix}-copy-button">${_opts.usedLanguageTextRef.value?.copyCode!.text}</span>
+        <span class="${prefix}-copy-button" data-tips="${copyBtnText}">${copyBtnText}</span>
       </div>
     </${tagHeader}>${pres}</${tagContainer}>`;
   };
