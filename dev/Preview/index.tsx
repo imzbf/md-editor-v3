@@ -14,8 +14,7 @@ import {
   DropdownToolbar,
   ModalToolbar,
   config,
-  editorExtensionsAttrs,
-  StrIcon
+  editorExtensionsAttrs
 } from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
@@ -136,7 +135,7 @@ export default defineComponent({
   },
   setup(props) {
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
-    const storagedWidth = localStorage.getItem(INPUT_BOX_WITDH) || '200px';
+    const storagedWidth = localStorage.getItem(INPUT_BOX_WITDH) || '50%';
     const md = reactive({
       text: storagedText || mdText,
       text2: 'Hello world',
@@ -347,25 +346,27 @@ export default defineComponent({
             // toolbarsExclude={['github']}
             onChange={(value) => (md.text = value)}
             // noImgZoomIn
-            customIcon={{
-              // bold: {
-              //   component: 'A',
-              //   props: {}
-              // },
-              copy: StrIcon('copy', {}) // '<i class="fa fa-car"></i>',
-              // preview: {
-              //   component: '<i class="fa fa-car"></i>',
-              //   props: {
-              //     name: 'copy'
-              //   }
-              // },
-              // github: {
-              //   component: Icon,
-              //   props: {
-              //     name: 'italic'
-              //   }
-              // }
-            }}
+            customIcon={
+              {
+                // bold: {
+                //   component: 'A',
+                //   props: {}
+                // },
+                // copy: StrIcon('copy', {}) // '<i class="fa fa-car"></i>',
+                // preview: {
+                //   component: '<i class="fa fa-car"></i>',
+                //   props: {
+                //     name: 'copy'
+                //   }
+                // },
+                // github: {
+                //   component: Icon,
+                //   props: {
+                //     name: 'italic'
+                //   }
+                // }
+              }
+            }
             onUploadImg={async (files, callback) => {
               const res = await Promise.all(
                 files.map((file) => {

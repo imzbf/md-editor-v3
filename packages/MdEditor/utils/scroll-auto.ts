@@ -317,7 +317,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     // 开始行的滚动高度
     const firstLineScrollTop = getTopByLine(start);
     // 结束行的滚动高度
-    let endLineScrollTop = getTopByLine(end === view.state.doc.lines ? end : end + 1);
+    const endLineScrollTop = getTopByLine(end === view.state.doc.lines ? end : end + 1);
     let blockHeight = 0;
 
     // 最后一行距离顶部高度超出了可以滚动的高度，则将当前开始行到最后一个节点视为同一个模块
@@ -325,16 +325,11 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       endLineScrollTop > scrollDOM.scrollHeight - scrollDOM.clientHeight ||
       realEleEnd.scrollTop > cEle.scrollHeight - cEle.clientHeight
     ) {
-      scale = Math.max(
-        (cScrollTop - eleStartOffsetTop) /
-          (cEle.scrollHeight - eleStartOffsetTop - cEle.clientHeight),
-        0
-      );
+      scale =
+        (cScrollTop + cEle.clientHeight - eleStartOffsetTop) /
+        (cEle.scrollHeight - eleStartOffsetTop);
 
-      endLineScrollTop =
-        getTopByLine(view.state.doc.lines) + getHeightByLine(view.state.doc.lines);
-      // 8是编辑区的padding
-      blockHeight = 8 + endLineScrollTop - firstLineScrollTop - pEle.clientHeight;
+      blockHeight = pEle.scrollHeight - firstLineScrollTop - pEle.clientHeight;
     }
     //
     else if (realEleStart === cEle.firstElementChild?.firstElementChild) {
@@ -382,6 +377,8 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
     // 可能是修改文本之前引发的滚动，判断后消除
     if (view.state.doc.lines < blockMap[blockMap.length - 1]?.end) {
+      // fix：当删减一个末尾的回车时，同步滚动会失效，因为html没有变化，不会重新绑定事件构建map
+      buildMap();
       return false;
     }
 
