@@ -382,6 +382,8 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
     // 可能是修改文本之前引发的滚动，判断后消除
     if (view.state.doc.lines < blockMap[blockMap.length - 1]?.end) {
+      // fix：当删减一个末尾的回车时，同步滚动会失效，因为html没有变化，不会重新绑定事件构建map
+      buildMap();
       return false;
     }
 
