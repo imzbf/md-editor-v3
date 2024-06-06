@@ -1911,10 +1911,10 @@
   resolved "https://registry.npmjs.org/@vavt/util/-/util-1.6.2.tgz#e80ef1a5761c4b90c9585d5370146edcc77c658d"
   integrity sha512-YSurh9awM1Xax5qgSkKbZZQZxC5bBTlqOq+YLQ2GqexKN87iz40IOq4cdTD7n63rIjT3fQH/GZmMpRJxwNev2w==
 
-"@vavt/v3-extension@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.2.1.tgz#76f6081c08105df5f71f8e7e83973efb424c14e6"
-  integrity sha512-xUY7ML88hYL7qx68m/pJhLfKfsw2eJ9F2sc87gVydqT1RmlgKpg5N0UmQm7tFl079oTXgm9zPnnKVETVcYDtYg==
+"@vavt/v3-extension@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@vavt/v3-extension/-/v3-extension-1.2.3.tgz#83a06272f234fa1d97404e1e70642ad759c5d8a4"
+  integrity sha512-Y4rKGxyAPpcUkQB6eTk80bOHdVnQj0rTH85wfLoyu5Y88NnOfphmEDRUck9GmLsehjVw3Oqa2FtZpw88R1x48Q==
   dependencies:
     html2pdf.js "^0.10.1"
 
