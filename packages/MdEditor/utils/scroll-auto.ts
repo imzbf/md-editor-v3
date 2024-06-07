@@ -216,7 +216,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
           curr.offsetTop + curr.offsetHeight > cMaxScrollLength &&
           sibling.offsetTop < cMaxScrollLength
         ) {
-          lineNumer = Number(curr.dataset.line);
+          lineNumer = Number(sibling.dataset.line);
           break;
         }
       }
@@ -347,7 +347,6 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     let scale = 0;
 
     const { start, end } = blockMap[Number(realEleStart.dataset.line || 0)];
-
     // 开始行的滚动高度
     const firstLineScrollTop = getTopByLine(start);
     // 结束行的滚动高度
@@ -363,10 +362,10 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
         cEle.scrollHeight - cEle.clientHeight
     ) {
       scale =
-        (cScrollTop + cEle.clientHeight - eleStartOffsetTop) /
-        (cEle.scrollHeight - eleStartOffsetTop);
+        (cScrollTop - eleStartOffsetTop) /
+        (cEle.scrollHeight - eleStartOffsetTop - cEle.clientHeight);
 
-      blockHeight = pEle.scrollHeight - firstLineScrollTop - pEle.clientHeight;
+      blockHeight = scrollDOM.scrollHeight - firstLineScrollTop - scrollDOM.clientHeight;
     }
     //
     else if (realEleStart === cEle.firstElementChild?.firstElementChild) {
