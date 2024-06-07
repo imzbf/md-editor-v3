@@ -4,6 +4,10 @@ import { prefix } from '../config';
 
 const DATA_LINE_SELECTOR = `.${prefix}-preview > [data-line]`;
 
+const getComputedStyleNum = (ele: HTMLElement, key: string) => {
+  return +getComputedStyle(ele).getPropertyValue(key).replace('px', '');
+};
+
 /**
  * 两块区域同步滚动
  *
@@ -81,11 +85,11 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
   const smoothScroll = createSmoothScroll();
 
   const getTopByLine = (line: number) => {
-    return view.lineBlockAt(view.state.doc.line(line).from).top;
+    return view.lineBlockAt(view.state.doc.line(line + 1).from).top;
   };
 
-  const getHeightByLine = (line: number) => {
-    return view.lineBlockAt(view.state.doc.line(line).from).height;
+  const getBottomByLine = (line: number) => {
+    return view.lineBlockAt(view.state.doc.line(line + 1).from).bottom;
   };
 
   // 在每次文本变化后，生成所有的行高数据
@@ -100,32 +104,27 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
   const buildMap = () => {
     blockMap = [];
-    elesHasLineNumber = [];
-    startLines = [];
-
     // 预览框中带有源行号的元素
     // 仅获取第一层，嵌套的暂不处理（details标签优化方案代价太大）
-    elesHasLineNumber = elesHasLineNumber.concat(
-      Array.from(cEle.querySelectorAll<HTMLElement>(DATA_LINE_SELECTOR))
+    elesHasLineNumber = Array.from(
+      cEle.querySelectorAll<HTMLElement>(DATA_LINE_SELECTOR)
     );
+    startLines = elesHasLineNumber.map((item) => Number(item.dataset.line));
 
-    const startLinesCalc = elesHasLineNumber.map((item) => Number(item.dataset.line) + 1);
-
-    startLines = startLines.concat(startLinesCalc);
-
+    const tempStartLines = [...startLines];
     const { lines } = view.state.doc;
 
-    let start = 1;
-    let end = startLinesCalc.shift() ?? lines;
+    let start = tempStartLines.shift() || 0;
+    let end = tempStartLines.shift() || lines;
 
-    for (let i = 1; i <= lines; i++) {
+    for (let i = 0; i < lines; i++) {
       if (i === end) {
         start = i;
-        end = startLinesCalc.shift() || lines + 1;
+        end = tempStartLines.shift() || lines;
       }
 
       blockMap.push({
-        start,
+        start: start,
         end: end - 1
       });
     }
@@ -145,7 +144,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
     const { scrollDOM, contentHeight } = view;
 
-    let cElePaddingTop = +getComputedStyle(cEle).paddingTop.replace('px', '');
+    let cElePaddingTop = getComputedStyleNum(cEle, 'padding-top');
 
     const blockInfo = view.lineBlockAtHeight(scrollDOM.scrollTop);
     // 可视区域第一行行号
@@ -158,52 +157,87 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       return false;
     }
 
-    let endLinePosition = getTopByLine(blockData.end) + getHeightByLine(blockData.end);
-
-    // 计算一个高度比
-    let scale = 0;
-    const startTop = getTopByLine(blockData.start);
+    let scale = 1;
 
     const startEle: HTMLElement =
-      cEle.querySelector<HTMLElement>(`[data-line="${blockData.start - 1}"]`) ||
+      cEle.querySelector<HTMLElement>(`[data-line="${blockData.start}"]`) ||
       (cEle.firstElementChild?.firstElementChild as HTMLElement);
-
     // 获取当前模块结束节点，如果没有，则把预览区域的最后一个节点作为结束节点
     const endEle: HTMLElement =
-      cEle.querySelector<HTMLElement>(`[data-line="${blockData.end}"]`) ||
+      cEle.querySelector<HTMLElement>(`[data-line="${blockData.end + 1}"]`) ||
       (cEle.lastElementChild?.lastElementChild as HTMLElement);
 
-    let blockHeight = 0;
-    let startEleOffetTop = 0;
+    const pMaxScrollLength = scrollDOM.scrollHeight - scrollDOM.clientHeight;
+    const cMaxScrollLength = cEle.scrollHeight - cEle.clientHeight;
+
+    let startTop = getTopByLine(blockData.start);
+    let endBottom = getBottomByLine(blockData.end);
+    let startEleOffetTop = startEle.offsetTop;
+    let blockHeight = endEle.offsetTop - startEleOffetTop;
 
     if (startTop === 0) {
-      scale = scrollDOM.scrollTop / endLinePosition;
-      // 开始结束相同时，需要将padding算入滚动区域
+      // offsetTop会包含margin，所以当是开始行时，要将margin-top纳入高度
+      // 而后面的则不需要
+      startEleOffetTop = 0;
+      // 开始结束相同时(文档中只存在一个模块)，需要将padding算入滚动区域
       if (startEle === endEle) {
         cElePaddingTop = 0;
-        endLinePosition = contentHeight - scrollDOM.offsetHeight;
 
         // 如果开始和结束节点相同，则需要将这个节点的高度也算进滚动区域
-        blockHeight = endEle.offsetTop + endEle.offsetHeight - cEle.clientHeight;
+        endBottom = contentHeight - scrollDOM.offsetHeight;
+        blockHeight = cMaxScrollLength;
       } else {
         blockHeight = endEle.offsetTop;
       }
-    } else {
-      scale = (scrollDOM.scrollTop - startTop) / (endLinePosition - startTop);
-
-      startEleOffetTop = startEle.offsetTop;
-      blockHeight = endEle.offsetTop - startEleOffetTop;
     }
 
-    // 如果结束块已经在滚动到底部时的可视区了，那么就将当前块到末尾视为一个整体
-    // 达到左侧滚动到底部时，右侧同步滚动到底部的目标
-    if (endLinePosition >= scrollDOM.scrollHeight - scrollDOM.clientHeight) {
-      scale =
-        (scrollDOM.scrollTop - startTop) /
-        (scrollDOM.scrollHeight - scrollDOM.clientHeight - startTop);
+    // 计算一个高度比
+    scale =
+      (scrollDOM.scrollTop -
+        startTop +
+        getComputedStyleNum(view.contentDOM, 'padding-bottom')) /
+      (endBottom - startTop);
 
-      startEleOffetTop = startEle.offsetTop;
-      blockHeight = cEle.scrollHeight - cEle.clientHeight - startEleOffetTop + 10;
+    // 如果结束块已经在滚动到底部时的可视区了，那么就将当前块到末尾视为一个整体
+    // 两种情况
+    // 1. 左边的模块结束行已经在
+    // 2. 右边的模块结束行已经在
+    // 取两则最先在可视区的情况
+    if (
+      startTop > 0 &&
+      (endBottom >= pMaxScrollLength ||
+        endEle.offsetTop + endEle.clientHeight > cMaxScrollLength)
+    ) {
+      let lineNumer = 0;
+      for (let i = elesHasLineNumber.length - 1; i >= 0; i--) {
+        const curr = elesHasLineNumber[i];
+        const sibling = elesHasLineNumber[i].previousElementSibling as HTMLElement;
+        if (
+          curr.offsetTop + curr.offsetHeight > cMaxScrollLength &&
+          sibling.offsetTop < cMaxScrollLength
+        ) {
+          lineNumer = Number(curr.dataset.line);
+          break;
+        }
+      }
+
+      for (let i = blockMap.length - 1; i >= 0; i--) {
+        const itemBottom = getBottomByLine(blockMap[i].end);
+        const itemTop = getTopByLine(blockMap[i].start);
+
+        if (itemBottom > pMaxScrollLength && itemTop <= pMaxScrollLength) {
+          lineNumer = lineNumer < blockMap[i].start ? lineNumer : blockMap[i].start;
+          break;
+        }
+      }
+
+      startTop = getTopByLine(lineNumer);
+      scale = (scrollDOM.scrollTop - startTop) / (pMaxScrollLength - startTop);
+
+      startEleOffetTop = document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)
+        ?.offsetTop as number;
+      blockHeight =
+        cMaxScrollLength - startEleOffetTop + getComputedStyleNum(cEle, 'padding-top');
     }
 
     const scrollToTop = startEleOffetTop - cElePaddingTop + blockHeight * scale;
@@ -232,7 +266,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     if (startLines.length > 0) {
       // 根据滚动比较计算一个可能的开始行号位置
       let virtualLine = Math.ceil(
-        Number(startLines[startLines.length - 1]) * (cScrollTop / cScrollHeight)
+        startLines[startLines.length - 1] * (cScrollTop / cScrollHeight)
       );
 
       // 找到与计算的可能行号最近行作为结束行，如果不存在，就取第一个有行号的
@@ -274,7 +308,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
         }
       }
 
-      switch (virtualLine) {
+      switch (startLineIndex) {
         case -1: {
           realEleStart = cEle.firstElementChild?.firstElementChild as HTMLElement;
           realEleEnd = elesHasLineNumber[startLineIndex];
@@ -317,13 +351,16 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     // 开始行的滚动高度
     const firstLineScrollTop = getTopByLine(start);
     // 结束行的滚动高度
-    const endLineScrollTop = getTopByLine(end === view.state.doc.lines ? end : end + 1);
+    const endLineScrollTop = getTopByLine(
+      end + 1 === view.state.doc.lines ? end : end + 1
+    );
     let blockHeight = 0;
 
     // 最后一行距离顶部高度超出了可以滚动的高度，则将当前开始行到最后一个节点视为同一个模块
     if (
       endLineScrollTop > scrollDOM.scrollHeight - scrollDOM.clientHeight ||
-      realEleEnd.scrollTop > cEle.scrollHeight - cEle.clientHeight
+      realEleEnd.offsetTop + realEleEnd.offsetHeight >
+        cEle.scrollHeight - cEle.clientHeight
     ) {
       scale =
         (cScrollTop + cEle.clientHeight - eleStartOffsetTop) /
