@@ -130,6 +130,33 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     }
   };
 
+  const getLineNumber = (pMaxScrollLength: number, cMaxScrollLength: number) => {
+    let lineNumer = 0;
+    for (let i = elesHasLineNumber.length - 1; i >= 0; i--) {
+      const curr = elesHasLineNumber[i];
+      const sibling = elesHasLineNumber[i].previousElementSibling as HTMLElement;
+      if (
+        curr.offsetTop + curr.offsetHeight > cMaxScrollLength &&
+        sibling.offsetTop < cMaxScrollLength
+      ) {
+        lineNumer = Number(sibling.dataset.line);
+        break;
+      }
+    }
+
+    for (let i = blockMap.length - 1; i >= 0; i--) {
+      const itemBottom = getBottomByLine(blockMap[i].end);
+      const itemTop = getTopByLine(blockMap[i].start);
+
+      if (itemBottom > pMaxScrollLength && itemTop <= pMaxScrollLength) {
+        lineNumer = lineNumer < blockMap[i].start ? lineNumer : blockMap[i].start;
+        break;
+      }
+    }
+
+    return lineNumer;
+  };
+
   // 为0时可以重新注册事件，否则不可以
   let pLock = 0;
   let cLock = 0;
@@ -208,28 +235,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       (endBottom >= pMaxScrollLength ||
         endEle.offsetTop + endEle.clientHeight > cMaxScrollLength)
     ) {
-      let lineNumer = 0;
-      for (let i = elesHasLineNumber.length - 1; i >= 0; i--) {
-        const curr = elesHasLineNumber[i];
-        const sibling = elesHasLineNumber[i].previousElementSibling as HTMLElement;
-        if (
-          curr.offsetTop + curr.offsetHeight > cMaxScrollLength &&
-          sibling.offsetTop < cMaxScrollLength
-        ) {
-          lineNumer = Number(sibling.dataset.line);
-          break;
-        }
-      }
-
-      for (let i = blockMap.length - 1; i >= 0; i--) {
-        const itemBottom = getBottomByLine(blockMap[i].end);
-        const itemTop = getTopByLine(blockMap[i].start);
-
-        if (itemBottom > pMaxScrollLength && itemTop <= pMaxScrollLength) {
-          lineNumer = lineNumer < blockMap[i].start ? lineNumer : blockMap[i].start;
-          break;
-        }
-      }
+      const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
       startTop = getTopByLine(lineNumer);
       scale = (scrollDOM.scrollTop - startTop) / (pMaxScrollLength - startTop);
@@ -258,6 +264,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     const cScrollTop = cEle.scrollTop;
     // 可滚动的高度
     const cScrollHeight = cEle.scrollHeight;
+
+    const pMaxScrollLength = scrollDOM.scrollHeight - scrollDOM.clientHeight;
+    const cMaxScrollLength = cEle.scrollHeight - cEle.clientHeight;
 
     let realEleStart = cEle.firstElementChild?.firstElementChild as HTMLElement;
     let realEleEnd = cEle.firstElementChild?.lastElementChild as HTMLElement;
@@ -337,7 +346,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     // 所以默认的开始结束节点就是真实的
 
     // 开始节点的顶部高度，如果是第一个节点，就取0
-    const eleStartOffsetTop =
+    let eleStartOffsetTop =
       realEleStart === cEle.firstElementChild?.firstElementChild
         ? 0
         : realEleStart.offsetTop;
@@ -348,7 +357,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
     const { start, end } = blockMap[Number(realEleStart.dataset.line || 0)];
     // 开始行的滚动高度
-    const firstLineScrollTop = getTopByLine(start);
+    let firstLineScrollTop = getTopByLine(start);
     // 结束行的滚动高度
     const endLineScrollTop = getTopByLine(
       end + 1 === view.state.doc.lines ? end : end + 1
@@ -357,15 +366,18 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
     // 最后一行距离顶部高度超出了可以滚动的高度，则将当前开始行到最后一个节点视为同一个模块
     if (
-      endLineScrollTop > scrollDOM.scrollHeight - scrollDOM.clientHeight ||
-      realEleEnd.offsetTop + realEleEnd.offsetHeight >
-        cEle.scrollHeight - cEle.clientHeight
+      endLineScrollTop > pMaxScrollLength ||
+      realEleEnd.offsetTop + realEleEnd.offsetHeight > cMaxScrollLength
     ) {
-      scale =
-        (cScrollTop - eleStartOffsetTop) /
-        (cEle.scrollHeight - eleStartOffsetTop - cEle.clientHeight);
+      const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
-      blockHeight = scrollDOM.scrollHeight - firstLineScrollTop - scrollDOM.clientHeight;
+      eleStartOffsetTop = document.querySelector<HTMLElement>(
+        `[data-line="${lineNumer}"]`
+      )?.offsetTop as number;
+      firstLineScrollTop = getTopByLine(lineNumer);
+
+      scale = (cScrollTop - eleStartOffsetTop) / (cMaxScrollLength - eleStartOffsetTop);
+      blockHeight = pMaxScrollLength - firstLineScrollTop;
     }
     //
     else if (realEleStart === cEle.firstElementChild?.firstElementChild) {
