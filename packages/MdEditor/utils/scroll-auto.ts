@@ -132,9 +132,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
   const getLineNumber = (pMaxScrollLength: number, cMaxScrollLength: number) => {
     let lineNumer = 0;
-    for (let i = elesHasLineNumber.length - 1; i >= 0; i--) {
+    for (let i = elesHasLineNumber.length - 1; i - 1 >= 0; i--) {
       const curr = elesHasLineNumber[i];
-      const sibling = elesHasLineNumber[i].previousElementSibling as HTMLElement;
+      const sibling = elesHasLineNumber[i - 1];
       if (
         curr.offsetTop + curr.offsetHeight > cMaxScrollLength &&
         sibling.offsetTop < cMaxScrollLength
