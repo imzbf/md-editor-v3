@@ -3,17 +3,11 @@ import { fileURLToPath } from 'url';
 import { build, LibraryFormats } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import dts from 'vite-plugin-dts';
 import { removeDir } from './u';
+import { buildType } from './build.type';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const resolvePath = (p: string) => path.resolve(__dirname, p);
-
-// vue3.3.x兼容
-const __defProp = Object.defineProperty;
-const __name = (target, value) =>
-  __defProp(target, 'name', { value, configurable: true });
-globalThis.__name = __name;
 
 !(async () => {
   const moduleEntry = {
@@ -47,6 +41,8 @@ globalThis.__name = __name;
 
   removeDir(resolvePath('lib'));
 
+  buildType();
+
   await Promise.all(
     formats.map((t) => {
       return build({
@@ -58,15 +54,7 @@ globalThis.__name = __name;
             '~': resolvePath('packages/MdEditor')
           }
         },
-        plugins: [
-          vue(),
-          vueJsx(),
-          t === 'es' &&
-            dts({
-              outDir: resolvePath('lib/types'),
-              include: [resolvePath('packages')]
-            })
-        ],
+        plugins: [vue(), vueJsx()],
         css: {
           modules: {
             localsConvention: 'camelCase' // 默认只支持驼峰，修改为同事支持横线和驼峰

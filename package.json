@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "dev": "tsx ./scripts/dev",
-    "build": "vue-tsc && tsx ./scripts/build"
+    "build": "tsx ./scripts/build"
   },
   "dependencies": {
     "@codemirror/lang-markdown": "^6.2.5",
@@ -81,12 +81,11 @@
     "multiparty": "^4.2.3",
     "prettier": "^3.2.5",
     "screenfull": "^6.0.2",
+    "tsc-alias": "^1.8.10",
     "tsx": "^4.7.2",
     "typescript": "5.4.5",
     "vite": "^5.2.10",
-    "vite-plugin-dts": "^3.8.3",
-    "vue": "^3.4.23",
-    "vue-tsc": "^2.0.14"
+    "vue": "^3.4.23"
   },
   "peerDependencies": {
     "vue": "^3.2.47"
