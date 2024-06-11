@@ -11,7 +11,7 @@
         :codeTheme="store.state.codeTheme"
         :toolbars="state.toolbars"
         :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
-        :preview="state.preview"
+        :inputBoxWitdh="state.inputBoxWitdh"
         showCodeRowNumber
         autoDetectCode
         @onUploadImg="uploadImg"
@@ -68,7 +68,7 @@ const state = reactive({
   modalVisible: false,
   modalFullscreen: false,
   toolbars,
-  preview: true
+  inputBoxWitdh: '50%'
 });
 
 const tips = computed(() => {
@@ -116,16 +116,29 @@ const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void)
 const changeLayout = () => {
   if (isMobile()) {
     // 在移动端不现实分屏预览，要么编辑，要么仅预览
-    state.toolbars = toolbars.filter((item) => item !== 'preview');
-    state.preview = false;
+    state.toolbars = [
+      'previewOnly',
+      ...toolbars.filter((item) => !(['preview', 'previewOnly'] as any).includes(item))
+    ];
+    state.inputBoxWitdh = '100%';
+    editorRef.value?.togglePreview(false);
   } else {
     state.toolbars = toolbars;
-    state.preview = true;
+    state.inputBoxWitdh = '50%';
+    editorRef.value?.togglePreview(true);
   }
 };
 
 onMounted(() => {
   console.log(editorRef.value?.on('catalog', console.log));
+
+  editorRef.value?.on('previewOnly', (v) => {
+    if (isMobile()) {
+      if (!v) {
+        editorRef.value?.togglePreview(false);
+      }
+    }
+  });
 
   changeLayout();
   window.addEventListener('resize', changeLayout);
