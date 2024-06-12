@@ -72,6 +72,7 @@ const useResize = (
     () => props.inputBoxWitdh,
     (nVal) => {
       if (nVal) {
+        state.resizedWidth = nVal;
         inputWrapperStyle.width = nVal;
         resizeOperateStyle.left = nVal;
       }

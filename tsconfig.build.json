@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "./lib/types",
+    "outDir": "./lib",
+    "baseUrl": ".",
+    "paths": {
+      "~~/*": ["packages/*"],
+      "~/*": ["packages/MdEditor/*"]
+    }
+  },
+  "include": ["packages/**/*.ts", "packages/**/*.tsx"]
+}
