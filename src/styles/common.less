@@ -36,6 +36,7 @@ a {
 
 html {
   .css-vars(false);
+  scroll-behavior: smooth;
 
   body {
     font-size: 16px;
@@ -126,29 +127,29 @@ html[class*='theme-dark'] {
 .md-editor-preview {
   overflow: visible !important;
 
-  .generate-heading(@i) when (@i <= 6) {
-    h@{i} {
-      // transform: translateX(-1rem);
-      a.header-anchor {
-        margin-left: 0;
-        opacity: 0;
-        // margin-right: 10px;
-        // opacity: 1;
-        transition: 0.3s;
-      }
+  // .generate-heading(@i) when (@i <= 6) {
+  //   h@{i} {
+  //     // transform: translateX(-1rem);
+  //     a.header-anchor {
+  //       margin-left: 0;
+  //       opacity: 0;
+  //       // margin-right: 10px;
+  //       // opacity: 1;
+  //       transition: 0.3s;
+  //     }
 
-      &:hover {
-        a.header-anchor {
-          margin-left: 10px;
-          opacity: 1;
-        }
-      }
-    }
+  //     &:hover {
+  //       a.header-anchor {
+  //         margin-left: 10px;
+  //         opacity: 1;
+  //       }
+  //     }
+  //   }
 
-    .generate-heading((@i + 1));
-  }
+  //   .generate-heading((@i + 1));
+  // }
 
-  .generate-heading(1);
+  // .generate-heading(1);
 }
 
 @media (max-width: 768px) {
