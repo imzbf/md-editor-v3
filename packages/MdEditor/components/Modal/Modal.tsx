@@ -58,8 +58,12 @@ const props = {
     type: String as PropType<string>
   },
   style: {
-    type: Object as PropType<CSSProperties>,
+    type: [Object, String] as PropType<CSSProperties | string>,
     default: () => ({})
+  },
+  showMask: {
+    type: Boolean as PropType<boolean>,
+    default: true
   }
 };
 
@@ -187,6 +191,21 @@ export default defineComponent({
       }
     );
 
+    const internalStyle = computed(() => ({
+      display: modalVisible.value ? 'block' : 'none'
+    }));
+
+    const combinedStyle = computed(() => {
+      if (typeof props.style === 'string') {
+        // 内置的显示样式优先级要高
+        return [props.style, internalStyle.value].join('; ');
+      } else if (props.style instanceof Object) {
+        return { ...internalStyle.value, ...props.style };
+      } else {
+        return internalStyle.value;
+      }
+    });
+
     onMounted(() => {
       bodyRef.value = document.body;
     });
@@ -202,24 +221,20 @@ export default defineComponent({
             class={`${prefix}-modal-container`}
             data-theme={themeRef.value}
           >
-            <div
-              class={props.class}
-              style={{
-                ...props.style,
-                display: modalVisible.value ? 'block' : 'none'
-              }}
-            >
-              <div
-                class={`${prefix}-modal-mask`}
-                style={state.maskStyle}
-                onClick={() => {
-                  if (props.onClose) {
-                    props.onClose();
-                  } else {
-                    ctx.emit('onClose');
-                  }
-                }}
-              />
+            <div class={props.class} style={combinedStyle.value}>
+              {props.showMask && (
+                <div
+                  class={`${prefix}-modal-mask`}
+                  style={state.maskStyle}
+                  onClick={() => {
+                    if (props.onClose) {
+                      props.onClose();
+                    } else {
+                      ctx.emit('onClose');
+                    }
+                  }}
+                />
+              )}
               <div
                 class={modalClass.value}
                 style={{

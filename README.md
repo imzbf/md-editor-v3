@@ -851,6 +851,9 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
   - `height`: `string`, same as `width`.
   - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
+  - `class`: `string`, not necessary.
+  - `style`: `CSSProperties | string`, not necessary.
+  - `showMask`: `boolean`, not necessary, whether to display the mask layer, default `false`.
 
 - **events**
 
@@ -894,8 +897,8 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
   - `height`: `string`, same as `width`.
   - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
-  - `className`: `string`, not necessary.
-  - `style`: `CSSProperties`, not necessary.
+  - `class`: `string`, not necessary.
+  - `style`: `CSSProperties | string`, not necessary.
 
 - **events**
 
@@ -1006,6 +1009,7 @@ const onUploadImg = async (files, callback) => {
   --md-border-hover-color: if(@isDark, #636262, #b9b9b9);
   --md-border-active-color: if(@isDark, #777, #999);
   --md-modal-mask: #00000073;
+  --md-modal-shadow: if(@isDark, 0px 6px 24px 2px #00000066, 0px 6px 24px 2px #00000019);
   --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
   --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
   --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);

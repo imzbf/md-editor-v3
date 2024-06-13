@@ -1,4 +1,11 @@
-import { defineComponent, PropType, SetupContext, ExtractPropTypes, VNode } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  SetupContext,
+  ExtractPropTypes,
+  VNode,
+  CSSProperties
+} from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
@@ -48,6 +55,15 @@ const props = {
   },
   onAdjust: {
     type: Function as PropType<(val: boolean) => void>
+  },
+  class: {
+    type: String as PropType<string>
+  },
+  style: {
+    type: [Object, String] as PropType<CSSProperties | string>
+  },
+  showMask: {
+    type: Boolean as PropType<boolean>
   },
   /**
    * ==没有意义，仅用于规避克隆组件自动嵌入insert方法时，传入的是该组件而产生的waring
@@ -101,10 +117,13 @@ export default defineComponent({
             {Trigger}
           </div>
           <Modal
+            style={props.style}
+            class={props.class}
             width={props.width}
             height={props.height}
             title={props.modalTitle}
             visible={props.visible}
+            showMask={props.showMask}
             onClose={() => {
               if (props.onClose instanceof Function) {
                 props.onClose();

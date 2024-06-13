@@ -869,6 +869,9 @@ import { NormalToolbar } from 'md-editor-v3';
   - `height`: `string`，同`width`。
   - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
+  - `class`: `string`，非必须，类名。
+  - `style`: `CSSProperties | string`，非必须，样式。
+  - `showMask`: `boolean`， 非必须，是否展示遮罩层，默认false。
 
 - **events**
 
@@ -912,8 +915,8 @@ import { NormalToolbar } from 'md-editor-v3';
   - `height`: `string`，同`width`。
   - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
-  - `className`: `string`，非必须，类名。
-  - `style`: `CSSProperties`，非必须，样式。
+  - `class`: `string`，非必须，类名。
+  - `style`: `CSSProperties | string`，非必须，样式。
 
 - **events**
 
@@ -1028,6 +1031,7 @@ const onUploadImg = async (files, callback) => {
   --md-border-hover-color: if(@isDark, #636262, #b9b9b9);
   --md-border-active-color: if(@isDark, #777, #999);
   --md-modal-mask: #00000073;
+  --md-modal-shadow: if(@isDark, 0px 6px 24px 2px #00000066, 0px 6px 24px 2px #0000000a);
   --md-scrollbar-bg-color: if(@isDark, #0f0f0f, #e2e2e2);
   --md-scrollbar-thumb-color: if(@isDark, #2d2d2d, #0000004d);
   --md-scrollbar-thumb-hover-color: if(@isDark, #3a3a3a, #00000059);
