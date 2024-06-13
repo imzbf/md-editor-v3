@@ -935,6 +935,68 @@ const sanitize = (html) => {
 
 更详细的实现可以参考本文档的源码！
 
+### 🗂 折叠文档内容
+
+```js
+import { config } from 'md-editor-v3';
+import { foldGutter } from '@codemirror/language';
+import { lineNumbers } from '@codemirror/view';
+
+config({
+  codeMirrorExtensions(_theme, extensions) {
+    return [...extensions, lineNumbers(), foldGutter()];
+  }
+});
+```
+
+### 🏄🏻‍♂️ 新窗口打开链接
+
+1. 安装额外的扩展
+
+```shell
+yarn add markdown-it-link-attributes
+```
+
+2. 将扩展添加到编译器中
+
+```js
+import { config } from 'md-editor-v3';
+import LinkAttr from 'markdown-it-link-attributes';
+// import Anchor from 'markdown-it-anchor';
+
+config({
+  markdownItPlugins(plugins) {
+    return [
+      ...plugins,
+      {
+        type: 'linkAttr',
+        plugin: LinkAttr,
+        options: {
+          matcher(href: string) {
+            // 如果使用了markdown-it-anchor
+            // 应该忽略标题头部的锚点链接
+            return !href.startsWith('#');
+          },
+          attrs: {
+            target: '_blank'
+          }
+        }
+      },
+      // {
+      //   type: 'anchor',
+      //   plugin: Anchor,
+      //   options: {
+      //     permalink: Anchor.permalink.headerLink(),
+      //     slugify(s: string) {
+      //       return s;
+      //     }
+      //   }
+      // }
+    ];
+  }
+});
+```
+
 ## 🧻 编辑此页面
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)
