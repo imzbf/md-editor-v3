@@ -1990,7 +1990,7 @@ const text = ref('');
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
   - `class`: `string`, `^4.16.8`, not necessary.
   - `style`: `CSSProperties | string`, `^4.16.8`, not necessary.
-  - `showMask`: `boolean`, `^4.16.8`, not necessary, whether to display the mask layer, default `false`.
+  - `showMask`: `boolean`, `^4.16.8`, not necessary, whether to display the mask layer, default `true`.
 
 - **events**
 
@@ -2147,7 +2147,7 @@ It is usually used in conjunction with `DropdownToolbar`.
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
   - `class`: `string`, not necessary.
   - `style`: `CSSProperties | string`, not necessary.
-  - `showMask`: `boolean`, `^4.16.8`, not necessary, whether to display the mask layer, default `false`.
+  - `showMask`: `boolean`, `^4.16.8`, not necessary, whether to display the mask layer, default `true`.
 
 - **events**
 
