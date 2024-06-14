@@ -118,7 +118,7 @@ Inputing prompt and mark, emoji extensions
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | Highlight code style, can be customized also |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
 | sanitize | `(html: string) => string` | (html) => html | This attribute is used to alter the compiled HTML content |
-| noIconfont | `boolean` | false | Not append iconfont script, download different versions [SVG](https://at.alicdn.com/t/c/font_2605852_d06wmn2c1od.js)或[Font Class](https://at.alicdn.com/t/c/font_2605852_d06wmn2c1od.css) and import it by yourself |
+| noIconfont | `boolean` | false | Not append iconfont script, you can get the latest link [here](https://imzbf.github.io/md-editor-v3/en-US/docs#%F0%9F%A4%9E%F0%9F%8F%BC%20noIconfont) |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
 | codeStyleReverse | `boolean` | true | Code style will be reversed to dark while code block of the theme has a dark background |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | Themes to be reversed |
@@ -565,6 +565,10 @@ editorRef.value?.execCommand('bold');
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
 
+> [!WARNING]
+>
+> We recommend configuring it at the project entry point, such as in `main.js` for projects created with Vite. Avoid calling `config` within components!
+
 ### codeMirrorExtensions
 
 Customize new extensions based on theme and default extensions f codeMirror.
@@ -899,6 +903,7 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
   - `class`: `string`, not necessary.
   - `style`: `CSSProperties | string`, not necessary.
+  - `showMask`: `boolean`, not necessary, whether to display the mask layer, default `false`.
 
 - **events**
 
