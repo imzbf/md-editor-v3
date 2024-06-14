@@ -747,7 +747,7 @@ export interface EditorExtensions {
 内部提供所有链接的`integrity`值，使用方式如下：
 
 ```js
-import { config, editorExtensionsAttrs } from 'md-editor-rt';
+import { config, editorExtensionsAttrs } from 'md-editor-v3';
 
 config({
   editorExtensionsAttrs

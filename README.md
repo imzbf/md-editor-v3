@@ -733,7 +733,7 @@ export interface EditorExtensions {
 Synchronously add attributes to the CDN link tags, consistent with the type of `editorExtensions`, with a value type of `HTMLElementTagNameMap['tagName']`.
 
 ```js
-import { config, editorExtensionsAttrs } from 'md-editor-rt';
+import { config, editorExtensionsAttrs } from 'md-editor-v3';
 
 config({
   editorExtensionsAttrs
