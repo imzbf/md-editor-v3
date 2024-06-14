@@ -2009,9 +2009,9 @@ const text = ref('');
   - `height`：`string`，同`width`。
   - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
-  - `class`: `string`，`^4.17.0`，非必须，类名。
-  - `style`: `CSSProperties | string`，`^4.17.0`，非必须，样式。
-  - `showMask`: `boolean`，`^4.17.0`，非必须，是否展示遮罩层，默认false。
+  - `class`: `string`，`^4.16.8`，非必须，类名。
+  - `style`: `CSSProperties | string`，`^4.16.8`，非必须，样式。
+  - `showMask`: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认false。
 
 - **events**
 
@@ -2168,7 +2168,7 @@ const scrollElement = document.documentElement;
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
   - `class`: `string`，非必须，类名。
   - `style`: `CSSProperties | string`，非必须，样式。
-  - `showMask`: `boolean`，`^4.17.0`，非必须，是否展示遮罩层，默认false。
+  - `showMask`: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认false。
 
 - **events**
 
