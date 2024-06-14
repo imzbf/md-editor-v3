@@ -12,7 +12,6 @@ import { ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import mdEN from '../../../public/grammar-en-US.md';
 import mdCN from '../../../public/grammar-zh-CN.md';
-import { replaceVersion } from '@/utils';
 import IzCatalog from '@/layouts/Catalog/index.vue';
 import IzPreviewContent from '@/layouts/PreviewContent/index.vue';
 
@@ -20,9 +19,9 @@ const store = useStore();
 
 const editorId = 'grammar-preview';
 
-const mdText = ref(replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN));
+const mdText = ref(store.state.lang === 'en-US' ? mdEN : mdCN);
 const queryMd = () => {
-  mdText.value = replaceVersion(store.state.lang === 'en-US' ? mdEN : mdCN);
+  mdText.value = store.state.lang === 'en-US' ? mdEN : mdCN;
 };
 watch(() => store.state.lang, queryMd);
 </script>

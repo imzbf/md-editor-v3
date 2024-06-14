@@ -232,9 +232,18 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 ### 🤞🏼 noIconfont
 
 - **type**: `boolean`
-- **default**: `true`
+- **default**: `false`
 
   Not append iconfont script, download [Symbol version](${iconfontSvgUrl}) or [Font class version](${iconfontClassUrl}) and import it by yourself.
+
+  ```js
+  import '/assets/iconfont.js';
+
+  // Use Font class
+  // import { config } from 'md-editor-v3';
+  // import '/assets/iconfont.css';
+  // config({ iconfontType: 'class' })
+  ```
 
   ```vue
   <template>
@@ -244,12 +253,6 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
   <script setup>
   import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
-  import '/assets/iconfont.js';
-
-  // User Font class version
-  // import '/assets/iconfont.css';
-  // config({ iconfontType: 'class' })
   </script>
   ```
 
@@ -1344,6 +1347,12 @@ editorRef.value?.execCommand('bold');
 
 Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
 
+!!! warning
+
+We recommend configuring it at the project entry point, such as in `main.js` for projects created with Vite. Avoid calling `config` within components!
+
+!!!
+
 ### 🦪 codeMirrorExtensions
 
 Customize new extensions based on theme and default extensions f codeMirror.
@@ -1979,6 +1988,9 @@ const text = ref('');
   - `height`: `string`, same as `width`.
   - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
+  - `class`: `string`, `^4.17.0`, not necessary.
+  - `style`: `CSSProperties | string`, `^4.17.0`, not necessary.
+  - `showMask`: `boolean`, `^4.17.0`, not necessary, whether to display the mask layer, default `false`.
 
 - **events**
 
@@ -2133,8 +2145,9 @@ It is usually used in conjunction with `DropdownToolbar`.
   - `height`: `string`, same as `width`.
   - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
-  - `className`: `string`, not necessary.
-  - `style`: `string`, not necessary.
+  - `class`: `string`, not necessary.
+  - `style`: `CSSProperties | string`, not necessary.
+  - `showMask`: `boolean`, `^4.17.0`, not necessary, whether to display the mask layer, default `false`.
 
 - **events**
 

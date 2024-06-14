@@ -232,9 +232,18 @@
 ### 🤞🏼 noIconfont
 
 - **类型**：`boolean`
-- **默认值**：`true`
+- **默认值**：`false`
 
   不插入 iconfont 链接，你可以下载[Symbol版本](${iconfontSvgUrl})或者[Font class版本](${iconfontClassUrl})到本地自行引入。
+
+  ```js
+  import '/assets/iconfont.js';
+
+  // 使用Font class版本
+  // import { config } from 'md-editor-v3';
+  // import '/assets/iconfont.css';
+  // config({ iconfontType: 'class' })
+  ```
 
   ```vue
   <template>
@@ -242,14 +251,8 @@
   </template>
 
   <script setup>
-  import { MdEditor, config } from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
-  import '/assets/iconfont.js';
-
-  // 使用Font class版本
-  // import '/assets/iconfont.css';
-  // config({ iconfontType: 'class' })
   </script>
   ```
 
@@ -1356,6 +1359,12 @@ editorRef.value?.execCommand('bold');
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。
 
+!!! warning
+
+我们建议你在项目入口配置，例如 vite 创建的项目中的 main.js。不要在组件中去调用 `config` ！
+
+!!!
+
 ### 🦪 codeMirrorExtensions
 
 根据主题和内部默认的 codeMirror 扩展自定义新的扩展。
@@ -2000,6 +2009,9 @@ const text = ref('');
   - `height`：`string`，同`width`。
   - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
+  - `class`: `string`，`^4.17.0`，非必须，类名。
+  - `style`: `CSSProperties | string`，`^4.17.0`，非必须，样式。
+  - `showMask`: `boolean`，`^4.17.0`，非必须，是否展示遮罩层，默认false。
 
 - **events**
 
@@ -2154,8 +2166,9 @@ const scrollElement = document.documentElement;
   - `height`: `string`，同`width`。
   - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
-  - `className`: `string`，非必须，类名。
-  - `style`: `string`，非必须，样式。
+  - `class`: `string`，非必须，类名。
+  - `style`: `CSSProperties | string`，非必须，样式。
+  - `showMask`: `boolean`，`^4.17.0`，非必须，是否展示遮罩层，默认false。
 
 - **events**
 

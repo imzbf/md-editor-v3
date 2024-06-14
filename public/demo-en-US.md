@@ -748,14 +748,24 @@ Change background color in dark mode:
 
 ### 🙍🏻‍♂️ Import All Library
 
-```vue
-<template>
-  <MdEditor v-model="text" noIconfont />
-</template>
+1. Install Dependencies
 
-<script setup>
-import { ref } from 'vue';
-import { MdEditor, config } from 'md-editor-v3';
+```shell
+yarn add screenfull katex cropperjs mermaid highlight.js prettier
+```
+
+2. Configure
+
+!!! warning
+
+We recommend configuring it at the project entry point, such as in `main.js` for projects created with Vite. Avoid calling `config` within components!
+
+!!!
+
+main.js
+
+```js
+import { config } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 import screenfull from 'screenfull';
@@ -778,7 +788,7 @@ import parserMarkdown from 'prettier/parser-markdown';
 import * as prettier from 'prettier';
 import parserMarkdown from 'prettier/plugins/markdown';
 
-// https://at.alicdn.com/t/c/font_2605852_u82y61ve02.js
+// ${iconfontSvgUrl}
 import './assets/iconfont.js';
 
 config({
@@ -804,6 +814,17 @@ config({
     }
   }
 });
+```
+
+```vue
+<template>
+  <MdEditor v-model="text" noIconfont />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
 </script>
