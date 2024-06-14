@@ -857,7 +857,7 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
   - `class`: `string`, not necessary.
   - `style`: `CSSProperties | string`, not necessary.
-  - `showMask`: `boolean`, not necessary, whether to display the mask layer, default `false`.
+  - `showMask`: `boolean`, not necessary, whether to display the mask layer, default `true`.
 
 - **events**
 
@@ -903,7 +903,7 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
   - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
   - `class`: `string`, not necessary.
   - `style`: `CSSProperties | string`, not necessary.
-  - `showMask`: `boolean`, not necessary, whether to display the mask layer, default `false`.
+  - `showMask`: `boolean`, not necessary, whether to display the mask layer, default `true`.
 
 - **events**
 

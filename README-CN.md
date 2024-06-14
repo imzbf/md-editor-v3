@@ -875,7 +875,7 @@ import { NormalToolbar } from 'md-editor-v3';
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
   - `class`: `string`，非必须，类名。
   - `style`: `CSSProperties | string`，非必须，样式。
-  - `showMask`: `boolean`， 非必须，是否展示遮罩层，默认false。
+  - `showMask`: `boolean`， 非必须，是否展示遮罩层，默认true。
 
 - **events**
 
@@ -921,7 +921,7 @@ import { NormalToolbar } from 'md-editor-v3';
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
   - `class`: `string`，非必须，类名。
   - `style`: `CSSProperties | string`，非必须，样式。
-  - `showMask`: `boolean`， 非必须，是否展示遮罩层，默认false。
+  - `showMask`: `boolean`， 非必须，是否展示遮罩层，默认true。
 
 - **events**
 

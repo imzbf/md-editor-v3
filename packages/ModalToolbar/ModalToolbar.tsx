@@ -63,7 +63,8 @@ const props = {
     type: [Object, String] as PropType<CSSProperties | string>
   },
   showMask: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: true
   },
   /**
    * ==没有意义，仅用于规避克隆组件自动嵌入insert方法时，传入的是该组件而产生的waring
