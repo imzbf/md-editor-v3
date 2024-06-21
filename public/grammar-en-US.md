@@ -136,14 +136,28 @@ pnpm install md-editor-v3
 ### 🤌🏻 Forcefully fold
 
 ```js ::close
-import MdEditor from 'md-editor-rt';
-import 'md-editor-rt/lib/style.css';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 ```
 
 ````markdown
 ```js ::close
-import MdEditor from 'md-editor-rt';
-import 'md-editor-rt/lib/style.css';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+```
+````
+
+### 👐 Forcefully open
+
+```js ::open
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+```
+
+````markdown
+```js ::open
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 ```
 ````
 
