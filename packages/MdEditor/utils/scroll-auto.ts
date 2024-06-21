@@ -240,8 +240,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       startTop = getTopByLine(lineNumer);
       scale = (scrollDOM.scrollTop - startTop) / (pMaxScrollLength - startTop);
 
-      startEleOffetTop = document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)
-        ?.offsetTop as number;
+      startEleOffetTop =
+        document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)?.offsetTop ||
+        startEleOffetTop;
       blockHeight =
         cMaxScrollLength - startEleOffetTop + getComputedStyleNum(cEle, 'padding-top');
     }
@@ -371,9 +372,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     ) {
       const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
-      eleStartOffsetTop = document.querySelector<HTMLElement>(
-        `[data-line="${lineNumer}"]`
-      )?.offsetTop as number;
+      eleStartOffsetTop =
+        document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)?.offsetTop ||
+        eleStartOffsetTop;
       firstLineScrollTop = getTopByLine(lineNumer);
 
       scale = (cScrollTop - eleStartOffsetTop) / (cMaxScrollLength - eleStartOffsetTop);
