@@ -38,14 +38,14 @@ import { CompletionSource } from '@codemirror/autocomplete';
 // import 'highlight.js/styles/tokyo-night-dark.css';
 
 // import prettier from 'prettier';
-// import parserMarkdown from 'prettier/parser-markdown';
+// import parserMarkdown from 'prettier/plugins/markdown';
 
 // import ancher from 'markdown-it-anchor';
 
 import './index.less';
 import Icon from '~/components/Icon';
 
-// import { cdnBase } from '../../MdEditor/config';
+// import { cdnBase } from '~/config';
 
 // const myCompletions = (context: CompletionContext) => {
 //   const word = context.matchBefore(/@|\w*/);
@@ -96,20 +96,20 @@ console.log(
       //   parserMarkdownInstance: parserMarkdown
       // },
       // highlight: {
-      // instance: highlight
-      // css: {
-      //   'tokyo-night': {
-      //     light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
-      //     dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
+      //   instance: highlight,
+      //   css: {
+      //     'tokyo-night': {
+      //       light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
+      //       dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
+      //     }
       //   }
-      // }
-      // }
+      // },
       // screenfull: {
       //   instance: screenfull
       // },
       // katex: {
       //   instance: katex
-      // }
+      // },
       // cropper: {
       //   instance: Cropper
       // },
