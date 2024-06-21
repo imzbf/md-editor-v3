@@ -25,7 +25,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   const defaultRender = md.renderer.rules.fence,
     unescapeAll = md.utils.unescapeAll,
     re = /\[(\w*)(?::([\w ]*))?\]/,
-    mandatoryRe = /::close/;
+    mandatoryRe = /::(open|close)/;
 
   const getInfo = (token: Token) => {
     return token.info ? unescapeAll(token.info).trim() : '';
@@ -44,12 +44,15 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   };
 
   const getTagType = (token: Token) => {
-    const mandatory = mandatoryRe.test(token.info);
-
+    const mandatory = token.info.match(mandatoryRe) || [];
     const open =
-      !mandatory && token.content.trim().split('\n').length < _opts.autoFoldThreshold;
-    const tagContainer = mandatory || _opts.codeFoldable ? 'details' : 'div',
-      tagHeader = mandatory || _opts.codeFoldable ? 'summary' : 'div';
+      mandatory[1] === 'open' ||
+      (mandatory[1] !== 'close' &&
+        _opts.codeFoldable &&
+        token.content.trim().split('\n').length < _opts.autoFoldThreshold);
+
+    const tagContainer = mandatory[1] || _opts.codeFoldable ? 'details' : 'div',
+      tagHeader = mandatory[1] || _opts.codeFoldable ? 'summary' : 'div';
 
     return { open, tagContainer, tagHeader };
   };
