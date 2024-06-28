@@ -346,19 +346,48 @@ export const useConfig = (
     previewOnly: false
   });
 
-  const updateSetting: UpdateSetting = (k, v) => {
-    setting[k] = v === undefined ? !setting[k] : v;
+  const cacheSetting = reactive({ ...setting });
 
-    if (k === 'preview') {
-      setting.htmlPreview = false;
-      setting.previewOnly = false;
-    } else if (k === 'htmlPreview') {
-      setting.preview = false;
-      setting.previewOnly = false;
-    } else if (k === 'previewOnly' && !setting.preview && !setting.htmlPreview) {
-      // 如果没有显示预览模块，则需要手动展示
-      setting.preview = true;
+  const updateSetting: UpdateSetting = (k, v) => {
+    const realValue = v === undefined ? !setting[k] : v;
+
+    switch (k) {
+      case 'preview': {
+        setting.htmlPreview = false;
+        setting.previewOnly = false;
+
+        break;
+      }
+
+      case 'htmlPreview': {
+        setting.preview = false;
+        setting.previewOnly = false;
+
+        break;
+      }
+
+      case 'previewOnly': {
+        if (realValue) {
+          if (!setting.preview && !setting.htmlPreview) {
+            // 如果没有显示预览模块，则需要手动展示
+            setting.preview = true;
+          }
+        } else {
+          if (!cacheSetting.preview) {
+            setting.preview = false;
+          }
+
+          if (!cacheSetting.htmlPreview) {
+            setting.htmlPreview = false;
+          }
+        }
+
+        break;
+      }
     }
+
+    cacheSetting[k] = realValue;
+    setting[k] = realValue;
   };
 
   // 将在客户端挂载时获取该样式
