@@ -44,6 +44,11 @@ const useHighlight = (props: ContentPreviewProps) => {
   watch(
     () => highlight.value.css,
     () => {
+      // 强制不高亮，则什么都不做
+      if (props.noHighlight) {
+        return;
+      }
+
       updateHandler('link', {
         ...highlight.value.css,
         rel: 'stylesheet',

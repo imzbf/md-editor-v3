@@ -20,7 +20,7 @@
   border: 1px solid var(--md-border-color);
   position: fixed;
   z-index: @maskZIndex + 1;
-  flex-direction: column;
+  box-shadow: var(--md-modal-shadow);
 
   &-header {
     cursor: grab;
@@ -74,7 +74,6 @@
 @keyframes zoomIn {
   from {
     opacity: 0;
-    -webkit-transform: scale3d(0.3, 0.3, 0.3);
     transform: scale3d(0.3, 0.3, 0.3);
   }
 
@@ -95,7 +94,6 @@
 
   50% {
     opacity: 0;
-    -webkit-transform: scale3d(0.3, 0.3, 0.3);
     transform: scale3d(0.3, 0.3, 0.3);
   }
 

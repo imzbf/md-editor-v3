@@ -131,7 +131,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
   };
 
   const getLineNumber = (pMaxScrollLength: number, cMaxScrollLength: number) => {
-    let lineNumer = 0;
+    let lineNumer = 1;
     for (let i = elesHasLineNumber.length - 1; i - 1 >= 0; i--) {
       const curr = elesHasLineNumber[i];
       const sibling = elesHasLineNumber[i - 1];
@@ -240,8 +240,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       startTop = getTopByLine(lineNumer);
       scale = (scrollDOM.scrollTop - startTop) / (pMaxScrollLength - startTop);
 
-      startEleOffetTop = document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)
-        ?.offsetTop as number;
+      startEleOffetTop =
+        document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)?.offsetTop ||
+        startEleOffetTop;
       blockHeight =
         cMaxScrollLength - startEleOffetTop + getComputedStyleNum(cEle, 'padding-top');
     }
@@ -371,9 +372,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     ) {
       const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
-      eleStartOffsetTop = document.querySelector<HTMLElement>(
-        `[data-line="${lineNumer}"]`
-      )?.offsetTop as number;
+      eleStartOffsetTop =
+        document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)?.offsetTop ||
+        eleStartOffsetTop;
       firstLineScrollTop = getTopByLine(lineNumer);
 
       scale = (cScrollTop - eleStartOffsetTop) / (cMaxScrollLength - eleStartOffsetTop);

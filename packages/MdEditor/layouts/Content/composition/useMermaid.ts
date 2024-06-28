@@ -46,7 +46,7 @@ const useMermaid = (props: ContentPreviewProps) => {
   );
 
   onMounted(() => {
-    if (props.noMermaid || mermaidRef.value?.instance) {
+    if (props.noMermaid || mermaidRef.value) {
       return;
     }
 
