@@ -90,6 +90,9 @@
   "peerDependencies": {
     "vue": "^3.2.47"
   },
+  "resolutions": {
+    "@codemirror/view": "6.27.0"
+  },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "none",
