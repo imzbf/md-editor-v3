@@ -29,7 +29,9 @@ const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
   });
 
   onMounted(() => {
-    zoomHander();
+    if (!noImgZoomIn && props.setting.preview) {
+      zoomHander();
+    }
   });
 
   watch([html, toRef(props.setting, 'preview')], () => {
