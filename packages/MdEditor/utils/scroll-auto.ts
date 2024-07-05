@@ -1,4 +1,4 @@
-import { debounce, createSmoothScroll, throttle } from '@vavt/util';
+import { debounce, createSmoothScroll } from '@vavt/util';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 import { prefix } from '../config';
 
@@ -201,8 +201,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     let endBottom = getBottomByLine(blockData.end);
 
     // 把margin算到元素高度中去，可以避免第一个元素不到顶部的情况
-    let startEleOffetTop =
-      startEle.offsetTop - getComputedStyleNum(startEle, 'margin-top');
+    let startEleOffetTop = startEle.offsetTop;
     let blockHeight = endEle.offsetTop - startEleOffetTop;
 
     if (startTop === 0) {
@@ -222,22 +221,19 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     }
 
     // 计算一个高度比
-    scale =
-      (scrollDOM.scrollTop -
-        startTop +
-        getComputedStyleNum(view.contentDOM, 'padding-bottom')) /
-      (endBottom - startTop);
+    scale = (scrollDOM.scrollTop - startTop) / (endBottom - startTop);
 
     // 如果结束块已经在滚动到底部时的可视区了，那么就将当前块到末尾视为一个整体
     // 两种情况
     // 1. 左边的模块结束行已经在
     // 2. 右边的模块结束行已经在
     // 取两则最先在可视区的情况
-    if (
-      startTop >= 0 &&
-      (endBottom >= pMaxScrollLength ||
-        endEle.offsetTop + endEle.clientHeight > cMaxScrollLength)
-    ) {
+    const endElePos =
+      endEle == cEle.lastElementChild?.lastElementChild
+        ? endEle.offsetTop + endEle.clientHeight
+        : endEle.offsetTop;
+
+    if (endBottom >= pMaxScrollLength || endElePos > cMaxScrollLength) {
       const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
       startTop = getTopByLine(lineNumer);
@@ -245,9 +241,10 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
       const _startEle = document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
 
-      startEleOffetTop = _startEle
-        ? _startEle.offsetTop - getComputedStyleNum(_startEle, 'margin-top')
-        : startEleOffetTop;
+      if (startTop > 0 && _startEle) {
+        startEleOffetTop = _startEle.offsetTop;
+      }
+
       blockHeight =
         cMaxScrollLength - startEleOffetTop + getComputedStyleNum(cEle, 'padding-top');
     }
