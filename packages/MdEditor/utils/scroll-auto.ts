@@ -1,4 +1,4 @@
-import { debounce, createSmoothScroll, throttle } from '@vavt/util';
+import { debounce, createSmoothScroll } from '@vavt/util';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 import { prefix } from '../config';
 
@@ -199,6 +199,8 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
     let startTop = getTopByLine(blockData.start);
     let endBottom = getBottomByLine(blockData.end);
+
+    // 把margin算到元素高度中去，可以避免第一个元素不到顶部的情况
     let startEleOffetTop = startEle.offsetTop;
     let blockHeight = endEle.offsetTop - startEleOffetTop;
 
@@ -219,30 +221,30 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     }
 
     // 计算一个高度比
-    scale =
-      (scrollDOM.scrollTop -
-        startTop +
-        getComputedStyleNum(view.contentDOM, 'padding-bottom')) /
-      (endBottom - startTop);
+    scale = (scrollDOM.scrollTop - startTop) / (endBottom - startTop);
 
     // 如果结束块已经在滚动到底部时的可视区了，那么就将当前块到末尾视为一个整体
     // 两种情况
     // 1. 左边的模块结束行已经在
     // 2. 右边的模块结束行已经在
     // 取两则最先在可视区的情况
-    if (
-      startTop > 0 &&
-      (endBottom >= pMaxScrollLength ||
-        endEle.offsetTop + endEle.clientHeight > cMaxScrollLength)
-    ) {
+    const endElePos =
+      endEle == cEle.lastElementChild?.lastElementChild
+        ? endEle.offsetTop + endEle.clientHeight
+        : endEle.offsetTop;
+
+    if (endBottom >= pMaxScrollLength || endElePos > cMaxScrollLength) {
       const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
       startTop = getTopByLine(lineNumer);
       scale = (scrollDOM.scrollTop - startTop) / (pMaxScrollLength - startTop);
 
-      startEleOffetTop =
-        document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)?.offsetTop ||
-        startEleOffetTop;
+      const _startEle = document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
+
+      if (startTop > 0 && _startEle) {
+        startEleOffetTop = _startEle.offsetTop;
+      }
+
       blockHeight =
         cMaxScrollLength - startEleOffetTop + getComputedStyleNum(cEle, 'padding-top');
     }
@@ -350,7 +352,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     let eleStartOffsetTop =
       realEleStart === cEle.firstElementChild?.firstElementChild
         ? 0
-        : realEleStart.offsetTop;
+        : realEleStart.offsetTop - getComputedStyleNum(realEleStart, 'margin-top');
 
     let eleEndOffsetTop = realEleEnd.offsetTop;
 
@@ -372,9 +374,11 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     ) {
       const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
-      eleStartOffsetTop =
-        document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`)?.offsetTop ||
-        eleStartOffsetTop;
+      const _startEle = document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
+
+      eleStartOffsetTop = _startEle
+        ? _startEle.offsetTop - getComputedStyleNum(_startEle, 'margin-top')
+        : eleStartOffsetTop;
       firstLineScrollTop = getTopByLine(lineNumer);
 
       scale = (cScrollTop - eleStartOffsetTop) / (cMaxScrollLength - eleStartOffsetTop);
@@ -411,7 +415,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     });
   };
 
-  const scrollHandler = throttle((e: Event) => {
+  const scrollHandler = (e: Event) => {
     // 由于虚拟滚动，contentHeight在没有滚动到底部时总是在变化的
     const { scrollDOM, contentHeight } = view;
     const scrollDomHeight = scrollDOM.clientHeight;
@@ -438,7 +442,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     }
 
     // 计算位置的函数一般在1ms以内
-  }, 1);
+  };
 
   return [
     () => {

@@ -1,6 +1,6 @@
 {
   "name": "md-editor-v3",
-  "version": "4.17.1-2",
+  "version": "4.17.3",
   "license": "MIT",
   "keywords": [
     "vue",
@@ -89,9 +89,6 @@
   },
   "peerDependencies": {
     "vue": "^3.2.47"
-  },
-  "resolutions": {
-    "@codemirror/view": "6.27.0"
   },
   "prettier": {
     "singleQuote": true,
