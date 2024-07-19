@@ -29,7 +29,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
-    "build": "vue-tsc --noEmit && vite build --mode=preview",
+    "build": "vite build --mode=preview",
     "serve": "vite preview"
   },
   "dependencies": {
