@@ -43,7 +43,13 @@ const MdPreview = defineComponent({
         >
           <ContentPreview
             modelValue={props.modelValue}
-            onChange={props.onChange}
+            onChange={(value) => {
+              if (props.onChange) {
+                props.onChange(value);
+              }
+
+              ctx.emit('onChange', value);
+            }}
             onHtmlChanged={(html) => {
               if (props.onHtmlChanged) {
                 props.onHtmlChanged(html);
