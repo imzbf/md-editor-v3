@@ -33,6 +33,12 @@ export const mdPreviewProps = {
     default: ''
   },
   /**
+   * input回调事件
+   */
+  onChange: {
+    type: Function as PropType<ChangeEvent>
+  },
+  /**
    * 主题，支持light和dark
    *
    * @default 'light'
@@ -235,12 +241,6 @@ export const mdPreviewProps = {
 export const editorProps = {
   ...mdPreviewProps,
 
-  /**
-   * input回调事件
-   */
-  onChange: {
-    type: Function as PropType<ChangeEvent>
-  },
   /**
    * input回调事件
    */

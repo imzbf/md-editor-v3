@@ -60,6 +60,7 @@ export default defineComponent({
 
           <ContentPreview
             modelValue={props.modelValue}
+            onChange={props.onChange}
             setting={props.setting}
             onHtmlChanged={(html_) => {
               html.value = html_;

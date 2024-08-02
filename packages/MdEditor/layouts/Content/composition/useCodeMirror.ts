@@ -30,7 +30,8 @@ import {
   CTRL_Z,
   ERROR_CATCHER,
   EVENT_LISTENER,
-  REPLACE
+  REPLACE,
+  TASK_STATE_CHANGED
 } from '~/static/event-name';
 import { throttle } from '@vavt/util';
 
@@ -227,6 +228,20 @@ const useCodeMirror = (props: ContentProps) => {
           )
         });
       })
+    });
+
+    // 点击任务修改事件
+    bus.on(editorId, {
+      name: TASK_STATE_CHANGED,
+      callback: (lineNumber: number, value: string) => {
+        const line = view.state.doc.line(lineNumber);
+        // 应用交易到编辑器视图
+        view.dispatch(
+          view.state.update({
+            changes: { from: line.from, to: line.to, insert: value }
+          })
+        );
+      }
     });
   });
 

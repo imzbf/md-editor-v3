@@ -8,6 +8,10 @@ export const contentPreviewProps = {
     type: String as PropType<string>,
     default: ''
   },
+  onChange: {
+    type: Function as PropType<(v: string) => void>,
+    default: () => {}
+  },
   setting: {
     type: Object as PropType<SettingType>,
     default: () => ({ preview: true })
@@ -66,10 +70,6 @@ export const contentPreviewProps = {
 export const contentProps = {
   ...contentPreviewProps,
   updateModelValue: {
-    type: Function as PropType<(v: string) => void>,
-    default: () => {}
-  },
-  onChange: {
     type: Function as PropType<(v: string) => void>,
     default: () => {}
   },

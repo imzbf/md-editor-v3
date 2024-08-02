@@ -43,6 +43,7 @@ const MdPreview = defineComponent({
         >
           <ContentPreview
             modelValue={props.modelValue}
+            onChange={props.onChange}
             onHtmlChanged={(html) => {
               if (props.onHtmlChanged) {
                 props.onHtmlChanged(html);

@@ -3,7 +3,7 @@ import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { PreviewThemes } from '~/type';
 
-import { useCopyCode, userZoom, useMarkdownIt } from './composition';
+import { useCopyCode, userZoom, useMarkdownIt, useTaskState } from './composition';
 import { contentPreviewProps } from './props';
 
 export type ContentPreviewProps = Readonly<
@@ -25,6 +25,8 @@ const ContentPreview = defineComponent({
     useCopyCode(props, html, key);
     // 图片点击放大
     userZoom(props, html);
+    // 任务状态
+    useTaskState(props, html);
 
     return () => {
       return (

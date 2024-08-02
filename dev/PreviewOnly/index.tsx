@@ -15,6 +15,8 @@ export default defineComponent({
   setup(props) {
     const previewRef = ref<ExposePreviewParam>();
 
+    const value = ref(mdText);
+
     return () => (
       <div class="doc">
         <button
@@ -30,7 +32,8 @@ export default defineComponent({
             theme={props.theme}
             previewTheme={props.previewTheme}
             codeTheme={props.codeTheme}
-            modelValue={mdText}
+            modelValue={value.value}
+            onChange={(v) => (value.value = v)}
             showCodeRowNumber
           />
         </div>
