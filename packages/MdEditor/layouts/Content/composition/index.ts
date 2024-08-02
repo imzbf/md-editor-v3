@@ -4,5 +4,6 @@ import userZoom from './userZoom';
 import useCopyCode from './useCopyCode';
 import useMarkdownIt from './useMarkdownIt';
 import useResize from './useResize';
+export * from './useTaskState';
 
 export { useAutoScroll, useCodeMirror, userZoom, useCopyCode, useMarkdownIt, useResize };

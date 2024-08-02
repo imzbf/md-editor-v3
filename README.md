@@ -309,6 +309,7 @@ export interface StaticTextDefaultValue {
 
 | name | type | description |
 | --- | --- | --- |
+| onChange | `value: string` | Content changed(bind to `oninput` of `textarea`) |
 | onHtmlChanged | `html: string` | Compile markdown successful event, you can use it to get the html code |
 | onGetCatalog | `list: Array<HeadList>` | Get catalog of article |
 
@@ -318,7 +319,6 @@ Except for the same as `MdPreview`:
 
 | name | type | description |
 | --- | --- | --- |
-| onChange | `value: string` | Content changed(bind to `oninput` of `textarea`) |
 | onSave | `value: string, html: Promise<string>` | Saving content, `ctrl+s` and clicking button will trigger it |
 | onUploadImg | `files: Array<File>, callback: (urls: string[] \| { url: string; alt: string; title: string }[]) => void` | Uploading picture, when picture is uploading the modal will not close, please provide right urls to the callback function |
 | onError | `err: { name: 'Cropper' \| 'fullscreen' \| 'prettier' \| 'overlength'; message: string }` | Catch run-time error, `Cropper`, `fullscreen` and `prettier` are used when they are not loaded. And content exceeds the length limit error |

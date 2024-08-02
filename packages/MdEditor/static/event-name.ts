@@ -57,3 +57,6 @@ export const RERENDER = 'rerender';
 
 // 监听dom原始事件
 export const EVENT_LISTENER = 'eventListener';
+
+// 任务状态变化
+export const TASK_STATE_CHANGED = 'taskStateChanged';

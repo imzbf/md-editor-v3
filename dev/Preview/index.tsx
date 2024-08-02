@@ -64,62 +64,71 @@ import Icon from '~/components/Icon';
 //   };
 // };
 
-console.log(
-  config({
-    codeMirrorExtensions(theme, extensions) {
-      // console.log(theme, extensions, keyBindings);
+config({
+  codeMirrorExtensions(theme, extensions) {
+    // console.log(theme, extensions, keyBindings);
 
-      // return extensions;
-      return [...extensions, lineNumbers()];
-    },
-    // iconfontType: 'class',
-    // markdownItConfig: (mdit) => {
-    // mdit.use(ancher, {
-    //   permalink: true
-    // });
-    // markdownItPlugins(plugins) {
-    //   console.log(plugins);
-    //   return [];
-    // },
+    // return extensions;
+    return [...extensions, lineNumbers()];
+  },
+  // iconfontType: 'class',
+  // markdownItConfig: (mdit) => {
+  // mdit.use(ancher, {
+  //   permalink: true
+  // });
+  markdownItPlugins(plugins) {
+    return plugins.map((item) => {
+      if (item.type === 'taskList') {
+        return {
+          ...item,
+          options: {
+            ...item.options,
+            enabled: true
+          }
+        };
+      }
 
-    // mdit.use(TargetBlankExtension);
+      return item;
+    });
+  },
+
+  // mdit.use(TargetBlankExtension);
+  // },
+  mermaidConfig: (base) => {
+    return base;
+  },
+  editorConfig: {
+    zIndex: 2000
+  },
+  editorExtensions: {
+    // prettier: {
+    //   prettierInstance: prettier,
+    //   parserMarkdownInstance: parserMarkdown
     // },
-    mermaidConfig: (base) => {
-      return base;
-    },
-    editorConfig: {
-      zIndex: 2000
-    },
-    editorExtensions: {
-      // prettier: {
-      //   prettierInstance: prettier,
-      //   parserMarkdownInstance: parserMarkdown
-      // },
-      // highlight: {
-      //   instance: highlight,
-      //   css: {
-      //     'tokyo-night': {
-      //       light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
-      //       dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
-      //     }
-      //   }
-      // },
-      // screenfull: {
-      //   instance: screenfull
-      // },
-      // katex: {
-      //   instance: katex
-      // },
-      // cropper: {
-      //   instance: Cropper
-      // },
-      // mermaid: {
-      //   instance: mermaid
-      // }
-    },
-    editorExtensionsAttrs
-  })
-);
+    // highlight: {
+    //   instance: highlight,
+    //   css: {
+    //     'tokyo-night': {
+    //       light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
+    //       dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
+    //     }
+    //   }
+    // },
+    // screenfull: {
+    //   instance: screenfull
+    // },
+    // katex: {
+    //   instance: katex
+    // },
+    // cropper: {
+    //   instance: Cropper
+    // },
+    // mermaid: {
+    //   instance: mermaid
+    // }
+  },
+  editorExtensionsAttrs
+});
 
 const SAVE_KEY = 'XHMPGLJIZTDB';
 const INPUT_BOX_WITDH = 'tcxll8alg5jx52hw';
