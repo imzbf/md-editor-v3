@@ -215,6 +215,8 @@ import 'md-editor-v3/lib/style.css';
 - [x] 周天
 ```
 
+支持在预览模块切换任务状态的[示例](https://imzbf.github.io/md-editor-v3/zh-CN/demo#☑%EF%B8%8F%20可切换状态的任务列表)
+
 ---
 
 ## 🐮 表格

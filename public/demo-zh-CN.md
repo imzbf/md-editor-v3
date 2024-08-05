@@ -1018,6 +1018,34 @@ config({
 });
 ```
 
+### ☑️ 可切换状态的任务列表
+
+```js
+import { config } from 'md-editor-v3';
+config({
+  markdownItPlugins(plugins, { editorId }) {
+    return plugins.map((item) => {
+      if (item.type === 'taskList') {
+        return {
+          ...item,
+          options: {
+            ...item.options,
+            enabled: true
+            // 如果只是想对某个编辑器开启这个功能
+            // enabled: editorId === 'myId'
+          }
+        };
+      }
+      return item;
+    });
+  }
+});
+```
+
+```vue
+<MdEditor editorId="myId" v-model="text" />
+```
+
 ## 🧻 编辑此页面
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)

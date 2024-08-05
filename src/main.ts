@@ -22,9 +22,21 @@ import ZH_TW from '@vavt/cm-extension/dist/locale/zh-TW';
 import '@vavt/cm-extension/dist/previewTheme/arknights.css';
 
 config({
-  markdownItPlugins(plugins) {
+  markdownItPlugins(plugins, { editorId }) {
     return [
-      ...plugins,
+      ...plugins.map((item) => {
+        if (item.type === 'taskList') {
+          return {
+            ...item,
+            options: {
+              ...item.options,
+              enabled: editorId === 'editor-preview'
+            }
+          };
+        }
+
+        return item;
+      }),
       {
         type: 'mark',
         plugin: MarkExtension,

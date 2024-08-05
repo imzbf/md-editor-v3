@@ -1008,6 +1008,34 @@ config({
 });
 ```
 
+### ☑️ Toggleable status task list
+
+```js
+import { config } from 'md-editor-v3';
+config({
+  markdownItPlugins(plugins, { editorId }) {
+    return plugins.map((item) => {
+      if (item.type === 'taskList') {
+        return {
+          ...item,
+          options: {
+            ...item.options,
+            enabled: true
+            // If you just want to enable this feature for a certain editor
+            // enabled: editorId === 'myId'
+          }
+        };
+      }
+      return item;
+    });
+  }
+});
+```
+
+```vue
+<MdEditor editorId="myId" v-model="text" />
+```
+
 ## 🧻 Edit This Page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)

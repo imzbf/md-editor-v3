@@ -215,6 +215,8 @@ According to the understanding of other editors, no other editors currently empl
 - [x] Sunday
 ```
 
+[Example](https://imzbf.github.io/md-editor-v3/en-US/demo#☑%EF%B8%8F%20Toggleable%20status%20task%20list) that supports toggling task status in the preview module.
+
 ---
 
 ## 🐮 Table
