@@ -51,7 +51,6 @@
     "lru-cache": "^10.2.0",
     "markdown-it": "^14.0.0",
     "markdown-it-image-figures": "^2.1.1",
-    "markdown-it-task-lists": "^2.1.1",
     "medium-zoom": "^1.1.0",
     "punycode": "^2.3.1",
     "xss": "^1.0.15"

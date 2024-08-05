@@ -10,7 +10,6 @@ import {
 } from 'vue';
 import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
-import TaskListPlugin from 'markdown-it-task-lists';
 import { debounce, uuid } from '@vavt/util';
 import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
@@ -39,6 +38,7 @@ import AdmonitionPlugin from '../markdownIt/admonition';
 import HeadingPlugin from '../markdownIt/heading';
 import CodePlugin from '../markdownIt/code';
 import XSSPlugin from '../markdownIt/xss';
+import TaskListPlugin from '../markdownIt/task';
 
 import { ContentPreviewProps } from '../ContentPreview';
 import { XSSPluginType } from '../markdownIt/xss';
