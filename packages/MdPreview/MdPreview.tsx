@@ -49,6 +49,7 @@ const MdPreview = defineComponent({
               }
 
               ctx.emit('onChange', value);
+              ctx.emit('update:modelValue', value);
             }}
             onHtmlChanged={(html) => {
               if (props.onHtmlChanged) {
