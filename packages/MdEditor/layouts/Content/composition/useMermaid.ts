@@ -1,8 +1,8 @@
 import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick } from 'vue';
-import { LRUCache } from 'lru-cache';
 import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { uuid } from '@vavt/util';
+import { mermaidCache } from '~/utils/cache';
 
 import { ContentPreviewProps } from '../ContentPreview';
 
@@ -16,12 +16,6 @@ const useMermaid = (props: ContentPreviewProps) => {
 
   const mermaidRef = shallowRef(editorExtensions!.mermaid!.instance);
   const reRenderRef = shallowRef(-1);
-
-  const mermaidCache = new LRUCache({
-    max: 1000,
-    // 缓存10分钟
-    ttl: 600000
-  });
 
   const configMermaid = () => {
     const mermaid = mermaidRef.value;
