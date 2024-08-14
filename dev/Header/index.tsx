@@ -80,36 +80,26 @@ export default defineComponent({
             </button>
           </p>
           <p class="header-actions">
-            <button
-              class="btn btn-header"
-              onClick={() => props.onCodeThemeChange('a11y')}
-            >
-              a11y
-            </button>
-            <button
-              class="btn btn-header"
-              onClick={() => props.onCodeThemeChange('atom')}
-            >
-              atom-one
-            </button>
-            <button
-              class="btn btn-header"
-              onClick={() => props.onCodeThemeChange('github')}
-            >
-              github
-            </button>
-            <button
-              class="btn btn-header"
-              onClick={() => props.onCodeThemeChange('gradient')}
-            >
-              gradient
-            </button>
-            <button
-              class="btn btn-header"
-              onClick={() => props.onCodeThemeChange('tokyo-night')}
-            >
-              tokyo-night
-            </button>
+            {[
+              'a11y',
+              'atom',
+              'github',
+              'gradient',
+              'kimbie',
+              'paraiso',
+              'qtcreator',
+              'stackoverflow'
+            ].map((item) => {
+              return (
+                <button
+                  class="btn btn-header"
+                  onClick={() => props.onCodeThemeChange(item)}
+                  key={item}
+                >
+                  {item}
+                </button>
+              );
+            })}
           </p>
         </section>
       </header>
