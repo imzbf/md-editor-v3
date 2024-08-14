@@ -1,4 +1,12 @@
-import { defineComponent, PropType, reactive, ExtractPropTypes, ref, watch } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  reactive,
+  ExtractPropTypes,
+  ref,
+  watch,
+  computed
+} from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 
@@ -29,8 +37,12 @@ const TableShape = defineComponent({
       y: -1
     });
 
+    const tableShapeStr = computed(() => {
+      return JSON.stringify(props.tableShape);
+    });
+
     const initShape = () => {
-      const shape = [...props.tableShape];
+      const shape = [...JSON.parse(tableShapeStr.value)];
 
       if (!shape[2] || shape[2] < shape[0]) {
         shape[2] = shape[0];
@@ -45,12 +57,9 @@ const TableShape = defineComponent({
 
     const tableShape = ref(initShape());
 
-    watch(
-      () => props.tableShape,
-      () => {
-        tableShape.value = initShape();
-      }
-    );
+    watch([tableShapeStr], () => {
+      tableShape.value = initShape();
+    });
 
     return () => (
       <div
