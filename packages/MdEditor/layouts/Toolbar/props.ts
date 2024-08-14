@@ -49,6 +49,9 @@ export const toolbarProps = {
    */
   showToolbarName: {
     type: Boolean as PropType<boolean>
+  },
+  catalogVisible: {
+    type: Boolean as PropType<boolean>
   }
 };
 

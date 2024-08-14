@@ -670,7 +670,10 @@ export default defineComponent({
             return (
               !props.setting.fullscreen && (
                 <div
-                  class={`${prefix}-toolbar-item`}
+                  class={[
+                    `${prefix}-toolbar-item`,
+                    props.setting.pageFullscreen && `${prefix}-toolbar-active`
+                  ]}
                   title={ult.value.toolbarTips?.pageFullscreen}
                   onClick={() => {
                     props.updateSetting('pageFullscreen');
@@ -690,7 +693,10 @@ export default defineComponent({
           case 'fullscreen': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  props.setting.fullscreen && `${prefix}-toolbar-active`
+                ]}
                 title={ult.value.toolbarTips?.fullscreen}
                 onClick={() => {
                   fullscreenHandler();
@@ -711,7 +717,10 @@ export default defineComponent({
           case 'preview': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  props.setting.preview && `${prefix}-toolbar-active`
+                ]}
                 title={ult.value.toolbarTips?.preview}
                 onClick={() => {
                   props.updateSetting('preview');
@@ -730,7 +739,10 @@ export default defineComponent({
           case 'previewOnly': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  props.setting.previewOnly && `${prefix}-toolbar-active`
+                ]}
                 title={ult.value.toolbarTips?.previewOnly}
                 onClick={() => {
                   props.updateSetting('previewOnly');
@@ -749,7 +761,10 @@ export default defineComponent({
           case 'htmlPreview': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  props.setting.htmlPreview && `${prefix}-toolbar-active`
+                ]}
                 title={ult.value.toolbarTips?.htmlPreview}
                 onClick={() => {
                   props.updateSetting('htmlPreview');
@@ -768,7 +783,10 @@ export default defineComponent({
           case 'catalog': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  props.catalogVisible && `${prefix}-toolbar-active`
+                ]}
                 title={ult.value.toolbarTips?.catalog}
                 onClick={() => {
                   bus.emit(editorId, CHANGE_CATALOG_VISIBLE);
