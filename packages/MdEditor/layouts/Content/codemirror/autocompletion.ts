@@ -61,7 +61,7 @@ const createAutocompletion = (completions: Array<CompletionSource> | undefined) 
       from: word.from,
       options: [
         // 标题
-        ...['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].map((key, index) => {
+        ...['h2', 'h3', 'h4', 'h5', 'h6'].map((key, index) => {
           const label = new Array(index + 1).fill('#').join('');
           return {
             label,
