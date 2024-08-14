@@ -1376,10 +1376,10 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@vavt/markdown-theme@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-4.1.1.tgz#ec961c2075e6d95d59e1dd431e79d73edce733d9"
-  integrity sha512-9l+qI+/73ANSI/b6aB34qiIrXgd/vxvfq7bing9VqmhkbQKkEb9s1WMnLuGnzLYggNYaKvfHK7xPSJx9Slbhmg==
+"@vavt/markdown-theme@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-4.1.2.tgz#cb2114a62379301f0a22f7a5a6a7ce277a7b2004"
+  integrity sha512-SUaJB1yvfHPwecVwaLXjUDqnQxqzGVWP8Gbu4wdnzwZRCYpDyNwBirMaGUTZJsb+oEEheKS3t6saYnxCTeWfrg==
 
 "@vavt/util@^1.6.2":
   version "1.6.2"

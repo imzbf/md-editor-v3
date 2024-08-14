@@ -768,6 +768,23 @@ config({
 });
 ```
 
+### 🔧 katexConfig
+
+Configure `katex`, [Details](https://katex.org/docs/options)
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  katexConfig(base: any) {
+    return {
+      ...base,
+      strict: false
+    };
+  }
+});
+```
+
 ## 🪡 Shortcut Key
 
 _Pay attention: shortcut keys are only available when the textarea has received focus!_
@@ -1008,7 +1025,7 @@ const onUploadImg = async (files, callback) => {
   --md-color: if(@isDark, #999, #222);
   --md-hover-color: if(@isDark, #bbb, #000);
   --md-bk-color: if(@isDark, #000, #fff);
-  --md-bk-color-outstand: if(@isDark, #111, #f6f6f6);
+  --md-bk-color-outstand: if(@isDark, #333, #f2f2f2);
   --md-bk-hover-color: if(@isDark, #1b1a1a, #f5f7fa);
   --md-border-color: if(@isDark, #2d2d2d, #e6e6e6);
   --md-border-hover-color: if(@isDark, #636262, #b9b9b9);
