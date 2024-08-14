@@ -575,7 +575,13 @@ Except for the same as `MdPreview`:
   Preset the size of the table, [columns, rows, Maximum number of columns, Maximum number of rows]
 
   ```vue
-  <MdEditor :tableShape="[8, 4]" />
+  <template>
+    <MdEditor :tableShape="tableShape" />
+  </tempale>
+
+  <script setup>
+  const tableShape = [8, 4];
+  </script>
   ```
 
   ![Preview](https://imzbf.github.io/md-editor-v3/imgs/20211216165424.png)
@@ -784,11 +790,13 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
   import { MdEditor, NormalToolbar } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
+  const toolbars = ['bold', '-', 0, '=', 'github'];
+
   export default defineComponent({
     setup() {
       return () => (
         <MdEditor
-          toolbars={['bold', '-', 0, '=', 'github']}
+          toolbars={toolbars}
           defToolbars={
             <>
               <NormalToolbar
@@ -843,11 +851,13 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
   import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
+  const footers = ['markdownTotal', 0, '=', 1, 'scrollSwitch'];
+
   export default defineComponent({
     setup() {
       return () => (
         <MdEditor
-          footers={['markdownTotal', 0, '=', 1, 'scrollSwitch']}
+          footers={footers}
           defFooters={
             <>
               <span>￥_￥</span>
@@ -1733,6 +1743,25 @@ config({
 
 ---
 
+### 🔧 katexConfig
+
+Configure `katex`, [Details](https://katex.org/docs/options)
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  katexConfig(base: any) {
+    return {
+      ...base,
+      strict: false
+    };
+  }
+});
+```
+
+---
+
 ## 🪡 Shortcut keys
 
 !!! warning Pay attention
@@ -1850,7 +1879,7 @@ const handler = () => {
 
 ```vue
 <template>
-  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+  <MdEditor v-model="text" :toolbars="toolbars">
     <template #defToolbars>
       <MyToolbar />
     </template>
@@ -1864,6 +1893,7 @@ import MyToolbar from './MyToolbar.vue';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
+const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 
@@ -1956,7 +1986,7 @@ const handler = (emoji: any) => {
 
 ```vue
 <template>
-  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+  <MdEditor v-model="text" :toolbars="toolbars">
     <template #defToolbars>
       <MyToolbar />
     </template>
@@ -1970,6 +2000,7 @@ import MyToolbar from './MyToolbar.vue';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
+const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 
@@ -2069,7 +2100,7 @@ const handler = () => {
 
 ```vue
 <template>
-  <MdEditor v-model="text" :toolbars="['bold', 0, 'github']">
+  <MdEditor v-model="text" :toolbars="toolbars">
     <template #defToolbars>
       <MyToolbar />
     </template>
@@ -2083,6 +2114,7 @@ import MyToolbar from './MyToolbar.vue';
 import 'md-editor-v3/lib/style.css';
 
 const text = ref('');
+const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 

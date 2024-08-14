@@ -8,7 +8,6 @@
       :language="store.state.lang"
       :showCodeRowNumber="props.showCodeRowNumber"
       :codeTheme="store.state.codeTheme"
-      :autoFoldThreshold="16"
       @onHtmlChanged="onHtmlChanged"
     />
   </div>

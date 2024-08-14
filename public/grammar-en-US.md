@@ -239,10 +239,14 @@ Two modes.
 
 ### 🐽 Inline
 
-$x+y^{2x}$
+$x+y^{2x}$ \(\xrightarrow[under]{over}\)
 
 ```markdown
 $x+y^{2x}$
+
+<!-- or -->
+
+\(\xrightarrow[under]{over}\)
 ```
 
 ---
@@ -251,14 +255,16 @@ $x+y^{2x}$
 
 $$\sqrt[3]{x}$$
 
+\[\xrightarrow[under]{over}\]
+
 ```markdown
 $$
 \sqrt[3]{x}
 $$
 
-or
+<!-- or -->
 
-$$\sqrt[3]{x}$$
+\[\xrightarrow[under]{over}\]
 ```
 
 For more usage: [https://katex.org/docs/supported.html](https://katex.org/docs/supported.html)

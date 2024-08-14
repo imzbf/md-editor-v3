@@ -239,24 +239,32 @@ import 'md-editor-v3/lib/style.css';
 
 ### 🐽 行内
 
-$x+y^{2x}$
+$x+y^{2x}$ \(\xrightarrow[under]{over}\)
 
 ```markdown
 $x+y^{2x}$
+
+<!-- or -->
+
+\(\xrightarrow[under]{over}\)
 ```
+
+---
 
 ### 🐸 块级
 
 $$\sqrt[3]{x}$$
+
+\[\xrightarrow[under]{over}\]
 
 ```markdown
 $$
 \sqrt[3]{x}
 $$
 
-或者
+<!-- or -->
 
-$$\sqrt[3]{x}$$
+\[\xrightarrow[under]{over}\]
 ```
 
 更多公式示例参考：[https://katex.org/docs/supported.html](https://katex.org/docs/supported.html)
@@ -283,7 +291,7 @@ gitGraph
 ```
 
 ````markdown
-```mermaid
+```
 ---
 title: Example Git diagram
 ---
