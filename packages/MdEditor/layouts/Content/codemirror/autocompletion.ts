@@ -62,7 +62,7 @@ const createAutocompletion = (completions: Array<CompletionSource> | undefined) 
       options: [
         // 标题
         ...['h2', 'h3', 'h4', 'h5', 'h6'].map((key, index) => {
-          const label = new Array(index + 1).fill('#').join('');
+          const label = new Array(index + 2).fill('#').join('');
           return {
             label,
             type: 'text',
