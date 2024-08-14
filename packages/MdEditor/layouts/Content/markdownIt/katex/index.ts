@@ -5,7 +5,7 @@
  */
 import { ShallowRef } from 'vue';
 import markdownit, { Renderer, Token, ParserInline, ParserBlock } from 'markdown-it';
-import { prefix } from '~/config';
+import { prefix, configOption } from '~/config';
 import { mergeAttrs } from '~/utils/md-it';
 
 const math_inline: ParserInline.RuleInline = (state, silent) => {
@@ -134,9 +134,12 @@ const KatexPlugin = (md: markdownit, { katexRef }: { katexRef: ShallowRef }) => 
     };
 
     if (katexRef.value) {
-      const html = katexRef.value.renderToString(token.content, {
-        throwOnError: false
-      });
+      const html = katexRef.value.renderToString(
+        token.content,
+        configOption.katexConfig({
+          throwOnError: false
+        })
+      );
 
       return `<span ${slf.renderAttrs(tmpToken as Token)} data-processed>${html}</span>`;
     } else {
@@ -151,10 +154,13 @@ const KatexPlugin = (md: markdownit, { katexRef }: { katexRef: ShallowRef }) => 
     };
 
     if (katexRef.value) {
-      const html = katexRef.value.renderToString(token.content, {
-        throwOnError: false,
-        displayMode: true
-      });
+      const html = katexRef.value.renderToString(
+        token.content,
+        configOption.katexConfig({
+          throwOnError: false,
+          displayMode: true
+        })
+      );
 
       return `<p ${slf.renderAttrs(tmpToken as Token)} data-processed>${html}</p>`;
     } else {

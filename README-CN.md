@@ -782,6 +782,23 @@ config({
 });
 ```
 
+### 🔧 katexConfig
+
+katex 配置项，[配置详情](https://katex.org/docs/options)
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  katexConfig(base: any) {
+    return {
+      ...base,
+      strict: false
+    };
+  }
+});
+```
+
 ## 🪡 快捷键
 
 主要以`CTRL`搭配对应功能英文单词首字母，冲突项添加`SHIFT`，再冲突替换为`ALT`。

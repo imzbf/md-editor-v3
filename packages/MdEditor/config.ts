@@ -480,7 +480,8 @@ export const configOption: ConfigOption = {
   markdownItConfig: () => {},
   markdownItPlugins: (s) => s,
   iconfontType: 'svg',
-  mermaidConfig: (c) => c
+  mermaidConfig: (c) => c,
+  katexConfig: (c) => c
 };
 
 export const config: Config = (option) => {
