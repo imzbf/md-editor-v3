@@ -106,12 +106,18 @@ export const useOnSave = (props: EditorProps, context: EditorContext) => {
  *
  * @param props 预览组件的props
  */
-export const useProvidePreview = (props: MdPreviewProps) => {
+export const useProvidePreview = (
+  props: MdPreviewProps,
+  rootRef: Ref<HTMLDivElement | undefined>
+) => {
   const { editorId } = props;
   const hljsUrls = configOption.editorExtensions.highlight;
   const hljsAttrs = configOption.editorExtensionsAttrs.highlight;
 
   provide('editorId', editorId);
+
+  // 提供一个顶层元素的引用
+  provide('rootRef', rootRef);
 
   provide(
     'theme',
@@ -201,8 +207,11 @@ export const useProvidePreview = (props: MdPreviewProps) => {
  *
  * @param props
  */
-export const useProvide = (props: EditorProps) => {
-  useProvidePreview(props);
+export const useProvide = (
+  props: EditorProps,
+  rootRef: Ref<HTMLDivElement | undefined>
+) => {
+  useProvidePreview(props, rootRef);
   // tab=2space
   provide('tabWidth', props.tabWidth);
 };

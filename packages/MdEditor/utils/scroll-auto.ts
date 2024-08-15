@@ -239,7 +239,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       startTop = getTopByLine(lineNumer);
       scale = (scrollDOM.scrollTop - startTop) / (pMaxScrollLength - startTop);
 
-      const _startEle = document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
+      const _startEle = cEle.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
 
       if (startTop > 0 && _startEle) {
         startEleOffetTop = _startEle.offsetTop;
@@ -374,7 +374,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     ) {
       const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
-      const _startEle = document.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
+      const _startEle = cEle.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
 
       eleStartOffsetTop = _startEle
         ? _startEle.offsetTop - getComputedStyleNum(_startEle, 'margin-top')

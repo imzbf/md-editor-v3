@@ -130,7 +130,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
 
       labels += `<li>
           <input type="radio" name="${prefix}-codetab-label-${_opts.editorId}-${idx}" class="${className}" ${checked}>
-          <label onclick="document.querySelectorAll('.${className}').forEach(e => e.click())">${
+          <label onclick="this.getRootNode().querySelectorAll('.${className}').forEach(e => e.click())">${
             tab || getLangName(token)
           }</label>
         </li>`;

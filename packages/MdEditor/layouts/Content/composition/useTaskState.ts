@@ -16,11 +16,12 @@ const template = {
 
 export const useTaskState = (props: ContentPreviewProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
+  const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
 
   let removeListener = () => {};
 
   const addListener = () => {
-    const tasks = document.querySelectorAll(`#${editorId} .task-list-item.enabled`);
+    const tasks = rootRef.value.querySelectorAll('.task-list-item.enabled');
 
     const listener = (e: Event) => {
       e.preventDefault();

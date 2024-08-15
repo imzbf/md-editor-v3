@@ -7,7 +7,8 @@ import {
   nextTick,
   ComputedRef,
   watch,
-  ExtractPropTypes
+  ExtractPropTypes,
+  Ref
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { StaticTextDefaultValue } from '~/type';
@@ -40,6 +41,7 @@ export default defineComponent({
   setup(props: ClipProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;
+    const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
     // 传递下来的图片裁剪构造函数
     let Cropper = configOption.editorExtensions.cropper!.instance;
 
@@ -90,7 +92,7 @@ export default defineComponent({
                 nextTick(() => {
                   cropper = new Cropper(uploadImgRef.value, {
                     viewMode: 2,
-                    preview: `.${prefix}-clip-preview-target`
+                    preview: rootRef.value.querySelector(`.${prefix}-clip-preview-target`)
                     // aspectRatio: 16 / 9,
                   });
                 });

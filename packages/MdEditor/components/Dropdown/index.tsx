@@ -81,8 +81,9 @@ export default defineComponent({
       const triggerHeight = triggerInfo.height;
       const triggerWidth = triggerInfo.width;
 
-      const relativecrollLeft = document.querySelector(props.relative)?.scrollLeft || 0;
-      const relativeWidth = document.querySelector(props.relative)?.clientWidth || 0;
+      const rootNode = triggerEle.getRootNode() as Document | ShadowRoot;
+      const relativecrollLeft = rootNode.querySelector(props.relative)?.scrollLeft || 0;
+      const relativeWidth = rootNode.querySelector(props.relative)?.clientWidth || 0;
 
       let left =
         triggerLeft - overlayEle.offsetWidth / 2 + triggerWidth / 2 - relativecrollLeft;

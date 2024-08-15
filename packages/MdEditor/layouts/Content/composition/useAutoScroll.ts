@@ -16,14 +16,17 @@ const useAutoScroll = (
   // 编译事件
   const rebindEvent = () => {
     clearScrollAuto();
-    const cmScroller = document.querySelector<HTMLDivElement>(
+
+    const rootNode = codeMirrorUt.value?.view.contentDOM.getRootNode() as
+      | Document
+      | ShadowRoot;
+    const cmScroller = rootNode.querySelector<HTMLDivElement>(
       `#${editorId} .cm-scroller`
     );
-
-    const previewEle = document.querySelector<HTMLElement>(
+    const previewEle = rootNode.querySelector<HTMLElement>(
       `[id="${editorId}-preview-wrapper"]`
     );
-    const htmlEle = document.querySelector<HTMLElement>(
+    const htmlEle = rootNode.querySelector<HTMLElement>(
       `[id="${editorId}-html-wrapper"]`
     );
 

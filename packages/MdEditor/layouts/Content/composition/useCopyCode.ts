@@ -6,11 +6,12 @@ import { prefix } from '~/config';
 
 const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<string>) => {
   const editorId = inject('editorId') as string;
+  const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
   const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
 
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
-    document
+    rootRef.value
       .querySelectorAll(`#${editorId} .${prefix}-preview .${prefix}-code`)
       .forEach((codeBlock: Element) => {
         // 恢复进程ID
