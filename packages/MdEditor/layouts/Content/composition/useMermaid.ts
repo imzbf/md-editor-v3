@@ -123,7 +123,7 @@ const useMermaid = (props: ContentPreviewProps) => {
           p.className = `${prefix}-mermaid`;
           p.setAttribute('data-processed', '');
           p.innerHTML = mermaidHtml;
-          p.children[0].setAttribute('height', 'auto');
+          p.children[0].removeAttribute('height');
 
           mermaidCache.set(item.innerText, p.innerHTML);
 

@@ -236,8 +236,8 @@ export const directive2flag = (
         targetValue = `\`\`\`mermaid\n${
           mermaidTemplate?.flow || 'flowchart TD \n  Start --> Stop'
         }\n\`\`\`\n`;
-        deviationStart = 3;
-        deviationEnd = 10 - targetValue.length;
+        deviationStart = 11;
+        deviationEnd = -5;
         break;
       }
       // 时序图
@@ -246,8 +246,8 @@ export const directive2flag = (
           mermaidTemplate?.sequence ||
           'sequenceDiagram\n  A->>B: hello!\n  B-->>A: hi!\n  A-)B: bye!'
         }\n\`\`\`\n`;
-        deviationStart = 3;
-        deviationEnd = 10 - targetValue.length;
+        deviationStart = 11;
+        deviationEnd = -5;
         break;
       }
       // 甘特图
@@ -256,8 +256,8 @@ export const directive2flag = (
           mermaidTemplate?.gantt ||
           'gantt\ntitle A Gantt Diagram\ndateFormat  YYYY-MM-DD\nsection Section\nA task  :a1, 2014-01-01, 30d\nAnother task  :after a1, 20d'
         }\n\`\`\`\n`;
-        deviationStart = 3;
-        deviationEnd = 10 - targetValue.length;
+        deviationStart = 11;
+        deviationEnd = -5;
         break;
       }
       // 类图
@@ -265,8 +265,8 @@ export const directive2flag = (
         targetValue = `\`\`\`mermaid\n${
           mermaidTemplate?.class || 'classDiagram\n  class Animal\n  Vehicle <|-- Car'
         }\n\`\`\`\n`;
-        deviationStart = 3;
-        deviationEnd = 10 - targetValue.length;
+        deviationStart = 11;
+        deviationEnd = -5;
         break;
       }
       // 状态图
@@ -274,8 +274,8 @@ export const directive2flag = (
         targetValue = `\`\`\`mermaid\n${
           mermaidTemplate?.state || 'stateDiagram-v2\n  s1 --> s2'
         }\n\`\`\`\n`;
-        deviationStart = 3;
-        deviationEnd = 10 - targetValue.length;
+        deviationStart = 11;
+        deviationEnd = -5;
         break;
       }
       // 饼图
@@ -284,8 +284,8 @@ export const directive2flag = (
           mermaidTemplate?.pie ||
           'pie title Pets adopted by volunteers\n  "Dogs" : 386\n  "Cats" : 85\n  "Rats" : 15'
         }\n\`\`\`\n`;
-        deviationStart = 3;
-        deviationEnd = 10 - targetValue.length;
+        deviationStart = 11;
+        deviationEnd = -5;
         break;
       }
 
@@ -295,8 +295,8 @@ export const directive2flag = (
           mermaidTemplate?.relationship ||
           'erDiagram\n  CAR ||--o{ NAMED-DRIVER : allows\n  PERSON ||--o{ NAMED-DRIVER : is'
         }\n\`\`\`\n`;
-        deviationStart = 3;
-        deviationEnd = 10 - targetValue.length;
+        deviationStart = 11;
+        deviationEnd = -5;
         break;
       }
 
@@ -306,8 +306,8 @@ export const directive2flag = (
           mermaidTemplate?.journey ||
           'journey\n  title My working day\n  section Go to work\n    Make tea: 5: Me\n    Go upstairs: 3: Me\n    Do work: 1: Me, Cat\n  section Go home\n    Go downstairs: 5: Me\n    Sit down: 5: Me'
         }\n\`\`\`\n`;
-        deviationStart = 3;
-        deviationEnd = 10 - targetValue.length;
+        deviationStart = 11;
+        deviationEnd = -5;
         break;
       }
       // 行内公式
