@@ -122,13 +122,10 @@ export default class CodeMirrorUt {
       if (options.select) {
         const to = from + text.length + options.deviationEnd;
         this.view.dispatch({
-          selection: EditorSelection.create(
-            [
-              EditorSelection.range(from + options.deviationStart, to),
-              EditorSelection.cursor(to)
-            ],
-            1
-          )
+          selection: {
+            anchor: from + options.deviationStart,
+            head: to
+          }
         });
       }
 

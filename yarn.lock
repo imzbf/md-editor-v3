@@ -1381,10 +1381,10 @@
   resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-4.1.2.tgz#cb2114a62379301f0a22f7a5a6a7ce277a7b2004"
   integrity sha512-SUaJB1yvfHPwecVwaLXjUDqnQxqzGVWP8Gbu4wdnzwZRCYpDyNwBirMaGUTZJsb+oEEheKS3t6saYnxCTeWfrg==
 
-"@vavt/util@^1.6.2":
-  version "1.6.2"
-  resolved "https://registry.npmjs.org/@vavt/util/-/util-1.6.2.tgz#e80ef1a5761c4b90c9585d5370146edcc77c658d"
-  integrity sha512-YSurh9awM1Xax5qgSkKbZZQZxC5bBTlqOq+YLQ2GqexKN87iz40IOq4cdTD7n63rIjT3fQH/GZmMpRJxwNev2w==
+"@vavt/util@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@vavt/util/-/util-2.0.0.tgz#6b10ba13dc5ea7a8fed4548427afd50f3546dc88"
+  integrity sha512-zf1sY9Gy4jj5SE7FuSTXu7PrUdnKJf0zKvhNLAHWiGg1t8IkMfYwRN5567HcUgZSaSuJ8FR3dr+w6E2XzxoPiQ==
 
 "@vavt/vite-plugin-import-markdown@^1.0.0":
   version "1.0.1"

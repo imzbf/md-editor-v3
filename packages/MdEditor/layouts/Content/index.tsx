@@ -85,6 +85,7 @@ export default defineComponent({
               editorId={editorId}
               mdHeadingId={props.mdHeadingId}
               key="internal-catalog"
+              scrollElementOffsetTop={2}
             />
           )}
         </div>

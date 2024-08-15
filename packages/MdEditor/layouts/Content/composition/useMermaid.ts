@@ -1,7 +1,7 @@
 import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick } from 'vue';
 import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
-import { uuid } from '@vavt/util';
+import { randomId } from '@vavt/util';
 import { mermaidCache } from '~/utils/cache';
 
 import { ContentPreviewProps } from '../ContentPreview';
@@ -103,7 +103,7 @@ const useMermaid = (props: ContentPreviewProps) => {
           let mermaidHtml = mermaidCache.get(item.innerText) as string;
 
           if (!mermaidHtml) {
-            const idRand = uuid();
+            const idRand = randomId();
             // @9以下使用renderAsync，@10以上使用render
             const render = mermaidRef.value.renderAsync || mermaidRef.value.render;
             let svg: { svg: string } | string = '';
@@ -117,13 +117,15 @@ const useMermaid = (props: ContentPreviewProps) => {
             mermaidHtml = await props.sanitizeMermaid!(
               typeof svg === 'string' ? svg : svg.svg
             );
-            mermaidCache.set(item.innerText, mermaidHtml);
           }
 
           const p = document.createElement('p');
           p.className = `${prefix}-mermaid`;
           p.setAttribute('data-processed', '');
           p.innerHTML = mermaidHtml;
+          p.children[0].removeAttribute('height');
+
+          mermaidCache.set(item.innerText, p.innerHTML);
 
           if (item.dataset.line !== undefined) {
             p.dataset.line = item.dataset.line;

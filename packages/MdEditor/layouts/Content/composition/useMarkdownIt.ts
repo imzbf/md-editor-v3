@@ -10,7 +10,7 @@ import {
 } from 'vue';
 import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
-import { debounce, uuid } from '@vavt/util';
+import { debounce, randomId } from '@vavt/util';
 import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
 import {
@@ -191,7 +191,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   // }
 
   // 文章节点的key
-  const key = ref(`_article-key_${uuid()}`);
+  const key = ref(`_article-key_${randomId()}`);
 
   const html = ref(props.sanitize(md.render(props.modelValue)));
 
@@ -250,7 +250,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       name: RERENDER,
       callback: () => {
         // 强制更新节点
-        key.value = `_article-key_${uuid()}`;
+        key.value = `_article-key_${randomId()}`;
         markHtml();
       }
     });
