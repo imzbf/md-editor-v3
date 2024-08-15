@@ -117,13 +117,15 @@ const useMermaid = (props: ContentPreviewProps) => {
             mermaidHtml = await props.sanitizeMermaid!(
               typeof svg === 'string' ? svg : svg.svg
             );
-            mermaidCache.set(item.innerText, mermaidHtml);
           }
 
           const p = document.createElement('p');
           p.className = `${prefix}-mermaid`;
           p.setAttribute('data-processed', '');
           p.innerHTML = mermaidHtml;
+          p.children[0].setAttribute('height', 'auto');
+
+          mermaidCache.set(item.innerText, p.innerHTML);
 
           if (item.dataset.line !== undefined) {
             p.dataset.line = item.dataset.line;
