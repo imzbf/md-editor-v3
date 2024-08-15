@@ -1,156 +1,158 @@
-.cm-editor {
-  font-size: 14px;
-  height: 100%;
+.@{prefix} {
+  .cm-editor {
+    font-size: 14px;
+    height: 100%;
 
-  &.cm-focused {
-    outline: none;
-  }
+    &.cm-focused {
+      outline: none;
+    }
 
-  .cm-tooltip.cm-tooltip-autocomplete {
-    border-radius: 3px;
-
-    & > ul {
+    .cm-tooltip.cm-tooltip-autocomplete {
       border-radius: 3px;
-      min-width: fit-content;
-      max-width: fit-content;
 
-      li {
-        background-color: var(--md-bk-color);
-        color: var(--md-color);
-        padding: 4px 10px;
-        line-height: 16px;
+      & > ul {
+        border-radius: 3px;
+        min-width: fit-content;
+        max-width: fit-content;
 
-        // 自动提示语的图标
-        .cm-completionIcon {
-          width: auto;
+        li {
+          background-color: var(--md-bk-color);
+          color: var(--md-color);
+          padding: 4px 10px;
+          line-height: 16px;
+
+          // 自动提示语的图标
+          .cm-completionIcon {
+            width: auto;
+          }
+        }
+
+        li[aria-selected] {
+          background-color: var(--md-bk-hover-color);
         }
       }
 
-      li[aria-selected] {
+      .cm-completionInfo {
+        margin-top: -2px;
+        margin-left: 3px;
+        padding: 4px 9px;
+        border-radius: 3px;
+        overflow: hidden;
+        // 因为它是跟随着选中项，所以默认选择背景
         background-color: var(--md-bk-hover-color);
+        color: var(--md-color);
+      }
+    }
+  }
+
+  .has-preview {
+    .cm-scroller {
+      overflow-y: scroll;
+    }
+  }
+
+  .cm-scroller {
+    // 当没有代码行号的时候，给编辑区一个10的外间距
+    .cm-content[contenteditable='true'] {
+      margin: 10px;
+      min-height: calc(100% - 20px);
+    }
+
+    // 当有代码行号时，把外间距设置为默认值
+    .cm-gutters + .cm-content[contenteditable='true'] {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    .cm-line {
+      line-height: inherit;
+    }
+  }
+
+  .ͼ1 .cm-scroller {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    line-height: 20px;
+  }
+
+  .cm-search {
+    // 输入框
+    .cm-textfield {
+      border-radius: 4px;
+      padding: 4px 11px;
+      color: var(--md-color);
+      font-size: 10px;
+      background-image: none;
+      border: 1px solid var(--md-border-color);
+      transition: all 0.2s;
+
+      &:focus,
+      &:hover {
+        border-color: var(--md-border-hover-color);
+        outline: 0;
+      }
+
+      &:focus {
+        border-color: var(--md-border-active-color);
       }
     }
 
-    .cm-completionInfo {
-      margin-top: -2px;
-      margin-left: 3px;
-      padding: 4px 9px;
-      border-radius: 3px;
-      overflow: hidden;
-      // 因为它是跟随着选中项，所以默认选择背景
-      background-color: var(--md-bk-hover-color);
-      color: var(--md-color);
-    }
-  }
-}
-
-.has-preview {
-  .cm-scroller {
-    overflow-y: scroll;
-  }
-}
-
-.cm-scroller {
-  // 当没有代码行号的时候，给编辑区一个10的外间距
-  .cm-content[contenteditable='true'] {
-    margin: 10px;
-    min-height: calc(100% - 20px);
-  }
-
-  // 当有代码行号时，把外间距设置为默认值
-  .cm-gutters + .cm-content[contenteditable='true'] {
-    margin: 0;
-    min-height: 100%;
-  }
-
-  .cm-line {
-    line-height: inherit;
-  }
-}
-
-.ͼ1 .cm-scroller {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  line-height: 20px;
-}
-
-.cm-search {
-  // 输入框
-  .cm-textfield {
-    border-radius: 4px;
-    padding: 4px 11px;
-    color: var(--md-color);
-    font-size: 10px;
-    background-image: none;
-    border: 1px solid var(--md-border-color);
-    transition: all 0.2s;
-
-    &:focus,
-    &:hover {
-      border-color: var(--md-border-hover-color);
-      outline: 0;
-    }
-
-    &:focus {
-      border-color: var(--md-border-active-color);
-    }
-  }
-
-  .cm-button {
-    font-weight: 400;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid var(--md-border-color);
-    white-space: nowrap;
-    user-select: none;
-    height: 20px;
-    padding: 0 15px;
-    font-size: 10px;
-    border-radius: 4px;
-    transition: all 0.2s linear;
-    color: var(--md-color);
-    background-color: inherit;
-    background-image: none;
-    border-color: var(--md-border-color);
-
-    &:first-of-type {
-      margin-left: 0;
-    }
-
-    &:hover {
-      color: var(--md-hover-color);
-      background-color: inherit;
-      border-color: var(--md-border-hover-color);
-    }
-  }
-  // 属性选择器
-  input[type='checkbox'] {
-    vertical-align: sub;
-
-    &::after {
-      display: block;
-      content: '';
-      font-weight: bold;
-      cursor: pointer;
-      width: 12px;
-      height: 12px;
-      border: 1px solid var(--md-border-color);
-      background-color: var(--md-bk-color-outstand);
-      border-radius: 2px;
-      line-height: 1;
+    .cm-button {
+      font-weight: 400;
       text-align: center;
-    }
-
-    &:checked::after {
-      content: '✓';
+      vertical-align: middle;
+      cursor: pointer;
+      border: 1px solid var(--md-border-color);
+      white-space: nowrap;
+      user-select: none;
+      height: 20px;
+      padding: 0 15px;
+      font-size: 10px;
+      border-radius: 4px;
+      transition: all 0.2s linear;
       color: var(--md-color);
-    }
-  }
+      background-color: inherit;
+      background-image: none;
+      border-color: var(--md-border-color);
 
-  // 关闭按钮
-  button[name='close'] {
-    color: inherit;
-    cursor: pointer;
-    right: 6px;
+      &:first-of-type {
+        margin-left: 0;
+      }
+
+      &:hover {
+        color: var(--md-hover-color);
+        background-color: inherit;
+        border-color: var(--md-border-hover-color);
+      }
+    }
+    // 属性选择器
+    input[type='checkbox'] {
+      vertical-align: sub;
+
+      &::after {
+        display: block;
+        content: '';
+        font-weight: bold;
+        cursor: pointer;
+        width: 12px;
+        height: 12px;
+        border: 1px solid var(--md-border-color);
+        background-color: var(--md-bk-color-outstand);
+        border-radius: 2px;
+        line-height: 1;
+        text-align: center;
+      }
+
+      &:checked::after {
+        content: '✓';
+        color: var(--md-color);
+      }
+    }
+
+    // 关闭按钮
+    button[name='close'] {
+      color: inherit;
+      cursor: pointer;
+      right: 6px;
+    }
   }
 }
