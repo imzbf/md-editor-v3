@@ -1,7 +1,7 @@
 import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick } from 'vue';
 import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
-import { uuid } from '@vavt/util';
+import { randomId } from '@vavt/util';
 import { mermaidCache } from '~/utils/cache';
 
 import { ContentPreviewProps } from '../ContentPreview';
@@ -103,7 +103,7 @@ const useMermaid = (props: ContentPreviewProps) => {
           let mermaidHtml = mermaidCache.get(item.innerText) as string;
 
           if (!mermaidHtml) {
-            const idRand = uuid();
+            const idRand = randomId();
             // @9以下使用renderAsync，@10以上使用render
             const render = mermaidRef.value.renderAsync || mermaidRef.value.render;
             let svg: { svg: string } | string = '';
