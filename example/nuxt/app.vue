@@ -1,5 +1,6 @@
 <template>
-  <MdEditor v-model="text" />
+  <!-- in nuxt, editor-id must be set. -->
+  <MdEditor v-model="text" editor-id="myId" />
 </template>
 
 <script setup>
