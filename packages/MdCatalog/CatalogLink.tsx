@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ExtractPropTypes } from 'vue';
+import { defineComponent, PropType, ExtractPropTypes, inject, Ref } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { MdHeadingId } from '~/type';
 import { prefix } from '~/config';
@@ -12,10 +12,6 @@ const props = {
   mdHeadingId: {
     type: Function as PropType<MdHeadingId>,
     default: () => {}
-  },
-  scrollElement: {
-    type: [String, Object] as PropType<string | Element>,
-    default: ''
   },
   onClick: {
     type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
@@ -34,9 +30,11 @@ export type CatalogLinkProps = Readonly<
 const CatalogLink = defineComponent({
   props,
   setup(props: CatalogLinkProps) {
+    const scrollElementRef = inject('scrollElementRef') as Ref<HTMLElement>;
+    const rootNodeRef = inject('roorNodeRef') as Ref<Document | ShadowRoot>;
+
     return () => {
-      const { tocItem, mdHeadingId, scrollElement, onClick, scrollElementOffsetTop } =
-        props;
+      const { tocItem, mdHeadingId, onClick, scrollElementOffsetTop } = props;
 
       return (
         <div
@@ -45,11 +43,8 @@ const CatalogLink = defineComponent({
             onClick(e, tocItem);
             e.stopPropagation();
             const id = mdHeadingId(tocItem.text, tocItem.level, tocItem.index);
-            const targetHeadEle = document.getElementById(id);
-            const scrollContainer =
-              scrollElement instanceof Element
-                ? scrollElement
-                : document.querySelector(scrollElement);
+            const targetHeadEle = rootNodeRef.value.getElementById(id);
+            const scrollContainer = scrollElementRef.value;
 
             if (targetHeadEle && scrollContainer) {
               let par = targetHeadEle.offsetParent as HTMLElement;
@@ -79,7 +74,6 @@ const CatalogLink = defineComponent({
                   mdHeadingId={mdHeadingId}
                   key={`${tocItem.text}-link-${item.level}-${item.text}`}
                   tocItem={item}
-                  scrollElement={scrollElement}
                   onClick={onClick}
                   scrollElementOffsetTop={scrollElementOffsetTop}
                 />

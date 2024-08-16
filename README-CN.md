@@ -918,6 +918,7 @@ import { NormalToolbar } from 'md-editor-v3';
   - `theme`: `'light' | 'dark'`，非必须，当需要切换主题时提供，同编辑器的`theme`。
   - `offsetTop`: `number`，非必须，标题距离顶部该像素时高亮当前目录项，默认 20 像素。
   - `scrollElementOffsetTop`: `number`，非必须，滚动区域的固定顶部高度，默认 0。
+  - `isScrollElementInShadow`: `boolean`，滚动容器是否在web component中，默认 false。
 
 - **events**
 
