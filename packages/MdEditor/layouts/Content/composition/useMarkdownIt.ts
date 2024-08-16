@@ -231,6 +231,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       if (props.setting.preview) {
         // 生成目录
         nextTick(() => {
+          replaceMermaid();
           bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
         });
       }

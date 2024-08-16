@@ -34,12 +34,13 @@ const Editor = defineComponent({
       scrollAuto: props.scrollAuto
     });
 
+    const rootRef = ref<HTMLDivElement>();
     const codeRef = ref<ContentExposeParam>();
 
     // 快捷键监听
     useOnSave(props, ctx);
     // provide 部分prop
-    useProvide(props);
+    useProvide(props, rootRef);
     // 插入扩展的外链
     useExpansion(props);
     // 错误捕获
@@ -69,6 +70,7 @@ const Editor = defineComponent({
             setting.fullscreen || setting.pageFullscreen ? `${prefix}-fullscreen` : ''
           ]}
           style={props.style}
+          ref={rootRef}
         >
           {props.toolbars.length > 0 && (
             <ToolBar

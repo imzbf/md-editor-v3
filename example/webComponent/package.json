@@ -1,0 +1,28 @@
+{
+  "name": "web-component",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "cropperjs": "^1.6.2",
+    "highlight.js": "^11.10.0",
+    "katex": "^0.16.11",
+    "md-editor-v3": "latest",
+    "mermaid": "^10.9.1",
+    "prettier": "^3.3.3",
+    "screenfull": "^6.0.2",
+    "vue": "^3.4.30"
+  },
+  "devDependencies": {
+    "@types/katex": "^0.16.7",
+    "@vavt/vite-plugin-import-markdown": "^1.0.1",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.2",
+    "vue-tsc": "^2.0.22"
+  }
+}

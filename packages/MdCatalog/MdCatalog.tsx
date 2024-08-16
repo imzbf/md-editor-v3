@@ -7,7 +7,9 @@ import {
   ExtractPropTypes,
   shallowRef,
   onBeforeUnmount,
-  watch
+  watch,
+  ref,
+  provide
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { HeadList, MdHeadingId, Themes } from '~/type';
@@ -76,6 +78,15 @@ const props = {
   },
   onActive: {
     type: Function as PropType<(heading: HeadList | undefined) => void>
+  },
+  /**
+   * 滚动容器是否在web component中，默认不在
+   *
+   * 在其中的话通过document查询不到
+   */
+  isScrollElementInShadow: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 
@@ -88,6 +99,7 @@ const MdCatalog = defineComponent({
   setup(props: MdCatalogProps, ctx) {
     // 获取Id
     const editorId = props.editorId as string;
+    const defaultScrollElement = `#${editorId}-preview-wrapper`;
 
     const state = reactive<{
       list: HeadList[];
@@ -96,10 +108,20 @@ const MdCatalog = defineComponent({
     }>({
       list: [],
       show: false,
-      scrollElement: props.scrollElement || `#${editorId}-preview-wrapper`
+      scrollElement: props.scrollElement || defaultScrollElement
     });
 
     const activeItem = shallowRef<HeadList>();
+
+    // 目录根部元素
+    const catalogRef = ref<HTMLDivElement>();
+    // 获取到的滚动root节点
+    const scrollElementRef = ref<HTMLElement>();
+    // 获取到的目录root节点，注意，不支持目录和编辑器不在同一个web c中使用
+    const rootNodeRef = ref<Document | ShadowRoot>();
+
+    provide('scrollElementRef', scrollElementRef);
+    provide('roorNodeRef', rootNodeRef);
 
     // 重构的列表
     const catalogs = computed(() => {
@@ -149,12 +171,16 @@ const MdCatalog = defineComponent({
     });
 
     const getScrollElement = () => {
-      const scrollElement =
-        state.scrollElement instanceof HTMLElement
-          ? state.scrollElement
-          : (document.querySelector(state.scrollElement) as HTMLElement);
+      if (state.scrollElement instanceof HTMLElement) {
+        return state.scrollElement;
+      }
 
-      return scrollElement;
+      let scrollRoot: ShadowRoot | Document = document;
+      if (state.scrollElement === defaultScrollElement || props.isScrollElementInShadow) {
+        scrollRoot = catalogRef.value?.getRootNode() as ShadowRoot | Document;
+      }
+
+      return scrollRoot.querySelector(state.scrollElement) as HTMLElement;
     };
 
     const findActiveHeading = (list: HeadList[]) => {
@@ -166,14 +192,13 @@ const MdCatalog = defineComponent({
       // 获取标记当前位置的目录
       const { activeHead } = list.reduce(
         (activeData, link, index) => {
-          const linkEle = document.getElementById(
+          const linkEle = rootNodeRef.value?.getElementById(
             props.mdHeadingId(link.text, link.level, index + 1)
           );
 
           if (linkEle instanceof HTMLElement) {
-            const scrollElement = getScrollElement();
             // 获得当前标题相对滚动容器视窗的高度
-            const relativeTop = getRelativeTop(linkEle, scrollElement);
+            const relativeTop = getRelativeTop(linkEle, scrollElementRef.value!);
 
             // 当前标题滚动到超出容器的顶部且相比其他的标题最近
             if (relativeTop < props.offsetTop && relativeTop > activeData.minTop) {
@@ -213,46 +238,38 @@ const MdCatalog = defineComponent({
     );
 
     onMounted(() => {
+      // 获取当前元素所在的根节点
+      rootNodeRef.value = catalogRef.value!.getRootNode() as Document | ShadowRoot;
       // 滚动区域为document.documentElement需要把监听事件绑定在window上
-      let scrollContainer: HTMLElement | Window = window;
-
-      const findScrollContainer = () => {
-        const scrollElement_ = getScrollElement();
-
-        scrollContainer =
-          scrollElement_ === document.documentElement ? window : scrollElement_;
-      };
+      const scrollElement = getScrollElement();
+      scrollElementRef.value = scrollElement;
 
       bus.on(editorId, {
         name: CATALOG_CHANGED,
         callback: (_list: Array<HeadList>) => {
-          scrollContainer?.removeEventListener('scroll', scrollHandler);
+          scrollElement?.removeEventListener('scroll', scrollHandler);
           findActiveHeading(_list);
-          findScrollContainer();
-          scrollContainer?.addEventListener('scroll', scrollHandler);
+          scrollElement?.addEventListener('scroll', scrollHandler);
         }
       });
 
       // 主动触发一次接收
       bus.emit(editorId, PUSH_CATALOG);
-
-      findScrollContainer();
-      scrollContainer?.addEventListener('scroll', scrollHandler);
+      scrollElement?.addEventListener('scroll', scrollHandler);
     }); // ==
 
     // 要移除监听事件，特别是全局的
     onBeforeUnmount(() => {
-      const scrollElement = getScrollElement();
-      // 滚动区域为document.documentElement需要把监听事件绑定在window上
-      (scrollElement === document.documentElement
-        ? window
-        : scrollElement
-      )?.removeEventListener('scroll', scrollHandler);
+      scrollElementRef.value?.removeEventListener('scroll', scrollHandler);
     });
 
     return () => (
       <div
-        class={`${prefix}-catalog${props.theme === 'dark' ? '-dark' : ''} ${props.class}`}
+        class={[
+          `${prefix}-catalog${props.theme === 'dark' ? '-dark' : ''}`,
+          `${props.class}`
+        ]}
+        ref={catalogRef}
       >
         {catalogs.value.map((item) => {
           return (
@@ -260,7 +277,6 @@ const MdCatalog = defineComponent({
               mdHeadingId={props.mdHeadingId}
               tocItem={item}
               key={`link-${item.level}-${item.text}`}
-              scrollElement={state.scrollElement}
               onClick={(e: MouseEvent, t: TocItem) => {
                 if (props.onClick) {
                   props.onClick(e, t);

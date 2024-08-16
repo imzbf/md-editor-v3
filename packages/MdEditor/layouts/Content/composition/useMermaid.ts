@@ -1,4 +1,4 @@
-import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick } from 'vue';
+import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick, Ref } from 'vue';
 import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { randomId } from '@vavt/util';
@@ -12,6 +12,7 @@ import { ContentPreviewProps } from '../ContentPreview';
  */
 const useMermaid = (props: ContentPreviewProps) => {
   const theme = inject('theme') as ComputedRef<string>;
+  const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
   const { editorExtensions, editorExtensionsAttrs, mermaidConfig } = configOption;
 
   const mermaidRef = shallowRef(editorExtensions!.mermaid!.instance);
@@ -82,7 +83,7 @@ const useMermaid = (props: ContentPreviewProps) => {
   const replaceMermaid = () => {
     nextTick(() => {
       if (!props.noMermaid && mermaidRef.value) {
-        const mermaidSourceEles = document.querySelectorAll<HTMLElement>(
+        const mermaidSourceEles = rootRef.value.querySelectorAll<HTMLElement>(
           `div.${prefix}-mermaid`
         );
 

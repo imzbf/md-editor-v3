@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeUnmount } from 'vue';
+import { defineComponent, onBeforeUnmount, ref } from 'vue';
 import { prefix } from '~/config';
 import bus from '~/utils/event-bus';
 import { useProvidePreview, useExpansionPreview } from '~/composition';
@@ -16,9 +16,9 @@ const MdPreview = defineComponent({
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
     // eslint-disable-next-line vue/no-setup-props-destructure
     const { editorId, noKatex, noMermaid, noHighlight } = props;
-
+    const rootRef = ref<HTMLDivElement>();
     // provide 部分prop
-    useProvidePreview(props);
+    useProvidePreview(props, rootRef);
     // 插入扩展的外链
     useExpansionPreview(props);
 
@@ -40,6 +40,7 @@ const MdPreview = defineComponent({
             `${prefix}-previewOnly`
           ]}
           style={props.style}
+          ref={rootRef}
         >
           <ContentPreview
             modelValue={props.modelValue}

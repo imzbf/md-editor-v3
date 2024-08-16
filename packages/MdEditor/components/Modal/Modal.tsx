@@ -75,7 +75,7 @@ export default defineComponent({
   emits: ['onClose'],
   setup(props: ModalProps, ctx) {
     const themeRef = inject('theme') as ComputedRef<Themes>;
-
+    const rootRef = inject('rootRef') as ComputedRef<HTMLDivElement>;
     const modalVisible = ref(props.visible);
 
     const modalClass = ref([`${prefix}-modal`]);
@@ -83,7 +83,7 @@ export default defineComponent({
     const modalRef = ref();
     const modalHeaderRef = ref();
 
-    const bodyRef = ref<HTMLElement>();
+    const bodyRef = ref<ShadowRoot | Element>();
 
     // 创建的弹窗容器，存放在document.body末尾
     const containerRef = shallowRef<HTMLDivElement>();
@@ -207,7 +207,8 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      bodyRef.value = document.body;
+      const rootNode = rootRef.value?.getRootNode() as ShadowRoot;
+      bodyRef.value = rootNode instanceof Document ? document.body : rootNode;
     });
 
     return () => {
