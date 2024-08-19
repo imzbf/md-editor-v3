@@ -168,30 +168,38 @@ const useCodeMirror = (props: ContentProps) => {
     // 注册指令替换内容事件
     bus.on(editorId, {
       name: REPLACE,
-      callback(direct: ToolDirective, params = {}) {
+      async callback(direct: ToolDirective, params = {}) {
         // 弹窗插入图片时，将链接使用transformImgUrl转换后再插入
         if (direct === 'image' && params.transform) {
           const tv = props.transformImgUrl(params.url);
 
           if (tv instanceof Promise) {
-            tv.then((url) => {
-              const { text, options } = directive2flag(direct, codeMirrorUt.value!, {
-                ...params,
-                url
-              });
+            tv.then(async (url) => {
+              const { text, options } = await directive2flag(
+                direct,
+                codeMirrorUt.value!,
+                {
+                  ...params,
+                  url
+                }
+              );
               codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
             }).catch((err) => {
               console.error(err);
             });
           } else {
-            const { text, options } = directive2flag(direct, codeMirrorUt.value!, {
+            const { text, options } = await directive2flag(direct, codeMirrorUt.value!, {
               ...params,
               url: tv
             });
             codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
           }
         } else {
-          const { text, options } = directive2flag(direct, codeMirrorUt.value!, params);
+          const { text, options } = await directive2flag(
+            direct,
+            codeMirrorUt.value!,
+            params
+          );
           codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
         }
       }

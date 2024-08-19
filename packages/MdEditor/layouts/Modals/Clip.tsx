@@ -8,7 +8,8 @@ import {
   ComputedRef,
   watch,
   ExtractPropTypes,
-  Ref
+  Ref,
+  toRef
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { StaticTextDefaultValue } from '~/type';
@@ -88,14 +89,6 @@ export default defineComponent({
 
               fileReader.onload = (e: any) => {
                 data.imgSrc = e.target.result;
-
-                nextTick(() => {
-                  cropper = new Cropper(uploadImgRef.value, {
-                    viewMode: 2,
-                    preview: rootRef.value.querySelector(`.${prefix}-clip-preview-target`)
-                    // aspectRatio: 16 / 9,
-                  });
-                });
               };
 
               fileReader.readAsDataURL(fileList[0]);
@@ -114,9 +107,8 @@ export default defineComponent({
     );
 
     // 全屏变化时，清理cropper
-    watch(
-      () => data.isFullscreen,
-      () => {
+    watch([toRef(() => data.isFullscreen), toRef(() => data.imgSrc)], () => {
+      if (data.imgSrc) {
         nextTick(() => {
           cropper?.destroy();
           previewTargetRef.value.style = '';
@@ -124,13 +116,15 @@ export default defineComponent({
           if (uploadImgRef.value) {
             cropper = new Cropper(uploadImgRef.value, {
               viewMode: 2,
-              preview: `.${prefix}-clip-preview-target`
+              preview: (
+                rootRef.value.getRootNode() as Document | ShadowRoot
+              ).querySelector(`.${prefix}-clip-preview-target`)
               // aspectRatio: 16 / 9,
             });
           }
         });
       }
-    );
+    });
 
     const reset = () => {
       cropper.clear();
