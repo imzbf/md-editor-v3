@@ -107,6 +107,16 @@ const scrollElement = document.documentElement;
 
 当使用服务端渲染时，`scrollElement`应该是字符类型，例：`body`、`#id`、`.class`。
 
+## 🎛 Web Component中使用
+
+完整的示例参考源码中提供的[示例项目](https://github.com/imzbf/md-editor-v3/tree/main/example/webComponent)
+
+下面是注意事项
+
+1. 内部的图片放大查看无效，需要自行实现！！！
+2. 不能默认的使用CDN引用依赖库，参考[[自行引入扩展库]](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%99%8D%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8F%20%E8%87%AA%E8%A1%8C%E5%BC%95%E5%85%A5%E6%89%A9%E5%B1%95%E5%BA%93)！！！
+3. 只能使用font-class引用的图标，默认的symbol引用无效！！！
+
 ## 🥂 扩展功能
 
 这里包含了一些编辑器`api`的使用示范
@@ -790,16 +800,22 @@ import highlight from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 
 // <3.0
-import prettier from 'prettier';
-import parserMarkdown from 'prettier/parser-markdown';
+// import prettier from 'prettier';
+// import parserMarkdown from 'prettier/parser-markdown';
 // >=3.0
 import * as prettier from 'prettier';
 import parserMarkdown from 'prettier/plugins/markdown';
 
+// 1. symbol引用
 // ${iconfontSvgUrl}
 import './assets/iconfont.js';
+// 2. font-class引用
+// ${iconfontClassUrl}
+import './assets/iconfont.css';
 
 config({
+  // font-class引用
+  // iconfontType: 'class',
   editorExtensions: {
     prettier: {
       prettierInstance: prettier,
@@ -823,6 +839,8 @@ config({
   }
 });
 ```
+
+App.vue
 
 ```vue
 <template>

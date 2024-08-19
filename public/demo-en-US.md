@@ -106,7 +106,15 @@ const scrollElement = document.documentElement;
 
 When using server-side rendering, `scrollElement` should be of string type, eg: `body`, `#id`, `.class`.
 
-## 🥂 Api Usage
+## 🎛 Used in Web Component
+
+Complete example reference [the sample project](https://github.com/imzbf/md-editor-v3/tree/main/example/webComponent) provided in the source code.
+
+Here are the precautions:
+
+1. The image zoom-in view feature is ineffective; implementation needs to be done manually!!!
+2. Do not use CDN to reference dependency libraries by default; refer to [[Import All Library]](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0%9F%99%8D%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8F%20Import%20All%20Library)!!!
+3. Only font-class type icons can be used; the default symbol type is ineffective!!!## 🥂 Api Usage
 
 Usages of some APIs.
 
