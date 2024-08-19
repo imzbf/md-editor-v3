@@ -21,6 +21,11 @@ export const useTaskState = (props: ContentPreviewProps, html: Ref<string>) => {
   let removeListener = () => {};
 
   const addListener = () => {
+    // immediate会在服务端也执行
+    if (!rootRef.value) {
+      return false;
+    }
+
     const tasks = rootRef.value.querySelectorAll('.task-list-item.enabled');
 
     const listener = (e: Event) => {
