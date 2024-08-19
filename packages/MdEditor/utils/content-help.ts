@@ -47,7 +47,7 @@ export type ToolDirective =
  *
  * @returns string
  */
-export const directive2flag = (
+export const directive2flag = async (
   direct: ToolDirective,
   codeMirrorUt: CodeMirrorUt,
   params?: any
@@ -91,7 +91,7 @@ export const directive2flag = (
       });
       targetValue = codeMirrorUt.getValue();
     } else {
-      targetValue = prettier.format(codeMirrorUt.getValue(), {
+      targetValue = await prettier.format(codeMirrorUt.getValue(), {
         parser: 'markdown',
         plugins: prettierPlugins
       });
