@@ -20,7 +20,12 @@
           <Mark />
           <Emoji />
           <ReadExtension :mdText="state.text" />
-          <ExportPDF :modelValue="state.text" height="700px" />
+          <ExportPDF
+            :modelValue="state.text"
+            height="700px"
+            @onSuccess="onSuccess"
+            @onProgress="onProgress"
+          />
         </template>
         <template #defFooters>
           <TimeNow />
@@ -46,6 +51,7 @@ import { MdEditor } from 'md-editor-v3';
 import { Emoji, Mark, ExportPDF } from '@vavt/v3-extension';
 import { isMobile } from '@vavt/util';
 import type { ExposeParam } from 'md-editor-v3';
+import { message } from '@vavt/message';
 import '@vavt/v3-extension/lib/asset/style.css';
 import mdEN from '../../../public/preview-en-US.md';
 import mdCN from '../../../public/preview-zh-CN.md';
@@ -127,6 +133,35 @@ const changeLayout = () => {
     state.inputBoxWitdh = '50%';
     editorRef.value?.togglePreview(true);
   }
+};
+
+let updateRatio: ((str: string) => void) | undefined;
+let closrRatio = () => {};
+
+const onProgress = ({ ratio }: any) => {
+  if (updateRatio) {
+    updateRatio(`Progress: ${ratio * 100}%`);
+  } else {
+    const { close, update } = message.info(`Progress: ${ratio * 100}%`, {
+      zIndex: 999999,
+      duration: 0
+    });
+
+    updateRatio = update;
+    closrRatio = close;
+  }
+};
+
+const onSuccess = () => {
+  closrRatio();
+
+  setTimeout(() => {
+    updateRatio = undefined;
+  }, 100);
+
+  message.success('Export successful.', {
+    zIndex: 999999
+  });
 };
 
 onMounted(() => {
