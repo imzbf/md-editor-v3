@@ -4,7 +4,7 @@ import { prefix } from '../config';
 
 const DATA_LINE_SELECTOR = `.${prefix}-preview > [data-line]`;
 
-const getComputedStyleNum = (ele: HTMLElement, key: string) => {
+export const getComputedStyleNum = (ele: HTMLElement, key: string) => {
   return +getComputedStyle(ele).getPropertyValue(key).replace('px', '');
 };
 

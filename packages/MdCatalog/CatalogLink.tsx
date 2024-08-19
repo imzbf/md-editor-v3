@@ -3,6 +3,7 @@ import { LooseRequired } from '@vue/shared';
 import { MdHeadingId } from '~/type';
 import { prefix } from '~/config';
 import { TocItem } from './MdCatalog';
+import { getComputedStyleNum } from '~/utils/scroll-auto';
 
 const props = {
   tocItem: {
@@ -59,8 +60,14 @@ const CatalogLink = defineComponent({
                 }
               }
 
+              const pel = targetHeadEle.previousElementSibling;
+              let currMarginTop = 0;
+              if (!pel) {
+                currMarginTop = getComputedStyleNum(targetHeadEle, 'margin-top');
+              }
+
               scrollContainer?.scrollTo({
-                top: offsetTop - scrollElementOffsetTop,
+                top: offsetTop - scrollElementOffsetTop - currMarginTop,
                 behavior: 'smooth'
               });
             }
