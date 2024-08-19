@@ -19,9 +19,6 @@ import md from './data.md';
 
 config({
   iconfontType: 'class',
-  rootConfig() {
-    return document.querySelector('md-editor-element')?.shadowRoot;
-  },
   editorExtensions: {
     prettier: {
       prettierInstance: prettier,
