@@ -880,7 +880,7 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
 - **type**: `(h: string) => void`
 
-  Compile markdown successful event, ou can use it to get the html code.
+  Compile markdown successful event, you can use it to get the html code.
 
 ---
 
