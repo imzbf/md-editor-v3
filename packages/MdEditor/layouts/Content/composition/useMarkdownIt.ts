@@ -27,6 +27,7 @@ import {
   PUSH_CATALOG,
   RERENDER
 } from '~/static/event-name';
+import { zoomMermaid } from '~/utils/dom';
 
 import useHighlight from './useHighlight';
 import useMermaid from './useMermaid';
@@ -69,7 +70,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
   const themeRef = inject('theme') as ComputedRef<Themes>;
   const customIconRef = inject('customIcon') as ComputedRef<CustomIcon>;
-
+  const rootRef = inject('rootRef') as ComputedRef<HTMLDivElement>;
   const headsRef = ref<HeadList[]>([]);
 
   const hljsRef = useHighlight(props);
@@ -203,7 +204,12 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     props.onGetCatalog(headsRef.value);
     // 生成目录
     bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
-    replaceMermaid();
+
+    nextTick(() => {
+      replaceMermaid().then(() => {
+        zoomMermaid(rootRef.value.querySelectorAll(`#${editorId} .${prefix}-mermaid`));
+      });
+    });
   };
 
   onMounted(updatedTodo);
@@ -231,7 +237,11 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       if (props.setting.preview) {
         // 生成目录
         nextTick(() => {
-          replaceMermaid();
+          replaceMermaid().then(() => {
+            zoomMermaid(
+              rootRef.value.querySelectorAll(`#${editorId} .${prefix}-mermaid`)
+            );
+          });
           bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
         });
       }

@@ -117,6 +117,8 @@ const MdCatalog = defineComponent({
     const catalogRef = ref<HTMLDivElement>();
     // 获取到的滚动root节点
     const scrollElementRef = ref<HTMLElement>();
+    // 滚动容器，包括document
+    const scrollContainerRef = ref<HTMLElement | Document>();
     // 获取到的目录root节点，注意，不支持目录和编辑器不在同一个web c中使用
     const rootNodeRef = ref<Document | ShadowRoot>();
 
@@ -250,21 +252,22 @@ const MdCatalog = defineComponent({
           // 切换预览状态后，需要重新获取滚动元素
           scrollElement = getScrollElement();
           scrollElementRef.value = scrollElement;
+          scrollContainerRef.value =
+            scrollElement === document.documentElement ? document : scrollElement;
 
-          scrollElement?.removeEventListener('scroll', scrollHandler);
+          scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
           findActiveHeading(_list);
-          scrollElement?.addEventListener('scroll', scrollHandler);
+          scrollContainerRef.value?.addEventListener('scroll', scrollHandler);
         }
       });
 
       // 主动触发一次接收
       bus.emit(editorId, PUSH_CATALOG);
-      scrollElement?.addEventListener('scroll', scrollHandler);
     }); // ==
 
     // 要移除监听事件，特别是全局的
     onBeforeUnmount(() => {
-      scrollElementRef.value?.removeEventListener('scroll', scrollHandler);
+      scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
     });
 
     return () => (
