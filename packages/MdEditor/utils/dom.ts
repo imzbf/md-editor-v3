@@ -119,3 +119,140 @@ export const createHTMLElement = <K extends keyof HTMLElementTagNameMap>(
 
   return element;
 };
+
+/**
+ * 缩放、拖拽mermaid模块
+ */
+export const zoomMermaid = (() => {
+  const addEvent = (container: HTMLElement | null) => {
+    if (!container) {
+      return;
+    }
+    const content = container.firstChild as HTMLElement;
+
+    let scale = 1;
+    let posX = 0;
+    let posY = 0;
+    let isDragging = false;
+    let startX: number, startY: number;
+    let initialDistance = -1;
+    let initialScale = 1;
+
+    function updateTransform() {
+      const transformMatrix = `matrix(${scale}, 0, 0, ${scale}, ${posX}, ${posY})`;
+      content.style.transform = transformMatrix;
+    }
+
+    // 处理拖拽和单指移动
+    container.addEventListener('touchstart', (event) => {
+      if (event.touches.length === 1) {
+        isDragging = true;
+        startX = event.touches[0].clientX - posX;
+        startY = event.touches[0].clientY - posY;
+        container.style.cursor = 'grabbing';
+      } else if (event.touches.length === 2) {
+        initialDistance = Math.hypot(
+          event.touches[0].clientX - event.touches[1].clientX,
+          event.touches[0].clientY - event.touches[1].clientY
+        );
+        initialScale = scale;
+      }
+    });
+
+    container.addEventListener('touchmove', (event) => {
+      event.preventDefault();
+
+      if (isDragging && event.touches.length === 1) {
+        posX = event.touches[0].clientX - startX;
+        posY = event.touches[0].clientY - startY;
+        updateTransform();
+      } else if (event.touches.length === 2) {
+        const newDistance = Math.hypot(
+          event.touches[0].clientX - event.touches[1].clientX,
+          event.touches[0].clientY - event.touches[1].clientY
+        );
+        const scaleChange = newDistance / initialDistance;
+        scale = initialScale * (1 + (scaleChange - 1) * 0.04); // 调整缩放速度
+
+        // 计算双指中心点
+        const centerX = (event.touches[0].clientX + event.touches[1].clientX) / 2;
+        const centerY = (event.touches[0].clientY + event.touches[1].clientY) / 2;
+
+        // 调整 posX 和 posY 使得缩放发生在双指中心
+        const rect = content.getBoundingClientRect();
+        const mouseX = centerX - rect.left;
+        const mouseY = centerY - rect.top;
+        posX -= mouseX * (scale - initialScale);
+        posY -= mouseY * (scale - initialScale);
+
+        updateTransform();
+      }
+    });
+
+    container.addEventListener('touchend', () => {
+      isDragging = false;
+      container.style.cursor = 'grab';
+      initialDistance = -1;
+    });
+
+    // 缩放功能
+    container.addEventListener('wheel', (event) => {
+      event.preventDefault();
+      const scaleAmount = 0.02;
+      const previousScale = scale;
+
+      if (event.deltaY < 0) {
+        // 放大
+        scale += scaleAmount;
+      } else {
+        // 缩小
+        scale = Math.max(0.1, scale - scaleAmount);
+      }
+
+      // 计算鼠标相对于内容的位置
+      const rect = content.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+      const mouseY = event.clientY - rect.top;
+
+      // 调整 posX 和 posY，以使缩放中心为鼠标位置
+      posX -= mouseX * (scale - previousScale);
+      posY -= mouseY * (scale - previousScale);
+
+      updateTransform();
+    });
+
+    // 拖拽功能
+    container.addEventListener('mousedown', (event) => {
+      isDragging = true;
+      startX = event.clientX - posX;
+      startY = event.clientY - posY;
+      container.style.cursor = 'grabbing';
+    });
+
+    container.addEventListener('mousemove', (event) => {
+      if (isDragging) {
+        posX = event.clientX - startX;
+        posY = event.clientY - startY;
+        updateTransform();
+      }
+    });
+
+    container.addEventListener('mouseup', () => {
+      isDragging = false;
+      container.style.cursor = 'grab';
+    });
+
+    container.addEventListener('mouseleave', () => {
+      isDragging = false;
+      container.style.cursor = 'grab';
+    });
+  };
+
+  const handler = (containers: NodeListOf<HTMLElement>) => {
+    containers.forEach((mm) => {
+      addEvent(mm);
+    });
+  };
+
+  return handler;
+})();

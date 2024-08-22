@@ -1,4 +1,4 @@
-import { watch, inject, ComputedRef, onMounted, shallowRef, nextTick, Ref } from 'vue';
+import { watch, inject, ComputedRef, onMounted, shallowRef, Ref } from 'vue';
 import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { randomId } from '@vavt/util';
@@ -80,66 +80,70 @@ const useMermaid = (props: ContentPreviewProps) => {
     }
   });
 
-  const replaceMermaid = () => {
-    nextTick(() => {
-      if (!props.noMermaid && mermaidRef.value) {
-        const mermaidSourceEles = rootRef.value.querySelectorAll<HTMLElement>(
-          `div.${prefix}-mermaid`
-        );
+  const replaceMermaid = async () => {
+    if (!props.noMermaid && mermaidRef.value) {
+      const mermaidSourceEles = rootRef.value.querySelectorAll<HTMLElement>(
+        `div.${prefix}-mermaid`
+      );
 
-        const svgContainingElement = document.createElement('div');
-        svgContainingElement.style.width = document.body.offsetWidth + 'px';
-        svgContainingElement.style.height = document.body.offsetHeight + 'px';
-        svgContainingElement.style.position = 'fixed';
-        svgContainingElement.style.zIndex = '-10000';
-        svgContainingElement.style.top = '-10000';
+      const svgContainingElement = document.createElement('div');
+      svgContainingElement.style.width = document.body.offsetWidth + 'px';
+      svgContainingElement.style.height = document.body.offsetHeight + 'px';
+      svgContainingElement.style.position = 'fixed';
+      svgContainingElement.style.zIndex = '-10000';
+      svgContainingElement.style.top = '-10000';
 
-        let count = mermaidSourceEles.length;
+      let count = mermaidSourceEles.length;
 
-        if (count > 0) {
-          document.body.appendChild(svgContainingElement);
-        }
+      if (count > 0) {
+        document.body.appendChild(svgContainingElement);
+      }
 
-        mermaidSourceEles.forEach(async (item) => {
-          let mermaidHtml = mermaidCache.get(item.innerText) as string;
+      await Promise.allSettled(
+        Array.from(mermaidSourceEles).map((ele) => {
+          const handler = async (item: HTMLElement) => {
+            let mermaidHtml = mermaidCache.get(item.innerText) as string;
 
-          if (!mermaidHtml) {
-            const idRand = randomId();
-            // @9以下使用renderAsync，@10以上使用render
-            const render = mermaidRef.value.renderAsync || mermaidRef.value.render;
-            let svg: { svg: string } | string = '';
-            try {
-              svg = await render(idRand, item.innerText, svgContainingElement);
-            } catch (error) {
-              // console.error(error);
+            if (!mermaidHtml) {
+              const idRand = randomId();
+              // @9以下使用renderAsync，@10以上使用render
+              const render = mermaidRef.value.renderAsync || mermaidRef.value.render;
+              let svg: { svg: string } | string = '';
+              try {
+                svg = await render(idRand, item.innerText, svgContainingElement);
+              } catch (error) {
+                // console.error(error);
+              }
+
+              // 9:10
+              mermaidHtml = await props.sanitizeMermaid!(
+                typeof svg === 'string' ? svg : svg.svg
+              );
             }
 
-            // 9:10
-            mermaidHtml = await props.sanitizeMermaid!(
-              typeof svg === 'string' ? svg : svg.svg
-            );
-          }
+            const p = document.createElement('p');
+            p.className = `${prefix}-mermaid`;
+            p.setAttribute('data-processed', '');
+            p.innerHTML = mermaidHtml;
+            p.children[0].removeAttribute('height');
 
-          const p = document.createElement('p');
-          p.className = `${prefix}-mermaid`;
-          p.setAttribute('data-processed', '');
-          p.innerHTML = mermaidHtml;
-          p.children[0].removeAttribute('height');
+            mermaidCache.set(item.innerText, p.innerHTML);
 
-          mermaidCache.set(item.innerText, p.innerHTML);
+            if (item.dataset.line !== undefined) {
+              p.dataset.line = item.dataset.line;
+            }
 
-          if (item.dataset.line !== undefined) {
-            p.dataset.line = item.dataset.line;
-          }
+            item.replaceWith(p);
 
-          item.replaceWith(p);
+            if (--count === 0) {
+              svgContainingElement.remove();
+            }
+          };
 
-          if (--count === 0) {
-            svgContainingElement.remove();
-          }
-        });
-      }
-    });
+          return handler(ele);
+        })
+      );
+    }
   };
 
   return { mermaidRef, reRenderRef, replaceMermaid };
