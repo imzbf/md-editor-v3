@@ -156,12 +156,12 @@ const Editor = defineComponent({
               }
               ctx.emit('onDrop', e);
             }}
-            inputBoxWitdh={props.inputBoxWitdh}
-            onInputBoxWitdhChange={(width: string) => {
-              if (props.onInputBoxWitdhChange) {
-                props.onInputBoxWitdhChange(width);
+            inputBoxWidth={props.inputBoxWidth}
+            oninputBoxWidthChange={(width: string) => {
+              if (props.oninputBoxWidthChange) {
+                props.oninputBoxWidthChange(width);
               }
-              ctx.emit('onInputBoxWitdhChange', width);
+              ctx.emit('oninputBoxWidthChange', width);
             }}
             sanitizeMermaid={props.sanitizeMermaid}
             transformImgUrl={props.transformImgUrl}
