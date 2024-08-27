@@ -130,10 +130,10 @@ export const contentProps = {
     type: Function as PropType<(event: DragEvent) => void>,
     default: () => {}
   },
-  inputBoxWitdh: {
+  inputBoxWidth: {
     type: String as PropType<string>
   },
-  onInputBoxWitdhChange: {
+  oninputBoxWidthChange: {
     type: Function as PropType<(width: string) => void>
   },
   transformImgUrl: {
