@@ -1322,10 +1322,10 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@vavt/markdown-theme@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-4.2.0.tgz#1335fa4df2f748bc9b32ccaf60d774aa2e452976"
-  integrity sha512-tni/xzKcnahbdwjCX0I6RCE9+Oi5dCIfNm+CJ5/TcnGtVP5tyo3ZsxE4ocF0NBGj34L+IaFHPjP/u22YwJMFEQ==
+"@vavt/markdown-theme@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-4.2.1.tgz#cc1357fe2a91176c6dcd694517869487de9d388c"
+  integrity sha512-3F4f8Fg+Sl9YgeC5Wa4Pp2cp1i2WYO1jsUJ1xEptGAlMZC1DvD4GXGgMFlyD37Lou3uhZYF5uVmTq/aztf0X8A==
 
 "@vavt/util@^2.0.0":
   version "2.0.0"
