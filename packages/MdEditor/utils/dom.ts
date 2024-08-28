@@ -135,13 +135,12 @@ export const zoomMermaid = (() => {
     let posY = 0;
     let isDragging = false;
     let startX: number, startY: number;
-    let initialDistance = -1;
+    let initialDistance: number;
     let initialScale = 1;
 
-    function updateTransform() {
-      const transformMatrix = `matrix(${scale}, 0, 0, ${scale}, ${posX}, ${posY})`;
-      content.style.transform = transformMatrix;
-    }
+    const updateTransform = () => {
+      content.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+    };
 
     // 处理拖拽和单指移动
     container.addEventListener('touchstart', (event) => {
@@ -149,7 +148,6 @@ export const zoomMermaid = (() => {
         isDragging = true;
         startX = event.touches[0].clientX - posX;
         startY = event.touches[0].clientY - posY;
-        container.style.cursor = 'grabbing';
       } else if (event.touches.length === 2) {
         initialDistance = Math.hypot(
           event.touches[0].clientX - event.touches[1].clientX,
@@ -172,18 +170,22 @@ export const zoomMermaid = (() => {
           event.touches[0].clientY - event.touches[1].clientY
         );
         const scaleChange = newDistance / initialDistance;
-        scale = initialScale * (1 + (scaleChange - 1) * 0.04); // 调整缩放速度
+        const previousScale = scale;
+        scale = initialScale * (1 + (scaleChange - 1)); // 调整缩放速度
 
         // 计算双指中心点
         const centerX = (event.touches[0].clientX + event.touches[1].clientX) / 2;
         const centerY = (event.touches[0].clientY + event.touches[1].clientY) / 2;
 
-        // 调整 posX 和 posY 使得缩放发生在双指中心
+        // 获取内容区域的边界
         const rect = content.getBoundingClientRect();
-        const mouseX = centerX - rect.left;
-        const mouseY = centerY - rect.top;
-        posX -= mouseX * (scale - initialScale);
-        posY -= mouseY * (scale - initialScale);
+        // 计算相对位置
+        const relativeX = (centerX - rect.left) / previousScale;
+        const relativeY = (centerY - rect.top) / previousScale;
+
+        // 调整 posX 和 posY 使得缩放发生在双指中心
+        posX -= relativeX * (scale - previousScale);
+        posY -= relativeY * (scale - previousScale);
 
         updateTransform();
       }
@@ -191,14 +193,12 @@ export const zoomMermaid = (() => {
 
     container.addEventListener('touchend', () => {
       isDragging = false;
-      container.style.cursor = 'grab';
-      initialDistance = -1;
     });
 
-    // 缩放功能
+    // PC 端缩放功能
     container.addEventListener('wheel', (event) => {
       event.preventDefault();
-      const scaleAmount = 0.02;
+      const scaleAmount = 0.02; // 缩放速度
       const previousScale = scale;
 
       if (event.deltaY < 0) {
@@ -215,18 +215,17 @@ export const zoomMermaid = (() => {
       const mouseY = event.clientY - rect.top;
 
       // 调整 posX 和 posY，以使缩放中心为鼠标位置
-      posX -= mouseX * (scale - previousScale);
-      posY -= mouseY * (scale - previousScale);
+      posX -= (mouseX / previousScale) * (scale - previousScale);
+      posY -= (mouseY / previousScale) * (scale - previousScale);
 
       updateTransform();
     });
 
-    // 拖拽功能
+    // PC 端拖拽功能
     container.addEventListener('mousedown', (event) => {
       isDragging = true;
       startX = event.clientX - posX;
       startY = event.clientY - posY;
-      container.style.cursor = 'grabbing';
     });
 
     container.addEventListener('mousemove', (event) => {
@@ -239,12 +238,10 @@ export const zoomMermaid = (() => {
 
     container.addEventListener('mouseup', () => {
       isDragging = false;
-      container.style.cursor = 'grab';
     });
 
     container.addEventListener('mouseleave', () => {
       isDragging = false;
-      container.style.cursor = 'grab';
     });
   };
 
