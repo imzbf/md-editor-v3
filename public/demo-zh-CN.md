@@ -49,7 +49,11 @@ yarn add md-editor-v3
 npm install md-editor-v3
 ```
 
+!!! warning
+
 当使用服务端渲染时，请务必设置`editorId`为固定值。
+
+!!!
 
 #### 🥱 Setup 模板
 
@@ -105,7 +109,11 @@ const scrollElement = document.documentElement;
 </script>
 ```
 
+!!! warning
+
 当使用服务端渲染时，`scrollElement`应该是字符类型，例：`body`、`#id`、`.class`。
+
+!!!
 
 ## 🎛 Web Component中使用
 

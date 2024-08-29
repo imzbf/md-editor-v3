@@ -49,7 +49,11 @@ yarn add md-editor-v3
 npm install md-editor-v3
 ```
 
+!!! warning
+
 When using server-side rendering, make sure to set `editorId` to a constant value.
+
+!!!
 
 #### 🥱 Setup Template
 
@@ -104,7 +108,11 @@ const scrollElement = document.documentElement;
 </script>
 ```
 
+!!! warning
+
 When using server-side rendering, `scrollElement` should be of string type, eg: `body`, `#id`, `.class`.
+
+!!!
 
 ## 🎛 Used in Web Component
 
