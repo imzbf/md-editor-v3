@@ -18,7 +18,7 @@ export default defineComponent({
 
     // 输入框
     const { inputWrapperRef, codeMirrorUt, resetHistory } = useCodeMirror(props);
-    const { inputWrapperStyle, resizeOperateStyle } = useResize(
+    const { inputWrapperStyle, resizeOperateStyle, showPreviewWrapper } = useResize(
       props,
       contentRef,
       resizeRef
@@ -42,9 +42,7 @@ export default defineComponent({
     return () => {
       return (
         <div
-          class={`${prefix}-content${
-            props.setting.htmlPreview || props.setting.preview ? ' has-preview' : ''
-          }`}
+          class={`${prefix}-content${showPreviewWrapper.value ? ' has-preview' : ''}`}
           ref={contentRef}
         >
           <div
@@ -52,7 +50,7 @@ export default defineComponent({
             style={inputWrapperStyle}
             ref={inputWrapperRef}
           />
-
+          {/* 拖拽入口需要保持props.setting变化时就挂载 */}
           {(props.setting.htmlPreview || props.setting.preview) && (
             <div
               class={`${prefix}-resize-operate`}
@@ -60,27 +58,28 @@ export default defineComponent({
               ref={resizeRef}
             />
           )}
-
-          <ContentPreview
-            modelValue={props.modelValue}
-            onChange={props.onChange}
-            setting={props.setting}
-            onHtmlChanged={(html_) => {
-              html.value = html_;
-              props.onHtmlChanged(html_);
-            }}
-            onGetCatalog={props.onGetCatalog}
-            mdHeadingId={props.mdHeadingId}
-            noMermaid={props.noMermaid}
-            sanitize={props.sanitize}
-            noKatex={props.noKatex}
-            formatCopiedText={props.formatCopiedText}
-            noHighlight={props.noHighlight}
-            noImgZoomIn={props.noImgZoomIn}
-            sanitizeMermaid={props.sanitizeMermaid}
-            codeFoldable={props.codeFoldable}
-            autoFoldThreshold={props.autoFoldThreshold}
-          />
+          {showPreviewWrapper.value && (
+            <ContentPreview
+              modelValue={props.modelValue}
+              onChange={props.onChange}
+              setting={props.setting}
+              onHtmlChanged={(html_) => {
+                html.value = html_;
+                props.onHtmlChanged(html_);
+              }}
+              onGetCatalog={props.onGetCatalog}
+              mdHeadingId={props.mdHeadingId}
+              noMermaid={props.noMermaid}
+              sanitize={props.sanitize}
+              noKatex={props.noKatex}
+              formatCopiedText={props.formatCopiedText}
+              noHighlight={props.noHighlight}
+              noImgZoomIn={props.noImgZoomIn}
+              sanitizeMermaid={props.sanitizeMermaid}
+              codeFoldable={props.codeFoldable}
+              autoFoldThreshold={props.autoFoldThreshold}
+            />
+          )}
           {props.catalogVisible && (
             <MdCatalog
               theme={props.theme}

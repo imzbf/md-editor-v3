@@ -1,4 +1,4 @@
-import { Ref, onBeforeUnmount, reactive, toRef, watch } from 'vue';
+import { Ref, onBeforeUnmount, reactive, ref, toRef, watch } from 'vue';
 import { MinInputBoxWidth } from '~/config';
 
 import { ContentProps } from '../props';
@@ -20,6 +20,13 @@ const useResize = (
     left: props.inputBoxWitdh,
     display: 'initial'
   });
+
+  /**
+   * 是否展示预览模块
+   *
+   * 解决问题：编辑区域和预览区域切换出现的时机不对，导致预览区域后，编辑区域的宽度才调整，出现闪缩。
+   */
+  const showPreviewWrapper = ref(props.setting.preview || props.setting.htmlPreview);
 
   const resizeMousemove = (e: MouseEvent) => {
     // 挂载后计算宽度的数值
@@ -89,12 +96,15 @@ const useResize = (
       if (props.setting.previewOnly) {
         inputWrapperStyle.width = '0%';
         resizeOperateStyle.display = 'none';
+        showPreviewWrapper.value = true;
       } else if (!props.setting.htmlPreview && !props.setting.preview) {
         inputWrapperStyle.width = '100%';
         resizeOperateStyle.display = 'none';
+        showPreviewWrapper.value = false;
       } else {
         inputWrapperStyle.width = state.resizedWidth;
         resizeOperateStyle.display = 'initial';
+        showPreviewWrapper.value = true;
       }
     },
     {
@@ -102,7 +112,7 @@ const useResize = (
     }
   );
 
-  return { inputWrapperStyle, resizeOperateStyle };
+  return { inputWrapperStyle, resizeOperateStyle, showPreviewWrapper };
 };
 
 export default useResize;
