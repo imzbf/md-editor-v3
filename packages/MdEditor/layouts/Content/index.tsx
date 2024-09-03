@@ -33,7 +33,10 @@ export default defineComponent({
       focus(options: FocusOption) {
         codeMirrorUt.value?.focus(options);
       },
-      resetHistory
+      resetHistory,
+      getEditorView() {
+        return codeMirrorUt.value?.view;
+      }
     });
 
     return () => {

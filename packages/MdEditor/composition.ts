@@ -647,6 +647,9 @@ export const useExpose = (
     },
     execCommand(direct) {
       bus.emit(editorId, REPLACE, direct);
+    },
+    getEditorView() {
+      return codeRef.value?.getEditorView();
     }
   };
 
