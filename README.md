@@ -1,6 +1,6 @@
 # 🎄 md-editor-v3
 
-![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen) ![](https://img.shields.io/badge/webcomponent-%3E4.19.0-brightgreen)
 
 English \| [中文](https://github.com/imzbf/md-editor-v3/blob/develop/README-CN.md)
 
@@ -392,41 +392,19 @@ onMounted(() => {
 
 Get the internal state of the editor, including pageFullscreen, fullscreen, preview, htmlPreview, catalog, etc.
 
-- pageFullscreen
+```ts
+type Keys =
+  | 'pageFullscreen'
+  | 'fullscreen'
+  | 'preview'
+  | 'previewOnly'
+  | 'htmlPreview'
+  | 'catalog';
+```
 
-  ```js
-  editorRef.value?.on('pageFullscreen', (status) => console.log(status));
-  ```
-
-- fullscreen
-
-  ```js
-  editorRef.value?.on('fullscreen', (status) => console.log(status));
-  ```
-
-- preview
-
-  ```js
-  editorRef.value?.on('preview', (status) => console.log(status));
-  ```
-
-- previewOnly
-
-  ```js
-  editorRef.value?.on('previewOnly', (status) => console.log(status));
-  ```
-
-- htmlPreview
-
-  ```js
-  editorRef.value?.on('htmlPreview', (status) => console.log(status));
-  ```
-
-- catalog
-
-  ```js
-  editorRef.value?.on('catalog', (status) => console.log(status));
-  ```
+```js
+editorRef.value?.on('pageFullscreen', (status) => console.log(status));
+```
 
 ### 💻 togglePageFullscreen
 
@@ -478,9 +456,7 @@ editorRef.value?.toggleCatalog(true);
 
 ### 💾 triggerSave
 
-```js
-editorRef.value?.triggerSave();
-```
+Save actions will be triggered.
 
 ### 💉 insert
 
@@ -525,17 +501,9 @@ editorRef.value?.focus(option);
 
 Re render the content.
 
-```js
-editorRef.value?.rerender();
-```
-
 ### 🔍 getSelectedText
 
 Get the currently selected text.
-
-```js
-console.log(editorRef.value?.getSelectedText());
-```
 
 ### 🗑 resetHistory
 
@@ -560,6 +528,10 @@ Insert content into the editor via trigger.
 ```js
 editorRef.value?.execCommand('bold');
 ```
+
+### 🔖 getEditorView
+
+Get codemirror instance.
 
 ## 💴 Config Editor
 

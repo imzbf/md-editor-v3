@@ -1,6 +1,6 @@
 # 🎄 md-editor-v3
 
-![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen)
+![](https://img.shields.io/github/package-json/v/imzbf/md-editor-v3) ![](https://img.shields.io/npm/dm/md-editor-v3) ![](https://img.shields.io/github/license/imzbf/md-editor-v3) ![](https://img.shields.io/badge/ssr-%3E1.6.0-brightgreen) ![](https://img.shields.io/badge/webcomponent-%3E4.19.0-brightgreen)
 
 [English](https://github.com/imzbf/md-editor-v3) \| 中文
 
@@ -400,41 +400,19 @@ onMounted(() => {
 
 监听编辑器内部状态，包括：屏幕全屏、浏览器全屏、预览文本、预览 html、目录等。
 
-- pageFullscreen
+```ts
+type Keys =
+  | 'pageFullscreen'
+  | 'fullscreen'
+  | 'preview'
+  | 'previewOnly'
+  | 'htmlPreview'
+  | 'catalog';
+```
 
-  ```js
-  editorRef.value?.on('pageFullscreen', (status) => console.log(status));
-  ```
-
-- fullscreen
-
-  ```js
-  editorRef.value?.on('fullscreen', (status) => console.log(status));
-  ```
-
-- preview
-
-  ```js
-  editorRef.value?.on('preview', (status) => console.log(status));
-  ```
-
-- previewOnly
-
-  ```js
-  editorRef.value?.on('previewOnly', (status) => console.log(status));
-  ```
-
-- htmlPreview
-
-  ```js
-  editorRef.value?.on('htmlPreview', (status) => console.log(status));
-  ```
-
-- catalog
-
-  ```js
-  editorRef.value?.on('catalog', (status) => console.log(status));
-  ```
+```js
+editorRef.value?.on('pageFullscreen', (status) => console.log(status));
+```
 
 ### 💻 togglePageFullscreen
 
@@ -486,11 +464,7 @@ editorRef.value?.toggleCatalog(true);
 
 ### 💾 triggerSave
 
-触发保存。
-
-```js
-editorRef.value?.triggerSave();
-```
+触发保存操作。
 
 ### 💉 insert
 
@@ -535,17 +509,9 @@ editorRef.value?.focus(option);
 
 手动重新渲染内容。
 
-```js
-editorRef.value?.rerender();
-```
-
 ### 🔍 getSelectedText
 
 获取当前选中的文字。
-
-```js
-console.log(editorRef.value?.getSelectedText());
-```
 
 ### 🗑 resetHistory
 
@@ -570,6 +536,10 @@ editorRef.value?.domEventHandlers({
 ```js
 editorRef.value?.execCommand('bold');
 ```
+
+### 🔖 getEditorView
+
+获取 codemirror 实例。
 
 ## 💴 编辑器配置
 
