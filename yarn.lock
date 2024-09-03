@@ -2804,6 +2804,16 @@ markdown-it-image-figures@^2.1.1:
   resolved "https://registry.npmjs.org/markdown-it-image-figures/-/markdown-it-image-figures-2.1.1.tgz#fd32a2d0cec60ed8c3916d74fea70d5f9b56e4c7"
   integrity sha512-mwXSQ2nPeVUzCMIE3HlLvjRioopiqyJLNph0pyx38yf9mpqFDhNGnMpAXF9/A2Xv0oiF2cVyg9xwfF0HNAz05g==
 
+markdown-it-sub@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/markdown-it-sub/-/markdown-it-sub-2.0.0.tgz#10f6c7bbf2faacf71ae1a64c75009c40ef9b2c94"
+  integrity sha512-iCBKgwCkfQBRg2vApy9vx1C1Tu6D8XYo8NvevI3OlwzBRmiMtsJ2sXupBgEA7PPxiDwNni3qIUkhZ6j5wofDUA==
+
+markdown-it-sup@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/markdown-it-sup/-/markdown-it-sup-2.0.0.tgz#683b9390929f3024fcd5291799c466ce3d367f44"
+  integrity sha512-5VgmdKlkBd8sgXuoDoxMpiU+BiEt3I49GItBzzw7Mxq9CxvnhE/k09HFli09zgfFDRixDQDfDxi0mgBCXtaTvA==
+
 markdown-it@^14.0.0:
   version "14.1.0"
   resolved "https://registry.npmjs.org/markdown-it/-/markdown-it-14.1.0.tgz#3c3c5992883c633db4714ccb4d7b5935d98b7d45"
