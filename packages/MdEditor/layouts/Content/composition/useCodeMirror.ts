@@ -137,7 +137,8 @@ const useCodeMirror = (props: ContentProps) => {
     return configOption.codeMirrorExtensions!(
       theme.value,
       extensions,
-      getDefaultKeymaps()
+      getDefaultKeymaps(),
+      { editorId }
     );
   };
 

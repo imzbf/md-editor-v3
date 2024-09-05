@@ -303,7 +303,10 @@ export interface ConfigOption {
   codeMirrorExtensions: (
     theme: Themes,
     extensions: Array<Extension>,
-    keyBindings: Array<KeyBinding>
+    keyBindings: Array<KeyBinding>,
+    options: {
+      editorId: string;
+    }
   ) => Array<Extension>;
   /**
    * 自定义markdown-it核心库扩展、属性等
