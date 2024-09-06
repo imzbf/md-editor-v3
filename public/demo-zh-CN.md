@@ -1072,6 +1072,75 @@ config({
 <MdEditor editorId="myId" v-model="text" />
 ```
 
+### 🎳 协同办公
+
+安装[yjs](https://github.com/yjs/yjs)及相关库
+
+```shell
+npm i yjs y-codemirror.next y-websocket
+```
+
+在 main.js 中添加 yjs 扩展：
+
+```js
+import { config } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+import * as Y from 'yjs';
+import * as random from 'lib0/random';
+import { yCollab } from 'y-codemirror.next';
+import { WebsocketProvider } from 'y-websocket';
+
+const usercolors = [
+  { color: '#30bced', light: '#30bced33' },
+  { color: '#6eeb83', light: '#6eeb8333' },
+  { color: '#ffbc42', light: '#ffbc4233' },
+  { color: '#ecd444', light: '#ecd44433' },
+  { color: '#ee6352', light: '#ee635233' },
+  { color: '#9ac2c9', light: '#9ac2c933' },
+  { color: '#8acb88', light: '#8acb8833' },
+  { color: '#1be7ff', light: '#1be7ff33' }
+];
+
+// select a random color for this user
+const userColor = usercolors[random.uint32() % usercolors.length];
+
+const ydoc = new Y.Doc();
+const provider = new WebsocketProvider(
+  // Start a websocket server quickly: https://github.com/yjs/y-websocket?tab=readme-ov-file#start-a-y-websocket-server
+  'ws://127.0.0.1:1234',
+  'md-editor-v3-room',
+  ydoc
+);
+const ytext = ydoc.getText('module-name');
+
+const undoManager = new Y.UndoManager(ytext);
+
+provider.awareness.setLocalStateField('user', {
+  name: 'Anonymous ' + Math.floor(Math.random() * 100),
+  color: userColor.color,
+  colorLight: userColor.light
+});
+
+config({
+  codeMirrorExtensions(_theme, extensions) {
+    return [...extensions, yCollab(ytext, provider.awareness, { undoManager })];
+  }
+});
+```
+
+如果只想在某一个编辑器中使用，尝试通过`editorId`进行区别(`^4.20.0`)：
+
+```js
+config({
+  codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
+    return editorId === 'myId'
+      ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })]
+      : extensions;
+  }
+});
+```
+
 ## 🧻 编辑此页面
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)

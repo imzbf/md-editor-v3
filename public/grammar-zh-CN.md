@@ -68,20 +68,20 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🙊 上标
 
-I have a dream that one day this nation will rise up.<sup>[1]</sup>
+I have a dream that one day this nation will rise up.^[1]^
 
 ```markdown
-I have a dream that one day this nation will rise up.<sup>[1]</sup>
+I have a dream that one day this nation will rise up.^[1]^
 ```
 
 ---
 
 ## 🐒 下标
 
-I have a dream that one day this nation will rise up.<sub>[2]</sub>
+I have a dream that one day this nation will rise up.~[2]~
 
 ```markdown
-I have a dream that one day this nation will rise up.<sub>[2]</sub>
+I have a dream that one day this nation will rise up.~[2]~
 ```
 
 ---

@@ -1365,6 +1365,12 @@ editorRef.value?.execCommand('bold');
 
 ---
 
+### 🔖 getEditorView
+
+获取 codemirror 实例。
+
+---
+
 ## 💴 配置编辑器
 
 使用`config(option: ConfigOption)`方法，可以对构建实例进行定制。
@@ -1378,6 +1384,17 @@ editorRef.value?.execCommand('bold');
 ### 🦪 codeMirrorExtensions
 
 根据主题和内部默认的 codeMirror 扩展自定义新的扩展。
+
+```ts
+type CodeMirrorExtensions = (
+  theme: Themes,
+  extensions: Array<Extension>,
+  keyBindings: Array<KeyBinding>,
+  options: {
+    editorId: string;
+  }
+) => Array<Extension>;
+```
 
 使用示例：编辑器默认不显示输入框的行号，需要手动添加扩展
 
