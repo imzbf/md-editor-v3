@@ -3217,6 +3217,16 @@ markdown-it-mark@^4.0.0:
   resolved "https://registry.npmjs.org/markdown-it-mark/-/markdown-it-mark-4.0.0.tgz#c19cbc87d9cb9fd1a495e8fe31b740b6d9ebf8c8"
   integrity sha512-YLhzaOsU9THO/cal0lUjfMjrqSMPjjyjChYM7oyj4DnyaXEzA8gnW6cVJeyCrCVeyesrY2PlEdUYJSPFYL4Nkg==
 
+markdown-it-sub@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/markdown-it-sub/-/markdown-it-sub-2.0.0.tgz#10f6c7bbf2faacf71ae1a64c75009c40ef9b2c94"
+  integrity sha512-iCBKgwCkfQBRg2vApy9vx1C1Tu6D8XYo8NvevI3OlwzBRmiMtsJ2sXupBgEA7PPxiDwNni3qIUkhZ6j5wofDUA==
+
+markdown-it-sup@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/markdown-it-sup/-/markdown-it-sup-2.0.0.tgz#683b9390929f3024fcd5291799c466ce3d367f44"
+  integrity sha512-5VgmdKlkBd8sgXuoDoxMpiU+BiEt3I49GItBzzw7Mxq9CxvnhE/k09HFli09zgfFDRixDQDfDxi0mgBCXtaTvA==
+
 markdown-it@^14.0.0:
   version "14.1.0"
   resolved "https://registry.npmjs.org/markdown-it/-/markdown-it-14.1.0.tgz#3c3c5992883c633db4714ccb4d7b5935d98b7d45"
@@ -3234,10 +3244,10 @@ marked@*:
   resolved "https://registry.npmjs.org/marked/-/marked-13.0.2.tgz#d5d05bd2683a85cb9cc6afbe5240e3a8bffcb92a"
   integrity sha512-J6CPjP8pS5sgrRqxVRvkCIkZ6MFdRIjDkwUwgJ9nL2fbmM6qGQeB2C16hi8Cc9BOzj6xXzy0jyi0iPIfnMHYzA==
 
-md-editor-v3@^4.19.2:
-  version "4.19.2"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.19.2.tgz#a62d9026e3ae66458c43b38a8926765634da1eb2"
-  integrity sha512-2NWg5S1C+8tyq6j32ZxqpuVPn1Ev26HXo349mBXeqsVMwzDVRt2QRXYermCkAbFSSK7TwAtNRcplmT4JvE6qeA==
+md-editor-v3@^4.20.0:
+  version "4.20.0"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.20.0.tgz#001569f578385354134d1b6407366c01bc44e431"
+  integrity sha512-b2kiWuYjb9qlgFkNVLa+fabb3rZmLdfwjSRHYk4Nk9BRcwkp3WD+n7ILDwNtzOy1jrRPExWrlkb8G3/69KL6ag==
   dependencies:
     "@codemirror/lang-markdown" "^6.2.5"
     "@codemirror/language-data" "^6.5.1"
@@ -3248,6 +3258,8 @@ md-editor-v3@^4.19.2:
     lru-cache "^10.2.0"
     markdown-it "^14.0.0"
     markdown-it-image-figures "^2.1.1"
+    markdown-it-sub "^2.0.0"
+    markdown-it-sup "^2.0.0"
     medium-zoom "^1.1.0"
     punycode "^2.3.1"
     xss "^1.0.15"
