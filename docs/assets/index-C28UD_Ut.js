@@ -1,4 +1,4 @@
-import{d as r,a9 as d,a as m,w as s,aa as l,ah as h,ad as p,c as a}from"./index-9p69v7WY.js";import{_ as c}from"./index.vue_vue_type_style_index_0_lang-B5cM7m1X.js";import{_ as u}from"./index.vue_vue_type_script_setup_true_lang-jhjOUccg.js";import"./index3-DfizuOPx.js";import"./index-CDuc4Dby.js";const o=`## 🐶 Heading
+import{d as r,a9 as d,a as m,w as s,aa as l,ah as h,ad as c,c as a}from"./index-CEesYjp2.js";import{_ as p}from"./index.vue_vue_type_style_index_0_lang-DvzWFkCI.js";import{_ as u}from"./index.vue_vue_type_script_setup_true_lang-CbOoveDR.js";import"./index3-DuMcJoQQ.js";import"./index-CVqW4SiD.js";const o=`## 🐶 Heading
 
 \`\`\`markdown
 ## Heading
@@ -68,20 +68,20 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🙊 Superscript
 
-I have a dream that one day this nation will rise up.<sup>[1]</sup>
+I have a dream that one day this nation will rise up.^[1]^
 
 \`\`\`markdown
-I have a dream that one day this nation will rise up.<sup>[1]</sup>
+I have a dream that one day this nation will rise up.^[1]^
 \`\`\`
 
 ---
 
 ## 🐒 Subscript
 
-I have a dream that one day this nation will rise up.<sub>[2]</sub>
+I have a dream that one day this nation will rise up.~[2]~
 
 \`\`\`markdown
-I have a dream that one day this nation will rise up.<sub>[2]</sub>
+I have a dream that one day this nation will rise up.~[2]~
 \`\`\`
 
 ---
@@ -400,20 +400,20 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🙊 上标
 
-I have a dream that one day this nation will rise up.<sup>[1]</sup>
+I have a dream that one day this nation will rise up.^[1]^
 
 \`\`\`markdown
-I have a dream that one day this nation will rise up.<sup>[1]</sup>
+I have a dream that one day this nation will rise up.^[1]^
 \`\`\`
 
 ---
 
 ## 🐒 下标
 
-I have a dream that one day this nation will rise up.<sub>[2]</sub>
+I have a dream that one day this nation will rise up.~[2]~
 
 \`\`\`markdown
-I have a dream that one day this nation will rise up.<sub>[2]</sub>
+I have a dream that one day this nation will rise up.~[2]~
 \`\`\`
 
 ---
@@ -662,4 +662,4 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 !!!
 \`\`\`
-`,v={class:"container"},w={class:"doc"},f={name:"DemoPage"},E=r({...f,setup(g){const n=d(),e="grammar-preview",t=m(n.state.lang==="en-US"?o:i);return s(()=>n.state.lang,()=>{t.value=n.state.lang==="en-US"?o:i}),(k,I)=>(l(),h("div",v,[p("div",w,[a(u,{editorId:e,modelValue:t.value},null,8,["modelValue"]),a(c,{editorId:e})])]))}});export{E as default};
+`,v={class:"container"},w={class:"doc"},f={name:"DemoPage"},E=r({...f,setup(g){const n=d(),e="grammar-preview",t=m(n.state.lang==="en-US"?o:i);return s(()=>n.state.lang,()=>{t.value=n.state.lang==="en-US"?o:i}),(k,I)=>(l(),h("div",v,[c("div",w,[a(u,{editorId:e,modelValue:t.value},null,8,["modelValue"]),a(p,{editorId:e})])]))}});export{E as default};

@@ -1,4 +1,4 @@
-import{d as l,a9 as c,a as p,al as o,w as u,aa as f,ah as h,ad as g,c as r,am as i,an as s,ao as m}from"./index-9p69v7WY.js";import{_ as v}from"./index.vue_vue_type_style_index_0_lang-B5cM7m1X.js";import{_ as x}from"./index.vue_vue_type_script_setup_true_lang-jhjOUccg.js";import"./index3-DfizuOPx.js";import"./index-CDuc4Dby.js";const d=`## 😁 Basic Usage
+import{d as l,a9 as c,a as p,al as o,w as u,aa as f,ah as h,ad as g,c as r,am as i,an as s,ao as d}from"./index-CEesYjp2.js";import{_ as v}from"./index.vue_vue_type_style_index_0_lang-DvzWFkCI.js";import{_ as x}from"./index.vue_vue_type_script_setup_true_lang-CbOoveDR.js";import"./index3-DuMcJoQQ.js";import"./index-CVqW4SiD.js";const m=`## 😁 Basic Usage
 
 It has been developing iteratively，so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -1056,9 +1056,78 @@ config({
 <MdEditor editorId="myId" v-model="text" />
 \`\`\`
 
+### 🎳 co-working
+
+Install [yjs](https://github.com/yjs/yjs)
+
+\`\`\`shell
+npm i yjs y-codemirror.next y-websocket
+\`\`\`
+
+Add the \`yjs\` extension in main.js:
+
+\`\`\`js
+import { config } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+import * as Y from 'yjs';
+import * as random from 'lib0/random';
+import { yCollab } from 'y-codemirror.next';
+import { WebsocketProvider } from 'y-websocket';
+
+const usercolors = [
+  { color: '#30bced', light: '#30bced33' },
+  { color: '#6eeb83', light: '#6eeb8333' },
+  { color: '#ffbc42', light: '#ffbc4233' },
+  { color: '#ecd444', light: '#ecd44433' },
+  { color: '#ee6352', light: '#ee635233' },
+  { color: '#9ac2c9', light: '#9ac2c933' },
+  { color: '#8acb88', light: '#8acb8833' },
+  { color: '#1be7ff', light: '#1be7ff33' }
+];
+
+// select a random color for this user
+const userColor = usercolors[random.uint32() % usercolors.length];
+
+const ydoc = new Y.Doc();
+const provider = new WebsocketProvider(
+  // Start a websocket server quickly: https://github.com/yjs/y-websocket?tab=readme-ov-file#start-a-y-websocket-server
+  'ws://127.0.0.1:1234',
+  'md-editor-v3-room',
+  ydoc
+);
+const ytext = ydoc.getText('module-name');
+
+const undoManager = new Y.UndoManager(ytext);
+
+provider.awareness.setLocalStateField('user', {
+  name: 'Anonymous ' + Math.floor(Math.random() * 100),
+  color: userColor.color,
+  colorLight: userColor.light
+});
+
+config({
+  codeMirrorExtensions(_theme, extensions) {
+    return [...extensions, yCollab(ytext, provider.awareness, { undoManager })];
+  }
+});
+\`\`\`
+
+If you want to use it in only one editor, try distinguishing using \`editorId\` (\`^4.20.0\`):
+
+\`\`\`js
+config({
+  codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
+    return editorId === 'myId'
+      ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })]
+      : extensions;
+  }
+});
+
 ## 🧻 Edit This Page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)
+\`\`\`
 `,a=`## 😁 基本使用示例
 
 目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：[releases](https://github.com/imzbf/md-editor-v3/releases)
@@ -2133,7 +2202,76 @@ config({
 <MdEditor editorId="myId" v-model="text" />
 \`\`\`
 
+### 🎳 协同办公
+
+安装[yjs](https://github.com/yjs/yjs)及相关库
+
+\`\`\`shell
+npm i yjs y-codemirror.next y-websocket
+\`\`\`
+
+在 main.js 中添加 yjs 扩展：
+
+\`\`\`js
+import { config } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+import * as Y from 'yjs';
+import * as random from 'lib0/random';
+import { yCollab } from 'y-codemirror.next';
+import { WebsocketProvider } from 'y-websocket';
+
+const usercolors = [
+  { color: '#30bced', light: '#30bced33' },
+  { color: '#6eeb83', light: '#6eeb8333' },
+  { color: '#ffbc42', light: '#ffbc4233' },
+  { color: '#ecd444', light: '#ecd44433' },
+  { color: '#ee6352', light: '#ee635233' },
+  { color: '#9ac2c9', light: '#9ac2c933' },
+  { color: '#8acb88', light: '#8acb8833' },
+  { color: '#1be7ff', light: '#1be7ff33' }
+];
+
+// select a random color for this user
+const userColor = usercolors[random.uint32() % usercolors.length];
+
+const ydoc = new Y.Doc();
+const provider = new WebsocketProvider(
+  // Start a websocket server quickly: https://github.com/yjs/y-websocket?tab=readme-ov-file#start-a-y-websocket-server
+  'ws://127.0.0.1:1234',
+  'md-editor-v3-room',
+  ydoc
+);
+const ytext = ydoc.getText('module-name');
+
+const undoManager = new Y.UndoManager(ytext);
+
+provider.awareness.setLocalStateField('user', {
+  name: 'Anonymous ' + Math.floor(Math.random() * 100),
+  color: userColor.color,
+  colorLight: userColor.light
+});
+
+config({
+  codeMirrorExtensions(_theme, extensions) {
+    return [...extensions, yCollab(ytext, provider.awareness, { undoManager })];
+  }
+});
+\`\`\`
+
+如果只想在某一个编辑器中使用，尝试通过\`editorId\`进行区别(\`^4.20.0\`)：
+
+\`\`\`js
+config({
+  codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
+    return editorId === 'myId'
+      ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })]
+      : extensions;
+  }
+});
+\`\`\`
+
 ## 🧻 编辑此页面
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)
-`,b={class:"container"},k={class:"doc"},E={name:"DemoPage"},S=l({...E,setup(y){const n=c(),e="demo-preview",t=p(o(n.state.lang==="en-US"?d:a,{iconfontSvgUrl:i,iconfontClassUrl:s,EDITOR_VERSION:m}));return u(()=>n.state.lang,()=>{t.value=o(n.state.lang==="en-US"?d:a,{iconfontSvgUrl:i,iconfontClassUrl:s,EDITOR_VERSION:m})}),(M,C)=>(f(),h("div",b,[g("div",k,[r(x,{editorId:e,modelValue:t.value},null,8,["modelValue"]),r(v,{editorId:e})])]))}});export{S as default};
+`,b={class:"container"},y={class:"doc"},k={name:"DemoPage"},S=l({...k,setup(E){const n=c(),e="demo-preview",t=p(o(n.state.lang==="en-US"?m:a,{iconfontSvgUrl:i,iconfontClassUrl:s,EDITOR_VERSION:d}));return u(()=>n.state.lang,()=>{t.value=o(n.state.lang==="en-US"?m:a,{iconfontSvgUrl:i,iconfontClassUrl:s,EDITOR_VERSION:d})}),(M,C)=>(f(),h("div",b,[g("div",y,[r(x,{editorId:e,modelValue:t.value},null,8,["modelValue"]),r(v,{editorId:e})])]))}});export{S as default};

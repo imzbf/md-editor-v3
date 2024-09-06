@@ -1,4 +1,4 @@
-import{d,a9 as m,a as c,al as o,w as p,aa as u,ah as g,ad as f,c as r,am as i,an as s}from"./index-9p69v7WY.js";import{_ as v}from"./index.vue_vue_type_script_setup_true_lang-jhjOUccg.js";import{_ as h}from"./index.vue_vue_type_style_index_0_lang-B5cM7m1X.js";import"./index-CDuc4Dby.js";import"./index3-DfizuOPx.js";const l=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{d,a9 as m,a as c,al as o,w as p,aa as u,ah as g,ad as f,c as r,am as i,an as s}from"./index-CEesYjp2.js";import{_ as v}from"./index.vue_vue_type_script_setup_true_lang-CbOoveDR.js";import{_ as h}from"./index.vue_vue_type_style_index_0_lang-DvzWFkCI.js";import"./index-CVqW4SiD.js";import"./index3-DuMcJoQQ.js";const l=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## 🔖 MdPreview Props
 
@@ -1353,6 +1353,12 @@ editorRef.value?.execCommand('bold');
 
 ---
 
+### 🔖 getEditorView
+
+Get codemirror instance.
+
+---
+
 ## 💴 Config Editor
 
 Use \`config(option: ConfigOption)\` to reconfigure \`markdown-it\` and so on.
@@ -1366,6 +1372,17 @@ We recommend configuring it at the project entry point, such as in \`main.js\` f
 ### 🦪 codeMirrorExtensions
 
 Customize new extensions based on theme and default extensions f codeMirror.
+
+\`\`\`ts
+type CodeMirrorExtensions = (
+  theme: Themes,
+  extensions: Array<Extension>,
+  keyBindings: Array<KeyBinding>,
+  options: {
+    editorId: string;
+  }
+) => Array<Extension>;
+\`\`\`
 
 Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
 
@@ -3618,6 +3635,12 @@ editorRef.value?.execCommand('bold');
 
 ---
 
+### 🔖 getEditorView
+
+获取 codemirror 实例。
+
+---
+
 ## 💴 配置编辑器
 
 使用\`config(option: ConfigOption)\`方法，可以对构建实例进行定制。
@@ -3631,6 +3654,17 @@ editorRef.value?.execCommand('bold');
 ### 🦪 codeMirrorExtensions
 
 根据主题和内部默认的 codeMirror 扩展自定义新的扩展。
+
+\`\`\`ts
+type CodeMirrorExtensions = (
+  theme: Themes,
+  extensions: Array<Extension>,
+  keyBindings: Array<KeyBinding>,
+  options: {
+    editorId: string;
+  }
+) => Array<Extension>;
+\`\`\`
 
 使用示例：编辑器默认不显示输入框的行号，需要手动添加扩展
 
