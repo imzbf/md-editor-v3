@@ -485,7 +485,11 @@ export const configOption: ConfigOption = {
 };
 
 export const config: Config = (option) => {
-  return deepMerge(configOption, option);
+  return deepMerge(configOption, option, {
+    excludeKeys(key) {
+      return /[iI]{1}nstance/.test(key);
+    }
+  });
 };
 
 /**

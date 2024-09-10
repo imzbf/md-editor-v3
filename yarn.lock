@@ -1327,10 +1327,10 @@
   resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-4.2.1.tgz#cc1357fe2a91176c6dcd694517869487de9d388c"
   integrity sha512-3F4f8Fg+Sl9YgeC5Wa4Pp2cp1i2WYO1jsUJ1xEptGAlMZC1DvD4GXGgMFlyD37Lou3uhZYF5uVmTq/aztf0X8A==
 
-"@vavt/util@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@vavt/util/-/util-2.0.0.tgz#6b10ba13dc5ea7a8fed4548427afd50f3546dc88"
-  integrity sha512-zf1sY9Gy4jj5SE7FuSTXu7PrUdnKJf0zKvhNLAHWiGg1t8IkMfYwRN5567HcUgZSaSuJ8FR3dr+w6E2XzxoPiQ==
+"@vavt/util@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@vavt/util/-/util-2.1.0.tgz#b8a28da361675195fd6331a1db7cbfd02f68f590"
+  integrity sha512-YIfAvArSFVXmWvoF+DEGD0FhkhVNcCtVWWkfYtj76eSrwHh/wuEEFhiEubg1XLNM3tChO8FH8xJCT/hnizjgFQ==
 
 "@vavt/vite-plugin-import-markdown@^1.0.0":
   version "1.0.1"
@@ -3325,7 +3325,7 @@ punycode.js@^2.3.1:
   resolved "https://registry.npmjs.org/punycode.js/-/punycode.js-2.3.1.tgz#6b53e56ad75588234e79f4affa90972c7dd8cdb7"
   integrity sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==
 
-punycode@^2.1.0, punycode@^2.3.1:
+punycode@^2.1.0:
   version "2.3.1"
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
