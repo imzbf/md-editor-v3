@@ -1123,8 +1123,8 @@ config({
       : extensions;
   }
 });
+```
 
 ## 🧻 Edit This Page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)
-```
