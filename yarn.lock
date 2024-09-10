@@ -2033,10 +2033,10 @@
   resolved "https://registry.npmjs.org/@vavt/message/-/message-2.0.0.tgz#9995e81ea1ac46dccb492e1b0622b4d5270abe54"
   integrity sha512-uf/TWMn7Bn6td2SzPSly+gWa+XS+mP8e5JCraTCQbtHn57mUnCFM+TFPQELm6D+q/FNmv1cZmMFnQEEpW1Bj3g==
 
-"@vavt/util@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@vavt/util/-/util-2.0.0.tgz#6b10ba13dc5ea7a8fed4548427afd50f3546dc88"
-  integrity sha512-zf1sY9Gy4jj5SE7FuSTXu7PrUdnKJf0zKvhNLAHWiGg1t8IkMfYwRN5567HcUgZSaSuJ8FR3dr+w6E2XzxoPiQ==
+"@vavt/util@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@vavt/util/-/util-2.1.0.tgz#b8a28da361675195fd6331a1db7cbfd02f68f590"
+  integrity sha512-YIfAvArSFVXmWvoF+DEGD0FhkhVNcCtVWWkfYtj76eSrwHh/wuEEFhiEubg1XLNM3tChO8FH8xJCT/hnizjgFQ==
 
 "@vavt/v3-extension@^1.3.0":
   version "1.3.0"
@@ -3244,15 +3244,15 @@ marked@*:
   resolved "https://registry.npmjs.org/marked/-/marked-13.0.2.tgz#d5d05bd2683a85cb9cc6afbe5240e3a8bffcb92a"
   integrity sha512-J6CPjP8pS5sgrRqxVRvkCIkZ6MFdRIjDkwUwgJ9nL2fbmM6qGQeB2C16hi8Cc9BOzj6xXzy0jyi0iPIfnMHYzA==
 
-md-editor-v3@^4.20.0:
-  version "4.20.0"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.20.0.tgz#001569f578385354134d1b6407366c01bc44e431"
-  integrity sha512-b2kiWuYjb9qlgFkNVLa+fabb3rZmLdfwjSRHYk4Nk9BRcwkp3WD+n7ILDwNtzOy1jrRPExWrlkb8G3/69KL6ag==
+md-editor-v3@^4.20.1:
+  version "4.20.1"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.20.1.tgz#930335eaf6724f9fa74b9a112b4ca9b53bc3546d"
+  integrity sha512-8zn4Q3qQRvKsdwfPceEo7/+7b0K3ez3e+KILl148I77pFRcDMtu6wcbxHcWXJa/yXXzCfl+Szc9U3XCFLBW0oQ==
   dependencies:
     "@codemirror/lang-markdown" "^6.2.5"
     "@codemirror/language-data" "^6.5.1"
     "@types/markdown-it" "^14.0.1"
-    "@vavt/util" "^2.0.0"
+    "@vavt/util" "^2.1.0"
     codemirror "^6.0.1"
     copy-to-clipboard "^3.3.3"
     lru-cache "^10.2.0"
@@ -3261,7 +3261,6 @@ md-editor-v3@^4.20.0:
     markdown-it-sub "^2.0.0"
     markdown-it-sup "^2.0.0"
     medium-zoom "^1.1.0"
-    punycode "^2.3.1"
     xss "^1.0.15"
 
 mdurl@^2.0.0:
@@ -3525,7 +3524,7 @@ punycode.js@^2.3.1:
   resolved "https://registry.npmjs.org/punycode.js/-/punycode.js-2.3.1.tgz#6b53e56ad75588234e79f4affa90972c7dd8cdb7"
   integrity sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==
 
-punycode@^2.1.0, punycode@^2.3.1:
+punycode@^2.1.0:
   version "2.3.1"
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
