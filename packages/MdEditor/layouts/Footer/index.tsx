@@ -17,6 +17,9 @@ const props = {
   scrollAuto: {
     type: Boolean as PropType<boolean>
   },
+  noScrollAuto: {
+    type: Boolean as PropType<boolean>,
+  },
   onScrollAutoChange: {
     type: Function as PropType<(v: boolean) => void>,
     default: () => {}
@@ -56,7 +59,7 @@ export default defineComponent({
             return <MarkdownTotal modelValue={props.modelValue} />;
           }
           case 'scrollSwitch': {
-            return (
+            return (!props.noScrollAuto &&
               <ScrollAuto
                 scrollAuto={props.scrollAuto}
                 onScrollAutoChange={props.onScrollAutoChange}
