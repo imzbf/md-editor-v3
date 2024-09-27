@@ -303,7 +303,10 @@ export interface ConfigOption {
   codeMirrorExtensions: (
     theme: Themes,
     extensions: Array<Extension>,
-    keyBindings: Array<KeyBinding>
+    keyBindings: Array<KeyBinding>,
+    options: {
+      editorId: string;
+    }
   ) => Array<Extension>;
   /**
    * 自定义markdown-it核心库扩展、属性等
@@ -539,6 +542,10 @@ export interface ExposeParam {
    * @param direct
    */
   execCommand(direct: ToolDirective): void;
+  /**
+   * 获取编辑器实例
+   */
+  getEditorView(): EditorView | undefined;
 }
 
 export type ExposePreviewParam = Pick<ExposeParam, 'rerender'>;

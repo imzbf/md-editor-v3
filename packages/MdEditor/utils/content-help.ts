@@ -126,15 +126,15 @@ export const directive2flag = async (
         break;
       }
       case 'sub': {
-        targetValue = `<sub>${selectedText}</sub>`;
-        deviationStart = 5;
-        deviationEnd = -6;
+        targetValue = `~${selectedText}~`;
+        deviationStart = 1;
+        deviationEnd = -1;
         break;
       }
       case 'sup': {
-        targetValue = `<sup>${selectedText}</sup>`;
-        deviationStart = 5;
-        deviationEnd = -6;
+        targetValue = `^${selectedText}^`;
+        deviationStart = 1;
+        deviationEnd = -1;
         break;
       }
       case 'codeRow': {

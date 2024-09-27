@@ -53,6 +53,8 @@ const useCodeMirror = (props: ContentProps) => {
   // 编辑器的实例不能用ref包裹，vue会处理内部属性
   // https://discuss.codemirror.net/t/invalid-child-in-posbefore-codemirror6/3371/5
   const codeMirrorUt = shallowRef<CodeMirrorUt>();
+  // 输入状态，取消拼字时的回调
+  const spelling = ref(false);
 
   const languageComp = new Compartment(),
     themeComp = new Compartment(),
@@ -62,8 +64,13 @@ const useCodeMirror = (props: ContentProps) => {
 
   const mdEditorCommands = createCommands(editorId, props);
 
-  // 输入状态，取消拼字时的回调
-  const spelling = ref(false);
+  // 搜集默认快捷键列表，通过方法返回，防止默认列表被篡改
+  const getDefaultKeymaps = () => [
+    ...defaultKeymap,
+    ...historyKeymap,
+    ...mdEditorCommands,
+    indentWithTab
+  ];
 
   // 粘贴、弹窗添加图片
 
@@ -101,7 +108,7 @@ const useCodeMirror = (props: ContentProps) => {
   };
 
   const defaultExtensions = [
-    keymap.of([...defaultKeymap, ...historyKeymap, ...mdEditorCommands, indentWithTab]),
+    keymap.of(getDefaultKeymaps()),
     historyComp.of(history()),
     languageComp.of(markdown({ codeLanguages: languages })),
     // 横向换行
@@ -127,9 +134,12 @@ const useCodeMirror = (props: ContentProps) => {
       autocompletionComp.of(createAutocompletion(props.completions))
     ];
 
-    return configOption.codeMirrorExtensions!(theme.value, extensions, [
-      ...mdEditorCommands
-    ]);
+    return configOption.codeMirrorExtensions!(
+      theme.value,
+      extensions,
+      getDefaultKeymaps(),
+      { editorId }
+    );
   };
 
   onMounted(() => {

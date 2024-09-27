@@ -273,8 +273,9 @@ const MdCatalog = defineComponent({
     return () => (
       <div
         class={[
-          `${prefix}-catalog${props.theme === 'dark' ? '-dark' : ''}`,
-          `${props.class}`
+          `${prefix}-catalog`,
+          props.theme === 'dark' && `${prefix}-catalog-dark`,
+          props.class || ''
         ]}
         ref={catalogRef}
       >

@@ -87,8 +87,13 @@ const useMermaid = (props: ContentPreviewProps) => {
       );
 
       const svgContainingElement = document.createElement('div');
-      svgContainingElement.style.width = document.body.offsetWidth + 'px';
-      svgContainingElement.style.height = document.body.offsetHeight + 'px';
+      const sceWidth =
+        document.body.offsetWidth > 1366 ? document.body.offsetWidth : 1366;
+      const sceHeight =
+        document.body.offsetHeight > 768 ? document.body.offsetHeight : 768;
+
+      svgContainingElement.style.width = sceWidth + 'px';
+      svgContainingElement.style.height = sceHeight + 'px';
       svgContainingElement.style.position = 'fixed';
       svgContainingElement.style.zIndex = '-10000';
       svgContainingElement.style.top = '-10000';
