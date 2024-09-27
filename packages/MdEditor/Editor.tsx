@@ -173,7 +173,9 @@ const Editor = defineComponent({
               modelValue={props.modelValue}
               footers={props.footers}
               defFooters={defFooters}
-              noScrollAuto={!setting.preview && !setting.htmlPreview}
+              noScrollAuto={
+                (!setting.preview && !setting.htmlPreview) || setting.previewOnly
+              }
               scrollAuto={state.scrollAuto}
               onScrollAutoChange={(v) => (state.scrollAuto = v)}
             />
