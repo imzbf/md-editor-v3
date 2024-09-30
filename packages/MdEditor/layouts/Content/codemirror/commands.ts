@@ -33,6 +33,7 @@ const createCommands = (id: string, contentProps: ContentProps) => {
   const CtrlU: KeyBinding = {
     key: 'Ctrl-u',
     mac: 'Cmd-u',
+    preventDefault: true,
     run: () => {
       // ctrl+u触发下划线
       bus.emit(id, REPLACE, 'underline' as ToolDirective);
@@ -48,6 +49,7 @@ const createCommands = (id: string, contentProps: ContentProps) => {
   const CtrlI: KeyBinding = {
     key: 'Ctrl-i',
     mac: 'Cmd-i',
+    preventDefault: true,
     run: () => {
       bus.emit(id, REPLACE, 'italic' as ToolDirective);
       return true;
