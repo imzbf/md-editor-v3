@@ -409,7 +409,7 @@ export default defineComponent({
             // onBlur={console.log}
             // onFocus={console.log}
             // onInput={console.log}
-            // showToolbarName
+            showToolbarName
             inputBoxWitdh={md.inputBoxWitdh}
             onInputBoxWitdhChange={(w) => {
               md.inputBoxWitdh = w;
