@@ -92,7 +92,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
           <div class="${prefix}-code-flag"><span></span><span></span><span></span></div>
           <div class="${prefix}-code-action">
             <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
-            <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}">${copyBtnHtml}</span>
+            <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
             ${tagContainer === 'details' ? collapseTips : ''}
           </div>
         </${tagHeader}>${codeRendered}</${tagContainer}>`;
