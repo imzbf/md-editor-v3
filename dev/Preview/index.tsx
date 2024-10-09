@@ -14,7 +14,8 @@ import {
   DropdownToolbar,
   ModalToolbar,
   config,
-  editorExtensionsAttrs
+  editorExtensionsAttrs,
+  NormalFooterToolbar
 } from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
@@ -494,7 +495,7 @@ export default defineComponent({
             footers={['markdownTotal', '=', 0, 'scrollSwitch']}
             defFooters={
               <>
-                <span>^_^</span>
+                <NormalFooterToolbar>^_^</NormalFooterToolbar>
               </>
             }
           ></MdEditor>

@@ -920,6 +920,18 @@ import { NormalToolbar } from 'md-editor-v3';
 
   - `default`: `VNode | JSX.Element`，必须，弹窗中的内容。
 
+### 🛸 普通页脚工具
+
+`NormalFooterToolbar`
+
+- **events**
+
+  - `onClick`: `(e: MouseEvent) => void`，非必须，点击事件。
+
+- **slots**
+
+  - `default`: `VNode | JSX.Element`，必须，内容。
+
 ## 🪤 内部配置
 
 ```js
