@@ -1040,7 +1040,13 @@ export default defineComponent({
               </div>
             </div>
           )}
+          <label
+            for={`${wrapperId}_label`}
+            style={{ display: 'none' }}
+            aria-label="File Upload"
+          ></label>
           <input
+            id={`${wrapperId}_label`}
             ref={uploadRef}
             accept="image/*"
             type="file"
