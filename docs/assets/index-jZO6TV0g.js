@@ -1,4 +1,4 @@
-import{d as i,a9 as a,a as s,w as m,aa as p,ah as l,ad as c,c as t}from"./index-DARWvOOp.js";import{_ as M}from"./index.vue_vue_type_script_setup_true_lang-DBNLWsYQ.js";import{_ as f}from"./index.vue_vue_type_style_index_0_lang-B6eaPwPw.js";import"./index-Q6-AOakb.js";import"./index3-Cb8rrxzW.js";const r=`## 🧙🏼 Upgrade from 3.x to 4.x
+import{d as i,aa as a,a as s,w as m,ab as p,am as l,ae as c,c as t}from"./index-DM__oB54.js";import{_ as M}from"./index.vue_vue_type_script_setup_true_lang-RoX-44jJ.js";import{_ as f}from"./index.vue_vue_type_style_index_0_lang-BS-AZs2v.js";import"./index-CkphkLTV.js";import"./index3-CWWmMvrV.js";const r=`## 🧙🏼 Upgrade from 3.x to 4.x
 
 ### 🏄🏼 Usage
 
@@ -216,4 +216,4 @@ MdEditor.config({
 - **props**
 
   - \`markedHeadingId\`: 已删除，使用\`mdHeadingId\`代替。
-`,u={class:"container"},v={class:"doc"},g={name:"ContrastPage"},C=i({...g,setup(E){const n=a(),e="doc-contrast",o=s(n.state.lang==="en-US"?r:d);return m(()=>n.state.lang,()=>{o.value=n.state.lang==="en-US"?r:d}),(w,h)=>(p(),l("div",u,[c("div",v,[t(M,{editorId:e,modelValue:o.value},null,8,["modelValue"]),t(f,{editorId:e})])]))}});export{C as default};
+`,u={class:"container"},v={class:"doc"},g={name:"ContrastPage"},C=i({...g,setup(E){const n=a(),e="doc-contrast",o=s(n.state.lang==="en-US"?r:d);return m(()=>n.state.lang,()=>{o.value=n.state.lang==="en-US"?r:d}),(w,x)=>(p(),l("div",u,[c("div",v,[t(M,{editorId:e,modelValue:o.value},null,8,["modelValue"]),t(f,{editorId:e})])]))}});export{C as default};

@@ -1,4 +1,4 @@
-import{d,a9 as m,a as c,al as o,w as p,aa as u,ah as g,ad as f,c as r,am as i,an as s}from"./index-DARWvOOp.js";import{_ as v}from"./index.vue_vue_type_script_setup_true_lang-DBNLWsYQ.js";import{_ as h}from"./index.vue_vue_type_style_index_0_lang-B6eaPwPw.js";import"./index-Q6-AOakb.js";import"./index3-Cb8rrxzW.js";const l=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
+import{d,aa as m,a as c,an as o,w as p,ab as u,am as g,ae as f,c as r,ao as i,ap as s}from"./index-DM__oB54.js";import{_ as v}from"./index.vue_vue_type_script_setup_true_lang-RoX-44jJ.js";import{_ as h}from"./index.vue_vue_type_style_index_0_lang-BS-AZs2v.js";import"./index-CkphkLTV.js";import"./index3-CWWmMvrV.js";const a=`> Use it online: [Go](https://codesandbox.io/s/epic-bird-2znqo).
 
 ## 🔖 MdPreview Props
 
@@ -2268,7 +2268,7 @@ console.log(iconfontClassUrl, iconfontSvgUrl, allToolbar, allFooter, zh_CN, en_U
 ## ✍️ Edit This Page
 
 [doc-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/doc-en-US.md)
-`,a=`> 在线尝试示例：[传送门](https://codesandbox.io/s/epic-bird-2znqo)
+`,l=`> 在线尝试示例：[传送门](https://codesandbox.io/s/epic-bird-2znqo)
 
 ## 🔖 MdPreview Props
 
@@ -4559,4 +4559,4 @@ console.log(iconfontClassUrl, iconfontSvgUrl, allToolbar, allFooter, zh_CN, en_U
 ## ✍️ 编辑此页面
 
 [doc-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/doc-zh-CN.md)
-`,b={class:"container"},y={class:"doc"},x={name:"DocPage"},P=d({...x,setup(w){const n=m(),e="doc-preview",t=c(o(n.state.lang==="en-US"?l:a,{iconfontSvgUrl:i,iconfontClassUrl:s}));return p(()=>n.state.lang,()=>{t.value=o(n.state.lang==="en-US"?l:a,{iconfontSvgUrl:i,iconfontClassUrl:s})}),(E,C)=>(u(),g("div",b,[f("div",y,[r(v,{editorId:e,modelValue:t.value},null,8,["modelValue"]),r(h,{editorId:e})])]))}});export{P as default};
+`,b={class:"container"},y={class:"doc"},x={name:"DocPage"},P=d({...x,setup(w){const n=m(),e="doc-preview",t=c(o(n.state.lang==="en-US"?a:l,{iconfontSvgUrl:i,iconfontClassUrl:s}));return p(()=>n.state.lang,()=>{t.value=o(n.state.lang==="en-US"?a:l,{iconfontSvgUrl:i,iconfontClassUrl:s})}),(E,C)=>(u(),g("div",b,[f("div",y,[r(v,{editorId:e,modelValue:t.value},null,8,["modelValue"]),r(h,{editorId:e})])]))}});export{P as default};
