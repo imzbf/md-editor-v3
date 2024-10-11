@@ -191,8 +191,8 @@ export const staticTextDefault: StaticTextDefault = {
       h6: 'Lv6 Heading'
     },
     imgTitleItem: {
-      link: 'Add Img Link',
-      upload: 'Upload Img',
+      link: 'Add Image Link',
+      upload: 'Upload Images',
       clip2upload: 'Clip Upload'
     },
     linkModalTips: {

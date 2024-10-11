@@ -1043,7 +1043,7 @@ export default defineComponent({
           <label
             for={`${wrapperId}_label`}
             style={{ display: 'none' }}
-            aria-label="File Upload"
+            aria-label={ult.value.imgTitleItem?.upload}
           ></label>
           <input
             id={`${wrapperId}_label`}

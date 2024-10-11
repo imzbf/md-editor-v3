@@ -135,12 +135,10 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
           }</label>
         </li>`;
 
-      pres += `<input type="radio" id="label-${prefix}-codetab-label-2-${_opts.editorId}-${idx}-${i - idx}"  name="${prefix}-codetab-pre-${_opts.editorId}-${idx}" class="${className}" ${checked}>
-      <label for="label-${prefix}-codetab-label-2-${_opts.editorId}-${idx}-${i - idx}" class="${prefix}-code-lang">${getLangName(token)}</label>
+      pres += `<input type="radio" name="${prefix}-codetab-pre-${_opts.editorId}-${idx}" class="${className}" ${checked}>
       ${defaultRender!(tokens, i, options, env, slf)}`;
 
-      langs += `<input type="radio" id="label-${prefix}-codetab-label-3-${_opts.editorId}-${idx}-${i - idx}"  name="${prefix}-codetab-lang-${_opts.editorId}-${idx}" class="${className}" ${checked}>
-      <label for="label-${prefix}-codetab-label-3-${_opts.editorId}-${idx}-${i - idx}" class="${prefix}-code-lang">${getLangName(token)}</label>
+      langs += `<input type="radio" name="${prefix}-codetab-lang-${_opts.editorId}-${idx}" class="${className}" ${checked}>
       <span class=${prefix}-code-lang>${getLangName(token)}</span>`;
     }
 
