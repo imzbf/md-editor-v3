@@ -1,11 +1,12 @@
 <template>
-  <span>{{ text }}</span>
+  <NormalFooterToolbar>{{ text }}</NormalFooterToolbar>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from 'vue';
 import { useStore } from 'vuex';
 import dayjs from 'dayjs';
+import { NormalFooterToolbar } from 'md-editor-v3';
 const store = useStore();
 
 const weekNames = {
