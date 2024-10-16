@@ -40,11 +40,9 @@ import KatexPlugin from '../markdownIt/katex';
 import AdmonitionPlugin from '../markdownIt/admonition';
 import HeadingPlugin from '../markdownIt/heading';
 import CodePlugin from '../markdownIt/code';
-import XSSPlugin from '../markdownIt/xss';
 import TaskListPlugin from '../markdownIt/task';
 
 import { ContentPreviewProps } from '../ContentPreview';
-import { XSSPluginType } from '../markdownIt/xss';
 
 const initLineNumber = (md: mdit) => {
   md.core.ruler.push('init-line-number', (state) => {
@@ -122,11 +120,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         customIconRef
       }
     },
-    {
-      type: 'xss',
-      plugin: XSSPlugin,
-      options: {} as XSSPluginType
-    },
+
     {
       type: 'sub',
       plugin: SubPlugin,
