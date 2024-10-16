@@ -15,7 +15,8 @@ import {
   ModalToolbar,
   config,
   editorExtensionsAttrs,
-  NormalFooterToolbar
+  NormalFooterToolbar,
+  XSSPlugin
 } from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
@@ -78,7 +79,14 @@ config({
   //   permalink: true
   // });
   markdownItPlugins(plugins, { editorId }) {
-    return plugins.map((item) => {
+    return [
+      ...plugins,
+      {
+        type: 'xss',
+        plugin: XSSPlugin,
+        options: {}
+      }
+    ].map((item) => {
       if (item.type === 'taskList') {
         return {
           ...item,

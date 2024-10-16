@@ -34,7 +34,7 @@ const MdWhiteList: xss.IFilterXSSOptions['whiteList'] = {
   ]
 };
 
-const XSSPlugin = (md: markdownit, options: XSSPluginType) => {
+export const XSSPlugin = (md: markdownit, options: XSSPluginType) => {
   const { extendedWhiteList = {}, xss: xssOption = {} } = options;
   let xssIns: xss.FilterXSS;
 
@@ -87,5 +87,3 @@ const XSSPlugin = (md: markdownit, options: XSSPluginType) => {
     }
   });
 };
-
-export default XSSPlugin;
