@@ -152,7 +152,7 @@ export default defineComponent({
       visible: false,
       modalVisible: false,
       isFullscreen: false,
-      inputBoxWitdh: storagedWidth
+      inputBoxWidth: storagedWidth
     });
 
     const editorRef = ref<ExposeParam>();
@@ -410,10 +410,10 @@ export default defineComponent({
             // onBlur={console.log}
             // onFocus={console.log}
             // onInput={console.log}
-            showToolbarName
-            inputBoxWitdh={md.inputBoxWitdh}
-            onInputBoxWitdhChange={(w) => {
-              md.inputBoxWitdh = w;
+            // showToolbarName
+            inputBoxWidth={md.inputBoxWidth}
+            oninputBoxWidthChange={(w) => {
+              md.inputBoxWidth = w;
               localStorage.setItem(INPUT_BOX_WITDH, w);
             }}
             toolbars={[

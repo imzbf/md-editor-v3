@@ -154,7 +154,7 @@ Except for the same as `MdPreview`:
 | autoDetectCode | `boolean` | false | auto detect the type of pasted code, only support that copied from `vscode` |
 | completions | `Array<CompletionSource>` | [] | `@codemirror/autocomplete` List of function to match keywords |
 | showToolbarName | `boolean` | false | Show toolbar name or not |
-| inputBoxWitdh | `string` | '50%' | Default width of input box |
+| inputBoxWidth | `string` | '50%' | Default width of input box |
 | transformImgUrl | `(imgUrl: string) => string \| Promise<string>` | t => t | Transform image links |
 
 <details>
@@ -326,7 +326,7 @@ Except for the same as `MdPreview`:
 | onFocus | `event: FocusEvent` | Textarea has received focus |
 | onInput | `event: Event` | Element gets input |
 | onDrop | `event: DragEvent` | Selection is being dragged |
-| onInputBoxWitdhChange | `(width: string) => void` | Width of input box has been changed |
+| oninputBoxWidthChange | `(width: string) => void` | Width of input box has been changed |
 
 ### 🎍 Slots
 

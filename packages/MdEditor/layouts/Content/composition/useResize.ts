@@ -9,15 +9,15 @@ const useResize = (
   resizeRef: Ref<HTMLDivElement | undefined>
 ) => {
   const state = reactive({
-    resizedWidth: props.inputBoxWitdh
+    resizedWidth: props.inputBoxWidth
   });
 
   const inputWrapperStyle = reactive({
-    width: props.inputBoxWitdh
+    width: props.inputBoxWidth
   });
 
   const resizeOperateStyle = reactive({
-    left: props.inputBoxWitdh,
+    left: props.inputBoxWidth,
     display: 'initial'
   });
 
@@ -48,7 +48,7 @@ const useResize = (
     inputWrapperStyle.width = ibw;
     resizeOperateStyle.left = ibw;
     state.resizedWidth = ibw;
-    props.onInputBoxWitdhChange?.(ibw);
+    props.oninputBoxWidthChange?.(ibw);
   };
 
   const resizeMousedown = () => {
@@ -76,7 +76,7 @@ const useResize = (
   });
 
   watch(
-    () => props.inputBoxWitdh,
+    () => props.inputBoxWidth,
     (nVal) => {
       if (nVal) {
         state.resizedWidth = nVal;
