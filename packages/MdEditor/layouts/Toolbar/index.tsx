@@ -236,12 +236,15 @@ export default defineComponent({
                     onClick={() => {
                       visible.title = false;
                     }}
+                    role="menu"
                   >
                     <li
                       class={`${prefix}-menu-item ${prefix}-menu-item-title`}
                       onClick={() => {
                         emitHandler('h1');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.titleItem?.h1}
                     </li>
@@ -250,6 +253,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('h2');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.titleItem?.h2}
                     </li>
@@ -258,6 +263,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('h3');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.titleItem?.h3}
                     </li>
@@ -266,6 +273,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('h4');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.titleItem?.h4}
                     </li>
@@ -274,6 +283,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('h5');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.titleItem?.h5}
                     </li>
@@ -282,6 +293,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('h6');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.titleItem?.h6}
                     </li>
@@ -509,6 +522,7 @@ export default defineComponent({
                     onClick={() => {
                       visible.title = false;
                     }}
+                    role="menu"
                   >
                     <li
                       class={`${prefix}-menu-item ${prefix}-menu-item-image`}
@@ -516,6 +530,8 @@ export default defineComponent({
                         modalData.type = 'image';
                         modalData.linkVisible = true;
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.imgTitleItem?.link}
                     </li>
@@ -524,6 +540,8 @@ export default defineComponent({
                       onClick={() => {
                         (uploadRef.value as HTMLInputElement).click();
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.imgTitleItem?.upload}
                     </li>
@@ -532,6 +550,8 @@ export default defineComponent({
                       onClick={() => {
                         modalData.clipVisible = true;
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.imgTitleItem?.clip2upload}
                     </li>
@@ -834,12 +854,15 @@ export default defineComponent({
                     onClick={() => {
                       visible.mermaid = false;
                     }}
+                    role="menu"
                   >
                     <li
                       class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
                       onClick={() => {
                         emitHandler('flow');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.mermaid?.flow}
                     </li>
@@ -848,6 +871,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('sequence');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.mermaid?.sequence}
                     </li>
@@ -856,6 +881,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('gantt');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.mermaid?.gantt}
                     </li>
@@ -864,6 +891,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('class');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.mermaid?.class}
                     </li>
@@ -872,6 +901,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('state');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.mermaid?.state}
                     </li>
@@ -880,6 +911,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('pie');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.mermaid?.pie}
                     </li>
@@ -888,6 +921,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('relationship');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.mermaid?.relationship}
                     </li>
@@ -896,6 +931,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('journey');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.mermaid?.journey}
                     </li>
@@ -932,12 +969,15 @@ export default defineComponent({
                     onClick={() => {
                       visible.katex = false;
                     }}
+                    role="menu"
                   >
                     <li
                       class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
                       onClick={() => {
                         emitHandler('katexInline');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.katex?.inline}
                     </li>
@@ -946,6 +986,8 @@ export default defineComponent({
                       onClick={() => {
                         emitHandler('katexBlock');
                       }}
+                      role="menuitem"
+                      tabindex="0"
                     >
                       {ult.value.katex?.block}
                     </li>
