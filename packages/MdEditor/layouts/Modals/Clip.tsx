@@ -204,6 +204,7 @@ export default defineComponent({
           type="file"
           multiple={false}
           style={{ display: 'none' }}
+          aria-label={ult.value.imgTitleItem?.upload}
         />
       </Modal>
     );
