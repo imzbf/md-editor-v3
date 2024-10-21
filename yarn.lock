@@ -1116,9 +1116,9 @@
     to-fast-properties "^2.0.0"
 
 "@codemirror/autocomplete@^6.0.0", "@codemirror/autocomplete@^6.3.2", "@codemirror/autocomplete@^6.7.1":
-  version "6.17.0"
-  resolved "https://registry.npmjs.org/@codemirror/autocomplete/-/autocomplete-6.17.0.tgz#24ff5fc37fd91f6439df6f4ff9c8e910cde1b053"
-  integrity sha512-fdfj6e6ZxZf8yrkMHUSJJir7OJkHkZKaOZGzLWIYp2PZ3jd+d+UjG8zVPqJF6d3bKxkhvXTPan/UZ1t7Bqm0gA==
+  version "6.18.1"
+  resolved "https://registry.npmjs.org/@codemirror/autocomplete/-/autocomplete-6.18.1.tgz#3bd8d62c9c9a14d0706ab0a8adac139eaf1a41f1"
+  integrity sha512-iWHdj/B1ethnHRTwZj+C1obmmuCzquH29EbcKr0qIjA9NfDeBDJ7vs+WOHsFeLeflE4o+dHfYndJloMKHUkWUA==
   dependencies:
     "@codemirror/language" "^6.0.0"
     "@codemirror/state" "^6.0.0"
@@ -1126,9 +1126,9 @@
     "@lezer/common" "^1.0.0"
 
 "@codemirror/commands@^6.0.0":
-  version "6.6.0"
-  resolved "https://registry.npmjs.org/@codemirror/commands/-/commands-6.6.0.tgz#d308f143fe1b8896ca25fdb855f66acdaf019dd4"
-  integrity sha512-qnY+b7j1UNcTS31Eenuc/5YJB6gQOzkUoNmJQc0rznwqSRpeaWWpjkWy2C/MPTcePpsKJEM26hXrOXl1+nceXg==
+  version "6.7.0"
+  resolved "https://registry.npmjs.org/@codemirror/commands/-/commands-6.7.0.tgz#a06595c0bd2966951640319a6abd953885d22bab"
+  integrity sha512-+cduIZ2KbesDhbykV02K25A5xIVrquSPz4UxxYBemRlAT2aW8dhwUgLDwej7q/RJUHKk4nALYcR1puecDvbdqw==
   dependencies:
     "@codemirror/language" "^6.0.0"
     "@codemirror/state" "^6.4.0"
@@ -1156,15 +1156,15 @@
     "@lezer/cpp" "^1.0.0"
 
 "@codemirror/lang-css@^6.0.0", "@codemirror/lang-css@^6.2.0":
-  version "6.2.1"
-  resolved "https://registry.npmjs.org/@codemirror/lang-css/-/lang-css-6.2.1.tgz#5dc0a43b8e3c31f6af7aabd55ff07fe9aef2a227"
-  integrity sha512-/UNWDNV5Viwi/1lpr/dIXJNWiwDxpw13I4pTUAsNxZdg6E0mI2kTQb0P2iHczg1Tu+H4EBgJR+hYhKiHKko7qg==
+  version "6.3.0"
+  resolved "https://registry.npmjs.org/@codemirror/lang-css/-/lang-css-6.3.0.tgz#607628559f2471b385c6070ec795072a55cffc0b"
+  integrity sha512-CyR4rUNG9OYcXDZwMPvJdtb6PHbBDKUc/6Na2BIwZ6dKab1JQqKa4di+RNRY9Myn7JB81vayKwJeQ7jEdmNVDA==
   dependencies:
     "@codemirror/autocomplete" "^6.0.0"
     "@codemirror/language" "^6.0.0"
     "@codemirror/state" "^6.0.0"
     "@lezer/common" "^1.0.2"
-    "@lezer/css" "^1.0.0"
+    "@lezer/css" "^1.1.7"
 
 "@codemirror/lang-go@^6.0.0":
   version "6.0.1"
@@ -1247,9 +1247,9 @@
     "@lezer/lr" "^1.3.1"
 
 "@codemirror/lang-markdown@^6.0.0", "@codemirror/lang-markdown@^6.2.5":
-  version "6.2.5"
-  resolved "https://registry.npmjs.org/@codemirror/lang-markdown/-/lang-markdown-6.2.5.tgz#451941bf743d3788e73598f1aedb71cbeb6f71ba"
-  integrity sha512-Hgke565YcO4fd9pe2uLYxnMufHO5rQwRr+AAhFq8ABuhkrjyX8R5p5s+hZUTdV60O0dMRjxKhBLxz8pu/MkUVA==
+  version "6.3.0"
+  resolved "https://registry.npmjs.org/@codemirror/lang-markdown/-/lang-markdown-6.3.0.tgz#949f8803332441705ed6def34c565f2166479538"
+  integrity sha512-lYrI8SdL/vhd0w0aHIEvIRLRecLF7MiiRfzXFZY94dFwHqC9HtgxgagJ8fyYNBldijGatf9wkms60d8SrAj6Nw==
   dependencies:
     "@codemirror/autocomplete" "^6.7.1"
     "@codemirror/lang-html" "^6.0.0"
@@ -1301,9 +1301,9 @@
     "@lezer/sass" "^1.0.0"
 
 "@codemirror/lang-sql@^6.0.0":
-  version "6.7.0"
-  resolved "https://registry.npmjs.org/@codemirror/lang-sql/-/lang-sql-6.7.0.tgz#a87fb9b458ae0ad1d8647c0234accca0ef11bb78"
-  integrity sha512-KMXp6rtyPYz6RaElvkh/77ClEAoQoHRPZo0zutRRialeFs/B/X8YaUJBCnAV2zqyeJPLZ4hgo48mG8TKoNXfZA==
+  version "6.8.0"
+  resolved "https://registry.npmjs.org/@codemirror/lang-sql/-/lang-sql-6.8.0.tgz#1ae68ad49f378605ff88a4cc428ba667ce056068"
+  integrity sha512-aGLmY4OwGqN3TdSx3h6QeA1NrvaYtF7kkoWR/+W7/JzB0gQtJ+VJxewlnE3+VImhA4WVlhmkJr109PefOOhjLg==
   dependencies:
     "@codemirror/autocomplete" "^6.0.0"
     "@codemirror/language" "^6.0.0"
@@ -1387,9 +1387,9 @@
     "@codemirror/legacy-modes" "^6.4.0"
 
 "@codemirror/language@^6.0.0", "@codemirror/language@^6.3.0", "@codemirror/language@^6.4.0", "@codemirror/language@^6.6.0", "@codemirror/language@^6.8.0":
-  version "6.10.2"
-  resolved "https://registry.npmjs.org/@codemirror/language/-/language-6.10.2.tgz#4056dc219619627ffe995832eeb09cea6060be61"
-  integrity sha512-kgbTYTo0Au6dCSc/TFy7fK3fpJmgHDv1sG1KNQKJXVi+xBTEeBPY/M30YXiU6mMXeH+YIDLsbrT4ZwNRdtF+SA==
+  version "6.10.3"
+  resolved "https://registry.npmjs.org/@codemirror/language/-/language-6.10.3.tgz#eb25fc5ade19032e7bf1dcaa957804e5f1660585"
+  integrity sha512-kDqEU5sCP55Oabl6E7m5N+vZRoc0iWqgDVhEKifcHzPzjqCegcO4amfrYVL9PmPZpl4G0yjkpTpUO/Ui8CzO8A==
   dependencies:
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.23.0"
@@ -1399,16 +1399,16 @@
     style-mod "^4.0.0"
 
 "@codemirror/legacy-modes@^6.4.0":
-  version "6.4.0"
-  resolved "https://registry.npmjs.org/@codemirror/legacy-modes/-/legacy-modes-6.4.0.tgz#3cf7a863da5deebbd7bf9a90f12f89f06cca6d46"
-  integrity sha512-5m/K+1A6gYR0e+h/dEde7LoGimMjRtWXZFg4Lo70cc8HzjSdHe3fLwjWMR0VRl5KFT1SxalSap7uMgPKF28wBA==
+  version "6.4.1"
+  resolved "https://registry.npmjs.org/@codemirror/legacy-modes/-/legacy-modes-6.4.1.tgz#fae7b03cad1beada637fd3c12c568a3a7f63fe89"
+  integrity sha512-vdg3XY7OAs5uLDx2Iw+cGfnwtd7kM+Et/eMsqAGTfT/JKiVBQZXosTzjEbWAi/FrY6DcQIz8mQjBozFHZEUWQA==
   dependencies:
     "@codemirror/language" "^6.0.0"
 
 "@codemirror/lint@^6.0.0":
-  version "6.8.1"
-  resolved "https://registry.npmjs.org/@codemirror/lint/-/lint-6.8.1.tgz#6427848815baaf68c08e98c7673b804d3d8c0e7f"
-  integrity sha512-IZ0Y7S4/bpaunwggW2jYqwLuHj0QtESf5xcROewY6+lDNwZ/NzvR4t+vpYgg9m7V8UXLPYqG+lu3DF470E5Oxg==
+  version "6.8.2"
+  resolved "https://registry.npmjs.org/@codemirror/lint/-/lint-6.8.2.tgz#7864b03583e9efd18554cff1dd4504da10338ab1"
+  integrity sha512-PDFG5DjHxSEjOXk9TQYYVjZDqlZTFaDBfhQixHnQOEVDDNHUbEh/hstAjcQJaA6FQdZTD1hquXTK0rVBLADR1g==
   dependencies:
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
@@ -1429,9 +1429,9 @@
   integrity sha512-QkEyUiLhsJoZkbumGZlswmAhA7CBU02Wrz7zvH4SrcifbsqwlXShVXg65f3v/ts57W3dqyamEriMhij1Z3Zz4A==
 
 "@codemirror/view@^6.0.0", "@codemirror/view@^6.17.0", "@codemirror/view@^6.23.0", "@codemirror/view@^6.27.0":
-  version "6.28.5"
-  resolved "https://registry.npmjs.org/@codemirror/view/-/view-6.28.5.tgz#e98421d8f96bf15a04fbb1a2475d0387b512267c"
-  integrity sha512-NkUtfUa1lV7Jqg5DfHE/uLl7jKyoymDkaueMQXzePYuezL7FwX3ATANy74iAGlHCGe25hBGB0R+I5dC5EZ5JBg==
+  version "6.34.1"
+  resolved "https://registry.npmjs.org/@codemirror/view/-/view-6.34.1.tgz#b17ed29c563e4adc60086233f2d3e7197e2dc33e"
+  integrity sha512-t1zK/l9UiRqwUNPm+pdIT0qzJlzuVckbTEMVNFhfWkGiBQClstzg+78vedCvLSX0xJEZ6lwZbPpnljL7L6iwMQ==
   dependencies:
     "@codemirror/state" "^6.4.0"
     style-mod "^4.1.0"
@@ -1636,9 +1636,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
 "@lezer/common@^1.0.0", "@lezer/common@^1.0.2", "@lezer/common@^1.1.0", "@lezer/common@^1.2.0", "@lezer/common@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@lezer/common/-/common-1.2.1.tgz#198b278b7869668e1bebbe687586e12a42731049"
-  integrity sha512-yemX0ZD2xS/73llMZIK6KplkjIjf2EvAHcinDi/TfJ9hS25G0388+ClHt6/3but0oOxinTcQHJLDXh6w1crzFQ==
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/@lezer/common/-/common-1.2.3.tgz#138fcddab157d83da557554851017c6c1e5667fd"
+  integrity sha512-w7ojc8ejBqr2REPsWxJjrMFsA/ysDCFICn8zEOR9mrqzOu2amhITYuLD8ag6XZf0CFXDrhKqw7+tW8cX66NaDA==
 
 "@lezer/cpp@^1.0.0":
   version "1.1.2"
@@ -1649,10 +1649,10 @@
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"
 
-"@lezer/css@^1.0.0", "@lezer/css@^1.1.0":
-  version "1.1.8"
-  resolved "https://registry.npmjs.org/@lezer/css/-/css-1.1.8.tgz#11fd456dac53bc899b266778794ed4ca9576a5a4"
-  integrity sha512-7JhxupKuMBaWQKjQoLtzhGj83DdnZY9MckEOG5+/iLKNK2ZJqKc6hf6uc0HjwCX7Qlok44jBNqZhHKDhEhZYLA==
+"@lezer/css@^1.1.0", "@lezer/css@^1.1.7":
+  version "1.1.9"
+  resolved "https://registry.npmjs.org/@lezer/css/-/css-1.1.9.tgz#404563d361422c5a1fe917295f1527ee94845ed1"
+  integrity sha512-TYwgljcDv+YrV0MZFFvYFQHCfGgbPMR6nuqLabBdmZoFH3EP1gvw8t0vae326Ne3PszQkbXfVBjCnf3ZVCr0bA==
   dependencies:
     "@lezer/common" "^1.2.0"
     "@lezer/highlight" "^1.0.0"
@@ -1668,9 +1668,9 @@
     "@lezer/lr" "^1.0.0"
 
 "@lezer/highlight@^1.0.0", "@lezer/highlight@^1.1.3", "@lezer/highlight@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@lezer/highlight/-/highlight-1.2.0.tgz#e5898c3644208b4b589084089dceeea2966f7780"
-  integrity sha512-WrS5Mw51sGrpqjlh3d4/fOwpEV2Hd3YOkp9DBt4k8XZQcoTHZFB7sx030A6OcahF4J1nDQAa3jXlTVVYH50IFA==
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@lezer/highlight/-/highlight-1.2.1.tgz#596fa8f9aeb58a608be0a563e960c373cbf23f8b"
+  integrity sha512-Z5duk4RN/3zuVO7Jq0pGLJ3qynpxUVsh7IbUbGj88+uV2ApSAn6kWg2au3iJb+0Zi7kKtqffIESgNcRXWZWmSA==
   dependencies:
     "@lezer/common" "^1.0.0"
 
@@ -1684,18 +1684,18 @@
     "@lezer/lr" "^1.0.0"
 
 "@lezer/java@^1.0.0":
-  version "1.1.2"
-  resolved "https://registry.npmjs.org/@lezer/java/-/java-1.1.2.tgz#01a6ffefa9a692ac6cd492f8b924009edcb903d7"
-  integrity sha512-3j8X70JvYf0BZt8iSRLXLkt0Ry1hVUgH6wT32yBxH/Xi55nW2VMhc1Az4SKwu4YGSmxCm1fsqDDcHTuFjC8pmg==
+  version "1.1.3"
+  resolved "https://registry.npmjs.org/@lezer/java/-/java-1.1.3.tgz#9efd6a29b4142d07f211076a6fb5e8061c85e147"
+  integrity sha512-yHquUfujwg6Yu4Fd1GNHCvidIvJwi/1Xu2DaKl/pfWIA2c1oXkVvawH3NyXhCaFx4OdlYBVX5wvz2f7Aoa/4Xw==
   dependencies:
     "@lezer/common" "^1.2.0"
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"
 
 "@lezer/javascript@^1.0.0":
-  version "1.4.17"
-  resolved "https://registry.npmjs.org/@lezer/javascript/-/javascript-1.4.17.tgz#8456e369f960c328b9e823342d0c72d704238c31"
-  integrity sha512-bYW4ctpyGK+JMumDApeUzuIezX01H76R1foD6LcRX224FWfyYit/HYxiPGDjXXe/wQWASjCvVGoukTH68+0HIA==
+  version "1.4.19"
+  resolved "https://registry.npmjs.org/@lezer/javascript/-/javascript-1.4.19.tgz#7c8c8e5052537d8c8ddcae428e270227aadbddc9"
+  integrity sha512-j44kbR1QL26l6dMunZ1uhKBFteVGLVCBGNUD2sUaMnic+rbTviVuoK0CD1l9FTW31EueWvFFswCKMH7Z+M3JRA==
   dependencies:
     "@lezer/common" "^1.2.0"
     "@lezer/highlight" "^1.1.3"
@@ -1711,16 +1711,16 @@
     "@lezer/lr" "^1.0.0"
 
 "@lezer/lr@^1.0.0", "@lezer/lr@^1.1.0", "@lezer/lr@^1.3.0", "@lezer/lr@^1.3.1", "@lezer/lr@^1.3.3", "@lezer/lr@^1.4.0":
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/@lezer/lr/-/lr-1.4.1.tgz#fe25f051880a754e820b28148d90aa2a96b8bdd2"
-  integrity sha512-CHsKq8DMKBf9b3yXPDIU4DbH+ZJd/sJdYOW2llbW/HudP5u0VS6Bfq1hLYfgU7uAYGFIyGGQIsSOXGPEErZiJw==
+  version "1.4.2"
+  resolved "https://registry.npmjs.org/@lezer/lr/-/lr-1.4.2.tgz#931ea3dea8e9de84e90781001dae30dea9ff1727"
+  integrity sha512-pu0K1jCIdnQ12aWNaAVU5bzi7Bd1w54J3ECgANPmYLtQKP0HBj2cE/5coBD66MT10xbtIuUr7tg0Shbsvk0mDA==
   dependencies:
     "@lezer/common" "^1.0.0"
 
 "@lezer/markdown@^1.0.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@lezer/markdown/-/markdown-1.3.0.tgz#a954d48aa3256d07173353f80086f1a3bc6f965f"
-  integrity sha512-ErbEQ15eowmJUyT095e9NJc3BI9yZ894fjSDtHftD0InkfUBGgnKSU6dvan9jqsZuNHg2+ag/1oyDRxNsENupQ==
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/@lezer/markdown/-/markdown-1.3.1.tgz#2193012296927f383102d7a2b035f323759315b3"
+  integrity sha512-DGlzU/i8DC8k0uz1F+jeePrkATl0jWakauTzftMQOcbaMkHbNSRki/4E2tOzJWsVpoKYhe7iTJ03aepdwVUXUA==
   dependencies:
     "@lezer/common" "^1.0.0"
     "@lezer/highlight" "^1.0.0"
@@ -1753,9 +1753,9 @@
     "@lezer/lr" "^1.0.0"
 
 "@lezer/sass@^1.0.0":
-  version "1.0.6"
-  resolved "https://registry.npmjs.org/@lezer/sass/-/sass-1.0.6.tgz#2ba5294c6995023988e7971fc04757bc0d83b120"
-  integrity sha512-w/RCO2dIzZH1To8p+xjs8cE+yfgGus8NZ/dXeWl/QzHyr+TeBs71qiE70KPImEwvTsmEjoWh0A5SxMzKd5BWBQ==
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/@lezer/sass/-/sass-1.0.7.tgz#e90066b1d386eee6160edc88a39293844e4ba106"
+  integrity sha512-8HLlOkuX/SMHOggI2DAsXUw38TuURe+3eQ5hiuk9QmYOUyC55B1dYEIMkav5A4IELVaW4e1T4P9WRiI5ka4mdw==
   dependencies:
     "@lezer/common" "^1.2.0"
     "@lezer/highlight" "^1.0.0"
@@ -1906,9 +1906,9 @@
   integrity sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==
 
 "@types/markdown-it@^14.0.1":
-  version "14.1.1"
-  resolved "https://registry.npmjs.org/@types/markdown-it/-/markdown-it-14.1.1.tgz#06bafb7a4e3f77b62b1f308acf7df76687887e0b"
-  integrity sha512-4NpsnpYl2Gt1ljyBGrKMxFYAYvpqbnnkgP/i/g+NLpjEUa3obn1XJCur9YbEXKDAkaXqsR1LbDnGEJ0MmKFxfg==
+  version "14.1.2"
+  resolved "https://registry.npmjs.org/@types/markdown-it/-/markdown-it-14.1.2.tgz#57f2532a0800067d9b934f3521429a2e8bfb4c61"
+  integrity sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==
   dependencies:
     "@types/linkify-it" "^5"
     "@types/mdurl" "^2"
@@ -3244,10 +3244,10 @@ marked@*:
   resolved "https://registry.npmjs.org/marked/-/marked-13.0.2.tgz#d5d05bd2683a85cb9cc6afbe5240e3a8bffcb92a"
   integrity sha512-J6CPjP8pS5sgrRqxVRvkCIkZ6MFdRIjDkwUwgJ9nL2fbmM6qGQeB2C16hi8Cc9BOzj6xXzy0jyi0iPIfnMHYzA==
 
-md-editor-v3@^4.21.0:
-  version "4.21.0"
-  resolved "https://registry.yarnpkg.com/md-editor-v3/-/md-editor-v3-4.21.0.tgz#b3e082b909accc5153ce03e67d9fc8ee1720278a"
-  integrity sha512-waE/rKw4ZsxRG21JJoHBAtecN/EvFhU+/UIeetxifbBd4jGLIp4nSDV901IP+hVVtUNavoGt3lS2Hawf4sXkew==
+md-editor-v3@^4.21.1:
+  version "4.21.1"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.21.1.tgz#d23b0235f2197c7aeaf5a6da611d2260e3012880"
+  integrity sha512-887rjL0jJBdu8yA7jHU472gEaLlJ4kH8POzG/qYRLtIN72RuAOuKTiDfJVdnrSqMgpIrXYgVgVt36luQpo/zMA==
   dependencies:
     "@codemirror/lang-markdown" "^6.2.5"
     "@codemirror/language-data" "^6.5.1"
