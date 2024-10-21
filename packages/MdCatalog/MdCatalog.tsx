@@ -227,6 +227,18 @@ const MdCatalog = defineComponent({
       findActiveHeading(state.list);
     };
 
+    const catalogChangedHandler = (_list: Array<HeadList>) => {
+      // 滚动区域为document.documentElement需要把监听事件绑定在window上
+      const scrollElement = getScrollElement();
+      scrollElementRef.value = scrollElement;
+      scrollContainerRef.value =
+        scrollElement === document.documentElement ? document : scrollElement;
+
+      scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
+      findActiveHeading(_list);
+      scrollContainerRef.value?.addEventListener('scroll', scrollHandler);
+    };
+
     watch(
       () => activeItem.value,
       (nVal) => {
@@ -242,23 +254,9 @@ const MdCatalog = defineComponent({
     onMounted(() => {
       // 获取当前元素所在的根节点
       rootNodeRef.value = catalogRef.value!.getRootNode() as Document | ShadowRoot;
-      // 滚动区域为document.documentElement需要把监听事件绑定在window上
-      let scrollElement = getScrollElement();
-      scrollElementRef.value = scrollElement;
-
       bus.on(editorId, {
         name: CATALOG_CHANGED,
-        callback: (_list: Array<HeadList>) => {
-          // 切换预览状态后，需要重新获取滚动元素
-          scrollElement = getScrollElement();
-          scrollElementRef.value = scrollElement;
-          scrollContainerRef.value =
-            scrollElement === document.documentElement ? document : scrollElement;
-
-          scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
-          findActiveHeading(_list);
-          scrollContainerRef.value?.addEventListener('scroll', scrollHandler);
-        }
+        callback: catalogChangedHandler
       });
 
       // 主动触发一次接收
@@ -267,6 +265,7 @@ const MdCatalog = defineComponent({
 
     // 要移除监听事件，特别是全局的
     onBeforeUnmount(() => {
+      bus.remove(editorId, CATALOG_CHANGED, catalogChangedHandler);
       scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
     });
 
