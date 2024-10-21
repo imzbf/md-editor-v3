@@ -55,7 +55,8 @@ const props = {
     default: () => {}
   },
   class: {
-    type: String as PropType<string>
+    type: String as PropType<string>,
+    default: undefined
   },
   style: {
     type: [Object, String] as PropType<CSSProperties | string>,
@@ -270,7 +271,7 @@ export default defineComponent({
                         props.onAdjust(!props.isFullscreen);
                       }}
                     >
-                      <Icon name={props.isFullscreen ? 'suoxiao' : 'fangda'} />
+                      <Icon name={props.isFullscreen ? 'minimize' : 'maximize'} />
                     </div>
                   )}
                   <div

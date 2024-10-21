@@ -32,7 +32,8 @@ const props = {
    * 编辑器的Id，务必与需要绑定的编辑器Id相同
    */
   editorId: {
-    type: String as PropType<string>
+    type: String as PropType<string>,
+    default: undefined
   },
   class: {
     type: String,
@@ -49,7 +50,8 @@ const props = {
    * 默认：#md-editor-preview-wrapper
    */
   scrollElement: {
-    type: [String, Object] as PropType<string | HTMLElement>
+    type: [String, Object] as PropType<string | HTMLElement>,
+    default: undefined
   },
   theme: {
     type: String as PropType<Themes>,
@@ -74,10 +76,12 @@ const props = {
     default: 0
   },
   onClick: {
-    type: Function as PropType<(e: MouseEvent, t: TocItem) => void>
+    type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
+    default: undefined
   },
   onActive: {
-    type: Function as PropType<(heading: HeadList | undefined) => void>
+    type: Function as PropType<(heading: HeadList | undefined) => void>,
+    default: undefined
   },
   /**
    * 滚动容器是否在web component中，默认不在

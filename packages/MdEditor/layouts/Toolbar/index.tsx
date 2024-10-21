@@ -635,7 +635,7 @@ export default defineComponent({
                   bus.emit(editorId, ON_SAVE);
                 }}
               >
-                <Icon name="baocun" />
+                <Icon name="save" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>
@@ -679,7 +679,7 @@ export default defineComponent({
                     props.updateSetting('pageFullscreen');
                   }}
                 >
-                  <Icon name={props.setting.pageFullscreen ? 'suoxiao' : 'fangda'} />
+                  <Icon name={props.setting.pageFullscreen ? 'minimize' : 'maximize'} />
 
                   {props.showToolbarName && (
                     <div class={`${prefix}-toolbar-item-name`}>
@@ -770,7 +770,7 @@ export default defineComponent({
                   props.updateSetting('htmlPreview');
                 }}
               >
-                <Icon name="coding" />
+                <Icon name="preview-html" />
 
                 {props.showToolbarName && (
                   <div class={`${prefix}-toolbar-item-name`}>

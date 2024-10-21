@@ -2784,6 +2784,11 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+lucide-vue-next@^0.453.0:
+  version "0.453.0"
+  resolved "https://registry.npmjs.org/lucide-vue-next/-/lucide-vue-next-0.453.0.tgz#946e99f3afbb5a4bbb46f521e362cd276e91eef5"
+  integrity sha512-5zmv83vxAs9SVoe22veDBi8Dw0Fh2F+oTngWgKnKOkrZVbZjceXLQ3tescV2boB0zlaf9R2Sd9RuUP2766xvsQ==
+
 magic-string@^0.30.10:
   version "0.30.11"
   resolved "https://registry.npmjs.org/magic-string/-/magic-string-0.30.11.tgz#301a6f93b3e8c2cb13ac1a7a673492c0dfd12954"

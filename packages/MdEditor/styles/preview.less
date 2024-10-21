@@ -64,16 +64,21 @@
   }
 
   svg&-icon {
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
+    width: 16px;
+    height: 16px;
+    padding: 4px;
+    fill: none;
     overflow: hidden;
     display: block;
   }
 
-  i&-iconfont {
-    font-size: 24px;
-    vertical-align: text-bottom;
+  // 特殊处理这三个图标大小
+  .lucide-list-icon,
+  .lucide-list-ordered-icon,
+  .lucide-list-todo-icon {
+    width: 18px;
+    height: 18px;
+    padding: 3px;
   }
 
   &-preview-wrapper {
