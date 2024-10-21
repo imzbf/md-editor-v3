@@ -221,30 +221,7 @@ export const useProvide = (
  *
  * @param props 预览组件的props
  */
-export const useExpansionPreview = (props: MdPreviewProps) => {
-  onMounted(() => {
-    const { editorExtensions, editorExtensionsAttrs, iconfontType } = configOption;
-
-    if (props.noIconfont) {
-      return;
-    }
-
-    if (iconfontType === 'svg') {
-      appendHandler('script', {
-        ...editorExtensionsAttrs.iconfont,
-        src: editorExtensions.iconfont,
-        id: `${prefix}-icon`
-      });
-    } else {
-      appendHandler('link', {
-        ...editorExtensionsAttrs.iconfontClass,
-        rel: 'stylesheet',
-        href: editorExtensions.iconfontClass,
-        id: `${prefix}-icon-class`
-      });
-    }
-  });
-};
+export const useExpansionPreview = (props: MdPreviewProps) => {};
 
 /**
  * 插入编辑器支持的扩展外链
