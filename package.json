@@ -88,13 +88,5 @@
   },
   "peerDependencies": {
     "vue": "^3.2.47"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "none",
-    "semi": true,
-    "printWidth": 90,
-    "proseWrap": "never",
-    "endOfLine": "auto"
   }
 }
