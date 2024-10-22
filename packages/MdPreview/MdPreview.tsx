@@ -1,7 +1,7 @@
 import { defineComponent, onBeforeUnmount, ref } from 'vue';
 import { prefix } from '~/config';
 import bus from '~/utils/event-bus';
-import { useProvidePreview, useExpansionPreview } from '~/composition';
+import { useProvidePreview } from '~/composition';
 
 import ContentPreview from '~/layouts/Content/ContentPreview';
 import { MdPreviewProps } from '~/type';
@@ -14,15 +14,17 @@ const MdPreview = defineComponent({
   emits,
   setup(props: MdPreviewProps, ctx) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
-    // eslint-disable-next-line vue/no-setup-props-destructure
-    const { editorId, noKatex, noMermaid, noHighlight } = props;
+
+    const { noKatex, noMermaid, noHighlight } = props;
     const rootRef = ref<HTMLDivElement>();
     // provide 部分prop
-    useProvidePreview(props, rootRef);
+    const { editorId } = useProvidePreview(props, rootRef);
     // 插入扩展的外链
-    useExpansionPreview(props);
+    // useExpansionPreview(props);
 
-    useExpose(props, ctx);
+    useExpose(props, ctx, {
+      editorId
+    });
 
     // 卸载组件前清空全部事件监听
     onBeforeUnmount(() => {

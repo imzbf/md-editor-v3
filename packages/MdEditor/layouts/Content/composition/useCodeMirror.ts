@@ -156,9 +156,10 @@ const useCodeMirror = (props: ContentProps) => {
       nc.setTabSize(tabWidth);
       nc.setDisabled(props.disabled!);
       nc.setReadOnly(props.readonly!);
-      props.placeholder && nc.setPlaceholder(props.placeholder);
-      typeof props.maxlength === 'number' && nc.setMaxLength(props.maxlength);
-      props.autofocus && view.focus();
+
+      if (props.placeholder) nc.setPlaceholder(props.placeholder);
+      if (typeof props.maxlength === 'number') nc.setMaxLength(props.maxlength);
+      if (props.autofocus) view.focus();
     }, 0);
 
     bus.on(editorId, {

@@ -16,6 +16,7 @@ const props = {
 type CheckboxProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
+  name: `${prefix}-checkbox`,
   props,
   setup(props: CheckboxProps) {
     return () => {

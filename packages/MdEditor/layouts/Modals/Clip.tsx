@@ -38,6 +38,7 @@ const props = {
 type ClipProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
+  name: `${prefix}-modal-clip`,
   props,
   setup(props: ClipProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;

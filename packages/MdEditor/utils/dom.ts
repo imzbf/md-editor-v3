@@ -68,14 +68,18 @@ export const appendHandler = <K extends keyof HTMLElementTagNameMap>(
     const attrsCopy = { ...attributes };
     attrsCopy.onload = null;
     const ele = createHTMLElement(tagName, attrsCopy);
-    attributes.onload && ele.addEventListener('load', attributes.onload);
+    if (attributes.onload) {
+      ele.addEventListener('load', attributes.onload);
+    }
     document.head.appendChild(ele);
   } else if (checkKey !== '') {
     if (Reflect.get(window, checkKey)) {
       // 实例已存在，直接触发load事件
       attributes.onload?.call(insertedEle, new Event('load'));
     } else {
-      attributes.onload && insertedEle.addEventListener('load', attributes.onload);
+      if (attributes.onload) {
+        insertedEle.addEventListener('load', attributes.onload);
+      }
     }
   }
 };

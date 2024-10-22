@@ -1,8 +1,10 @@
 import { Component, ComputedRef, PropType, defineComponent, h, inject } from 'vue';
 import Icon, { IconName } from './Icon';
 import { CustomIcon } from '~/type';
+import { prefix } from '~/config';
 
 export default defineComponent({
+  name: `${prefix}-icon`,
   props: {
     name: {
       type: String as PropType<IconName>,

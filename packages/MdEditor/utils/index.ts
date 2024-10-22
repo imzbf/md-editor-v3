@@ -103,17 +103,6 @@ export const getRelativeTop = (element: HTMLElement, container: HTMLElement): nu
 };
 
 /**
- * 获取递增的ID
- */
-export const getNextId = (() => {
-  let count = 0;
-
-  return (prefix: string) => {
-    return prefix + ++count;
-  };
-})();
-
-/**
  * 获取递增的zIndex
  */
 export const getZIndexIncrement = (() => {
