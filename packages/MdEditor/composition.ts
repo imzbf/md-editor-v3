@@ -1,4 +1,4 @@
-import { reactive, watch, computed, onMounted, provide, ref, Ref } from 'vue';
+import { reactive, watch, computed, onMounted, provide, ref, Ref, useId } from 'vue';
 import {
   InnerError,
   SettingType,
@@ -42,8 +42,12 @@ import { deepClone, deepMerge } from '@vavt/util';
  * @param props
  * @param context
  */
-export const useOnSave = (props: EditorProps, context: EditorContext) => {
-  const { editorId } = props;
+export const useOnSave = (
+  props: EditorProps,
+  context: EditorContext,
+  options: { editorId: string }
+) => {
+  const { editorId } = options;
 
   const state = reactive({
     // 是否已编译成html
@@ -110,9 +114,10 @@ export const useProvidePreview = (
   props: MdPreviewProps,
   rootRef: Ref<HTMLDivElement | undefined>
 ) => {
-  const { editorId } = props;
   const hljsUrls = configOption.editorExtensions.highlight;
   const hljsAttrs = configOption.editorExtensionsAttrs.highlight;
+
+  const editorId = prefix + '-' + useEditorId(props);
 
   provide('editorId', editorId);
 
@@ -152,6 +157,7 @@ export const useProvidePreview = (
       const codeCssHref = cssList[props.codeTheme]
         ? cssList[props.codeTheme][_theme]
         : codeCss.atom[_theme];
+
       const codeCssAttrs =
         cssList[props.codeTheme] && cssAttrs[props.codeTheme]
           ? cssAttrs[props.codeTheme][_theme]
@@ -201,6 +207,8 @@ export const useProvidePreview = (
     'customIcon',
     computed(() => props.customIcon)
   );
+
+  return { editorId };
 };
 /**
  * 向下提供部分公共参数
@@ -211,9 +219,10 @@ export const useProvide = (
   props: EditorProps,
   rootRef: Ref<HTMLDivElement | undefined>
 ) => {
-  useProvidePreview(props, rootRef);
   // tab=2space
   provide('tabWidth', props.tabWidth);
+
+  return useProvidePreview(props, rootRef);
 };
 
 /**
@@ -221,7 +230,7 @@ export const useProvide = (
  *
  * @param props 预览组件的props
  */
-export const useExpansionPreview = (props: MdPreviewProps) => {};
+// export const useExpansionPreview = (props: MdPreviewProps) => {};
 
 /**
  * 插入编辑器支持的扩展外链
@@ -284,7 +293,7 @@ export const useExpansion = (props: EditorProps) => {
     }
   });
 
-  useExpansionPreview(props);
+  // useExpansionPreview(props);
 };
 
 /**
@@ -293,8 +302,14 @@ export const useExpansion = (props: EditorProps) => {
  * @param props
  * @param context
  */
-export const useErrorCatcher = (props: EditorProps, context: EditorContext) => {
-  const { editorId } = props;
+export const useErrorCatcher = (
+  props: EditorProps,
+  context: EditorContext,
+  options: {
+    editorId: string;
+  }
+) => {
+  const { editorId } = options;
 
   onMounted(() => {
     bus.on(editorId, {
@@ -319,9 +334,12 @@ export const useErrorCatcher = (props: EditorProps, context: EditorContext) => {
  */
 export const useConfig = (
   props: EditorProps,
-  context: EditorContext
+  context: EditorContext,
+  options: {
+    editorId: string;
+  }
 ): [setting: SettingType, updateSetting: UpdateSetting] => {
-  const { editorId } = props;
+  const { editorId } = options;
 
   // ----编辑器设置----
   const setting = reactive<SettingType>({
@@ -400,7 +418,7 @@ export const useConfig = (
             urls
           });
 
-          cb && cb();
+          cb?.();
         };
 
         if (props.onUploadImg) {
@@ -424,8 +442,8 @@ export const useConfig = (
  * @param props
  * @returns
  */
-export const useCatalog = (props: EditorProps) => {
-  const { editorId } = props;
+export const useCatalog = (props: EditorProps, options: { editorId: string }) => {
+  const { editorId } = options;
   const catalogShow = ref(false);
 
   onMounted(() => {
@@ -464,12 +482,15 @@ export const useCatalog = (props: EditorProps) => {
 export const useExpose = (
   props: EditorProps,
   ctx: EditorContext,
-  catalogVisible: Ref<boolean>,
-  setting: SettingType,
-  updateSetting: UpdateSetting,
-  codeRef: Ref<ContentExposeParam | undefined>
+  options: {
+    editorId: string;
+    catalogVisible: Ref<boolean>;
+    setting: SettingType;
+    updateSetting: UpdateSetting;
+    codeRef: Ref<ContentExposeParam | undefined>;
+  }
 ) => {
-  const { editorId } = props;
+  const { editorId, catalogVisible, setting, updateSetting, codeRef } = options;
 
   watch(
     () => setting.pageFullscreen,
@@ -631,4 +652,9 @@ export const useExpose = (
   };
 
   ctx.expose(exposeParam);
+};
+
+export const useEditorId = (props: MdPreviewProps) => {
+  const defaultId = useId();
+  return props.id || props.editorId || defaultId;
 };

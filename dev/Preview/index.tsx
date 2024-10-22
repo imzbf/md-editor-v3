@@ -1,4 +1,3 @@
-/* eslint-disable vue/require-default-prop */
 import {
   defineComponent,
   reactive,
@@ -145,6 +144,7 @@ const INPUT_BOX_WITDH = 'tcxll8alg5jx52hw';
 const mdHeadingId = (t: string, l: number, index: number) => `heading-${index}`;
 
 export default defineComponent({
+  name: 'preview-1',
   props: {
     theme: String as PropType<Theme>,
     previewTheme: String as PropType<string>,
@@ -290,7 +290,6 @@ export default defineComponent({
         </button>
         <div class="container">
           <MdEditor
-            editorId="md-prev"
             completions={completions.list}
             ref={editorRef}
             previewTheme={props.previewTheme}

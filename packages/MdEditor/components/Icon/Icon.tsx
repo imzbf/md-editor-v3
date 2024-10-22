@@ -113,6 +113,7 @@ const iconMaps: { [key in IconName]: Component } = {
 };
 
 export default defineComponent({
+  name: `${prefix}-icon-set`,
   props: {
     name: {
       type: String as PropType<IconName>,

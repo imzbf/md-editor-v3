@@ -78,7 +78,8 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
     if (GROUP === null) {
       const { open, tagContainer, tagHeader } = getTagType(tokens[idx]);
       const addAttrs: [[string, string]] = [['class', `${prefix}-code`]];
-      open && addAttrs.push(['open', '']);
+
+      if (open) addAttrs.push(['open', '']);
 
       const tmpToken = {
         attrs: mergeAttrs(tokens[idx], addAttrs)
@@ -108,7 +109,8 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
 
     const { open, tagContainer, tagHeader } = getTagType(tokens[idx]);
     const addAttrs: [[string, string]] = [['class', `${prefix}-code`]];
-    open && addAttrs.push(['open', '']);
+
+    if (open) addAttrs.push(['open', '']);
 
     const tmpToken = {
       attrs: mergeAttrs(tokens[idx], addAttrs)

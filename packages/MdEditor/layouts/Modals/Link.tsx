@@ -35,6 +35,7 @@ const props = {
 type LinkProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
+  name: `${prefix}-modal-link`,
   props,
   setup(props: LinkProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;

@@ -27,8 +27,8 @@ const Editor = defineComponent({
   emits,
   setup(props: EditorProps, ctx: EditorContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
-    // eslint-disable-next-line vue/no-setup-props-destructure
-    const { editorId, noKatex, noMermaid, noPrettier, noUploadImg, noHighlight } = props;
+
+    const { noKatex, noMermaid, noPrettier, noUploadImg, noHighlight } = props;
 
     const state = reactive({
       scrollAuto: props.scrollAuto
@@ -37,24 +37,34 @@ const Editor = defineComponent({
     const rootRef = ref<HTMLDivElement>();
     const codeRef = ref<ContentExposeParam>();
 
-    // 快捷键监听
-    useOnSave(props, ctx);
     // provide 部分prop
-    useProvide(props, rootRef);
+    const { editorId } = useProvide(props, rootRef);
+    // 部分配置重构
+    const [setting, updateSetting] = useConfig(props, ctx, { editorId });
+    // 目录状态
+    const catalogVisible = useCatalog(props, { editorId });
+    // 快捷键监听
+    useOnSave(props, ctx, {
+      editorId
+    });
     // 插入扩展的外链
     useExpansion(props);
     // 错误捕获
-    useErrorCatcher(props, ctx);
-    // 部分配置重构
-    const [setting, updateSetting] = useConfig(props, ctx);
-    // 目录状态
-    const catalogVisible = useCatalog(props);
+    useErrorCatcher(props, ctx, {
+      editorId
+    });
+    // 向外暴露属性
+    useExpose(props, ctx, {
+      editorId,
+      catalogVisible,
+      setting,
+      updateSetting,
+      codeRef
+    });
     // 卸载组件前清空全部事件监听
     onBeforeUnmount(() => {
       bus.clear(editorId);
     });
-
-    useExpose(props, ctx, catalogVisible, setting, updateSetting, codeRef);
 
     return () => {
       const defToolbars = getSlot({ props, ctx }, 'defToolbars');
