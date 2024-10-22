@@ -21,13 +21,33 @@
 }
 
 .@{prefix}-catalog {
+  // &::before {
+  //   content: '';
+  //   display: block;
+  //   position: absolute;
+  //   width: 4px;
+  //   height: 100%;
+  //   background-color: var(--md-bk-color-outstand);
+  // }
+
+  &-indicator {
+    height: 18px;
+    width: 4px;
+    background-color: #73d13d;
+    position: absolute;
+    border-radius: 4px;
+
+    transition: top 0.3s;
+  }
+
   & > &-link {
     padding: 5px 8px;
   }
 
   &-link {
     padding: 5px 0 5px 1em;
-    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
 
     span {
       display: inline-block;
@@ -39,6 +59,7 @@
       text-overflow: ellipsis;
       transition: color 0.3s;
       cursor: pointer;
+      line-height: 18px;
 
       &:hover {
         color: #73d13d;
