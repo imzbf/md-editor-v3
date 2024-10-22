@@ -6,10 +6,6 @@ export const prefix = 'md-editor';
 // 编辑器ID
 export const defaultEditorId = 'md-editor-v3';
 
-// 字体链接
-export const iconfontSvgUrl = 'https://at.alicdn.com/t/c/font_2605852_cmafimm6hot.js';
-export const iconfontClassUrl = 'https://at.alicdn.com/t/c/font_2605852_cmafimm6hot.css';
-
 export const cdnBase = 'https://cdnjs.cloudflare.com/ajax/libs';
 
 // 代码高亮cdn链接
@@ -191,8 +187,8 @@ export const staticTextDefault: StaticTextDefault = {
       h6: 'Lv6 Heading'
     },
     imgTitleItem: {
-      link: 'Add Img Link',
-      upload: 'Upload Img',
+      link: 'Add Image Link',
+      upload: 'Upload Images',
       clip2upload: 'Clip Upload'
     },
     linkModalTips: {
@@ -408,14 +404,6 @@ export const editorExtensionsAttrs: ConfigOption['editorExtensionsAttrs'] = {
       crossOrigin: 'anonymous'
     }
   },
-  iconfont: {
-    integrity: 'sha384-HRrf1e8/EiqrIZQftejl7pMTeuLeYczOz7rolAGxgw86N7UjiXkex67Uf2XTZz5z',
-    crossOrigin: 'anonymous'
-  },
-  iconfontClass: {
-    integrity: 'sha384-81pjilF/gLoQvAfd8madmeylVdv8IagPQaq1C/OZbysLav7k9g+Ir3XD5qK00Q5r',
-    crossOrigin: 'anonymous'
-  },
   screenfull: {
     js: {
       integrity:
@@ -457,8 +445,6 @@ export const configOption: ConfigOption = {
     cropper: {
       ...cropperUrl
     },
-    iconfont: iconfontSvgUrl,
-    iconfontClass: iconfontClassUrl,
     screenfull: {
       js: screenfullUrl
     },
@@ -479,7 +465,6 @@ export const configOption: ConfigOption = {
   codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions,
   markdownItConfig: () => {},
   markdownItPlugins: (s) => s,
-  iconfontType: 'svg',
   mermaidConfig: (c) => c,
   katexConfig: (c) => c
 };

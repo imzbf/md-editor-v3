@@ -78,7 +78,8 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
     if (GROUP === null) {
       const { open, tagContainer, tagHeader } = getTagType(tokens[idx]);
       const addAttrs: [[string, string]] = [['class', `${prefix}-code`]];
-      open && addAttrs.push(['open', '']);
+
+      if (open) addAttrs.push(['open', '']);
 
       const tmpToken = {
         attrs: mergeAttrs(tokens[idx], addAttrs)
@@ -87,15 +88,19 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       tokens[idx].info = tokens[idx].info.replace(mandatoryRe, '');
 
       const codeRendered = defaultRender!(tokens, idx, options, env, slf);
-      return `<${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
-        <${tagHeader} class="${prefix}-code-head">
-          <div class="${prefix}-code-flag"><span></span><span></span><span></span></div>
-          <div class="${prefix}-code-action">
-            <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
-            <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}">${copyBtnHtml}</span>
-            ${tagContainer === 'details' ? collapseTips : ''}
-          </div>
-        </${tagHeader}>${codeRendered}</${tagContainer}>`;
+      return `
+        <${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
+          <${tagHeader} class="${prefix}-code-head">
+            <div class="${prefix}-code-flag"><span></span><span></span><span></span></div>
+            <div class="${prefix}-code-action">
+              <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
+              <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
+              ${tagContainer === 'details' ? collapseTips : ''}
+            </div>
+          </${tagHeader}>
+          ${codeRendered}
+        </${tagContainer}>
+      `;
     }
 
     let token,
@@ -108,7 +113,8 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
 
     const { open, tagContainer, tagHeader } = getTagType(tokens[idx]);
     const addAttrs: [[string, string]] = [['class', `${prefix}-code`]];
-    open && addAttrs.push(['open', '']);
+
+    if (open) addAttrs.push(['open', '']);
 
     const tmpToken = {
       attrs: mergeAttrs(tokens[idx], addAttrs)
@@ -128,31 +134,59 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
 
       checked = i - idx > 0 ? '' : 'checked';
 
-      labels += `<li>
-          <input type="radio" name="${prefix}-codetab-label-${_opts.editorId}-${idx}" class="${className}" ${checked}>
-          <label onclick="this.getRootNode().querySelectorAll('.${className}').forEach(e => e.click())">${
-            tab || getLangName(token)
-          }</label>
+      labels += `
+        <li>
+          <input
+            type="radio"
+            id="label-${prefix}-codetab-label-1-${_opts.editorId}-${idx}-${i - idx}"
+            name="${prefix}-codetab-label-${_opts.editorId}-${idx}"
+            class="${className}"
+            ${checked}
+          >
+          <label
+            for="label-${prefix}-codetab-label-1-${_opts.editorId}-${idx}-${i - idx}"
+            onclick="this.getRootNode().querySelectorAll('.${className}').forEach(e => e.click())"
+          >
+            ${tab || getLangName(token)}
+          </label>
         </li>`;
 
-      pres += `<input type="radio" name="${prefix}-codetab-pre-${_opts.editorId}-${idx}" class="${className}" ${checked}>
-      ${defaultRender!(tokens, i, options, env, slf)}`;
+      pres += `
+        <div role="tabpanel">
+          <input
+            type="radio"
+            name="${prefix}-codetab-pre-${_opts.editorId}-${idx}"
+            class="${className}"
+            ${checked}
+            role="presentation">
+          ${defaultRender!(tokens, i, options, env, slf)}
+        </div>`;
 
-      langs += `<input type="radio" name="${prefix}-codetab-lang-${_opts.editorId}-${idx}" class="${className}" ${checked}>
-      <span class=${prefix}-code-lang>${getLangName(token)}</span>`;
+      langs += `
+        <input
+          type="radio"
+          name="${prefix}-codetab-lang-${_opts.editorId}-${idx}"
+          class="${className}"
+          ${checked}
+          role="presentation">
+        <span class=${prefix}-code-lang role="note">${getLangName(token)}</span>`;
     }
 
-    return `<${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
-    <${tagHeader} class="${prefix}-code-head">
-      <div class="${prefix}-code-flag">
-        <ul class="${prefix}-codetab-label">${labels}</ul>
-      </div>
-      <div class="${prefix}-code-action">
-        <span class="${prefix}-codetab-lang">${langs}</span>
-        <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}">${copyBtnHtml}</span>
-        ${tagContainer === 'details' ? collapseTips : ''}
-      </div>
-    </${tagHeader}>${pres}</${tagContainer}>`;
+    return `
+      <${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
+        <${tagHeader} class="${prefix}-code-head">
+          <div class="${prefix}-code-flag">
+            <ul class="${prefix}-codetab-label" role="tablist">${labels}</ul>
+          </div>
+          <div class="${prefix}-code-action">
+            <span class="${prefix}-codetab-lang">${langs}</span>
+            <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
+            ${tagContainer === 'details' ? collapseTips : ''}
+          </div>
+        </${tagHeader}>
+        ${pres}
+      </${tagContainer}>
+    `;
   };
 
   md.renderer.rules.fence = fenceGroup;

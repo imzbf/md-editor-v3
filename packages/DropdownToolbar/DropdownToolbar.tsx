@@ -18,39 +18,48 @@ const props = {
     default: ''
   },
   visible: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: undefined
   },
   // 展示在工具栏的内容，通常是个图标
   trigger: {
-    type: [String, Object] as PropType<string | VNode>
+    type: [String, Object] as PropType<string | VNode>,
+    default: undefined
   },
   onChange: {
-    type: Function as PropType<(visible: boolean) => void>
+    type: Function as PropType<(visible: boolean) => void>,
+    default: undefined
   },
   // 下拉框中的内容
   overlay: {
-    type: [String, Object] as PropType<string | VNode>
+    type: [String, Object] as PropType<string | VNode>,
+    default: undefined
   },
   /**
    * ==没有意义，仅用于规避克隆组件自动嵌入insert方法时，传入的是该组件而产生的waring
    */
   insert: {
-    type: Function as PropType<() => void>
+    type: Function as PropType<() => void>,
+    default: undefined
   },
   language: {
-    type: String as PropType<string>
+    type: String as PropType<string>,
+    default: undefined
   },
   theme: {
-    type: String as PropType<Themes>
+    type: String as PropType<Themes>,
+    default: undefined
   },
   previewTheme: {
-    type: String as PropType<PreviewThemes>
+    type: String as PropType<PreviewThemes>,
+    default: undefined
   },
   /**
    * ==结束
    */
   default: {
-    type: [String, Object] as PropType<string | Element>
+    type: [String, Object] as PropType<string | Element>,
+    default: undefined
   }
 };
 

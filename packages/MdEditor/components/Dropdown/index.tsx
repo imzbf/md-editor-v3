@@ -49,6 +49,7 @@ type DropdownToolbarProps = Readonly<
 >;
 
 export default defineComponent({
+  name: `${prefix}-dropdown`,
   props,
   setup(props: DropdownToolbarProps, ctx: SetupContext<EmitsOptions>) {
     const HIDDEN_CLASS = `${prefix}-dropdown-hidden`;

@@ -78,7 +78,9 @@
       box-sizing: content-box;
 
       &-item {
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         margin: 0 2px;
         padding: 0 2px;
         transition: all 0.3s;
@@ -87,7 +89,6 @@
         list-style: none;
         user-select: none;
         text-align: center;
-        font-size: 0;
 
         &-name {
           font-size: 12px;

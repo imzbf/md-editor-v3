@@ -45,7 +45,7 @@ const useHighlight = (props: ContentPreviewProps) => {
     () => highlight.value.css,
     () => {
       // 强制不高亮，则什么都不做
-      if (props.noHighlight || hljsRef.value) {
+      if (props.noHighlight || configOption.editorExtensions.highlight!.instance) {
         return;
       }
 

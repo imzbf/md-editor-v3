@@ -7,9 +7,9 @@ import {
   ExtractPropTypes,
   shallowRef,
   onBeforeUnmount,
-  watch,
   ref,
-  provide
+  provide,
+  CSSProperties
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { HeadList, MdHeadingId, Themes } from '~/type';
@@ -18,12 +18,10 @@ import { getRelativeTop } from '~/utils';
 import bus from '~/utils/event-bus';
 import CatalogLink from './CatalogLink';
 import { CATALOG_CHANGED, PUSH_CATALOG } from '~/static/event-name';
+import { getComputedStyleNum } from '~/utils/scroll-auto';
 
-export interface TocItem {
-  text: string;
-  level: number;
+export interface TocItem extends HeadList {
   index: number;
-  active: boolean;
   children?: Array<TocItem>;
 }
 
@@ -32,7 +30,8 @@ const props = {
    * 编辑器的Id，务必与需要绑定的编辑器Id相同
    */
   editorId: {
-    type: String as PropType<string>
+    type: String as PropType<string>,
+    default: undefined
   },
   class: {
     type: String,
@@ -49,7 +48,8 @@ const props = {
    * 默认：#md-editor-preview-wrapper
    */
   scrollElement: {
-    type: [String, Object] as PropType<string | HTMLElement>
+    type: [String, Object] as PropType<string | HTMLElement>,
+    default: undefined
   },
   theme: {
     type: String as PropType<Themes>,
@@ -74,10 +74,14 @@ const props = {
     default: 0
   },
   onClick: {
-    type: Function as PropType<(e: MouseEvent, t: TocItem) => void>
+    type: Function as PropType<(e: MouseEvent, t: TocItem) => void>,
+    default: undefined
   },
   onActive: {
-    type: Function as PropType<(heading: HeadList | undefined) => void>
+    type: Function as PropType<
+      (heading: HeadList | undefined, activeElement: HTMLDivElement) => void
+    >,
+    default: undefined
   },
   /**
    * 滚动容器是否在web component中，默认不在
@@ -121,6 +125,11 @@ const MdCatalog = defineComponent({
     const scrollContainerRef = ref<HTMLElement | Document>();
     // 获取到的目录root节点，注意，不支持目录和编辑器不在同一个web c中使用
     const rootNodeRef = ref<Document | ShadowRoot>();
+
+    /**
+     * 指示器样式
+     */
+    const indicatorStyles = ref<CSSProperties>({});
 
     provide('scrollElementRef', scrollElementRef);
     provide('roorNodeRef', rootNodeRef);
@@ -223,42 +232,39 @@ const MdCatalog = defineComponent({
       state.list = list;
     };
 
+    const onActive = (tocItem: TocItem, ele: HTMLDivElement) => {
+      indicatorStyles.value.top =
+        ele.offsetTop + getComputedStyleNum(ele, 'padding-top') + 'px';
+
+      if (props.onActive) {
+        props.onActive(tocItem, ele);
+      } else {
+        ctx.emit('onActive', tocItem);
+      }
+    };
+
     const scrollHandler = () => {
       findActiveHeading(state.list);
     };
 
-    watch(
-      () => activeItem.value,
-      (nVal) => {
-        const activeHeading = nVal ? { ...nVal } : undefined;
-        if (props.onActive) {
-          props.onActive(activeHeading);
-        } else {
-          ctx.emit('onActive', activeHeading);
-        }
-      }
-    );
+    const catalogChangedHandler = (_list: Array<HeadList>) => {
+      // 滚动区域为document.documentElement需要把监听事件绑定在window上
+      const scrollElement = getScrollElement();
+      scrollElementRef.value = scrollElement;
+      scrollContainerRef.value =
+        scrollElement === document.documentElement ? document : scrollElement;
+
+      scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
+      findActiveHeading(_list);
+      scrollContainerRef.value?.addEventListener('scroll', scrollHandler);
+    };
 
     onMounted(() => {
       // 获取当前元素所在的根节点
       rootNodeRef.value = catalogRef.value!.getRootNode() as Document | ShadowRoot;
-      // 滚动区域为document.documentElement需要把监听事件绑定在window上
-      let scrollElement = getScrollElement();
-      scrollElementRef.value = scrollElement;
-
       bus.on(editorId, {
         name: CATALOG_CHANGED,
-        callback: (_list: Array<HeadList>) => {
-          // 切换预览状态后，需要重新获取滚动元素
-          scrollElement = getScrollElement();
-          scrollElementRef.value = scrollElement;
-          scrollContainerRef.value =
-            scrollElement === document.documentElement ? document : scrollElement;
-
-          scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
-          findActiveHeading(_list);
-          scrollContainerRef.value?.addEventListener('scroll', scrollHandler);
-        }
+        callback: catalogChangedHandler
       });
 
       // 主动触发一次接收
@@ -267,6 +273,7 @@ const MdCatalog = defineComponent({
 
     // 要移除监听事件，特别是全局的
     onBeforeUnmount(() => {
+      bus.remove(editorId, CATALOG_CHANGED, catalogChangedHandler);
       scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
     });
 
@@ -279,23 +286,34 @@ const MdCatalog = defineComponent({
         ]}
         ref={catalogRef}
       >
-        {catalogs.value.map((item) => {
-          return (
-            <CatalogLink
-              mdHeadingId={props.mdHeadingId}
-              tocItem={item}
-              key={`link-${item.level}-${item.text}`}
-              onClick={(e: MouseEvent, t: TocItem) => {
-                if (props.onClick) {
-                  props.onClick(e, t);
-                } else {
-                  ctx.emit('onClick', e, t);
-                }
-              }}
-              scrollElementOffsetTop={props.scrollElementOffsetTop}
-            />
-          );
-        })}
+        {catalogs.value.length > 0 && (
+          <>
+            <div
+              class={`${prefix}-catalog-indicator`}
+              style={indicatorStyles.value}
+            ></div>
+            <div class={`${prefix}-catalog-container`}>
+              {catalogs.value.map((item) => {
+                return (
+                  <CatalogLink
+                    mdHeadingId={props.mdHeadingId}
+                    tocItem={item}
+                    key={`link-${item.level}-${item.text}`}
+                    onActive={onActive}
+                    onClick={(e: MouseEvent, t: TocItem) => {
+                      if (props.onClick) {
+                        props.onClick(e, t);
+                      } else {
+                        ctx.emit('onClick', e, t);
+                      }
+                    }}
+                    scrollElementOffsetTop={props.scrollElementOffsetTop}
+                  />
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     );
   }

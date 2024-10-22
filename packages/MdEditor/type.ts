@@ -213,14 +213,6 @@ export interface ConfigOption {
       js?: string;
       css?: string;
     };
-    /**
-     * Svg方式的图标
-     */
-    iconfont?: string;
-    /**
-     * class方式的图标
-     */
-    iconfontClass?: string;
     screenfull?: {
       instance?: any;
       js?: string;
@@ -255,11 +247,6 @@ export interface ConfigOption {
       js?: Partial<HTMLElementTagNameMap['script']>;
       css?: Partial<HTMLElementTagNameMap['link']>;
     };
-    iconfont?: Partial<HTMLElementTagNameMap['script']>;
-    /**
-     * class方式的图标
-     */
-    iconfontClass?: Partial<HTMLElementTagNameMap['link']>;
     screenfull?: {
       js?: Partial<HTMLElementTagNameMap['script']>;
     };
@@ -329,12 +316,6 @@ export interface ConfigOption {
       editorId: string;
     }
   ) => Array<MarkdownItConfigPlugin>;
-  /**
-   * 如果使用内部的图标，可以切换展示的方式
-   *
-   * 以规避某些问题，例如Shadow Dom对Svg use的支持问题
-   */
-  iconfontType: 'svg' | 'class';
   /**
    * mermaid配置项
    *
@@ -570,7 +551,7 @@ export type EditorEmits = Array<
   | 'onFocus'
   | 'onInput'
   | 'onDrop'
-  | 'onInputBoxWitdhChange'
+  | 'oninputBoxWidthChange'
 >;
 
 export type EditorContext = SetupContext<EditorEmits>;

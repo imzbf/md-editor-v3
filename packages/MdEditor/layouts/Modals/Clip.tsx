@@ -38,6 +38,7 @@ const props = {
 type ClipProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
+  name: `${prefix}-modal-clip`,
   props,
   setup(props: ClipProps) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
@@ -168,6 +169,9 @@ export default defineComponent({
                 onClick={() => {
                   (uploadRef.value as HTMLInputElement).click();
                 }}
+                role="button"
+                tabindex="0"
+                aria-label={ult.value.imgTitleItem?.upload}
               >
                 <Icon name="upload" />
               </div>
@@ -204,6 +208,7 @@ export default defineComponent({
           type="file"
           multiple={false}
           style={{ display: 'none' }}
+          aria-hidden="true"
         />
       </Modal>
     );

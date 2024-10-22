@@ -15,11 +15,13 @@ const toggleWith = (view: EditorView) => {
   const mc = new Compartment();
 
   const toggle = (extension: Extension) => {
-    mc.get(view.state)
-      ? view.dispatch({ effects: mc.reconfigure(extension) })
-      : view.dispatch({
-          effects: StateEffect.appendConfig.of(mc.of(extension))
-        });
+    if (mc.get(view.state)) {
+      view.dispatch({ effects: mc.reconfigure(extension) });
+    } else {
+      view.dispatch({
+        effects: StateEffect.appendConfig.of(mc.of(extension))
+      });
+    }
     return true;
   };
 

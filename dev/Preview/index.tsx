@@ -1,4 +1,3 @@
-/* eslint-disable vue/require-default-prop */
 import {
   defineComponent,
   reactive,
@@ -14,7 +13,9 @@ import {
   DropdownToolbar,
   ModalToolbar,
   config,
-  editorExtensionsAttrs
+  editorExtensionsAttrs,
+  NormalFooterToolbar,
+  XSSPlugin
 } from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
@@ -77,7 +78,14 @@ config({
   //   permalink: true
   // });
   markdownItPlugins(plugins, { editorId }) {
-    return plugins.map((item) => {
+    return [
+      ...plugins,
+      {
+        type: 'xss',
+        plugin: XSSPlugin,
+        options: {}
+      }
+    ].map((item) => {
       if (item.type === 'taskList') {
         return {
           ...item,
@@ -136,6 +144,7 @@ const INPUT_BOX_WITDH = 'tcxll8alg5jx52hw';
 const mdHeadingId = (t: string, l: number, index: number) => `heading-${index}`;
 
 export default defineComponent({
+  name: 'preview-1',
   props: {
     theme: String as PropType<Theme>,
     previewTheme: String as PropType<string>,
@@ -151,7 +160,7 @@ export default defineComponent({
       visible: false,
       modalVisible: false,
       isFullscreen: false,
-      inputBoxWitdh: storagedWidth
+      inputBoxWidth: storagedWidth
     });
 
     const editorRef = ref<ExposeParam>();
@@ -281,7 +290,7 @@ export default defineComponent({
         </button>
         <div class="container">
           <MdEditor
-            editorId="md-prev"
+            id="md-prev"
             completions={completions.list}
             ref={editorRef}
             previewTheme={props.previewTheme}
@@ -410,9 +419,9 @@ export default defineComponent({
             // onFocus={console.log}
             // onInput={console.log}
             // showToolbarName
-            inputBoxWitdh={md.inputBoxWitdh}
-            onInputBoxWitdhChange={(w) => {
-              md.inputBoxWitdh = w;
+            inputBoxWidth={md.inputBoxWidth}
+            oninputBoxWidthChange={(w) => {
+              md.inputBoxWidth = w;
               localStorage.setItem(INPUT_BOX_WITDH, w);
             }}
             toolbars={[
@@ -494,7 +503,7 @@ export default defineComponent({
             footers={['markdownTotal', '=', 0, 'scrollSwitch']}
             defFooters={
               <>
-                <span>^_^</span>
+                <NormalFooterToolbar>^_^</NormalFooterToolbar>
               </>
             }
           ></MdEditor>
