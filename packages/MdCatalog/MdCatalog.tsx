@@ -7,9 +7,9 @@ import {
   ExtractPropTypes,
   shallowRef,
   onBeforeUnmount,
-  watch,
   ref,
-  provide
+  provide,
+  CSSProperties
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { HeadList, MdHeadingId, Themes } from '~/type';
@@ -18,12 +18,10 @@ import { getRelativeTop } from '~/utils';
 import bus from '~/utils/event-bus';
 import CatalogLink from './CatalogLink';
 import { CATALOG_CHANGED, PUSH_CATALOG } from '~/static/event-name';
+import { getComputedStyleNum } from '~/utils/scroll-auto';
 
-export interface TocItem {
-  text: string;
-  level: number;
+export interface TocItem extends HeadList {
   index: number;
-  active: boolean;
   children?: Array<TocItem>;
 }
 
@@ -80,7 +78,9 @@ const props = {
     default: undefined
   },
   onActive: {
-    type: Function as PropType<(heading: HeadList | undefined) => void>,
+    type: Function as PropType<
+      (heading: HeadList | undefined, activeElement: HTMLDivElement) => void
+    >,
     default: undefined
   },
   /**
@@ -125,6 +125,11 @@ const MdCatalog = defineComponent({
     const scrollContainerRef = ref<HTMLElement | Document>();
     // 获取到的目录root节点，注意，不支持目录和编辑器不在同一个web c中使用
     const rootNodeRef = ref<Document | ShadowRoot>();
+
+    /**
+     * 指示器样式
+     */
+    const indicatorStyles = ref<CSSProperties>({});
 
     provide('scrollElementRef', scrollElementRef);
     provide('roorNodeRef', rootNodeRef);
@@ -227,6 +232,17 @@ const MdCatalog = defineComponent({
       state.list = list;
     };
 
+    const onActive = (tocItem: TocItem, ele: HTMLDivElement) => {
+      indicatorStyles.value.top =
+        ele.offsetTop + getComputedStyleNum(ele, 'padding-top') + 'px';
+
+      if (props.onActive) {
+        props.onActive(tocItem, ele);
+      } else {
+        ctx.emit('onActive', tocItem);
+      }
+    };
+
     const scrollHandler = () => {
       findActiveHeading(state.list);
     };
@@ -242,18 +258,6 @@ const MdCatalog = defineComponent({
       findActiveHeading(_list);
       scrollContainerRef.value?.addEventListener('scroll', scrollHandler);
     };
-
-    watch(
-      () => activeItem.value,
-      (nVal) => {
-        const activeHeading = nVal ? { ...nVal } : undefined;
-        if (props.onActive) {
-          props.onActive(activeHeading);
-        } else {
-          ctx.emit('onActive', activeHeading);
-        }
-      }
-    );
 
     onMounted(() => {
       // 获取当前元素所在的根节点
@@ -282,23 +286,34 @@ const MdCatalog = defineComponent({
         ]}
         ref={catalogRef}
       >
-        {catalogs.value.map((item) => {
-          return (
-            <CatalogLink
-              mdHeadingId={props.mdHeadingId}
-              tocItem={item}
-              key={`link-${item.level}-${item.text}`}
-              onClick={(e: MouseEvent, t: TocItem) => {
-                if (props.onClick) {
-                  props.onClick(e, t);
-                } else {
-                  ctx.emit('onClick', e, t);
-                }
-              }}
-              scrollElementOffsetTop={props.scrollElementOffsetTop}
-            />
-          );
-        })}
+        {catalogs.value.length > 0 && (
+          <>
+            <div
+              class={`${prefix}-catalog-indicator`}
+              style={indicatorStyles.value}
+            ></div>
+            <div class={`${prefix}-catalog-container`}>
+              {catalogs.value.map((item) => {
+                return (
+                  <CatalogLink
+                    mdHeadingId={props.mdHeadingId}
+                    tocItem={item}
+                    key={`link-${item.level}-${item.text}`}
+                    onActive={onActive}
+                    onClick={(e: MouseEvent, t: TocItem) => {
+                      if (props.onClick) {
+                        props.onClick(e, t);
+                      } else {
+                        ctx.emit('onClick', e, t);
+                      }
+                    }}
+                    scrollElementOffsetTop={props.scrollElementOffsetTop}
+                  />
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     );
   }

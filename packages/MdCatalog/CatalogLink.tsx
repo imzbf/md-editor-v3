@@ -1,4 +1,13 @@
-import { defineComponent, PropType, ExtractPropTypes, inject, Ref } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  ExtractPropTypes,
+  inject,
+  Ref,
+  watch,
+  ref,
+  nextTick
+} from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { MdHeadingId } from '~/type';
 import { prefix } from '~/config';
@@ -12,6 +21,10 @@ const props = {
   },
   mdHeadingId: {
     type: Function as PropType<MdHeadingId>,
+    default: () => {}
+  },
+  onActive: {
+    type: Function as PropType<(tocItem: TocItem, ele: HTMLDivElement) => void>,
     default: () => {}
   },
   onClick: {
@@ -34,11 +47,32 @@ const CatalogLink = defineComponent({
     const scrollElementRef = inject('scrollElementRef') as Ref<HTMLElement>;
     const rootNodeRef = inject('roorNodeRef') as Ref<Document | ShadowRoot>;
 
+    const currRef = ref<HTMLDivElement>();
+
+    watch(
+      () => props.tocItem.active,
+      (active) => {
+        if (active) {
+          if (currRef.value) {
+            props.onActive(props.tocItem, currRef.value);
+          } else {
+            nextTick(() => {
+              props.onActive(props.tocItem, currRef.value!);
+            });
+          }
+        }
+      },
+      {
+        immediate: true
+      }
+    );
+
     return () => {
       const { tocItem, mdHeadingId, onClick, scrollElementOffsetTop } = props;
 
       return (
         <div
+          ref={currRef}
           class={[`${prefix}-catalog-link`, tocItem.active && `${prefix}-catalog-active`]}
           onClick={(e) => {
             onClick(e, tocItem);
@@ -74,18 +108,20 @@ const CatalogLink = defineComponent({
           }}
         >
           <span title={tocItem.text}>{tocItem.text}</span>
-          <div class={`${prefix}-catalog-wrapper`}>
-            {tocItem.children &&
-              tocItem.children.map((item) => (
+          {tocItem.children && tocItem.children.length > 0 && (
+            <div class={`${prefix}-catalog-wrapper`}>
+              {tocItem.children.map((item) => (
                 <CatalogLink
                   mdHeadingId={mdHeadingId}
                   key={`${tocItem.text}-link-${item.level}-${item.text}`}
                   tocItem={item}
+                  onActive={props.onActive}
                   onClick={onClick}
                   scrollElementOffsetTop={scrollElementOffsetTop}
                 />
               ))}
-          </div>
+            </div>
+          )}
         </div>
       );
     };

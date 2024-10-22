@@ -117,7 +117,7 @@ export const useProvidePreview = (
   const hljsUrls = configOption.editorExtensions.highlight;
   const hljsAttrs = configOption.editorExtensionsAttrs.highlight;
 
-  const editorId = prefix + '-' + useEditorId(props);
+  const editorId = useEditorId(props);
 
   provide('editorId', editorId);
 
@@ -656,5 +656,5 @@ export const useExpose = (
 
 export const useEditorId = (props: MdPreviewProps) => {
   const defaultId = useId();
-  return props.id || props.editorId || defaultId;
+  return props.id || props.editorId || `${prefix}-${defaultId}`;
 };

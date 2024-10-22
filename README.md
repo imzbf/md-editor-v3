@@ -877,7 +877,7 @@ On-demand import. For more examples, refer to [document](https://imzbf.github.io
 - **events**
 
   - `onClick`: `(e: MouseEvent, t: TocItem) => void`, not required, heading was clicked.
-  - `onActive`: `(heading: HeadList | undefined) => void`, not required, heading was highlighted.
+  - `onActive`: `(heading: HeadList | undefined, activeElement: HTMLDivElement) => void`, not required, heading was highlighted.
 
 ### 🛸 MdModal
 

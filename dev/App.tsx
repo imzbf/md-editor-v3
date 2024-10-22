@@ -47,13 +47,13 @@ export default defineComponent({
             lang={lang.value}
           />
 
-          <VueTemplate />
+          {/* <VueTemplate />
 
           <PreviewOnly
             theme={theme.value}
             previewTheme={previewTheme.value}
             codeTheme={codeTheme.value}
-          />
+          /> */}
         </div>
       </div>
     );
