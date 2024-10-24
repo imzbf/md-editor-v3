@@ -1,6 +1,12 @@
+<template>
+  <NuxtLoadingIndicator />
+</template>
+
 <script setup lang="ts">
 // passing 'to' as a string
-await navigateTo('/en-US/5');
+onMounted(async () => {
+  await navigateTo(`/${navigator.language === 'zh-CN' ? 'zh-CN' : 'en-US'}/5`);
+});
 
 // ... or as a route object
 // await navigateTo({ path: '/search' })

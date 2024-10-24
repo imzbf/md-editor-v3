@@ -25,6 +25,16 @@ const queryMd = () => {
   mdText.value = replaceTemplate(store.lang === 'en-US' ? mdEN : mdCN, {});
 };
 watch(() => store.lang, queryMd);
+
+useHead({
+  title: '属性 - MdEditorV3 使用文档',
+  meta: [
+    {
+      name: '',
+      content: '',
+    },
+  ],
+});
 </script>
 
 <script lang="ts">

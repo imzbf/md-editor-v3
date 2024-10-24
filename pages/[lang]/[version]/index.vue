@@ -172,6 +172,16 @@ const onSuccess = () => {
   });
 };
 
+useHead({
+  title: '首页 - MdEditorV3 使用文档',
+  meta: [
+    {
+      name: '',
+      content: '',
+    },
+  ],
+});
+
 onMounted(() => {
   console.log(editorRef.value?.on('catalog', console.log));
 

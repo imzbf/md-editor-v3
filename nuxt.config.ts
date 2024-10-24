@@ -10,12 +10,14 @@ export default defineNuxtConfig({
   generate: {
     routes: [
       '/',
+      '/zh-CN',
       '/zh-CN/5',
       '/zh-CN/5/docs',
       '/zh-CN/5/demo',
       '/zh-CN/5/grammar',
       '/zh-CN/5/contrast',
       '/zh-CN/5/about',
+      '/en-US',
       '/en-US/5',
       '/en-US/5/docs',
       '/en-US/5/demo',
@@ -25,7 +27,10 @@ export default defineNuxtConfig({
     ],
   },
   app: {
+    baseURL: process.env.NODE_ENV === 'production' ? '/md-editor-v3' : '/',
     head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         {

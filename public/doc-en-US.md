@@ -229,35 +229,6 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ---
 
-### 🤞🏼 noIconfont
-
-- **type**: `boolean`
-- **default**: `false`
-
-  Not append iconfont script, download [Symbol version](${iconfontSvgUrl}) or [Font class version](${iconfontClassUrl}) and import it by yourself.
-
-  ```js
-  import '/assets/iconfont.js';
-
-  // Use Font class
-  // import { config } from 'md-editor-v3';
-  // import '/assets/iconfont.css';
-  // config({ iconfontType: 'class' })
-  ```
-
-  ```vue
-  <template>
-    <MdEditor noIconfont />
-  </template>
-
-  <script setup>
-  import { MdEditor } from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-  </script>
-  ```
-
----
-
 ### 💅 formatCopiedText
 
 - **type**: `(text: string) => string`
@@ -2261,23 +2232,9 @@ const onChange = () => {
 ## 🪤 Internal Configuration
 
 ```js
-import {
-  iconfontClassUrl,
-  iconfontSvgUrl,
-  allToolbar,
-  allFooter,
-  zh_CN,
-  en_US,
-} from 'md-editor-v3';
+import { allToolbar, allFooter, zh_CN, en_US } from 'md-editor-v3';
 
-console.log(
-  iconfontClassUrl,
-  iconfontSvgUrl,
-  allToolbar,
-  allFooter,
-  zh_CN,
-  en_US
-);
+console.log(allToolbar, allFooter, zh_CN, en_US);
 ```
 
 ## ✍️ Edit This Page

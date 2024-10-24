@@ -33,6 +33,16 @@ const queryMd = () => {
   });
 };
 watch(() => store.lang, queryMd);
+
+useHead({
+  title: '示例 - MdEditorV3 使用文档',
+  meta: [
+    {
+      name: '',
+      content: '',
+    },
+  ],
+});
 </script>
 
 <script lang="ts">

@@ -151,16 +151,16 @@
           atom: {
             light:
               'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
-            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css'
+            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css',
           },
           xxx: {
             light:
               'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
-            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css'
-          }
-        }
-      }
-    }
+            dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css',
+          },
+        },
+      },
+    },
   });
   ```
 
@@ -199,15 +199,15 @@
 - **类型**：`(html: string) => string`
 - **默认值**：`(html) => html`
 
-  通过该属性修改编译后的html内容
+  通过该属性修改编译后的 html 内容
 
   !!! warning
 
   该属性为保留属性
 
-  基本的危险代码处理方案在3.x以后已内置，例如`<script>alert(123)</script>`，4.11.3之前建议使用该属性来清理更复杂的内容以防止 XSS。
+  基本的危险代码处理方案在 3.x 以后已内置，例如`<script>alert(123)</script>`，4.11.3 之前建议使用该属性来清理更复杂的内容以防止 XSS。
 
-  在4.11.3以后实现了更完善的处理方案，[参考](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)
+  在 4.11.3 以后实现了更完善的处理方案，[参考](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)
 
   !!!
 
@@ -224,35 +224,6 @@
   import 'md-editor-v3/lib/style.css';
 
   const sanitize = (html) => sanitizeHtml(html);
-  </script>
-  ```
-
----
-
-### 🤞🏼 noIconfont
-
-- **类型**：`boolean`
-- **默认值**：`false`
-
-  不插入 iconfont 链接，你可以下载[Symbol版本](${iconfontSvgUrl})或者[Font class版本](${iconfontClassUrl})到本地自行引入。
-
-  ```js
-  import '/assets/iconfont.js';
-
-  // 使用Font class版本
-  // import { config } from 'md-editor-v3';
-  // import '/assets/iconfont.css';
-  // config({ iconfontType: 'class' })
-  ```
-
-  ```vue
-  <template>
-    <MdEditor noIconfont />
-  </template>
-
-  <script setup>
-  import { MdEditor } from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
   </script>
   ```
 
@@ -355,21 +326,21 @@
 
   const customIcon: CustomIcon = {
     bold: {
-      component: 'A'
+      component: 'A',
     },
     // 演示使用默认图标复制内容
     copy: StrIcon('copy', {}),
     // copy: '<i class="fa fa-car"></i>',
     // 'collapse-tips': '<i class="fa fa-car"></i>',
     preview: {
-      component: '<i class="fa fa-car"></i>'
+      component: '<i class="fa fa-car"></i>',
     },
     github: {
       component: IconFont,
       props: {
-        name: 'sneer'
-      }
-    }
+        name: 'sneer',
+      },
+    },
   };
   </script>
   ```
@@ -534,7 +505,7 @@
     'previewOnly',
     'htmlPreview',
     'catalog',
-    'github'
+    'github',
   ];
   ```
 
@@ -713,11 +684,11 @@
         options: [
           {
             label: '@imzbf',
-            type: 'text'
-          }
-        ]
+            type: 'text',
+          },
+        ],
       };
-    }
+    },
   ]);
   </script>
   ```
@@ -817,7 +788,7 @@
           }
         />
       );
-    }
+    },
   });
   ```
 
@@ -876,7 +847,7 @@
           }
         />
       );
-    }
+    },
   });
   ```
 
@@ -970,8 +941,8 @@
           axios
             .post('/api/img/upload', form, {
               headers: {
-                'Content-Type': 'multipart/form-data'
-              }
+                'Content-Type': 'multipart/form-data',
+              },
             })
             .then((res) => rev(res))
             .catch((error) => rej(error));
@@ -1279,7 +1250,7 @@ editorRef.value?.insert((selectedText) => {
     targetValue: `${selectedText}`,
     select: true,
     deviationStart: 0,
-    deviationEnd: 0
+    deviationEnd: 0,
   };
 });
 ```
@@ -1343,13 +1314,13 @@ console.log(editorRef.value?.getSelectedText());
 
 ### 🎛 domEventHandlers
 
-支持监听全部的dom事件。
+支持监听全部的 dom 事件。
 
 ```js
 editorRef.value?.domEventHandlers({
   compositionstart: () => {
     console.log('compositionstart');
-  }
+  },
 });
 ```
 
@@ -1405,7 +1376,7 @@ import { lineNumbers } from '@codemirror/view';
 config({
   codeMirrorExtensions(_theme, extensions) {
     return [...extensions, lineNumbers()];
-  }
+  },
 });
 ```
 
@@ -1433,9 +1404,9 @@ import ancher from 'markdown-it-anchor';
 config({
   markdownItConfig(mdit) {
     mdit.use(ancher, {
-      permalink: true
+      permalink: true,
     });
-  }
+  },
 });
 ```
 
@@ -1467,14 +1438,14 @@ config({
           ...p,
           options: {
             ...p.options,
-            classes: 'my-class'
-          }
+            classes: 'my-class',
+          },
         };
       }
 
       return p;
     });
-  }
+  },
 });
 ```
 
@@ -1523,7 +1494,7 @@ config({
           previewOnly: '仅预览',
           htmlPreview: 'html代码预览',
           catalog: '目录',
-          github: '源码地址'
+          github: '源码地址',
         },
         titleItem: {
           h1: '一级标题',
@@ -1531,12 +1502,12 @@ config({
           h3: '三级标题',
           h4: '四级标题',
           h5: '五级标题',
-          h6: '六级标题'
+          h6: '六级标题',
         },
         imgTitleItem: {
           link: '添加链接',
           upload: '上传图片',
-          clip2upload: '裁剪上传'
+          clip2upload: '裁剪上传',
         },
         linkModalTips: {
           linkTitle: '添加链接',
@@ -1545,16 +1516,16 @@ config({
           descLabelPlaceHolder: '请输入描述...',
           urlLabel: '链接地址：',
           urlLabelPlaceHolder: '请输入链接...',
-          buttonOK: '确定'
+          buttonOK: '确定',
         },
         clipModalTips: {
           title: '裁剪图片上传',
-          buttonUpload: '上传'
+          buttonUpload: '上传',
         },
         copyCode: {
           text: '复制代码',
           successTips: '已复制！',
-          failTips: '复制失败！'
+          failTips: '复制失败！',
         },
         mermaid: {
           flow: '流程图',
@@ -1564,19 +1535,19 @@ config({
           state: '状态图',
           pie: '饼图',
           relationship: '关系图',
-          journey: '旅程图'
+          journey: '旅程图',
         },
         katex: {
           inline: '行内公式',
-          block: '块级公式'
+          block: '块级公式',
         },
         footer: {
           markdownTotal: '字数',
-          scrollAuto: '同步滚动'
-        }
-      }
-    }
-  }
+          scrollAuto: '同步滚动',
+        },
+      },
+    },
+  },
 });
 ```
 
@@ -1604,9 +1575,9 @@ config({
       // 关系图
       relationship: `relationship template`,
       // 旅程图
-      journey: `journey template`
-    }
-  }
+      journey: `journey template`,
+    },
+  },
 });
 ```
 
@@ -1618,8 +1589,8 @@ import { config } from 'md-editor-v3';
 config({
   editorConfig: {
     // 输入渲染延迟（ms）
-    renderDelay: 0
-  }
+    renderDelay: 0,
+  },
 });
 ```
 
@@ -1633,8 +1604,8 @@ import { config } from 'md-editor-v3';
 config({
   editorConfig: {
     // 内部弹窗的zIndex
-    zIndex: 2000
-  }
+    zIndex: 2000,
+  },
 });
 ```
 
@@ -1648,7 +1619,7 @@ config({
 import { config } from 'md-editor-v3';
 
 config({
-  editorExtensions: { iconfont: 'https://xxx.cc' }
+  editorExtensions: { iconfont: 'https://xxx.cc' },
 });
 ```
 
@@ -1698,7 +1669,7 @@ export interface EditorExtensions {
 
 ### 🥠 editorExtensionsAttrs
 
-同步添加CDN链接标签的上属性，类型与`editorExtensions`一直，值类型是`HTMLElementTagNameMap<script|link>` 内部提供所有链接的`integrity`值，使用方式如下：
+同步添加 CDN 链接标签的上属性，类型与`editorExtensions`一直，值类型是`HTMLElementTagNameMap<script|link>` 内部提供所有链接的`integrity`值，使用方式如下：
 
 ```js
 import { config } from 'md-editor-v3';
@@ -1707,20 +1678,20 @@ config({
   editorExtensionsAttrs: {
     highlight: {
       js: {
-        className: 'hglh-js'
+        className: 'hglh-js',
       },
       css: {
         atom: {
           light: {
-            className: 'atom-light-css'
+            className: 'atom-light-css',
           },
           dark: {
-            className: 'atom-dark-css'
-          }
-        }
-      }
-    }
-  }
+            className: 'atom-dark-css',
+          },
+        },
+      },
+    },
+  },
 });
 ```
 
@@ -1730,13 +1701,13 @@ config({
 import { config, editorExtensionsAttrs } from 'md-editor-v3';
 
 config({
-  editorExtensionsAttrs
+  editorExtensionsAttrs,
 });
 ```
 
 !!! warning 提醒
 
-不要尝试在editorExtensionsAttrs定义script的src\onload\id，link的rel\href\id它们会被默认值覆盖
+不要尝试在 editorExtensionsAttrs 定义 script 的 src\onload\id，link 的 rel\href\id 它们会被默认值覆盖
 
 !!!
 
@@ -1757,7 +1728,7 @@ config({
 import { config } from 'md-editor-v3';
 
 config({
-  iconfontType: 'class'
+  iconfontType: 'class',
 });
 ```
 
@@ -1773,9 +1744,9 @@ config({
   mermaidConfig(base: any) {
     return {
       ...base,
-      logLevel: 'error'
+      logLevel: 'error',
     };
-  }
+  },
 });
 ```
 
@@ -1792,9 +1763,9 @@ config({
   katexConfig(base: any) {
     return {
       ...base,
-      strict: false
+      strict: false,
     };
-  }
+  },
 });
 ```
 
@@ -1810,32 +1781,32 @@ config({
 
 !!!
 
-| 键位 | 功能 | 说明 |
-| --- | --- | --- |
-| TAB | 空格 | 通过`tabWidth`属性预设 TAB 键位新增空格长度，默认 2，支持多行 |
-| SHIFT + TAB | 取消空格 | 同上，一次取消两个空格，支持多行 |
-| CTRL + C | 复制 | 选中时复制选中内容，未选中时复制当前行内容 |
-| CTRL + X | 剪切 | 选中时剪切选中内容，未选中时剪切当前行 |
-| CTRL + D | 删除 | 选中时删除选中内容，未选中时删除当前行 |
-| CTRL + S | 保存 | 触发编辑器的`onSave`回调 |
-| CTRL + B | 加粗 | `**加粗**` |
-| CTRL + U | 下划线 | `<u>下划线</u>` |
-| CTRL + I | 斜体 | `*斜体*` |
-| CTRL + 1-6 | 1-6 级标题 | `# 标题` |
-| CTRL + ↑ | 上角标 | `<sup>上角标</sup>` |
-| CTRL + ↓ | 下角标 | `<sub>下角标</sub>` |
-| CTRL + O | 有序列表 | `1. 有序列表` |
-| CTRL + L | 链接 | `[链接](https://github.com/imzbf)` |
-| CTRL + Z | 撤回 | 触发编辑器内内容撤回，与系统无关 |
-| CTRL + F | 查找替换 |  |
-| CTRL + SHIFT + S | 删除线 | `~删除线~` |
-| CTRL + SHIFT + U | 无序列表 | `- 无序列表` |
-| CTRL + SHIFT + C | 块级代码 | 多行代码块 |
-| CTRL + SHIFT + I | 图片链接 | `![图片](https://github.com/imzbf)` |
-| CTRL + SHIFT + Z | 前进一步 | 触发编辑器内内容前进，与系统无关 |
-| CTRL + SHIFT + F | 美化内容 |  |
-| CTRL + ALT + C | 行内代码 | 行内代码块 |
-| CTRL + SHIFT + ALT + T | 表格 | `\|表格\|` |
+| 键位                   | 功能       | 说明                                                          |
+| ---------------------- | ---------- | ------------------------------------------------------------- |
+| TAB                    | 空格       | 通过`tabWidth`属性预设 TAB 键位新增空格长度，默认 2，支持多行 |
+| SHIFT + TAB            | 取消空格   | 同上，一次取消两个空格，支持多行                              |
+| CTRL + C               | 复制       | 选中时复制选中内容，未选中时复制当前行内容                    |
+| CTRL + X               | 剪切       | 选中时剪切选中内容，未选中时剪切当前行                        |
+| CTRL + D               | 删除       | 选中时删除选中内容，未选中时删除当前行                        |
+| CTRL + S               | 保存       | 触发编辑器的`onSave`回调                                      |
+| CTRL + B               | 加粗       | `**加粗**`                                                    |
+| CTRL + U               | 下划线     | `<u>下划线</u>`                                               |
+| CTRL + I               | 斜体       | `*斜体*`                                                      |
+| CTRL + 1-6             | 1-6 级标题 | `# 标题`                                                      |
+| CTRL + ↑               | 上角标     | `<sup>上角标</sup>`                                           |
+| CTRL + ↓               | 下角标     | `<sub>下角标</sub>`                                           |
+| CTRL + O               | 有序列表   | `1. 有序列表`                                                 |
+| CTRL + L               | 链接       | `[链接](https://github.com/imzbf)`                            |
+| CTRL + Z               | 撤回       | 触发编辑器内内容撤回，与系统无关                              |
+| CTRL + F               | 查找替换   |                                                               |
+| CTRL + SHIFT + S       | 删除线     | `~删除线~`                                                    |
+| CTRL + SHIFT + U       | 无序列表   | `- 无序列表`                                                  |
+| CTRL + SHIFT + C       | 块级代码   | 多行代码块                                                    |
+| CTRL + SHIFT + I       | 图片链接   | `![图片](https://github.com/imzbf)`                           |
+| CTRL + SHIFT + Z       | 前进一步   | 触发编辑器内内容前进，与系统无关                              |
+| CTRL + SHIFT + F       | 美化内容   |                                                               |
+| CTRL + ALT + C         | 行内代码   | 行内代码块                                                    |
+| CTRL + SHIFT + ALT + T | 表格       | `\|表格\|`                                                    |
 
 ## 🪤 内置组件
 
@@ -1845,12 +1816,12 @@ config({
 
 为了帮助开发者快速插入和使用编辑器的属性，编辑器组件已经默认向编写的扩展组件添加了下面的属性的值：
 
-| 名称 | 使用示例 |
-| --- | --- |
-| insert | 参考下方的`DropdownToolbar`组件示例 |
-| theme | 参考扩展组件中的[ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94) |
-| previewtheme | 同上 |
-| language | 同上 |
+| 名称         | 使用示例                                                                                                                               |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| insert       | 参考下方的`DropdownToolbar`组件示例                                                                                                    |
+| theme        | 参考扩展组件中的[ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94) |
+| previewtheme | 同上                                                                                                                                   |
+| language     | 同上                                                                                                                                   |
 
 !!!
 
@@ -1892,8 +1863,8 @@ const props = defineProps({
     type: Function as PropType<Insert>,
     default: () => {
       //
-    }
-  }
+    },
+  },
 });
 
 const handler = () => {
@@ -1908,7 +1879,7 @@ const handler = () => {
       targetValue: `==${selectedText}==`,
       select: true,
       deviationStart: 0,
-      deviationEnd: 0
+      deviationEnd: 0,
     };
   });
 };
@@ -1993,8 +1964,8 @@ const props = defineProps({
     type: Function as PropType<Insert>,
     default: () => {
       //
-    }
-  }
+    },
+  },
 });
 
 const visible = ref(false);
@@ -2015,7 +1986,7 @@ const handler = (emoji: any) => {
       targetValue: emoji,
       select: true,
       deviationStart: 0,
-      deviationEnd: 0
+      deviationEnd: 0,
     };
   });
 };
@@ -2059,7 +2030,7 @@ const toolbars = ['bold', 0, 'github'];
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
   - `class`: `string`，`^4.16.8`，非必须，类名。
   - `style`: `CSSProperties | string`，`^4.16.8`，非必须，样式。
-  - `showMask`: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认true。
+  - `showMask`: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认 true。
 
 - **events**
 
@@ -2102,7 +2073,7 @@ import type { Insert } from 'md-editor-v3';
 
 const data = reactive({
   modalVisible: false,
-  modalFullscreen: false
+  modalFullscreen: false,
 });
 
 const props = defineProps({
@@ -2113,8 +2084,8 @@ const props = defineProps({
     type: Function as PropType<Insert>,
     default: () => {
       //
-    }
-  }
+    },
+  },
 });
 
 const handler = () => {
@@ -2129,7 +2100,7 @@ const handler = () => {
       targetValue: `==${selectedText}==`,
       select: true,
       deviationStart: 0,
-      deviationEnd: 0
+      deviationEnd: 0,
     };
   });
 };
@@ -2182,8 +2153,16 @@ const toolbars = ['bold', 0, 'github'];
 ```vue
 <template>
   <!-- 保证editorId相同 -->
-  <MdPreview :editorId="state.id" :modelValue="state.text" :theme="state.theme" />
-  <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
+  <MdPreview
+    :editorId="state.id"
+    :modelValue="state.text"
+    :theme="state.theme"
+  />
+  <MdCatalog
+    :editorId="state.id"
+    :scrollElement="scrollElement"
+    :theme="state.theme"
+  />
 </template>
 
 <script setup>
@@ -2194,7 +2173,7 @@ import 'md-editor-v3/lib/style.css';
 const state = reactive({
   theme: 'dark',
   text: '标题',
-  id: 'my-editor'
+  id: 'my-editor',
 });
 
 const scrollElement = document.documentElement;
@@ -2217,7 +2196,7 @@ const scrollElement = document.documentElement;
   - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
   - `class`: `string`，非必须，类名。
   - `style`: `CSSProperties | string`，非必须，样式。
-  - `showMask`: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认true。
+  - `showMask`: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认 true。
 
 - **events**
 
@@ -2256,7 +2235,7 @@ import { DropdownToolbar, MdModal } from 'md-editor-v3';
 
 const state = reactive({
   visible: false,
-  mVisible: false
+  mVisible: false,
 });
 
 const onClose = () => {
@@ -2274,16 +2253,9 @@ const onChange = () => {
 ## 🪤 内部配置
 
 ```js
-import {
-  iconfontClassUrl,
-  iconfontSvgUrl,
-  allToolbar,
-  allFooter,
-  zh_CN,
-  en_US
-} from 'md-editor-v3';
+import { allToolbar, allFooter, zh_CN, en_US } from 'md-editor-v3';
 
-console.log(iconfontClassUrl, iconfontSvgUrl, allToolbar, allFooter, zh_CN, en_US);
+console.log(allToolbar, allFooter, zh_CN, en_US);
 ```
 
 ## ✍️ 编辑此页面

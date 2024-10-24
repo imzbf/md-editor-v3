@@ -824,16 +824,7 @@ import 'highlight.js/styles/atom-one-dark.css';
 import * as prettier from 'prettier';
 import parserMarkdown from 'prettier/plugins/markdown';
 
-// 1. symbol引用
-// ${iconfontSvgUrl}
-import './assets/iconfont.js';
-// 2. font-class引用
-// ${iconfontClassUrl}
-import './assets/iconfont.css';
-
 config({
-  // font-class引用
-  // iconfontType: 'class',
   editorExtensions: {
     prettier: {
       prettierInstance: prettier,
