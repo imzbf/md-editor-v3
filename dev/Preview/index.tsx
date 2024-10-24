@@ -313,7 +313,6 @@ export default defineComponent({
             mdHeadingId={mdHeadingId}
             // sanitize={(h) => `<a href="#">aaa</a>${h}`}
             // scrollAuto={false}
-            // noIconfont
             // codeStyleReverse={false}
             // codeStyleReverseList={['mk-cute']}
             // autoFocus

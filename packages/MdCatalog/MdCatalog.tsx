@@ -239,7 +239,7 @@ const MdCatalog = defineComponent({
       if (props.onActive) {
         props.onActive(tocItem, ele);
       } else {
-        ctx.emit('onActive', tocItem);
+        ctx.emit('onActive', tocItem, ele);
       }
     };
 

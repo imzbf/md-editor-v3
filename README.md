@@ -118,7 +118,6 @@ Inputing prompt and mark, emoji extensions
 | codeTheme | `'atom' \| 'a11y' \| 'github' \| 'gradient' \| 'kimbie' \| 'paraiso' \| 'qtcreator' \| 'stackoverflow'` | 'atom' | Highlight code style, can be customized also |
 | mdHeadingId | `(text: string, level: number, index: number) => string` | (text) => text | H1-H6 `ID` generator |
 | sanitize | `(html: string) => string` | (html) => html | This attribute is used to alter the compiled HTML content |
-| noIconfont | `boolean` | false | Not append iconfont script, you can get the latest link [here](https://imzbf.github.io/md-editor-v3/en-US/docs#%F0%9F%A4%9E%F0%9F%8F%BC%20noIconfont) |
 | formatCopiedText | `(text: string) => string` | (text: string) => text | Format copied code |
 | codeStyleReverse | `boolean` | true | Code style will be reversed to dark while code block of the theme has a dark background |
 | codeStyleReverseList | `Array<string>` | ['default', 'mk-cute'] | Themes to be reversed |
