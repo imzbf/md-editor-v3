@@ -1,0 +1,163 @@
+@import './vars';
+@import './animation';
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+html {
+  .css-vars(false);
+  scroll-behavior: smooth;
+
+  body {
+    font-size: 16px;
+    font-family:
+      'Varela Round',
+      'Noto Sans SC',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Helvetica,
+      Arial,
+      sans-serif,
+      'Apple Color Emoji',
+      'Segoe UI Emoji',
+      'Segoe UI Symbol';
+  }
+
+  /* 浏览器滚动条 */
+  > ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  > ::-webkit-scrollbar-corner,
+  > ::-webkit-scrollbar-track {
+    background-color: #e2e2e2;
+  }
+
+  > ::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  > ::-webkit-scrollbar-button:vertical {
+    display: none;
+  }
+
+  > ::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: rgba(0, 0, 0, 0.35);
+  }
+
+  > ::-webkit-scrollbar-thumb:vertical:active {
+    background-color: rgba(0, 0, 0, 0.38);
+  }
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1170px;
+  margin: 0 auto;
+}
+
+.pc {
+  display: initial;
+}
+
+.mb {
+  display: none;
+}
+
+html[class*='theme-dark'] {
+  .css-vars(true);
+
+  > ::-webkit-scrollbar-corner,
+  > ::-webkit-scrollbar-track {
+    background-color: rgb(15, 15, 15);
+  }
+
+  > ::-webkit-scrollbar-thumb {
+    background-color: #444;
+  }
+
+  > ::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: rgb(58, 58, 58);
+  }
+
+  > ::-webkit-scrollbar-thumb:vertical:active {
+    background-color: rgb(58, 58, 58);
+  }
+}
+
+.md-editor-preview {
+  overflow: visible !important;
+
+  // .generate-heading(@i) when (@i <= 6) {
+  //   h@{i} {
+  //     // transform: translateX(-1rem);
+  //     a.header-anchor {
+  //       margin-left: 0;
+  //       opacity: 0;
+  //       // margin-right: 10px;
+  //       // opacity: 1;
+  //       transition: 0.3s;
+  //     }
+
+  //     &:hover {
+  //       a.header-anchor {
+  //         margin-left: 10px;
+  //         opacity: 1;
+  //       }
+  //     }
+  //   }
+
+  //   .generate-heading((@i + 1));
+  // }
+
+  // .generate-heading(1);
+}
+
+@media (max-width: 768px) {
+  .pc {
+    display: none;
+  }
+
+  .mb {
+    display: initial;
+  }
+}

@@ -1,0 +1,28 @@
+.dropdown-content {
+  position: absolute;
+  margin-top: 10px;
+  opacity: 0;
+  z-index: -1;
+
+  &::before {
+    content: ' ';
+    left: 50%;
+    top: -4px;
+    height: 8px;
+    width: 8px;
+    transform: translateX(-50%) rotate(45deg);
+    background-color: var(--iz-bk-color);
+    position: absolute;
+    pointer-events: none;
+    border-style: solid;
+    border-color: transparent;
+    border-left-color: var(--iz-border-color);
+    border-top-color: var(--iz-border-color);
+    border-width: 1px;
+  }
+}
+
+.dropdown-active {
+  z-index: 9999;
+  opacity: 1;
+}

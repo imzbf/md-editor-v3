@@ -1,0 +1,37 @@
+@keyframes DropdownEnter {
+  0% {
+    transform: scaleY(0.9);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes DropdownLeave {
+  0% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleY(0.9);
+    opacity: 0;
+  }
+}
+
+.animated {
+  animation-fill-mode: both;
+  animation-duration: 0.3s;
+  transform-origin: top;
+}
+
+.dropdown-enter {
+  animation-name: DropdownEnter;
+}
+
+.dropdown-leave {
+  animation-name: DropdownLeave;
+}
