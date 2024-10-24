@@ -171,15 +171,6 @@ export const mdPreviewProps = {
     default: 'atom'
   },
   /**
-   * 不插入iconfont链接
-   *
-   * @default false
-   */
-  noIconfont: {
-    type: Boolean as PropType<boolean>,
-    default: undefined
-  },
-  /**
    * 复制代码格式化方法
    *
    * @default (text) => text
