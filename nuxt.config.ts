@@ -7,27 +7,34 @@ export default defineNuxtConfig({
   vite: {
     plugins: [markdown()],
   },
-  generate: {
-    routes: [
-      '/',
-      '/zh-CN',
-      '/zh-CN/5',
-      '/zh-CN/5/docs',
-      '/zh-CN/5/demo',
-      '/zh-CN/5/grammar',
-      '/zh-CN/5/contrast',
-      '/zh-CN/5/about',
-      '/en-US',
-      '/en-US/5',
-      '/en-US/5/docs',
-      '/en-US/5/demo',
-      '/en-US/5/grammar',
-      '/en-US/5/contrast',
-      '/en-US/5/about',
-    ],
+  nitro: {
+    prerender: {
+      // 禁止抓取页面中的链接
+      crawlLinks: false,
+      routes: [
+        '/',
+        '/zh-CN',
+        '/zh-CN/api',
+        '/zh-CN/docs',
+        '/zh-CN/demo',
+        '/zh-CN/syntax',
+        '/zh-CN/grammar',
+        '/zh-CN/contrast',
+        '/zh-CN/about',
+        '/en-US',
+        '/en-US/api',
+        '/en-US/docs',
+        '/en-US/demo',
+        '/en-US/syntax',
+        '/en-US/grammar',
+        '/en-US/contrast',
+        '/en-US/about',
+      ],
+    },
   },
+
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/md-editor-v3' : '/',
+    baseURL: '/', // process.env.NODE_ENV === 'production' ? '/md-editor-v3' : '/',
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',

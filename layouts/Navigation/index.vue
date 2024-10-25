@@ -9,11 +9,11 @@
       </NuxtLink>
     </li>
     <li class="nav-item">
-      <NuxtLink :to="`${routePrefix}/docs`" :prefetch="false">
+      <NuxtLink :to="`${routePrefix}/api`" :prefetch="false">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-d-docs"></use>
         </svg>
-        {{ linkNames.docs }}
+        {{ linkNames.api }}
       </NuxtLink>
     </li>
     <li class="nav-item">
@@ -33,11 +33,11 @@
       </a>
     </li>
     <li class="nav-item">
-      <NuxtLink :to="`${routePrefix}/grammar`" :prefetch="false">
+      <NuxtLink :to="`${routePrefix}/syntax`" :prefetch="false">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-grammar"></use>
         </svg>
-        {{ linkNames.grammar }}
+        {{ linkNames.syntax }}
       </NuxtLink>
     </li>
     <li class="nav-item">
@@ -75,17 +75,17 @@ const router = useRouter();
 const route = useRoute();
 
 const routePrefix = computed(() => {
-  return `/${store.lang}/${store.version}`;
+  return `/${store.lang}`;
 });
 
 const linkNames = computed(() => {
   return store.lang === 'zh-CN'
     ? {
         home: '首页',
-        docs: '文档',
+        api: 'API',
         demo: '示例',
         github: '源码',
-        grammar: '语法',
+        syntax: '语法',
         contrast: '对比',
         about: '关于',
         lang: 'English',
@@ -93,10 +93,10 @@ const linkNames = computed(() => {
       }
     : {
         home: 'Home',
-        docs: 'Docs',
+        api: 'API',
         demo: 'Demo',
         github: 'Github',
-        grammar: 'Grammar',
+        syntax: 'Syntax',
         contrast: 'Contrast',
         about: 'About',
         lang: '中文',
@@ -106,12 +106,8 @@ const linkNames = computed(() => {
 
 const changeLang = () => {
   store.changeLang();
-  console.log(
-    'route.fullPath.replace(/\/[a-zA-Z-]+/, routePrefix.value)',
-    route.fullPath,
-    route.fullPath.replace(/\/[a-zA-Z-]+\/\d/, routePrefix.value)
-  );
-  router.replace(route.fullPath.replace(/\/[a-zA-Z-]+\/\d/, routePrefix.value));
+
+  router.replace(route.fullPath.replace(/\/[a-zA-Z-]+/, routePrefix.value));
 };
 </script>
 

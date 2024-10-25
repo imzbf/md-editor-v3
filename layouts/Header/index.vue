@@ -106,8 +106,8 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 import { useStore } from '@/store';
-import IzDropdown from '@/components/Dropdown/index';
-import IzDrawer from '@/components/Drawer/index';
+import IzDropdown from '@/components/Dropdown';
+import IzDrawer from '@/components/Drawer';
 import IzNavigation from '../Navigation/index.vue';
 import './index.less';
 

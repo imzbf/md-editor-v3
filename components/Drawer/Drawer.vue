@@ -84,9 +84,12 @@ watch(
 
 const Trigger = ref();
 
+watchEffect(() => {
+  Trigger.value = cloneVNode(slots.default!()[0]);
+});
+
 onMounted(() => {
   teleportTo.value = document.body;
-
   Trigger.value = cloneVNode(slots.default!()[0]);
 });
 </script>

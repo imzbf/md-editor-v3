@@ -1,22 +1,222 @@
 <template>
-  <NuxtLoadingIndicator />
+  <div class="project-preview">
+    <div class="container">
+      <MdEditor
+        ref="editorRef"
+        v-model="state.text"
+        :editorId="editorId"
+        :language="store.lang"
+        :theme="store.theme"
+        :previewTheme="store.previewTheme"
+        :codeTheme="store.codeTheme"
+        :toolbars="state.toolbars"
+        :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
+        :inputBoxWitdh="state.inputBoxWitdh"
+        showCodeRowNumber
+        autoDetectCode
+        @onUploadImg="uploadImg"
+      >
+        <template #defToolbars>
+          <Mark />
+          <Emoji />
+          <!-- <ReadExtension :mdText="state.text" /> -->
+          <ExportPDF
+            :modelValue="state.text"
+            height="700px"
+            @onSuccess="onSuccess"
+            @onProgress="onProgress"
+          />
+        </template>
+        <template #defFooters>
+          <TimeNow />
+        </template>
+      </MdEditor>
+      <br />
+      <span class="tips-text">
+        {{ tips
+        }}<a
+          href="https://github.com/imzbf/md-editor-v3/tree/docs/src/components"
+          target="_blank"
+          >components</a
+        >
+      </span>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-// passing 'to' as a string
-onMounted(async () => {
-  await navigateTo(`/${navigator.language === 'zh-CN' ? 'zh-CN' : 'en-US'}/5`);
+import { computed, reactive, watch, ref, onMounted } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import { Emoji, Mark, ExportPDF } from '@vavt/v3-extension';
+import { isMobile } from '@vavt/util';
+import type { ExposeParam } from 'md-editor-v3';
+import { message } from '@vavt/message';
+import { useStore } from '@/store';
+import axios from '@/utils/request';
+
+import '@vavt/v3-extension/lib/asset/style.css';
+
+import mdEN from '../../../public/preview-en-US.md';
+import mdCN from '../../../public/preview-zh-CN.md';
+import { toolbars } from './staticConfig';
+import './index.less';
+
+// import ReadExtension from '@/components/ReadExtension/index.vue';
+
+import TimeNow from '@/components/TimeNow/index.vue';
+
+// const message = VavtMes.message;
+
+const store = useStore();
+
+const editorId = 'editor-preview';
+
+const editorRef = ref<ExposeParam>();
+
+const state = reactive({
+  text: store.lang === 'zh-CN' ? mdCN : mdEN,
+  modalVisible: false,
+  modalFullscreen: false,
+  toolbars,
+  inputBoxWitdh: '50%',
 });
 
-// ... or as a route object
-// await navigateTo({ path: '/search' })
+const tips = computed(() => {
+  switch (store.lang) {
+    case 'zh-CN':
+      return '示例中的标记、emoji、预览和时间扩展组件源码：';
+    default:
+      return 'Source code of mark, emoji, preview and time extension components in this page: ';
+  }
+});
 
-// // ... or as a route object with query parameters
-// await navigateTo({
-//   path: '/search',
-//   query: {
-//     page: 1,
-//     sort: 'asc'
-//   }
-// })
+watch(
+  () => store.lang,
+  (nVal: string) => {
+    if (nVal === 'zh-CN') {
+      state.text = mdCN;
+    } else {
+      state.text = mdEN;
+    }
+  }
+);
+
+const uploadImg = async (
+  files: Array<File>,
+  callback: (urls: string[]) => void
+) => {
+  const res = await Promise.all(
+    files.map((file) => {
+      return new Promise((rev, rej) => {
+        const form = new FormData();
+        form.append('file', file);
+
+        axios
+          .post('/api/img/upload', form, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then((res: any) => rev(res))
+          .catch((error: any) => rej(error));
+      });
+    })
+  );
+
+  callback(res.map((item: any) => item.data.url));
+};
+
+const changeLayout = () => {
+  if (isMobile()) {
+    // 在移动端不现实分屏预览，要么编辑，要么仅预览
+    state.toolbars = [
+      'previewOnly',
+      ...toolbars.filter(
+        (item) => !(['preview', 'previewOnly'] as any).includes(item)
+      ),
+    ];
+    state.inputBoxWitdh = '100%';
+    editorRef.value?.togglePreview(false);
+  } else {
+    state.toolbars = toolbars;
+    state.inputBoxWitdh = '50%';
+    editorRef.value?.togglePreview(true);
+  }
+};
+
+let updateRatio: ((str: string) => void) | undefined;
+let closrRatio = () => {};
+
+const onProgress = ({ ratio }: any) => {
+  if (updateRatio) {
+    updateRatio(`Progress: ${ratio * 100}%`);
+  } else {
+    const { close, update } = message.info(`Progress: ${ratio * 100}%`, {
+      zIndex: 999999,
+      duration: 0,
+    });
+
+    updateRatio = update;
+    closrRatio = close;
+  }
+};
+
+const onSuccess = () => {
+  closrRatio();
+
+  setTimeout(() => {
+    updateRatio = undefined;
+  }, 100);
+
+  message.success(
+    store.lang === 'en-US' ? 'Export successful.' : '导出成功！',
+    {
+      zIndex: 999999,
+    }
+  );
+};
+
+useHead({
+  title:
+    store.lang === 'en-US'
+      ? 'HomePage - MdEditorV3 Documentation'
+      : '首页 - MdEditorV3 使用文档',
+  meta: [
+    {
+      name: 'keywords',
+      content:
+        store.lang === 'en-US'
+          ? 'MD Editor, md-editor-v3, Markdown Editor, Vue3 Markdown, Vue TSX, Markdown Component, Markdown preview, Vue3 Editor'
+          : 'MD Editor, md-editor-v3, Markdown 编辑器, Vue3 Markdown, Vue TSX, Markdown 组件, Markdown preview, Vue3 编辑器',
+    },
+    {
+      name: 'description',
+      content:
+        store.lang === 'en-US'
+          ? 'md-editor-v3 is a Markdown editor component developed based on Vue 3 and TSX, supporting real-time preview and rich Markdown features. Review the detailed development documentation and usage examples.'
+          : 'md-editor-v3 是一个基于 Vue 3 和 TSX 开发的 Markdown 编辑器组件，支持实时预览和丰富的 Markdown 功能。查阅详细的开发文档与使用示例。',
+    },
+  ],
+});
+
+onMounted(() => {
+  console.log(editorRef.value?.on('catalog', console.log));
+
+  editorRef.value?.on('previewOnly', (v) => {
+    if (isMobile()) {
+      if (!v) {
+        editorRef.value?.togglePreview(false);
+      }
+    }
+  });
+
+  changeLayout();
+  window.addEventListener('resize', changeLayout);
+});
+</script>
+
+<script lang="ts">
+export default {
+  name: 'PreviewPage',
+};
 </script>

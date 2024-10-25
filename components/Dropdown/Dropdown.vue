@@ -29,8 +29,6 @@ import {
   useSlots,
   watch,
   ref,
-  h,
-  Teleport,
   type CSSProperties,
 } from 'vue';
 import { debounce } from '@vavt/util';
@@ -99,9 +97,12 @@ watch(
 
 const DropdownTrigger = ref();
 
+watchEffect(() => {
+  DropdownTrigger.value = cloneVNode(slots.default!()[0]);
+});
+
 onMounted(() => {
   teleportTo.value = document.body;
-
   DropdownTrigger.value = cloneVNode(slots.default!()[0]);
 });
 
