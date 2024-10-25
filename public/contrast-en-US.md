@@ -17,7 +17,7 @@ Version 3.5.0 or higher of Vue must now be used!!!
 | noIconfont    | Removed, and now use the open-source icon library [lucide](https://lucide.dev/icons/) as a replacement.                                                                                                                                              |
 | customIcon    | Still supports custom icons, but some icon keywords have been updated. Please check [CustomIcon](https://imzbf.github.io/md-editor-v3/en-US/api#%F0%9F%98%AC%20customIcon).                                                                          |
 
-### 事件
+### Events
 
 | name                  | description                                         |
 | --------------------- | --------------------------------------------------- |

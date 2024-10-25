@@ -4,12 +4,12 @@ It has been developing iteratively，so update the latest version please. Publis
 
 ### 🤖 Npm Install
 
-```shell [install:yarn]
-yarn add md-editor-v3
-```
-
 ```shell [install:npm]
 npm install md-editor-v3
+```
+
+```shell [install:yarn]
+yarn add md-editor-v3
 ```
 
 !!! warning

@@ -55,7 +55,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 - **type**: `string`
 - **default**: `'md-editor-v-\d'`
 
-  Deprecated. Starting from version 5.x, id replacement is used.
+  Deprecated. Starting from version 5.x, Replace with `id`.
 
   Unique identifier of the editor, use the default prefix and `useId` for concatenation. ~~When using server-side rendering, make sure to set this attribute to a constant value.~~，Starting from version 5.0, there is no such limitation.
 
