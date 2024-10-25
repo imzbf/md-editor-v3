@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import { useStore } from '@/store';
 import './styles/common.less';
 // import 'nprogress/nprogress.css';
 
@@ -95,5 +96,11 @@ config({
       },
     },
   },
+});
+
+const store = useStore();
+
+onMounted(() => {
+  store.loadFromLocalStorage();
 });
 </script>

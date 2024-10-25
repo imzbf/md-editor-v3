@@ -3,7 +3,7 @@
     <li class="nav-item">
       <NuxtLink :to="routePrefix" :prefetch="false">
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-d-online"></use>
+          <use xlink:href="#med-icon-homepage"></use>
         </svg>
         {{ linkNames.home }}
       </NuxtLink>
@@ -11,7 +11,7 @@
     <li class="nav-item">
       <NuxtLink :to="`${routePrefix}/api`" :prefetch="false">
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-d-docs"></use>
+          <use xlink:href="#med-icon-api"></use>
         </svg>
         {{ linkNames.api }}
       </NuxtLink>
@@ -19,7 +19,7 @@
     <li class="nav-item">
       <NuxtLink :to="`${routePrefix}/demo`" :prefetch="false">
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-d-demo"></use>
+          <use xlink:href="#med-icon-example"></use>
         </svg>
         {{ linkNames.demo }}
       </NuxtLink>
@@ -27,7 +27,7 @@
     <li class="nav-item">
       <a href="https://github.com/imzbf/md-editor-v3" target="_blank">
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-d-github"></use>
+          <use xlink:href="#med-icon-github"></use>
         </svg>
         {{ linkNames.github }}
       </a>
@@ -35,7 +35,7 @@
     <li class="nav-item">
       <NuxtLink :to="`${routePrefix}/syntax`" :prefetch="false">
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-grammar"></use>
+          <use xlink:href="#med-icon-syntax"></use>
         </svg>
         {{ linkNames.syntax }}
       </NuxtLink>
@@ -43,7 +43,7 @@
     <li class="nav-item">
       <NuxtLink :to="`${routePrefix}/contrast`" :prefetch="false">
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-wenda"></use>
+          <use xlink:href="#med-icon-question"></use>
         </svg>
         {{ linkNames.contrast }}
       </NuxtLink>
@@ -51,7 +51,7 @@
     <li class="nav-item">
       <NuxtLink :to="`${routePrefix}/about`" :prefetch="false">
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-d-about"></use>
+          <use xlink:href="#med-icon-about"></use>
         </svg>
         {{ linkNames.about }}
       </NuxtLink>
@@ -89,7 +89,7 @@ const linkNames = computed(() => {
         contrast: '对比',
         about: '关于',
         lang: 'English',
-        langIcon: '#icon-d-en',
+        langIcon: '#med-icon-en',
       }
     : {
         home: 'Home',
@@ -100,7 +100,7 @@ const linkNames = computed(() => {
         contrast: 'Contrast',
         about: 'About',
         lang: '中文',
-        langIcon: '#icon-d-cn',
+        langIcon: '#med-icon-cn',
       };
 });
 

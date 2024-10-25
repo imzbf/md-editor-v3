@@ -1,3 +1,1 @@
-import IzDrawer from './Drawer.vue';
-
-export default IzDrawer;
+export { default as IzDrawer } from './D.vue';

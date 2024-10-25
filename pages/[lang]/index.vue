@@ -200,8 +200,6 @@ useHead({
 });
 
 onMounted(() => {
-  console.log(editorRef.value?.on('catalog', console.log));
-
   editorRef.value?.on('previewOnly', (v) => {
     if (isMobile()) {
       if (!v) {

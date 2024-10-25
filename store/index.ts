@@ -10,28 +10,23 @@ export interface StateType {
   previewTheme: PreviewThemes;
   codeTheme: string;
   lang: Lang;
-  version: number;
+  // version: number;
 }
 
 // 用于从 localStorage 获取存储的状态
 const getStoredState = (): StateType | null => {
-  if (typeof localStorage !== 'undefined') {
-    const stagedStore = localStorage.getItem(STORAGED_STORE_KEY);
+  const stagedStore = localStorage.getItem(STORAGED_STORE_KEY);
 
-    console.log('==', stagedStore);
-
-    return stagedStore ? JSON.parse(stagedStore) : null;
-  }
-  return null;
+  return stagedStore ? JSON.parse(stagedStore) : null;
 };
 
 // 初始默认状态
-const defaultState: StateType = getStoredState() || {
+const defaultState: StateType = {
   theme: 'light',
   previewTheme: 'default',
   codeTheme: 'atom',
   lang: 'en-US',
-  version: 5,
+  // version: 5,
 };
 
 // Pinia Store 定义
@@ -59,6 +54,13 @@ export const useStore = defineStore({
     saveState() {
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(this.$state));
+      }
+    },
+    loadFromLocalStorage() {
+      const storedData = getStoredState();
+
+      if (storedData) {
+        Object.assign(this, storedData);
       }
     },
   },

@@ -55,7 +55,37 @@ export default defineNuxtConfig({
         },
       ],
       script: [
-        { src: '//at.alicdn.com/t/c/font_2818624_m70tdoc8ws8.js', defer: true },
+        { src: '//at.alicdn.com/t/c/font_2818624_gbt6qvt9lob.js', defer: true },
+        process.env.NODE_ENV === 'production'
+          ? {
+              innerHTML: `
+              (function () {
+                var redirect = sessionStorage.redirect;
+                delete sessionStorage.redirect;
+                if (redirect && redirect !== location.href) {
+                  history.replaceState(null, null, redirect);
+                }
+              })();
+          `,
+              // 需要添加此项，以确保不会被 Nuxt 处理成字符串
+              type: 'text/javascript',
+            }
+          : {},
+
+        process.env.NODE_ENV === 'production'
+          ? {
+              innerHTML: `
+              var _hmt = _hmt || [];
+              (function () {
+                var hm = document.createElement('script');
+                hm.src = 'https://hm.baidu.com/hm.js?1563bc52cb27ffbc7b5b46cdfc327ce0';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(hm, s);
+              })();
+          `,
+              type: 'text/javascript',
+            }
+          : {},
       ],
     },
   },

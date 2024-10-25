@@ -105,25 +105,10 @@ onMounted(() => {
   teleportTo.value = document.body;
   DropdownTrigger.value = cloneVNode(slots.default!()[0]);
 });
+</script>
 
-// return () => {
-// const DropdownTrigger = cloneVNode(slots.default()[0], {
-//   ref: triggerRef,
-//   onMouseenter() {
-//     setVisible(true);
-//   },
-//   onMouseleave() {
-//     setVisible(false);
-//   },
-// });
-
-// const ddd = slots.default()[0];
-
-// console.log('slots', slots.default()[0], DropdownTrigger);
-
-// return (
-
-// );
-// };
-// });
+<script lang="ts">
+export default {
+  name: 'IzDropdown',
+};
 </script>

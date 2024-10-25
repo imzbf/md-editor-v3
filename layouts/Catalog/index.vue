@@ -45,7 +45,6 @@ const onClick = (e: MouseEvent, t: TocItem) => {
 };
 
 const onActive = (toc: any, ele: HTMLDivElement) => {
-  // console.log('===', toc, ele);
   if (!ele) {
     return;
   }

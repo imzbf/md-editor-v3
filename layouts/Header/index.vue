@@ -51,7 +51,7 @@
       <div class="mb">
         <IzDrawer>
           <svg class="icon m-menu-trigger" aria-hidden="true">
-            <use xlink:href="#icon-drawer"></use>
+            <use xlink:href="#med-icon-drawer"></use>
           </svg>
 
           <template #content>
@@ -106,14 +106,16 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 import { useStore } from '@/store';
-import IzDropdown from '@/components/Dropdown';
-import IzDrawer from '@/components/Drawer';
+import {
+  IzDropdown,
+  IzDropdownMenu,
+  IzDropdownMenuItem,
+} from '@/components/Dropdown';
+import { IzDrawer } from '@/components/Drawer';
 import IzNavigation from '../Navigation/index.vue';
 import './index.less';
 
 import { version } from '../../package.json';
-
-const { IzDropdownMenu, IzDropdownMenuItem } = IzDropdown;
 
 const store = useStore();
 

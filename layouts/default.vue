@@ -2,15 +2,7 @@
   <div class="docs-page">
     <IzHeader />
     <slot />
-    <BackTop>
-      <svg
-        class="icon"
-        aria-hidden="true"
-        style="font-size: 26px; cursor: pointer"
-      >
-        <use xlink:href="#icon-top"></use>
-      </svg>
-    </BackTop>
+    <BackTop />
   </div>
 </template>
 
@@ -22,7 +14,6 @@ import IzHeader from './Header/index.vue';
 
 const store = useStore();
 const { params } = useRoute();
-store.changeLang(params.lang as Lang);
 
 watch(
   () => store.theme,
@@ -43,6 +34,8 @@ onMounted(() => {
     document.documentElement.className = '';
     // document.body.removeAttribute('arco-theme');
   }
+
+  store.changeLang(params.lang as Lang);
 });
 </script>
 

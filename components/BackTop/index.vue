@@ -1,7 +1,7 @@
 <template>
   <div v-if="scrollTop > 20" class="back-top" @click="backTop">
     <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-top"></use>
+      <use xlink:href="#med-icon-top"></use>
     </svg>
   </div>
 </template>
@@ -14,7 +14,7 @@ const scrollTop = ref(0);
 const backTop = () => {
   document.documentElement.scroll({
     top: 0,
-    behavior: 'smooth'
+    behavior: 'smooth',
   });
 };
 
@@ -27,7 +27,7 @@ onMounted(() => {
 
 <script lang="ts">
 export default {
-  name: 'IzBackTop'
+  name: 'IzBackTop',
 };
 </script>
 
