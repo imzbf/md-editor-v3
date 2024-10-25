@@ -48,19 +48,21 @@ export const useStore = defineStore({
     },
     changeLang(lang?: Lang) {
       this.lang = lang ? lang : this.lang === 'zh-CN' ? 'en-US' : 'zh-CN';
-      this.saveState();
     },
     // 保存状态到 localStorage (仅在客户端运行)
     saveState() {
       if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(this.$state));
+        const { lang, ...stateToSave } = this.$state; // 排除 lang
+        localStorage.setItem(STORAGED_STORE_KEY, JSON.stringify(stateToSave));
       }
     },
-    loadFromLocalStorage() {
+    loadState() {
       const storedData = getStoredState();
 
       if (storedData) {
-        Object.assign(this, storedData);
+        // 排除 lang，使用当前 lang
+        const { lang, ...stateToLoad } = storedData; // 排除 lang
+        Object.assign(this, stateToLoad);
       }
     },
   },

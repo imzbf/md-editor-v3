@@ -53,9 +53,20 @@
 ### 🎲 editorId
 
 - **类型**：`string`
-- **默认值**：`'md-editor-v3\_[\d]'`
+- **默认值**：`'md-editor-v-\d'`
 
-  编辑器唯一标识，默认数据递增。当使用服务端渲染时，请务必设置该属性为固定值，防止产生服务端与客户端渲染内容不一致错误提示。
+  已过时。5.x 版本开始使用 id 替换。
+
+  编辑器唯一标识，使用默认前缀和`useId`拼接。~~当使用服务端渲染时，请务必设置该属性为固定值，防止产生服务端与客户端渲染内容不一致错误提示。~~，5.0 开始没有该限制。
+
+---
+
+### 🎲 id
+
+- **类型**：`string`
+- **默认值**：`'md-editor-v-\d'`
+
+  编辑器唯一标识，使用默认前缀和`useId`拼接。
 
 ---
 
@@ -287,7 +298,7 @@
 
   是否关闭编辑器默认的放大功能
 
-  ```html
+  ```vue
   <MdEditor noImgZoomIn />
   ```
 
@@ -367,21 +378,23 @@
     | 'table'
     | 'revoke'
     | 'next'
-    | 'baocun'
+    | 'save'
     | 'prettier'
-    | 'suoxiao'
-    | 'fangda'
+    | 'minimize'
+    | 'maximize'
     | 'fullscreen-exit'
     | 'fullscreen'
+    | 'preview-only'
     | 'preview'
-    | 'coding'
+    | 'preview-html'
     | 'catalog'
     | 'github'
     | 'mermaid'
     | 'formula'
     | 'close'
     | 'delete'
-    | 'upload';
+    | 'upload'
+    | 'collapse-tips';
 
   type CustomIcon = {
     [key in IconName]?: {
@@ -706,7 +719,7 @@
 
 ---
 
-### 📥 inputBoxWitdh
+### 📥 inputBoxWidth
 
 - **类型**：`string`
 - **默认值**：`50%`
@@ -1056,7 +1069,7 @@
 
 ---
 
-### 🔖 onInputBoxWitdhChange
+### 🔖 onInputBoxWidthChange
 
 - **类型**：`(width: string) => void`
 
@@ -1619,7 +1632,7 @@ config({
 import { config } from 'md-editor-v3';
 
 config({
-  editorExtensions: { iconfont: 'https://xxx.cc' },
+  editorExtensions: { highlight: { js: 'https://xxx.cc' } },
 });
 ```
 
@@ -1648,7 +1661,6 @@ export interface EditorExtensions {
     js?: string;
     css?: string;
   };
-  iconfont?: string;
   screenfull?: {
     instance?: any;
     js?: string;
@@ -1710,27 +1722,6 @@ config({
 不要尝试在 editorExtensionsAttrs 定义 script 的 src\onload\id，link 的 rel\href\id 它们会被默认值覆盖
 
 !!!
-
----
-
-### 🫨 iconfontType
-
-固定使用那种方式展示图标，可以切换展示的方式
-
-- `svg`: symbol 方式
-- `class`: font-class 方式
-
-如果通过属性`customIcon`自定义的图标，会优先使用自定义的。
-
-这通常可以用来规避 symbol 方式不兼容的问题。
-
-```js
-import { config } from 'md-editor-v3';
-
-config({
-  iconfontType: 'class',
-});
-```
 
 ---
 
@@ -2153,11 +2144,7 @@ const toolbars = ['bold', 0, 'github'];
 ```vue
 <template>
   <!-- 保证editorId相同 -->
-  <MdPreview
-    :editorId="state.id"
-    :modelValue="state.text"
-    :theme="state.theme"
-  />
+  <MdPreview :id="state.id" :modelValue="state.text" :theme="state.theme" />
   <MdCatalog
     :editorId="state.id"
     :scrollElement="scrollElement"

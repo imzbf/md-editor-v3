@@ -14,6 +14,8 @@ import IzHeader from './Header/index.vue';
 
 const store = useStore();
 const { params } = useRoute();
+// 在服务端判断好语言类型
+store.changeLang(params.lang as Lang);
 
 watch(
   () => store.theme,
@@ -34,8 +36,6 @@ onMounted(() => {
     document.documentElement.className = '';
     // document.body.removeAttribute('arco-theme');
   }
-
-  store.changeLang(params.lang as Lang);
 });
 </script>
 

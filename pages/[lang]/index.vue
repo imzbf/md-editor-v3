@@ -4,14 +4,14 @@
       <MdEditor
         ref="editorRef"
         v-model="state.text"
-        :editorId="editorId"
+        :id="editorId"
         :language="store.lang"
         :theme="store.theme"
         :previewTheme="store.previewTheme"
         :codeTheme="store.codeTheme"
         :toolbars="state.toolbars"
         :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
-        :inputBoxWitdh="state.inputBoxWitdh"
+        :inputBoxWidth="state.inputBoxWidth"
         showCodeRowNumber
         autoDetectCode
         @onUploadImg="uploadImg"
@@ -78,7 +78,7 @@ const state = reactive({
   modalVisible: false,
   modalFullscreen: false,
   toolbars,
-  inputBoxWitdh: '50%',
+  inputBoxWidth: '50%',
 });
 
 const tips = computed(() => {
@@ -135,11 +135,11 @@ const changeLayout = () => {
         (item) => !(['preview', 'previewOnly'] as any).includes(item)
       ),
     ];
-    state.inputBoxWitdh = '100%';
+    state.inputBoxWidth = '100%';
     editorRef.value?.togglePreview(false);
   } else {
     state.toolbars = toolbars;
-    state.inputBoxWitdh = '50%';
+    state.inputBoxWidth = '50%';
     editorRef.value?.togglePreview(true);
   }
 };

@@ -101,6 +101,6 @@ config({
 const store = useStore();
 
 onMounted(() => {
-  store.loadFromLocalStorage();
+  store.loadState();
 });
 </script>

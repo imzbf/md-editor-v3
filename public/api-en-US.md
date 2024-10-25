@@ -53,9 +53,20 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 ### 🎲 editorId
 
 - **type**: `string`
-- **default**: `'md-editor-v3\_[\d]'`
+- **default**: `'md-editor-v-\d'`
 
-  Editor's id, default incrementing by number. When using server-side rendering, make sure to set this attribute to a constant value.
+  Deprecated. Starting from version 5.x, id replacement is used.
+
+  Unique identifier of the editor, use the default prefix and `useId` for concatenation. ~~When using server-side rendering, make sure to set this attribute to a constant value.~~，Starting from version 5.0, there is no such limitation.
+
+---
+
+### 🎲 id
+
+- **type**: `string`
+- **default**: `'md-editor-v-\d'`
+
+  Unique identifier of the editor, use the default prefix and `useId` for concatenation.
 
 ---
 
@@ -287,7 +298,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   Enable the function of enlarging images.
 
-  ```html
+  ```vue
   <MdEditor noImgZoomIn />
   ```
 
@@ -367,21 +378,23 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
     | 'table'
     | 'revoke'
     | 'next'
-    | 'baocun'
+    | 'save'
     | 'prettier'
-    | 'suoxiao'
-    | 'fangda'
+    | 'minimize'
+    | 'maximize'
     | 'fullscreen-exit'
     | 'fullscreen'
+    | 'preview-only'
     | 'preview'
-    | 'coding'
+    | 'preview-html'
     | 'catalog'
     | 'github'
     | 'mermaid'
     | 'formula'
     | 'close'
     | 'delete'
-    | 'upload';
+    | 'upload'
+    | 'collapse-tips';
 
   type CustomIcon = {
     [key in IconName]?: {
@@ -699,7 +712,7 @@ Except for the same as `MdPreview`:
 
 ---
 
-### 📥 inputBoxWitdh
+### 📥 inputBoxWidth
 
 - **type**: `string`
 - **default**: `50%`
@@ -1046,7 +1059,7 @@ Except for the same as `MdPreview`:
 
 ---
 
-### 🔖 onInputBoxWitdhChange
+### 🔖 onInputBoxWidthChange
 
 - **type**: `(width: string) => void`
 
@@ -1598,7 +1611,7 @@ Config some dependency libraries, like highlight..
 import { config } from 'md-editor-v3';
 
 config({
-  editorExtensions: { iconfont: 'https://xxx.cc' },
+  editorExtensions: { highlight: { js: 'https://xxx.cc' } },
 });
 ```
 
@@ -1627,7 +1640,6 @@ export interface EditorExtensions {
     js?: string;
     css?: string;
   };
-  iconfont?: string;
   screenfull?: {
     instance?: any;
     js?: string;
@@ -1689,27 +1701,6 @@ config({
 Do not attempt to define the src \ onload \ id of the script and rel \ href \ id of the link in editorExtensionsAttrs, as they will be overwritten by default values
 
 !!!
-
----
-
-### 🫨 iconfontType
-
-Set the way to display icons:
-
-- `svg`: with symbol
-- `class`: with font-class
-
-If the icon is customized through the attribute `customIcon`, the customized icon will be used first.
-
-This can be usually used to avoid the issue of incompatible symbol.
-
-```js
-import { config } from 'md-editor-v3';
-
-config({
-  iconfontType: 'class',
-});
-```
 
 ---
 
@@ -2132,11 +2123,7 @@ usage:
 ```vue
 <template>
   <!-- Ensure that the editorId is the same -->
-  <MdPreview
-    :editorId="state.id"
-    :modelValue="state.text"
-    :theme="state.theme"
-  />
+  <MdPreview :id="state.id" :modelValue="state.text" :theme="state.theme" />
   <MdCatalog
     :editorId="state.id"
     :scrollElement="scrollElement"

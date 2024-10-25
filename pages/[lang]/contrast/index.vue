@@ -17,8 +17,8 @@ import { useStore } from '@/store';
 import IzPreviewContent from '@/layouts/PreviewContent/index.vue';
 import IzCatalog from '@/layouts/Catalog/index.vue';
 
-import mdEN from '@/public/contrast-en-US-3.md';
-import mdCN from '@/public/contrast-zh-CN-3.md';
+import mdEN from '@/public/contrast-en-US.md';
+import mdCN from '@/public/contrast-zh-CN.md';
 
 const store = useStore();
 

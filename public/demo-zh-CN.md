@@ -2,7 +2,23 @@
 
 目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：[releases](https://github.com/imzbf/md-editor-v3/releases)
 
-目前 vue3 已经能很友好的使用 jsx 来开发了，对于一些爱好者（比如作者），需要考虑兼容一下。
+### 🤖 NPM 安装
+
+```shell [install:npm]
+npm install md-editor-v3
+```
+
+```shell [install:yarn]
+yarn add md-editor-v3
+```
+
+!!! warning
+
+~~当使用服务端渲染时，请务必设置`editorId`为固定值。~~
+
+5.0 开始，没有该限制了。
+
+!!!
 
 ### 🤓 CDN 链接
 
@@ -23,7 +39,7 @@
     <div id="md-editor-v3">
       <md-editor-v3 v-model="text" />
     </div>
-    <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/vue@3.5.12/dist/vue.global.prod.js"></script>
     <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/umd/index.js"></script>
     <script>
       const App = {
@@ -38,22 +54,6 @@
   </body>
 </html>
 ```
-
-### 🤖 NPM 安装
-
-```shell [install:yarn]
-yarn add md-editor-v3
-```
-
-```shell [install:npm]
-npm install md-editor-v3
-```
-
-!!! warning
-
-当使用服务端渲染时，请务必设置`editorId`为固定值。
-
-!!!
 
 #### 🥱 Setup 模板
 
@@ -93,7 +93,7 @@ export default defineComponent({
 
 ```vue
 <template>
-  <MdPreview :editorId="id" :modelValue="text" />
+  <MdPreview :id="id" :modelValue="text" />
   <MdCatalog :editorId="id" :scrollElement="scrollElement" />
 </template>
 
@@ -111,7 +111,7 @@ const scrollElement = document.documentElement;
 
 !!! warning
 
-当使用服务端渲染时，`scrollElement`应该是字符类型，例：`body`、`#id`、`.class`。
+当使用服务端渲染时，`scrollElement`应该是字符类型，例：`html`、`body`、`#id`、`.class`。
 
 !!!
 
@@ -123,7 +123,6 @@ const scrollElement = document.documentElement;
 
 1. 内部的图片放大查看无效，需要自行实现！！！
 2. 不能默认的使用 CDN 引用依赖库，参考[[自行引入扩展库]](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%99%8D%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8F%20%E8%87%AA%E8%A1%8C%E5%BC%95%E5%85%A5%E6%89%A9%E5%B1%95%E5%BA%93)！！！
-3. 只能使用 font-class 引用的图标，默认的 symbol 引用无效！！！
 
 ## 🥂 扩展功能
 
@@ -131,11 +130,11 @@ const scrollElement = document.documentElement;
 
 ### 🥶 自定义快捷键
 
-内置的快捷键配置的源码：[commands.ts](https://github.com/imzbf/md-editor-v3/blob/develop/MdEditor/layouts/Content/codemirror/commands.ts)，它们作为扩展项被添加到了`codemirror`。
+- 内置的快捷键配置的源码：[commands.ts](https://github.com/imzbf/md-editor-v3/blob/develop/MdEditor/layouts/Content/codemirror/commands.ts)，它们作为扩展项被添加到了`codemirror`。
 
-想要替换、删除快捷键的基本原理是找到对应的扩展，然后遍历这个快捷键配置的数组，找到并处理它。
+- 想要替换、删除快捷键的基本原理是找到对应的扩展，然后遍历这个快捷键配置的数组，找到并处理它。
 
-事实上，`config`中`codeMirrorExtensions`的第二入参`extensions`是一个数组，它的第一项就是快捷键扩展，第三入参就是默认的快捷键配置。
+- 事实上，`config`中`codeMirrorExtensions`的第二入参`extensions`是一个数组，它的第一项就是快捷键扩展，第三入参就是默认的快捷键配置。
 
 #### 💅 修改快捷键
 
@@ -688,11 +687,7 @@ const state = reactive({
 
   ```vue
   <template>
-    <MdPreview
-      :modelValue="state.text"
-      :editorId="state.id"
-      :theme="state.theme"
-    />
+    <MdPreview :modelValue="state.text" :id="state.id" :theme="state.theme" />
     <MdCatalog
       :editorId="state.id"
       :scrollElement="scrollElement"
@@ -853,7 +848,7 @@ App.vue
 
 ```vue
 <template>
-  <MdEditor v-model="text" noIconfont />
+  <MdEditor v-model="text" />
 </template>
 
 <script setup>
@@ -869,7 +864,7 @@ const text = ref('');
 
 ### 🔒 编译时防范 XSS
 
-内置的 XSS 扩展已经在编译中处理了危险代码，在默认白名单的基础上，增加了部分标签和属性：
+5.0 版本将内置的 XSS 扩展导出了，不再默认添加， 导出的 XSS 扩展在默认白名单的基础上，增加了部分标签和属性：
 
 ```json::close
 {
@@ -892,12 +887,21 @@ const text = ref('');
 }
 ```
 
-#### 🔓 移除 xss 扩展
+#### 🔒 添加 xss 扩展
 
 ```js
+import { config, XSSPlugin } from 'md-editor-v3';
+
 config({
   markdownItPlugins(plugins) {
-    return plugins.filter((p) => p.type !== 'xss');
+    return [
+      ...plugins,
+      {
+        type: 'xss',
+        plugin: XSSPlugin,
+        options: {},
+      },
+    ];
   },
 });
 ```
@@ -907,50 +911,48 @@ config({
 我们添加一个允许图片加载失败的事件
 
 ```js
-import { config } from 'md-editor-v3';
+import { config, XSSPlugin } from 'md-editor-v3';
 // import { getDefaultWhiteList } from 'xss';
 
 config({
   markdownItPlugins(plugins) {
-    return plugins.map((p) => {
-      if (p.type === 'xss') {
-        return {
-          ...p,
-          options: {
-            // 方式一：自行扩展全部
-            // xss() {
-            //   return {
-            //     whiteList: Object.assign({}, getDefaultWhiteList(), {
-            //       // 如果你需要使用任务列表，请保留这项配置
-            //       img: ['class'],
-            //       input: ['class', 'disabled', 'type', 'checked'],
-            //       // 如果你需要使用嵌入视频代码，请保留这项配置
-            //       iframe: [
-            //         'class',
-            //         'width',
-            //         'height',
-            //         'src',
-            //         'title',
-            //         'border',
-            //         'frameborder',
-            //         'framespacing',
-            //         'allow',
-            //         'allowfullscreen'
-            //       ],
-            //       img: ['onerror']
-            //     })
-            //   };
-            // },
-            // 方式二：在默认白名单的基础上新增。^4.15.6
-            extendedWhiteList: {
-              img: ['onerror'],
-            },
+    return [
+      ...plugins,
+      {
+        type: 'xss',
+        plugin: XSSPlugin,
+        options: {
+          // 方式一：自行扩展全部
+          // xss() {
+          //   return {
+          //     whiteList: Object.assign({}, getDefaultWhiteList(), {
+          //       // 如果你需要使用任务列表，请保留这项配置
+          //       img: ['class'],
+          //       input: ['class', 'disabled', 'type', 'checked'],
+          //       // 如果你需要使用嵌入视频代码，请保留这项配置
+          //       iframe: [
+          //         'class',
+          //         'width',
+          //         'height',
+          //         'src',
+          //         'title',
+          //         'border',
+          //         'frameborder',
+          //         'framespacing',
+          //         'allow',
+          //         'allowfullscreen'
+          //       ],
+          //       img: ['onerror']
+          //     })
+          //   };
+          // },
+          // 方式二：在默认白名单的基础上新增。^4.15.6
+          extendedWhiteList: {
+            img: ['onerror'],
           },
-        };
-      }
-
-      return p;
-    });
+        },
+      },
+    ];
   },
 });
 ```
@@ -1070,7 +1072,7 @@ config({
 ```
 
 ```vue
-<MdEditor editorId="myId" v-model="text" />
+<MdEditor id="myId" v-model="text" />
 ```
 
 ### 🎳 协同办公
