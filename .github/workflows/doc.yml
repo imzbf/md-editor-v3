@@ -2,9 +2,9 @@ name: Doc Page Publish
 
 on:
   push:
-    branches: [docs]
+    branches: [main-docs]
   pull_request:
-    branches: [docs]
+    branches: [main-docs]
 
 jobs:
   publish:
@@ -32,4 +32,5 @@ jobs:
         with:
           branch: docs
           folder: .output/public
-          target-folder: docs
+          # 直接覆盖到根目录，不再使用docs作为发布目录了
+          # target-folder: docs
