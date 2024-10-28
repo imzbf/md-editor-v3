@@ -13,7 +13,7 @@
 @borderColorDark: #2d2d2d;
 
 @borderColorReverse: #bebebe;
-@borderColorDarkReverse: #e6e6e6;
+@borderColorDarkReverse: #7f7f7f;
 
 @bkColor: #fff;
 @bkColorDark: #000;
@@ -39,7 +39,11 @@
   --iz-bk-hover-color: if(@isDark, @bbkColorDark, @bbkColor);
 
   --iz-border-color: if(@isDark, #2d2d2d, #e6e6e6);
-  --iz-border-color-reverse: if(@isDark, @borderColorDarkReverse, @borderColorReverse);
+  --iz-border-color-reverse: if(
+    @isDark,
+    @borderColorDarkReverse,
+    @borderColorReverse
+  );
 
   --iz-border-hover-color: if(@isDark, #636262, #b9b9b9);
   --iz-border-hover-color-reverse: if(
