@@ -2105,7 +2105,7 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
 
-  - `editorId`: `string`, necessary, editor's `editorId`, used to register listening events.
+  - `editorId`: `string`, necessary, editor's `id`, used to register listening events.
   - `class`: `string`, not necessary.
   - `mdHeadingId`: `mdHeadingId`, not necessary, same as editor.
   - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
@@ -2219,9 +2219,15 @@ const onChange = () => {
 ## 🪤 Internal Configuration
 
 ```js
-import { allToolbar, allFooter, zh_CN, en_US } from 'md-editor-v3';
+import {
+  allToolbar,
+  allFooter,
+  zh_CN,
+  en_US,
+  editorExtensionsAttrs,
+} from 'md-editor-v3';
 
-console.log(allToolbar, allFooter, zh_CN, en_US);
+console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs);
 ```
 
 ## ✍️ Edit This Page

@@ -14,7 +14,8 @@ yarn add md-editor-v3
 
 !!! warning
 
-When using server-side rendering, make sure to set `editorId` to a constant value.
+~~When using server-side rendering, make sure to set `editorId` to a constant value.~~
+Starting from version 5.0, there is no such limitation.
 
 !!!
 
@@ -37,7 +38,7 @@ Use production version in html directly:
     <div id="md-editor-v3">
       <md-editor-v3 v-model="text" />
     </div>
-    <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/vue@3.5.12/dist/vue.global.prod.js"></script>
     <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/umd/index.js"></script>
     <script>
       const App = {

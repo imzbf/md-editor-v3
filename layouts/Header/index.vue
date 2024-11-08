@@ -2,7 +2,9 @@
   <header class="page-header">
     <section class="container">
       <h1 class="project-name">
-        md-editor-v3<sup>@{{ version }}</sup>
+        md-editor-v3<sup
+          >@{{ pack.dependencies['md-editor-v3'].replace('^', '') }}</sup
+        >
       </h1>
       <p class="project-desc">{{ texts.desc }}</p>
 
@@ -115,7 +117,7 @@ import { IzDrawer } from '@/components/Drawer';
 import IzNavigation from '../Navigation/index.vue';
 import './index.less';
 
-import { version } from '../../package.json';
+import pack from '../../package.json';
 
 const store = useStore();
 

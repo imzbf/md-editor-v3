@@ -2126,7 +2126,7 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
 
-  - `editorId`: `string`，必须，对应编辑器的`editorId`，在内部注册目录变化监听事件。
+  - `editorId`: `string`，必须，对应编辑器的`id`，在内部注册目录变化监听事件。
   - `class`: `string`，非必须，目录组件最外层类名。
   - `mdHeadingId`: `mdHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
   - `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`。
@@ -2240,9 +2240,15 @@ const onChange = () => {
 ## 🪤 内部配置
 
 ```js
-import { allToolbar, allFooter, zh_CN, en_US } from 'md-editor-v3';
+import {
+  allToolbar,
+  allFooter,
+  zh_CN,
+  en_US,
+  editorExtensionsAttrs,
+} from 'md-editor-v3';
 
-console.log(allToolbar, allFooter, zh_CN, en_US);
+console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs);
 ```
 
 ## ✍️ 编辑此页面

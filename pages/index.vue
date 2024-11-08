@@ -3,18 +3,18 @@
 </template>
 
 <script setup lang="ts">
+import { DESCRIPTION_EN, KEYWORDS_EN, SITE_NAME_EN } from '~/config';
+
 useHead({
-  title: 'Redirect - MdEditorV3 Documentation',
+  title: `Redirect - ${SITE_NAME_EN}`,
   meta: [
     {
       name: 'keywords',
-      content:
-        'MD Editor, md-editor-v3, Markdown Editor, Vue3 Markdown, Vue TSX, Markdown Component, Markdown preview, Vue3 Editor',
+      content: KEYWORDS_EN,
     },
     {
       name: 'description',
-      content:
-        'md-editor-v3 is a Markdown editor component developed based on Vue 3 and TSX, supporting real-time preview and rich Markdown features. Review the detailed development documentation and usage examples.',
+      content: DESCRIPTION_EN,
     },
   ],
 });
