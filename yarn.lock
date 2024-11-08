@@ -2038,10 +2038,10 @@
   resolved "https://registry.npmjs.org/@vavt/util/-/util-2.1.0.tgz#b8a28da361675195fd6331a1db7cbfd02f68f590"
   integrity sha512-YIfAvArSFVXmWvoF+DEGD0FhkhVNcCtVWWkfYtj76eSrwHh/wuEEFhiEubg1XLNM3tChO8FH8xJCT/hnizjgFQ==
 
-"@vavt/v3-extension@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.3.0.tgz#e50647e5a34760a1dea4847aaeb829d3a4c3dcec"
-  integrity sha512-Cj3GlzVcKlURrcwbb0VKxtU6QqXu0IsK4cALnTD62mmC+aJSCwTovrooFJZ1AoJop8wSt0sth4c6ChyWaK1b/Q==
+"@vavt/v3-extension@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-1.3.2.tgz#27c8914f737a1d6d6fd89193882dc03c45b8b2de"
+  integrity sha512-seDqjGyfG54f/EzFP0Jd2uNC8sJ0UksFJ5uXcCUcIZD2kcZA1n+8AEOFuBE6LftLr7xmExe2b0tg6SBe4eOdaQ==
 
 "@vavt/vite-plugin-import-markdown@^1.0.0":
   version "1.0.1"
@@ -3244,10 +3244,10 @@ marked@*:
   resolved "https://registry.npmjs.org/marked/-/marked-13.0.2.tgz#d5d05bd2683a85cb9cc6afbe5240e3a8bffcb92a"
   integrity sha512-J6CPjP8pS5sgrRqxVRvkCIkZ6MFdRIjDkwUwgJ9nL2fbmM6qGQeB2C16hi8Cc9BOzj6xXzy0jyi0iPIfnMHYzA==
 
-md-editor-v3@^4.21.2:
-  version "4.21.2"
-  resolved "https://registry.yarnpkg.com/md-editor-v3/-/md-editor-v3-4.21.2.tgz#4e6ddd84ed697d59a96a5c900ac5d3ed7f83f7bd"
-  integrity sha512-msC30hd5fEX1XXu/VofmG3uI2db+Xydr4kN2tFNO+9awg5GStwKU9E9MlojewR8Wm6eaUQiCVvxbySAyO0HCHg==
+md-editor-v3@^4.21.3:
+  version "4.21.3"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-4.21.3.tgz#c980f8ef8381f4ef66231b5013cae3f0010b6d37"
+  integrity sha512-9+RCioqFIWSExTsG0jf9T/RTrFhtH8SpRcKVjHeEQSlExAr/zsgYt/M9XUy/nuGx87hgNKDzK0PXp/uOlDumAw==
   dependencies:
     "@codemirror/lang-markdown" "^6.2.5"
     "@codemirror/language-data" "^6.5.1"
