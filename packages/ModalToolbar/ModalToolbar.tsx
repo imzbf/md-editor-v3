@@ -22,7 +22,8 @@ const props = {
     default: ''
   },
   visible: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: undefined
   },
   width: {
     type: String as PropType<string>,
@@ -89,6 +90,10 @@ const props = {
   },
   previewTheme: {
     type: String as PropType<PreviewThemes>,
+    default: undefined
+  },
+  codeTheme: {
+    type: String as PropType<string>,
     default: undefined
   }
   /**

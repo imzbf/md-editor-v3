@@ -345,7 +345,7 @@ export const editorProps = {
    */
   tableShape: {
     type: Array as PropType<Array<number>>,
-    default: undefined
+    default: [6, 4]
   },
 
   /**
@@ -404,7 +404,7 @@ export const editorProps = {
    */
   noUploadImg: {
     type: Boolean as PropType<boolean>,
-    default: undefined
+    default: false
   },
 
   /**
@@ -414,7 +414,7 @@ export const editorProps = {
    */
   autoFocus: {
     type: Boolean as PropType<boolean>,
-    default: undefined
+    default: false
   },
   /**
    * 禁用文本区域
@@ -423,7 +423,7 @@ export const editorProps = {
    */
   disabled: {
     type: Boolean as PropType<boolean>,
-    default: undefined
+    default: false
   },
   /**
    * 文本区域为只读
@@ -432,7 +432,7 @@ export const editorProps = {
    */
   readOnly: {
     type: Boolean as PropType<boolean>,
-    default: undefined
+    default: false
   },
   /**
    * 文本区域允许的最大字符数
@@ -449,7 +449,7 @@ export const editorProps = {
    */
   autoDetectCode: {
     type: Boolean as PropType<boolean>,
-    default: undefined
+    default: false
   },
   /**
    * 输入框失去焦点时触发事件
