@@ -36,7 +36,8 @@ export const mdPreviewProps = {
    * input回调事件
    */
   onChange: {
-    type: Function as PropType<ChangeEvent>
+    type: Function as PropType<ChangeEvent>,
+    default: undefined
   },
   /**
    * 主题，支持light和dark
@@ -69,13 +70,15 @@ export const mdPreviewProps = {
    * html变化事件
    */
   onHtmlChanged: {
-    type: Function as PropType<HtmlChangedEvent>
+    type: Function as PropType<HtmlChangedEvent>,
+    default: undefined
   },
   /**
    * 获取目录结构
    */
   onGetCatalog: {
-    type: Function as PropType<GetCatalogEvent>
+    type: Function as PropType<GetCatalogEvent>,
+    default: undefined
   },
   /**
    * 编辑器唯一标识
@@ -164,7 +167,8 @@ export const mdPreviewProps = {
    * @default false
    */
   noIconfont: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: undefined
   },
   /**
    * 复制代码格式化方法
@@ -245,13 +249,15 @@ export const editorProps = {
    * input回调事件
    */
   onSave: {
-    type: Function as PropType<SaveEvent>
+    type: Function as PropType<SaveEvent>,
+    default: undefined
   },
   /**
    * 上传图片事件
    */
   onUploadImg: {
-    type: Function as PropType<UploadImgEvent>
+    type: Function as PropType<UploadImgEvent>,
+    default: undefined
   },
   /**
    * 是否页面内全屏
@@ -338,7 +344,8 @@ export const editorProps = {
    * @default [6, 4]
    */
   tableShape: {
-    type: Array as PropType<Array<number>>
+    type: Array as PropType<Array<number>>,
+    default: [6, 4]
   },
 
   /**
@@ -355,13 +362,15 @@ export const editorProps = {
    * 自定义的工具栏列表
    */
   defToolbars: {
-    type: [String, Object] as PropType<string | VNode>
+    type: [String, Object] as PropType<string | VNode>,
+    default: undefined
   },
   /**
    * 内部错误捕获
    */
   onError: {
-    type: Function as PropType<ErrorEvent>
+    type: Function as PropType<ErrorEvent>,
+    default: undefined
   },
 
   /**
@@ -384,7 +393,8 @@ export const editorProps = {
    * 自定义的也叫工具组件列表
    */
   defFooters: {
-    type: [String, Object] as PropType<string | VNode>
+    type: [String, Object] as PropType<string | VNode>,
+    default: undefined
   },
 
   /**
@@ -393,7 +403,8 @@ export const editorProps = {
    * @default false
    */
   noUploadImg: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: false
   },
 
   /**
@@ -402,7 +413,8 @@ export const editorProps = {
    * @default false
    */
   autoFocus: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: false
   },
   /**
    * 禁用文本区域
@@ -410,7 +422,8 @@ export const editorProps = {
    * @default false
    */
   disabled: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: false
   },
   /**
    * 文本区域为只读
@@ -418,13 +431,15 @@ export const editorProps = {
    * @default false
    */
   readOnly: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: false
   },
   /**
    * 文本区域允许的最大字符数
    */
   maxLength: {
-    type: Number as PropType<number>
+    type: Number as PropType<number>,
+    default: undefined
   },
   /**
    * 是否启用自动识别粘贴代码类别
@@ -433,19 +448,22 @@ export const editorProps = {
    * @default false
    */
   autoDetectCode: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: false
   },
   /**
    * 输入框失去焦点时触发事件
    */
   onBlur: {
-    type: Function as PropType<(event: FocusEvent) => void>
+    type: Function as PropType<(event: FocusEvent) => void>,
+    default: undefined
   },
   /**
    * 输入框获得焦点时触发事件
    */
   onFocus: {
-    type: Function as PropType<(event: FocusEvent) => void>
+    type: Function as PropType<(event: FocusEvent) => void>,
+    default: undefined
   },
   /**
    * @codemirror/autocomplete匹配关键词的方法列表
@@ -458,7 +476,8 @@ export const editorProps = {
    * })
    */
   completions: {
-    type: Array as PropType<Array<CompletionSource>>
+    type: Array as PropType<Array<CompletionSource>>,
+    default: undefined
   },
   /**
    * 是否在工具栏下面显示对应的文字名称
@@ -473,10 +492,12 @@ export const editorProps = {
    * 字符输入事件
    */
   onInput: {
-    type: Function as PropType<(event: Event) => void>
+    type: Function as PropType<(event: Event) => void>,
+    default: undefined
   },
   onDrop: {
-    type: Function as PropType<(event: DragEvent) => void>
+    type: Function as PropType<(event: DragEvent) => void>,
+    default: undefined
   },
   /**
    * 输入框的默认宽度
@@ -492,7 +513,8 @@ export const editorProps = {
    * 输入框宽度变化事件
    */
   onInputBoxWitdhChange: {
-    type: Function as PropType<(width: string) => void>
+    type: Function as PropType<(width: string) => void>,
+    default: undefined
   },
   /**
    * 替换粘贴的图片链接

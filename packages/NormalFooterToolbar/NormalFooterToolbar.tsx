@@ -5,7 +5,8 @@ import { prefix } from '~/config';
 
 const props = {
   onClick: {
-    type: Function as PropType<(e: MouseEvent) => void>
+    type: Function as PropType<(e: MouseEvent) => void>,
+    default: undefined
   }
 };
 

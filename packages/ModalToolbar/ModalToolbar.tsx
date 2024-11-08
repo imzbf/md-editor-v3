@@ -22,7 +22,8 @@ const props = {
     default: ''
   },
   visible: {
-    type: Boolean as PropType<boolean>
+    type: Boolean as PropType<boolean>,
+    default: undefined
   },
   width: {
     type: String as PropType<string>,
@@ -34,13 +35,16 @@ const props = {
   },
   // 展示在工具栏的内容，通常是个图标
   trigger: {
-    type: [String, Object] as PropType<string | VNode>
+    type: [String, Object] as PropType<string | VNode>,
+    default: undefined
   },
   onClick: {
-    type: Function as PropType<() => void>
+    type: Function as PropType<() => void>,
+    default: undefined
   },
   onClose: {
-    type: Function as PropType<() => void>
+    type: Function as PropType<() => void>,
+    default: undefined
   },
   /**
    * 显示全屏按钮
@@ -54,13 +58,16 @@ const props = {
     default: false
   },
   onAdjust: {
-    type: Function as PropType<(val: boolean) => void>
+    type: Function as PropType<(val: boolean) => void>,
+    default: undefined
   },
   class: {
-    type: String as PropType<string>
+    type: String as PropType<string>,
+    default: undefined
   },
   style: {
-    type: [Object, String] as PropType<CSSProperties | string>
+    type: [Object, String] as PropType<CSSProperties | string>,
+    default: undefined
   },
   showMask: {
     type: Boolean as PropType<boolean>,
@@ -70,19 +77,24 @@ const props = {
    * ==没有意义，仅用于规避克隆组件自动嵌入insert方法时，传入的是该组件而产生的waring
    */
   insert: {
-    type: Function as PropType<() => void>
+    type: Function as PropType<() => void>,
+    default: undefined
   },
   language: {
-    type: String as PropType<string>
+    type: String as PropType<string>,
+    default: undefined
   },
   theme: {
-    type: String as PropType<Themes>
+    type: String as PropType<Themes>,
+    default: undefined
   },
   previewTheme: {
-    type: String as PropType<PreviewThemes>
+    type: String as PropType<PreviewThemes>,
+    default: undefined
   },
   codeTheme: {
-    type: String as PropType<string>
+    type: String as PropType<string>,
+    default: undefined
   }
   /**
    * ==结束
