@@ -100,6 +100,7 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
                     'lru-cache',
                     'copy-to-clipboard',
                     'codemirror',
+                    'lucide-vue-next',
                     '@vavt/util',
                     /@codemirror\/.*/,
                     /@lezer\/.*/,

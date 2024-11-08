@@ -54,6 +54,10 @@ const props = {
     type: String as PropType<PreviewThemes>,
     default: undefined
   },
+  codeTheme: {
+    type: String as PropType<string>,
+    default: undefined
+  },
   /**
    * ==结束
    */
