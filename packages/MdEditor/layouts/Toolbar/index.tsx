@@ -1013,13 +1013,14 @@ export default defineComponent({
         }
       } else if (props.defToolbars instanceof Array) {
         // vue3模板，插槽内容永远是个数组对象
-        const defItem = props.defToolbars[barItem as number];
+        const defItem = props.defToolbars[barItem as number] as VNode;
 
         if (defItem) {
           const defItemCloned = cloneVNode(defItem, {
-            theme: theme.value,
-            previewTheme: previewTheme.value,
-            language: language.value,
+            theme: defItem.props?.theme || theme.value,
+            previewTheme: defItem.props?.theme || previewTheme.value,
+            language: defItem.props?.theme || language.value,
+            codeTheme: defItem.props?.codeTheme || props.codeTheme,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
             }
@@ -1030,13 +1031,14 @@ export default defineComponent({
         return '';
       } else if (props.defToolbars && props.defToolbars.children instanceof Array) {
         // jsx语法，<></>包裹下，defToolbars是包裹插槽内容的对象
-        const defItem = props.defToolbars.children[barItem as number];
+        const defItem = props.defToolbars.children[barItem as number] as VNode;
 
         if (defItem) {
-          const defItemCloned = cloneVNode(defItem as VNode, {
-            theme: theme.value,
-            previewTheme: previewTheme.value,
-            language: language.value,
+          const defItemCloned = cloneVNode(defItem, {
+            theme: defItem.props?.theme || theme.value,
+            previewTheme: defItem.props?.theme || previewTheme.value,
+            language: defItem.props?.theme || language.value,
+            codeTheme: defItem.props?.codeTheme || props.codeTheme,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
             }

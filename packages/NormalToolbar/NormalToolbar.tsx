@@ -2,7 +2,7 @@ import { defineComponent, PropType, SetupContext, ExtractPropTypes, VNode } from
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
-import { Themes } from '~/type';
+import { PreviewThemes, Themes } from '~/type';
 
 const props = {
   title: {
@@ -27,6 +27,12 @@ const props = {
   },
   theme: {
     type: String as PropType<Themes>
+  },
+  previewTheme: {
+    type: String as PropType<PreviewThemes>
+  },
+  codeTheme: {
+    type: String as PropType<string>
   }
   /**
    * ==结束

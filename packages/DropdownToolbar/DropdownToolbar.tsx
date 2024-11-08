@@ -46,6 +46,9 @@ const props = {
   previewTheme: {
     type: String as PropType<PreviewThemes>
   },
+  codeTheme: {
+    type: String as PropType<string>
+  },
   /**
    * ==结束
    */

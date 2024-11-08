@@ -84,6 +84,7 @@ const Editor = defineComponent({
               noUploadImg={noUploadImg}
               showToolbarName={props.showToolbarName}
               catalogVisible={catalogVisible.value}
+              codeTheme={props.codeTheme}
             />
           )}
           <Content

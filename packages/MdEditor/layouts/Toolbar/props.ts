@@ -52,6 +52,9 @@ export const toolbarProps = {
   },
   catalogVisible: {
     type: Boolean as PropType<boolean>
+  },
+  codeTheme: {
+    type: String as PropType<string>
   }
 };
 
