@@ -1,7 +1,8 @@
 import { onMounted, inject, ref } from 'vue';
-import { configOption, prefix } from '~/config';
+import { configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import bus from '~/utils/event-bus';
+import { CDN_IDS } from '~/static';
 import { CHANGE_FULL_SCREEN, ERROR_CATCHER } from '~/static/event-name';
 import { ToolbarProps } from './props';
 
@@ -64,7 +65,7 @@ export const useSreenfull = (props: ToolbarProps) => {
         {
           ...editorExtensionsAttrs.screenfull?.js,
           src: editorExtensions.screenfull!.js,
-          id: `${prefix}-screenfull`,
+          id: CDN_IDS.screenfull,
           onload: screenfullLoad
         },
         'screenfull'

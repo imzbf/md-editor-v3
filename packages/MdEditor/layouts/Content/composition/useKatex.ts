@@ -1,7 +1,8 @@
 import { onMounted, shallowRef } from 'vue';
-import { prefix, configOption } from '~/config';
+import { configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
+import { CDN_IDS } from '~/static';
 
 /**
  * 注册katex扩展到页面
@@ -23,7 +24,7 @@ const useKatex = (props: ContentPreviewProps) => {
       'script',
       {
         src: editorExtensions.katex!.js,
-        id: `${prefix}-katex`,
+        id: CDN_IDS.katexjs,
         onload() {
           katex.value = window.katex;
         }
@@ -34,7 +35,7 @@ const useKatex = (props: ContentPreviewProps) => {
     appendHandler('link', {
       rel: 'stylesheet',
       href: editorExtensions.katex!.css,
-      id: `${prefix}-katexCss`
+      id: CDN_IDS.katexcss
     });
   });
 

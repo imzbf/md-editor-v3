@@ -9,8 +9,8 @@ export { default as MdModal } from './MdEditor/components/Modal';
 export { default as StrIcon } from './MdEditor/components/Icon/Str';
 export { default as NormalFooterToolbar } from './NormalFooterToolbar';
 
-export * from './MdEditor/layouts/Content/markdownIt/xss';
-
+export * from '~/layouts/Content/markdownIt/xss';
 export * from './config';
+export * from './util';
 
 export * from '~/type';
