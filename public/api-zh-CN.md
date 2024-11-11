@@ -2251,6 +2251,34 @@ import {
 console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs);
 ```
 
+## 📦 内部工具
+
+### 🧹 clearSideEffects
+
+`>=5.0.0`
+
+清空组件带来的副作用，例如
+
+1. 使用 CDN 嵌入的链接，为了保证多个组件能够正常使用，组件在卸载时不会主动移除
+
+```js
+import { clearSideEffects } from 'md-editor-v3';
+
+clearSideEffects();
+```
+
+!!! warning
+
+这会删除掉页面中的 CDN 引用，如果当前页面还存在该组件实例，请不要这样做！
+
+!!!
+
+### XSSPlugin
+
+`>=5.0.0`
+
+使用示例：[添加 xss 扩展](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%92%20添加%20xss%20扩展)
+
 ## ✍️ 编辑此页面
 
 [doc-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/api-zh-CN.md)

@@ -2230,6 +2230,32 @@ import {
 console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs);
 ```
 
+## 📦 Internal Tools
+
+### 🧹 clearSideEffects
+
+`>=5.0.0`
+
+Clear the side effects brought by the component, for example: links embedded using CDN. To ensure that multiple components can run correctly., the component will not actively remove these when it is unmounted.
+
+```js
+import { clearSideEffects } from 'md-editor-v3';
+
+clearSideEffects();
+```
+
+!!! warning
+
+It will remove the CDN references in the page. If the component instance still exists on the current page, do not call it!
+
+!!!
+
+### XSSPlugin
+
+`>=5.0.0`
+
+Example: [Add XSS extension](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0%9F%94%92%20Add%20XSS%20extension)
+
 ## ✍️ Edit This Page
 
 [doc-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/api-en-US.md)
