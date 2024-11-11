@@ -1,7 +1,8 @@
 import { ComputedRef, inject, onMounted, shallowRef, watch } from 'vue';
-import { prefix, configOption } from '~/config';
+import { configOption } from '~/config';
 import { appendHandler, updateHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
+import { CDN_IDS } from '~/static';
 
 /**
  * 注册代码高亮扩展到页面
@@ -26,13 +27,13 @@ const useHighlight = (props: ContentPreviewProps) => {
     appendHandler('link', {
       ...highlight.value.css,
       rel: 'stylesheet',
-      id: `${prefix}-hlCss`
+      id: CDN_IDS.hlcss
     });
     appendHandler(
       'script',
       {
         ...highlight.value.js,
-        id: `${prefix}-hljs`,
+        id: CDN_IDS.hljs,
         onload() {
           hljsRef.value = window.hljs;
         }
@@ -52,7 +53,7 @@ const useHighlight = (props: ContentPreviewProps) => {
       updateHandler('link', {
         ...highlight.value.css,
         rel: 'stylesheet',
-        id: `${prefix}-hlCss`
+        id: CDN_IDS.hlcss
       });
     }
   );

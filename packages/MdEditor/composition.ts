@@ -1,4 +1,5 @@
 import { reactive, watch, computed, onMounted, provide, ref, Ref, useId } from 'vue';
+import { deepClone, deepMerge } from '@vavt/util';
 import {
   InnerError,
   SettingType,
@@ -34,7 +35,7 @@ import {
 } from '~/static/event-name';
 import bus from '~/utils/event-bus';
 import { ContentExposeParam } from './layouts/Content/type';
-import { deepClone, deepMerge } from '@vavt/util';
+import { CDN_IDS } from './static';
 
 /**
  * 处理保存逻辑，主要是需要异步返回编译后的html
@@ -263,12 +264,12 @@ export const useExpansion = (props: EditorProps) => {
         ...css,
         rel: 'stylesheet',
         href: editorExtensions.cropper!.css,
-        id: `${prefix}-cropperCss`
+        id: CDN_IDS.croppercss
       });
       appendHandler('script', {
         ...js,
         src: editorExtensions.cropper!.js,
-        id: `${prefix}-cropper`
+        id: CDN_IDS.cropperjs
       });
     }
 
@@ -278,7 +279,7 @@ export const useExpansion = (props: EditorProps) => {
       appendHandler('script', {
         ...standaloneJs,
         src: editorExtensions.prettier!.standaloneJs,
-        id: `${prefix}-prettier`
+        id: CDN_IDS.prettier
       });
     }
 
@@ -288,7 +289,7 @@ export const useExpansion = (props: EditorProps) => {
       appendHandler('script', {
         ...parserMarkdownJs,
         src: editorExtensions.prettier!.parserMarkdownJs,
-        id: `${prefix}-prettierMD`
+        id: CDN_IDS.prettierMD
       });
     }
   });

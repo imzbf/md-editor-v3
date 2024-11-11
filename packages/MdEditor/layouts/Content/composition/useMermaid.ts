@@ -1,8 +1,9 @@
 import { watch, inject, ComputedRef, onMounted, shallowRef, Ref } from 'vue';
+import { randomId } from '@vavt/util';
 import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
-import { randomId } from '@vavt/util';
 import { mermaidCache } from '~/utils/cache';
+import { CDN_IDS } from '~/static';
 
 import { ContentPreviewProps } from '../ContentPreview';
 
@@ -52,7 +53,7 @@ const useMermaid = (props: ContentPreviewProps) => {
         ...editorExtensionsAttrs.mermaid?.js,
         rel: 'modulepreload',
         href: jsSrc,
-        id: `${prefix}-mermaid-m`
+        id: CDN_IDS.mermaidM
       });
 
       import(
@@ -69,7 +70,7 @@ const useMermaid = (props: ContentPreviewProps) => {
         {
           ...editorExtensionsAttrs.mermaid?.js,
           src: jsSrc,
-          id: `${prefix}-mermaid`,
+          id: CDN_IDS.mermaid,
           onload() {
             mermaidRef.value = window.mermaid;
             configMermaid();
