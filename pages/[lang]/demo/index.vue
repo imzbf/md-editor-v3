@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useStore } from '@/store';
-import { version as EDITOR_VERSION } from '@/package.json';
+import pack from '@/package.json';
 
 import mdEN from '@/public/demo-en-US.md';
 import mdCN from '@/public/demo-zh-CN.md';
@@ -31,12 +31,12 @@ const editorId = 'demo-preview';
 
 const mdText = ref(
   replaceTemplate(store.lang === 'en-US' ? mdEN : mdCN, {
-    EDITOR_VERSION,
+    EDITOR_VERSION: pack.dependencies['md-editor-v3'].replace('^', ''),
   })
 );
 const queryMd = () => {
   mdText.value = replaceTemplate(store.lang === 'en-US' ? mdEN : mdCN, {
-    EDITOR_VERSION,
+    EDITOR_VERSION: pack.dependencies['md-editor-v3'].replace('^', ''),
   });
 };
 watch(() => store.lang, queryMd);
