@@ -1,5 +1,9 @@
 <template>
-  <div class="catalog">
+  <div
+    class="catalog"
+    @mouseenter="() => (activeSync = false)"
+    @mouseleave="() => (activeSync = true)"
+  >
     <div ref="scrollerRef" class="affix">
       <MdCatalog
         :editorId="props.editorId"
@@ -35,6 +39,8 @@ const props = defineProps({
   },
 });
 
+const activeSync = ref(true);
+
 const scrollerRef = ref<HTMLDivElement>();
 const smoothScroll = createSmoothScroll();
 
@@ -45,7 +51,7 @@ const onClick = (e: MouseEvent, t: TocItem) => {
 };
 
 const onActive = (toc: any, ele: HTMLDivElement) => {
-  if (!ele) {
+  if (!ele || !activeSync.value) {
     return;
   }
   const dis = ele.offsetTop - scrollerRef.value!.scrollTop;
