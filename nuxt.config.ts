@@ -76,6 +76,25 @@ export default defineNuxtConfig({
 
         process.env.NODE_ENV === 'production'
           ? {
+              src: 'https://www.googletagmanager.com/gtag/js?id=G-3R6P1XE0H0',
+              async: true,
+            }
+          : {},
+
+        process.env.NODE_ENV === 'production'
+          ? {
+              innerHTML: `window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                  dataLayer.push(arguments);
+                }
+                gtag('js', new Date());
+                gtag('config', 'G-3R6P1XE0H0');`,
+              type: 'text/javascript',
+            }
+          : {},
+
+        process.env.NODE_ENV === 'production'
+          ? {
               innerHTML: `
               var _hmt = _hmt || [];
               (function () {
