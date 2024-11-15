@@ -10,7 +10,9 @@ import { mergeAttrs } from '~/utils/md-it';
 
 const math_inline: ParserInline.RuleInline = (state, silent) => {
   const delimiters = [
+    { open: '$$', close: '$$' },
     { open: '$', close: '$' },
+    { open: '\\[', close: '\\]' },
     { open: '\\(', close: '\\)' }
   ];
   let match, token, pos;
@@ -25,7 +27,7 @@ const math_inline: ParserInline.RuleInline = (state, silent) => {
         while (state.src[pos] === '\\') {
           pos -= 1;
         }
-        if ((match - pos) % 2 == 1) {
+        if ((match - pos) % 2 === 1) {
           break;
         }
         match += delim.close.length;
@@ -48,9 +50,12 @@ const math_inline: ParserInline.RuleInline = (state, silent) => {
       }
 
       if (!silent) {
+        const inlineContent = state.src.slice(start, match);
+
+        // 创建数学公式 token
         token = state.push('math_inline', 'math', 0);
         token.markup = delim.open;
-        token.content = state.src.slice(start, match);
+        token.content = inlineContent;
       }
 
       state.pos = match + delim.close.length;
@@ -74,54 +79,53 @@ const math_block: ParserBlock.RuleBlock = (state, start, end, silent) => {
   let max = state.eMarks[start];
 
   for (const delim of delimiters) {
-    if (pos + delim.open.length > max) {
-      continue;
-    }
-    if (state.src.slice(pos, pos + delim.open.length) !== delim.open) {
-      continue;
-    }
+    // 仅当 $$ 符号在行首且是单独一行时，才作为块级公式处理
+    if (
+      state.src.slice(pos, pos + delim.open.length) === delim.open &&
+      state.src.slice(max - delim.close.length, max) === delim.close
+    ) {
+      pos += delim.open.length;
+      firstLine = state.src.slice(pos, max);
 
-    pos += delim.open.length;
-    firstLine = state.src.slice(pos, max);
-
-    if (silent) {
-      return true;
-    }
-    if (firstLine.trim().slice(-delim.close.length) === delim.close) {
-      firstLine = firstLine.trim().slice(0, -delim.close.length);
-      found = true;
-    }
-
-    for (next = start; !found; ) {
-      next++;
-      if (next >= end) {
-        break;
+      if (silent) {
+        return true;
       }
-      pos = state.bMarks[next] + state.tShift[next];
-      max = state.eMarks[next];
-
-      if (pos < max && state.tShift[next] < state.blkIndent) {
-        break;
-      }
-
-      if (state.src.slice(pos, max).trim().slice(-delim.close.length) === delim.close) {
-        lastPos = state.src.slice(0, max).lastIndexOf(delim.close);
-        lastLine = state.src.slice(pos, lastPos);
+      if (firstLine.trim().slice(-delim.close.length) === delim.close) {
+        firstLine = firstLine.trim().slice(0, -delim.close.length);
         found = true;
       }
+
+      for (next = start; !found; ) {
+        next++;
+        if (next >= end) {
+          break;
+        }
+        pos = state.bMarks[next] + state.tShift[next];
+        max = state.eMarks[next];
+
+        if (pos < max && state.tShift[next] < state.blkIndent) {
+          break;
+        }
+
+        if (state.src.slice(pos, max).trim().slice(-delim.close.length) === delim.close) {
+          lastPos = state.src.slice(0, max).lastIndexOf(delim.close);
+          lastLine = state.src.slice(pos, lastPos);
+          found = true;
+        }
+      }
+
+      state.line = next + 1;
+
+      const token = state.push('math_block', 'math', 0);
+      token.block = true;
+      token.content =
+        (firstLine && firstLine.trim() ? firstLine + '\n' : '') +
+        state.getLines(start + 1, next, state.tShift[start], true) +
+        (lastLine && lastLine.trim() ? lastLine : '');
+      token.map = [start, state.line];
+      token.markup = delim.open;
+      return true;
     }
-
-    state.line = next + 1;
-
-    const token = state.push('math_block', 'math', 0);
-    token.block = true;
-    token.content =
-      (firstLine && firstLine.trim() ? firstLine + '\n' : '') +
-      state.getLines(start + 1, next, state.tShift[start], true) +
-      (lastLine && lastLine.trim() ? lastLine : '');
-    token.map = [start, state.line];
-    token.markup = delim.open;
-    return true;
   }
   return false;
 };
