@@ -10,7 +10,9 @@ import { mergeAttrs } from '~/utils/md-it';
 
 const math_inline: ParserInline.RuleInline = (state, silent) => {
   const delimiters = [
+    { open: '$$', close: '$$' },
     { open: '$', close: '$' },
+    { open: '\\[', close: '\\]' },
     { open: '\\(', close: '\\)' }
   ];
   let match, token, pos;
@@ -25,7 +27,7 @@ const math_inline: ParserInline.RuleInline = (state, silent) => {
         while (state.src[pos] === '\\') {
           pos -= 1;
         }
-        if ((match - pos) % 2 == 1) {
+        if ((match - pos) % 2 === 1) {
           break;
         }
         match += delim.close.length;
@@ -48,9 +50,12 @@ const math_inline: ParserInline.RuleInline = (state, silent) => {
       }
 
       if (!silent) {
+        const inlineContent = state.src.slice(start, match);
+
+        // 创建数学公式 token
         token = state.push('math_inline', 'math', 0);
         token.markup = delim.open;
-        token.content = state.src.slice(start, match);
+        token.content = inlineContent;
       }
 
       state.pos = match + delim.close.length;
