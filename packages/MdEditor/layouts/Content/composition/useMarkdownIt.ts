@@ -3,6 +3,7 @@ import {
   ComputedRef,
   inject,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   toRef,
@@ -12,7 +13,7 @@ import mdit from 'markdown-it';
 import ImageFiguresPlugin from 'markdown-it-image-figures';
 import SubPlugin from 'markdown-it-sub';
 import SupPlugin from 'markdown-it-sup';
-import { debounce, randomId } from '@vavt/util';
+import { randomId } from '@vavt/util';
 import bus from '~/utils/event-bus';
 import { generateCodeRowNumber } from '~/utils';
 import {
@@ -218,8 +219,6 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     });
   };
 
-  onMounted(updatedTodo);
-
   const markHtml = () => {
     // 清理历史标题
     headsRef.value = [];
@@ -231,11 +230,20 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     return (props.noKatex || katexRef.value) && (props.noHighlight || hljsRef.value);
   });
 
+  /**
+   * 组件移除后，异步任务可能还未执行，无法取消debounce
+   * 通过unMounted中断编译任务
+   */
+  let timer = -1;
   // 由于复制按钮被放到了编译内容中，所以切换语言时，需要重新编译一次
-  watch(
-    [toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef],
-    debounce<any, void>(markHtml, previewOnly ? 0 : editorConfig.renderDelay)
-  );
+  watch([toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef], () => {
+    timer = window.setTimeout(
+      () => {
+        markHtml();
+      },
+      previewOnly ? 0 : editorConfig.renderDelay
+    );
+  });
 
   watch(
     () => props.setting.preview,
@@ -254,6 +262,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     }
   );
 
+  onMounted(updatedTodo);
+
   // 添加目录主动触发接收监听
   onMounted(() => {
     bus.on(editorId, {
@@ -271,6 +281,10 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         markHtml();
       }
     });
+  });
+
+  onBeforeUnmount(() => {
+    clearTimeout(timer);
   });
 
   return { html, key };
