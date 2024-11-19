@@ -1797,15 +1797,15 @@ To help developers quickly insert content and use editor attributes, the editor 
 
 - **props**
 
-  - `title`: `string`, not necessary, title of toolbar.
+  - `title`: `string`, not required, title of toolbar.
 
 - **events**
 
-  - `onClick`: `(e: MouseEvent) => void`, necessary.
+  - `onClick`: `(e: MouseEvent) => void`, required.
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
+  - `trigger`: `VNode | JSX.Element`, required, it is usually an icon, which is displayed on the toolbar.
 
 usage:
 
@@ -1884,17 +1884,17 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
 
-  - `title`: `string`, not necessary, title of toolbar.
-  - `visible`: `boolean`, necessary.
+  - `title`: `string`, not required, title of toolbar.
+  - `visible`: `boolean`, required.
 
 - **events**
 
-  - `onChange`: `(visible: boolean) => void`, necessary.
+  - `onChange`: `(visible: boolean) => void`, required.
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
-  - `overlay`: `VNode | JSX.Element`, necessary, content of dropdown box.
+  - `trigger`: `VNode | JSX.Element`, required, it is usually an icon, which is displayed on the toolbar.
+  - `overlay`: `VNode | JSX.Element`, required, content of dropdown box.
 
 ```vue
 <template>
@@ -1991,27 +1991,27 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
 
-  - `title`: `string`, not necessary, title of toolbar.
-  - `modalTitle`: `string`, not necessary, title of the Modal.
-  - `visible`: `boolean`, necessary, visibility of Modal.
-  - `width`: `string`, not necessary, width of Modal, default `auto`.
+  - `title`: `string`, not required, title of toolbar.
+  - `modalTitle`: `string`, not required, title of the Modal.
+  - `visible`: `boolean`, required, visibility of Modal.
+  - `width`: `string`, not required, width of Modal, default `auto`.
   - `height`: `string`, same as `width`.
-  - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
-  - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
-  - `class`: `string`, `^4.16.8`, not necessary.
-  - `style`: `CSSProperties | string`, `^4.16.8`, not necessary.
-  - `showMask`: `boolean`, `^4.16.8`, not necessary, whether to display the mask layer, default `true`.
+  - `showAdjust`: `boolean`, not required, visibility of fullscreen button.
+  - `isFullscreen`: `boolean`, required when `showAdjust = true`, status of fullscreen.
+  - `class`: `string`, `^4.16.8`, not required.
+  - `style`: `CSSProperties | string`, `^4.16.8`, not required.
+  - `showMask`: `boolean`, `^4.16.8`, not required, whether to display the mask layer, default `true`.
 
 - **events**
 
-  - `onClick`: `() => void`, necessary.
-  - `onClose`: `() => void`, necessary, close event.
+  - `onClick`: `() => void`, required.
+  - `onClose`: `() => void`, required, close event.
   - `onAdjust`: `(val: boolean) => void`, fullscreen button click event.
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`, necessary, it is usually an icon, which is displayed on the toolbar.
-  - `default`: `VNode | JSX.Element`, necessary, content of Modal.
+  - `trigger`: `VNode | JSX.Element`, required, it is usually an icon, which is displayed on the toolbar.
+  - `default`: `VNode | JSX.Element`, required, content of Modal.
 
 ```vue
 <template>
@@ -2105,18 +2105,18 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
 
-  - `editorId`: `string`, necessary, editor's `id`, used to register listening events.
-  - `class`: `string`, not necessary.
-  - `mdHeadingId`: `mdHeadingId`, not necessary, same as editor.
-  - `scrollElement`: `string | HTMLElement`, not necessary, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
-  - `theme`: 'light' | 'dark', not necessary, provide it when you want to change theme online, it is the same as Editor `theme`.
-  - `offsetTop`: `number`, not necessary, highlight current item of catalogs when title is `offsetTop` pixels from the top, default 20.
-  - `scrollElementOffsetTop`: `number`, not necessary, offsetTop of the scroll container, default 0.
+  - `editorId`: `string`, required, editor's `id`, used to register listening events.
+  - `class`: `string`, not required.
+  - `mdHeadingId`: `mdHeadingId`, not required, same as editor.
+  - `scrollElement`: `string | HTMLElement`, not required, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`.
+  - `theme`: 'light' | 'dark', not required, provide it when you want to change theme online, it is the same as Editor `theme`.
+  - `offsetTop`: `number`, not required, highlight current item of catalogs when title is `offsetTop` pixels from the top, default 20.
+  - `scrollElementOffsetTop`: `number`, not required, offsetTop of the scroll container, default 0.
 
 - **events**
 
-  - `onClick`: `(e: MouseEvent, t: TocItem) => void`, not necessary.
-  - `onActive`: `(heading: HeadList | undefined) => void`, not necessary, heading was highlighted.
+  - `onClick`: `(e: MouseEvent, t: TocItem) => void`, not required.
+  - `onActive`: `(heading: HeadList | undefined) => void`, not required, heading was highlighted.
 
 usage:
 
@@ -2154,24 +2154,24 @@ It is usually used in conjunction with `DropdownToolbar`.
 
 - **props**
 
-  - `title`: `string`, not necessary, title of Modal.
-  - `visible`: `boolean`, necessary, visibility of Modal.
-  - `width`: `string`, not necessary, width of Modal, default `auto`.
+  - `title`: `string`, not required, title of Modal.
+  - `visible`: `boolean`, required, visibility of Modal.
+  - `width`: `string`, not required, width of Modal, default `auto`.
   - `height`: `string`, same as `width`.
-  - `showAdjust`: `boolean`, not necessary, visibility of fullscreen button.
-  - `isFullscreen`: `boolean`, necessary when `showAdjust = true`, status of fullscreen.
-  - `class`: `string`, not necessary.
-  - `style`: `CSSProperties | string`, not necessary.
-  - `showMask`: `boolean`, `^4.16.8`, not necessary, whether to display the mask layer, default `true`.
+  - `showAdjust`: `boolean`, not required, visibility of fullscreen button.
+  - `isFullscreen`: `boolean`, required when `showAdjust = true`, status of fullscreen.
+  - `class`: `string`, not required.
+  - `style`: `CSSProperties | string`, not required.
+  - `showMask`: `boolean`, `^4.16.8`, not required, whether to display the mask layer, default `true`.
 
 - **events**
 
-  - `onClose`: `() => void`, necessary, close event.
+  - `onClose`: `() => void`, required, close event.
   - `onAdjust`: `(val: boolean) => void`, fullscreen button click event.
 
 - **slots**
 
-  - `default`: `VNode | JSX.Element`, necessary, content of Modal.
+  - `default`: `VNode | JSX.Element`, required, content of Modal.
 
 ```vue
 <template>
