@@ -1,1 +1,0 @@
-import{e as n,u as o,j as r,k as u,n as _}from"./DJRrW2pC.js";const l=n({__name:"index",async setup(c){let e,t;const a=o(),s=r();return[e,t]=u(()=>_({path:`/${a.lang}/api`,hash:s.currentRoute.value.hash})),await e,t(),(p,i)=>null}});export{l as default};

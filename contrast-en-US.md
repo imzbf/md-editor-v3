@@ -4,7 +4,7 @@ This is the content that is incompatible only.
 
 !!! warning
 
-Version 3.5.0 or higher of Vue must now be used!!!
+Version 3.5.3 or higher of Vue must now be used!!!
 
 !!!
 
