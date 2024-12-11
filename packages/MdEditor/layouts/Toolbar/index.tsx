@@ -54,6 +54,8 @@ export default defineComponent({
     const previewTheme = inject('previewTheme') as ComputedRef<PreviewThemes>;
     //语言
     const language = inject('language') as ComputedRef<string>;
+    const disabled = inject<ComputedRef<boolean>>('disabled');
+
     // 全屏功能
     const { fullscreenHandler } = useSreenfull(props);
 
@@ -75,6 +77,10 @@ export default defineComponent({
     });
 
     const emitHandler = (direct: ToolDirective, params?: any) => {
+      if (disabled?.value) {
+        return false;
+      }
+
       bus.emit(editorId, REPLACE, direct, params);
     };
 
@@ -149,7 +155,10 @@ export default defineComponent({
           case 'bold': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.bold}
                 onClick={() => {
                   emitHandler('bold');
@@ -168,7 +177,10 @@ export default defineComponent({
           case 'underline': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.underline}
                 onClick={() => {
                   emitHandler('underline');
@@ -187,7 +199,10 @@ export default defineComponent({
           case 'italic': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.italic}
                 onClick={() => {
                   emitHandler('italic');
@@ -206,7 +221,10 @@ export default defineComponent({
           case 'strikeThrough': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.strikeThrough}
                 onClick={() => {
                   emitHandler('strikeThrough');
@@ -230,6 +248,7 @@ export default defineComponent({
                 onChange={(v) => {
                   visible.title = v;
                 }}
+                disabled={disabled?.value}
                 overlay={
                   <ul
                     class={`${prefix}-menu`}
@@ -302,7 +321,10 @@ export default defineComponent({
                 }
               >
                 <div
-                  class={`${prefix}-toolbar-item`}
+                  class={[
+                    `${prefix}-toolbar-item`,
+                    disabled?.value && `${prefix}-disabled`
+                  ]}
                   title={ult.value.toolbarTips?.title}
                 >
                   <Icon name="title" />
@@ -319,7 +341,10 @@ export default defineComponent({
           case 'sub': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.sub}
                 onClick={() => {
                   emitHandler('sub');
@@ -338,7 +363,10 @@ export default defineComponent({
           case 'sup': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.sup}
                 onClick={() => {
                   emitHandler('sup');
@@ -357,7 +385,10 @@ export default defineComponent({
           case 'quote': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.quote}
                 onClick={() => {
                   emitHandler('quote');
@@ -377,7 +408,10 @@ export default defineComponent({
           case 'unorderedList': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.unorderedList}
                 onClick={() => {
                   emitHandler('unorderedList');
@@ -396,7 +430,10 @@ export default defineComponent({
           case 'orderedList': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.orderedList}
                 onClick={() => {
                   emitHandler('orderedList');
@@ -416,7 +453,10 @@ export default defineComponent({
           case 'task': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.task}
                 onClick={() => {
                   emitHandler('task');
@@ -436,7 +476,10 @@ export default defineComponent({
           case 'codeRow': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.codeRow}
                 onClick={() => {
                   emitHandler('codeRow');
@@ -455,7 +498,10 @@ export default defineComponent({
           case 'code': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.code}
                 onClick={() => {
                   emitHandler('code');
@@ -474,9 +520,16 @@ export default defineComponent({
           case 'link': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.link}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
+
                   modalData.type = 'link';
                   modalData.linkVisible = true;
                 }}
@@ -494,9 +547,16 @@ export default defineComponent({
           case 'image': {
             return props.noUploadImg ? (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.image}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
+
                   modalData.type = 'image';
                   modalData.linkVisible = true;
                 }}
@@ -516,6 +576,7 @@ export default defineComponent({
                 onChange={(v) => {
                   visible.image = v;
                 }}
+                disabled={disabled?.value}
                 overlay={
                   <ul
                     class={`${prefix}-menu`}
@@ -560,7 +621,10 @@ export default defineComponent({
               >
                 {
                   <div
-                    class={`${prefix}-toolbar-item`}
+                    class={[
+                      `${prefix}-toolbar-item`,
+                      disabled?.value && `${prefix}-disabled`
+                    ]}
                     title={ult.value.toolbarTips?.image}
                   >
                     <Icon name="image" />
@@ -583,6 +647,7 @@ export default defineComponent({
                 onChange={(v) => {
                   visible.table = v;
                 }}
+                disabled={disabled?.value}
                 key="bar-table"
                 overlay={
                   <TableShape
@@ -594,7 +659,10 @@ export default defineComponent({
                 }
               >
                 <div
-                  class={`${prefix}-toolbar-item`}
+                  class={[
+                    `${prefix}-toolbar-item`,
+                    disabled?.value && `${prefix}-disabled`
+                  ]}
                   title={ult.value.toolbarTips?.table}
                 >
                   <Icon name="table" />
@@ -611,9 +679,15 @@ export default defineComponent({
           case 'revoke': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.revoke}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
                   bus.emit(editorId, CTRL_Z);
                 }}
               >
@@ -630,9 +704,15 @@ export default defineComponent({
           case 'next': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.next}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
                   bus.emit(editorId, CTRL_SHIFT_Z);
                 }}
               >
@@ -649,9 +729,15 @@ export default defineComponent({
           case 'save': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.save}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
                   bus.emit(editorId, ON_SAVE);
                 }}
               >
@@ -668,7 +754,10 @@ export default defineComponent({
           case 'prettier': {
             return !props.noPrettier ? (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.prettier}
                 onClick={() => {
                   emitHandler('prettier');
@@ -692,10 +781,14 @@ export default defineComponent({
                 <div
                   class={[
                     `${prefix}-toolbar-item`,
-                    props.setting.pageFullscreen && `${prefix}-toolbar-active`
+                    props.setting.pageFullscreen && `${prefix}-toolbar-active`,
+                    disabled?.value && `${prefix}-disabled`
                   ]}
                   title={ult.value.toolbarTips?.pageFullscreen}
                   onClick={() => {
+                    if (disabled?.value) {
+                      return false;
+                    }
                     props.updateSetting('pageFullscreen');
                   }}
                 >
@@ -715,10 +808,14 @@ export default defineComponent({
               <div
                 class={[
                   `${prefix}-toolbar-item`,
-                  props.setting.fullscreen && `${prefix}-toolbar-active`
+                  props.setting.fullscreen && `${prefix}-toolbar-active`,
+                  disabled?.value && `${prefix}-disabled`
                 ]}
                 title={ult.value.toolbarTips?.fullscreen}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
                   fullscreenHandler();
                 }}
               >
@@ -739,10 +836,14 @@ export default defineComponent({
               <div
                 class={[
                   `${prefix}-toolbar-item`,
-                  props.setting.preview && `${prefix}-toolbar-active`
+                  props.setting.preview && `${prefix}-toolbar-active`,
+                  disabled?.value && `${prefix}-disabled`
                 ]}
                 title={ult.value.toolbarTips?.preview}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
                   props.updateSetting('preview');
                 }}
               >
@@ -761,10 +862,14 @@ export default defineComponent({
               <div
                 class={[
                   `${prefix}-toolbar-item`,
-                  props.setting.previewOnly && `${prefix}-toolbar-active`
+                  props.setting.previewOnly && `${prefix}-toolbar-active`,
+                  disabled?.value && `${prefix}-disabled`
                 ]}
                 title={ult.value.toolbarTips?.previewOnly}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
                   props.updateSetting('previewOnly');
                 }}
               >
@@ -783,10 +888,14 @@ export default defineComponent({
               <div
                 class={[
                   `${prefix}-toolbar-item`,
-                  props.setting.htmlPreview && `${prefix}-toolbar-active`
+                  props.setting.htmlPreview && `${prefix}-toolbar-active`,
+                  disabled?.value && `${prefix}-disabled`
                 ]}
                 title={ult.value.toolbarTips?.htmlPreview}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
                   props.updateSetting('htmlPreview');
                 }}
               >
@@ -805,10 +914,14 @@ export default defineComponent({
               <div
                 class={[
                   `${prefix}-toolbar-item`,
-                  props.catalogVisible && `${prefix}-toolbar-active`
+                  props.catalogVisible && `${prefix}-toolbar-active`,
+                  disabled?.value && `${prefix}-disabled`
                 ]}
                 title={ult.value.toolbarTips?.catalog}
                 onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
                   bus.emit(editorId, CHANGE_CATALOG_VISIBLE);
                 }}
                 key="bar-catalog"
@@ -826,9 +939,17 @@ export default defineComponent({
           case 'github': {
             return (
               <div
-                class={`${prefix}-toolbar-item`}
+                class={[
+                  `${prefix}-toolbar-item`,
+                  disabled?.value && `${prefix}-disabled`
+                ]}
                 title={ult.value.toolbarTips?.github}
-                onClick={() => linkTo('https://github.com/imzbf/md-editor-v3')}
+                onClick={() => {
+                  if (disabled?.value) {
+                    return false;
+                  }
+                  linkTo('https://github.com/imzbf/md-editor-v3');
+                }}
               >
                 <Icon name="github" />
 
@@ -848,6 +969,7 @@ export default defineComponent({
                 onChange={(v) => {
                   visible.mermaid = v;
                 }}
+                disabled={disabled?.value}
                 overlay={
                   <ul
                     class={`${prefix}-menu`}
@@ -941,7 +1063,10 @@ export default defineComponent({
                 key="bar-mermaid"
               >
                 <div
-                  class={`${prefix}-toolbar-item`}
+                  class={[
+                    `${prefix}-toolbar-item`,
+                    disabled?.value && `${prefix}-disabled`
+                  ]}
                   title={ult.value.toolbarTips?.mermaid}
                 >
                   <Icon name="mermaid" />
@@ -963,6 +1088,7 @@ export default defineComponent({
                 onChange={(v) => {
                   visible.katex = v;
                 }}
+                disabled={disabled?.value}
                 overlay={
                   <ul
                     class={`${prefix}-menu`}
@@ -996,7 +1122,10 @@ export default defineComponent({
                 key="bar-katex"
               >
                 <div
-                  class={`${prefix}-toolbar-item`}
+                  class={[
+                    `${prefix}-toolbar-item`,
+                    disabled?.value && `${prefix}-disabled`
+                  ]}
                   title={ult.value.toolbarTips?.katex}
                 >
                   <Icon name="formula" />
@@ -1021,6 +1150,7 @@ export default defineComponent({
             previewTheme: defItem.props?.theme || previewTheme.value,
             language: defItem.props?.theme || language.value,
             codeTheme: defItem.props?.codeTheme || props.codeTheme,
+            disabled: defItem.props?.disabled || disabled?.value,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
             }
@@ -1039,6 +1169,7 @@ export default defineComponent({
             previewTheme: defItem.props?.theme || previewTheme.value,
             language: defItem.props?.theme || language.value,
             codeTheme: defItem.props?.codeTheme || props.codeTheme,
+            disabled: defItem.props?.disabled || disabled?.value,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
             }

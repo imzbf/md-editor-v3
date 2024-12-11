@@ -160,7 +160,8 @@ export default defineComponent({
       visible: false,
       modalVisible: false,
       isFullscreen: false,
-      inputBoxWidth: storagedWidth
+      inputBoxWidth: storagedWidth,
+      disabled: false
     });
 
     const editorRef = ref<ExposeParam>();
@@ -283,7 +284,8 @@ export default defineComponent({
             // console.log(editorRef.value?.getSelectedText());
             // editorRef.value?.resetHistory();
             // editorRef.value?.focus();
-            editorRef.value?.execCommand('gantt');
+            // editorRef.value?.execCommand('gantt');
+            md.disabled = !md.disabled;
           }}
         >
           1
@@ -316,7 +318,7 @@ export default defineComponent({
             // codeStyleReverse={false}
             // codeStyleReverseList={['mk-cute']}
             // autoFocus
-            // disabled
+            disabled={md.disabled}
             // readOnly
             // maxLength={10}
             // autoDetectCode

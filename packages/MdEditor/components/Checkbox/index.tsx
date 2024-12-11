@@ -10,6 +10,10 @@ const props = {
   onChange: {
     type: Function as PropType<(checked: boolean) => void>,
     default: () => {}
+  },
+  disabled: {
+    type: Boolean as PropType<boolean>,
+    default: undefined
   }
 };
 
@@ -22,9 +26,15 @@ export default defineComponent({
     return () => {
       return (
         <div
-          class={[`${prefix}-checkbox`, props.checked && `${prefix}-checkbox-checked`]}
+          class={[
+            `${prefix}-checkbox`,
+            props.checked && `${prefix}-checkbox-checked`,
+            props.disabled && `${prefix}-disabled`
+          ]}
           onClick={() => {
-            props.onChange(!props.checked);
+            if (!props.disabled) {
+              props.onChange(!props.checked);
+            }
           }}
         ></div>
       );

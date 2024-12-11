@@ -41,6 +41,10 @@ const props = {
   relative: {
     type: String as PropType<string>,
     default: 'html'
+  },
+  disabled: {
+    type: Boolean as PropType<boolean>,
+    default: undefined
   }
 };
 
@@ -65,6 +69,10 @@ export default defineComponent({
     const overlayRef = ref();
 
     const triggerHandler = () => {
+      if (props.disabled) {
+        return false;
+      }
+
       ctl.triggerHover = true;
 
       const triggerEle = triggerRef.value as HTMLElement;
@@ -109,6 +117,10 @@ export default defineComponent({
     };
 
     const overlayHandler = () => {
+      if (props.disabled) {
+        return false;
+      }
+
       ctl.overlayHover = true;
     };
 

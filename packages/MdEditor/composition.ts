@@ -223,6 +223,11 @@ export const useProvide = (
   // tab=2space
   provide('tabWidth', props.tabWidth);
 
+  provide(
+    'disabled',
+    computed(() => props.disabled)
+  );
+
   return useProvidePreview(props, rootRef);
 };
 

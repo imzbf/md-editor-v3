@@ -58,6 +58,10 @@ const props = {
     type: String as PropType<string>,
     default: undefined
   },
+  disabled: {
+    type: Boolean as PropType<boolean>,
+    default: undefined
+  },
   /**
    * ==结束
    */
