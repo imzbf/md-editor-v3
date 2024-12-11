@@ -448,7 +448,7 @@ export const useConfig = (
  * @param props
  * @returns
  */
-export const useCatalog = (props: EditorProps, options: { editorId: string }) => {
+export const useCatalog = (_props: EditorProps, options: { editorId: string }) => {
   const { editorId } = options;
   const catalogShow = ref(false);
 
@@ -465,15 +465,7 @@ export const useCatalog = (props: EditorProps, options: { editorId: string }) =>
     });
   });
 
-  const catalogVisible = computed(() => {
-    return (
-      !props.toolbarsExclude.includes('catalog') &&
-      props.toolbars.includes('catalog') &&
-      catalogShow.value
-    );
-  });
-
-  return catalogVisible;
+  return catalogShow;
 };
 
 /**
