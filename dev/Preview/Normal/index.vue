@@ -1,6 +1,6 @@
 <template>
   <NormalToolbar title="普通扩展">
-    <template #trigger> {{ props.language }} </template>
+    {{ props.language }}
   </NormalToolbar>
 </template>
 

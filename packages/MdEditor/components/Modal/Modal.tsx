@@ -12,7 +12,8 @@ import {
   CSSProperties,
   inject,
   ComputedRef,
-  onMounted
+  onMounted,
+  VNode
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { configOption, prefix } from '~/config';
@@ -24,7 +25,7 @@ import { getZIndexIncrement } from '~/utils';
 
 const props = {
   title: {
-    type: String as PropType<string>,
+    type: [String, Object] as PropType<string | VNode>,
     default: ''
   },
   visible: {

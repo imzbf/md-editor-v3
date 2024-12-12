@@ -21,7 +21,11 @@ const props = {
     type: Boolean as PropType<boolean>,
     default: undefined
   },
-  // 展示在工具栏的内容，通常是个图标
+  /**
+   * 展示在工具栏的内容，通常是个图标
+   *
+   * @deprecated 使用默认插槽代替
+   */
   trigger: {
     type: [String, Object] as PropType<string | VNode>,
     default: undefined
@@ -61,14 +65,10 @@ const props = {
   disabled: {
     type: Boolean as PropType<boolean>,
     default: undefined
-  },
+  }
   /**
    * ==结束
    */
-  default: {
-    type: [String, Object] as PropType<string | Element>,
-    default: undefined
-  }
 };
 
 type DropdownToolbarProps = Readonly<
@@ -101,8 +101,7 @@ export default defineComponent({
           overlay={Overlay}
         >
           <div class={`${prefix}-toolbar-item`} title={props.title || ''}>
-            {Trigger}
-            {Default}
+            {Default || Trigger}
           </div>
         </Dropdown>
       );
