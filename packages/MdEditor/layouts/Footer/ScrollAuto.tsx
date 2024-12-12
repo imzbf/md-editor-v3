@@ -19,19 +19,24 @@ type ScrollAutoProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof p
 export default defineComponent({
   props,
   setup(props: ScrollAutoProps) {
-    const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
+    const ult = inject<ComputedRef<StaticTextDefaultValue>>('usedLanguageText');
+    const disabled = inject<ComputedRef<boolean>>('disabled');
 
     return () => (
-      <div class={`${prefix}-footer-item`}>
+      <div class={[`${prefix}-footer-item`, disabled?.value && `${prefix}-disabled`]}>
         <label
           class={`${prefix}-footer-label`}
           onClick={() => {
             props.onScrollAutoChange(!props.scrollAuto);
           }}
         >
-          {ult.value.footer?.scrollAuto}
+          {ult?.value.footer?.scrollAuto}
         </label>
-        <Checkbox checked={props.scrollAuto} onChange={props.onScrollAutoChange} />
+        <Checkbox
+          checked={props.scrollAuto}
+          onChange={props.onScrollAutoChange}
+          disabled={disabled?.value}
+        />
       </div>
     );
   }

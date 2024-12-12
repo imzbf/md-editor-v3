@@ -1,6 +1,6 @@
 {
   "name": "md-editor-v3",
-  "version": "5.0.2-0",
+  "version": "5.0.2",
   "license": "MIT",
   "keywords": [
     "vue",
@@ -88,6 +88,6 @@
     "vue": "^3.5.12"
   },
   "peerDependencies": {
-    "vue": "^3.5.0"
+    "vue": "^3.5.3"
   }
 }

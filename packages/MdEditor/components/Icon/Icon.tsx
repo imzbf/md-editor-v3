@@ -1,7 +1,6 @@
 import {
   Bold,
   ChartArea,
-  CircleChevronDown,
   Code,
   Expand,
   Eye,
@@ -71,8 +70,7 @@ export type IconName =
   | 'formula'
   | 'close'
   | 'delete'
-  | 'upload'
-  | 'collapse-tips';
+  | 'upload';
 
 const iconMaps: { [key in IconName]: Component } = {
   bold: Bold,
@@ -108,8 +106,7 @@ const iconMaps: { [key in IconName]: Component } = {
   formula: SquareSigma,
   close: X,
   delete: Trash2,
-  upload: Upload,
-  'collapse-tips': CircleChevronDown
+  upload: Upload
 };
 
 export default defineComponent({

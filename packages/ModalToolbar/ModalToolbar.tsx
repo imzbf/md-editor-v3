@@ -18,7 +18,7 @@ const props = {
     default: ''
   },
   modalTitle: {
-    type: String as PropType<string>,
+    type: [String, Object] as PropType<string | VNode>,
     default: ''
   },
   visible: {
@@ -95,6 +95,10 @@ const props = {
   codeTheme: {
     type: String as PropType<string>,
     default: undefined
+  },
+  disabled: {
+    type: Boolean as PropType<boolean>,
+    default: undefined
   }
   /**
    * ==结束
@@ -115,7 +119,8 @@ export default defineComponent({
   ) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
-      const Default = getSlot({ props, ctx }, 'default');
+      const ModalTitle = getSlot({ props, ctx }, 'modalTitle');
+      const Default = getSlot({ props, ctx });
 
       return (
         <>
@@ -137,7 +142,7 @@ export default defineComponent({
             class={props.class}
             width={props.width}
             height={props.height}
-            title={props.modalTitle}
+            title={ModalTitle}
             visible={props.visible}
             showMask={props.showMask}
             onClose={() => {

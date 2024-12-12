@@ -568,4 +568,5 @@ export type CustomIcon = {
   };
 } & {
   copy?: string;
+  'collapse-tips'?: string;
 };

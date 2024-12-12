@@ -9,7 +9,11 @@ const props = {
     type: String as PropType<string>,
     default: ''
   },
-  // 展示在工具栏的内容，通常是个图标
+  /**
+   * 展示在工具栏的内容，通常是个图标
+   *
+   * @deprecated 使用默认插槽代替
+   */
   trigger: {
     type: [String, Object] as PropType<string | VNode>,
     default: undefined
@@ -40,6 +44,10 @@ const props = {
   codeTheme: {
     type: String as PropType<string>,
     default: undefined
+  },
+  disabled: {
+    type: Boolean as PropType<boolean>,
+    default: undefined
   }
   /**
    * ==结束
@@ -57,6 +65,7 @@ export default defineComponent({
   setup(props: NormalToolbarProps, ctx: SetupContext<Array<'onClick'>>) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
+      const Default = getSlot({ props, ctx });
 
       return (
         <div
@@ -70,7 +79,7 @@ export default defineComponent({
             }
           }}
         >
-          {Trigger}
+          {Default || Trigger}
         </div>
       );
     };

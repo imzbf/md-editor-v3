@@ -1,7 +1,16 @@
-import { defineComponent, PropType, computed, VNode, ExtractPropTypes } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  computed,
+  VNode,
+  ExtractPropTypes,
+  cloneVNode,
+  inject,
+  ComputedRef
+} from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { allFooter, prefix } from '~/config';
-import { Footers } from '~/type';
+import { Footers, Themes } from '~/type';
 import MarkdownTotal from './MarkdownTotal';
 import ScrollAuto from './ScrollAuto';
 
@@ -35,6 +44,12 @@ export default defineComponent({
   name: 'MDEditorFooter',
   props,
   setup(props: FooterProps) {
+    // 主题
+    const theme = inject('theme') as ComputedRef<Themes>;
+    //语言
+    const language = inject('language') as ComputedRef<string>;
+    const disabled = inject<ComputedRef<boolean>>('disabled');
+
     const splitedItems = computed(() => {
       const moduleSplitIndex = props.footers.indexOf('=');
 
@@ -70,10 +85,33 @@ export default defineComponent({
           }
         }
       } else if (props.defFooters instanceof Array) {
-        return props.defFooters[name as number] || '';
+        const defItem = props.defFooters[name as number];
+
+        if (defItem) {
+          const defItemCloned = cloneVNode(defItem, {
+            theme: defItem.props.theme || theme,
+            language: defItem.props.language || language,
+            disabled: defItem.props.disabled || disabled
+          });
+
+          return defItemCloned;
+        }
+
+        return '';
       } else if (props.defFooters && props.defFooters.children instanceof Array) {
         // jsx语法，<></>包裹下，defToolbars是包裹插槽内容的对象
-        return props.defFooters.children[name as number] || '';
+        const defItem = props.defFooters.children[name as number] as VNode;
+
+        if (defItem) {
+          const defItemCloned = cloneVNode(defItem, {
+            theme: defItem.props?.theme || theme.value,
+            language: defItem.props?.theme || language.value,
+            disabled: defItem.props?.disabled || disabled?.value
+          });
+          return defItemCloned;
+        }
+
+        return '';
       } else {
         return '';
       }
