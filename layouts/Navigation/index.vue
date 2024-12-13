@@ -57,6 +57,13 @@
       </NuxtLink>
     </li>
     <li class="nav-item" @click="changeLang">
+      <NuxtLink
+        :to="`${store.lang === 'en-US' ? '/zh-CN' : '/en-US'}`"
+        :prefetch="false"
+        style="display: none"
+      >
+        {{ linkNames.lang }}
+      </NuxtLink>
       <svg class="icon" aria-hidden="true">
         <use :xlink:href="linkNames.langIcon"></use>
       </svg>

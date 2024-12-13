@@ -21,7 +21,7 @@ useHead({
 
 // passing 'to' as a string
 onMounted(async () => {
-  await navigateTo(`/${navigator.language === 'zh-CN' ? 'zh-CN' : 'en-US'}`);
+  await navigateTo('/en-US');
 });
 
 // ... or as a route object

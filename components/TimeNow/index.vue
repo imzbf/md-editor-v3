@@ -4,10 +4,14 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from 'vue';
-import { useStore } from '@/store';
 import dayjs from 'dayjs';
 import { NormalFooterToolbar } from 'md-editor-v3';
-const store = useStore();
+
+const props = defineProps({
+  language: {
+    type: String,
+  },
+});
 
 const weekNames = {
   'en-US': [
@@ -33,13 +37,15 @@ const weekNames = {
 const time = ref();
 
 const text = computed(() => {
-  const lang: 'en-US' | 'zh-CN' = store.lang;
-
   const weekday = dayjs().day();
 
   return (
     time.value &&
-    `${time.value} ${weekNames[lang][weekday > 0 ? weekday - 1 : 6]}`
+    `${time.value} ${
+      weekNames[props.language as keyof typeof weekNames][
+        weekday > 0 ? weekday - 1 : 6
+      ]
+    }`
   );
 });
 

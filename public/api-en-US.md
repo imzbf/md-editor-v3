@@ -393,18 +393,18 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
     | 'formula'
     | 'close'
     | 'delete'
-    | 'upload'
-    | 'collapse-tips';
+    | 'upload';
 
   type CustomIcon = {
     [key in IconName]?: {
-      component: Component | JSX.Element | string;
+      component: VNode;
       props: {
         [key: string | number | symbol]: any;
       };
     };
   } & {
     copy?: string;
+    'collapse-tips': string;
   };
   ```
 
@@ -1782,14 +1782,85 @@ On-demand import, eg: `import { DropdownToolbar } from 'md-editor-v3'`.
 
 !!! info Built-in attribute
 
-To help developers quickly insert content and use editor attributes, the editor component has added the following attribute values to the written extension component by default:
+To help developers quickly insert content and use editor attributes, the editor component has already added the following property values to the extension components in the header toolbar and footer toolbar by default(If you provide it as well, your content will be given priority), More detailed reference examples: [ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94)
 
-| name         | example                                                                                                                                                         |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| insert       | Refer to the `DropdownToolbar` component example below                                                                                                          |
-| theme        | Refer to the extension components in the [ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94) |
-| previewtheme | Same as above                                                                                                                                                   |
-| language     | Same as above                                                                                                                                                   |
+| Name         | defToolbars | defFooters |
+| ------------ | ----------- | ---------- |
+| insert       | √           | ×          |
+| theme        | √           | √          |
+| previewtheme | √           | ×          |
+| codeTheme    | √           | ×          |
+| language     | √           | √          |
+| disabled     | √           | √          |
+
+Example:
+
+```vue
+<!-- HeaderTool.vue -->
+<template>
+  <NormalToolbar>Content</NormalToolbar>
+</template>
+<script setup>
+const props = defineProps({
+  theme: {
+    type: String,
+  },
+  insert: {
+    type: Function,
+  },
+  ...
+});
+console.log('==', props);
+// == { insert: (...)=> {...}, theme: 'light', ... }
+</script>
+
+<!-- MyEditor1.vue -->
+<template>
+  <MdEditor :toolbars="toolbars">
+    <template #defToolbars>
+      <HeaderTool key="key" />
+    </template>
+  </MdEditor>
+</template>
+<script setup>
+const toolbars = [0];
+</script>
+
+<!-- =================================== -->
+
+<!-- FooterTool.vue -->
+<template>
+  <NormalFooterToolbar>Content</NormalFooterToolbar>
+</template>
+
+<script setup>
+const props = defineProps({
+  theme: {
+    type: String,
+  },
+  language: {
+    type: String,
+  },
+  disabled: {
+    type: Boolean,
+  },
+});
+console.log('==', props);
+// == { theme: 'light', disabled: false, language: 'zh-CN' }
+</script>
+
+<!-- MyEditor2.vue -->
+<template>
+  <MdEditor :footers="footers">
+    <template #defFooters>
+      <HeaderTool key="key" />
+    </template>
+  </MdEditor>
+</template>
+<script setup>
+const footers = [0];
+</script>
+```
 
 !!!
 
@@ -1805,18 +1876,17 @@ To help developers quickly insert content and use editor attributes, the editor 
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`, required, it is usually an icon, which is displayed on the toolbar.
+  - `default`: `any`, not required, it is usually an icon, which is displayed on the toolbar.
+  - ~~`trigger`~~: `string | VNode`, not required, deprecated, as above.
 
 usage:
 
 ```vue
 <template>
   <NormalToolbar title="mark" @onClick="handler">
-    <template #trigger>
-      <svg class="md-editor-icon" aria-hidden="true">
-        <use xlink:href="#icon-mark"></use>
-      </svg>
-    </template>
+    <svg class="md-editor-icon" aria-hidden="true">
+      <use xlink:href="#icon-mark"></use>
+    </svg>
   </NormalToolbar>
 </template>
 
@@ -1840,10 +1910,10 @@ const props = defineProps({
 const handler = () => {
   props.insert((selectedText) => {
     /**
-     * @return targetValue    Content to be inserted
-     * @return select         Automatically select content, default: true
-     * @return deviationStart Start position of the selected content, default: 0
-     * @return deviationEnd   End position of the selected content, default: 0
+     * targetValue    Content to be inserted
+     * select         Automatically select content, default: true
+     * deviationStart Start position of the selected content, default: 0
+     * deviationEnd   End position of the selected content, default: 0
      */
     return {
       targetValue: `==${selectedText}==`,
@@ -1876,7 +1946,7 @@ const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 
-[MarkExtension Source Code](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/MarkExtension/index.vue)
+[MarkExtension Source Code](https://github.com/imzbf/md-editor-extension/blob/develop/packages/v3/components/Mark/Mark.tsx)
 
 ---
 
@@ -1893,8 +1963,9 @@ const toolbars = ['bold', 0, 'github'];
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`, required, it is usually an icon, which is displayed on the toolbar.
-  - `overlay`: `VNode | JSX.Element`, required, content of dropdown box.
+  - `default`: `any`, not required, it is usually an icon, which is displayed on the toolbar.
+  - ~~`trigger`~~: `string | VNode`, not required, deprecated, as above.
+  - `overlay`: `string | VNode`, required, content of dropdown box.
 
 ```vue
 <template>
@@ -1911,11 +1982,9 @@ const toolbars = ['bold', 0, 'github'];
         </ol>
       </div>
     </template>
-    <template #trigger>
-      <svg class="md-editor-icon" aria-hidden="true">
-        <use xlink:href="#icon-emoji"></use>
-      </svg>
-    </template>
+    <svg class="md-editor-icon" aria-hidden="true">
+      <use xlink:href="#icon-emoji"></use>
+    </svg>
   </DropdownToolbar>
 </template>
 
@@ -1947,10 +2016,10 @@ const onChange = () => {
 const handler = (emoji: any) => {
   props.insert(() => {
     /**
-     * @return targetValue    Content to be inserted
-     * @return select         Automatically select content, default: true
-     * @return deviationStart Start position of the selected content, default: 0
-     * @return deviationEnd   End position of the selected content, default: 0
+     * targetValue    Content to be inserted
+     * select         Automatically select content, default: true
+     * deviationStart Start position of the selected content, default: 0
+     * deviationEnd   End position of the selected content, default: 0
      */
     return {
       targetValue: emoji,
@@ -1983,7 +2052,7 @@ const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 
-[EmojiExtension Source Code](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/EmojiExtension/index.vue)
+[EmojiExtension Source Code](https://github.com/imzbf/md-editor-extension/blob/develop/packages/v3/components/Emoji/Emoji.tsx)
 
 ---
 
@@ -1992,7 +2061,6 @@ const toolbars = ['bold', 0, 'github'];
 - **props**
 
   - `title`: `string`, not required, title of toolbar.
-  - `modalTitle`: `string`, not required, title of the Modal.
   - `visible`: `boolean`, required, visibility of Modal.
   - `width`: `string`, not required, width of Modal, default `auto`.
   - `height`: `string`, same as `width`.
@@ -2010,8 +2078,9 @@ const toolbars = ['bold', 0, 'github'];
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`, required, it is usually an icon, which is displayed on the toolbar.
-  - `default`: `VNode | JSX.Element`, required, content of Modal.
+  - `modalTitle`: `string | VNode`, not required, title of the Modal.
+  - `trigger`: `string | VNode`, required, it is usually an icon, which is displayed on the toolbar.
+  - `default`: `any`, not required, content of Modal.
 
 ```vue
 <template>
@@ -2061,10 +2130,10 @@ const props = defineProps({
 const handler = () => {
   props.insert((selectedText) => {
     /**
-     * @return targetValue    Content to be inserted
-     * @return select         Automatically select content, default: true
-     * @return deviationStart Start position of the selected content, default: 0
-     * @return deviationEnd   End position of the selected content, default: 0
+     * targetValue    Content to be inserted
+     * select         Automatically select content, default: true
+     * deviationStart Start position of the selected content, default: 0
+     * deviationEnd   End position of the selected content, default: 0
      */
     return {
       targetValue: `==${selectedText}==`,
@@ -2097,7 +2166,7 @@ const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 
-[ReadExtension Source Code](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/ReadExtension/index.vue)
+[ExportPDF Source Code](https://github.com/imzbf/md-editor-extension/blob/develop/packages/v3/components/ExportPDF/ExportPDF.tsx)
 
 ---
 
@@ -2154,7 +2223,6 @@ It is usually used in conjunction with `DropdownToolbar`.
 
 - **props**
 
-  - `title`: `string`, not required, title of Modal.
   - `visible`: `boolean`, required, visibility of Modal.
   - `width`: `string`, not required, width of Modal, default `auto`.
   - `height`: `string`, same as `width`.
@@ -2171,7 +2239,8 @@ It is usually used in conjunction with `DropdownToolbar`.
 
 - **slots**
 
-  - `default`: `VNode | JSX.Element`, required, content of Modal.
+  - `title`: `string | VNode`, not required, title of Modal.
+  - `default`: `any`, not required, content of Modal.
 
 ```vue
 <template>
@@ -2211,6 +2280,45 @@ const onClose = () => {
 const onChange = () => {
   state.visible = !state.visible;
 };
+</script>
+```
+
+---
+
+### 🛸 NormalFooterToolbar
+
+- **events**
+
+  - `onClick`: `(e: MouseEvent) => void`, not required, toolbar was clicked.
+
+- **slots**
+
+  - `default`: `any`, required, content.
+
+```vue
+<!-- FooterTool.vue -->
+<template>
+  <NormalFooterToolbar>Content</NormalFooterToolbar>
+</template>
+
+<script>
+import { MdEditor, NormalFooterToolbar } from 'md-editor-v3';
+</script>
+
+<!-- MyEditor.vue -->
+
+<template>
+  <MdEditor :footers="footers">
+    <template #defFooters>
+      <FooterTool key="key" />
+    </template>
+  </MdEditor>
+</template>
+
+<script setup>
+import { MdEditor, NormalFooterToolbar } from 'md-editor-v3';
+
+const footers = [0];
 </script>
 ```
 
