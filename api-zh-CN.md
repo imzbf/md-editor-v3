@@ -393,18 +393,18 @@
     | 'formula'
     | 'close'
     | 'delete'
-    | 'upload'
-    | 'collapse-tips';
+    | 'upload';
 
   type CustomIcon = {
     [key in IconName]?: {
-      component: Component | JSX.Element | string;
+      component: VNode;
       props: {
         [key: string | number | symbol]: any;
       };
     };
   } & {
     copy?: string;
+    'collapse-tips': string;
   };
   ```
 
@@ -1805,14 +1805,85 @@ config({
 
 !!! info 内置属性提示
 
-为了帮助开发者快速插入和使用编辑器的属性，编辑器组件已经默认向编写的扩展组件添加了下面的属性的值：
+为了帮助开发者快速插入和使用编辑器的属性，编辑器组件已经默认向头部工具栏和尾部工具栏中的扩展组件添加了下面的属性的值（如果你也提供了，那么会优先使用你提供的内容），更详细的参考示例：[ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94)
 
-| 名称         | 使用示例                                                                                                                               |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| insert       | 参考下方的`DropdownToolbar`组件示例                                                                                                    |
-| theme        | 参考扩展组件中的[ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94) |
-| previewtheme | 同上                                                                                                                                   |
-| language     | 同上                                                                                                                                   |
+| 名称         | defToolbars | defFooters |
+| ------------ | ----------- | ---------- |
+| insert       | √           | ×          |
+| theme        | √           | √          |
+| previewtheme | √           | ×          |
+| codeTheme    | √           | ×          |
+| language     | √           | √          |
+| disabled     | √           | √          |
+
+例子：
+
+```vue
+<!-- HeaderTool.vue -->
+<template>
+  <NormalToolbar>触发</NormalToolbar>
+</template>
+<script setup>
+const props = defineProps({
+  theme: {
+    type: String,
+  },
+  insert: {
+    type: Function,
+  },
+  ...
+});
+console.log('==', props);
+// == { insert: (...)=> {...}, theme: 'light', ... }
+</script>
+
+<!-- MyEditor1.vue -->
+<template>
+  <MdEditor :toolbars="toolbars">
+    <template #defToolbars>
+      <HeaderTool key="key" />
+    </template>
+  </MdEditor>
+</template>
+<script setup>
+const toolbars = [0];
+</script>
+
+<!-- =================================== -->
+
+<!-- FooterTool.vue -->
+<template>
+  <NormalFooterToolbar>触发</NormalFooterToolbar>
+</template>
+
+<script setup>
+const props = defineProps({
+  theme: {
+    type: String,
+  },
+  language: {
+    type: String,
+  },
+  disabled: {
+    type: Boolean,
+  },
+});
+console.log('==', props);
+// == { theme: 'light', disabled: false, language: 'zh-CN' }
+</script>
+
+<!-- MyEditor2.vue -->
+<template>
+  <MdEditor :footers="footers">
+    <template #defFooters>
+      <HeaderTool key="key" />
+    </template>
+  </MdEditor>
+</template>
+<script setup>
+const footers = [0];
+</script>
+```
 
 !!!
 
@@ -1828,16 +1899,15 @@ config({
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
+  - `default`: `any`，非必须，通常是个图标，用来展示在工具栏上。
+  - ~~`trigger`~~: `string | VNode`，非必须，已废弃，同上。
 
 ```vue
 <template>
   <NormalToolbar title="mark" @onClick="handler">
-    <template #trigger>
-      <svg class="md-editor-icon" aria-hidden="true">
-        <use xlink:href="#icon-mark"></use>
-      </svg>
-    </template>
+    <svg class="md-editor-icon" aria-hidden="true">
+      <use xlink:href="#icon-mark"></use>
+    </svg>
   </NormalToolbar>
 </template>
 
@@ -1861,10 +1931,10 @@ const props = defineProps({
 const handler = () => {
   props.insert((selectedText) => {
     /**
-     * @return targetValue    待插入内容
-     * @return select         插入后是否自动选中内容，默认：true
-     * @return deviationStart 插入后选中内容鼠标开始位置，默认：0
-     * @return deviationEnd   插入后选中内容鼠标结束位置，默认：0
+     * targetValue    待插入内容
+     * select         插入后是否自动选中内容，默认：true
+     * deviationStart 插入后选中内容鼠标开始位置，默认：0
+     * deviationEnd   插入后选中内容鼠标结束位置，默认：0
      */
     return {
       targetValue: `==${selectedText}==`,
@@ -1897,7 +1967,7 @@ const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 
-[标记组件的源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/MarkExtension/index.vue)
+[标记组件的源码](https://github.com/imzbf/md-editor-extension/blob/develop/packages/v3/components/Mark/Mark.tsx)
 
 ---
 
@@ -1914,8 +1984,9 @@ const toolbars = ['bold', 0, 'github'];
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
-  - `overlay`: `VNode | JSX.Element`，必须，下拉框中的内容。
+  - `default`: `any`，非必须，通常是个图标，用来展示在工具栏上。
+  - ~~`trigger`~~: `string | VNode`，非必须，已废弃，同上。
+  - `overlay`: `string | VNode`，必须，下拉框中的内容。
 
 ```vue
 <template>
@@ -1932,11 +2003,9 @@ const toolbars = ['bold', 0, 'github'];
         </ol>
       </div>
     </template>
-    <template #trigger>
-      <svg class="md-editor-icon" aria-hidden="true">
-        <use xlink:href="#icon-emoji"></use>
-      </svg>
-    </template>
+    <svg class="md-editor-icon" aria-hidden="true">
+      <use xlink:href="#icon-emoji"></use>
+    </svg>
   </DropdownToolbar>
 </template>
 
@@ -1968,10 +2037,10 @@ const onChange = () => {
 const handler = (emoji: any) => {
   props.insert(() => {
     /**
-     * @return targetValue    待插入内容
-     * @return select         插入后是否自动选中内容，默认：true
-     * @return deviationStart 插入后选中内容鼠标开始位置，默认：0
-     * @return deviationEnd   插入后选中内容鼠标结束位置，默认：0
+     * targetValue    待插入内容
+     * select         插入后是否自动选中内容，默认：true
+     * deviationStart 插入后选中内容鼠标开始位置，默认：0
+     * deviationEnd   插入后选中内容鼠标结束位置，默认：0
      */
     return {
       targetValue: emoji,
@@ -2004,7 +2073,7 @@ const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 
-[Emoji 组件的源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/EmojiExtension/index.vue)
+[Emoji 组件的源码](https://github.com/imzbf/md-editor-extension/blob/develop/packages/v3/components/Emoji/Emoji.tsx)
 
 ---
 
@@ -2013,7 +2082,6 @@ const toolbars = ['bold', 0, 'github'];
 - **props**
 
   - `title`: `string`，非必须，作为工具栏上的 hover 提示。
-  - `modalTitle`: `string`，非必须，弹窗的标题。
   - `visible`: `boolean`，必须，弹窗显示状态。
   - `width`: `string`，非必须，弹窗宽度，默认`auto`。
   - `height`：`string`，同`width`。
@@ -2031,8 +2099,9 @@ const toolbars = ['bold', 0, 'github'];
 
 - **slots**
 
-  - `trigger`: `VNode | JSX.Element`，必须，通常是个图标，用来展示在工具栏上。
-  - `default`: `VNode | JSX.Element`，必须，弹窗中的内容。
+  - `modalTitle`: `string | VNode`，非必须，弹窗标题栏。
+  - `trigger`: `string | VNode`，必须，通常是个图标，用来展示在工具栏上。
+  - `default`: `any`，非必须，弹窗中的内容。
 
 ```vue
 <template>
@@ -2082,10 +2151,10 @@ const props = defineProps({
 const handler = () => {
   props.insert((selectedText) => {
     /**
-     * @return targetValue    待插入内容
-     * @return select         插入后是否自动选中内容，默认：true
-     * @return deviationStart 插入后选中内容鼠标开始位置，默认：0
-     * @return deviationEnd   插入后选中内容鼠标结束位置，默认：0
+     * targetValue    待插入内容
+     * select         插入后是否自动选中内容，默认：true
+     * deviationStart 插入后选中内容鼠标开始位置，默认：0
+     * deviationEnd   插入后选中内容鼠标结束位置，默认：0
      */
     return {
       targetValue: `==${selectedText}==`,
@@ -2118,7 +2187,7 @@ const toolbars = ['bold', 0, 'github'];
 </script>
 ```
 
-[阅读组件的源码](https://github.com/imzbf/md-editor-v3/blob/docs/src/components/ReadExtension/index.vue)
+[导出 PDF 组件的源码](https://github.com/imzbf/md-editor-extension/blob/develop/packages/v3/components/ExportPDF/ExportPDF.tsx)
 
 ---
 
@@ -2175,7 +2244,6 @@ const scrollElement = document.documentElement;
 
 - **props**
 
-  - `title`: `string`，非必须，弹窗标题栏。
   - `visible`: `boolean`，必须，弹窗显示状态。
   - `width`: `string`，非必须，弹窗宽度，默认`auto`。
   - `height`: `string`，同`width`。
@@ -2192,7 +2260,8 @@ const scrollElement = document.documentElement;
 
 - **slots**
 
-  - `default`: `VNode | JSX.Element`，必须，弹窗中的内容。
+  - `title`: `string | VNode`，非必须，弹窗标题栏。
+  - `default`: `any`，非必须，弹窗中的内容。
 
 ```vue
 <template>
@@ -2232,6 +2301,47 @@ const onClose = () => {
 const onChange = () => {
   state.visible = !state.visible;
 };
+</script>
+```
+
+---
+
+### 🛸 NormalFooterToolbar
+
+通用的页脚工具组件
+
+- **events**
+
+  - `onClick`: `(e: MouseEvent) => void`，非必须，点击事件。
+
+- **slots**
+
+  - `default`: `any`，必须，内容。
+
+```vue
+<!-- FooterTool.vue -->
+<template>
+  <NormalFooterToolbar>触发</NormalFooterToolbar>
+</template>
+
+<script>
+import { MdEditor, NormalFooterToolbar } from 'md-editor-v3';
+</script>
+
+<!-- MyEditor.vue -->
+
+<template>
+  <MdEditor :footers="footers">
+    <template #defFooters>
+      <FooterTool key="key" />
+    </template>
+  </MdEditor>
+</template>
+
+<script setup>
+import { MdEditor, NormalFooterToolbar } from 'md-editor-v3';
+
+const footers = [0];
 </script>
 ```
 
