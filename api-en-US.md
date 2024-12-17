@@ -2009,8 +2009,8 @@ const props = defineProps({
 
 const visible = ref(false);
 
-const onChange = () => {
-  visible.value = !visible.value;
+const onChange = (_visible: boolean) => {
+  visible.value = _visible;
 };
 
 const handler = (emoji: any) => {
@@ -2256,12 +2256,11 @@ It is usually used in conjunction with `DropdownToolbar`.
         <use xlink:href="#icon-emoji"></use>
       </svg>
     </template>
-    <template #default>
-      <MdModal title="title" :visible="state.mVisible" @onClose="onClose">
-        Content, Content
-      </MdModal>
-    </template>
   </DropdownToolbar>
+
+  <MdModal title="title" :visible="state.mVisible" @onClose="onClose">
+    Content, Content
+  </MdModal>
 </template>
 
 <script setup lang="ts">
@@ -2274,11 +2273,11 @@ const state = reactive({
 });
 
 const onClose = () => {
-  state.mVisible = !state.mVisible;
+  state.mVisible = false;
 };
 
-const onChange = () => {
-  state.visible = !state.visible;
+const onChange = (_visible: boolean) => {
+  visible.value = _visible;
 };
 </script>
 ```
