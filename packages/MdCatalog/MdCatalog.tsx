@@ -196,6 +196,7 @@ const MdCatalog = defineComponent({
 
     const findActiveHeading = (list: HeadList[]) => {
       if (list.length === 0) {
+        activeItem.value = undefined;
         state.list = [];
         return false;
       }
