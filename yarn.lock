@@ -4058,10 +4058,10 @@ markdown-it@^14.0.0:
     punycode.js "^2.3.1"
     uc.micro "^2.1.0"
 
-md-editor-v3@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-5.1.0.tgz#fa60977f7a2fb38f227bd77731ea51c7d7cfc456"
-  integrity sha512-c++wFxzJOs5ILyntyf0CpBWWosc5GNNT3j8NoOd/n5UsqVH9dv1p2OymrxBmU5XuOyc6xEazfDMAKK7FxtmZTw==
+md-editor-v3@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-5.1.1.tgz#a1688434339b177b00f61a57ef37c49019b87fc2"
+  integrity sha512-qF7NCQOyg8dndm8RRTp+l8fIUpRKooWY7DqHLjr2jkuIZKN4kOei8tQcrNivDKsR1sHuQ1Vdvps5ssI6Aw2ruQ==
   dependencies:
     "@codemirror/lang-markdown" "^6.3.0"
     "@codemirror/language-data" "^6.5.1"
