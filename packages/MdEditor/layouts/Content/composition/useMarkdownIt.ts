@@ -212,6 +212,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     // 生成目录
     bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
 
+    if (!rootRef.value) return;
+
     nextTick(() => {
       replaceMermaid().then(() => {
         zoomMermaid(rootRef.value.querySelectorAll(`#${editorId} .${prefix}-mermaid`));
