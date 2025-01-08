@@ -51,8 +51,10 @@ const useResize = (
     props.oninputBoxWidthChange?.(ibw);
   };
 
-  const resizeMousedown = () => {
-    document.addEventListener('mousemove', resizeMousemove);
+  const resizeMousedown = (ev: MouseEvent) => {
+    if (ev.target === resizeRef.value) {
+      document.addEventListener('mousemove', resizeMousemove);
+    }
   };
 
   const resizeMouseup = () => {
@@ -62,8 +64,11 @@ const useResize = (
   watch(
     [resizeRef],
     () => {
-      resizeRef.value?.addEventListener('mousedown', resizeMousedown);
-      resizeRef.value?.addEventListener('mouseup', resizeMouseup);
+      document.removeEventListener('mousedown', resizeMousedown);
+      document.removeEventListener('mouseup', resizeMouseup);
+
+      document.addEventListener('mousedown', resizeMousedown);
+      document.addEventListener('mouseup', resizeMouseup);
     },
     {
       immediate: true
@@ -71,8 +76,8 @@ const useResize = (
   );
 
   onBeforeUnmount(() => {
-    resizeRef.value?.removeEventListener('mousedown', resizeMousedown);
-    resizeRef.value?.removeEventListener('mouseup', resizeMouseup);
+    document.removeEventListener('mousedown', resizeMousedown);
+    document.removeEventListener('mouseup', resizeMouseup);
   });
 
   watch(
