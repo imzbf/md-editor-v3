@@ -1151,6 +1151,7 @@ export default defineComponent({
             language: defItem.props?.theme || language.value,
             codeTheme: defItem.props?.codeTheme || props.codeTheme,
             disabled: defItem.props?.disabled || disabled?.value,
+            showToolbarName: defItem.props?.showToolbarName || props.showToolbarName,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
             }
@@ -1170,6 +1171,7 @@ export default defineComponent({
             language: defItem.props?.theme || language.value,
             codeTheme: defItem.props?.codeTheme || props.codeTheme,
             disabled: defItem.props?.disabled || disabled?.value,
+            showToolbarName: defItem.props?.showToolbarName || props.showToolbarName,
             insert(generate: InsertContentGenerator) {
               bus.emit(editorId, REPLACE, 'universal', { generate });
             }

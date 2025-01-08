@@ -99,6 +99,10 @@ const props = {
   disabled: {
     type: Boolean as PropType<boolean>,
     default: undefined
+  },
+  showToolbarName: {
+    type: Boolean as PropType<boolean>,
+    default: undefined
   }
   /**
    * ==结束
