@@ -261,8 +261,8 @@ export const zoomMermaid = (() => {
     });
   };
 
-  const handler = (containers: NodeListOf<HTMLElement>) => {
-    containers.forEach((mm) => {
+  const handler = (containers?: NodeListOf<HTMLElement>) => {
+    containers?.forEach((mm) => {
       addEvent(mm);
     });
   };
