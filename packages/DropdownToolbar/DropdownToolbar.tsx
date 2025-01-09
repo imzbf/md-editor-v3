@@ -103,8 +103,12 @@ export default defineComponent({
             }
           }}
           overlay={Overlay}
+          disabled={props.disabled}
         >
-          <div class={`${prefix}-toolbar-item`} title={props.title || ''}>
+          <div
+            class={[`${prefix}-toolbar-item`, props.disabled && `${prefix}-disabled`]}
+            title={props.title || ''}
+          >
             {Default || Trigger}
           </div>
         </Dropdown>

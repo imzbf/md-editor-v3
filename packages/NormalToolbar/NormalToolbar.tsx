@@ -73,14 +73,13 @@ export default defineComponent({
 
       return (
         <div
-          class={`${prefix}-toolbar-item`}
+          class={[`${prefix}-toolbar-item`, props.disabled && `${prefix}-disabled`]}
           title={props.title}
           onClick={(e) => {
-            if (props.onClick instanceof Function) {
-              props.onClick(e);
-            } else {
-              ctx.emit('onClick', e);
-            }
+            if (props.disabled) return;
+
+            props.onClick?.(e);
+            ctx.emit('onClick', e);
           }}
         >
           {Default || Trigger}
