@@ -83,9 +83,8 @@ export default class CodeMirrorUt {
    * @param text 待替换内容
    * @param options 替换后是否选中
    */
-  replaceSelectedText(
-    text: string,
-    options = {
+  replaceSelectedText(text: string, _options: any, editorId: string) {
+    const options = {
       // 是否选中
       select: true,
       // 选中时，开始位置的偏移量
@@ -93,10 +92,14 @@ export default class CodeMirrorUt {
       // 结束的偏移量
       deviationEnd: 0,
       // 直接替换所有文本
-      replaceAll: false
-    },
-    editorId: string
-  ) {
+      replaceAll: false,
+      // 替换旧文本的开始位置
+      replaceStart: -1,
+      // 替换旧文本的结束位置
+      replaceEnd: -1,
+      ..._options
+    };
+
     try {
       if (options.replaceAll) {
         this.setValue(text);
@@ -119,14 +122,30 @@ export default class CodeMirrorUt {
 
       const { from } = this.view.state.selection.main;
 
-      this.view.dispatch(this.view.state.replaceSelection(text));
+      // 未选中时替换整行
+      if (options.replaceStart !== -1) {
+        this.view.dispatch({
+          changes: {
+            from: options.replaceStart,
+            to: options.replaceEnd,
+            insert: text
+          }
+        });
+      } else {
+        this.view.dispatch(this.view.state.replaceSelection(text));
+      }
 
       if (options.select) {
-        const to = from + text.length + options.deviationEnd;
         this.view.dispatch({
           selection: {
-            anchor: from + options.deviationStart,
-            head: to
+            anchor:
+              options.replaceStart === -1
+                ? from + options.deviationStart
+                : options.replaceStart + options.deviationStart,
+            head:
+              options.replaceStart === -1
+                ? from + text.length + options.deviationEnd
+                : options.replaceStart + text.length + options.deviationEnd
           }
         });
       }
