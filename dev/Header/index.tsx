@@ -40,6 +40,9 @@ export default defineComponent({
             <button class="btn btn-header" onClick={() => props.onLangChange('en-US')}>
               英文
             </button>
+            <button class="btn btn-header" onClick={() => props.onLangChange('ko-KR')}>
+              한국어
+            </button>
           </p>
           <p class="header-actions">
             <button
