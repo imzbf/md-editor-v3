@@ -12,6 +12,7 @@ import {
   undo,
   redo
 } from '@codemirror/commands';
+import { throttle } from '@vavt/util';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
 import { Themes, DOMEventHandlers } from '~/type';
 import { configOption } from '~/config';
@@ -30,10 +31,11 @@ import {
   CTRL_Z,
   ERROR_CATCHER,
   EVENT_LISTENER,
+  GET_EDITOR_VIEW,
   REPLACE,
+  SEND_EDITOR_VIEW,
   TASK_STATE_CHANGED
 } from '~/static/event-name';
-import { throttle } from '@vavt/util';
 
 // 禁用掉>=6.28.0的实验性功能
 (EditorView as any).EDIT_CONTEXT = false;
@@ -264,6 +266,16 @@ const useCodeMirror = (props: ContentProps) => {
         );
       }
     });
+
+    bus.on(editorId, {
+      name: SEND_EDITOR_VIEW,
+      callback() {
+        bus.emit(editorId, GET_EDITOR_VIEW, view);
+      }
+    });
+
+    // 主动触发一次获取编辑器视图
+    bus.emit(editorId, GET_EDITOR_VIEW, view);
   });
 
   watch(
