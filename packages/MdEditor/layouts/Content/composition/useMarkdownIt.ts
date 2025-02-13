@@ -214,7 +214,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
     nextTick(() => {
       replaceMermaid().then(() => {
-        zoomMermaid(rootRef.value.querySelectorAll(`#${editorId} .${prefix}-mermaid`));
+        zoomMermaid(rootRef.value?.querySelectorAll(`#${editorId} .${prefix}-mermaid`));
       });
     });
   };
@@ -253,7 +253,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         nextTick(() => {
           replaceMermaid().then(() => {
             zoomMermaid(
-              rootRef.value.querySelectorAll(`#${editorId} .${prefix}-mermaid`)
+              rootRef.value?.querySelectorAll(`#${editorId} .${prefix}-mermaid`)
             );
           });
           bus.emit(editorId, CATALOG_CHANGED, headsRef.value);

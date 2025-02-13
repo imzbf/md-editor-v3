@@ -43,13 +43,12 @@ export default defineComponent({
 
       return (
         <div
-          class={`${prefix}-footer-item`}
+          class={[`${prefix}-footer-item`, props.disabled && `${prefix}-disabled`]}
           onClick={(e) => {
-            if (props.onClick instanceof Function) {
-              props.onClick(e);
-            } else {
-              ctx.emit('onClick', e);
-            }
+            if (props.disabled) return;
+
+            props.onClick?.(e);
+            ctx.emit('onClick', e);
           }}
         >
           {Children}

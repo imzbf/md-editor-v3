@@ -60,3 +60,7 @@ export const EVENT_LISTENER = 'eventListener';
 
 // 任务状态变化
 export const TASK_STATE_CHANGED = 'taskStateChanged';
+
+// 获取编辑器view
+export const SEND_EDITOR_VIEW = 'sendEditorView';
+export const GET_EDITOR_VIEW = 'getEditorView';

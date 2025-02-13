@@ -89,9 +89,9 @@ export default defineComponent({
 
         if (defItem) {
           const defItemCloned = cloneVNode(defItem, {
-            theme: defItem.props.theme || theme,
-            language: defItem.props.language || language,
-            disabled: defItem.props.disabled || disabled
+            theme: defItem.props?.theme || theme.value,
+            language: defItem.props?.language || language.value,
+            disabled: defItem.props?.disabled || disabled?.value
           });
 
           return defItemCloned;
@@ -105,7 +105,7 @@ export default defineComponent({
         if (defItem) {
           const defItemCloned = cloneVNode(defItem, {
             theme: defItem.props?.theme || theme.value,
-            language: defItem.props?.theme || language.value,
+            language: defItem.props?.language || language.value,
             disabled: defItem.props?.disabled || disabled?.value
           });
           return defItemCloned;

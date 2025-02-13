@@ -1,4 +1,4 @@
-import { Ref, onBeforeUnmount, reactive, ref, toRef, watch } from 'vue';
+import { Ref, onBeforeUnmount, onMounted, reactive, ref, toRef, watch } from 'vue';
 import { MinInputBoxWidth } from '~/config';
 
 import { ContentProps } from '../props';
@@ -51,28 +51,32 @@ const useResize = (
     props.oninputBoxWidthChange?.(ibw);
   };
 
-  const resizeMousedown = () => {
-    document.addEventListener('mousemove', resizeMousemove);
+  const resizeMousedown = (ev: MouseEvent) => {
+    if (ev.target === resizeRef.value) {
+      document.addEventListener('mousemove', resizeMousemove);
+    }
   };
 
   const resizeMouseup = () => {
     document.removeEventListener('mousemove', resizeMousemove);
   };
 
-  watch(
-    [resizeRef],
-    () => {
-      resizeRef.value?.addEventListener('mousedown', resizeMousedown);
-      resizeRef.value?.addEventListener('mouseup', resizeMouseup);
-    },
-    {
-      immediate: true
-    }
-  );
+  watch([resizeRef], () => {
+    document.removeEventListener('mousedown', resizeMousedown);
+    document.removeEventListener('mouseup', resizeMouseup);
+
+    document.addEventListener('mousedown', resizeMousedown);
+    document.addEventListener('mouseup', resizeMouseup);
+  });
+
+  onMounted(() => {
+    document.addEventListener('mousedown', resizeMousedown);
+    document.addEventListener('mouseup', resizeMouseup);
+  });
 
   onBeforeUnmount(() => {
-    resizeRef.value?.removeEventListener('mousedown', resizeMousedown);
-    resizeRef.value?.removeEventListener('mouseup', resizeMouseup);
+    document.removeEventListener('mousedown', resizeMousedown);
+    document.removeEventListener('mouseup', resizeMouseup);
   });
 
   watch(

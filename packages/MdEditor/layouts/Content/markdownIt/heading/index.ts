@@ -23,7 +23,8 @@ const HeadingPlugin = (md: markdownit, options: HeadingPluginOps) => {
 
     options.headsRef.value.push({
       text,
-      level
+      level,
+      line: token.map![0]
     });
 
     if (token.map && token.level === 0) {

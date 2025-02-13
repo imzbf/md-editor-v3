@@ -1,10 +1,13 @@
 import { defineComponent, ref, inject } from 'vue';
 import { prefix } from '~/config';
+import MdCatalog from '~~/MdCatalog';
+import { FocusOption } from '~/type';
 import { useAutoScroll, useCodeMirror, useResize } from './composition';
 import { contentProps as props, ContentProps } from './props';
 import ContentPreview from './ContentPreview';
-import MdCatalog from '~~/MdCatalog';
-import { FocusOption } from '~/type';
+import { createSmoothScroll } from '@vavt/util';
+
+const smoothScroll = createSmoothScroll();
 
 export default defineComponent({
   name: 'MDEditorContent',
@@ -58,28 +61,26 @@ export default defineComponent({
               ref={resizeRef}
             />
           )}
-          {showPreviewWrapper.value && (
-            <ContentPreview
-              modelValue={props.modelValue}
-              onChange={props.onChange}
-              setting={props.setting}
-              onHtmlChanged={(html_) => {
-                html.value = html_;
-                props.onHtmlChanged(html_);
-              }}
-              onGetCatalog={props.onGetCatalog}
-              mdHeadingId={props.mdHeadingId}
-              noMermaid={props.noMermaid}
-              sanitize={props.sanitize}
-              noKatex={props.noKatex}
-              formatCopiedText={props.formatCopiedText}
-              noHighlight={props.noHighlight}
-              noImgZoomIn={props.noImgZoomIn}
-              sanitizeMermaid={props.sanitizeMermaid}
-              codeFoldable={props.codeFoldable}
-              autoFoldThreshold={props.autoFoldThreshold}
-            />
-          )}
+          <ContentPreview
+            modelValue={props.modelValue}
+            onChange={props.onChange}
+            setting={props.setting}
+            onHtmlChanged={(html_) => {
+              html.value = html_;
+              props.onHtmlChanged(html_);
+            }}
+            onGetCatalog={props.onGetCatalog}
+            mdHeadingId={props.mdHeadingId}
+            noMermaid={props.noMermaid}
+            sanitize={props.sanitize}
+            noKatex={props.noKatex}
+            formatCopiedText={props.formatCopiedText}
+            noHighlight={props.noHighlight}
+            noImgZoomIn={props.noImgZoomIn}
+            sanitizeMermaid={props.sanitizeMermaid}
+            codeFoldable={props.codeFoldable}
+            autoFoldThreshold={props.autoFoldThreshold}
+          />
           {props.catalogVisible && (
             <MdCatalog
               theme={props.theme}
@@ -88,6 +89,23 @@ export default defineComponent({
               mdHeadingId={props.mdHeadingId}
               key="internal-catalog"
               scrollElementOffsetTop={2}
+              syncWith={!props.setting.preview ? 'editor' : 'preview'}
+              onClick={(e, toc) => {
+                // 如果没有预览区域，就将目录与编辑器同步滚动
+                if (!props.setting.preview && toc.line !== undefined) {
+                  e.preventDefault();
+                  const view = codeMirrorUt.value?.view;
+
+                  if (view) {
+                    const line = view.state.doc.line(toc.line + 1);
+
+                    const top = view.lineBlockAt(line.from)?.top;
+
+                    const scroller = view.scrollDOM;
+                    smoothScroll(scroller, top); // 滚动到目标行
+                  }
+                }
+              }}
             />
           )}
         </div>
