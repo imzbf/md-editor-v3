@@ -7,7 +7,7 @@ import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 
 const chalky = '#e5c07b',
-  coral = '#3f4a54',
+  coral = 'var(--md-color)',
   cyan = '#56b6c2',
   invalid = '#fff',
   ivory = '#3f4a54',
