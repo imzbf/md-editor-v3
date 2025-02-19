@@ -21,7 +21,7 @@ export default defineComponent({
 
     // 输入框
     const { inputWrapperRef, codeMirrorUt, resetHistory } = useCodeMirror(props);
-    const { inputWrapperStyle, resizeOperateStyle, showPreviewWrapper } = useResize(
+    const { inputWrapperStyle, resizeOperateStyle } = useResize(
       props,
       contentRef,
       resizeRef
@@ -44,10 +44,7 @@ export default defineComponent({
 
     return () => {
       return (
-        <div
-          class={`${prefix}-content${showPreviewWrapper.value ? ' has-preview' : ''}`}
-          ref={contentRef}
-        >
+        <div class={`${prefix}-content`} ref={contentRef}>
           <div
             class={`${prefix}-input-wrapper`}
             style={inputWrapperStyle}
