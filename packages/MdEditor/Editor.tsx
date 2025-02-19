@@ -178,6 +178,12 @@ const Editor = defineComponent({
             transformImgUrl={props.transformImgUrl}
             codeFoldable={props.codeFoldable}
             autoFoldThreshold={props.autoFoldThreshold}
+            onRemount={() => {
+              if (props.onRemount) {
+                props.onRemount();
+              }
+              ctx.emit('onRemount');
+            }}
           />
           {props.footers.length > 0 && (
             <Footer

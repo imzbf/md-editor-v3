@@ -239,6 +239,15 @@ export const mdPreviewProps = {
   autoFoldThreshold: {
     type: Number as PropType<number>,
     default: 30
+  },
+  /**
+   * 内容重新挂载事件
+   *
+   * 相比起onHtmlChanged，onRemount会在重新挂载后触发
+   */
+  onRemount: {
+    type: Function as PropType<() => void>,
+    default: undefined
   }
 };
 
@@ -544,5 +553,6 @@ export const editorEmits: EditorEmits = [
   'onFocus',
   'onInput',
   'onDrop',
-  'oninputBoxWidthChange'
+  'oninputBoxWidthChange',
+  'onRemount'
 ];

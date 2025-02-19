@@ -19,6 +19,7 @@ export interface CodeTabsPluginOps extends markdownit.Options {
   codeFoldable: boolean;
   autoFoldThreshold: number;
   customIconRef: ComputedRef<CustomIcon>;
+  extraTools?: string;
 }
 
 const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
@@ -95,6 +96,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
             <div class="${prefix}-code-action">
               <span class="${prefix}-code-lang">${tokens[idx].info.trim()}</span>
               <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
+              ${_opts.extraTools || ''}
               ${tagContainer === 'details' ? collapseTips : ''}
             </div>
           </${tagHeader}>
@@ -181,6 +183,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
           <div class="${prefix}-code-action">
             <span class="${prefix}-codetab-lang">${langs}</span>
             <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
+            ${_opts.extraTools || ''}
             ${tagContainer === 'details' ? collapseTips : ''}
           </div>
         </${tagHeader}>

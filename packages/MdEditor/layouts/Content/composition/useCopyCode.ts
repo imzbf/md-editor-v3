@@ -70,7 +70,7 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
   watch([html, key], htmlChanged);
   watch(() => props.setting.preview, settingPreviewChanged);
   watch(() => props.setting.htmlPreview, settingPreviewChanged);
-  watch(() => ult.value, initCopyEntry);
+  // watch(() => ult.value, initCopyEntry);
   onMounted(initCopyEntry);
 };
 

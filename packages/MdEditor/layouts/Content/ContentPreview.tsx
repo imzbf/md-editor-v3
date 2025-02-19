@@ -3,7 +3,13 @@ import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
 import { PreviewThemes } from '~/type';
 
-import { useCopyCode, userZoom, useMarkdownIt, useTaskState } from './composition';
+import {
+  useCopyCode,
+  userZoom,
+  useMarkdownIt,
+  useTaskState,
+  useRemount
+} from './composition';
 import { contentPreviewProps } from './props';
 
 export type ContentPreviewProps = Readonly<
@@ -27,6 +33,8 @@ const ContentPreview = defineComponent({
     userZoom(props, html);
     // 任务状态
     useTaskState(props, html);
+    // 标准的重新渲染事件，能够正确获取到html
+    useRemount(props, html, key);
 
     return () => {
       return (

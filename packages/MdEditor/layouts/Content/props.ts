@@ -64,6 +64,9 @@ export const contentPreviewProps = {
   },
   autoFoldThreshold: {
     type: Number as PropType<number>
+  },
+  onRemount: {
+    type: Function as PropType<() => void>
   }
 };
 
