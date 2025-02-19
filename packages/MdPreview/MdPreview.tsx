@@ -79,6 +79,7 @@ const MdPreview = defineComponent({
             sanitizeMermaid={props.sanitizeMermaid}
             codeFoldable={props.codeFoldable}
             autoFoldThreshold={props.autoFoldThreshold}
+            onRemount={props.onRemount}
           />
         </div>
       );

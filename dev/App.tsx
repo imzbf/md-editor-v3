@@ -53,6 +53,7 @@ export default defineComponent({
             theme={theme.value}
             previewTheme={previewTheme.value}
             codeTheme={codeTheme.value}
+            lang={lang.value}
           />
         </div>
       </div>

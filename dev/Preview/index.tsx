@@ -12,10 +12,7 @@ import {
   MdCatalog,
   DropdownToolbar,
   ModalToolbar,
-  config,
-  editorExtensionsAttrs,
-  NormalFooterToolbar,
-  XSSPlugin
+  NormalFooterToolbar
 } from '~~/index';
 import type { ExposeParam } from '~~/index';
 import mdText from '../data.md';
@@ -26,7 +23,6 @@ import axios from 'axios';
 // import 'katex/dist/katex.min.css';
 
 // import { Extension } from '@codemirror/state';
-import { lineNumbers } from '@codemirror/view';
 import { CompletionSource } from '@codemirror/autocomplete';
 // import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
 // import DDD from './.local/DDD.vue';
@@ -64,79 +60,6 @@ import Icon from '~/components/Icon';
 //     ]
 //   };
 // };
-
-config({
-  codeMirrorExtensions(theme, extensions) {
-    // console.log(theme, extensions, keyBindings);
-
-    // return extensions;
-    return [...extensions, lineNumbers()];
-  },
-  // iconfontType: 'class',
-  // markdownItConfig: (mdit) => {
-  // mdit.use(ancher, {
-  //   permalink: true
-  // });
-  markdownItPlugins(plugins, { editorId }) {
-    return [
-      ...plugins,
-      {
-        type: 'xss',
-        plugin: XSSPlugin,
-        options: {}
-      }
-    ].map((item) => {
-      if (item.type === 'taskList') {
-        return {
-          ...item,
-          options: {
-            ...item.options,
-            enabled: editorId === 'md-prev'
-          }
-        };
-      }
-
-      return item;
-    });
-  },
-
-  // mdit.use(TargetBlankExtension);
-  // },
-  mermaidConfig: (base) => {
-    return base;
-  },
-  editorConfig: {
-    zIndex: 2000
-  },
-  editorExtensions: {
-    // prettier: {
-    //   prettierInstance: prettier,
-    //   parserMarkdownInstance: parserMarkdown
-    // },
-    // highlight: {
-    //   instance: highlight,
-    //   css: {
-    //     'tokyo-night': {
-    //       light: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-light.min.css`,
-    //       dark: `${cdnBase}/highlight.js/11.5.1/styles/tokyo-night-dark.min.css`
-    //     }
-    //   }
-    // },
-    // screenfull: {
-    //   instance: screenfull
-    // },
-    // katex: {
-    //   instance: katex
-    // },
-    // cropper: {
-    //   instance: Cropper
-    // },
-    // mermaid: {
-    //   instance: mermaid
-    // }
-  },
-  editorExtensionsAttrs
-});
 
 const SAVE_KEY = 'XHMPGLJIZTDB';
 const INPUT_BOX_WITDH = 'tcxll8alg5jx52hw';

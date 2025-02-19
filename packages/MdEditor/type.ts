@@ -553,6 +553,7 @@ export type EditorEmits = Array<
   | 'onInput'
   | 'onDrop'
   | 'oninputBoxWidthChange'
+  | 'onRemount'
 >;
 
 export type EditorContext = SetupContext<EditorEmits>;

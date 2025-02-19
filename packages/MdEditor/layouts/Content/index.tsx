@@ -80,6 +80,7 @@ export default defineComponent({
             sanitizeMermaid={props.sanitizeMermaid}
             codeFoldable={props.codeFoldable}
             autoFoldThreshold={props.autoFoldThreshold}
+            onRemount={props.onRemount}
           />
           {props.catalogVisible && (
             <MdCatalog
