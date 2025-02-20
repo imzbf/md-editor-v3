@@ -1,12 +1,10 @@
 .@{prefix}-catalog-editor {
   .css-vars(false);
 
-  position: absolute;
   overflow: auto;
-  top: 0;
-  right: 0;
+
   height: 100%;
-  background-color: var(--md-bk-color-outstand);
+  background-color: var(--md-bk-color);
   border-left: 1px solid var(--md-border-color);
   width: 200px;
   box-sizing: border-box;
@@ -20,23 +18,24 @@
   z-index: 2;
 }
 
-.@{prefix}-catalog {
-  // &::before {
-  //   content: '';
-  //   display: block;
-  //   position: absolute;
-  //   width: 4px;
-  //   height: 100%;
-  //   background-color: var(--md-bk-color-outstand);
-  // }
+.@{prefix}-catalog-fixed {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
+.@{prefix}-catalog-flat {
+  position: initial;
+  flex-shrink: 0;
+}
+
+.@{prefix}-catalog {
   &-indicator {
     height: 18px;
     width: 4px;
     background-color: #73d13d;
     position: absolute;
     border-radius: 4px;
-
     transition: top 0.3s;
   }
 
