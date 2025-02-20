@@ -14,6 +14,7 @@
         :inputBoxWidth="state.inputBoxWidth"
         showCodeRowNumber
         autoDetectCode
+        catalogLayout="flat"
         @onUploadImg="uploadImg"
       >
         <template #defToolbars>

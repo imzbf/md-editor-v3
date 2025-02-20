@@ -1133,6 +1133,60 @@ config({
 });
 ```
 
+### 📝 Extend code block tool
+
+```js
+config({
+  markdownItPlugins(plugins, { editorId }) {
+    return plugins.map((item) => {
+      switch (item.type) {
+        case 'code': {
+          return {
+            ...item,
+            options: {
+              ...item.options,
+              extraTools:
+                '<span class="extra-code-tools">Additional features</span>',
+            },
+          };
+        }
+
+        default: {
+          return item;
+        }
+      }
+    });
+  },
+});
+```
+
+It will be displayed after the 'Copy Code' button. By working together with the `onRemount` event, you can correctly retrieve these elements using `querySelectorAll` and bind event listeners to them.
+
+Here is an example of how to print code:
+
+```js
+const onRemount = () => {
+  document
+    .querySelectorAll(`#${editorId} .${prefix}-preview .${prefix}-code`)
+    .forEach((codeBlock: Element) => {
+      const tools = codeBlock.querySelectorAll('.extra-code-tools');
+      tools.forEach((item) => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+
+          const activeCode =
+            codeBlock.querySelector('input:checked + pre code') ||
+            codeBlock.querySelector('pre code');
+
+          const codeText = activeCode?.textContent;
+
+          console.log(codeText);
+        });
+      });
+    });
+};
+```
+
 ## 🧻 Edit This Page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)

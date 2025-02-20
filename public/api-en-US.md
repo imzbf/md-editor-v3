@@ -732,6 +732,15 @@ Except for the same as `MdPreview`:
 
 ---
 
+### 🔖 catalogLayout
+
+- **type**: `'fixed' | 'flat'`
+- **default**: `fixed`
+
+  \>=5.3.0, the built-in catalog status: 'fixed' - floats above the content; 'flat' - displays on the right side.
+
+---
+
 ## 🎍 slots
 
 ### 💪 defToolbars
@@ -860,6 +869,14 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
 ## 🧵 MdPreview Events
 
+### 📞 onChange
+
+- **type**: `(v: string) => void`
+
+  Content changed event(bind to `oninput` of `textarea`).
+
+---
+
 ### 🚁 onHtmlChanged
 
 - **type**: `(h: string) => void`
@@ -876,17 +893,17 @@ For more info, Get **Internal Components** heading. Get source code of **mark**,
 
 ---
 
+### 🔃 onRemount
+
+- **type**: `() => void`
+
+  \>=5.3.0, the 'content re-mount' event allows for correctly retrieving nodes within the content.
+
+---
+
 ## 🪢 MdEditor Events
 
 Except for the same as `MdPreview`:
-
-### 📞 onChange
-
-- **type**: `(v: string) => void`
-
-  Content changed event(bind to `oninput` of `textarea`).
-
----
 
 ### 💾 onSave
 

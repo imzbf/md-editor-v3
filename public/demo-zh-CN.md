@@ -1144,6 +1144,59 @@ config({
 });
 ```
 
+### 📝 扩展代码块工具
+
+```js
+config({
+  markdownItPlugins(plugins, { editorId }) {
+    return plugins.map((item) => {
+      switch (item.type) {
+        case 'code': {
+          return {
+            ...item,
+            options: {
+              ...item.options,
+              extraTools: '<span class="extra-code-tools">额外的功能</span>',
+            },
+          };
+        }
+
+        default: {
+          return item;
+        }
+      }
+    });
+  },
+});
+```
+
+它会被显示在复制代码按钮后面，配合`onRemount`事件，你能够正确的通过`querySelectorAll`获取到它们并绑定监听事件。
+
+下面是一个打印代码的示例：
+
+```js
+const onRemount = () => {
+  document
+    .querySelectorAll(`#${editorId} .${prefix}-preview .${prefix}-code`)
+    .forEach((codeBlock: Element) => {
+      const tools = codeBlock.querySelectorAll('.extra-code-tools');
+      tools.forEach((item) => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+
+          const activeCode =
+            codeBlock.querySelector('input:checked + pre code') ||
+            codeBlock.querySelector('pre code');
+
+          const codeText = activeCode?.textContent;
+
+          console.log(codeText);
+        });
+      });
+    });
+};
+```
+
 ## 🧻 编辑此页面
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)
