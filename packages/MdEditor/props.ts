@@ -534,6 +534,20 @@ export const editorProps = {
   transformImgUrl: {
     type: Function as PropType<(t: string) => string | Promise<string>>,
     default: (t: string) => t
+  },
+  /**
+   * 内置的目录显示的状态
+   *
+   * 'fixed': 悬浮在内容上方
+   * 'flat': 展示在右侧
+   *
+   * \>=5.3.0
+   *
+   * @default 'fixed'
+   */
+  catalogLayout: {
+    type: String as PropType<'fixed' | 'flat'>,
+    default: 'fixed'
   }
 };
 

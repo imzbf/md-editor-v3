@@ -301,12 +301,9 @@ const MdCatalog = defineComponent({
       editorViewRef.value = view;
     };
 
-    watch(
-      () => props.syncWith,
-      () => {
-        catalogChangedHandler(state.list);
-      }
-    );
+    watch([() => props.syncWith, editorViewRef], () => {
+      catalogChangedHandler(state.list);
+    });
 
     onMounted(() => {
       // 获取当前元素所在的根节点

@@ -1,4 +1,4 @@
-import { Ref, onBeforeUnmount, onMounted, reactive, toRef, watch } from 'vue';
+import { Ref, computed, onBeforeUnmount, onMounted, reactive, toRef, watch } from 'vue';
 import { MinInputBoxWidth } from '~/config';
 
 import { ContentProps } from '../props';
@@ -8,16 +8,21 @@ const useResize = (
   contentRef: Ref<HTMLDivElement | undefined>,
   resizeRef: Ref<HTMLDivElement | undefined>
 ) => {
+  // 向后兼容，防止以前使用px的用户的编辑器布局混乱
+  const compatibledInputBoxWidth = computed(() => {
+    return /px$/.test(`${props.inputBoxWidth}`) ? '50%' : props.inputBoxWidth;
+  });
+
   const state = reactive({
-    resizedWidth: props.inputBoxWidth
+    resizedWidth: compatibledInputBoxWidth.value
   });
 
   const inputWrapperStyle = reactive({
-    width: props.inputBoxWidth
+    width: compatibledInputBoxWidth.value
   });
 
   const resizeOperateStyle = reactive({
-    left: props.inputBoxWidth,
+    left: compatibledInputBoxWidth.value,
     display: 'initial'
   });
 
@@ -30,13 +35,13 @@ const useResize = (
     // 新的宽度 = 鼠标的位置 - 图标的一半宽度 - 内容区域的横坐标
     let nextWidth = e.x - contentX;
 
-    if (nextWidth < MinInputBoxWidth) {
-      nextWidth = MinInputBoxWidth;
-    } else if (nextWidth > maxWidth - MinInputBoxWidth) {
-      nextWidth = maxWidth - MinInputBoxWidth;
+    if (nextWidth / maxWidth < MinInputBoxWidth) {
+      nextWidth = maxWidth * MinInputBoxWidth;
+    } else if (nextWidth > maxWidth - maxWidth * MinInputBoxWidth) {
+      nextWidth = maxWidth - maxWidth * MinInputBoxWidth;
     }
 
-    const ibw = `${nextWidth}px`;
+    const ibw = `${(nextWidth / maxWidth) * 100}%`;
 
     inputWrapperStyle.width = ibw;
     resizeOperateStyle.left = ibw;
@@ -72,16 +77,11 @@ const useResize = (
     document.removeEventListener('mouseup', resizeMouseup);
   });
 
-  watch(
-    () => props.inputBoxWidth,
-    (nVal) => {
-      if (nVal) {
-        state.resizedWidth = nVal;
-        inputWrapperStyle.width = nVal;
-        resizeOperateStyle.left = nVal;
-      }
-    }
-  );
+  watch([compatibledInputBoxWidth], ([nVal]) => {
+    state.resizedWidth = nVal;
+    inputWrapperStyle.width = nVal;
+    resizeOperateStyle.left = nVal;
+  });
 
   watch(
     [

@@ -216,6 +216,7 @@ export default defineComponent({
         <div class="container">
           <MdEditor
             id="md-prev"
+            catalogLayout="flat"
             completions={completions.list}
             ref={editorRef}
             previewTheme={props.previewTheme}

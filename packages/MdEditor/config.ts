@@ -479,5 +479,6 @@ export const config: Config = (option) => {
 
 /**
  * 拖拽时最小的宽度
+ * 5.3.0开始使用百分比，不能小于10%
  */
-export const MinInputBoxWidth = 170;
+export const MinInputBoxWidth = 0.1;

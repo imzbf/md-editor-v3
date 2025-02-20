@@ -142,6 +142,9 @@ export const contentProps = {
   transformImgUrl: {
     type: Function as PropType<(t: string) => string | Promise<string>>,
     default: (t: string) => t
+  },
+  catalogLayout: {
+    type: String as PropType<'fixed' | 'flat'>
   }
 };
 
