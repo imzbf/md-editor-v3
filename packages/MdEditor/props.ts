@@ -555,6 +555,7 @@ export const mdPreviewEmits: EditorEmits = [
   'onHtmlChanged',
   'onGetCatalog',
   'onChange',
+  'onRemount',
   'update:modelValue'
 ];
 
@@ -567,6 +568,5 @@ export const editorEmits: EditorEmits = [
   'onFocus',
   'onInput',
   'onDrop',
-  'oninputBoxWidthChange',
-  'onRemount'
+  'oninputBoxWidthChange'
 ];
