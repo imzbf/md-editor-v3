@@ -149,20 +149,14 @@ export default defineComponent({
             visible={props.visible}
             showMask={props.showMask}
             onClose={() => {
-              if (props.onClose instanceof Function) {
-                props.onClose();
-              } else {
-                ctx.emit('onClose');
-              }
+              props.onClose?.();
+              ctx.emit('onClose');
             }}
             showAdjust={props.showAdjust}
             isFullscreen={props.isFullscreen}
             onAdjust={(v) => {
-              if (props.onAdjust instanceof Function) {
-                props.onAdjust(v);
-              } else {
-                ctx.emit('onAdjust', v);
-              }
+              props.onAdjust?.(v);
+              ctx.emit('onAdjust', v);
             }}
           >
             {Default}

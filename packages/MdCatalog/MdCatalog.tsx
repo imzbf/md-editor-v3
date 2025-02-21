@@ -269,11 +269,8 @@ const MdCatalog = defineComponent({
       indicatorStyles.value.top =
         ele.offsetTop + getComputedStyleNum(ele, 'padding-top') + 'px';
 
-      if (props.onActive) {
-        props.onActive(tocItem, ele);
-      } else {
-        ctx.emit('onActive', tocItem, ele);
-      }
+      props.onActive?.(tocItem, ele);
+      ctx.emit('onActive', tocItem, ele);
     };
 
     const scrollHandler = () => {
@@ -354,10 +351,7 @@ const MdCatalog = defineComponent({
                     key={`link-${item.level}-${item.text}`}
                     onActive={onActive}
                     onClick={(e: MouseEvent, t: TocItem) => {
-                      if (props.onClick) {
-                        props.onClick(e, t);
-                      }
-
+                      props.onClick?.(e, t);
                       ctx.emit('onClick', e, t);
                     }}
                     scrollElementOffsetTop={props.scrollElementOffsetTop}

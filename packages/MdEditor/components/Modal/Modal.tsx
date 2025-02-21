@@ -230,11 +230,8 @@ export default defineComponent({
                   class={`${prefix}-modal-mask`}
                   style={state.maskStyle}
                   onClick={() => {
-                    if (props.onClose) {
-                      props.onClose();
-                    } else {
-                      ctx.emit('onClose');
-                    }
+                    props.onClose?.();
+                    ctx.emit('onClose');
                   }}
                 />
               )}
@@ -280,11 +277,8 @@ export default defineComponent({
                     onClick={(e) => {
                       e.stopPropagation();
 
-                      if (props.onClose) {
-                        props.onClose();
-                      } else {
-                        ctx.emit('onClose');
-                      }
+                      props.onClose?.();
+                      ctx.emit('onClose');
                     }}
                   >
                     <Icon name="close" />

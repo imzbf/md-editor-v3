@@ -47,26 +47,17 @@ const MdPreview = defineComponent({
           <ContentPreview
             modelValue={props.modelValue}
             onChange={(value) => {
-              if (props.onChange) {
-                props.onChange(value);
-              }
-
+              props.onChange?.(value);
               ctx.emit('onChange', value);
               ctx.emit('update:modelValue', value);
             }}
             onHtmlChanged={(html) => {
-              if (props.onHtmlChanged) {
-                props.onHtmlChanged(html);
-              } else {
-                ctx.emit('onHtmlChanged', html);
-              }
+              props.onHtmlChanged?.(html);
+              ctx.emit('onHtmlChanged', html);
             }}
             onGetCatalog={(list) => {
-              if (props.onGetCatalog) {
-                props.onGetCatalog(list);
-              } else {
-                ctx.emit('onGetCatalog', list);
-              }
+              props.onGetCatalog?.(list);
+              ctx.emit('onGetCatalog', list);
             }}
             mdHeadingId={props.mdHeadingId}
             noMermaid={noMermaid}
@@ -79,7 +70,10 @@ const MdPreview = defineComponent({
             sanitizeMermaid={props.sanitizeMermaid}
             codeFoldable={props.codeFoldable}
             autoFoldThreshold={props.autoFoldThreshold}
-            onRemount={props.onRemount}
+            onRemount={() => {
+              props.onRemount?.();
+              ctx.emit('onRemount');
+            }}
           />
         </div>
       );

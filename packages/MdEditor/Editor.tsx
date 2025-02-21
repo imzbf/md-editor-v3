@@ -120,41 +120,27 @@ const Editor = defineComponent({
               ctx.emit('update:modelValue', value);
             }}
             onChange={(value) => {
-              if (props.onChange) {
-                props.onChange(value);
-              }
-
+              props.onChange?.(value);
               ctx.emit('onChange', value);
             }}
             onHtmlChanged={(html) => {
-              if (props.onHtmlChanged) {
-                props.onHtmlChanged(html);
-              }
-
+              props.onHtmlChanged?.(html);
               ctx.emit('onHtmlChanged', html);
             }}
             onGetCatalog={(list) => {
-              if (props.onGetCatalog) {
-                props.onGetCatalog(list);
-              }
+              props.onGetCatalog?.(list);
               ctx.emit('onGetCatalog', list);
             }}
             onBlur={(e) => {
-              if (props.onBlur) {
-                props.onBlur(e);
-              }
+              props.onBlur?.(e);
               ctx.emit('onBlur', e);
             }}
             onFocus={(e) => {
-              if (props.onFocus) {
-                props.onFocus(e);
-              }
+              props.onFocus?.(e);
               ctx.emit('onFocus', e);
             }}
             onInput={(e) => {
-              if (props.onInput) {
-                props.onInput(e);
-              }
+              props.onInput?.(e);
               ctx.emit('onInput', e);
             }}
             completions={props.completions}
@@ -162,16 +148,12 @@ const Editor = defineComponent({
             theme={props.theme}
             noImgZoomIn={props.noImgZoomIn}
             onDrop={(e) => {
-              if (props.onDrop) {
-                props.onDrop(e);
-              }
+              props.onDrop?.(e);
               ctx.emit('onDrop', e);
             }}
             inputBoxWidth={props.inputBoxWidth}
             oninputBoxWidthChange={(width: string) => {
-              if (props.oninputBoxWidthChange) {
-                props.oninputBoxWidthChange(width);
-              }
+              props.oninputBoxWidthChange?.(width);
               ctx.emit('oninputBoxWidthChange', width);
             }}
             sanitizeMermaid={props.sanitizeMermaid}
@@ -179,9 +161,7 @@ const Editor = defineComponent({
             codeFoldable={props.codeFoldable}
             autoFoldThreshold={props.autoFoldThreshold}
             onRemount={() => {
-              if (props.onRemount) {
-                props.onRemount();
-              }
+              props.onRemount?.();
               ctx.emit('onRemount');
             }}
             catalogLayout={props.catalogLayout}
