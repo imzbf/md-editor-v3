@@ -1,5 +1,4 @@
 import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
-import copy from 'copy-to-clipboard';
 import { StaticTextDefaultValue } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
 import { prefix } from '~/config';
@@ -32,16 +31,21 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
               codeBlock.querySelector('pre code');
 
             const codeText = (activeCode as HTMLElement).textContent!;
-
-            const success = copy(props.formatCopiedText(codeText));
             const { text, successTips, failTips } = ult.value.copyCode!;
-            const msg = success ? successTips! : failTips!;
 
-            if (copyButton.dataset.isIcon) {
-              copyButton.dataset.tips = msg;
-            } else {
-              copyButton.innerHTML = msg;
-            }
+            navigator.clipboard.writeText(props.formatCopiedText(codeText)).then(() => {
+              if (copyButton.dataset.isIcon) {
+                copyButton.dataset.tips = successTips!;
+              } else {
+                copyButton.innerHTML = successTips!;
+              }
+            }).catch(() => {
+              if (copyButton.dataset.isIcon) {
+                copyButton.dataset.tips = failTips!;
+              } else {
+                copyButton.innerHTML = failTips!;
+              }
+            })
 
             clearTimer = window.setTimeout(() => {
               if (copyButton.dataset.isIcon) {
