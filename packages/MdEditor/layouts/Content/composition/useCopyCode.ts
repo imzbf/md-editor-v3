@@ -1,5 +1,5 @@
 import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
-import copy from 'copy-to-clipboard';
+import copy2clipboard from '@vavt/copy2clipboard';
 import { StaticTextDefaultValue } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
 import { prefix } from '~/config';
@@ -32,24 +32,29 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
               codeBlock.querySelector('pre code');
 
             const codeText = (activeCode as HTMLElement).textContent!;
-
-            const success = copy(props.formatCopiedText(codeText));
             const { text, successTips, failTips } = ult.value.copyCode!;
-            const msg = success ? successTips! : failTips!;
 
-            if (copyButton.dataset.isIcon) {
-              copyButton.dataset.tips = msg;
-            } else {
-              copyButton.innerHTML = msg;
-            }
+            let msg = successTips!;
 
-            clearTimer = window.setTimeout(() => {
-              if (copyButton.dataset.isIcon) {
-                copyButton.dataset.tips = text;
-              } else {
-                copyButton.innerHTML = text!;
-              }
-            }, 1500);
+            copy2clipboard(props.formatCopiedText(codeText))
+              .catch(() => {
+                msg = failTips!;
+              })
+              .finally(() => {
+                if (copyButton.dataset.isIcon) {
+                  copyButton.dataset.tips = msg;
+                } else {
+                  copyButton.innerHTML = msg;
+                }
+
+                clearTimer = window.setTimeout(() => {
+                  if (copyButton.dataset.isIcon) {
+                    copyButton.dataset.tips = text;
+                  } else {
+                    copyButton.innerHTML = text!;
+                  }
+                }, 1500);
+              });
           };
       });
   };
