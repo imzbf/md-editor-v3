@@ -96,11 +96,8 @@ export default defineComponent({
           relative={`#${editorId}-toolbar-wrapper`}
           visible={props.visible}
           onChange={(v) => {
-            if (props.onChange instanceof Function) {
-              props.onChange(v);
-            } else {
-              ctx.emit('onChange', v);
-            }
+            props.onChange?.(v);
+            ctx.emit('onChange', v);
           }}
           overlay={Overlay}
           disabled={props.disabled}
