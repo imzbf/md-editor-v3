@@ -98,10 +98,9 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
                     'vue',
                     'medium-zoom',
                     'lru-cache',
-                    'copy-to-clipboard',
                     'codemirror',
                     'lucide-vue-next',
-                    '@vavt/util',
+                    /@vavt\/.*/,
                     /@codemirror\/.*/,
                     /@lezer\/.*/,
                     /markdown-it.*/
