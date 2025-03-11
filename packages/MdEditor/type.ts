@@ -221,6 +221,12 @@ export interface ConfigOption {
     mermaid?: {
       instance?: any;
       js?: string;
+      /**
+       * 是否启用缩放功能
+       *
+       * @default true
+       */
+      enableZoom?: boolean;
     };
     katex?: {
       instance?: any;
@@ -558,6 +564,13 @@ export type EditorEmits = Array<
 
 export type EditorContext = SetupContext<EditorEmits>;
 
+export type CustomStrIcon = {
+  copy?: string;
+  'collapse-tips'?: string;
+  pin?: string;
+  'pin-off'?: string;
+};
+
 /**
  * 自定义图标的数据类型
  */
@@ -568,7 +581,4 @@ export type CustomIcon = {
       [key: string | number | symbol]: any;
     };
   };
-} & {
-  copy?: string;
-  'collapse-tips'?: string;
-};
+} & CustomStrIcon;

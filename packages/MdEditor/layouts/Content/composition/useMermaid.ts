@@ -16,12 +16,10 @@ const useMermaid = (props: ContentPreviewProps) => {
   const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
   const { editorExtensions, editorExtensionsAttrs, mermaidConfig } = configOption;
 
-  const mermaidRef = shallowRef(editorExtensions!.mermaid!.instance);
+  let mermaid = editorExtensions!.mermaid!.instance;
   const reRenderRef = shallowRef(-1);
 
   const configMermaid = () => {
-    const mermaid = mermaidRef.value;
-
     if (!props.noMermaid && mermaid) {
       mermaid.initialize(
         mermaidConfig({
@@ -42,7 +40,7 @@ const useMermaid = (props: ContentPreviewProps) => {
   );
 
   onMounted(() => {
-    if (props.noMermaid || mermaidRef.value) {
+    if (props.noMermaid || mermaid) {
       return;
     }
 
@@ -61,7 +59,7 @@ const useMermaid = (props: ContentPreviewProps) => {
         /* webpackIgnore: true */
         jsSrc
       ).then((module) => {
-        mermaidRef.value = module.default;
+        mermaid = module.default;
         configMermaid();
       });
     } else {
@@ -72,7 +70,7 @@ const useMermaid = (props: ContentPreviewProps) => {
           src: jsSrc,
           id: CDN_IDS.mermaid,
           onload() {
-            mermaidRef.value = window.mermaid;
+            mermaid = window.mermaid;
             configMermaid();
           }
         },
@@ -82,7 +80,7 @@ const useMermaid = (props: ContentPreviewProps) => {
   });
 
   const replaceMermaid = async () => {
-    if (!props.noMermaid && mermaidRef.value) {
+    if (!props.noMermaid && mermaid) {
       const mermaidSourceEles = rootRef.value.querySelectorAll<HTMLElement>(
         `div.${prefix}-mermaid`
       );
@@ -108,17 +106,14 @@ const useMermaid = (props: ContentPreviewProps) => {
       await Promise.allSettled(
         Array.from(mermaidSourceEles).map((ele) => {
           const handler = async (item: HTMLElement) => {
-            let mermaidHtml = mermaidCache.get(item.innerText) as string;
+            const code = item.dataset.code as string;
+            let mermaidHtml = mermaidCache.get(code) as string;
 
             if (!mermaidHtml) {
               const idRand = randomId();
               let result: { svg: string } = { svg: '' };
               try {
-                result = await mermaidRef.value.render(
-                  idRand,
-                  item.innerText,
-                  svgContainingElement
-                );
+                result = await mermaid.render(idRand, code, svgContainingElement);
 
                 mermaidHtml = await props.sanitizeMermaid!(result.svg);
 
@@ -128,7 +123,7 @@ const useMermaid = (props: ContentPreviewProps) => {
                 p.innerHTML = mermaidHtml;
                 p.children[0]?.removeAttribute('height');
 
-                mermaidCache.set(item.innerText, p.innerHTML);
+                mermaidCache.set(code, p.innerHTML);
 
                 if (item.dataset.line !== undefined) {
                   p.dataset.line = item.dataset.line;
@@ -151,7 +146,7 @@ const useMermaid = (props: ContentPreviewProps) => {
     }
   };
 
-  return { mermaidRef, reRenderRef, replaceMermaid };
+  return { reRenderRef, replaceMermaid };
 };
 
 export default useMermaid;

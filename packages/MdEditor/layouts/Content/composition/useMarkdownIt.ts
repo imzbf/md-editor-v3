@@ -60,7 +60,8 @@ const initLineNumber = (md: mdit) => {
 };
 
 const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
-  const { editorConfig, markdownItConfig, markdownItPlugins } = configOption;
+  const { editorConfig, markdownItConfig, markdownItPlugins, editorExtensions } =
+    configOption;
   //
   const editorId = inject('editorId') as string;
   const languageRef = inject('language') as ComputedRef<string>;
@@ -73,6 +74,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const customIconRef = inject('customIcon') as ComputedRef<CustomIcon>;
   const rootRef = inject('rootRef') as ComputedRef<HTMLDivElement>;
   const headsRef = ref<HeadList[]>([]);
+
+  // 存储每次mermaid更新后，需要清除的绑定事件
+  let clearMermaidEvents = () => {};
 
   const hljsRef = useHighlight(props);
   const katexRef = useKatex(props);
@@ -214,7 +218,15 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
     nextTick(() => {
       replaceMermaid().then(() => {
-        zoomMermaid(rootRef.value?.querySelectorAll(`#${editorId} .${prefix}-mermaid`));
+        if (editorExtensions.mermaid?.enableZoom) {
+          clearMermaidEvents();
+          clearMermaidEvents = zoomMermaid(
+            rootRef.value?.querySelectorAll(`#${editorId} p.${prefix}-mermaid`),
+            {
+              customIcon: customIconRef.value
+            }
+          );
+        }
       });
     });
   };
@@ -252,9 +264,15 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         // 生成目录
         nextTick(() => {
           replaceMermaid().then(() => {
-            zoomMermaid(
-              rootRef.value?.querySelectorAll(`#${editorId} .${prefix}-mermaid`)
-            );
+            if (editorExtensions.mermaid?.enableZoom) {
+              clearMermaidEvents();
+              clearMermaidEvents = zoomMermaid(
+                rootRef.value?.querySelectorAll(`#${editorId} p.${prefix}-mermaid`),
+                {
+                  customIcon: customIconRef.value
+                }
+              );
+            }
           });
           bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
         });
@@ -284,6 +302,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   });
 
   onBeforeUnmount(() => {
+    clearMermaidEvents();
     clearTimeout(timer);
   });
 
