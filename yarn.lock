@@ -1486,10 +1486,10 @@
     "@typescript-eslint/types" "8.10.0"
     eslint-visitor-keys "^3.4.3"
 
-"@vavt/copy2clipboard@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@vavt/copy2clipboard/-/copy2clipboard-1.0.0.tgz#4ac1dad698b12682aaf74010f5026870327fce04"
-  integrity sha512-totQUhVUmRRt04jELg5jTfqAWFPR0BK9begvAe3BnvZ1126VSKJBqFrq72cUeUBgdJQMnBe+C800LxZULjJayw==
+"@vavt/copy2clipboard@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@vavt/copy2clipboard/-/copy2clipboard-1.0.1.tgz#8658c64ca1de0aa4fc4720c3449c28bc0a7a50f2"
+  integrity sha512-XkULyKbB4KeYOn2q2JxMbhu2+UiSrwMU745dfwaYC/oFPsYaXPdGed/zV34xGP59+fgI2VqeQ2xmfKkMSvRvzw==
 
 "@vavt/markdown-theme@^4.3.0":
   version "4.3.0"
