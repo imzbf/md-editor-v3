@@ -449,7 +449,8 @@ export const configOption: ConfigOption = {
       js: screenfullUrl
     },
     mermaid: {
-      js: mermaidUrl
+      js: mermaidUrl,
+      enableZoom: true
     },
     katex: {
       ...katexUrl

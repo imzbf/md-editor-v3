@@ -120,11 +120,12 @@ config({
     // cropper: {
     //   instance: Cropper
     // },
-    // mermaid: {
-    //   instance: mermaid
-    // }
-  },
-  editorExtensionsAttrs
+    mermaid: {
+      //   instance: mermaid
+      enableZoom: true
+    }
+  }
+  // editorExtensionsAttrs
 });
 
 import '~/styles/style.less';
