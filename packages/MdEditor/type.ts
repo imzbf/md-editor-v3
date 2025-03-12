@@ -348,9 +348,10 @@ export type Config = (options: Partial<ConfigOption>) => void;
  * 编辑器操作潜在的错误
  */
 export interface InnerError {
-  name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength';
+  name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid';
   message: string;
-  data: any;
+  data?: any;
+  error?: Error;
 }
 
 export interface CodeCss {

@@ -103,7 +103,7 @@ const useCodeMirror = (props: ContentProps) => {
         bus.emit(editorId, ERROR_CATCHER, {
           name: 'overlength',
           message: 'The input text is too long',
-          data: data
+          data
         });
       }
     }

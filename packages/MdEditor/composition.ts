@@ -321,11 +321,8 @@ export const useErrorCatcher = (
     bus.on(editorId, {
       name: ERROR_CATCHER,
       callback: (err: InnerError) => {
-        if (props.onError instanceof Function) {
-          props.onError(err);
-        } else {
-          context.emit('onError', err);
-        }
+        props.onError?.(err);
+        context.emit('onError', err);
       }
     });
   });

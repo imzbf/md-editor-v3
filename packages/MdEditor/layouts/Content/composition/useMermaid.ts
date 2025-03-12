@@ -4,6 +4,8 @@ import { prefix, configOption } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { mermaidCache } from '~/utils/cache';
 import { CDN_IDS } from '~/static';
+import { ERROR_CATCHER } from '~/static/event-name';
+import eventBus from '~/utils/event-bus';
 
 import { ContentPreviewProps } from '../ContentPreview';
 
@@ -12,6 +14,7 @@ import { ContentPreviewProps } from '../ContentPreview';
  *
  */
 const useMermaid = (props: ContentPreviewProps) => {
+  const editorId = inject('editorId') as string;
   const theme = inject('theme') as ComputedRef<string>;
   const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
   const { editorExtensions, editorExtensionsAttrs, mermaidConfig } = configOption;
@@ -130,8 +133,12 @@ const useMermaid = (props: ContentPreviewProps) => {
                 }
 
                 item.replaceWith(p);
-              } catch {
-                // console.error(error.message);
+              } catch (error: any) {
+                eventBus.emit(editorId, ERROR_CATCHER, {
+                  name: 'mermaid',
+                  message: error.message,
+                  error
+                });
               }
 
               if (--count === 0) {
