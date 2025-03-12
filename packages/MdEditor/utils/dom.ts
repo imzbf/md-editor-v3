@@ -325,8 +325,8 @@ export const zoomMermaid = (() => {
     // 返回一个函数，用于注销所有事件（包括 click 和 addEvent）
     return () => {
       removeEventsMap.forEach(({ removeEvent, removeClick }) => {
-        if (removeEvent) removeEvent();
-        if (removeClick) removeClick();
+        removeEvent?.();
+        removeClick?.();
       });
       removeEventsMap.clear();
     };
