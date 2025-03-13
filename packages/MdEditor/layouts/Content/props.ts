@@ -67,6 +67,9 @@ export const contentPreviewProps = {
   },
   onRemount: {
     type: Function as PropType<() => void>
+  },
+  htmlUpdateOnDemand: {
+    type: Boolean as PropType<boolean>
   }
 };
 
