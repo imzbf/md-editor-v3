@@ -11,6 +11,7 @@ import {
   useRemount
 } from './composition';
 import { contentPreviewProps } from './props';
+import UpdateOnDemand from './UpdateOnDemand';
 
 export type ContentPreviewProps = Readonly<
   LooseRequired<Readonly<ExtractPropTypes<typeof contentPreviewProps>>>
@@ -45,16 +46,20 @@ const ContentPreview = defineComponent({
               class={`${prefix}-preview-wrapper`}
               key="content-preview-wrapper"
             >
-              <div
-                key={key.value}
-                id={`${editorId}-preview`}
-                class={[
-                  `${prefix}-preview`,
-                  `${previewTheme?.value}-theme`,
-                  showCodeRowNumber && `${prefix}-scrn`
-                ]}
-                innerHTML={html.value}
-              />
+              {props.htmlUpdateOnDemand ? (
+                <UpdateOnDemand key={key.value} html={html.value} />
+              ) : (
+                <div
+                  key={key.value}
+                  id={`${editorId}-preview`}
+                  class={[
+                    `${prefix}-preview`,
+                    `${previewTheme?.value}-theme`,
+                    showCodeRowNumber && `${prefix}-scrn`
+                  ]}
+                  innerHTML={html.value}
+                />
+              )}
             </div>
           )}
 
