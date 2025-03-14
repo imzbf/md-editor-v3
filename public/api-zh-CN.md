@@ -999,9 +999,18 @@
 
 ### 💀 onError
 
-- **类型**：`(err: { name: 'Cropper' \| 'fullscreen' \| 'prettier' \| 'overlength'; message: string }) => void`
+- **类型**：`(err: InnerError) => void`
 
-  捕获执行错误事件，目前支持`Cropper`、`fullscreen`、`prettier`实例未加载完成操作，以及输入内容超出限制长度的错误。
+  捕获执行错误事件，目前支持`Cropper`、`fullscreen`、`prettier`实例未加载完成操作、输入内容超出限制长度、`mermaid`渲染的错误。
+
+  ```ts
+  export interface InnerError {
+    name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid'; // 组件版本大于等于5.4.0才能捕获mermaid错误
+    message: string;
+    data?: any;
+    error?: Error;
+  }
+  ```
 
   ```vue
   <template>
@@ -1685,6 +1694,8 @@ export interface EditorExtensions {
   mermaid?: {
     instance?: any;
     js?: string;
+    // >=5.4.0，是否允许缩放查看mermaid模块
+    enableZoom?: boolean;
   };
   katex?: {
     instance?: any;
