@@ -989,9 +989,18 @@ Except for the same as `MdPreview`:
 
 ### 💀 onError
 
-- **type**: `(err: { name: 'Cropper' \| 'fullscreen' \| 'prettier' \| 'overlength'; message: string }) => void`
+- **type**: `(err: InnerError) => void`
 
-  Run-Time error event, only be called when `Cropper`, `fullscreen`, `prettier` is not loaded. And content exceeds the length limit error.
+  Captures execution error events, currently supports `Cropper`, `fullscreen`, `prettier` instances of unloaded completed operations, inputs exceeding restricted lengths, and `mermaid` rendering errors.
+
+  ```ts
+  export interface InnerError {
+    name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid'; // Component version greater than or equal to 5.4.0 to catch mermaid errors
+    message: string;
+    data?: any;
+    error?: Error;
+  }
+  ```
 
   ```vue
   <template>
@@ -1664,6 +1673,8 @@ export interface EditorExtensions {
   mermaid?: {
     instance?: any;
     js?: string;
+    // >=5.4.0, Whether to allow zooming to view mermaid modules
+    enableZoom?: boolean;
   };
   katex?: {
     instance?: any;
