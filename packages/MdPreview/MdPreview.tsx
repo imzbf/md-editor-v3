@@ -74,7 +74,6 @@ const MdPreview = defineComponent({
               props.onRemount?.();
               ctx.emit('onRemount');
             }}
-            htmlUpdateOnDemand={props.htmlUpdateOnDemand}
           />
         </div>
       );

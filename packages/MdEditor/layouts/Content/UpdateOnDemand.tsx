@@ -1,4 +1,4 @@
-import { ref, onMounted, defineComponent, watch, inject, ComputedRef } from 'vue';
+import { ref, defineComponent, watch, inject, ComputedRef } from 'vue';
 import { prefix } from '~~/config';
 import { PreviewThemes } from '~/type';
 
@@ -39,7 +39,10 @@ const UpdateOnDemand = defineComponent({
     const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
 
     // HTML 容器的 ref
-    const htmlContainer = ref<HTMLElement | null>(null);
+    const htmlContainer = ref<HTMLElement>();
+
+    // 永远缓存一份第一次的html，保证ssr正确
+    const firstHtml = ref(props.html);
 
     // 更新 DOM 中的内容
     const updateHtmlContent = (updates: { index: number; newNode: string }[]) => {
@@ -62,16 +65,8 @@ const UpdateOnDemand = defineComponent({
         // 如果新旧 HTML 内容不同，执行更新
         const updates = compareHtml(newHtml, oldHtml || '');
         updateHtmlContent(updates);
-      },
-      { immediate: true }
-    );
-
-    // 在组件挂载时，初始化 HTML 内容
-    onMounted(() => {
-      if (htmlContainer.value) {
-        htmlContainer.value.innerHTML = props.html;
       }
-    });
+    );
 
     return () => (
       <div
@@ -81,6 +76,7 @@ const UpdateOnDemand = defineComponent({
           `${previewTheme?.value}-theme`,
           showCodeRowNumber && `${prefix}-scrn`
         ]}
+        innerHTML={firstHtml.value}
         ref={htmlContainer}
       />
     );
