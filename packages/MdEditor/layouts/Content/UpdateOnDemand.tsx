@@ -9,19 +9,33 @@ const splitHtml = (html: string): HTMLElement[] => {
   return Array.from(doc.body.children) as HTMLElement[];
 };
 
-// 比较两个 HTML 内容，返回更新的节点
+// 比较新旧 HTML，返回需更新和删除的节点信息
 const compareHtml = (newHtml: string, currentHtml: string) => {
   const newNodes = splitHtml(newHtml);
   const currentNodes = splitHtml(currentHtml);
 
+  const updates: { index: number; newNode: string }[] = [];
+  const deletes: number[] = [];
+
   // 对比每个节点，找出差异的部分
-  return newNodes
-    .map((node, index) => ({
-      index,
-      newNode: node.outerHTML,
-      isUpdated: currentNodes[index]?.outerHTML !== node.outerHTML
-    }))
-    .filter((update) => update.isUpdated); // 过滤出差异节点
+  newNodes.forEach((node, index) => {
+    if (!currentNodes[index]) {
+      // 该索引下的新节点不存在于旧 HTML，需要新增
+      updates.push({ index, newNode: node.outerHTML });
+    } else if (currentNodes[index].outerHTML !== node.outerHTML) {
+      // 该索引下的节点存在但内容不同，需要更新
+      updates.push({ index, newNode: node.outerHTML });
+    }
+  });
+
+  // 旧节点中有但新 HTML 中不存在的，标记为需要删除
+  if (currentNodes.length > newNodes.length) {
+    for (let i = newNodes.length; i < currentNodes.length; i++) {
+      deletes.push(i);
+    }
+  }
+
+  return { updates, deletes };
 };
 
 const UpdateOnDemand = defineComponent({
@@ -45,7 +59,18 @@ const UpdateOnDemand = defineComponent({
     const firstHtml = ref(props.html);
 
     // 更新 DOM 中的内容
-    const updateHtmlContent = (updates: { index: number; newNode: string }[]) => {
+    const updateHtmlContent = (
+      updates: { index: number; newNode: string }[],
+      deletes: number[]
+    ) => {
+      if (!htmlContainer.value) return;
+
+      // 先删除多余的节点（从后向前删除，避免索引问题）
+      deletes.reverse().forEach((index) => {
+        htmlContainer.value?.children[index]?.remove();
+      });
+
+      // 更新或插入新的节点
       updates.forEach(({ index, newNode }) => {
         const targetNode = htmlContainer.value?.children[index];
         if (targetNode) {
@@ -58,13 +83,11 @@ const UpdateOnDemand = defineComponent({
       });
     };
 
-    // 监听 html 属性的变化，进行 DOM 更新
     watch(
       () => props.html,
       (newHtml, oldHtml) => {
-        // 如果新旧 HTML 内容不同，执行更新
-        const updates = compareHtml(newHtml, oldHtml || '');
-        updateHtmlContent(updates);
+        const { updates, deletes } = compareHtml(newHtml, oldHtml || '');
+        updateHtmlContent(updates, deletes);
       }
     );
 
