@@ -1,0 +1,1 @@
+import{e as n,u as o,j as r,k as u,n as _}from"./BaSMUOMn.js";const i=n({__name:"index",async setup(p){let e,t;const s=o(),a=r();return[e,t]=u(()=>_({path:`/${s.lang}/syntax`,hash:a.currentRoute.value.hash})),await e,t(),()=>{}}});export{i as default};
