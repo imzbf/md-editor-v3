@@ -8,7 +8,7 @@ const MermaidPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> 
   const temp = md.renderer.rules.fence!.bind(md.renderer.rules);
   md.renderer.rules.fence = (tokens, idx, ops, env, slf) => {
     const token = tokens[idx];
-    const code = md.utils.escapeHtml(token.content.trim());
+    const code = token.content.trim();
     if (token.info === 'mermaid') {
       let line;
       if (tokens[idx].map && tokens[idx].level === 0) {
@@ -26,7 +26,7 @@ const MermaidPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> 
 
       return `<div class="${prefix}-mermaid" ${
         line !== undefined ? 'data-line=' + line : ''
-      } data-mermaid-theme=${options.themeRef.value} data-code="${code}">${code}</div>`;
+      } data-mermaid-theme=${options.themeRef.value} data-code="${md.utils.escapeHtml(code)}"></div>`;
     }
 
     return temp!(tokens, idx, ops, env, slf);
