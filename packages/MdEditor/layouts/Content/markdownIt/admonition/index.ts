@@ -17,6 +17,10 @@ const AdmonitionPlugin = (md: markdownit, options: AdmonitionPluginOps) => {
     markerStr = options.marker || '!',
     markerChar = markerStr.charCodeAt(0),
     markerLen = markerStr.length;
+  const colonMarkers = 3,
+    colonMarkerStr = options.marker || ':',
+    colonMarkerChar = colonMarkerStr.charCodeAt(0),
+    colonMarkerLen = colonMarkerStr.length;
 
   let type = '',
     title = '';
@@ -141,6 +145,152 @@ const AdmonitionPlugin = (md: markdownit, options: AdmonitionPluginOps) => {
 
         // make sure tail has spaces only
         pos -= (pos - start) % markerLen;
+        pos = state.skipSpaces(pos);
+
+        if (pos < max) {
+          continue;
+        }
+
+        // found!
+        autoClosed = true;
+        break;
+      }
+
+      const oldParent = state.parentType;
+      const oldLineMax = state.lineMax;
+      // state.parentType = 'admonition';
+      // UNKONW
+      state.parentType = 'root';
+
+      // this will prevent lazy continuations from ever going past our end marker
+      state.lineMax = nextLine;
+
+      token = state.push('admonition_open', 'div', 1);
+      token.markup = markup;
+      token.block = true;
+      token.info = type;
+      token.map = [startLine, nextLine];
+
+      // admonition title
+      if (title) {
+        token = state.push('admonition_title_open', 'p', 1);
+        token.markup = markup + ' ' + type;
+        token.map = [startLine, nextLine];
+
+        token = state.push('inline', '', 0);
+        token.content = title;
+        token.map = [startLine, state.line - 1];
+        token.children = [];
+
+        token = state.push('admonition_title_close', 'p', -1);
+        token.markup = markup + ' ' + type;
+      }
+
+      state.md.block.tokenize(state, startLine + 1, nextLine);
+
+      token = state.push('admonition_close', 'div', -1);
+      token.markup = state.src.slice(start, pos);
+      token.block = true;
+
+      state.parentType = oldParent;
+      state.lineMax = oldLineMax;
+      state.line = nextLine + (autoClosed ? 1 : 0);
+
+      return true;
+    },
+    {
+      alt: ['paragraph', 'reference', 'blockquote', 'list']
+    }
+  );
+  md.block.ruler.before(
+    'code',
+    'admonition',
+    (state, startLine, endLine, silent) => {
+      let pos,
+        nextLine,
+        token,
+        autoClosed = false,
+        start = state.bMarks[startLine] + state.tShift[startLine],
+        max = state.eMarks[startLine];
+
+      // Check out the first character quickly,
+      // this should filter out most of non-containers
+      //
+      if (colonMarkerChar !== state.src.charCodeAt(start)) {
+        return false;
+      }
+
+      // Check out the rest of the marker string
+      //
+      for (pos = start + 1; pos <= max; pos++) {
+        if (colonMarkerStr[(pos - start) % colonMarkerLen] !== state.src[pos]) {
+          break;
+        }
+      }
+
+      const colonMarkerCount = Math.floor((pos - start) / colonMarkerLen);
+      if (colonMarkerCount !== markers) {
+        return false;
+      }
+      pos -= (pos - start) % markerLen;
+
+      const markup = state.src.slice(start, pos);
+      const params = state.src.slice(pos, max);
+      // if (!validate(params)) {
+      //   return false;
+      // }
+      validate(params);
+
+      // Since start is found, we can report success here in validation mode
+      //
+      if (silent) {
+        return true;
+      }
+
+      // Search for the end of the block
+      //
+      nextLine = startLine;
+
+      for (;;) {
+        nextLine++;
+        if (nextLine >= endLine) {
+          // unclosed block should be autoclosed by end of document.
+          // also block seems to be autoclosed by end of parent
+          break;
+        }
+
+        start = state.bMarks[nextLine] + state.tShift[nextLine];
+        max = state.eMarks[nextLine];
+
+        if (start < max && state.sCount[nextLine] < state.blkIndent) {
+          // non-empty line with negative indent should stop the list:
+          // - ```
+          //  test
+          break;
+        }
+
+        if (colonMarkerChar !== state.src.charCodeAt(start)) {
+          continue;
+        }
+
+        if (state.sCount[nextLine] - state.blkIndent >= 4) {
+          // closing fence should be indented less than 4 spaces
+          continue;
+        }
+
+        for (pos = start + 1; pos <= max; pos++) {
+          if (colonMarkerStr[(pos - start) % colonMarkerLen] !== state.src[pos]) {
+            break;
+          }
+        }
+
+        // closing adminition fence must be at least as long as the opening one
+        if (Math.floor((pos - start) / colonMarkerLen) < colonMarkerCount) {
+          continue;
+        }
+
+        // make sure tail has spaces only
+        pos -= (pos - start) % colonMarkerLen;
         pos = state.skipSpaces(pos);
 
         if (pos < max) {
