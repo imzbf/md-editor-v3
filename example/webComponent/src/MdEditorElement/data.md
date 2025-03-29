@@ -81,3 +81,11 @@ flowchart TD
 note、abstract、info、tip、success、question、warning、failure、danger、bug、example、quote、hint、caution、error、attention
 
 !!!
+
+或
+
+::: note 支持的类型
+
+note、abstract、info、tip、success、question、warning、failure、danger、bug、example、quote、hint、caution、error、attention
+
+:::

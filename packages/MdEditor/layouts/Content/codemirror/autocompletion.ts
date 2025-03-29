@@ -50,7 +50,7 @@ const getApply = (_label: string): Completion['apply'] => {
 const createAutocompletion = (completions: Array<CompletionSource> | undefined) => {
   const defaultCompletion = (context: CompletionContext): CompletionResult | null => {
     const word = context.matchBefore(
-      /^#+|^-\s*\[*\s*\]*|`+|\[|!\[*|^\|\s?\|?|\$\$?|!+\s*\w*/
+      /^#+|^-\s*\[*\s*\]*|`+|\[|!\[*|^\|\s?\|?|\$\$?|!+\s*\w*|:+\s*\w*/
     );
 
     if (word === null || (word.from == word!.to && context.explicit)) {
@@ -142,6 +142,31 @@ const createAutocompletion = (completions: Array<CompletionSource> | undefined) 
             label,
             type: 'text',
             apply: getPairApply('!!!', ` ${key}`, ' Title', '\n\n!!!', 'title')
+          };
+        }),
+        ...[
+          'note',
+          'abstract',
+          'info',
+          'tip',
+          'success',
+          'question',
+          'warning',
+          'failure',
+          'danger',
+          'bug',
+          'example',
+          'quote',
+          'hint',
+          'caution',
+          'error',
+          'attention'
+        ].map((key) => {
+          const label = `::: ${key}`;
+          return {
+            label,
+            type: 'text',
+            apply: getPairApply(':::', ` ${key}`, ' Title', '\n\n:::', 'title')
           };
         })
       ]
