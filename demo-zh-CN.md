@@ -782,8 +782,12 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 1. 安装依赖
 
 ```shell
-yarn add screenfull katex cropperjs mermaid highlight.js prettier
+yarn add screenfull katex cropperjs@1 mermaid highlight.js prettier
 ```
+
+!!! info
+目前`cropperjs@2`正在优化中，暂未计划切换到 2.0 版本。
+!!!
 
 2. 配置到编辑器
 

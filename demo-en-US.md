@@ -775,8 +775,12 @@ Change background color in dark mode:
 1. Install Dependencies
 
 ```shell
-yarn add screenfull katex cropperjs mermaid highlight.js prettier
+yarn add screenfull katex cropperjs@1 mermaid highlight.js prettier
 ```
+
+!!! info
+Currently `cropperjs@2` is being optimised, and there are no plans to switch to version 2.0.
+!!!
 
 2. Configure
 
