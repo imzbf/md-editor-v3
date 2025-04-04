@@ -6,6 +6,7 @@ import { KeyBinding, EditorView } from '@codemirror/view';
 import { editorProps, mdPreviewProps } from './props';
 import { IconName } from './components/Icon/Icon';
 import { ToolDirective } from './utils/content-help';
+import { ModernCropper } from 'vue-modern-cropper';
 
 declare global {
   interface Window {
@@ -211,6 +212,7 @@ export interface ConfigOption {
     };
     cropper?: {
       instance?: any;
+      component?: typeof ModernCropper;
       js?: string;
       css?: string;
     };

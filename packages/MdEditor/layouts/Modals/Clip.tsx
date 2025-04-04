@@ -9,7 +9,8 @@ import {
   watch,
   ExtractPropTypes,
   Ref,
-  toRef
+  toRef,
+  h
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { StaticTextDefaultValue } from '~/type';
@@ -19,6 +20,7 @@ import Modal from '~/components/Modal';
 import bus from '~/utils/event-bus';
 import Icon from '~/components/Icon';
 import { ERROR_CATCHER, UPLOAD_IMAGE } from '~/static/event-name';
+import type { Selection as CropperSelectionInterface } from '@cropper/element-selection';
 
 const props = {
   visible: {
@@ -46,6 +48,8 @@ export default defineComponent({
     const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
     // 传递下来的图片裁剪构造函数
     let Cropper = configOption.editorExtensions.cropper!.instance;
+    const CropperComponent = configOption.editorExtensions.cropper!.component;
+    const modernCropperRef = ref<InstanceType<typeof CropperComponent & {}>>();
 
     const uploadRef = ref();
     const uploadImgRef = ref();
@@ -63,6 +67,36 @@ export default defineComponent({
 
     let cropper: any = null;
 
+    // Reference: https://fengyuanchen.github.io/cropperjs/api/cropper-selection.html#limit-boundaries
+    function hookSelectionLimitBoundary(event: CustomEvent) {
+      if (!modernCropperRef.value?.cropperMounted) return; // Type guard
+
+      const cropperCanvas = modernCropperRef.value.canvas;
+
+      const cropperCanvasRect = cropperCanvas.getBoundingClientRect();
+      const selection = event.detail as CropperSelectionInterface;
+
+      const cropperImage = modernCropperRef.value.image;
+      const cropperImageRect = cropperImage.getBoundingClientRect();
+      const maxSelection: CropperSelectionInterface = {
+        x: cropperImageRect.left - cropperCanvasRect.left,
+        y: cropperImageRect.top - cropperCanvasRect.top,
+        width: cropperImageRect.width,
+        height: cropperImageRect.height
+      };
+
+      if (
+        !(
+          selection.x >= maxSelection.x &&
+          selection.y >= maxSelection.y &&
+          selection.x + selection.width <= maxSelection.x + maxSelection.width &&
+          selection.y + selection.height <= maxSelection.y + maxSelection.height
+        )
+      ) {
+        event.preventDefault();
+      }
+    }
+
     watch(
       () => props.visible,
       () => {
@@ -72,7 +106,7 @@ export default defineComponent({
 
           // 直接定义onchange，防止创建新的实例时遗留事件
           (uploadRef.value as HTMLInputElement).onchange = () => {
-            if (!Cropper) {
+            if (!Cropper && !CropperComponent) {
               bus.emit(editorId, ERROR_CATCHER, {
                 name: 'Cropper',
                 message: 'Cropper is undefined'
@@ -103,7 +137,7 @@ export default defineComponent({
     watch(
       () => [data.imgSelected],
       () => {
-        previewTargetRef.value.style = '';
+        if (previewTargetRef.value) previewTargetRef.value.style = '';
       }
     );
 
@@ -111,6 +145,10 @@ export default defineComponent({
     watch([toRef(() => data.isFullscreen), toRef(() => data.imgSrc)], () => {
       if (data.imgSrc) {
         nextTick(() => {
+          if (CropperComponent) {
+            return;
+          }
+
           cropper?.destroy();
           previewTargetRef.value.style = '';
 
@@ -128,11 +166,12 @@ export default defineComponent({
     });
 
     const reset = () => {
-      cropper.clear();
-      cropper.destroy();
+      cropper?.clear();
+      cropper?.destroy();
       cropper = null;
       (uploadRef.value as HTMLInputElement).value = '';
       data.imgSelected = false;
+      data.imgSrc = '';
     };
 
     return () => (
@@ -153,12 +192,28 @@ export default defineComponent({
           <div class={`${prefix}-clip-main`}>
             {data.imgSelected ? (
               <div class={`${prefix}-clip-cropper`}>
-                <img
-                  src={data.imgSrc}
-                  ref={uploadImgRef}
-                  style={{ display: 'none' }}
-                  alt=""
-                />
+                {CropperComponent ? (
+                  <CropperComponent
+                    class={`${prefix}-clip-cropper-component`}
+                    ref={modernCropperRef}
+                    src={data.imgSrc}
+                    passThrough={{
+                      selection: {
+                        attributes: {
+                          id: 'clip-cropper-selection',
+                          onchange: (e) => hookSelectionLimitBoundary(e as CustomEvent)
+                        }
+                      }
+                    }}
+                  />
+                ) : (
+                  <img
+                    ref={uploadImgRef}
+                    src={data.imgSrc}
+                    style={{ display: 'none' }}
+                    alt="Placeholder element until cropperjs is initialized"
+                  />
+                )}
                 <div class={`${prefix}-clip-delete`} onClick={reset}>
                   <Icon name="delete" />
                 </div>
@@ -178,16 +233,26 @@ export default defineComponent({
             )}
           </div>
           <div class={`${prefix}-clip-preview`}>
-            <div class={`${prefix}-clip-preview-target`} ref={previewTargetRef}></div>
+            {CropperComponent ? (
+              (modernCropperRef.value?.cropperMounted &&
+                h('cropper-viewer', {
+                  selection: '#clip-cropper-selection'
+                })) ||
+              undefined
+            ) : (
+              <div class={`${prefix}-clip-preview-target`} ref={previewTargetRef}></div>
+            )}
           </div>
         </div>
         <div class={`${prefix}-form-item`}>
           <button
             class={`${prefix}-btn`}
             type="button"
-            onClick={() => {
-              if (cropper) {
-                const cvs = cropper.getCroppedCanvas();
+            onClick={async () => {
+              const cvs =
+                (await modernCropperRef.value?.selection?.$toCanvas()) ||
+                cropper?.getCroppedCanvas();
+              if (cvs) {
                 bus.emit(
                   editorId,
                   UPLOAD_IMAGE,

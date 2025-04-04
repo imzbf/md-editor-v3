@@ -257,7 +257,10 @@ export const useExpansion = (props: EditorProps) => {
     noPrettier || editorExtensions.prettier!.parserMarkdownInstance;
 
   // 判断是否需要插入裁剪图片标签
-  const noCropperScript = noUploadImg || editorExtensions.cropper!.instance;
+  const noCropperScript =
+    noUploadImg ||
+    editorExtensions.cropper!.instance ||
+    editorExtensions.cropper!.component;
 
   onMounted(() => {
     // 非仅预览模式才添加扩展
