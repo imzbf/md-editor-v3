@@ -13,7 +13,7 @@ import { lineNumbers } from '@codemirror/view';
 // import katex from 'katex';
 // import Cropper from 'cropperjs--v1';
 // import 'cropperjs--v1/dist/cropper.css';
-import { ModernCropper } from 'vue-modern-cropper';
+// import { ModernCropper } from 'vue-modern-cropper';
 // import mermaid from 'mermaid';
 // import highlight from 'highlight.js';
 // import 'highlight.js/styles/tokyo-night-dark.css';
@@ -118,10 +118,10 @@ config({
     // katex: {
     //   instance: katex
     // },
-    cropper: {
-      //   instance: Cropper
-      component: ModernCropper
-    },
+    // cropper: {
+    //   instance: Cropper
+    //   component: ModernCropper
+    // },
     mermaid: {
       //   instance: mermaid
       enableZoom: true
