@@ -178,7 +178,12 @@ export default defineComponent({
             top: '170px'
           }}
         >
-          <MdCatalog editorId="md-prev" theme={props.theme} mdHeadingId={mdHeadingId} />
+          <MdCatalog
+            editorId="md-prev"
+            theme={props.theme}
+            mdHeadingId={mdHeadingId}
+            catalogMaxDepth={3}
+          />
         </div>
         <button
           style={{
@@ -216,6 +221,7 @@ export default defineComponent({
         <div class="container">
           <MdEditor
             id="md-prev"
+            catalogMaxDepth={2}
             catalogLayout="flat"
             completions={completions.list}
             ref={editorRef}

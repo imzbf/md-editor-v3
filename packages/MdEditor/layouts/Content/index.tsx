@@ -79,7 +79,6 @@ export default defineComponent({
               codeFoldable={props.codeFoldable}
               autoFoldThreshold={props.autoFoldThreshold}
               onRemount={props.onRemount}
-              htmlUpdateOnDemand={props.htmlUpdateOnDemand}
             />
           </div>
           {props.catalogVisible && (
@@ -107,6 +106,7 @@ export default defineComponent({
                   }
                 }
               }}
+              catalogMaxDepth={props.catalogMaxDepth}
             />
           )}
         </div>

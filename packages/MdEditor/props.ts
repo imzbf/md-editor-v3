@@ -248,13 +248,6 @@ export const mdPreviewProps = {
   onRemount: {
     type: Function as PropType<() => void>,
     default: undefined
-  },
-  /**
-   * 是否同单层对比，选择性的更新变化的html，流式内容推荐（AI吐字之类的）
-   */
-  htmlUpdateOnDemand: {
-    type: Boolean as PropType<boolean>,
-    default: false
   }
 };
 
@@ -555,6 +548,13 @@ export const editorProps = {
   catalogLayout: {
     type: String as PropType<'fixed' | 'flat'>,
     default: 'fixed'
+  },
+  /**
+   * 控制最大显示的目录层级
+   */
+  catalogMaxDepth: {
+    type: Number as PropType<number>,
+    default: undefined
   }
 };
 

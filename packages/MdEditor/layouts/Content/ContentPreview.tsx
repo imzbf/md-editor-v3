@@ -1,7 +1,6 @@
-import { ComputedRef, defineComponent, inject, ExtractPropTypes } from 'vue';
+import { defineComponent, inject, ExtractPropTypes } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { prefix } from '~/config';
-import { PreviewThemes } from '~/type';
 
 import {
   useCopyCode,
@@ -22,10 +21,7 @@ const ContentPreview = defineComponent({
   props: contentPreviewProps,
   setup(props: ContentPreviewProps) {
     const editorId = inject('editorId') as string;
-    // 预览主题
-    const previewTheme = inject<ComputedRef<PreviewThemes>>('previewTheme');
-    // 是否显示行号
-    const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
+
     // markdown => html
     const { html, key } = useMarkdownIt(props, props.previewOnly);
     // 复制代码
@@ -46,20 +42,7 @@ const ContentPreview = defineComponent({
               class={`${prefix}-preview-wrapper`}
               key="content-preview-wrapper"
             >
-              {props.htmlUpdateOnDemand ? (
-                <UpdateOnDemand key={key.value} html={html.value} />
-              ) : (
-                <div
-                  key={key.value}
-                  id={`${editorId}-preview`}
-                  class={[
-                    `${prefix}-preview`,
-                    `${previewTheme?.value}-theme`,
-                    showCodeRowNumber && `${prefix}-scrn`
-                  ]}
-                  innerHTML={html.value}
-                />
-              )}
+              <UpdateOnDemand key={key.value} html={html.value} />
             </div>
           )}
 

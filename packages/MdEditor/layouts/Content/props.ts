@@ -67,9 +67,6 @@ export const contentPreviewProps = {
   },
   onRemount: {
     type: Function as PropType<() => void>
-  },
-  htmlUpdateOnDemand: {
-    type: Boolean as PropType<boolean>
   }
 };
 
@@ -148,6 +145,9 @@ export const contentProps = {
   },
   catalogLayout: {
     type: String as PropType<'fixed' | 'flat'>
+  },
+  catalogMaxDepth: {
+    type: Number as PropType<number>
   }
 };
 

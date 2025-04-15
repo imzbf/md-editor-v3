@@ -107,6 +107,13 @@ const props = {
   syncWith: {
     type: String as PropType<'editor' | 'preview'>,
     default: 'preview'
+  },
+  /**
+   * 控制最大显示的目录层级
+   */
+  catalogMaxDepth: {
+    type: Number as PropType<number>,
+    default: undefined
   }
 };
 
@@ -157,6 +164,10 @@ const MdCatalog = defineComponent({
       const tocItems: TocItem[] = [];
 
       state.list.forEach((listItem, index) => {
+        if (props.catalogMaxDepth && listItem.level > props.catalogMaxDepth) {
+          return;
+        }
+
         const { text, level, line } = listItem;
         const item = {
           level,
@@ -298,7 +309,7 @@ const MdCatalog = defineComponent({
       editorViewRef.value = view;
     };
 
-    watch([() => props.syncWith, editorViewRef], () => {
+    watch([() => props.syncWith, editorViewRef, () => props.catalogMaxDepth], () => {
       catalogChangedHandler(state.list);
     });
 
