@@ -145,6 +145,9 @@ export const contentProps = {
   },
   catalogLayout: {
     type: String as PropType<'fixed' | 'flat'>
+  },
+  catalogMaxDepth: {
+    type: Number as PropType<number>
   }
 };
 

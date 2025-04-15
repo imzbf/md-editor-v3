@@ -165,6 +165,7 @@ const Editor = defineComponent({
               ctx.emit('onRemount');
             }}
             catalogLayout={props.catalogLayout}
+            catalogMaxDepth={props.catalogMaxDepth}
           />
           {props.footers.length > 0 && (
             <Footer

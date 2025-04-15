@@ -548,6 +548,13 @@ export const editorProps = {
   catalogLayout: {
     type: String as PropType<'fixed' | 'flat'>,
     default: 'fixed'
+  },
+  /**
+   * 控制最大显示的目录层级
+   */
+  catalogMaxDepth: {
+    type: Number as PropType<number>,
+    default: undefined
   }
 };
 

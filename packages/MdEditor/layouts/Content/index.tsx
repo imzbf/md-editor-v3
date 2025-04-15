@@ -106,6 +106,7 @@ export default defineComponent({
                   }
                 }
               }}
+              catalogMaxDepth={props.catalogMaxDepth}
             />
           )}
         </div>
