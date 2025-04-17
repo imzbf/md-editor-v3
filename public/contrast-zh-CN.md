@@ -138,7 +138,7 @@ MdEditor.config({
 
 - **props**
 
-  - `markedHeadingId`: 已删除，使用`mdHeadingId`代替。
+  - **markedHeadingId**: 已删除，使用`mdHeadingId`代替。
 
 ---
 

@@ -8,11 +8,11 @@ Markdown editor for vue3, developed in jsx and typescript, dark theme, beautify 
 
 ## Same Series
 
-- For react，[md-editor-rt](https://github.com/imzbf/md-editor-rt)
+- For react, [md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
 ## Connect
 
-1. Email：zbfcqtl@gmail.com
-2. Github issue：[github issues](https://github.com/imzbf/md-editor-v3/issues)
+1. Email: zbfcqtl@gmail.com
+2. Github issue: [github issues](https://github.com/imzbf/md-editor-v3/issues)
 
 I'm not proficient in English, please help me correct wrong grammar.
