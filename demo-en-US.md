@@ -1,6 +1,6 @@
 ## 😁 Basic Usage
 
-It has been developing iteratively，so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
+It has been developing iteratively, so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
 ### 🤖 Npm Install
 
@@ -709,7 +709,7 @@ You can install the existing language also: [md-editor-extension](https://github
 
 ### 🪚 Define Toolbar
 
-> after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`！
+> after v1.6.0, You can sort the toolbar as you like, split tools by `'-'`, the left and right toolbars are divided by `'='`!
 
 ```vue
 <template>

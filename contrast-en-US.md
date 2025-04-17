@@ -138,7 +138,7 @@ MdEditor.config({
 
 - **props**
 
-  - `markedHeadingId`: deleted, use `mdHeadingId` instead of it
+  - **markedHeadingId**: deleted, use `mdHeadingId` instead of it
 
 ## 🧙🏻‍♂️ Upgrade from 1.x to 2.x
 

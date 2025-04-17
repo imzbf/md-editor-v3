@@ -748,6 +748,15 @@
 
 ---
 
+### 📇 catalogMaxDepth
+
+- **类型**：`number`
+- **默认值**：`undefined`
+
+  \>=5.5.0 控制要显示的目录的最大深度。
+
+---
+
 ## 🎍 插槽
 
 ### 🪶 defToolbars
@@ -1488,6 +1497,24 @@ config({
 });
 ```
 
+内置的扩展列表
+
+| 类型       | 选项                                                                                                                          |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| image      | [URL](https://github.com/Antonio-Laguna/markdown-it-image-figures?tab=readme-ov-file#options)                                 |
+| admonition | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/admonition/index.ts#L9) |
+| taskList   | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/task/index.ts#L10)      |
+| heading    | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/heading/index.ts#L5)    |
+| code       | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/code/index.ts#L16)      |
+| sub        | 没有                                                                                                                          |
+| sup        | 没有                                                                                                                          |
+| katex      | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/katex/index.ts#L18)     |
+| mermaid    | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/mermaid/index.ts#L7)    |
+
+[添加插件的源码](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/composition/useMarkdownIt.ts#L95)
+
+[插件对应的源码](https://github.com/imzbf/md-editor-v3/tree/develop/packages/MdEditor/layouts/Content/markdownIt)
+
 ---
 
 ### 🍙 editorConfig
@@ -1919,16 +1946,16 @@ const footers = [0];
 
 - **props**
 
-  - `title`: `string`，非必须，作为工具栏上的 hover 提示。
+  - **title**: `string`，非必须，作为工具栏上的 hover 提示。
 
 - **events**
 
-  - `onClick`: `(e: MouseEvent) => void`，必须，点击事件。
+  - **onClick**: `(e: MouseEvent) => void`，必须，点击事件。
 
 - **slots**
 
-  - `default`: `any`，非必须，通常是个图标，用来展示在工具栏上。
-  - ~~`trigger`~~: `string | VNode`，非必须，已废弃，同上。
+  - **default**: `any`，非必须，通常是个图标，用来展示在工具栏上。
+  - ~~**trigger**~~: `string | VNode`，非必须，已废弃，同上。
 
 ```vue
 <template>
@@ -2003,18 +2030,18 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
 
-  - `title`: `string`，非必须，作为工具栏上的 hover 提示。
-  - `visible`: `boolean`，必须，下拉状态。
+  - **title**: `string`，非必须，作为工具栏上的 hover 提示。
+  - **visible**: `boolean`，必须，下拉状态。
 
 - **events**
 
-  - `onChange`: `(visible: boolean) => void`，必须，状态变化事件。
+  - **onChange**: `(visible: boolean) => void`，必须，状态变化事件。
 
 - **slots**
 
-  - `default`: `any`，非必须，通常是个图标，用来展示在工具栏上。
-  - ~~`trigger`~~: `string | VNode`，非必须，已废弃，同上。
-  - `overlay`: `string | VNode`，必须，下拉框中的内容。
+  - **default**: `any`，非必须，通常是个图标，用来展示在工具栏上。
+  - ~~**trigger**~~: `string | VNode`，非必须，已废弃，同上。
+  - **overlay**: `string | VNode`，必须，下拉框中的内容。
 
 ```vue
 <template>
@@ -2109,27 +2136,27 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
 
-  - `title`: `string`，非必须，作为工具栏上的 hover 提示。
-  - `visible`: `boolean`，必须，弹窗显示状态。
-  - `width`: `string`，非必须，弹窗宽度，默认`auto`。
-  - `height`：`string`，同`width`。
-  - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
-  - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
-  - `class`: `string`，`^4.16.8`，非必须，类名。
-  - `style`: `CSSProperties | string`，`^4.16.8`，非必须，样式。
-  - `showMask`: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认 true。
+  - **title**: `string`，非必须，作为工具栏上的 hover 提示。
+  - **visible**: `boolean`，必须，弹窗显示状态。
+  - **width**: `string`，非必须，弹窗宽度，默认`auto`。
+  - **height**: `string`，同`width`。
+  - **showAdjust**: `boolean`，非必须，是否显示弹窗全屏按钮。
+  - **isFullscreen**: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
+  - **class**: `string`，`^4.16.8`，非必须，类名。
+  - **style**: `CSSProperties | string`，`^4.16.8`，非必须，样式。
+  - **showMask**: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认 true。
 
 - **events**
 
-  - `onClick`: `() => void`，必须，工具栏点击事件。
-  - `onClose`：`() => void`，必须，弹窗点击关闭事件。
-  - `onAdjust`：`(val: boolean) => void`，弹窗全屏按钮点击事件。
+  - **onClick**: `() => void`，必须，工具栏点击事件。
+  - **onClose**: `() => void`，必须，弹窗点击关闭事件。
+  - **onAdjust**: `(val: boolean) => void`，弹窗全屏按钮点击事件。
 
 - **slots**
 
-  - `modalTitle`: `string | VNode`，非必须，弹窗标题栏。
-  - `trigger`: `string | VNode`，必须，通常是个图标，用来展示在工具栏上。
-  - `default`: `any`，非必须，弹窗中的内容。
+  - **modalTitle**: `string | VNode`，非必须，弹窗标题栏。
+  - **trigger**: `string | VNode`，必须，通常是个图标，用来展示在工具栏上。
+  - **default**: `any`，非必须，弹窗中的内容。
 
 ```vue
 <template>
@@ -2223,20 +2250,20 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
 
-  - `editorId`: `string`，必须，对应编辑器的`id`，在内部注册目录变化监听事件。
-  - `class`: `string`，非必须，目录组件最外层类名。
-  - `mdHeadingId`: `mdHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
-  - `scrollElement`: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`。
-  - `theme`: `'light' | 'dark'`，非必须，当需要切换主题时提供，同编辑器的`theme`。
-  - `offsetTop`: `number`，非必须，标题距离顶部该像素时高亮当前目录项，默认 20 像素。
-  - `scrollElementOffsetTop`: `number`，非必须，滚动区域的固定顶部高度，默认 0。
+  - **editorId**: `string`，必须，对应编辑器的`id`，在内部注册目录变化监听事件。
+  - **class**: `string`，非必须，目录组件最外层类名。
+  - **mdHeadingId**: `mdHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
+  - **scrollElement**: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`。⚠️ 该元素必须定位（如相对、绝对或固定），且内容可滚动。
+
+  - **theme**: `'light' | 'dark'`，非必须，当需要切换主题时提供，同编辑器的`theme`。
+  - **offsetTop**: `number`，非必须，标题距离顶部该像素时高亮当前目录项，默认 20 像素。
+  - **scrollElementOffsetTop**: `number`，非必须，滚动区域的固定顶部高度，默认 0。
+  - **catalogMaxDepth**: `number`，`^5.5.0`，非必须，控制要显示的目录的最大深度。
 
 - **events**
 
-  - `onClick`: `(e: MouseEvent, t: TocItem) => void`，非必须，导航点击事件。
-  - `onActive`: `(heading: HeadList | undefined) => void`，非必须，高亮的标题变化事件。
-
-> `scrollElement`说明：仅预览下，该元素必须已定位的并且支持滚动。
+  - **onClick**: `(e: MouseEvent, t: TocItem) => void`，非必须，导航点击事件。
+  - **onActive**: `(heading: HeadList | undefined) => void`，非必须，高亮的标题变化事件。
 
 ```vue
 <template>
@@ -2272,24 +2299,24 @@ const scrollElement = document.documentElement;
 
 - **props**
 
-  - `visible`: `boolean`，必须，弹窗显示状态。
-  - `width`: `string`，非必须，弹窗宽度，默认`auto`。
-  - `height`: `string`，同`width`。
-  - `showAdjust`: `boolean`，非必须，是否显示弹窗全屏按钮。
-  - `isFullscreen`: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
-  - `class`: `string`，非必须，类名。
-  - `style`: `CSSProperties | string`，非必须，样式。
-  - `showMask`: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认 true。
+  - **visible**: `boolean`，必须，弹窗显示状态。
+  - **width**: `string`，非必须，弹窗宽度，默认`auto`。
+  - **height**: `string`，同`width`。
+  - **showAdjust**: `boolean`，非必须，是否显示弹窗全屏按钮。
+  - **isFullscreen**: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
+  - **class**: `string`，非必须，类名。
+  - **style**: `CSSProperties | string`，非必须，样式。
+  - **showMask**: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认 true。
 
 - **events**
 
-  - `onClose`: `() => void`，必须，弹窗点击关闭事件。
-  - `onAdjust`: `(val: boolean) => void`，弹窗全屏按钮点击事件。
+  - **onClose**: `() => void`，必须，弹窗点击关闭事件。
+  - **onAdjust**: `(val: boolean) => void`，弹窗全屏按钮点击事件。
 
 - **slots**
 
-  - `title`: `string | VNode`，非必须，弹窗标题栏。
-  - `default`: `any`，非必须，弹窗中的内容。
+  - **title**: `string | VNode`，非必须，弹窗标题栏。
+  - **default**: `any`，非必须，弹窗中的内容。
 
 ```vue
 <template>
@@ -2340,11 +2367,11 @@ const onChange = (_visible: boolean) => {
 
 - **events**
 
-  - `onClick`: `(e: MouseEvent) => void`，非必须，点击事件。
+  - **onClick**: `(e: MouseEvent) => void`，非必须，点击事件。
 
 - **slots**
 
-  - `default`: `any`，必须，内容。
+  - **default**: `any`，必须，内容。
 
 ```vue
 <!-- FooterTool.vue -->
