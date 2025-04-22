@@ -36,7 +36,7 @@
       <span class="tips-text">
         {{ tips
         }}<a
-          href="https://github.com/imzbf/md-editor-v3/tree/docs/src/components"
+          href="https://github.com/imzbf/md-editor-extension/tree/develop/packages/v3/components"
           target="_blank"
           >components</a
         >
