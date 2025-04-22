@@ -6,7 +6,7 @@ import {
   Ref,
   watch,
   ref,
-  nextTick
+  onMounted
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { MdHeadingId } from '~/type';
@@ -53,19 +53,16 @@ const CatalogLink = defineComponent({
       () => props.tocItem.active,
       (active) => {
         if (active) {
-          if (currRef.value) {
-            props.onActive(props.tocItem, currRef.value);
-          } else {
-            nextTick(() => {
-              props.onActive(props.tocItem, currRef.value!);
-            });
-          }
+          props.onActive(props.tocItem, currRef.value!);
         }
-      },
-      {
-        immediate: true
       }
     );
+
+    onMounted(() => {
+      if (props.tocItem.active) {
+        props.onActive(props.tocItem, currRef.value!);
+      }
+    });
 
     return () => {
       const { tocItem, mdHeadingId, onClick, scrollElementOffsetTop } = props;
