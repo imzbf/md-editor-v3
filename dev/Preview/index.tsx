@@ -263,6 +263,7 @@ export default defineComponent({
             //   );
             // }}
             // onError={console.log}
+            insertLinkDirect
             onDrop={async (e) => {
               e.stopPropagation();
 

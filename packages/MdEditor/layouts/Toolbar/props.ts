@@ -55,6 +55,9 @@ export const toolbarProps = {
   },
   codeTheme: {
     type: String as PropType<string>
+  },
+  insertLinkDirect: {
+    type: Boolean as PropType<boolean>
   }
 };
 

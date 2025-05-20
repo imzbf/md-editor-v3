@@ -530,8 +530,15 @@ export default defineComponent({
                     return false;
                   }
 
-                  modalData.type = 'link';
-                  modalData.linkVisible = true;
+                  if (props.insertLinkDirect) {
+                    emitHandler('link', {
+                      desc: '',
+                      url: ''
+                    });
+                  } else {
+                    modalData.type = 'link';
+                    modalData.linkVisible = true;
+                  }
                 }}
               >
                 <Icon name="link" />
@@ -557,8 +564,15 @@ export default defineComponent({
                     return false;
                   }
 
-                  modalData.type = 'image';
-                  modalData.linkVisible = true;
+                  if (props.insertLinkDirect) {
+                    emitHandler('image', {
+                      desc: '',
+                      url: ''
+                    });
+                  } else {
+                    modalData.type = 'image';
+                    modalData.linkVisible = true;
+                  }
                 }}
               >
                 <Icon name="image" />
@@ -581,15 +595,22 @@ export default defineComponent({
                   <ul
                     class={`${prefix}-menu`}
                     onClick={() => {
-                      visible.title = false;
+                      visible.image = false;
                     }}
                     role="menu"
                   >
                     <li
                       class={`${prefix}-menu-item ${prefix}-menu-item-image`}
                       onClick={() => {
-                        modalData.type = 'image';
-                        modalData.linkVisible = true;
+                        if (props.insertLinkDirect) {
+                          emitHandler('image', {
+                            desc: '',
+                            url: ''
+                          });
+                        } else {
+                          modalData.type = 'image';
+                          modalData.linkVisible = true;
+                        }
                       }}
                       role="menuitem"
                       tabindex="0"

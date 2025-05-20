@@ -555,6 +555,13 @@ export const editorProps = {
   catalogMaxDepth: {
     type: Number as PropType<number>,
     default: undefined
+  },
+  /**
+   * 工具栏直接插入内容到输入框
+   */
+  insertLinkDirect: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 

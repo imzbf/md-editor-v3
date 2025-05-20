@@ -84,7 +84,16 @@ export const directive2flag = async (
       return handleTable(params);
     }
     case 'link': {
-      return { text: `[${params.desc}](${params.url})`, options: { select: false } };
+      const text = `[${params.desc}](${params.url})`;
+
+      return {
+        text,
+        options: {
+          select: params.url === '',
+          deviationStart: text.length - params.url.length - 1,
+          deviationEnd: -1
+        }
+      };
     }
     case 'image': {
       return handleImage(params);
@@ -288,7 +297,14 @@ const handleImage = (params: any) => {
     text = `![${desc}](${url})\n`;
   }
 
-  return { text, options: { select: false } };
+  return {
+    text,
+    options: {
+      select: url === '',
+      deviationStart: text.length - url.length - 2,
+      deviationEnd: -2
+    }
+  };
 };
 
 /**
