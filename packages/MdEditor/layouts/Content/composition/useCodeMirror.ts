@@ -191,10 +191,7 @@ const useCodeMirror = (props: ContentProps) => {
               const { text, options } = await directive2flag(
                 direct,
                 codeMirrorUt.value!,
-                {
-                  ...params,
-                  url
-                }
+                { ...params, url }
               );
               codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
             }).catch((err) => {
@@ -222,9 +219,7 @@ const useCodeMirror = (props: ContentProps) => {
     bus.on(editorId, {
       name: EVENT_LISTENER,
       callback: throttle((handlers: DOMEventHandlers) => {
-        const nextDomEventHandlers: DOMEventHandlers = {
-          ...domEventHandlers
-        };
+        const nextDomEventHandlers: DOMEventHandlers = { ...domEventHandlers };
 
         const defaultEventNames = Object.keys(domEventHandlers);
 
@@ -260,9 +255,7 @@ const useCodeMirror = (props: ContentProps) => {
         const line = view.state.doc.line(lineNumber);
         // 应用交易到编辑器视图
         view.dispatch(
-          view.state.update({
-            changes: { from: line.from, to: line.to, insert: value }
-          })
+          view.state.update({ changes: { from: line.from, to: line.to, insert: value } })
         );
       }
     });
@@ -285,9 +278,7 @@ const useCodeMirror = (props: ContentProps) => {
         effects: themeComp.reconfigure(theme.value === 'light' ? oneLight : oneDark)
       });
     },
-    {
-      deep: true
-    }
+    { deep: true }
   );
 
   watch(
@@ -297,9 +288,7 @@ const useCodeMirror = (props: ContentProps) => {
         effects: autocompletionComp.reconfigure(createAutocompletion(props.completions))
       });
     },
-    {
-      deep: true
-    }
+    { deep: true }
   );
 
   watch(
@@ -349,13 +338,9 @@ const useCodeMirror = (props: ContentProps) => {
     inputWrapperRef,
     codeMirrorUt,
     resetHistory() {
-      codeMirrorUt.value?.view.dispatch({
-        effects: historyComp.reconfigure([])
-      });
+      codeMirrorUt.value?.view.dispatch({ effects: historyComp.reconfigure([]) });
 
-      codeMirrorUt.value?.view.dispatch({
-        effects: historyComp.reconfigure(history())
-      });
+      codeMirrorUt.value?.view.dispatch({ effects: historyComp.reconfigure(history()) });
     }
   };
 };
