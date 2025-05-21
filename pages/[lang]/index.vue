@@ -12,6 +12,7 @@
         :toolbars="state.toolbars"
         :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
         :inputBoxWidth="state.inputBoxWidth"
+        insertLinkDirect
         showCodeRowNumber
         autoDetectCode
         catalogLayout="flat"
@@ -21,12 +22,7 @@
           <Mark />
           <Emoji />
           <!-- <ReadExtension :mdText="state.text" /> -->
-          <ExportPDF
-            :modelValue="state.text"
-            height="700px"
-            @onSuccess="onSuccess"
-            @onProgress="onProgress"
-          />
+          <ExportPDF :modelValue="state.text" height="700px" @onSuccess="onSuccess" @onProgress="onProgress" />
         </template>
         <template #defFooters>
           <TimeNow />
@@ -35,9 +31,7 @@
       <br />
       <span class="tips-text">
         {{ tips
-        }}<a
-          href="https://github.com/imzbf/md-editor-extension/tree/develop/packages/v3/components"
-          target="_blank"
+        }}<a href="https://github.com/imzbf/md-editor-extension/tree/develop/packages/v3/components" target="_blank"
           >components</a
         >
       </span>
@@ -65,14 +59,7 @@ import './index.less';
 // import ReadExtension from '@/components/ReadExtension/index.vue';
 
 import TimeNow from '@/components/TimeNow/index.vue';
-import {
-  DESCRIPTION_CN,
-  DESCRIPTION_EN,
-  KEYWORDS_CN,
-  KEYWORDS_EN,
-  SITE_NAME_CN,
-  SITE_NAME_EN,
-} from '~/config';
+import { DESCRIPTION_CN, DESCRIPTION_EN, KEYWORDS_CN, KEYWORDS_EN, SITE_NAME_CN, SITE_NAME_EN } from '~/config';
 
 // const message = VavtMes.message;
 
@@ -110,10 +97,7 @@ watch(
   }
 );
 
-const uploadImg = async (
-  files: Array<File>,
-  callback: (urls: string[]) => void
-) => {
+const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void) => {
   const res = await Promise.all(
     files.map((file) => {
       return new Promise((rev, rej) => {
@@ -138,12 +122,7 @@ const uploadImg = async (
 const changeLayout = () => {
   if (isMobile()) {
     // 在移动端不现实分屏预览，要么编辑，要么仅预览
-    state.toolbars = [
-      'previewOnly',
-      ...toolbars.filter(
-        (item) => !(['preview', 'previewOnly'] as any).includes(item)
-      ),
-    ];
+    state.toolbars = ['previewOnly', ...toolbars.filter((item) => !(['preview', 'previewOnly'] as any).includes(item))];
     state.inputBoxWidth = '100%';
     editorRef.value?.togglePreview(false);
   } else {
@@ -177,19 +156,13 @@ const onSuccess = () => {
     updateRatio = undefined;
   }, 100);
 
-  message.success(
-    store.lang === 'en-US' ? 'Export successful.' : '导出成功！',
-    {
-      zIndex: 999999,
-    }
-  );
+  message.success(store.lang === 'en-US' ? 'Export successful.' : '导出成功！', {
+    zIndex: 999999,
+  });
 };
 
 useHead({
-  title:
-    store.lang === 'en-US'
-      ? `HomePage - ${SITE_NAME_EN}`
-      : `首页 - ${SITE_NAME_CN}`,
+  title: store.lang === 'en-US' ? `HomePage - ${SITE_NAME_EN}` : `首页 - ${SITE_NAME_CN}`,
   meta: [
     {
       name: 'keywords',

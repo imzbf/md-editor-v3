@@ -160,13 +160,11 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
       highlight: {
         css: {
           atom: {
-            light:
-              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
+            light: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
             dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css',
           },
           xxx: {
-            light:
-              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
+            light: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
             dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css',
           },
         },
@@ -747,6 +745,19 @@ Except for the same as `MdPreview`:
 - **default**: `undefined`
 
   \>=5.5.0 Controls the maximum depth of the catalog to be displayed.
+
+---
+
+### 🖌 insertLinkDirect
+
+- **type**: `boolean`
+- **default**: `false`
+
+  \>=5.6.0 Set if you want to insert a link directly into the edit field, set it to `false` will open a popup window and type in the input box.
+
+  !!! warning
+  Deprecated since 6.0, popups no longer used by default.
+  !!!
 
 ---
 
@@ -2028,12 +2039,7 @@ const toolbars = ['bold', 0, 'github'];
     <template #overlay>
       <div class="emoji-container">
         <ol class="emojis">
-          <li
-            v-for="(emoji, index) of emojis"
-            :key="`emoji-${index}`"
-            @click="handler(emoji)"
-            v-text="emoji"
-          ></li>
+          <li v-for="(emoji, index) of emojis" :key="`emoji-${index}`" @click="handler(emoji)" v-text="emoji"></li>
         </ol>
       </div>
     </template>
@@ -2247,11 +2253,7 @@ const toolbars = ['bold', 0, 'github'];
 <template>
   <!-- Ensure that the editorId is the same -->
   <MdPreview :id="state.id" :modelValue="state.text" :theme="state.theme" />
-  <MdCatalog
-    :editorId="state.id"
-    :scrollElement="scrollElement"
-    :theme="state.theme"
-  />
+  <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>
@@ -2312,9 +2314,7 @@ It is usually used in conjunction with `DropdownToolbar`.
     </template>
   </DropdownToolbar>
 
-  <MdModal title="title" :visible="state.mVisible" @onClose="onClose">
-    Content, Content
-  </MdModal>
+  <MdModal title="title" :visible="state.mVisible" @onClose="onClose"> Content, Content </MdModal>
 </template>
 
 <script setup lang="ts">
@@ -2380,13 +2380,7 @@ const footers = [0];
 ## 🪤 Internal Configuration
 
 ```js
-import {
-  allToolbar,
-  allFooter,
-  zh_CN,
-  en_US,
-  editorExtensionsAttrs,
-} from 'md-editor-v3';
+import { allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs } from 'md-editor-v3';
 
 console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs);
 ```
