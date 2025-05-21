@@ -160,13 +160,11 @@
       highlight: {
         css: {
           atom: {
-            light:
-              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
+            light: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-light.min.css',
             dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css',
           },
           xxx: {
-            light:
-              'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
+            light: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-light.css',
             dark: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/xxx-dark.css',
           },
         },
@@ -744,7 +742,7 @@
 - **类型**：`'fixed' | 'flat'`
 - **默认值**：`fixed`
 
-  \>=5.3.0 内置的目录显示的状态，'fixed': 悬浮在内容上方，'flat': 展示在右侧
+  \>=5.3.0 内置的目录显示的状态，'fixed': 悬浮在内容上方，'flat': 展示在右侧。
 
 ---
 
@@ -754,6 +752,19 @@
 - **默认值**：`undefined`
 
   \>=5.5.0 控制要显示的目录的最大深度。
+
+---
+
+### 🖌 insertLinkDirect
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  \>=5.6.0 设置是否直接插入链接到编辑区域，设置为 `false` 会打开弹窗后在输入框输入。
+
+  !!! warning
+  6.0 开始废弃，默认不再使用弹窗。
+  !!!
 
 ---
 
@@ -2049,12 +2060,7 @@ const toolbars = ['bold', 0, 'github'];
     <template #overlay>
       <div class="emoji-container">
         <ol class="emojis">
-          <li
-            v-for="(emoji, index) of emojis"
-            :key="`emoji-${index}`"
-            @click="handler(emoji)"
-            v-text="emoji"
-          ></li>
+          <li v-for="(emoji, index) of emojis" :key="`emoji-${index}`" @click="handler(emoji)" v-text="emoji"></li>
         </ol>
       </div>
     </template>
@@ -2269,11 +2275,7 @@ const toolbars = ['bold', 0, 'github'];
 <template>
   <!-- 保证editorId相同 -->
   <MdPreview :id="state.id" :modelValue="state.text" :theme="state.theme" />
-  <MdCatalog
-    :editorId="state.id"
-    :scrollElement="scrollElement"
-    :theme="state.theme"
-  />
+  <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
 </template>
 
 <script setup>
@@ -2333,9 +2335,7 @@ const scrollElement = document.documentElement;
       </svg>
     </template>
     <template #default>
-      <MdModal title="title" :visible="state.mVisible" @onClose="onClose">
-        Content, Content
-      </MdModal>
+      <MdModal title="title" :visible="state.mVisible" @onClose="onClose"> Content, Content </MdModal>
     </template>
   </DropdownToolbar>
 </template>
@@ -2405,13 +2405,7 @@ const footers = [0];
 ## 🪤 内部配置
 
 ```js
-import {
-  allToolbar,
-  allFooter,
-  zh_CN,
-  en_US,
-  editorExtensionsAttrs,
-} from 'md-editor-v3';
+import { allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs } from 'md-editor-v3';
 
 console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs);
 ```
