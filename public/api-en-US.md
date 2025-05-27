@@ -216,7 +216,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   Basic solution for dangerous code has been built-in since version 3.x. eg: `<script>alert(123)</script>`. Prior to version 4.11.3, it was recommended to utilize this attribute for cleaning more complex content to prevent XSS attacks.
 
-  A more comprehensive solution has been implemented since version 4.11.3. [Refer to](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0%9F%94%8F%20Modify%20XSS%20configuration)
+  A more comprehensive solution has been implemented since version 4.11.3. Refer to [Modify XSS configuration](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0%9F%94%8F%20Modify%20XSS%20configuration)
 
   !!!
 
@@ -706,7 +706,7 @@ Except for the same as `MdPreview`:
 
   Show toolbar name or not
 
-![](https://imzbf.github.io/md-editor-v3/imgs/showToolbarName.jpg)
+![](https://imzbf.github.io/md-editor-v3/imgs/showToolbarName.png)
 
 ---
 
@@ -717,7 +717,7 @@ Except for the same as `MdPreview`:
 
   Default width of input box
 
-![](https://imzbf.github.io/md-editor-v3/imgs/drag-width.jpg)
+![](https://imzbf.github.io/md-editor-v3/imgs/drag-width.gif)
 
 ---
 
@@ -773,23 +773,30 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
   <template>
     <MdEditor :toolbars="toolbars">
       <template #defToolbars>
-        <NormalToolbar title="mark" @onClick="handler">
-          <template #trigger>
-            <svg class="md-editor-icon" aria-hidden="true">
-              <use xlink:href="#icon-mark"></use>
-            </svg>
-          </template>
-        </NormalToolbar>
+        <MyComponent />
       </template>
     </MdEditor>
   </template>
 
   <script setup>
-  import { MdEditor, NormalToolbar } from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
+  import MyComponent from './MyComponent.vue';
 
   const toolbars = ['bold', '-', 0, '=', 'github'];
+  </script>
+  ```
 
+  ```vue
+  <template>
+    <NormalToolbar title="mark" @onClick="handler">
+      <BookMarked class="md-editor-icon" />
+    </NormalToolbar>
+  </template>
+
+  <script setup>
+  import { NormalToolbar } from 'md-editor-v3';
+  import { BookMarked } from 'lucide-vue-next';
   const handler = () => {
     console.log('NormalToolbar clicked!');
   };
@@ -800,8 +807,9 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
 
   ```jsx
   import { defineComponent } from 'vue';
-  import { MdEditor, NormalToolbar } from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
+  import MyComponent from './MyComponent.jsx';
 
   const toolbars = ['bold', '-', 0, '=', 'github'];
 
@@ -811,14 +819,9 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
         <MdEditor
           toolbars={toolbars}
           defToolbars={
+            // '<>' is required
             <>
-              <NormalToolbar
-                trigger={
-                  <svg class="md-editor-icon" aria-hidden="true">
-                    <use xlinkHref="#icon-strike-through" />
-                  </svg>
-                }
-              />
+              <MyComponent />
             </>
           }
         />
@@ -827,11 +830,23 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
   });
   ```
 
-![NormalToolbar](https://imzbf.github.io/md-editor-v3/imgs/normal-toolbar.gif)
+  ```jsx
+  import { defineComponent } from 'vue';
+  import { NormalToolbar } from 'md-editor-v3';
+  import { BookMarked } from 'lucide-vue-next';
 
-![DropdownToolbar](https://imzbf.github.io/md-editor-v3/imgs/dropdown-toolbar.gif)
+  export default defineComponent({
+    setup() {
+      return () => (
+        <NormalToolbar>
+          <BookMarked class="md-editor-icon" />
+        </NormalToolbar>
+      );
+    },
+  });
+  ```
 
-For more info, Get **Internal Components** heading. Get source code of **mark**, **emoji** and **modal preview** at [docs](https://github.com/imzbf/md-editor-v3/tree/docs/src/components) branch.
+For more info, click [Internal Components](#%F0%9F%AA%A4%20Internal%20Components). Get source code of **mark**, **emoji** and **modal preview** at [md-editor-extension](https://github.com/imzbf/md-editor-extension/tree/develop/packages/v3/components) branch.
 
 ---
 
