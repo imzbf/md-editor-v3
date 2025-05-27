@@ -216,7 +216,7 @@
 
   基本的危险代码处理方案在 3.x 以后已内置，例如`<script>alert(123)</script>`，4.11.3 之前建议使用该属性来清理更复杂的内容以防止 XSS。
 
-  在 4.11.3 以后实现了更完善的处理方案，[参考](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)
+  在 4.11.3 以后实现了更完善的处理方案，参阅[修改 xss 配置](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)
 
   !!!
 
@@ -713,7 +713,7 @@
 
   是否在工具栏下面显示对应的文字名称
 
-![](https://imzbf.github.io/md-editor-v3/imgs/showToolbarName.jpg)
+![](https://imzbf.github.io/md-editor-v3/imgs/showToolbarName.png)
 
 ---
 
@@ -724,7 +724,7 @@
 
   输入框默认的宽度
 
-![](https://imzbf.github.io/md-editor-v3/imgs/drag-width.jpg)
+![](https://imzbf.github.io/md-editor-v3/imgs/drag-width.gif)
 
 ---
 
@@ -780,23 +780,30 @@
   <template>
     <MdEditor :toolbars="toolbars">
       <template #defToolbars>
-        <NormalToolbar title="mark" @onClick="handler">
-          <template #trigger>
-            <svg class="md-editor-icon" aria-hidden="true">
-              <use xlink:href="#icon-mark"></use>
-            </svg>
-          </template>
-        </NormalToolbar>
+        <MyToolbar />
       </template>
     </MdEditor>
   </template>
 
   <script setup>
-  import { MdEditor, NormalToolbar } from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
+  import MyToolbar from './MyToolbar.vue';
 
   const toolbars = ['bold', '-', 0, '=', 'github'];
+  </script>
+  ```
 
+  ```vue
+  <template>
+    <NormalToolbar title="mark" @onClick="handler">
+      <BookMarked class="md-editor-icon" />
+    </NormalToolbar>
+  </template>
+
+  <script setup>
+  import { NormalToolbar } from 'md-editor-v3';
+  import { BookMarked } from 'lucide-vue-next';
   const handler = () => {
     console.log('NormalToolbar clicked!');
   };
@@ -807,8 +814,9 @@
 
   ```jsx
   import { defineComponent } from 'vue';
-  import { MdEditor, NormalToolbar } from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
+  import MyToolbar from './MyToolbar.jsx';
 
   const toolbars = ['bold', '-', 0, '=', 'github'];
 
@@ -818,14 +826,9 @@
         <MdEditor
           toolbars={toolbars}
           defToolbars={
+            // '<>' 是必需的
             <>
-              <NormalToolbar
-                trigger={
-                  <svg class="md-editor-icon" aria-hidden="true">
-                    <use xlinkHref="#icon-strike-through" />
-                  </svg>
-                }
-              />
+              <MyToolbar />
             </>
           }
         />
@@ -834,11 +837,23 @@
   });
   ```
 
-![普通扩展工具栏](https://imzbf.github.io/md-editor-v3/imgs/normal-toolbar.gif)
+  ```jsx
+  import { defineComponent } from 'vue';
+  import { NormalToolbar } from 'md-editor-v3';
+  import { BookMarked } from 'lucide-vue-next';
 
-![下拉扩展工具栏](https://imzbf.github.io/md-editor-v3/imgs/dropdown-toolbar.gif)
+  export default defineComponent({
+    setup() {
+      return () => (
+        <NormalToolbar>
+          <BookMarked class="md-editor-icon" />
+        </NormalToolbar>
+      );
+    },
+  });
+  ```
 
-扩展组件属性参考**内置组件**，使用示例参见[文档分支](https://github.com/imzbf/md-editor-v3/tree/docs/src/components)，提供**标记**、**表情**和**弹窗预览**扩展组件。
+扩展组件属性参考[内置组件](#%F0%9F%AA%A4%20%E5%86%85%E7%BD%AE%E7%BB%84%E4%BB%B6)，使用示例参见[md-editor-extension](https://github.com/imzbf/md-editor-extension/tree/develop/packages/v3/components)，提供**标记**、**表情**和**弹窗预览**扩展组件。
 
 ---
 
@@ -852,8 +867,8 @@
   <template>
     <MdEditor :footers="footers">
       <template #defFooters>
-        <span>￥_￥</span>
-        <span>^_^</span>
+        <MyComponent />
+        <MyComponent />
       </template>
     </MdEditor>
   </template>
@@ -861,9 +876,19 @@
   <script setup>
   import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
+  import MyComponent from './MyComponent.vue';
   // 将插槽中的组件下标放到对应的位置即可显示
   const footers = ['markdownTotal', 0, '=', 1, 'scrollSwitch'];
+  </script>
+  ```
+
+  ```vue
+  <template>
+    <NormalFooterToolbar>￥_￥</NormalFooterToolbar>
+  </template>
+
+  <script setup>
+  import { NormalFooterToolbar } from 'md-editor-v3';
   </script>
   ```
 
@@ -873,7 +898,7 @@
   import { defineComponent } from 'vue';
   import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
-
+  import MyComponent from './MyComponent.jsx';
   const footers = ['markdownTotal', 0, '=', 1, 'scrollSwitch'];
 
   export default defineComponent({
@@ -882,13 +907,25 @@
         <MdEditor
           footers={footers}
           defFooters={
+            // '<>' is required
             <>
-              <span>￥_￥</span>
-              <span>^_^</span>
+              <MyComponent />
+              <MyComponent />
             </>
           }
         />
       );
+    },
+  });
+  ```
+
+  ```jsx
+  import { defineComponent } from 'vue';
+  import { NormalFooterToolbar } from 'md-editor-v3';
+
+  export default defineComponent({
+    setup() {
+      return () => <NormalFooterToolbar>￥_￥</NormalFooterToolbar>;
     },
   });
   ```
