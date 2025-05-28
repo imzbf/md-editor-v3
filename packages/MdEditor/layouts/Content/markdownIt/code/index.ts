@@ -183,7 +183,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
           <div class="${prefix}-code-action">
             <span class="${prefix}-codetab-lang">${langs}</span>
             <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
-            ${_opts.extraTools || ''}
+            ${_opts.extraTools instanceof Function ? _opts.extraTools({ lang: tokens[idx].info.trim() }) : _opts.extraTools || ''}
             ${tagContainer === 'details' ? collapseTips : ''}
           </div>
         </${tagHeader}>
