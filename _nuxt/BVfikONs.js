@@ -1,1 +1,0 @@
-import{h as n,as as o,ax as r,ay as u,n as _}from"./B-OubXq9.js";const l=n({__name:"index",async setup(c){let e,t;const a=o(),s=r();return[e,t]=u(()=>_({path:`/${a.lang}/api`,hash:s.currentRoute.value.hash})),await e,t(),(p,h)=>null}});export{l as default};

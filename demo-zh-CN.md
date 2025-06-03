@@ -30,10 +30,7 @@ yarn add md-editor-v3
   <head>
     <meta charset="UTF-8" />
     <title>全局引用</title>
-    <link
-      href="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/style.css"
-      rel="stylesheet"
-    />
+    <link href="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/style.css" rel="stylesheet" />
   </head>
   <body>
     <div id="md-editor-v3">
@@ -164,10 +161,7 @@ config({
     };
 
     // 4. 把修改后的快捷键放到待构建扩展的数组中
-    const newMdEditorCommands = [
-      CtrlM,
-      ...mdEditorCommands.filter((i) => i.key !== 'Ctrl-b'),
-    ];
+    const newMdEditorCommands = [CtrlM, ...mdEditorCommands.filter((i) => i.key !== 'Ctrl-b')];
 
     newExtensions.push(keymap.of(newMdEditorCommands));
 
@@ -420,13 +414,11 @@ const state = reactive({
       highlight: {
         css: {
           xxxxx: {
-            light:
-              'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
+            light: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
             dark: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-dark.css',
           },
           yyyyy: {
-            light:
-              'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
+            light: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
             dark: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-dark.css',
           },
         },
@@ -688,11 +680,7 @@ const state = reactive({
   ```vue
   <template>
     <MdPreview :modelValue="state.text" :id="state.id" :theme="state.theme" />
-    <MdCatalog
-      :editorId="state.id"
-      :scrollElement="scrollElement"
-      :theme="state.theme"
-    />
+    <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
   </template>
 
   <script setup>
@@ -1141,9 +1129,7 @@ config({
 ```js
 config({
   codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
-    return editorId === 'myId'
-      ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })]
-      : extensions;
+    return editorId === 'myId' ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })] : extensions;
   },
 });
 ```
@@ -1161,6 +1147,8 @@ config({
             options: {
               ...item.options,
               extraTools: '<span class="extra-code-tools">额外的功能</span>',
+              // 或者
+              // extraTools: ({ lang }) => '<span class="extra-code-tools">额外的功能</span>',
             },
           };
         }
@@ -1180,24 +1168,20 @@ config({
 
 ```js
 const onRemount = () => {
-  document
-    .querySelectorAll(`#${editorId} .${prefix}-preview .${prefix}-code`)
-    .forEach((codeBlock: Element) => {
-      const tools = codeBlock.querySelectorAll('.extra-code-tools');
-      tools.forEach((item) => {
-        item.addEventListener('click', (e) => {
-          e.preventDefault();
+  document.querySelectorAll(`#${editorId} .${prefix}-preview .${prefix}-code`).forEach((codeBlock: Element) => {
+    const tools = codeBlock.querySelectorAll('.extra-code-tools');
+    tools.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
 
-          const activeCode =
-            codeBlock.querySelector('input:checked + pre code') ||
-            codeBlock.querySelector('pre code');
+        const activeCode = codeBlock.querySelector('input:checked + pre code') || codeBlock.querySelector('pre code');
 
-          const codeText = activeCode?.textContent;
+        const codeText = activeCode?.textContent;
 
-          console.log(codeText);
-        });
+        console.log(codeText);
       });
     });
+  });
 };
 ```
 
