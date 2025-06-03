@@ -29,10 +29,7 @@ Use production version in html directly:
   <head>
     <meta charset="UTF-8" />
     <title>Global Load</title>
-    <link
-      href="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/style.css"
-      rel="stylesheet"
-    />
+    <link href="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/style.css" rel="stylesheet" />
   </head>
   <body>
     <div id="md-editor-v3">
@@ -163,10 +160,7 @@ config({
     };
 
     // 4. Add the modified shortcut key to the array
-    const newMdEditorCommands = [
-      CtrlM,
-      ...mdEditorCommands.filter((i) => i.key !== 'Ctrl-b'),
-    ];
+    const newMdEditorCommands = [CtrlM, ...mdEditorCommands.filter((i) => i.key !== 'Ctrl-b')];
 
     newExtensions.push(keymap.of(newMdEditorCommands));
 
@@ -419,13 +413,11 @@ There are 8 kinds of themes: `atom`, `a11y`, `github`, `gradient`, `kimbie`, `pa
       highlight: {
         css: {
           xxxxx: {
-            light:
-              'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
+            light: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
             dark: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-dark.css',
           },
           yyyyy: {
-            light:
-              'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
+            light: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-light.css',
             dark: 'https://unpkg.com/highlight.js@11.2.0/styles/xxxxx-dark.css',
           },
         },
@@ -685,11 +677,7 @@ You can install the existing language also: [md-editor-extension](https://github
   ```vue
   <template>
     <MdPreview :modelValue="state.text" :id="state.id" :theme="state.theme" />
-    <MdCatalog
-      :editorId="state.id"
-      :scrollElement="scrollElement"
-      :theme="state.theme"
-    />
+    <MdCatalog :editorId="state.id" :scrollElement="scrollElement" :theme="state.theme" />
   </template>
 
   <script setup>
@@ -1130,9 +1118,7 @@ If you want to use it in only one editor, try distinguishing using `editorId` (`
 ```js
 config({
   codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
-    return editorId === 'myId'
-      ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })]
-      : extensions;
+    return editorId === 'myId' ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })] : extensions;
   },
 });
 ```
@@ -1149,8 +1135,9 @@ config({
             ...item,
             options: {
               ...item.options,
-              extraTools:
-                '<span class="extra-code-tools">Additional features</span>',
+              extraTools: '<span class="extra-code-tools">Additional features</span>',
+              // or
+              // extraTools: ({ lang }) => '<span class="extra-code-tools">Additional features</span>',
             },
           };
         }
@@ -1170,24 +1157,20 @@ Here is an example of how to print code:
 
 ```js
 const onRemount = () => {
-  document
-    .querySelectorAll(`#${editorId} .${prefix}-preview .${prefix}-code`)
-    .forEach((codeBlock: Element) => {
-      const tools = codeBlock.querySelectorAll('.extra-code-tools');
-      tools.forEach((item) => {
-        item.addEventListener('click', (e) => {
-          e.preventDefault();
+  document.querySelectorAll(`#${editorId} .${prefix}-preview .${prefix}-code`).forEach((codeBlock: Element) => {
+    const tools = codeBlock.querySelectorAll('.extra-code-tools');
+    tools.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
 
-          const activeCode =
-            codeBlock.querySelector('input:checked + pre code') ||
-            codeBlock.querySelector('pre code');
+        const activeCode = codeBlock.querySelector('input:checked + pre code') || codeBlock.querySelector('pre code');
 
-          const codeText = activeCode?.textContent;
+        const codeText = activeCode?.textContent;
 
-          console.log(codeText);
-        });
+        console.log(codeText);
       });
     });
+  });
 };
 ```
 
