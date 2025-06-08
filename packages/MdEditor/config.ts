@@ -309,7 +309,7 @@ export const staticTextDefault: StaticTextDefault = {
     imgTitleItem: {
       link: '添加链接',
       upload: '上传图片',
-      clip2upload: '裁剪上传'
+      cropAndUpload: '裁剪上传'
     },
     linkModalTips: {
       linkTitle: '添加链接',
@@ -391,7 +391,7 @@ export const staticTextDefault: StaticTextDefault = {
     imgTitleItem: {
       link: 'Add Image Link',
       upload: 'Upload Images',
-      clip2upload: 'Clip Upload'
+      cropAndUpload: 'Crop And Upload'
     },
     linkModalTips: {
       linkTitle: 'Add Link',
