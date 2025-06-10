@@ -1,5 +1,5 @@
 import { onMounted, shallowRef } from 'vue';
-import { configOption } from '~/config';
+import { globalConfig } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
 import { CDN_IDS } from '~/static';
@@ -11,14 +11,14 @@ import { CDN_IDS } from '~/static';
  */
 const useKatex = (props: ContentPreviewProps) => {
   // katex是否加载完成
-  const katex = shallowRef(configOption.editorExtensions.katex!.instance);
+  const katex = shallowRef(globalConfig.editorExtensions.katex!.instance);
 
   onMounted(() => {
     if (props.noKatex || katex.value) {
       return;
     }
 
-    const { editorExtensions } = configOption;
+    const { editorExtensions } = globalConfig;
 
     appendHandler(
       'script',

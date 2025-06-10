@@ -109,7 +109,7 @@ config({
     return base;
   },
   editorConfig: {
-    zIndex: 2000
+    // zIndex: 2000
   },
   editorExtensions: {
     // prettier: {

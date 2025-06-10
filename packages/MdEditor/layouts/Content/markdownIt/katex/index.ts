@@ -5,7 +5,7 @@
  */
 import { ShallowRef } from 'vue';
 import markdownit, { Renderer, Token, ParserInline, ParserBlock } from 'markdown-it';
-import { prefix, configOption } from '~/config';
+import { prefix, globalConfig } from '~/config';
 import { mergeAttrs } from '~/utils/md-it';
 
 interface CreateOptions {
@@ -174,7 +174,7 @@ const KatexPlugin = (
     if (katexRef.value) {
       const html = katexRef.value.renderToString(
         token.content,
-        configOption.katexConfig({
+        globalConfig.katexConfig({
           throwOnError: false
         })
       );
@@ -194,7 +194,7 @@ const KatexPlugin = (
     if (katexRef.value) {
       const html = katexRef.value.renderToString(
         token.content,
-        configOption.katexConfig({
+        globalConfig.katexConfig({
           throwOnError: false,
           displayMode: true
         })

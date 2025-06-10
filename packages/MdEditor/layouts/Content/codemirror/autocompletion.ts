@@ -15,15 +15,15 @@ const getPairApply = (
   selectType: 'type' | 'title'
 ): Completion['apply'] => {
   return (view, _completion, from, to) => {
-    const label = `${flag}${type}`.slice(to - from);
-
-    view.dispatch(view.state.replaceSelection(`${label}${title}${suffix}`));
+    // 替换全部而非补充后面的部分
+    const insert = `${flag}${type}${title}${suffix}`;
 
     // 开始+标记和类型+是否选中title
     const newTo =
       from + _completion.label.length + (selectType === 'title' ? title.length : 0);
 
     view.dispatch({
+      changes: { from, to, insert },
       selection: EditorSelection.create(
         [
           EditorSelection.range(

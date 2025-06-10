@@ -1,5 +1,5 @@
 import { ComputedRef, inject, onMounted, shallowRef, watch } from 'vue';
-import { configOption } from '~/config';
+import { globalConfig } from '~/config';
 import { appendHandler, updateHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
 import { CDN_IDS } from '~/static';
@@ -16,7 +16,7 @@ const useHighlight = (props: ContentPreviewProps) => {
   }>;
 
   // hljs是否已经提供
-  const hljsRef = shallowRef(configOption.editorExtensions.highlight!.instance);
+  const hljsRef = shallowRef(globalConfig.editorExtensions.highlight!.instance);
 
   onMounted(() => {
     // 强制不高亮，则什么都不做
@@ -46,7 +46,7 @@ const useHighlight = (props: ContentPreviewProps) => {
     () => highlight.value.css,
     () => {
       // 强制不高亮，则什么都不做
-      if (props.noHighlight || configOption.editorExtensions.highlight!.instance) {
+      if (props.noHighlight || globalConfig.editorExtensions.highlight!.instance) {
         return;
       }
 

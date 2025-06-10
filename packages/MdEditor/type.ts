@@ -192,7 +192,7 @@ export interface MarkdownItConfigPlugin {
   options: any;
 }
 
-export interface ConfigOption {
+export interface GlobalConfig {
   /**
    * 编辑器内部依赖库
    */
@@ -342,7 +342,7 @@ export interface ConfigOption {
 /**
  * 扩展编辑器内部功能，包括marked和一些内部依赖实例，如highlight、cropper等
  */
-export type Config = (options: Partial<ConfigOption>) => void;
+export type Config = (options: Partial<GlobalConfig>) => void;
 
 /**
  * 编辑器操作潜在的错误
