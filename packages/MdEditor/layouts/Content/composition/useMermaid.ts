@@ -1,6 +1,6 @@
 import { watch, inject, ComputedRef, onMounted, shallowRef, Ref } from 'vue';
 import { randomId } from '@vavt/util';
-import { prefix, configOption } from '~/config';
+import { prefix, globalConfig } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import { mermaidCache } from '~/utils/cache';
 import { CDN_IDS } from '~/static';
@@ -17,7 +17,7 @@ const useMermaid = (props: ContentPreviewProps) => {
   const editorId = inject('editorId') as string;
   const theme = inject('theme') as ComputedRef<string>;
   const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
-  const { editorExtensions, editorExtensionsAttrs, mermaidConfig } = configOption;
+  const { editorExtensions, editorExtensionsAttrs, mermaidConfig } = globalConfig;
 
   let mermaid = editorExtensions!.mermaid!.instance;
   const reRenderRef = shallowRef(-1);

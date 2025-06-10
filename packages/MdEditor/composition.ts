@@ -15,7 +15,7 @@ import {
   Themes
 } from '~/type';
 import { appendHandler } from '~/utils/dom';
-import { prefix, staticTextDefault, codeCss, configOption } from '~/config';
+import { prefix, staticTextDefault, codeCss, globalConfig } from '~/config';
 import {
   CHANGE_CATALOG_VISIBLE,
   CHANGE_FULL_SCREEN,
@@ -115,8 +115,8 @@ export const useProvidePreview = (
   props: MdPreviewProps,
   rootRef: Ref<HTMLDivElement | undefined>
 ) => {
-  const hljsUrls = configOption.editorExtensions.highlight;
-  const hljsAttrs = configOption.editorExtensionsAttrs.highlight;
+  const hljsUrls = globalConfig.editorExtensions.highlight;
+  const hljsAttrs = globalConfig.editorExtensionsAttrs.highlight;
 
   const editorId = useEditorId(props);
 
@@ -186,7 +186,7 @@ export const useProvidePreview = (
   const usedLanguageText = computed((): StaticTextDefaultValue => {
     const allText: { [key: string]: StaticTextDefaultValue } = {
       ...staticTextDefault,
-      ...configOption.editorConfig.languageUserDefined
+      ...globalConfig.editorConfig.languageUserDefined
     };
 
     return deepMerge(
@@ -247,7 +247,7 @@ export const useExpansion = (props: EditorProps) => {
   // 这部分内容只配置，不需要响应式更新
   const { noPrettier, noUploadImg } = props;
 
-  const { editorExtensions, editorExtensionsAttrs } = configOption;
+  const { editorExtensions, editorExtensionsAttrs } = globalConfig;
 
   // 判断是否需要插入prettier标签
   const noPrettierScript = noPrettier || editorExtensions.prettier!.prettierInstance;

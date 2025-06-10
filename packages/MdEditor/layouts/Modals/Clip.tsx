@@ -13,7 +13,7 @@ import {
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
 import { StaticTextDefaultValue } from '~/type';
-import { configOption, prefix } from '~/config';
+import { globalConfig, prefix } from '~/config';
 import { base642File } from '~/utils';
 import Modal from '~/components/Modal';
 import bus from '~/utils/event-bus';
@@ -45,7 +45,7 @@ export default defineComponent({
     const editorId = inject('editorId') as string;
     const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
     // 传递下来的图片裁剪构造函数
-    let Cropper = configOption.editorExtensions.cropper!.instance;
+    let Cropper = globalConfig.editorExtensions.cropper!.instance;
 
     const uploadRef = ref();
     const uploadImgRef = ref();
