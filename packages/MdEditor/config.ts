@@ -1,5 +1,5 @@
 import { deepMerge } from '@vavt/util';
-import { CodeCss, Config, ConfigOption, Footers, StaticTextDefault } from './type';
+import { CodeCss, Config, GlobalConfig, Footers, StaticTextDefault } from './type';
 
 export const prefix = 'md-editor';
 
@@ -68,7 +68,7 @@ export const codeCss: CodeCss = {
 };
 
 // 当前版本的值
-export const editorExtensionsAttrs: ConfigOption['editorExtensionsAttrs'] = {
+export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   highlight: {
     js: {
       integrity:
@@ -432,7 +432,7 @@ export const staticTextDefault: StaticTextDefault = {
   }
 };
 
-export const configOption: ConfigOption = {
+export const globalConfig: GlobalConfig = {
   editorExtensions: {
     highlight: {
       js: highlightUrl,
@@ -471,7 +471,7 @@ export const configOption: ConfigOption = {
 };
 
 export const config: Config = (option) => {
-  return deepMerge(configOption, option, {
+  return deepMerge(globalConfig, option, {
     excludeKeys(key) {
       return /[iI]{1}nstance/.test(key);
     }

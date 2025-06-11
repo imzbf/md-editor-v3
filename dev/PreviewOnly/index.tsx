@@ -3,7 +3,7 @@ import { ExposePreviewParam, MdPreview, prefix } from '~~/index';
 import { Theme } from '../App';
 import mdText from '../data.md';
 
-import '~/styles/preview.less';
+// import '~/styles/preview.less';
 
 const editorId = 'preview-only-test';
 

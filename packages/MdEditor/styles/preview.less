@@ -5,9 +5,9 @@
 
 .basic-style() {
   color: var(--md-color);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI',
-    system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji';
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui,
+    ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 
   /* 浏览器滚动条 */
   ::-webkit-scrollbar {
@@ -93,7 +93,7 @@
     font-size: 16px;
     word-break: break-all;
     // 需要设置为bfc，父级才能正确获取到滚动高度
-    overflow: hidden;
+    display: flow-root;
     padding: 10px 20px;
   }
 }
@@ -112,6 +112,7 @@
 .@{prefix}-previewOnly {
   border: none;
   height: auto;
+  overflow: visible;
 
   .@{prefix}-content {
     height: 100%;
@@ -119,6 +120,10 @@
 
   .@{prefix}-preview {
     padding: 0;
+  }
+
+  .@{prefix}-preview-wrapper {
+    overflow: visible;
   }
 }
 

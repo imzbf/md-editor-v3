@@ -1,5 +1,5 @@
 import { onMounted, inject, ref } from 'vue';
-import { configOption } from '~/config';
+import { globalConfig } from '~/config';
 import { appendHandler } from '~/utils/dom';
 import bus from '~/utils/event-bus';
 import { CDN_IDS } from '~/static';
@@ -8,7 +8,7 @@ import { ToolbarProps } from './props';
 
 export const useSreenfull = (props: ToolbarProps) => {
   const editorId = inject('editorId') as string;
-  const { editorExtensions, editorExtensionsAttrs } = configOption;
+  const { editorExtensions, editorExtensionsAttrs } = globalConfig;
   let screenfull = editorExtensions.screenfull!.instance;
   // 是否组件内部全屏标识
   const screenfullMe = ref(false);

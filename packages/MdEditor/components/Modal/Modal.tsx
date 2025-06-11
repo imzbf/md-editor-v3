@@ -16,7 +16,7 @@ import {
   VNode
 } from 'vue';
 import { LooseRequired } from '@vue/shared';
-import { configOption, prefix } from '~/config';
+import { globalConfig, prefix } from '~/config';
 import { getSlot } from '~/utils/vue-tsx';
 import { keyMove } from '~/utils/dom';
 import { Themes } from '~/type';
@@ -151,9 +151,9 @@ export default defineComponent({
       (nVal) => {
         if (nVal) {
           state.maskStyle.zIndex =
-            configOption.editorConfig.zIndex! + getZIndexIncrement();
+            globalConfig.editorConfig.zIndex! + getZIndexIncrement();
           state.modalStyle.zIndex =
-            configOption.editorConfig.zIndex! + getZIndexIncrement();
+            globalConfig.editorConfig.zIndex! + getZIndexIncrement();
 
           modalClass.value.push('zoom-in');
           modalVisible.value = nVal;

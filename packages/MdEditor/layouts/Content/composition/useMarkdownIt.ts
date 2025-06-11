@@ -23,7 +23,7 @@ import {
   StaticTextDefaultValue,
   Themes
 } from '~/type';
-import { configOption, prefix } from '~/config';
+import { globalConfig, prefix } from '~/config';
 import {
   BUILD_FINISHED,
   CATALOG_CHANGED,
@@ -61,7 +61,7 @@ const initLineNumber = (md: mdit) => {
 
 const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const { editorConfig, markdownItConfig, markdownItPlugins, editorExtensions } =
-    configOption;
+    globalConfig;
   //
   const editorId = inject('editorId') as string;
   const languageRef = inject('language') as ComputedRef<string>;

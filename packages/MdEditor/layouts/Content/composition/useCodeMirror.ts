@@ -15,7 +15,7 @@ import {
 import { throttle } from '@vavt/util';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
 import { Themes, DOMEventHandlers } from '~/type';
-import { configOption } from '~/config';
+import { globalConfig } from '~/config';
 import bus from '~/utils/event-bus';
 
 import { ContentProps } from '../props';
@@ -136,7 +136,7 @@ const useCodeMirror = (props: ContentProps) => {
       autocompletionComp.of(createAutocompletion(props.completions))
     ];
 
-    return configOption.codeMirrorExtensions!(
+    return globalConfig.codeMirrorExtensions!(
       theme.value,
       extensions,
       getDefaultKeymaps(),

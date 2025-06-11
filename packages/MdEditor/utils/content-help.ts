@@ -1,5 +1,5 @@
 import bus from '~/utils/event-bus';
-import { configOption } from '~/config';
+import { globalConfig } from '~/config';
 import { InsertContentGenerator, UploadImgCallBackParam } from '~/type';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 import { ERROR_CATCHER } from '~/static/event-name';
@@ -140,10 +140,10 @@ const handleHeading = (direct: string, codeMirrorUt: CodeMirrorUt) => {
  */
 const handlePrettier = async (codeMirrorUt: CodeMirrorUt, params: any) => {
   const prettier =
-    window.prettier || configOption.editorExtensions.prettier?.prettierInstance;
+    window.prettier || globalConfig.editorExtensions.prettier?.prettierInstance;
   const prettierPlugins = [
     window.prettierPlugins?.markdown ||
-      configOption.editorExtensions.prettier?.parserMarkdownInstance
+      globalConfig.editorExtensions.prettier?.parserMarkdownInstance
   ];
 
   if (!prettier || !prettierPlugins[0]) {
@@ -263,7 +263,7 @@ const handleMermaid = (type: string) => {
     pie: 'pie\n  "Dogs" : 386\n  "Cats" : 85\n  "Rats" : 15',
     relationship: 'erDiagram\n  CAR ||--o{ NAMED-DRIVER : allows',
     journey: 'journey\n  title My Journey',
-    ...configOption.editorConfig.mermaidTemplate
+    ...globalConfig.editorConfig.mermaidTemplate
   };
 
   return {
