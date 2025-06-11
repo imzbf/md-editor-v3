@@ -622,7 +622,7 @@ export default defineComponent({
                       role="menuitem"
                       tabindex="0"
                     >
-                      {ult.value.imgTitleItem?.cropAndUpload}
+                      {ult.value.imgTitleItem?.clip2upload}
                     </li>
                   </ul>
                 }

@@ -66,7 +66,7 @@ export interface StaticTextDefaultValue {
   imgTitleItem?: {
     link: string;
     upload: string;
-    cropAndUpload: string;
+    clip2upload: string;
   };
   linkModalTips?: {
     linkTitle?: string;
