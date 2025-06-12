@@ -391,7 +391,7 @@ export const staticTextDefault: StaticTextDefault = {
     imgTitleItem: {
       link: 'Add Image Link',
       upload: 'Upload Images',
-      clip2upload: 'Clip Upload'
+      clip2upload: 'Crop And Upload'
     },
     linkModalTips: {
       linkTitle: 'Add Link',
