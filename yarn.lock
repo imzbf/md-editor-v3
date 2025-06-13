@@ -1831,10 +1831,10 @@
     hookable "^5.5.3"
     unhead "2.0.10"
 
-"@vavt/cm-extension@^1.5.0":
-  version "1.9.1"
-  resolved "https://registry.npmjs.org/@vavt/cm-extension/-/cm-extension-1.9.1.tgz#bc915c02ae89ceaa7eb49d999081b4257f8803b3"
-  integrity sha512-KLvIOMNPVDIOBdWbPUmFv6hb23//4YfXjT9nwoi13GOPJp1d78Zau8w31xMnsu0Nft84QalirT8xceZAW7iR4w==
+"@vavt/cm-extension@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.npmjs.org/@vavt/cm-extension/-/cm-extension-1.10.1.tgz#a69b76b0be131a2fef8a03886f49397e41248eeb"
+  integrity sha512-gCY/DV3ckwpWvFRov6vB018iL0pY4SLobUf0BNdGxhrVanBHYd63yDuGHdqeELgKUzC2vjX234CET4S/ehqw5w==
 
 "@vavt/copy2clipboard@^1.0.1":
   version "1.0.3"

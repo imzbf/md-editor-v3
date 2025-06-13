@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@pinia/nuxt": "^0.11.1",
-    "@vavt/cm-extension": "^1.5.0",
+    "@vavt/cm-extension": "^1.10.1",
     "@vavt/message": "^2.0.1",
     "@vavt/v3-extension": "^3.0.0",
     "axios": "^1.7.7",
