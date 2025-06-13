@@ -845,7 +845,7 @@ const text = ref('');
 
 > Tips: While import highlight styles by yourself, editor will not be able to change code styles.
 
-### 🔒 Compile-time Prevention of XSS
+### 🔒 Handling XSS at Compile Time
 
 Version 5.0 exports the built-in XSS plugin, which is no longer added by default. The exported XSS plugin includes additional tags and attributes on top of the default whitelist:
 
@@ -942,7 +942,7 @@ config({
 
 More configuration references: [js-xss](https://github.com/leizongmin/js-xss/tree/master)
 
-### 🔒 Prevent XSS after compilation
+### 🔒 Handling XSS after Compilation
 
 Using `sanitize` to sanitize `html`. eg: `sanitize-html`
 
@@ -1064,16 +1064,15 @@ Install [yjs](https://github.com/yjs/yjs)
 npm i yjs y-codemirror.next y-websocket
 ```
 
-Add the `yjs` extension in main.js:
+Add the `yjs` extension in `editorConfig.ts`:
 
-```js
+```ts
 import { config } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
+import { Compartment } from '@codemirror/state';
 import * as Y from 'yjs';
-import * as random from 'lib0/random';
 import { yCollab } from 'y-codemirror.next';
 import { WebsocketProvider } from 'y-websocket';
+import * as random from 'lib0/random';
 
 const usercolors = [
   { color: '#30bced', light: '#30bced33' },
@@ -1086,29 +1085,44 @@ const usercolors = [
   { color: '#1be7ff', light: '#1be7ff33' },
 ];
 
-// select a random color for this user
-const userColor = usercolors[random.uint32() % usercolors.length];
+export const yjsCompartment = new Compartment();
 
-const ydoc = new Y.Doc();
-const provider = new WebsocketProvider(
-  // Start a websocket server quickly: https://github.com/yjs/y-websocket?tab=readme-ov-file#start-a-y-websocket-server
-  'ws://127.0.0.1:1234',
-  'md-editor-v3-room',
-  ydoc
-);
-const ytext = ydoc.getText('module-name');
+let currentProvider: WebsocketProvider | null = null;
+let currentDoc: Y.Doc | null = null;
 
-const undoManager = new Y.UndoManager(ytext);
+export const cleanupYjs = () => {
+  currentProvider?.destroy();
+  currentDoc?.destroy();
+  currentProvider = null;
+  currentDoc = null;
+};
 
-provider.awareness.setLocalStateField('user', {
-  name: 'Anonymous ' + Math.floor(Math.random() * 100),
-  color: userColor.color,
-  colorLight: userColor.light,
-});
+export const createYjsExtension = (roomId: string) => {
+  cleanupYjs();
+
+  const userColor = usercolors[random.uint32() % usercolors.length];
+
+  const ydoc = new Y.Doc();
+  const provider = new WebsocketProvider('ws://127.0.0.1:1234/ws', roomId, ydoc);
+  const ytext = ydoc.getText('module-name');
+
+  const undoManager = new Y.UndoManager(ytext);
+
+  provider.awareness.setLocalStateField('user', {
+    name: 'Anonymous ' + Math.floor(Math.random() * 100),
+    color: userColor.color,
+    colorLight: userColor.light,
+  });
+
+  currentDoc = ydoc;
+  currentProvider = provider;
+
+  return yCollab(ytext, provider.awareness, { undoManager });
+};
 
 config({
   codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, yCollab(ytext, provider.awareness, { undoManager })];
+    return [...extensions, yjsCompartment.of([])];
   },
 });
 ```
@@ -1118,10 +1132,65 @@ If you want to use it in only one editor, try distinguishing using `editorId` (`
 ```js
 config({
   codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
-    return editorId === 'myId' ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })] : extensions;
+    return editorId === 'myId' ? [...extensions, yjsCompartment.of([])] : extensions;
   },
 });
 ```
+
+MyEditor.vue
+
+```vue
+<template>
+  <input v-model="roomId" />
+  <MdEditor :id="id" v-model="text" ref="editorRef" />
+</template>
+
+<script setup lang="ts">
+import { onMounted, onBeforeUnmount, ref, useId, watch } from 'vue';
+import { MdEditor, ExposeParam } from 'md-editor-v3';
+import { createYjsExtension, yjsCompartment, cleanupYjs } from './extendEditor';
+
+defineOptions({
+  name: 'MyEditor',
+});
+
+const roomId = ref('default-room');
+
+const id = useId();
+const text = ref('');
+const editorRef = ref<ExposeParam>();
+
+const updateEditorExtension = () => {
+  const view = editorRef.value?.getEditorView();
+  if (view) {
+    const extension = createYjsExtension(roomId.value);
+    view.dispatch({
+      effects: yjsCompartment.reconfigure(extension),
+    });
+  }
+};
+
+onMounted(() => {
+  updateEditorExtension();
+});
+
+watch([roomId], (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    updateEditorExtension(newVal);
+  }
+});
+
+onBeforeUnmount(() => {
+  cleanupYjs();
+});
+</script>
+```
+
+!!! tip
+
+The code above only shows how a single editor switches rooms, so if there are multiple editors on a single page and you need to switch rooms, please explore on your own.
+
+!!!
 
 ### 📝 Extend code block tool
 

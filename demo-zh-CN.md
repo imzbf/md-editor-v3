@@ -854,7 +854,7 @@ const text = ref('');
 
 > 注意：highlight 的样式自行引入后，将不支持切换代码样式。
 
-### 🔒 编译时防范 XSS
+### 🔒 编译时处理 XSS
 
 5.0 版本将内置的 XSS 扩展导出了，不再默认添加， 导出的 XSS 扩展在默认白名单的基础上，增加了部分标签和属性：
 
@@ -951,7 +951,7 @@ config({
 
 更新详细配置参考 [js-xss](https://github.com/leizongmin/js-xss/blob/master/README.zh.md)
 
-### 🔒 编译后防范 XSS
+### 🔒 编译后处理 XSS
 
 通过`sanitize`属性，自行处理不安全的 html 内容。例如：使用`sanitize-html`处理
 
@@ -1075,16 +1075,15 @@ config({
 npm i yjs y-codemirror.next y-websocket
 ```
 
-在 main.js 中添加 yjs 扩展：
+在 `editorConfig.ts` 中添加 `yjs` 扩展：
 
-```js
+```ts
 import { config } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
+import { Compartment } from '@codemirror/state';
 import * as Y from 'yjs';
-import * as random from 'lib0/random';
 import { yCollab } from 'y-codemirror.next';
 import { WebsocketProvider } from 'y-websocket';
+import * as random from 'lib0/random';
 
 const usercolors = [
   { color: '#30bced', light: '#30bced33' },
@@ -1097,29 +1096,44 @@ const usercolors = [
   { color: '#1be7ff', light: '#1be7ff33' },
 ];
 
-// select a random color for this user
-const userColor = usercolors[random.uint32() % usercolors.length];
+export const yjsCompartment = new Compartment();
 
-const ydoc = new Y.Doc();
-const provider = new WebsocketProvider(
-  // Start a websocket server quickly: https://github.com/yjs/y-websocket?tab=readme-ov-file#start-a-y-websocket-server
-  'ws://127.0.0.1:1234',
-  'md-editor-v3-room',
-  ydoc
-);
-const ytext = ydoc.getText('module-name');
+let currentProvider: WebsocketProvider | null = null;
+let currentDoc: Y.Doc | null = null;
 
-const undoManager = new Y.UndoManager(ytext);
+export const cleanupYjs = () => {
+  currentProvider?.destroy();
+  currentDoc?.destroy();
+  currentProvider = null;
+  currentDoc = null;
+};
 
-provider.awareness.setLocalStateField('user', {
-  name: 'Anonymous ' + Math.floor(Math.random() * 100),
-  color: userColor.color,
-  colorLight: userColor.light,
-});
+export const createYjsExtension = (roomId: string) => {
+  cleanupYjs();
+
+  const userColor = usercolors[random.uint32() % usercolors.length];
+
+  const ydoc = new Y.Doc();
+  const provider = new WebsocketProvider('ws://127.0.0.1:1234/ws', roomId, ydoc);
+  const ytext = ydoc.getText('module-name');
+
+  const undoManager = new Y.UndoManager(ytext);
+
+  provider.awareness.setLocalStateField('user', {
+    name: 'Anonymous ' + Math.floor(Math.random() * 100),
+    color: userColor.color,
+    colorLight: userColor.light,
+  });
+
+  currentDoc = ydoc;
+  currentProvider = provider;
+
+  return yCollab(ytext, provider.awareness, { undoManager });
+};
 
 config({
   codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, yCollab(ytext, provider.awareness, { undoManager })];
+    return [...extensions, yjsCompartment.of([])];
   },
 });
 ```
@@ -1129,10 +1143,65 @@ config({
 ```js
 config({
   codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
-    return editorId === 'myId' ? [...extensions, yCollab(ytext, provider.awareness, { undoManager })] : extensions;
+    return editorId === 'myId' ? [...extensions, yjsCompartment.of([])] : extensions;
   },
 });
 ```
+
+MyEditor.vue
+
+```vue
+<template>
+  <input v-model="roomId" />
+  <MdEditor :id="id" v-model="text" ref="editorRef" />
+</template>
+
+<script setup lang="ts">
+import { onMounted, onBeforeUnmount, ref, useId, watch } from 'vue';
+import { MdEditor, ExposeParam } from 'md-editor-v3';
+import { createYjsExtension, yjsCompartment, cleanupYjs } from './extendEditor';
+
+defineOptions({
+  name: 'MyEditor',
+});
+
+const roomId = ref('default-room');
+
+const id = useId();
+const text = ref('');
+const editorRef = ref<ExposeParam>();
+
+const updateEditorExtension = () => {
+  const view = editorRef.value?.getEditorView();
+  if (view) {
+    const extension = createYjsExtension(roomId.value);
+    view.dispatch({
+      effects: yjsCompartment.reconfigure(extension),
+    });
+  }
+};
+
+onMounted(() => {
+  updateEditorExtension();
+});
+
+watch([roomId], (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    updateEditorExtension(newVal);
+  }
+});
+
+onBeforeUnmount(() => {
+  cleanupYjs();
+});
+</script>
+```
+
+!!! tip
+
+上面的代码只展示了单个编辑器切换房间的方式，如果单页面存在多个编辑器并且需要切换房间，请自行探索。
+
+!!!
 
 ### 📝 扩展代码块工具
 
