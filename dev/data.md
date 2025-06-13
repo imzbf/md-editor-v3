@@ -76,8 +76,104 @@ flowchart TD
 
 ## 7. 占个坑@！
 
-!!! note 支持的类型
+!!! note
 
-note、abstract、info、tip、success、question、warning、failure、danger、bug、example、quote、hint、caution、error、attention
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! note note
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! tip tip
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! info info
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! quote quote
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! abstract abstract
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! attention attention
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! example example
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! hint hint
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! success success
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! question question
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! caution caution
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! warning warning
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! danger danger
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! failure failure
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! bug bug
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
+
+!!!
+
+!!! error error
+
+note, abstract, info, tip, success, question, warning, failure, danger, bug, example, quote, hint, caution, error, attention
 
 !!!

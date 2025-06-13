@@ -72,7 +72,7 @@
     "@types/node": "^22.7.7",
     "@typescript-eslint/eslint-plugin": "^8.10.0",
     "@typescript-eslint/parser": "^8.10.0",
-    "@vavt/markdown-theme": "^4.4.1",
+    "@vavt/markdown-theme": "^4.5.0",
     "@vavt/vite-plugin-import-markdown": "^1.0.0",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vitejs/plugin-vue-jsx": "^4.0.1",
