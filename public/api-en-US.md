@@ -1406,7 +1406,7 @@ Get codemirror instance.
 
 ## 💴 Config Editor
 
-Use `config(option: ConfigOption)` to reconfigure `markdown-it` and so on.
+Use `config(option: GlobalConfig)` to reconfigure `markdown-it` and so on.
 
 !!! warning
 

@@ -30,8 +30,7 @@ const defaultState: StateType = {
 };
 
 // Pinia Store 定义
-export const useStore = defineStore({
-  id: 'appStore',
+export const useStore = defineStore('appStore', {
   state: (): StateType => defaultState,
   actions: {
     changeTheme(value: Theme) {

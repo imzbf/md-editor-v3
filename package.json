@@ -20,7 +20,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@pinia/nuxt": "^0.5.5",
+    "@pinia/nuxt": "^0.11.1",
     "@vavt/cm-extension": "^1.5.0",
     "@vavt/message": "^2.0.1",
     "@vavt/v3-extension": "^3.0.0",
@@ -29,10 +29,10 @@
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-mark": "^4.0.0",
-    "md-editor-v3": "^5.6.1",
-    "nuxt": "^3.13.2",
-    "pinia": "^2.2.4",
-    "vue": "^3.5.12",
+    "md-editor-v3": "^5.7.0",
+    "nuxt": "^3.17.5",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.16",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
