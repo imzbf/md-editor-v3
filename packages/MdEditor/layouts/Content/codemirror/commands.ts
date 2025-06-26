@@ -2,7 +2,7 @@ import { KeyBinding } from '@codemirror/view';
 import { deleteLine } from '@codemirror/commands';
 import { searchKeymap } from '@codemirror/search';
 import { ToolDirective } from '~/utils/content-help';
-import { ON_SAVE, OPEN_MODALS, REPLACE } from '~/static/event-name';
+import { ON_SAVE, REPLACE } from '~/static/event-name';
 import { ContentProps } from '../props';
 import bus from '~/utils/event-bus';
 
@@ -56,7 +56,7 @@ const createCommands = (id: string, contentProps: ContentProps) => {
     },
     shift: () => {
       // ctrl+shift+i触发图片链接
-      bus.emit(id, OPEN_MODALS, 'image');
+      bus.emit(id, REPLACE, 'image');
       return true;
     }
   };
@@ -171,7 +171,7 @@ const createCommands = (id: string, contentProps: ContentProps) => {
     key: 'Ctrl-l',
     mac: 'Cmd-l',
     run: () => {
-      bus.emit(id, OPEN_MODALS, 'link' as ToolDirective);
+      bus.emit(id, REPLACE, 'link');
       return true;
     }
   };
