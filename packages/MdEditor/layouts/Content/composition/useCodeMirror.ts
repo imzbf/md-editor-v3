@@ -14,7 +14,7 @@ import {
 } from '@codemirror/commands';
 import { throttle } from '@vavt/util';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
-import { Themes, DOMEventHandlers } from '~/type';
+import { Themes, DOMEventHandlers, CodeMirrorExtension } from '~/type';
 import { globalConfig } from '~/config';
 import bus from '~/utils/event-bus';
 
@@ -109,38 +109,71 @@ const useCodeMirror = (props: ContentProps) => {
     }
   };
 
-  const defaultExtensions = [
-    keymap.of(getDefaultKeymaps()),
-    historyComp.of(history()),
-    languageComp.of(markdown({ codeLanguages: languages })),
+  const defaultExtensions: Array<CodeMirrorExtension> = [
+    {
+      type: 'keymap',
+      extension: keymap.of(getDefaultKeymaps())
+    },
+    {
+      type: 'history',
+      extension: history(),
+      compartment: historyComp
+    },
+    {
+      type: 'markdown',
+      extension: markdown({ codeLanguages: languages }),
+      compartment: languageComp
+    },
     // 横向换行
-    EditorView.lineWrapping,
-    EditorView.updateListener.of((update) => {
-      if (update.docChanged) {
-        props.onChange(update.state.doc.toString());
+    {
+      type: 'lineWrapping',
+      extension: EditorView.lineWrapping
+    },
+    {
+      type: 'updateListener',
+      extension: EditorView.updateListener.of((update) => {
+        if (update.docChanged) {
+          props.onChange(update.state.doc.toString());
 
-        if (!spelling.value) {
-          props.updateModelValue(update.state.doc.toString());
+          if (!spelling.value) {
+            props.updateModelValue(update.state.doc.toString());
+          }
         }
-      }
-    }),
-    eventComp.of(EditorView.domEventHandlers(domEventHandlers)),
+      })
+    },
+    {
+      type: 'domEventHandlers',
+      extension: EditorView.domEventHandlers(domEventHandlers),
+      compartment: eventComp
+    },
     // 解决多行placeholder时，光标异常的情况
-    drawSelection()
+    {
+      type: 'drawSelection',
+      extension: drawSelection()
+    }
   ];
 
   const getExtensions = () => {
-    const extensions = [
+    const extensions: Array<CodeMirrorExtension> = [
       ...defaultExtensions,
-      themeComp.of(theme.value === 'light' ? oneLight : oneDark),
-      autocompletionComp.of(createAutocompletion(props.completions))
+      {
+        type: 'theme',
+        extension: theme.value === 'light' ? oneLight : oneDark,
+        compartment: themeComp
+      },
+      {
+        type: 'completions',
+        extension: createAutocompletion(props.completions),
+        compartment: autocompletionComp
+      }
     ];
 
-    return globalConfig.codeMirrorExtensions!(
-      theme.value,
-      extensions,
-      getDefaultKeymaps(),
-      { editorId }
+    return globalConfig.codeMirrorExtensions!(extensions, {
+      editorId,
+      theme: theme.value,
+      keyBindings: getDefaultKeymaps()
+    }).map((item) =>
+      item.compartment ? item.compartment.of(item.extension) : item.extension
     );
   };
 
@@ -148,7 +181,7 @@ const useCodeMirror = (props: ContentProps) => {
     const view = new EditorView({
       doc: props.modelValue,
       parent: inputWrapperRef.value,
-      extensions: [getExtensions()]
+      extensions: getExtensions()
     });
 
     const nc = new CodeMirrorUt(view);

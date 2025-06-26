@@ -463,7 +463,7 @@ export const globalConfig: GlobalConfig = {
     renderDelay: 500,
     zIndex: 20000
   },
-  codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions,
+  codeMirrorExtensions: (innerExtensions) => innerExtensions,
   markdownItConfig: () => {},
   markdownItPlugins: (s) => s,
   mermaidConfig: (c) => c,

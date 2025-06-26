@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App';
 
-import { MdEditor, config, editorExtensionsAttrs, XSSPlugin } from '~~/index';
+import { MdEditor, config, XSSPlugin } from '~~/index';
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
 
@@ -42,11 +42,17 @@ import { lineNumbers } from '@codemirror/view';
 // };
 
 config({
-  codeMirrorExtensions(theme, extensions) {
+  codeMirrorExtensions(extensions) {
     // console.log(theme, extensions, keyBindings);
 
     // return extensions;
-    return [...extensions, lineNumbers()];
+    return [
+      ...extensions,
+      {
+        type: 'lineNumbers',
+        extension: lineNumbers()
+      }
+    ];
   },
   // iconfontType: 'class',
   // markdownItConfig: (mdit) => {
