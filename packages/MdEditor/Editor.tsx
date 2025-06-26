@@ -95,7 +95,6 @@ const Editor = defineComponent({
               showToolbarName={props.showToolbarName}
               catalogVisible={catalogVisible.value}
               codeTheme={props.codeTheme}
-              insertLinkDirect={props.insertLinkDirect}
             />
           )}
           <Content

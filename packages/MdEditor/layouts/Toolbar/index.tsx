@@ -30,7 +30,6 @@ import {
   CTRL_SHIFT_Z,
   CTRL_Z,
   ON_SAVE,
-  OPEN_MODALS,
   REPLACE,
   UPLOAD_IMAGE
 } from '~/static/event-name';
@@ -85,24 +84,10 @@ export default defineComponent({
     };
 
     // 链接
-    const modalData = reactive<{
-      type: 'link' | 'image';
-      linkVisible: boolean;
-      clipVisible: boolean;
-    }>({ type: 'link', linkVisible: false, clipVisible: false });
+    const clipVisible = ref<boolean>(false);
 
     // 监控左边的操作栏
     const toolbarLeftRef = ref<HTMLDivElement>();
-    onMounted(() => {
-      // 打开弹窗监听事件
-      bus.on(editorId, {
-        name: OPEN_MODALS,
-        callback(type) {
-          modalData.type = type;
-          modalData.linkVisible = true;
-        }
-      });
-    });
     // end
 
     // 通过'='分割左右
@@ -526,12 +511,7 @@ export default defineComponent({
                     return false;
                   }
 
-                  if (props.insertLinkDirect) {
-                    emitHandler('link');
-                  } else {
-                    modalData.type = 'link';
-                    modalData.linkVisible = true;
-                  }
+                  emitHandler('link');
                 }}
               >
                 <Icon name="link" />
@@ -557,12 +537,7 @@ export default defineComponent({
                     return false;
                   }
 
-                  if (props.insertLinkDirect) {
-                    emitHandler('image');
-                  } else {
-                    modalData.type = 'image';
-                    modalData.linkVisible = true;
-                  }
+                  emitHandler('image');
                 }}
               >
                 <Icon name="image" />
@@ -592,12 +567,7 @@ export default defineComponent({
                     <li
                       class={`${prefix}-menu-item ${prefix}-menu-item-image`}
                       onClick={() => {
-                        if (props.insertLinkDirect) {
-                          emitHandler('image');
-                        } else {
-                          modalData.type = 'image';
-                          modalData.linkVisible = true;
-                        }
+                        emitHandler('image');
                       }}
                       role="menuitem"
                       tabindex="0"
@@ -617,7 +587,7 @@ export default defineComponent({
                     <li
                       class={`${prefix}-menu-item ${prefix}-menu-item-image`}
                       onClick={() => {
-                        modalData.clipVisible = true;
+                        clipVisible.value = true;
                       }}
                       role="menuitem"
                       tabindex="0"
@@ -1237,23 +1207,19 @@ export default defineComponent({
             style={{ display: 'none' }}
           />
           <Modals
-            linkVisible={modalData.linkVisible}
-            clipVisible={modalData.clipVisible}
-            type={modalData.type}
+            clipVisible={clipVisible.value}
             onCancel={() => {
-              modalData.linkVisible = false;
-              modalData.clipVisible = false;
+              clipVisible.value = false;
             }}
             onOk={(data) => {
               if (data) {
-                emitHandler(modalData.type, {
+                emitHandler('image', {
                   desc: data.desc,
                   url: data.url,
-                  transform: modalData.type === 'image'
+                  transform: true
                 });
               }
-              modalData.linkVisible = false;
-              modalData.clipVisible = false;
+              clipVisible.value = false;
             }}
           />
         </>

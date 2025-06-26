@@ -38,9 +38,6 @@ export const REPLACE = 'replace';
 // 上传图片
 export const UPLOAD_IMAGE = 'uploadImage';
 
-// 打开内置的插入链接或图片的弹窗
-export const OPEN_MODALS = 'openModals';
-
 // 撤回
 export const CTRL_Z = 'ctrlZ';
 
