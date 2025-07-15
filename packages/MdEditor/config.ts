@@ -28,8 +28,8 @@ export const mermaidUrl = `${cdnBase}/mermaid@11.3.0/dist/mermaid.min.js`;
 // export const mermaidUrl = `${cdnBase}/mermaid/9.4.0/mermaid.min.js`;
 
 export const katexUrl = {
-  js: `${cdnBase}/katex@0.16.11/dist/katex.min.js`,
-  css: `${cdnBase}/katex@0.16.11/dist/katex.min.css`
+  js: `${cdnBase}/katex@0.16.22/dist/katex.min.js`,
+  css: `${cdnBase}/katex@0.16.22/dist/katex.min.css`
 };
 
 export const codeCss: CodeCss = {
@@ -215,12 +215,12 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   katex: {
     js: {
       integrity:
-        'sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg',
+        'sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6',
       crossOrigin: 'anonymous'
     },
     css: {
       integrity:
-        'sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+',
+        'sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP',
       crossOrigin: 'anonymous'
     }
   }
