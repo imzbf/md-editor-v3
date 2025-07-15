@@ -1,1 +1,0 @@
-import{h as n,as as o,ax as r,ay as u,n as _}from"./Btx0VEc9.js";const h=n({__name:"index",async setup(p){let t,e;const a=o(),s=r();return[t,e]=u(()=>_({path:`/${a.lang}/syntax`,hash:s.currentRoute.value.hash})),await t,e(),()=>{}}});export{h as default};
