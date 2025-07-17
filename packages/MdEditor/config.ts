@@ -24,7 +24,7 @@ export const cropperUrl = {
 
 export const screenfullUrl = `${cdnBase}/screenfull@5.2.0/dist/screenfull.js`;
 
-export const mermaidUrl = `${cdnBase}/mermaid@11.3.0/dist/mermaid.min.js`;
+export const mermaidUrl = `${cdnBase}/mermaid@11.9.0/dist/mermaid.min.js`;
 // export const mermaidUrl = `${cdnBase}/mermaid/9.4.0/mermaid.min.js`;
 
 export const katexUrl = {
@@ -208,7 +208,7 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   mermaid: {
     js: {
       integrity:
-        'sha384-B2tp/GqmE6VfDRB3JPTsesr0+SXypThjLSvQEQH7iv3f3/PYKCm5Q4+SGPcitStz',
+        'sha384-UzWEhMP22MxNnr2bzqAdmtf1FDy5iKDUq6hLXJFLqC7dfGkc6W/hshbx9m71zyt5',
       crossOrigin: 'anonymous'
     }
   },
