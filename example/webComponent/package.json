@@ -10,9 +10,9 @@
   "dependencies": {
     "cropperjs": "^1.6.2",
     "highlight.js": "^11.10.0",
-    "katex": "^0.16.11",
+    "katex": "^0.16.22",
     "md-editor-v3": "latest",
-    "mermaid": "^10.9.1",
+    "mermaid": "^11.9.0",
     "prettier": "^3.3.3",
     "screenfull": "^6.0.2",
     "vue": "^3.4.30"
