@@ -71,11 +71,18 @@ export const appendHandler = <K extends keyof HTMLElementTagNameMap>(
     // 浅拷贝
     const attrsCopy = { ...attributes };
     attrsCopy.onload = null;
-    const ele = createHTMLElement(tagName, attrsCopy);
-    if (attributes.onload) {
-      ele.addEventListener('load', attributes.onload);
-    }
-    document.head.appendChild(ele);
+    attrsCopy.onerror = null;
+    loadResourceWithRetry(tagName, attrsCopy)
+      .then((e) => {
+        if (attributes.onload) {
+          (attributes.onload as any)(e);
+        }
+      })
+      .catch((e) => {
+        if (attributes.onerror) {
+          (attributes.onerror as any)(e);
+        }
+      });
   } else if (checkKey !== '') {
     if (Reflect.get(window, checkKey)) {
       // 实例已存在，直接触发load事件
@@ -87,6 +94,45 @@ export const appendHandler = <K extends keyof HTMLElementTagNameMap>(
     }
   }
 };
+
+async function loadResourceWithRetry(tagName: string, attributes: any) {
+  let key = ''; // src或者href
+  let urls = [];
+
+  if (tagName === 'script') {
+    key = 'src';
+    urls = attributes.src;
+  } else if (tagName === 'link') {
+    key = 'href';
+    urls = attributes.href;
+  }
+  if (typeof urls === 'string') {
+    urls = [urls];
+  }
+
+  for (let i = 0; i < urls.length; i++) {
+    const url = urls[i];
+    try {
+      return await loadResource(tagName, { ...attributes, [key]: url });
+    } catch {
+      // ignore
+    }
+  }
+
+  throw new Error('All resources load failed');
+}
+
+function loadResource(tagName: string, attributes: any) {
+  return new Promise((resolve, reject) => {
+    const ele = createHTMLElement(tagName as any, attributes);
+    ele.onload = resolve;
+    ele.onerror = () => {
+      ele.remove();
+      reject();
+    };
+    document.head.appendChild(ele);
+  });
+}
 
 /**
  * 更新插入的元素属性
