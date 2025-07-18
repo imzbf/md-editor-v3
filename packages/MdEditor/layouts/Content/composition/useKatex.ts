@@ -18,11 +18,12 @@ const useKatex = (props: ContentPreviewProps) => {
       return;
     }
 
-    const { editorExtensions } = globalConfig;
+    const { editorExtensions, editorExtensionsAttrs } = globalConfig;
 
     appendHandler(
       'script',
       {
+        ...editorExtensionsAttrs.katex?.js,
         src: editorExtensions.katex!.js,
         id: CDN_IDS.katexjs,
         onload() {
@@ -33,6 +34,7 @@ const useKatex = (props: ContentPreviewProps) => {
     );
 
     appendHandler('link', {
+      ...editorExtensionsAttrs.katex?.css,
       rel: 'stylesheet',
       href: editorExtensions.katex!.css,
       id: CDN_IDS.katexcss

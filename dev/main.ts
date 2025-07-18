@@ -138,8 +138,8 @@ config({
       //   instance: mermaid
       enableZoom: true
     }
-  }
-  // editorExtensionsAttrs
+  },
+  editorExtensionsAttrs
 });
 
 import '~/styles/style.less';
