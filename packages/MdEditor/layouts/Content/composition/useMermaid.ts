@@ -109,6 +109,10 @@ const useMermaid = (props: ContentPreviewProps) => {
       await Promise.allSettled(
         Array.from(mermaidSourceEles).map((ele) => {
           const handler = async (item: HTMLElement) => {
+            if (item.dataset.closed === 'false') {
+              return false;
+            }
+
             const code = item.innerText as string;
             let mermaidHtml = mermaidCache.get(code) as string;
 

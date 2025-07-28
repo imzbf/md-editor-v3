@@ -205,7 +205,13 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   // 文章节点的key
   const key = ref(`_article-key_${randomId()}`);
 
-  const html = ref(props.sanitize(md.render(props.modelValue)));
+  const html = ref(
+    props.sanitize(
+      md.render(props.modelValue, {
+        srcLines: props.modelValue.split('\n')
+      })
+    )
+  );
 
   const updatedTodo = () => {
     // 触发异步的保存事件（html总是会比text后更新）
@@ -234,7 +240,11 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const markHtml = () => {
     // 清理历史标题
     headsRef.value = [];
-    html.value = props.sanitize(md.render(props.modelValue));
+    html.value = props.sanitize(
+      md.render(props.modelValue, {
+        srcLines: props.modelValue.split('\n')
+      })
+    );
     updatedTodo();
   };
 

@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App';
 
-import { MdEditor, config, XSSPlugin } from '~~/index';
+import { MdEditor, config, XSSPlugin, editorExtensionsAttrs } from '~~/index';
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
 
