@@ -1,11 +1,11 @@
 import { defineComponent, onBeforeUnmount, reactive, ref } from 'vue';
 import { prefix } from '~/config';
-import ToolBar from '~/layouts/Toolbar';
 import Content from '~/layouts/Content';
 import Footer from '~/layouts/Footer';
+import ToolBar from '~/layouts/Toolbar';
+import { EditorContext } from '~/type';
 import bus from '~/utils/event-bus';
 
-import { EditorProps, EditorContext } from '~/type';
 import { getSlot } from '~/utils/vue-tsx';
 
 import {
@@ -18,14 +18,14 @@ import {
   useErrorCatcher
 } from './composition';
 
-import { editorProps as props, editorEmits as emits } from './props';
 import { ContentExposeParam } from './layouts/Content/type';
+import { editorProps as props, editorEmits as emits } from './props';
 
 const Editor = defineComponent({
   name: 'MdEditorV3',
   props,
   emits,
-  setup(props: EditorProps, ctx: EditorContext) {
+  setup(props, ctx: EditorContext) {
     // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
 
     const { noKatex, noMermaid, noPrettier, noUploadImg, noHighlight } = props;

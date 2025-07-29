@@ -3,8 +3,8 @@
  */
 
 // 为了不与之前的配置冲突，目前采用全量引入
-import * as xss from 'xss';
 import markdownit from 'markdown-it';
+import * as xss from 'xss';
 
 export interface XSSPluginType {
   // https://github.com/leizongmin/js-xss/blob/master/README.zh.md
@@ -39,7 +39,7 @@ export const XSSPlugin = (md: markdownit, options: XSSPluginType) => {
   let xssIns: xss.FilterXSS;
 
   if (typeof xssOption === 'function') {
-    xssIns = new xss.FilterXSS(xssOption(xss));
+    xssIns = new xss.FilterXSS(xssOption(xss) as xss.IFilterXSSOptions);
   } else {
     const whiteList = xss.getDefaultWhiteList();
 

@@ -1,8 +1,8 @@
-import bus from '~/utils/event-bus';
 import { globalConfig } from '~/config';
-import { InsertContentGenerator, UploadImgCallBackParam } from '~/type';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 import { ERROR_CATCHER } from '~/static/event-name';
+import { InsertContentGenerator, UploadImgCallBackParam } from '~/type';
+import bus from '~/utils/event-bus';
 
 export type ToolDirective =
   | 'bold'
@@ -147,7 +147,7 @@ const handlePrettier = async (codeMirrorUt: CodeMirrorUt, params: any) => {
   ];
 
   if (!prettier || !prettierPlugins[0]) {
-    bus.emit(params.editorId, ERROR_CATCHER, {
+    bus.emit(params.editorId as string, ERROR_CATCHER, {
       name: 'prettier',
       message: 'prettier is undefined'
     });

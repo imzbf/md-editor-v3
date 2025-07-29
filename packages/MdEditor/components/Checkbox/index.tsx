@@ -1,5 +1,4 @@
-import { defineComponent, PropType, ExtractPropTypes } from 'vue';
-import { LooseRequired } from '@vue/shared';
+import { defineComponent, PropType } from 'vue';
 import { prefix } from '~/config';
 
 const props = {
@@ -17,12 +16,10 @@ const props = {
   }
 };
 
-type CheckboxProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
-
 export default defineComponent({
   name: `${prefix}-checkbox`,
   props,
-  setup(props: CheckboxProps) {
+  setup(props) {
     return () => {
       return (
         <div

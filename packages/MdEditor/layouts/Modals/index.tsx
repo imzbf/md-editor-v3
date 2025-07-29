@@ -1,7 +1,6 @@
-import { defineComponent, PropType, ExtractPropTypes } from 'vue';
-import { LooseRequired } from '@vue/shared';
-import ClipModal from './Clip';
+import { defineComponent, PropType } from 'vue';
 import { prefix } from '~/config';
+import ClipModal from './Clip';
 
 const props = {
   clipVisible: {
@@ -18,13 +17,11 @@ const props = {
   }
 };
 
-type ModalsProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
-
 // 链接弹窗\图片弹窗\帮助弹窗
 export default defineComponent({
   name: `${prefix}-modals`,
   props,
-  setup(props: ModalsProps) {
+  setup(props) {
     return () => (
       <ClipModal
         visible={props.clipVisible}

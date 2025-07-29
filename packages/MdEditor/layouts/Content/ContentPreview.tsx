@@ -1,5 +1,6 @@
-import { defineComponent, inject, ExtractPropTypes } from 'vue';
+// eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
+import { defineComponent, inject, ExtractPropTypes } from 'vue';
 import { prefix } from '~/config';
 
 import {
@@ -19,7 +20,7 @@ export type ContentPreviewProps = Readonly<
 const ContentPreview = defineComponent({
   name: 'ContentPreview',
   props: contentPreviewProps,
-  setup(props: ContentPreviewProps) {
+  setup(props) {
     const editorId = inject('editorId') as string;
 
     // markdown => html

@@ -1,3 +1,4 @@
+import { linkTo, draggingScroll } from '@vavt/util';
 import {
   computed,
   ComputedRef,
@@ -11,20 +12,10 @@ import {
   watch,
   nextTick
 } from 'vue';
-import { linkTo, draggingScroll } from '@vavt/util';
 import Divider from '~/components/Divider';
 import Dropdown from '~/components/Dropdown';
-import bus from '~/utils/event-bus';
-import {
-  InsertContentGenerator,
-  PreviewThemes,
-  StaticTextDefaultValue,
-  Themes,
-  ToolbarNames
-} from '~/type';
-import { ToolDirective } from '~/utils/content-help';
+import Icon from '~/components/Icon';
 import { allToolbar, prefix } from '~/config';
-import { toolbarProps as props, ToolbarProps } from './props';
 import {
   CHANGE_CATALOG_VISIBLE,
   CTRL_SHIFT_Z,
@@ -33,11 +24,19 @@ import {
   REPLACE,
   UPLOAD_IMAGE
 } from '~/static/event-name';
+import {
+  InsertContentGenerator,
+  PreviewThemes,
+  StaticTextDefaultValue,
+  Themes,
+  ToolbarNames
+} from '~/type';
+import { ToolDirective } from '~/utils/content-help';
+import bus from '~/utils/event-bus';
 import { useSreenfull } from './composition';
+import { toolbarProps as props, ToolbarProps } from './props';
 import TableShape from './TableShape';
 import Modals from '../Modals';
-
-import Icon from '~/components/Icon';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -1120,7 +1119,7 @@ export default defineComponent({
         }
       } else if (props.defToolbars instanceof Array) {
         // vue3模板，插槽内容永远是个数组对象
-        const defItem = props.defToolbars[barItem as number] as VNode;
+        const defItem = props.defToolbars[barItem as number];
 
         if (defItem) {
           const defItemCloned = cloneVNode(defItem, {
@@ -1166,7 +1165,7 @@ export default defineComponent({
     watch(
       () => props.toolbars,
       () => {
-        nextTick(() => {
+        void nextTick(() => {
           if (wrapperRef.value) {
             draggingScroll(wrapperRef.value);
           }

@@ -1,8 +1,8 @@
 import { onMounted, shallowRef } from 'vue';
 import { globalConfig } from '~/config';
+import { CDN_IDS } from '~/static';
 import { appendHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
-import { CDN_IDS } from '~/static';
 
 /**
  * 注册katex扩展到页面

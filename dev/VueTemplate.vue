@@ -6,10 +6,10 @@
     <MdEditorV3
       v-if="visible"
       v-model="text"
-      :custom-icon="customIcon"
-      @on-drop="onDrop"
-      @on-change="onChange"
-      @on-input="onInput"
+      :customIcon="customIcon"
+      @onDrop="onDrop"
+      @onChange="onChange"
+      @onInput="onInput"
     />
   </div>
 </template>

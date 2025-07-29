@@ -1,10 +1,10 @@
-import { watch, inject, ComputedRef, onMounted, shallowRef, Ref } from 'vue';
 import { randomId } from '@vavt/util';
+import { watch, inject, ComputedRef, onMounted, shallowRef, Ref } from 'vue';
 import { prefix, globalConfig } from '~/config';
-import { appendHandler } from '~/utils/dom';
-import { mermaidCache } from '~/utils/cache';
 import { CDN_IDS } from '~/static';
 import { ERROR_CATCHER } from '~/static/event-name';
+import { mermaidCache } from '~/utils/cache';
+import { appendHandler } from '~/utils/dom';
 import eventBus from '~/utils/event-bus';
 
 import { ContentPreviewProps } from '../ContentPreview';
@@ -19,7 +19,7 @@ const useMermaid = (props: ContentPreviewProps) => {
   const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
   const { editorExtensions, editorExtensionsAttrs, mermaidConfig } = globalConfig;
 
-  let mermaid = editorExtensions!.mermaid!.instance;
+  let mermaid = editorExtensions.mermaid!.instance;
   const reRenderRef = shallowRef(-1);
 
   const configMermaid = () => {
@@ -61,10 +61,18 @@ const useMermaid = (props: ContentPreviewProps) => {
         /* @vite-ignore */
         /* webpackIgnore: true */
         jsSrc
-      ).then((module) => {
-        mermaid = module.default;
-        configMermaid();
-      });
+      )
+        .then((module) => {
+          mermaid = module.default;
+          configMermaid();
+        })
+        .catch((error) => {
+          eventBus.emit(editorId, ERROR_CATCHER, {
+            name: 'mermaid',
+            message: `Failed to load mermaid module: ${error.message}`,
+            error
+          });
+        });
     } else {
       appendHandler(
         'script',
@@ -113,7 +121,7 @@ const useMermaid = (props: ContentPreviewProps) => {
               return false;
             }
 
-            const code = item.innerText as string;
+            const code = item.innerText;
             let mermaidHtml = mermaidCache.get(code) as string;
 
             if (!mermaidHtml) {

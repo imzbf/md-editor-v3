@@ -1,16 +1,15 @@
-import path from 'path';
 import { rmSync } from 'fs';
+import path from 'path';
 import { fileURLToPath } from 'url';
-import { build, LibraryFormats } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import { build, LibraryFormats } from 'vite';
 import { buildType } from './build.type';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const resolvePath = (p: string) => path.resolve(__dirname, p);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-!(async () => {
+(async () => {
   const moduleEntry = {
     index: resolvePath('packages'),
     MdEditor: resolvePath('packages/MdEditor'),
@@ -133,4 +132,6 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
       });
     })
   );
-})();
+})().catch((error) => {
+  console.error('Error during build:', error);
+});

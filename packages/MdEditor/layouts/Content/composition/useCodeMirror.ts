@@ -1,9 +1,3 @@
-import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
-import { EditorView } from 'codemirror';
-import { keymap, drawSelection } from '@codemirror/view';
-import { languages } from '@codemirror/language-data';
-import { markdown } from '@codemirror/lang-markdown';
-import { Compartment } from '@codemirror/state';
 import {
   indentWithTab,
   defaultKeymap,
@@ -12,20 +6,14 @@ import {
   undo,
   redo
 } from '@codemirror/commands';
+import { markdown } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
+import { Compartment } from '@codemirror/state';
+import { keymap, drawSelection } from '@codemirror/view';
 import { throttle } from '@vavt/util';
-import { directive2flag, ToolDirective } from '~/utils/content-help';
-import { Themes, DOMEventHandlers, CodeMirrorExtension } from '~/type';
+import { EditorView } from 'codemirror';
+import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
 import { globalConfig } from '~/config';
-import bus from '~/utils/event-bus';
-
-import { ContentProps } from '../props';
-import { oneDark } from '../codemirror/themeOneDark';
-import { oneLight } from '../codemirror/themeLight';
-import createAutocompletion from '../codemirror/autocompletion';
-import CodeMirrorUt from '../codemirror';
-import usePasteUpload from './usePasteUpload';
-// import useAttach from './useAttach';
-import createCommands from '../codemirror/commands';
 import {
   CTRL_SHIFT_Z,
   CTRL_Z,
@@ -36,6 +24,18 @@ import {
   SEND_EDITOR_VIEW,
   TASK_STATE_CHANGED
 } from '~/static/event-name';
+import { Themes, DOMEventHandlers, CodeMirrorExtension } from '~/type';
+import { directive2flag, ToolDirective } from '~/utils/content-help';
+import bus from '~/utils/event-bus';
+
+import CodeMirrorUt from '../codemirror';
+import createAutocompletion from '../codemirror/autocompletion';
+import { oneLight } from '../codemirror/themeLight';
+import { oneDark } from '../codemirror/themeOneDark';
+import { ContentProps } from '../props';
+import usePasteUpload from './usePasteUpload';
+// import useAttach from './useAttach';
+import createCommands from '../codemirror/commands';
 
 // 禁用掉>=6.28.0的实验性功能
 (EditorView as any).EDIT_CONTEXT = false;
@@ -168,13 +168,15 @@ const useCodeMirror = (props: ContentProps) => {
       }
     ];
 
-    return globalConfig.codeMirrorExtensions!(extensions, {
-      editorId,
-      theme: theme.value,
-      keyBindings: getDefaultKeymaps()
-    }).map((item) =>
-      item.compartment ? item.compartment.of(item.extension) : item.extension
-    );
+    return globalConfig
+      .codeMirrorExtensions(extensions, {
+        editorId,
+        theme: theme.value,
+        keyBindings: getDefaultKeymaps()
+      })
+      .map((item) =>
+        item.compartment ? item.compartment.of(item.extension) : item.extension
+      );
   };
 
   onMounted(() => {
@@ -217,7 +219,7 @@ const useCodeMirror = (props: ContentProps) => {
       async callback(direct: ToolDirective, params = {}) {
         // 弹窗插入图片时，将链接使用transformImgUrl转换后再插入
         if (direct === 'image' && params.transform) {
-          const tv = props.transformImgUrl(params.url);
+          const tv = props.transformImgUrl(params.url as string);
 
           if (tv instanceof Promise) {
             tv.then(async (url) => {
@@ -226,7 +228,7 @@ const useCodeMirror = (props: ContentProps) => {
                 codeMirrorUt.value!,
                 { ...params, url }
               );
-              codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+              codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
             }).catch((err) => {
               console.error(err);
             });
@@ -235,7 +237,7 @@ const useCodeMirror = (props: ContentProps) => {
               ...params,
               url: tv
             });
-            codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+            codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
           }
         } else {
           const { text, options } = await directive2flag(
@@ -243,7 +245,7 @@ const useCodeMirror = (props: ContentProps) => {
             codeMirrorUt.value!,
             params
           );
-          codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+          codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
         }
       }
     });
@@ -261,11 +263,11 @@ const useCodeMirror = (props: ContentProps) => {
 
           if (defaultEventNames.includes(en)) {
             nextDomEventHandlers[en] = (e, v) => {
-              handlers[en]!(e as any, v);
+              (handlers[en] as (event: Event, view: EditorView) => void)(e, v);
 
               // 如果用户自行监听的事件调用了preventDefault，则不再执行内部的方法
               if (!e.defaultPrevented) {
-                domEventHandlers[en]!(e as any, v);
+                (domEventHandlers[en] as (event: Event, view: EditorView) => void)(e, v);
               }
             };
           } else {

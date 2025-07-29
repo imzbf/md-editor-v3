@@ -1,5 +1,6 @@
-import { PropType, VNode, ExtractPropTypes } from 'vue';
+// eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
+import { PropType, VNode, ExtractPropTypes } from 'vue';
 import { ToolbarNames, SettingType, UpdateSetting } from '~/type';
 
 export const toolbarProps = {
@@ -37,7 +38,7 @@ export const toolbarProps = {
     default: () => [6, 4]
   },
   defToolbars: {
-    type: Object as PropType<VNode>
+    type: Object as PropType<VNode | VNode[]>
   },
   noUploadImg: {
     type: Boolean as PropType<boolean>

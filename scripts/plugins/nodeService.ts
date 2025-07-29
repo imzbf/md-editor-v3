@@ -1,8 +1,8 @@
-import { Plugin, ViteDevServer } from 'vite';
-import multiparty from 'multiparty';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import multiparty from 'multiparty';
+import { Plugin, ViteDevServer } from 'vite';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const LOCAL_IMG_PATH = path.resolve(__dirname, '../dev/public/temp.local');
@@ -11,7 +11,7 @@ export default (): Plugin => {
   return {
     name: 'node-service',
     configureServer: (server: ViteDevServer) => {
-      server.middlewares.use(async (req, res, next) => {
+      server.middlewares.use((req, res, next) => {
         if (/^\/api\/img\/upload$/.test(req.url)) {
           if (!fs.existsSync(LOCAL_IMG_PATH)) {
             fs.mkdirSync(LOCAL_IMG_PATH, {

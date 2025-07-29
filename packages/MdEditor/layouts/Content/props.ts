@@ -1,6 +1,7 @@
-import { ExtractPropTypes, PropType } from 'vue';
 import { CompletionSource } from '@codemirror/autocomplete';
+// eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
+import { ExtractPropTypes, PropType } from 'vue';
 import { HeadList, SettingType, MdHeadingId, Themes } from '~/type';
 
 export const contentPreviewProps = {

@@ -1,11 +1,14 @@
-/* eslint-disable vue/require-default-prop */
 import { defineComponent, PropType } from 'vue';
 import './index.less';
 import { Theme } from '../App';
 
 export default defineComponent({
+  name: 'PageHeader',
   props: {
-    theme: String as PropType<Theme>,
+    theme: {
+      type: String as PropType<Theme>,
+      default: 'light'
+    },
     onChange: {
       type: Function as PropType<(v: Theme) => void>,
       default: () => {}

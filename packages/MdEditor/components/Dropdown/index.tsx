@@ -10,12 +10,10 @@ import {
   ref,
   onMounted,
   onBeforeUnmount,
-  ExtractPropTypes,
   VNode
 } from 'vue';
-import { LooseRequired } from '@vue/shared';
-import { getSlot } from '~/utils/vue-tsx';
 import { prefix } from '~/config';
+import { getSlot } from '~/utils/vue-tsx';
 
 interface CtlTypes {
   overlayClass: Array<string>;
@@ -26,7 +24,7 @@ interface CtlTypes {
 
 const props = {
   overlay: {
-    type: [String, Object] as PropType<string | VNode>,
+    type: [String, Object] as PropType<string | VNode | VNode[]>,
     default: ''
   },
   visible: {
@@ -48,14 +46,10 @@ const props = {
   }
 };
 
-type DropdownToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
->;
-
 export default defineComponent({
   name: `${prefix}-dropdown`,
   props,
-  setup(props: DropdownToolbarProps, ctx: SetupContext<EmitsOptions>) {
+  setup(props, ctx: SetupContext<EmitsOptions>) {
     const HIDDEN_CLASS = `${prefix}-dropdown-hidden`;
 
     const ctl = reactive<CtlTypes>({

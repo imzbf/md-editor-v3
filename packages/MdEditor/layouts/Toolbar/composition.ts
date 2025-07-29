@@ -1,9 +1,9 @@
 import { onMounted, inject, ref } from 'vue';
 import { globalConfig } from '~/config';
-import { appendHandler } from '~/utils/dom';
-import bus from '~/utils/event-bus';
 import { CDN_IDS } from '~/static';
 import { CHANGE_FULL_SCREEN, ERROR_CATCHER } from '~/static/event-name';
+import { appendHandler } from '~/utils/dom';
+import bus from '~/utils/event-bus';
 import { ToolbarProps } from './props';
 
 export const useSreenfull = (props: ToolbarProps) => {

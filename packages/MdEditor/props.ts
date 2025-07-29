@@ -1,7 +1,7 @@
-import { PropType, CSSProperties, VNode } from 'vue';
 import { CompletionSource } from '@codemirror/autocomplete';
+import { PropType, CSSProperties, VNode } from 'vue';
+import { allToolbar, allFooter } from './config';
 import {
-  StaticTextDefaultKey,
   ToolbarNames,
   PreviewThemes,
   MdHeadingId,
@@ -16,8 +16,6 @@ import {
   EditorEmits,
   CustomIcon
 } from './type';
-
-import { allToolbar, allFooter } from './config';
 
 export const mdHeadingId: MdHeadingId = (text) => text;
 
@@ -62,7 +60,7 @@ export const mdPreviewProps = {
    * @default 'zh-CN'
    */
   language: {
-    type: String as PropType<StaticTextDefaultKey | string>,
+    type: String as PropType<string>,
     default: 'zh-CN'
   },
   /**

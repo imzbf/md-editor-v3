@@ -1,12 +1,12 @@
+import { lineNumbers } from '@codemirror/view';
 import { createApp } from 'vue';
+import { MdEditor, config, XSSPlugin, editorExtensionsAttrs } from '~~/index';
 import App from './App';
 
-import { MdEditor, config, XSSPlugin, editorExtensionsAttrs } from '~~/index';
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
 
 // import { Extension } from '@codemirror/state';
-import { lineNumbers } from '@codemirror/view';
 // import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
 // import DDD from './.local/DDD.vue';
 // import screenfull from 'screenfull';

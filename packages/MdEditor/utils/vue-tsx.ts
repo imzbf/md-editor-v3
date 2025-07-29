@@ -1,4 +1,4 @@
-import { ComponentPublicInstance, SetupContext } from 'vue';
+import { ComponentPublicInstance, SetupContext, VNode } from 'vue';
 
 /**
  * 获取指定插槽内容
@@ -21,5 +21,6 @@ export const getSlot = (
   name = 'default'
 ) => {
   const targetSlot = instance?.$slots[name] || ctx?.slots[name];
-  return (targetSlot ? targetSlot(instance) : '') || props[name];
+
+  return (targetSlot ? targetSlot(instance) : '') || (props[name] as VNode);
 };

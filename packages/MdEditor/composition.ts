@@ -1,20 +1,5 @@
-import { reactive, watch, computed, onMounted, provide, ref, Ref, useId } from 'vue';
 import { deepClone, deepMerge } from '@vavt/util';
-import {
-  InnerError,
-  SettingType,
-  ExposeParam,
-  UpdateSetting,
-  ExposeEvent,
-  MdPreviewProps,
-  FocusOption,
-  UploadImgCallBack,
-  StaticTextDefaultValue,
-  EditorProps,
-  EditorContext,
-  Themes
-} from '~/type';
-import { appendHandler } from '~/utils/dom';
+import { reactive, watch, computed, onMounted, provide, ref, Ref, useId } from 'vue';
 import { prefix, staticTextDefault, codeCss, globalConfig } from '~/config';
 import {
   CHANGE_CATALOG_VISIBLE,
@@ -33,6 +18,20 @@ import {
   EVENT_LISTENER,
   PREVIEW_ONLY_CHANGED
 } from '~/static/event-name';
+import {
+  InnerError,
+  SettingType,
+  ExposeParam,
+  UpdateSetting,
+  ExposeEvent,
+  MdPreviewProps,
+  FocusOption,
+  UploadImgCallBack,
+  StaticTextDefaultValue,
+  EditorProps,
+  EditorContext
+} from '~/type';
+import { appendHandler } from '~/utils/dom';
 import bus from '~/utils/event-bus';
 import { ContentExposeParam } from './layouts/Content/type';
 import { CDN_IDS } from './static';
@@ -152,7 +151,7 @@ export const useProvidePreview = (
       const _theme =
         props.codeStyleReverse && props.codeStyleReverseList.includes(props.previewTheme)
           ? 'dark'
-          : (props.theme as Themes);
+          : props.theme;
 
       // 找到对应代码主题的链接和属性
       const codeCssHref = cssList[props.codeTheme]

@@ -1,11 +1,11 @@
 import { defineComponent, onBeforeUnmount, ref } from 'vue';
-import { prefix } from '~/config';
-import bus from '~/utils/event-bus';
 import { useProvidePreview } from '~/composition';
+import { prefix } from '~/config';
 
 import ContentPreview from '~/layouts/Content/ContentPreview';
-import { MdPreviewProps } from '~/type';
 import { mdPreviewProps as props, mdPreviewEmits as emits } from '~/props';
+import { MdPreviewProps } from '~/type';
+import bus from '~/utils/event-bus';
 import { useExpose } from './composition/useExpose';
 
 const MdPreview = defineComponent({

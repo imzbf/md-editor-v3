@@ -67,11 +67,13 @@
     "xss": "^1.0.15"
   },
   "devDependencies": {
+    "@eslint/js": "^9.32.0",
     "@types/katex": "^0.16.7",
     "@types/multiparty": "^4.2.1",
     "@types/node": "^22.7.7",
-    "@typescript-eslint/eslint-plugin": "^8.10.0",
-    "@typescript-eslint/parser": "^8.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "@typescript-eslint/utils": "^8.38.0",
     "@vavt/markdown-theme": "^4.5.0",
     "@vavt/vite-plugin-import-markdown": "^1.0.0",
     "@vitejs/plugin-vue": "^5.1.4",
@@ -80,9 +82,12 @@
     "@vue/eslint-config-typescript": "^14.1.1",
     "axios": "^1.7.7",
     "cropperjs": "^1.6.2",
-    "eslint": "^9.13.0",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-vue": "^9.29.1",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-vue": "^10.3.0",
     "highlight.js": "^11.7.0",
     "husky": "^9.1.7",
     "katex": "^0.16.22",
@@ -94,9 +99,11 @@
     "screenfull": "^6.0.2",
     "tsc-alias": "^1.8.10",
     "tsx": "^4.19.1",
-    "typescript": "5.6.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0",
     "vite": "^5.4.9",
-    "vue": "^3.5.12"
+    "vue": "^3.5.12",
+    "vue-eslint-parser": "^10.2.0"
   },
   "peerDependencies": {
     "vue": "^3.5.3"

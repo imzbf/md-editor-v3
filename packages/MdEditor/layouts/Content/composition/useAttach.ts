@@ -1,6 +1,7 @@
 import { inject, Ref, onMounted } from 'vue';
-import bus from '~/utils/event-bus';
 import { TEXTAREA_FOCUS } from '~/static/event-name';
+import { FocusOption } from '~/type';
+import bus from '~/utils/event-bus';
 import CodeMirrorUt from '../codemirror';
 
 /**
@@ -14,7 +15,7 @@ const useAttach = (codeMirrorUt: Ref<CodeMirrorUt | undefined>) => {
   onMounted(() => {
     bus.on(editorId, {
       name: TEXTAREA_FOCUS,
-      callback(options) {
+      callback(options: FocusOption) {
         codeMirrorUt.value?.focus(options);
       }
     });

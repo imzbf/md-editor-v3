@@ -1,13 +1,4 @@
-import {
-  defineComponent,
-  PropType,
-  reactive,
-  ExtractPropTypes,
-  ref,
-  watch,
-  computed
-} from 'vue';
-import { LooseRequired } from '@vue/shared';
+import { defineComponent, PropType, reactive, ref, watch, computed } from 'vue';
 import { prefix } from '~/config';
 
 interface HoverData {
@@ -26,12 +17,10 @@ const props = {
   }
 };
 
-type TableShapeProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
-
 const TableShape = defineComponent({
   name: 'TableShape',
   props,
-  setup(props: TableShapeProps) {
+  setup(props) {
     const hoverPosition = reactive<HoverData>({
       x: -1,
       y: -1
@@ -42,7 +31,7 @@ const TableShape = defineComponent({
     });
 
     const initShape = () => {
-      const shape = [...JSON.parse(tableShapeStr.value)];
+      const shape: number[] = [...JSON.parse(tableShapeStr.value)];
 
       if (!shape[2] || shape[2] < shape[0]) {
         shape[2] = shape[0];

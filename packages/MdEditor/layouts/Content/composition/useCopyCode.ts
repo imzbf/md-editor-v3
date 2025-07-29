@@ -1,8 +1,8 @@
-import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
 import copy2clipboard from '@vavt/copy2clipboard';
+import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
+import { prefix } from '~/config';
 import { StaticTextDefaultValue } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
-import { prefix } from '~/config';
 
 const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<string>) => {
   const editorId = inject('editorId') as string;
@@ -62,13 +62,13 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
   // 编译事件
   const htmlChanged = () => {
     // 重新设置复制按钮
-    nextTick(initCopyEntry);
+    void nextTick(initCopyEntry);
   };
 
   // 分栏发生变化时
   const settingPreviewChanged = (nVal: boolean) => {
     if (nVal) {
-      nextTick(initCopyEntry);
+      void nextTick(initCopyEntry);
     }
   };
 

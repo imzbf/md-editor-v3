@@ -1,11 +1,11 @@
+import { createSmoothScroll } from '@vavt/util';
 import { defineComponent, ref, inject } from 'vue';
 import { prefix } from '~/config';
-import MdCatalog from '~~/MdCatalog';
 import { FocusOption } from '~/type';
+import MdCatalog from '~~/MdCatalog';
 import { useAutoScroll, useCodeMirror, useResize } from './composition';
-import { contentProps as props, ContentProps } from './props';
 import ContentPreview from './ContentPreview';
-import { createSmoothScroll } from '@vavt/util';
+import { contentProps as props, ContentProps } from './props';
 
 const smoothScroll = createSmoothScroll();
 
