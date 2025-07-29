@@ -37,17 +37,20 @@ const ContentPreview = defineComponent({
     return () => {
       return (
         <>
-          {props.setting.preview && (
-            <div
-              id={`${editorId}-preview-wrapper`}
-              class={`${prefix}-preview-wrapper`}
-              key="content-preview-wrapper"
-            >
+          {props.setting.preview &&
+            (props.previewOnly ? (
               <UpdateOnDemand key={key.value} html={html.value} />
-            </div>
-          )}
+            ) : (
+              <div
+                id={`${editorId}-preview-wrapper`}
+                class={`${prefix}-preview-wrapper`}
+                key="content-preview-wrapper"
+              >
+                <UpdateOnDemand key={key.value} html={html.value} />
+              </div>
+            ))}
 
-          {!props.previewOnly && props.setting.htmlPreview && (
+          {props.setting.htmlPreview && (
             <div
               id={`${editorId}-html-wrapper`}
               class={`${prefix}-preview-wrapper`}
