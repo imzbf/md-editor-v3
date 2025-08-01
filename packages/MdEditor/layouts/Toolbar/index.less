@@ -78,6 +78,7 @@
       box-sizing: content-box;
 
       &-item {
+        color: var(--md-color);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -89,6 +90,8 @@
         list-style: none;
         user-select: none;
         text-align: center;
+        border: none;
+        background-color: transparent;
 
         &-name {
           font-size: 12px;
@@ -96,7 +99,7 @@
           white-space: nowrap;
         }
 
-        &:hover {
+        &:not([disabled]):hover {
           background-color: var(--md-bk-color-outstand);
         }
       }

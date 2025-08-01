@@ -67,18 +67,17 @@ export default defineComponent({
       const Default = getSlot({ props, ctx });
 
       return (
-        <div
+        <button
           class={[`${prefix}-toolbar-item`, props.disabled && `${prefix}-disabled`]}
           title={props.title}
+          disabled={props.disabled}
           onClick={(e) => {
-            if (props.disabled) return;
-
             props.onClick?.(e);
             ctx.emit('onClick', e);
           }}
         >
           {Default || Trigger}
-        </div>
+        </button>
       );
     };
   }

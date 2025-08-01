@@ -1,42 +1,52 @@
-import { linkTo, draggingScroll } from '@vavt/util';
+import { draggingScroll } from '@vavt/util';
 import {
   computed,
   ComputedRef,
   defineComponent,
   inject,
-  onMounted,
-  reactive,
   ref,
   cloneVNode,
   VNode,
   watch,
-  nextTick
+  nextTick,
+  provide
 } from 'vue';
 import Divider from '~/components/Divider';
-import Dropdown from '~/components/Dropdown';
-import Icon from '~/components/Icon';
 import { allToolbar, prefix } from '~/config';
-import {
-  CHANGE_CATALOG_VISIBLE,
-  CTRL_SHIFT_Z,
-  CTRL_Z,
-  ON_SAVE,
-  REPLACE,
-  UPLOAD_IMAGE
-} from '~/static/event-name';
-import {
-  InsertContentGenerator,
-  PreviewThemes,
-  StaticTextDefaultValue,
-  Themes,
-  ToolbarNames
-} from '~/type';
-import { ToolDirective } from '~/utils/content-help';
+import { REPLACE } from '~/static/event-name';
+import { InsertContentGenerator, PreviewThemes, Themes, ToolbarNames } from '~/type';
 import bus from '~/utils/event-bus';
-import { useSreenfull } from './composition';
 import { toolbarProps as props, ToolbarProps } from './props';
-import TableShape from './TableShape';
-import Modals from '../Modals';
+import ToolbarBold from './tools/Bold';
+import ToolbarCatalog from './tools/Catalog';
+import ToolbarCode from './tools/Code';
+import ToolbarCodeRow from './tools/CodeRow';
+import ToolbarFullscreen from './tools/Fullscreen';
+import ToolbarGithub from './tools/Github';
+import ToolbarHtmlPreview from './tools/HtmlPreview';
+import ToolbarImage from './tools/Image';
+import ToolbarImageDropdown from './tools/ImageDropdown';
+import ToolbarItalic from './tools/Italic';
+import ToolbarKatex from './tools/Katex';
+import ToolbarLink from './tools/Link';
+import ToolbarMermaid from './tools/Mermaid';
+import ToolbarNext from './tools/Next';
+import ToolbarOrderedList from './tools/OrderedList';
+import ToolbarPageFullscreen from './tools/PageFullscreen';
+import ToolbarPrettier from './tools/Prettier';
+import ToolbarPreview from './tools/Preview';
+import ToolbarPreviewOnly from './tools/PreviewOnly';
+import ToolbarQuote from './tools/Quote';
+import ToolbarRevoke from './tools/Revoke';
+import ToolbarSave from './tools/Save';
+import ToolbarStrikeThrough from './tools/StrikeThrough';
+import ToolbarSub from './tools/Sub';
+import ToolbarSup from './tools/Sup';
+import ToolbarTable from './tools/Table';
+import ToolbarTask from './tools/Task';
+import ToolbarTitle from './tools/Title';
+import ToolbarUnderline from './tools/Underline';
+import ToolbarUnorderedList from './tools/UnorderedList';
 
 export default defineComponent({
   name: 'MDEditorToolbar',
@@ -44,8 +54,6 @@ export default defineComponent({
   setup(props: ToolbarProps) {
     // 获取Id
     const editorId = inject('editorId') as string;
-    // 获取语言设置
-    const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     // 主题
     const theme = inject('theme') as ComputedRef<Themes>;
     // 预览主题
@@ -54,36 +62,15 @@ export default defineComponent({
     const language = inject('language') as ComputedRef<string>;
     const disabled = inject<ComputedRef<boolean>>('disabled');
 
-    // 全屏功能
-    const { fullscreenHandler } = useSreenfull(props);
+    provide(
+      'showToolbarName',
+      computed(() => props.showToolbarName)
+    );
 
     // wrapper ID
     const wrapperId = `${editorId}-toolbar-wrapper`;
 
     const wrapperRef = ref<HTMLDivElement>();
-
-    const visible = reactive({
-      title: false,
-      catalog: false,
-      // 图片上传下拉
-      image: false,
-      // 表格预选
-      table: false,
-      // mermaid
-      mermaid: false,
-      katex: false
-    });
-
-    const emitHandler = (direct: ToolDirective, params?: any) => {
-      if (disabled?.value) {
-        return false;
-      }
-
-      bus.emit(editorId, REPLACE, direct, params);
-    };
-
-    // 链接
-    const clipVisible = ref<boolean>(false);
 
     // 监控左边的操作栏
     const toolbarLeftRef = ref<HTMLDivElement>();
@@ -110,22 +97,6 @@ export default defineComponent({
       return [barLeft, barRight];
     });
 
-    // 上传控件
-    const uploadRef = ref();
-
-    const uploadHandler = () => {
-      bus.emit(
-        editorId,
-        UPLOAD_IMAGE,
-        Array.from((uploadRef.value as HTMLInputElement).files || [])
-      );
-      // 清空内容，否则无法再次选取同一张图片
-      (uploadRef.value as HTMLInputElement).value = '';
-    };
-    onMounted(() => {
-      (uploadRef.value as HTMLInputElement).addEventListener('change', uploadHandler);
-    });
-
     const barRender = (barItem: ToolbarNames) => {
       if (allToolbar.includes(barItem as string)) {
         switch (barItem) {
@@ -133,988 +104,118 @@ export default defineComponent({
             return <Divider />;
           }
           case 'bold': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.bold}
-                onClick={() => {
-                  emitHandler('bold');
-                }}
-              >
-                <Icon name="bold" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.bold}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarBold />;
           }
           case 'underline': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.underline}
-                onClick={() => {
-                  emitHandler('underline');
-                }}
-              >
-                <Icon name="underline" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.underline}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarUnderline />;
           }
           case 'italic': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.italic}
-                onClick={() => {
-                  emitHandler('italic');
-                }}
-              >
-                <Icon name="italic" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.italic}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarItalic />;
           }
           case 'strikeThrough': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.strikeThrough}
-                onClick={() => {
-                  emitHandler('strikeThrough');
-                }}
-              >
-                <Icon name="strike-through" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.strikeThrough}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarStrikeThrough />;
           }
           case 'title': {
-            return (
-              <Dropdown
-                relative={`#${wrapperId}`}
-                visible={visible.title}
-                onChange={(v) => {
-                  visible.title = v;
-                }}
-                disabled={disabled?.value}
-                overlay={
-                  <ul
-                    class={`${prefix}-menu`}
-                    onClick={() => {
-                      visible.title = false;
-                    }}
-                    role="menu"
-                  >
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
-                      onClick={() => {
-                        emitHandler('h1');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.titleItem?.h1}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
-                      onClick={() => {
-                        emitHandler('h2');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.titleItem?.h2}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
-                      onClick={() => {
-                        emitHandler('h3');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.titleItem?.h3}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
-                      onClick={() => {
-                        emitHandler('h4');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.titleItem?.h4}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
-                      onClick={() => {
-                        emitHandler('h5');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.titleItem?.h5}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-title`}
-                      onClick={() => {
-                        emitHandler('h6');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.titleItem?.h6}
-                    </li>
-                  </ul>
-                }
-              >
-                <div
-                  class={[
-                    `${prefix}-toolbar-item`,
-                    disabled?.value && `${prefix}-disabled`
-                  ]}
-                  title={ult.value.toolbarTips?.title}
-                >
-                  <Icon name="title" />
-
-                  {props.showToolbarName && (
-                    <div class={`${prefix}-toolbar-item-name`}>
-                      {ult.value.toolbarTips?.title}
-                    </div>
-                  )}
-                </div>
-              </Dropdown>
-            );
+            return <ToolbarTitle />;
           }
           case 'sub': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.sub}
-                onClick={() => {
-                  emitHandler('sub');
-                }}
-              >
-                <Icon name="sub" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.sub}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarSub />;
           }
           case 'sup': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.sup}
-                onClick={() => {
-                  emitHandler('sup');
-                }}
-              >
-                <Icon name="sup" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.sup}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarSup />;
           }
           case 'quote': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.quote}
-                onClick={() => {
-                  emitHandler('quote');
-                }}
-              >
-                <Icon name="quote" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.quote}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarQuote />;
           }
-
           case 'unorderedList': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.unorderedList}
-                onClick={() => {
-                  emitHandler('unorderedList');
-                }}
-              >
-                <Icon name="unordered-list" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.unorderedList}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarUnorderedList />;
           }
           case 'orderedList': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.orderedList}
-                onClick={() => {
-                  emitHandler('orderedList');
-                }}
-              >
-                <Icon name="ordered-list" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.orderedList}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarOrderedList />;
           }
-
           case 'task': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.task}
-                onClick={() => {
-                  emitHandler('task');
-                }}
-              >
-                <Icon name="task" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.task}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarTask />;
           }
-
           case 'codeRow': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.codeRow}
-                onClick={() => {
-                  emitHandler('codeRow');
-                }}
-              >
-                <Icon name="code-row" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.codeRow}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarCodeRow />;
           }
           case 'code': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.code}
-                onClick={() => {
-                  emitHandler('code');
-                }}
-              >
-                <Icon name="code" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.code}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarCode />;
           }
           case 'link': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.link}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-
-                  emitHandler('link');
-                }}
-              >
-                <Icon name="link" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.link}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarLink />;
           }
           case 'image': {
-            return props.noUploadImg ? (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.image}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-
-                  emitHandler('image');
-                }}
-              >
-                <Icon name="image" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.image}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Dropdown
-                relative={`#${wrapperId}`}
-                visible={visible.image}
-                onChange={(v) => {
-                  visible.image = v;
-                }}
-                disabled={disabled?.value}
-                overlay={
-                  <ul
-                    class={`${prefix}-menu`}
-                    onClick={() => {
-                      visible.image = false;
-                    }}
-                    role="menu"
-                  >
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-image`}
-                      onClick={() => {
-                        emitHandler('image');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.imgTitleItem?.link}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-image`}
-                      onClick={() => {
-                        (uploadRef.value as HTMLInputElement).click();
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.imgTitleItem?.upload}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-image`}
-                      onClick={() => {
-                        clipVisible.value = true;
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.imgTitleItem?.clip2upload}
-                    </li>
-                  </ul>
-                }
-              >
-                {
-                  <div
-                    class={[
-                      `${prefix}-toolbar-item`,
-                      disabled?.value && `${prefix}-disabled`
-                    ]}
-                    title={ult.value.toolbarTips?.image}
-                  >
-                    <Icon name="image" />
-
-                    {props.showToolbarName && (
-                      <div class={`${prefix}-toolbar-item-name`}>
-                        {ult.value.toolbarTips?.image}
-                      </div>
-                    )}
-                  </div>
-                }
-              </Dropdown>
-            );
+            return props.noUploadImg ? <ToolbarImage /> : <ToolbarImageDropdown />;
           }
           case 'table': {
-            return (
-              <Dropdown
-                relative={`#${wrapperId}`}
-                visible={visible.table}
-                onChange={(v) => {
-                  visible.table = v;
-                }}
-                disabled={disabled?.value}
-                key="bar-table"
-                overlay={
-                  <TableShape
-                    tableShape={props.tableShape}
-                    onSelected={(selectedShape) => {
-                      emitHandler('table', { selectedShape });
-                    }}
-                  />
-                }
-              >
-                <div
-                  class={[
-                    `${prefix}-toolbar-item`,
-                    disabled?.value && `${prefix}-disabled`
-                  ]}
-                  title={ult.value.toolbarTips?.table}
-                >
-                  <Icon name="table" />
-
-                  {props.showToolbarName && (
-                    <div class={`${prefix}-toolbar-item-name`}>
-                      {ult.value.toolbarTips?.table}
-                    </div>
-                  )}
-                </div>
-              </Dropdown>
-            );
+            return <ToolbarTable tableShape={props.tableShape} />;
           }
           case 'revoke': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.revoke}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  bus.emit(editorId, CTRL_Z);
-                }}
-              >
-                <Icon name="revoke" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.revoke}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarRevoke />;
           }
           case 'next': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.next}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  bus.emit(editorId, CTRL_SHIFT_Z);
-                }}
-              >
-                <Icon name="next" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.next}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarNext />;
           }
           case 'save': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.save}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  bus.emit(editorId, ON_SAVE);
-                }}
-              >
-                <Icon name="save" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.save}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarSave />;
           }
           case 'prettier': {
-            return !props.noPrettier ? (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.prettier}
-                onClick={() => {
-                  emitHandler('prettier');
-                }}
-              >
-                <Icon name="prettier" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.prettier}
-                  </div>
-                )}
-              </div>
-            ) : (
-              ''
-            );
+            return !props.noPrettier && <ToolbarPrettier />;
           }
           case 'pageFullscreen': {
             return (
               !props.setting.fullscreen && (
-                <div
-                  class={[
-                    `${prefix}-toolbar-item`,
-                    props.setting.pageFullscreen && `${prefix}-toolbar-active`,
-                    disabled?.value && `${prefix}-disabled`
-                  ]}
-                  title={ult.value.toolbarTips?.pageFullscreen}
-                  onClick={() => {
-                    if (disabled?.value) {
-                      return false;
-                    }
-                    props.updateSetting('pageFullscreen');
-                  }}
-                >
-                  <Icon name={props.setting.pageFullscreen ? 'minimize' : 'maximize'} />
-
-                  {props.showToolbarName && (
-                    <div class={`${prefix}-toolbar-item-name`}>
-                      {ult.value.toolbarTips?.pageFullscreen}
-                    </div>
-                  )}
-                </div>
+                <ToolbarPageFullscreen
+                  setting={props.setting}
+                  updateSetting={props.updateSetting}
+                />
               )
             );
           }
           case 'fullscreen': {
             return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  props.setting.fullscreen && `${prefix}-toolbar-active`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.fullscreen}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  fullscreenHandler();
-                }}
-              >
-                <Icon
-                  name={props.setting.fullscreen ? 'fullscreen-exit' : 'fullscreen'}
-                />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.fullscreen}
-                  </div>
-                )}
-              </div>
+              <ToolbarFullscreen
+                setting={props.setting}
+                updateSetting={props.updateSetting}
+              />
             );
           }
           case 'preview': {
             return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  props.setting.preview && `${prefix}-toolbar-active`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.preview}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  props.updateSetting('preview');
-                }}
-              >
-                <Icon name="preview" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.preview}
-                  </div>
-                )}
-              </div>
+              <ToolbarPreview
+                setting={props.setting}
+                updateSetting={props.updateSetting}
+              />
             );
           }
           case 'previewOnly': {
             return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  props.setting.previewOnly && `${prefix}-toolbar-active`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.previewOnly}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  props.updateSetting('previewOnly');
-                }}
-              >
-                <Icon name="preview-only" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.previewOnly}
-                  </div>
-                )}
-              </div>
+              <ToolbarPreviewOnly
+                setting={props.setting}
+                updateSetting={props.updateSetting}
+              />
             );
           }
           case 'htmlPreview': {
             return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  props.setting.htmlPreview && `${prefix}-toolbar-active`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.htmlPreview}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  props.updateSetting('htmlPreview');
-                }}
-              >
-                <Icon name="preview-html" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.htmlPreview}
-                  </div>
-                )}
-              </div>
+              <ToolbarHtmlPreview
+                setting={props.setting}
+                updateSetting={props.updateSetting}
+              />
             );
           }
           case 'catalog': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  props.catalogVisible && `${prefix}-toolbar-active`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.catalog}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  bus.emit(editorId, CHANGE_CATALOG_VISIBLE);
-                }}
-                key="bar-catalog"
-              >
-                <Icon name="catalog" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.catalog}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarCatalog catalogVisible={props.catalogVisible} />;
           }
           case 'github': {
-            return (
-              <div
-                class={[
-                  `${prefix}-toolbar-item`,
-                  disabled?.value && `${prefix}-disabled`
-                ]}
-                title={ult.value.toolbarTips?.github}
-                onClick={() => {
-                  if (disabled?.value) {
-                    return false;
-                  }
-                  linkTo('https://github.com/imzbf/md-editor-v3');
-                }}
-              >
-                <Icon name="github" />
-
-                {props.showToolbarName && (
-                  <div class={`${prefix}-toolbar-item-name`}>
-                    {ult.value.toolbarTips?.github}
-                  </div>
-                )}
-              </div>
-            );
+            return <ToolbarGithub />;
           }
           case 'mermaid': {
-            return (
-              <Dropdown
-                relative={`#${wrapperId}`}
-                visible={visible.mermaid}
-                onChange={(v) => {
-                  visible.mermaid = v;
-                }}
-                disabled={disabled?.value}
-                overlay={
-                  <ul
-                    class={`${prefix}-menu`}
-                    onClick={() => {
-                      visible.mermaid = false;
-                    }}
-                    role="menu"
-                  >
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-                      onClick={() => {
-                        emitHandler('flow');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.mermaid?.flow}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-                      onClick={() => {
-                        emitHandler('sequence');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.mermaid?.sequence}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-                      onClick={() => {
-                        emitHandler('gantt');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.mermaid?.gantt}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-                      onClick={() => {
-                        emitHandler('class');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.mermaid?.class}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-                      onClick={() => {
-                        emitHandler('state');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.mermaid?.state}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-                      onClick={() => {
-                        emitHandler('pie');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.mermaid?.pie}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-                      onClick={() => {
-                        emitHandler('relationship');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.mermaid?.relationship}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-                      onClick={() => {
-                        emitHandler('journey');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.mermaid?.journey}
-                    </li>
-                  </ul>
-                }
-                key="bar-mermaid"
-              >
-                <div
-                  class={[
-                    `${prefix}-toolbar-item`,
-                    disabled?.value && `${prefix}-disabled`
-                  ]}
-                  title={ult.value.toolbarTips?.mermaid}
-                >
-                  <Icon name="mermaid" />
-
-                  {props.showToolbarName && (
-                    <div class={`${prefix}-toolbar-item-name`}>
-                      {ult.value.toolbarTips?.mermaid}
-                    </div>
-                  )}
-                </div>
-              </Dropdown>
-            );
+            return <ToolbarMermaid />;
           }
           case 'katex': {
-            return (
-              <Dropdown
-                relative={`#${wrapperId}`}
-                visible={visible.katex}
-                onChange={(v) => {
-                  visible.katex = v;
-                }}
-                disabled={disabled?.value}
-                overlay={
-                  <ul
-                    class={`${prefix}-menu`}
-                    onClick={() => {
-                      visible.katex = false;
-                    }}
-                    role="menu"
-                  >
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
-                      onClick={() => {
-                        emitHandler('katexInline');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.katex?.inline}
-                    </li>
-                    <li
-                      class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
-                      onClick={() => {
-                        emitHandler('katexBlock');
-                      }}
-                      role="menuitem"
-                      tabindex="0"
-                    >
-                      {ult.value.katex?.block}
-                    </li>
-                  </ul>
-                }
-                key="bar-katex"
-              >
-                <div
-                  class={[
-                    `${prefix}-toolbar-item`,
-                    disabled?.value && `${prefix}-disabled`
-                  ]}
-                  title={ult.value.toolbarTips?.katex}
-                >
-                  <Icon name="formula" />
-
-                  {props.showToolbarName && (
-                    <div class={`${prefix}-toolbar-item-name`}>
-                      {ult.value.toolbarTips?.katex}
-                    </div>
-                  )}
-                </div>
-              </Dropdown>
-            );
+            return <ToolbarKatex />;
           }
         }
       } else if (props.defToolbars instanceof Array) {
@@ -1192,35 +293,6 @@ export default defineComponent({
               </div>
             </div>
           )}
-          <label
-            for={`${wrapperId}_label`}
-            style={{ display: 'none' }}
-            aria-label={ult.value.imgTitleItem?.upload}
-          ></label>
-          <input
-            id={`${wrapperId}_label`}
-            ref={uploadRef}
-            accept="image/*"
-            type="file"
-            multiple={true}
-            style={{ display: 'none' }}
-          />
-          <Modals
-            clipVisible={clipVisible.value}
-            onCancel={() => {
-              clipVisible.value = false;
-            }}
-            onOk={(data) => {
-              if (data) {
-                emitHandler('image', {
-                  desc: data.desc,
-                  url: data.url,
-                  transform: true
-                });
-              }
-              clipVisible.value = false;
-            }}
-          />
         </>
       );
     };

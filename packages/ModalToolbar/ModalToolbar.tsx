@@ -113,18 +113,17 @@ export default defineComponent({
 
       return (
         <>
-          <div
+          <button
             class={[`${prefix}-toolbar-item`, props.disabled && `${prefix}-disabled`]}
             title={props.title}
+            disabled={props.disabled}
             onClick={() => {
-              if (props.disabled) return;
-
               props.onClick?.();
               ctx.emit('onClick');
             }}
           >
             {Trigger}
-          </div>
+          </button>
           <Modal
             style={props.style}
             class={props.class}
