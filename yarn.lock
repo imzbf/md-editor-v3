@@ -1621,10 +1621,10 @@
   resolved "https://registry.npmjs.org/@vavt/copy2clipboard/-/copy2clipboard-1.0.3.tgz#eae77af8e83835cae5d932c3dc025e8838bb4c12"
   integrity sha512-HtG48r2FBYp9eRvGB3QGmtRBH1zzRRAVvFbGgFstOwz4/DDaNiX0uZc3YVKPydqgOav26pibr9MtoCaWxn7aeA==
 
-"@vavt/markdown-theme@^4.5.1":
-  version "4.5.1"
-  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-4.5.1.tgz#025f0b532f4defa2d3c634452d073a8ad2a1c320"
-  integrity sha512-O4QpjA/pLEuq1tpqMGvdp4gT1fc5uFEXLsZBX9nfqdX5s0uUiOrIqw/ozjSuJsp5RBFmEZUYDOh0QoPYEmCJeg==
+"@vavt/markdown-theme@^4.5.2":
+  version "4.5.2"
+  resolved "https://registry.npmjs.org/@vavt/markdown-theme/-/markdown-theme-4.5.2.tgz#309a83f7aefab9d5b74f9480d2ba1e849f90b3f4"
+  integrity sha512-zHfckj5DjPCOm1mlPlN9NyL16j0gVfkdTvYrm6L/67VE6s9lqyoNCOtxCdffedEPYDCbh+HxxVkVvSAJIwbDCw==
 
 "@vavt/util@^2.1.0":
   version "2.1.0"
