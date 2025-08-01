@@ -24,6 +24,7 @@ export default defineComponent({
         <label
           class={`${prefix}-footer-label`}
           onClick={() => {
+            if (disabled?.value) return;
             props.onScrollAutoChange(!props.scrollAuto);
           }}
         >
