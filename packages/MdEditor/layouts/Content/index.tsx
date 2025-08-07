@@ -1,5 +1,6 @@
 import { createSmoothScroll } from '@vavt/util';
 import { defineComponent, ref, inject } from 'vue';
+import CustomScrollbar from '~/components/CustomScrollbar';
 import { prefix } from '~/config';
 import { FocusOption } from '~/type';
 import MdCatalog from '~~/MdCatalog';
@@ -46,11 +47,13 @@ export default defineComponent({
       return (
         <div class={`${prefix}-content`}>
           <div class={`${prefix}-content-wrapper`} ref={contentRef}>
-            <div
-              class={`${prefix}-input-wrapper`}
+            <CustomScrollbar
+              alwaysShowTrack
+              scrollTarget={`#${editorId} .cm-scroller`}
               style={inputWrapperStyle}
-              ref={inputWrapperRef}
-            />
+            >
+              <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef} />
+            </CustomScrollbar>
             {/* 拖拽入口需要保持props.setting变化时就挂载 */}
             {(props.setting.htmlPreview || props.setting.preview) && (
               <div
@@ -59,27 +62,29 @@ export default defineComponent({
                 ref={resizeRef}
               />
             )}
-            <ContentPreview
-              modelValue={props.modelValue}
-              onChange={props.onChange}
-              setting={props.setting}
-              onHtmlChanged={(html_) => {
-                html.value = html_;
-                props.onHtmlChanged(html_);
-              }}
-              onGetCatalog={props.onGetCatalog}
-              mdHeadingId={props.mdHeadingId}
-              noMermaid={props.noMermaid}
-              sanitize={props.sanitize}
-              noKatex={props.noKatex}
-              formatCopiedText={props.formatCopiedText}
-              noHighlight={props.noHighlight}
-              noImgZoomIn={props.noImgZoomIn}
-              sanitizeMermaid={props.sanitizeMermaid}
-              codeFoldable={props.codeFoldable}
-              autoFoldThreshold={props.autoFoldThreshold}
-              onRemount={props.onRemount}
-            />
+            <CustomScrollbar style={{ flex: 1 }}>
+              <ContentPreview
+                modelValue={props.modelValue}
+                onChange={props.onChange}
+                setting={props.setting}
+                onHtmlChanged={(html_) => {
+                  html.value = html_;
+                  props.onHtmlChanged(html_);
+                }}
+                onGetCatalog={props.onGetCatalog}
+                mdHeadingId={props.mdHeadingId}
+                noMermaid={props.noMermaid}
+                sanitize={props.sanitize}
+                noKatex={props.noKatex}
+                formatCopiedText={props.formatCopiedText}
+                noHighlight={props.noHighlight}
+                noImgZoomIn={props.noImgZoomIn}
+                sanitizeMermaid={props.sanitizeMermaid}
+                codeFoldable={props.codeFoldable}
+                autoFoldThreshold={props.autoFoldThreshold}
+                onRemount={props.onRemount}
+              />
+            </CustomScrollbar>
           </div>
           {props.catalogVisible && (
             <MdCatalog
