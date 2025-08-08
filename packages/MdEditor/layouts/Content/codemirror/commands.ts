@@ -6,7 +6,7 @@ import { ToolDirective } from '~/utils/content-help';
 import bus from '~/utils/event-bus';
 import { ContentProps } from '../props';
 
-const createCommands = (id: string, contentProps: ContentProps) => {
+export const createCommands = (id: string, contentProps: ContentProps) => {
   const CtrlB: KeyBinding = {
     key: 'Ctrl-b',
     mac: 'Cmd-b',
@@ -231,5 +231,3 @@ const createCommands = (id: string, contentProps: ContentProps) => {
     ...searchKeymap
   ];
 };
-
-export default createCommands;

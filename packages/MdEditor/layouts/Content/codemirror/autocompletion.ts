@@ -47,7 +47,9 @@ const getApply = (_label: string): Completion['apply'] => {
   };
 };
 
-const createAutocompletion = (completions: Array<CompletionSource> | undefined) => {
+export const createAutocompletion = (
+  completions: Array<CompletionSource> | undefined
+) => {
   const defaultCompletion = (context: CompletionContext): CompletionResult | null => {
     const word = context.matchBefore(
       /^#+|^-\s*\[*\s*\]*|`+|\[|!\[*|^\|\s?\|?|\$\$?|!+\s*\w*/
@@ -152,5 +154,3 @@ const createAutocompletion = (completions: Array<CompletionSource> | undefined) 
     override: completions ? [defaultCompletion, ...completions] : [defaultCompletion]
   });
 };
-
-export default createAutocompletion;

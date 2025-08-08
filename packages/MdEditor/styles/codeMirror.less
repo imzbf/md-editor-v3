@@ -155,4 +155,16 @@
       right: 6px;
     }
   }
+
+  .cm-link-short {
+    position: relative;
+    // 让原文本宽度为 0
+    font-size: 0;
+  }
+
+  .cm-link-short::before {
+    content: attr(data-short);
+    text-decoration: underline;
+    font-size: 14px;
+  }
 }

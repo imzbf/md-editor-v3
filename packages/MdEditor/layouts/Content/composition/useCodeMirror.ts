@@ -29,13 +29,14 @@ import { directive2flag, ToolDirective } from '~/utils/content-help';
 import bus from '~/utils/event-bus';
 
 import CodeMirrorUt from '../codemirror';
-import createAutocompletion from '../codemirror/autocompletion';
+import { createAutocompletion } from '../codemirror/autocompletion';
 import { oneLight } from '../codemirror/themeLight';
 import { oneDark } from '../codemirror/themeOneDark';
 import { ContentProps } from '../props';
 import usePasteUpload from './usePasteUpload';
 // import useAttach from './useAttach';
-import createCommands from '../codemirror/commands';
+import { createCommands } from '../codemirror/commands';
+import { linkShortenerPlugin } from '../codemirror/linkShortener';
 
 // 禁用掉>=6.28.0的实验性功能
 (EditorView as any).EDIT_CONTEXT = false;
@@ -150,6 +151,12 @@ const useCodeMirror = (props: ContentProps) => {
     {
       type: 'drawSelection',
       extension: drawSelection()
+    },
+    {
+      type: 'linkShortener',
+      extension: linkShortenerPlugin({
+        maxLength: 30
+      })
     }
   ];
 
