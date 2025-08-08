@@ -4,7 +4,7 @@ import CustomScrollbar from '~/components/CustomScrollbar';
 import { prefix } from '~/config';
 import { FocusOption } from '~/type';
 import MdCatalog from '~~/MdCatalog';
-import { useAutoScroll, useCodeMirror, useResize } from './composition';
+import { useAutoScroll, useCodeMirror, useFollowCatalog, useResize } from './composition';
 import ContentPreview from './ContentPreview';
 import { contentProps as props, ContentProps } from './props';
 
@@ -29,6 +29,9 @@ export default defineComponent({
     );
     // 自动滚动
     useAutoScroll(props, html, codeMirrorUt);
+
+    // 跟随目录
+    const { onCatalogActive, onMouseenter, onMouseleave } = useFollowCatalog();
 
     ctx.expose({
       getSelectedText() {
@@ -87,32 +90,39 @@ export default defineComponent({
             </CustomScrollbar>
           </div>
           {props.catalogVisible && (
-            <MdCatalog
-              theme={props.theme}
-              class={`${prefix}-catalog-editor ${prefix}-catalog-${props.catalogLayout}`}
-              editorId={editorId}
-              mdHeadingId={props.mdHeadingId}
-              key="internal-catalog"
-              scrollElementOffsetTop={2}
-              syncWith={!props.setting.preview ? 'editor' : 'preview'}
-              onClick={(e, toc) => {
-                // 如果没有预览区域，就将目录与编辑器同步滚动
-                if (!props.setting.preview && toc.line !== undefined) {
-                  e.preventDefault();
-                  const view = codeMirrorUt.value?.view;
+            <CustomScrollbar
+              class={`${prefix}-catalog-${props.catalogLayout}`}
+              onMouseenter={onMouseenter}
+              onMouseleave={onMouseleave}
+            >
+              <MdCatalog
+                theme={props.theme}
+                class={`${prefix}-catalog-editor`}
+                editorId={editorId}
+                mdHeadingId={props.mdHeadingId}
+                key="internal-catalog"
+                scrollElementOffsetTop={2}
+                syncWith={!props.setting.preview ? 'editor' : 'preview'}
+                onClick={(e, toc) => {
+                  // 如果没有预览区域，就将目录与编辑器同步滚动
+                  if (!props.setting.preview && toc.line !== undefined) {
+                    e.preventDefault();
+                    const view = codeMirrorUt.value?.view;
 
-                  if (view) {
-                    const line = view.state.doc.line(toc.line + 1);
+                    if (view) {
+                      const line = view.state.doc.line(toc.line + 1);
 
-                    const top = view.lineBlockAt(line.from)?.top;
+                      const top = view.lineBlockAt(line.from)?.top;
 
-                    const scroller = view.scrollDOM;
-                    smoothScroll(scroller, top); // 滚动到目标行
+                      const scroller = view.scrollDOM;
+                      smoothScroll(scroller, top); // 滚动到目标行
+                    }
                   }
-                }
-              }}
-              catalogMaxDepth={props.catalogMaxDepth}
-            />
+                }}
+                catalogMaxDepth={props.catalogMaxDepth}
+                onActive={onCatalogActive}
+              />
+            </CustomScrollbar>
           )}
         </div>
       );

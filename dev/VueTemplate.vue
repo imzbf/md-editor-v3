@@ -20,7 +20,7 @@ import { StrIcon } from '~~/index';
 import data from './data.md';
 
 const text = ref(data);
-const visible = ref(true);
+const visible = ref(false);
 
 const customIcon = {
   copy: StrIcon('copy', {}) // '<i class="fa fa-car"></i>',

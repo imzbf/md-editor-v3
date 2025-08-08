@@ -32,6 +32,14 @@ export default defineComponent({
     alwaysShowTrack: {
       type: Boolean,
       default: false
+    },
+    onMouseenter: {
+      type: Function as PropType<(e: MouseEvent) => void>,
+      default: () => {}
+    },
+    onMouseleave: {
+      type: Function as PropType<(e: MouseEvent) => void>,
+      default: () => {}
     }
   },
   setup(props, { slots }) {
@@ -53,6 +61,7 @@ export default defineComponent({
 
       const clientH = wrapperRef.value.clientHeight;
       const scrollH = scrollEl.value.scrollHeight;
+      const scrollTop = scrollEl.value.scrollTop;
 
       if (scrollH <= clientH) {
         thumbRef.value.style.display = 'none';
@@ -67,8 +76,11 @@ export default defineComponent({
 
       const ratio = clientH / scrollH;
       const thumbHeight = Math.max(clientH * ratio, 20);
+      const maxTop = clientH - thumbHeight;
+      const thumbTop = Math.min(scrollTop * ratio, maxTop);
+
       thumbRef.value.style.height = `${thumbHeight}px`;
-      thumbRef.value.style.top = `${scrollEl.value.scrollTop * ratio}px`;
+      thumbRef.value.style.top = `${thumbTop}px`;
     };
 
     const onScroll = () => updateThumb();
@@ -165,6 +177,8 @@ export default defineComponent({
         id={props.id}
         class={[`${prefix}-custom-scrollbar`, props.class]}
         ref={wrapperRef}
+        onMouseenter={props.onMouseenter}
+        onMouseleave={props.onMouseleave}
       >
         {slots.default?.()}
         <div class={`${prefix}-custom-scrollbar__track`} ref={trackRef}>

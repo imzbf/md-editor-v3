@@ -234,7 +234,7 @@ export default defineComponent({
         <div class="container">
           <MdEditor
             id="md-prev"
-            catalogMaxDepth={2}
+            // catalogMaxDepth={2}
             catalogLayout="flat"
             completions={completions.list}
             ref={editorRef}
