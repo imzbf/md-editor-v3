@@ -68,6 +68,9 @@ export const contentPreviewProps = {
   },
   onRemount: {
     type: Function as PropType<() => void>
+  },
+  noEcharts: {
+    type: Boolean as PropType<boolean>
   }
 };
 

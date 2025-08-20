@@ -246,6 +246,13 @@ export const mdPreviewProps = {
   onRemount: {
     type: Function as PropType<() => void>,
     default: undefined
+  },
+  /**
+   * 不使用 echarts
+   */
+  noEcharts: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 

@@ -82,6 +82,7 @@
     "@vue/eslint-config-typescript": "^14.1.1",
     "axios": "^1.7.7",
     "cropperjs": "^1.6.2",
+    "echarts": "^6.0.0",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",

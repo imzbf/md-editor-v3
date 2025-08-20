@@ -68,6 +68,8 @@ export const codeCss: CodeCss = {
   }
 };
 
+export const echartsUrl = `${cdnBase}/echarts@6.0.0/dist/echarts.min.js`;
+
 // 当前版本的值
 export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   highlight: {
@@ -222,6 +224,13 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
     css: {
       integrity:
         'sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP',
+      crossOrigin: 'anonymous'
+    }
+  },
+  echarts: {
+    js: {
+      integrity:
+        'sha384-F07Cpw5v8spSU0H113F33m2NQQ/o6GqPTnTjf45ssG4Q6q58ZwhxBiQtIaqvnSpR',
       crossOrigin: 'anonymous'
     }
   }
@@ -455,6 +464,9 @@ export const globalConfig: GlobalConfig = {
     },
     katex: {
       ...katexUrl
+    },
+    echarts: {
+      js: echartsUrl
     }
   },
   editorExtensionsAttrs: {},
@@ -468,7 +480,8 @@ export const globalConfig: GlobalConfig = {
   markdownItConfig: () => {},
   markdownItPlugins: (s) => s,
   mermaidConfig: (c) => c,
-  katexConfig: (c) => c
+  katexConfig: (c) => c,
+  echartsConfig: (c) => c
 };
 
 export const config: Config = (option) => {

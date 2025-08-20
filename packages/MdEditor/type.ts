@@ -17,6 +17,7 @@ declare global {
     screenfull: any;
     mermaid: any;
     katex: any;
+    echarts: any;
   }
 }
 
@@ -254,6 +255,10 @@ export interface GlobalConfig {
       js?: string;
       css?: string;
     };
+    echarts?: {
+      instance?: any;
+      js?: string;
+    };
   };
 
   /**
@@ -284,6 +289,9 @@ export interface GlobalConfig {
     katex?: {
       js?: Partial<HTMLElementTagNameMap['script']>;
       css?: Partial<HTMLElementTagNameMap['link']>;
+    };
+    echarts?: {
+      js?: Partial<HTMLElementTagNameMap['script']>;
     };
   };
   editorConfig: {
@@ -358,6 +366,12 @@ export interface GlobalConfig {
    * @returns
    */
   katexConfig: (baseConfig: any) => any;
+  /**
+   * echarts配置
+   *
+   * @returns
+   */
+  echartsConfig: (base: any) => any;
 }
 
 /**

@@ -32,6 +32,7 @@ import { generateCodeRowNumber } from '~/utils';
 import { zoomMermaid } from '~/utils/dom';
 import bus from '~/utils/event-bus';
 
+import useEcharts from './useEcharts';
 import useHighlight from './useHighlight';
 import useKatex from './useKatex';
 import useMermaid from './useMermaid';
@@ -39,6 +40,7 @@ import useMermaid from './useMermaid';
 import { ContentPreviewProps } from '../ContentPreview';
 import AdmonitionPlugin from '../markdownIt/admonition';
 import CodePlugin from '../markdownIt/code';
+import EchartsPlugin from '../markdownIt/echarts';
 import HeadingPlugin from '../markdownIt/heading';
 import KatexPlugin from '../markdownIt/katex';
 import MermaidPlugin from '../markdownIt/mermaid';
@@ -80,6 +82,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const hljsRef = useHighlight(props);
   const katexRef = useKatex(props);
   const { reRenderRef, replaceMermaid } = useMermaid(props);
+  const { reRenderEcharts, replaceEcharts } = useEcharts(props);
 
   const md = mdit({
     html: true,
@@ -149,6 +152,14 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     plugins.push({
       type: 'mermaid',
       plugin: MermaidPlugin,
+      options: { themeRef }
+    });
+  }
+
+  if (!props.noEcharts) {
+    plugins.push({
+      type: 'echarts',
+      plugin: EchartsPlugin,
       options: { themeRef }
     });
   }
@@ -235,6 +246,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
           );
         }
       });
+
+      void replaceEcharts();
     });
   };
 
@@ -246,7 +259,6 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         srcLines: props.modelValue.split('\n')
       })
     );
-    updatedTodo();
   };
 
   const needReRender = computed<boolean>(() => {
@@ -287,11 +299,18 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
               );
             }
           });
+
+          void replaceEcharts();
+
           bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
         });
       }
     }
   );
+
+  watch([html, reRenderEcharts], () => {
+    updatedTodo();
+  });
 
   onMounted(updatedTodo);
 
