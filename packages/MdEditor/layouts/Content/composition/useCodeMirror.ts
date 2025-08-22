@@ -36,7 +36,7 @@ import { ContentProps } from '../props';
 import usePasteUpload from './usePasteUpload';
 // import useAttach from './useAttach';
 import { createCommands } from '../codemirror/commands';
-import { linkShortenerPlugin } from '../codemirror/linkShortener';
+import { textShortenerPlugin } from '../codemirror/textShortener';
 
 // 禁用掉>=6.28.0的实验性功能
 (EditorView as any).EDIT_CONTEXT = false;
@@ -154,7 +154,7 @@ const useCodeMirror = (props: ContentProps) => {
     },
     {
       type: 'linkShortener',
-      extension: linkShortenerPlugin({
+      extension: textShortenerPlugin({
         maxLength: 30
       })
     }
