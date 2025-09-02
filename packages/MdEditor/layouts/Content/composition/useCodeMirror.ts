@@ -78,6 +78,7 @@ const useCodeMirror = (props: ContentProps) => {
   const catalogVisible = inject('catalogVisible') as ComputedRef<boolean>;
   const defToolbars = inject('defToolbars') as ComputedRef<VNode | VNode[]>;
   const floatingToolbars = inject('floatingToolbars') as ComputedRef<Array<ToolbarNames>>;
+  const rootRef = inject('rootRef') as ComputedRef<HTMLDivElement>;
 
   const inputWrapperRef = ref<HTMLDivElement>();
 
@@ -91,7 +92,8 @@ const useCodeMirror = (props: ContentProps) => {
     themeComp = new Compartment(),
     autocompletionComp = new Compartment(),
     historyComp = new Compartment(),
-    eventComp = new Compartment();
+    eventComp = new Compartment(),
+    floatingToolbarComp = new Compartment();
 
   const mdEditorCommands = createCommands(editorId, {
     noPrettier
@@ -139,6 +141,30 @@ const useCodeMirror = (props: ContentProps) => {
       }
     }
   };
+
+  const floatingToolbarPlugin = createFloatingToolbarPlugin({
+    privide(app) {
+      app.provide('editorId', editorId);
+      app.provide('theme', theme);
+      app.provide('previewTheme', previewTheme);
+      app.provide('language', language);
+      app.provide('disabled', disabled);
+      app.provide('noUploadImg', noUploadImg);
+      app.provide('tableShape', tableShape);
+      app.provide('noPrettier', noPrettier);
+      app.provide('codeTheme', codeTheme);
+      app.provide('showToolbarName', showToolbarName);
+      app.provide('setting', setting);
+      app.provide('updateSetting', updateSetting);
+      app.provide('usedLanguageText', usedLanguageText);
+      app.provide('catalogVisible', catalogVisible);
+      app.provide('defToolbars', defToolbars);
+      app.provide('tabWidth', tabWidth);
+      app.provide('customIcon', customIcon);
+      app.provide('floatingToolbars', floatingToolbars);
+      app.provide('rootRef', rootRef);
+    }
+  });
 
   const defaultExtensions: Array<CodeMirrorExtension> = [
     {
@@ -190,28 +216,8 @@ const useCodeMirror = (props: ContentProps) => {
     },
     {
       type: 'floatingToolbar',
-      extension: createFloatingToolbarPlugin({
-        privide(app) {
-          app.provide('editorId', editorId);
-          app.provide('theme', theme);
-          app.provide('previewTheme', previewTheme);
-          app.provide('language', language);
-          app.provide('disabled', disabled);
-          app.provide('noUploadImg', noUploadImg);
-          app.provide('tableShape', tableShape);
-          app.provide('noPrettier', noPrettier);
-          app.provide('codeTheme', codeTheme);
-          app.provide('showToolbarName', showToolbarName);
-          app.provide('setting', setting);
-          app.provide('updateSetting', updateSetting);
-          app.provide('usedLanguageText', usedLanguageText);
-          app.provide('catalogVisible', catalogVisible);
-          app.provide('defToolbars', defToolbars);
-          app.provide('tabWidth', tabWidth);
-          app.provide('customIcon', customIcon);
-          app.provide('floatingToolbars', floatingToolbars);
-        }
-      })
+      extension: floatingToolbars.value.length > 0 ? floatingToolbarPlugin : [],
+      compartment: floatingToolbarComp
     }
   ];
 
@@ -424,6 +430,15 @@ const useCodeMirror = (props: ContentProps) => {
       }
     }
   );
+
+  watch([floatingToolbars], () => {
+    if (floatingToolbars.value.length > 0) {
+      codeMirrorUt.value?.view.dispatch({
+        effects: floatingToolbarComp.reconfigure(floatingToolbarPlugin)
+      });
+    } else
+      codeMirrorUt.value?.view.dispatch({ effects: floatingToolbarComp.reconfigure([]) });
+  });
 
   // 附带的设置
   // useAttach(codeMirrorUt);
