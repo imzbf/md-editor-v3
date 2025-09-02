@@ -2,6 +2,7 @@ import { deepMerge } from '@vavt/util';
 import { CodeCss, Config, GlobalConfig, Footers, StaticTextDefault } from './type';
 
 export const prefix = 'md-editor';
+export const prefixHump = 'MdEditor';
 
 // 编辑器ID
 export const defaultEditorId = 'md-editor-v3';
@@ -24,12 +25,12 @@ export const cropperUrl = {
 
 export const screenfullUrl = `${cdnBase}/screenfull@5.2.0/dist/screenfull.js`;
 
-export const mermaidUrl = `${cdnBase}/mermaid@11.3.0/dist/mermaid.min.js`;
+export const mermaidUrl = `${cdnBase}/mermaid@11.9.0/dist/mermaid.min.js`;
 // export const mermaidUrl = `${cdnBase}/mermaid/9.4.0/mermaid.min.js`;
 
 export const katexUrl = {
-  js: `${cdnBase}/katex@0.16.11/dist/katex.min.js`,
-  css: `${cdnBase}/katex@0.16.11/dist/katex.min.css`
+  js: `${cdnBase}/katex@0.16.22/dist/katex.min.js`,
+  css: `${cdnBase}/katex@0.16.22/dist/katex.min.css`
 };
 
 export const codeCss: CodeCss = {
@@ -66,6 +67,8 @@ export const codeCss: CodeCss = {
     dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/stackoverflow-dark.min.css`
   }
 };
+
+export const echartsUrl = `${cdnBase}/echarts@6.0.0/dist/echarts.min.js`;
 
 // 当前版本的值
 export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
@@ -208,19 +211,26 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   mermaid: {
     js: {
       integrity:
-        'sha384-B2tp/GqmE6VfDRB3JPTsesr0+SXypThjLSvQEQH7iv3f3/PYKCm5Q4+SGPcitStz',
+        'sha384-UzWEhMP22MxNnr2bzqAdmtf1FDy5iKDUq6hLXJFLqC7dfGkc6W/hshbx9m71zyt5',
       crossOrigin: 'anonymous'
     }
   },
   katex: {
     js: {
       integrity:
-        'sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg',
+        'sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6',
       crossOrigin: 'anonymous'
     },
     css: {
       integrity:
-        'sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+',
+        'sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP',
+      crossOrigin: 'anonymous'
+    }
+  },
+  echarts: {
+    js: {
+      integrity:
+        'sha384-F07Cpw5v8spSU0H113F33m2NQQ/o6GqPTnTjf45ssG4Q6q58ZwhxBiQtIaqvnSpR',
       crossOrigin: 'anonymous'
     }
   }
@@ -391,7 +401,7 @@ export const staticTextDefault: StaticTextDefault = {
     imgTitleItem: {
       link: 'Add Image Link',
       upload: 'Upload Images',
-      clip2upload: 'Clip Upload'
+      clip2upload: 'Crop And Upload'
     },
     linkModalTips: {
       linkTitle: 'Add Link',
@@ -454,6 +464,9 @@ export const globalConfig: GlobalConfig = {
     },
     katex: {
       ...katexUrl
+    },
+    echarts: {
+      js: echartsUrl
     }
   },
   editorExtensionsAttrs: {},
@@ -463,11 +476,12 @@ export const globalConfig: GlobalConfig = {
     renderDelay: 500,
     zIndex: 20000
   },
-  codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions,
+  codeMirrorExtensions: (innerExtensions) => innerExtensions,
   markdownItConfig: () => {},
   markdownItPlugins: (s) => s,
   mermaidConfig: (c) => c,
-  katexConfig: (c) => c
+  katexConfig: (c) => c,
+  echartsConfig: (c) => c
 };
 
 export const config: Config = (option) => {

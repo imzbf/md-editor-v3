@@ -1,9 +1,3 @@
-import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
-import { EditorView } from 'codemirror';
-import { keymap, drawSelection } from '@codemirror/view';
-import { languages } from '@codemirror/language-data';
-import { markdown } from '@codemirror/lang-markdown';
-import { Compartment } from '@codemirror/state';
 import {
   indentWithTab,
   defaultKeymap,
@@ -12,20 +6,14 @@ import {
   undo,
   redo
 } from '@codemirror/commands';
+import { markdown } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
+import { Compartment } from '@codemirror/state';
+import { keymap, drawSelection } from '@codemirror/view';
 import { throttle } from '@vavt/util';
-import { directive2flag, ToolDirective } from '~/utils/content-help';
-import { Themes, DOMEventHandlers } from '~/type';
+import { EditorView } from 'codemirror';
+import { ref, onMounted, inject, ComputedRef, watch, shallowRef, VNode } from 'vue';
 import { globalConfig } from '~/config';
-import bus from '~/utils/event-bus';
-
-import { ContentProps } from '../props';
-import { oneDark } from '../codemirror/themeOneDark';
-import { oneLight } from '../codemirror/themeLight';
-import createAutocompletion from '../codemirror/autocompletion';
-import CodeMirrorUt from '../codemirror';
-import usePasteUpload from './usePasteUpload';
-// import useAttach from './useAttach';
-import createCommands from '../codemirror/commands';
 import {
   CTRL_SHIFT_Z,
   CTRL_Z,
@@ -36,6 +24,29 @@ import {
   SEND_EDITOR_VIEW,
   TASK_STATE_CHANGED
 } from '~/static/event-name';
+import {
+  Themes,
+  DOMEventHandlers,
+  CodeMirrorExtension,
+  StaticTextDefaultValue,
+  CustomIcon,
+  PreviewThemes,
+  SettingType,
+  ToolbarNames
+} from '~/type';
+import { directive2flag, ToolDirective } from '~/utils/content-help';
+import bus from '~/utils/event-bus';
+
+import CodeMirrorUt from '../codemirror';
+import { createAutocompletion } from '../codemirror/autocompletion';
+import { createFloatingToolbarPlugin } from '../codemirror/floatingToolbar';
+import { oneLight } from '../codemirror/themeLight';
+import { oneDark } from '../codemirror/themeOneDark';
+import { ContentProps } from '../props';
+import usePasteUpload from './usePasteUpload';
+// import useAttach from './useAttach';
+import { createCommands } from '../codemirror/commands';
+import { textShortenerPlugin } from '../codemirror/textShortener';
 
 // 禁用掉>=6.28.0的实验性功能
 (EditorView as any).EDIT_CONTEXT = false;
@@ -50,6 +61,24 @@ const useCodeMirror = (props: ContentProps) => {
   const tabWidth = inject('tabWidth') as number;
   const editorId = inject('editorId') as string;
   const theme = inject('theme') as ComputedRef<Themes>;
+  const previewTheme = inject('previewTheme') as ComputedRef<PreviewThemes>;
+  const language = inject('language') as ComputedRef<string>;
+  const usedLanguageText = inject(
+    'usedLanguageText'
+  ) as ComputedRef<StaticTextDefaultValue>;
+  const disabled = inject('disabled') as ComputedRef<boolean>;
+  const showToolbarName = inject('showToolbarName') as ComputedRef<boolean>;
+  const customIcon = inject('customIcon') as ComputedRef<CustomIcon>;
+  const noUploadImg = inject('noUploadImg') as ComputedRef<boolean>;
+  const tableShape = inject('tableShape') as ComputedRef<Array<number>>;
+  const noPrettier = inject('noPrettier') as boolean;
+  const codeTheme = inject('codeTheme') as ComputedRef<string>;
+  const setting = inject('setting') as ComputedRef<SettingType>;
+  const updateSetting = inject('updateSetting') as (key: string, value?: any) => void;
+  const catalogVisible = inject('catalogVisible') as ComputedRef<boolean>;
+  const defToolbars = inject('defToolbars') as ComputedRef<VNode | VNode[]>;
+  const floatingToolbars = inject('floatingToolbars') as ComputedRef<Array<ToolbarNames>>;
+
   const inputWrapperRef = ref<HTMLDivElement>();
 
   // 编辑器的实例不能用ref包裹，vue会处理内部属性
@@ -64,7 +93,9 @@ const useCodeMirror = (props: ContentProps) => {
     historyComp = new Compartment(),
     eventComp = new Compartment();
 
-  const mdEditorCommands = createCommands(editorId, props);
+  const mdEditorCommands = createCommands(editorId, {
+    noPrettier
+  });
 
   // 搜集默认快捷键列表，通过方法返回，防止默认列表被篡改
   const getDefaultKeymaps = () => [
@@ -109,46 +140,112 @@ const useCodeMirror = (props: ContentProps) => {
     }
   };
 
-  const defaultExtensions = [
-    keymap.of(getDefaultKeymaps()),
-    historyComp.of(history()),
-    languageComp.of(markdown({ codeLanguages: languages })),
+  const defaultExtensions: Array<CodeMirrorExtension> = [
+    {
+      type: 'keymap',
+      extension: keymap.of(getDefaultKeymaps())
+    },
+    {
+      type: 'history',
+      extension: history(),
+      compartment: historyComp
+    },
+    {
+      type: 'markdown',
+      extension: markdown({ codeLanguages: languages }),
+      compartment: languageComp
+    },
     // 横向换行
-    EditorView.lineWrapping,
-    EditorView.updateListener.of((update) => {
-      if (update.docChanged) {
-        props.onChange(update.state.doc.toString());
+    {
+      type: 'lineWrapping',
+      extension: EditorView.lineWrapping
+    },
+    {
+      type: 'updateListener',
+      extension: EditorView.updateListener.of((update) => {
+        if (update.docChanged) {
+          props.onChange(update.state.doc.toString());
 
-        if (!spelling.value) {
-          props.updateModelValue(update.state.doc.toString());
+          if (!spelling.value) {
+            props.updateModelValue(update.state.doc.toString());
+          }
         }
-      }
-    }),
-    eventComp.of(EditorView.domEventHandlers(domEventHandlers)),
+      })
+    },
+    {
+      type: 'domEventHandlers',
+      extension: EditorView.domEventHandlers(domEventHandlers),
+      compartment: eventComp
+    },
     // 解决多行placeholder时，光标异常的情况
-    drawSelection()
+    {
+      type: 'drawSelection',
+      extension: drawSelection()
+    },
+    {
+      type: 'linkShortener',
+      extension: textShortenerPlugin({
+        maxLength: 30
+      })
+    },
+    {
+      type: 'floatingToolbar',
+      extension: createFloatingToolbarPlugin({
+        privide(app) {
+          app.provide('editorId', editorId);
+          app.provide('theme', theme);
+          app.provide('previewTheme', previewTheme);
+          app.provide('language', language);
+          app.provide('disabled', disabled);
+          app.provide('noUploadImg', noUploadImg);
+          app.provide('tableShape', tableShape);
+          app.provide('noPrettier', noPrettier);
+          app.provide('codeTheme', codeTheme);
+          app.provide('showToolbarName', showToolbarName);
+          app.provide('setting', setting);
+          app.provide('updateSetting', updateSetting);
+          app.provide('usedLanguageText', usedLanguageText);
+          app.provide('catalogVisible', catalogVisible);
+          app.provide('defToolbars', defToolbars);
+          app.provide('tabWidth', tabWidth);
+          app.provide('customIcon', customIcon);
+          app.provide('floatingToolbars', floatingToolbars);
+        }
+      })
+    }
   ];
 
   const getExtensions = () => {
-    const extensions = [
+    const extensions: Array<CodeMirrorExtension> = [
       ...defaultExtensions,
-      themeComp.of(theme.value === 'light' ? oneLight : oneDark),
-      autocompletionComp.of(createAutocompletion(props.completions))
+      {
+        type: 'theme',
+        extension: theme.value === 'light' ? oneLight : oneDark,
+        compartment: themeComp
+      },
+      {
+        type: 'completions',
+        extension: createAutocompletion(props.completions),
+        compartment: autocompletionComp
+      }
     ];
 
-    return globalConfig.codeMirrorExtensions!(
-      theme.value,
-      extensions,
-      getDefaultKeymaps(),
-      { editorId }
-    );
+    return globalConfig
+      .codeMirrorExtensions(extensions, {
+        editorId,
+        theme: theme.value,
+        keyBindings: getDefaultKeymaps()
+      })
+      .map((item) =>
+        item.compartment ? item.compartment.of(item.extension) : item.extension
+      );
   };
 
   onMounted(() => {
     const view = new EditorView({
       doc: props.modelValue,
       parent: inputWrapperRef.value,
-      extensions: [getExtensions()]
+      extensions: getExtensions()
     });
 
     const nc = new CodeMirrorUt(view);
@@ -156,7 +253,7 @@ const useCodeMirror = (props: ContentProps) => {
 
     setTimeout(() => {
       nc.setTabSize(tabWidth);
-      nc.setDisabled(props.disabled!);
+      nc.setDisabled(disabled.value);
       nc.setReadOnly(props.readonly!);
 
       if (props.placeholder) nc.setPlaceholder(props.placeholder);
@@ -184,7 +281,7 @@ const useCodeMirror = (props: ContentProps) => {
       async callback(direct: ToolDirective, params = {}) {
         // 弹窗插入图片时，将链接使用transformImgUrl转换后再插入
         if (direct === 'image' && params.transform) {
-          const tv = props.transformImgUrl(params.url);
+          const tv = props.transformImgUrl(params.url as string);
 
           if (tv instanceof Promise) {
             tv.then(async (url) => {
@@ -193,7 +290,7 @@ const useCodeMirror = (props: ContentProps) => {
                 codeMirrorUt.value!,
                 { ...params, url }
               );
-              codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+              codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
             }).catch((err) => {
               console.error(err);
             });
@@ -202,7 +299,7 @@ const useCodeMirror = (props: ContentProps) => {
               ...params,
               url: tv
             });
-            codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+            codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
           }
         } else {
           const { text, options } = await directive2flag(
@@ -210,7 +307,7 @@ const useCodeMirror = (props: ContentProps) => {
             codeMirrorUt.value!,
             params
           );
-          codeMirrorUt.value?.replaceSelectedText(text, options, editorId);
+          codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
         }
       }
     });
@@ -228,11 +325,11 @@ const useCodeMirror = (props: ContentProps) => {
 
           if (defaultEventNames.includes(en)) {
             nextDomEventHandlers[en] = (e, v) => {
-              handlers[en]!(e as any, v);
+              (handlers[en] as (event: Event, view: EditorView) => void)(e, v);
 
               // 如果用户自行监听的事件调用了preventDefault，则不再执行内部的方法
               if (!e.defaultPrevented) {
-                domEventHandlers[en]!(e as any, v);
+                (domEventHandlers[en] as (event: Event, view: EditorView) => void)(e, v);
               }
             };
           } else {
@@ -308,12 +405,9 @@ const useCodeMirror = (props: ContentProps) => {
     }
   );
 
-  watch(
-    () => props.disabled,
-    () => {
-      codeMirrorUt.value?.setDisabled(props.disabled!);
-    }
-  );
+  watch([disabled], () => {
+    codeMirrorUt.value?.setDisabled(disabled.value);
+  });
 
   watch(
     () => props.readonly,

@@ -45,7 +45,7 @@ export const scrollAutoWithScale = (pEle: HTMLElement, cEle: HTMLElement) => {
         // behavior: 'smooth'
       });
 
-      addEvent();
+      void addEvent();
     } else {
       // 清除宿主监听
       pEle.removeEventListener('scroll', scrollHandler);
@@ -55,13 +55,13 @@ export const scrollAutoWithScale = (pEle: HTMLElement, cEle: HTMLElement) => {
         // behavior: 'smooth'
       });
 
-      addEvent();
+      void addEvent();
     }
   };
 
   return [
     () => {
-      addEvent().finally(() => {
+      void addEvent().finally(() => {
         pEle.dispatchEvent(new Event('scroll'));
       });
     },

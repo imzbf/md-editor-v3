@@ -1,8 +1,8 @@
 import { ComputedRef, inject, onMounted, shallowRef, watch } from 'vue';
 import { globalConfig } from '~/config';
+import { CDN_IDS } from '~/static';
 import { appendHandler, updateHandler } from '~/utils/dom';
 import { ContentPreviewProps } from '../ContentPreview';
-import { CDN_IDS } from '~/static';
 
 /**
  * 注册代码高亮扩展到页面

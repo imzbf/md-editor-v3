@@ -1,18 +1,8 @@
-import {
-  defineComponent,
-  PropType,
-  ExtractPropTypes,
-  inject,
-  Ref,
-  watch,
-  ref,
-  onMounted
-} from 'vue';
-import { LooseRequired } from '@vue/shared';
-import { MdHeadingId } from '~/type';
+import { defineComponent, PropType, inject, Ref, watch, ref, onMounted } from 'vue';
 import { prefix } from '~/config';
-import { TocItem } from './MdCatalog';
+import { MdHeadingId } from '~/type';
 import { getComputedStyleNum } from '~/utils/scroll-auto';
+import { TocItem } from './MdCatalog';
 
 const props = {
   tocItem: {
@@ -37,13 +27,9 @@ const props = {
   }
 };
 
-export type CatalogLinkProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
->;
-
 const CatalogLink = defineComponent({
   props,
-  setup(props: CatalogLinkProps) {
+  setup(props) {
     const scrollElementRef = inject('scrollElementRef') as Ref<HTMLElement>;
     const rootNodeRef = inject('roorNodeRef') as Ref<Document | ShadowRoot>;
 

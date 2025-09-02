@@ -3,12 +3,10 @@ import {
   PropType,
   computed,
   VNode,
-  ExtractPropTypes,
   cloneVNode,
   inject,
   ComputedRef
 } from 'vue';
-import { LooseRequired } from '@vue/shared';
 import { allFooter, prefix } from '~/config';
 import { Footers, Themes } from '~/type';
 import MarkdownTotal from './MarkdownTotal';
@@ -34,16 +32,14 @@ const props = {
     default: () => {}
   },
   defFooters: {
-    type: Object as PropType<VNode>
+    type: Object as PropType<VNode | VNode[]>
   }
 };
-
-type FooterProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
 
 export default defineComponent({
   name: 'MDEditorFooter',
   props,
-  setup(props: FooterProps) {
+  setup(props) {
     // 主题
     const theme = inject('theme') as ComputedRef<Themes>;
     //语言
@@ -85,7 +81,7 @@ export default defineComponent({
           }
         }
       } else if (props.defFooters instanceof Array) {
-        const defItem = props.defFooters[name as number];
+        const defItem: VNode = props.defFooters[name as number];
 
         if (defItem) {
           const defItemCloned = cloneVNode(defItem, {

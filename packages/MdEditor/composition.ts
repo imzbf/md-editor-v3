@@ -1,20 +1,15 @@
-import { reactive, watch, computed, onMounted, provide, ref, Ref, useId } from 'vue';
 import { deepClone, deepMerge } from '@vavt/util';
 import {
-  InnerError,
-  SettingType,
-  ExposeParam,
-  UpdateSetting,
-  ExposeEvent,
-  MdPreviewProps,
-  FocusOption,
-  UploadImgCallBack,
-  StaticTextDefaultValue,
-  EditorProps,
-  EditorContext,
-  Themes
-} from '~/type';
-import { appendHandler } from '~/utils/dom';
+  reactive,
+  watch,
+  computed,
+  onMounted,
+  provide,
+  ref,
+  Ref,
+  useId,
+  ComputedRef
+} from 'vue';
 import { prefix, staticTextDefault, codeCss, globalConfig } from '~/config';
 import {
   CHANGE_CATALOG_VISIBLE,
@@ -33,6 +28,20 @@ import {
   EVENT_LISTENER,
   PREVIEW_ONLY_CHANGED
 } from '~/static/event-name';
+import {
+  InnerError,
+  SettingType,
+  ExposeParam,
+  UpdateSetting,
+  ExposeEvent,
+  MdPreviewProps,
+  FocusOption,
+  UploadImgCallBack,
+  StaticTextDefaultValue,
+  EditorProps,
+  EditorContext
+} from '~/type';
+import { appendHandler } from '~/utils/dom';
 import bus from '~/utils/event-bus';
 import { ContentExposeParam } from './layouts/Content/type';
 import { CDN_IDS } from './static';
@@ -106,6 +115,15 @@ export const useOnSave = (
   });
 };
 
+export interface ProvideOptions {
+  rootRef: Ref<HTMLDivElement | undefined>;
+  editorId: string;
+  setting: SettingType;
+  updateSetting: UpdateSetting;
+  catalogVisible: Ref<boolean>;
+  defToolbars: ComputedRef<any>;
+}
+
 /**
  * 抽离预览组件需要提供的组件全局属性
  *
@@ -113,12 +131,10 @@ export const useOnSave = (
  */
 export const useProvidePreview = (
   props: MdPreviewProps,
-  rootRef: Ref<HTMLDivElement | undefined>
+  { editorId, rootRef }: Pick<ProvideOptions, 'editorId' | 'rootRef'>
 ) => {
   const hljsUrls = globalConfig.editorExtensions.highlight;
   const hljsAttrs = globalConfig.editorExtensionsAttrs.highlight;
-
-  const editorId = useEditorId(props);
 
   provide('editorId', editorId);
 
@@ -152,7 +168,7 @@ export const useProvidePreview = (
       const _theme =
         props.codeStyleReverse && props.codeStyleReverseList.includes(props.previewTheme)
           ? 'dark'
-          : (props.theme as Themes);
+          : props.theme;
 
       // 找到对应代码主题的链接和属性
       const codeCssHref = cssList[props.codeTheme]
@@ -211,15 +227,13 @@ export const useProvidePreview = (
 
   return { editorId };
 };
+
 /**
  * 向下提供部分公共参数
  *
  * @param props
  */
-export const useProvide = (
-  props: EditorProps,
-  rootRef: Ref<HTMLDivElement | undefined>
-) => {
+export const useProvide = (props: EditorProps, options: ProvideOptions) => {
   // tab=2space
   provide('tabWidth', props.tabWidth);
 
@@ -228,7 +242,51 @@ export const useProvide = (
     computed(() => props.disabled)
   );
 
-  return useProvidePreview(props, rootRef);
+  provide(
+    'showToolbarName',
+    computed(() => props.showToolbarName)
+  );
+
+  provide(
+    'noUploadImg',
+    computed(() => props.noUploadImg)
+  );
+
+  provide(
+    'tableShape',
+    computed(() => props.tableShape)
+  );
+
+  provide('noPrettier', props.noPrettier);
+
+  provide(
+    'codeTheme',
+    computed(() => props.codeTheme)
+  );
+
+  provide(
+    'setting',
+    computed(() => ({
+      // setting是reactive，不转化是可以直接赋值的
+      ...options.setting
+    }))
+  );
+
+  provide('updateSetting', options.updateSetting);
+
+  provide(
+    'catalogVisible',
+    computed(() => options.catalogVisible.value)
+  );
+
+  provide('defToolbars', options.defToolbars);
+
+  provide(
+    'floatingToolbars',
+    computed(() => props.floatingToolbars)
+  );
+
+  return useProvidePreview(props, options);
 };
 
 /**

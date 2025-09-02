@@ -1,12 +1,12 @@
+import { lineNumbers } from '@codemirror/view';
 import { createApp } from 'vue';
+import { MdEditor, config, XSSPlugin, editorExtensionsAttrs } from '~~/index';
 import App from './App';
 
-import { MdEditor, config, editorExtensionsAttrs, XSSPlugin } from '~~/index';
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
 
 // import { Extension } from '@codemirror/state';
-import { lineNumbers } from '@codemirror/view';
 // import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
 // import DDD from './.local/DDD.vue';
 // import screenfull from 'screenfull';
@@ -42,11 +42,17 @@ import { lineNumbers } from '@codemirror/view';
 // };
 
 config({
-  codeMirrorExtensions(theme, extensions) {
+  codeMirrorExtensions(extensions) {
     // console.log(theme, extensions, keyBindings);
 
     // return extensions;
-    return [...extensions, lineNumbers()];
+    return [
+      ...extensions,
+      {
+        type: 'lineNumbers',
+        extension: lineNumbers()
+      }
+    ];
   },
   // iconfontType: 'class',
   // markdownItConfig: (mdit) => {
@@ -138,8 +144,8 @@ config({
       //   instance: mermaid
       enableZoom: true
     }
-  }
-  // editorExtensionsAttrs
+  },
+  editorExtensionsAttrs
 });
 
 import '~/styles/style.less';

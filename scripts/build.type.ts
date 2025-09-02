@@ -1,8 +1,8 @@
-import ts from 'typescript';
-import { replaceTscAliasPaths } from 'tsc-alias';
 import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
+import { replaceTscAliasPaths } from 'tsc-alias';
+import ts from 'typescript';
 
 export const buildType = () => {
   const configFile = 'tsconfig.build.json';
@@ -49,7 +49,7 @@ export const buildType = () => {
   }
 
   // 处理别名
-  replaceTscAliasPaths({
+  void replaceTscAliasPaths({
     configFile: configPath
   });
 };

@@ -1,7 +1,7 @@
-import { PropType, CSSProperties, VNode } from 'vue';
 import { CompletionSource } from '@codemirror/autocomplete';
+import { PropType, CSSProperties, VNode } from 'vue';
+import { allToolbar, allFooter } from './config';
 import {
-  StaticTextDefaultKey,
   ToolbarNames,
   PreviewThemes,
   MdHeadingId,
@@ -16,8 +16,6 @@ import {
   EditorEmits,
   CustomIcon
 } from './type';
-
-import { allToolbar, allFooter } from './config';
 
 export const mdHeadingId: MdHeadingId = (text) => text;
 
@@ -62,7 +60,7 @@ export const mdPreviewProps = {
    * @default 'zh-CN'
    */
   language: {
-    type: String as PropType<StaticTextDefaultKey | string>,
+    type: String as PropType<string>,
     default: 'zh-CN'
   },
   /**
@@ -248,6 +246,13 @@ export const mdPreviewProps = {
   onRemount: {
     type: Function as PropType<() => void>,
     default: undefined
+  },
+  /**
+   * 不使用 echarts
+   */
+  noEcharts: {
+    type: Boolean as PropType<boolean>,
+    default: false
   }
 };
 
@@ -315,6 +320,16 @@ export const editorProps = {
   toolbars: {
     type: Array as PropType<Array<ToolbarNames>>,
     default: allToolbar
+  },
+  /**
+   * 浮动工具栏
+   *
+   * @version 6.0.0
+   * @default []
+   */
+  floatingToolbars: {
+    type: Array as PropType<Array<ToolbarNames>>,
+    default: []
   },
   /**
    * 工具栏选择不显示
@@ -555,13 +570,6 @@ export const editorProps = {
   catalogMaxDepth: {
     type: Number as PropType<number>,
     default: undefined
-  },
-  /**
-   * 工具栏直接插入内容到输入框
-   */
-  insertLinkDirect: {
-    type: Boolean as PropType<boolean>,
-    default: false
   }
 };
 

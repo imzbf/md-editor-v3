@@ -1,3 +1,8 @@
+import { randomId } from '@vavt/util';
+import mdit from 'markdown-it';
+import ImageFiguresPlugin from 'markdown-it-image-figures';
+import SubPlugin from 'markdown-it-sub';
+import SupPlugin from 'markdown-it-sup';
 import {
   computed,
   ComputedRef,
@@ -9,20 +14,6 @@ import {
   toRef,
   watch
 } from 'vue';
-import mdit from 'markdown-it';
-import ImageFiguresPlugin from 'markdown-it-image-figures';
-import SubPlugin from 'markdown-it-sub';
-import SupPlugin from 'markdown-it-sup';
-import { randomId } from '@vavt/util';
-import bus from '~/utils/event-bus';
-import { generateCodeRowNumber } from '~/utils';
-import {
-  CustomIcon,
-  HeadList,
-  MarkdownItConfigPlugin,
-  StaticTextDefaultValue,
-  Themes
-} from '~/type';
 import { globalConfig, prefix } from '~/config';
 import {
   BUILD_FINISHED,
@@ -30,20 +21,30 @@ import {
   PUSH_CATALOG,
   RERENDER
 } from '~/static/event-name';
+import {
+  CustomIcon,
+  HeadList,
+  MarkdownItConfigPlugin,
+  StaticTextDefaultValue,
+  Themes
+} from '~/type';
+import { generateCodeRowNumber } from '~/utils';
 import { zoomMermaid } from '~/utils/dom';
+import bus from '~/utils/event-bus';
 
+import useEcharts from './useEcharts';
 import useHighlight from './useHighlight';
-import useMermaid from './useMermaid';
 import useKatex from './useKatex';
-
-import MermaidPlugin from '../markdownIt/mermaid';
-import KatexPlugin from '../markdownIt/katex';
-import AdmonitionPlugin from '../markdownIt/admonition';
-import HeadingPlugin from '../markdownIt/heading';
-import CodePlugin from '../markdownIt/code';
-import TaskListPlugin from '../markdownIt/task';
+import useMermaid from './useMermaid';
 
 import { ContentPreviewProps } from '../ContentPreview';
+import AdmonitionPlugin from '../markdownIt/admonition';
+import CodePlugin from '../markdownIt/code';
+import EchartsPlugin from '../markdownIt/echarts';
+import HeadingPlugin from '../markdownIt/heading';
+import KatexPlugin from '../markdownIt/katex';
+import MermaidPlugin from '../markdownIt/mermaid';
+import TaskListPlugin from '../markdownIt/task';
 
 const initLineNumber = (md: mdit) => {
   md.core.ruler.push('init-line-number', (state) => {
@@ -81,6 +82,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const hljsRef = useHighlight(props);
   const katexRef = useKatex(props);
   const { reRenderRef, replaceMermaid } = useMermaid(props);
+  const { reRenderEcharts, replaceEcharts } = useEcharts(props);
 
   const md = mdit({
     html: true,
@@ -88,7 +90,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     linkify: true
   });
 
-  markdownItConfig!(md, {
+  markdownItConfig(md, {
     editorId
   });
 
@@ -154,7 +156,15 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     });
   }
 
-  markdownItPlugins!(plugins, {
+  if (!props.noEcharts) {
+    plugins.push({
+      type: 'echarts',
+      plugin: EchartsPlugin,
+      options: { themeRef }
+    });
+  }
+
+  markdownItPlugins(plugins, {
     editorId
   }).forEach((item) => {
     md.use(item.plugin, item.options);
@@ -170,7 +180,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
           return result;
         }
       }
-      let codeHtml;
+      let codeHtml: string;
 
       // 不高亮或者没有实例，返回默认
       if (!props.noHighlight && hljsRef.value) {
@@ -205,7 +215,13 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   // 文章节点的key
   const key = ref(`_article-key_${randomId()}`);
 
-  const html = ref(props.sanitize(md.render(props.modelValue)));
+  const html = ref(
+    props.sanitize(
+      md.render(props.modelValue, {
+        srcLines: props.modelValue.split('\n')
+      })
+    )
+  );
 
   const updatedTodo = () => {
     // 触发异步的保存事件（html总是会比text后更新）
@@ -216,30 +232,37 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     // 生成目录
     bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
 
-    nextTick(() => {
-      replaceMermaid().then(() => {
+    void nextTick(() => {
+      void replaceMermaid().then(() => {
         if (editorExtensions.mermaid?.enableZoom) {
           clearMermaidEvents();
           clearMermaidEvents = zoomMermaid(
-            rootRef.value?.querySelectorAll(`#${editorId} p.${prefix}-mermaid`),
+            rootRef.value?.querySelectorAll(
+              `#${editorId} p.${prefix}-mermaid:not([data-closed=false])`
+            ),
             {
               customIcon: customIconRef.value
             }
           );
         }
       });
+
+      void replaceEcharts();
     });
   };
 
   const markHtml = () => {
     // 清理历史标题
     headsRef.value = [];
-    html.value = props.sanitize(md.render(props.modelValue));
-    updatedTodo();
+    html.value = props.sanitize(
+      md.render(props.modelValue, {
+        srcLines: props.modelValue.split('\n')
+      })
+    );
   };
 
-  const needReRender = computed(() => {
-    return (props.noKatex || katexRef.value) && (props.noHighlight || hljsRef.value);
+  const needReRender = computed<boolean>(() => {
+    return (props.noKatex || !!katexRef.value) && (props.noHighlight || !!hljsRef.value);
   });
 
   /**
@@ -262,23 +285,32 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     () => {
       if (props.setting.preview) {
         // 生成目录
-        nextTick(() => {
-          replaceMermaid().then(() => {
+        void nextTick(() => {
+          void replaceMermaid().then(() => {
             if (editorExtensions.mermaid?.enableZoom) {
               clearMermaidEvents();
               clearMermaidEvents = zoomMermaid(
-                rootRef.value?.querySelectorAll(`#${editorId} p.${prefix}-mermaid`),
+                rootRef.value?.querySelectorAll(
+                  `#${editorId} p.${prefix}-mermaid:not([data-closed=false])`
+                ),
                 {
                   customIcon: customIconRef.value
                 }
               );
             }
           });
+
+          void replaceEcharts();
+
           bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
         });
       }
     }
   );
+
+  watch([html, reRenderEcharts], () => {
+    updatedTodo();
+  });
 
   onMounted(updatedTodo);
 

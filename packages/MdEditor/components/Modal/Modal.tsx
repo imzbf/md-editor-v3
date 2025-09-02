@@ -6,7 +6,6 @@ import {
   watch,
   nextTick,
   computed,
-  ExtractPropTypes,
   Teleport,
   shallowRef,
   CSSProperties,
@@ -15,17 +14,16 @@ import {
   onMounted,
   VNode
 } from 'vue';
-import { LooseRequired } from '@vue/shared';
 import { globalConfig, prefix } from '~/config';
-import { getSlot } from '~/utils/vue-tsx';
-import { keyMove } from '~/utils/dom';
 import { Themes } from '~/type';
-import Icon from '../Icon';
 import { getZIndexIncrement } from '~/utils';
+import { keyMove } from '~/utils/dom';
+import { getSlot } from '~/utils/vue-tsx';
+import Icon from '../Icon';
 
 const props = {
   title: {
-    type: [String, Object] as PropType<string | VNode>,
+    type: [String, Object] as PropType<string | VNode | VNode[]>,
     default: ''
   },
   visible: {
@@ -69,13 +67,11 @@ const props = {
   }
 };
 
-type ModalProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
-
 export default defineComponent({
   name: 'MdModal',
   props,
   emits: ['onClose'],
-  setup(props: ModalProps, ctx) {
+  setup(props, ctx) {
     const themeRef = inject('theme') as ComputedRef<Themes>;
     const rootRef = inject('rootRef') as ComputedRef<HTMLDivElement>;
     const modalVisible = ref(props.visible);
@@ -83,7 +79,7 @@ export default defineComponent({
     const modalClass = ref([`${prefix}-modal`]);
 
     const modalRef = ref();
-    const modalHeaderRef = ref();
+    const modalHeaderRef = ref<HTMLElement>();
 
     const bodyRef = ref<ShadowRoot | Element>();
 
@@ -136,8 +132,8 @@ export default defineComponent({
         if (nVal) {
           keyMoveClear();
         } else {
-          nextTick(() => {
-            keyMoveClear = keyMove(modalHeaderRef.value, (left, top) => {
+          void nextTick(() => {
+            keyMoveClear = keyMove(modalHeaderRef.value!, (left, top) => {
               state.initPos.left = left + 'px';
               state.initPos.top = top + 'px';
             });
@@ -158,7 +154,7 @@ export default defineComponent({
           modalClass.value.push('zoom-in');
           modalVisible.value = nVal;
 
-          nextTick(() => {
+          void nextTick(() => {
             const halfWidth = (modalRef.value as HTMLElement).offsetWidth / 2;
             const halfHeight = (modalRef.value as HTMLElement).offsetHeight / 2;
 
@@ -170,7 +166,7 @@ export default defineComponent({
 
             // 如果预设了全屏展示弹窗，就不需要注册拖动事件
             if (!props.isFullscreen) {
-              keyMoveClear = keyMove(modalHeaderRef.value, (left, top) => {
+              keyMoveClear = keyMove(modalHeaderRef.value!, (left, top) => {
                 state.initPos.left = left + 'px';
                 state.initPos.top = top + 'px';
               });
@@ -200,7 +196,10 @@ export default defineComponent({
     const combinedStyle = computed(() => {
       if (typeof props.style === 'string') {
         // 内置的显示样式优先级要高
-        return [props.style, internalStyle.value].join('; ');
+        const internalStyleString = Object.entries(internalStyle.value)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('; ');
+        return [props.style, internalStyleString].join('; ');
       } else if (props.style instanceof Object) {
         return { ...internalStyle.value, ...props.style };
       } else {

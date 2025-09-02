@@ -1,8 +1,8 @@
-import bus from '~/utils/event-bus';
 import { globalConfig } from '~/config';
-import { InsertContentGenerator, UploadImgCallBackParam } from '~/type';
 import CodeMirrorUt from '~/layouts/Content/codemirror';
 import { ERROR_CATCHER } from '~/static/event-name';
+import { InsertContentGenerator, UploadImgCallBackParam } from '~/type';
+import bus from '~/utils/event-bus';
 
 export type ToolDirective =
   | 'bold'
@@ -147,7 +147,7 @@ const handlePrettier = async (codeMirrorUt: CodeMirrorUt, params: any) => {
   ];
 
   if (!prettier || !prettierPlugins[0]) {
-    bus.emit(params.editorId, ERROR_CATCHER, {
+    bus.emit(params.editorId as string, ERROR_CATCHER, {
       name: 'prettier',
       message: 'prettier is undefined'
     });
@@ -279,6 +279,9 @@ const handleImage = (params: any) => {
   const { desc = '', url = '', urls } = params;
   let text = '';
 
+  const urlIsEmpty =
+    url === '' && (!urls || (urls instanceof Array && urls.length === 0));
+
   if (urls instanceof Array) {
     text = (urls as UploadImgCallBackParam).reduce<string>((pVal, _url) => {
       const {
@@ -298,8 +301,8 @@ const handleImage = (params: any) => {
     text,
     options: {
       select: url === '',
-      deviationStart: text.length - url.length - 2,
-      deviationEnd: -2
+      deviationStart: urlIsEmpty ? text.length - url.length - 2 : text.length,
+      deviationEnd: urlIsEmpty ? -2 : 0
     }
   };
 };

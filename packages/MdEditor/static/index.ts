@@ -11,5 +11,6 @@ export const CDN_IDS = {
   mermaidM: `${prefix}-mermaid-m`,
   mermaid: `${prefix}-mermaid`,
   katexjs: `${prefix}-katex`,
-  katexcss: `${prefix}-katexCss`
+  katexcss: `${prefix}-katexCss`,
+  echarts: `${prefix}-echarts`
 };

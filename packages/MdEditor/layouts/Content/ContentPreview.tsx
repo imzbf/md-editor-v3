@@ -1,5 +1,6 @@
-import { defineComponent, inject, ExtractPropTypes } from 'vue';
+// eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
+import { defineComponent, inject, ExtractPropTypes } from 'vue';
 import { prefix } from '~/config';
 
 import {
@@ -19,7 +20,7 @@ export type ContentPreviewProps = Readonly<
 const ContentPreview = defineComponent({
   name: 'ContentPreview',
   props: contentPreviewProps,
-  setup(props: ContentPreviewProps) {
+  setup(props) {
     const editorId = inject('editorId') as string;
 
     // markdown => html
@@ -36,17 +37,20 @@ const ContentPreview = defineComponent({
     return () => {
       return (
         <>
-          {props.setting.preview && (
-            <div
-              id={`${editorId}-preview-wrapper`}
-              class={`${prefix}-preview-wrapper`}
-              key="content-preview-wrapper"
-            >
+          {props.setting.preview &&
+            (props.previewOnly ? (
               <UpdateOnDemand key={key.value} html={html.value} />
-            </div>
-          )}
+            ) : (
+              <div
+                id={`${editorId}-preview-wrapper`}
+                class={`${prefix}-preview-wrapper`}
+                key="content-preview-wrapper"
+              >
+                <UpdateOnDemand key={key.value} html={html.value} />
+              </div>
+            ))}
 
-          {!props.previewOnly && props.setting.htmlPreview && (
+          {props.setting.htmlPreview && (
             <div
               id={`${editorId}-html-wrapper`}
               class={`${prefix}-preview-wrapper`}

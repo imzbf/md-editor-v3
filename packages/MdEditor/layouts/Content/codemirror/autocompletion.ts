@@ -1,4 +1,3 @@
-import { EditorSelection } from '@codemirror/state';
 import {
   autocompletion,
   CompletionContext,
@@ -6,6 +5,7 @@ import {
   Completion,
   CompletionSource
 } from '@codemirror/autocomplete';
+import { EditorSelection } from '@codemirror/state';
 
 const getPairApply = (
   flag: string,
@@ -47,13 +47,15 @@ const getApply = (_label: string): Completion['apply'] => {
   };
 };
 
-const createAutocompletion = (completions: Array<CompletionSource> | undefined) => {
+export const createAutocompletion = (
+  completions: Array<CompletionSource> | undefined
+) => {
   const defaultCompletion = (context: CompletionContext): CompletionResult | null => {
     const word = context.matchBefore(
       /^#+|^-\s*\[*\s*\]*|`+|\[|!\[*|^\|\s?\|?|\$\$?|!+\s*\w*/
     );
 
-    if (word === null || (word.from == word!.to && context.explicit)) {
+    if (word === null || (word.from == word.to && context.explicit)) {
       return null;
     }
 
@@ -82,7 +84,8 @@ const createAutocompletion = (completions: Array<CompletionSource> | undefined) 
         ...[
           ['`', ''],
           ['```', 'language'],
-          ['```mermaid\n', '']
+          ['```mermaid\n', ''],
+          ['```echarts\n', '']
         ].map((c) => {
           return {
             label: `${c[0]}${c[1]}`,
@@ -152,5 +155,3 @@ const createAutocompletion = (completions: Array<CompletionSource> | undefined) 
     override: completions ? [defaultCompletion, ...completions] : [defaultCompletion]
   });
 };
-
-export default createAutocompletion;

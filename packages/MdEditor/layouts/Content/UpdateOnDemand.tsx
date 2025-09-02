@@ -1,6 +1,6 @@
 import { ref, defineComponent, watch, inject, ComputedRef } from 'vue';
-import { prefix } from '~~/config';
 import { PreviewThemes } from '~/type';
+import { prefix } from '~~/config';
 
 // 将 HTML 字符串拆分为元素，返回第一层子节点（包括文本节点）
 const splitNodes = (html: string): ChildNode[] => {

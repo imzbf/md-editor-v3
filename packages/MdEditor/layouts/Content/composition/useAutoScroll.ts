@@ -55,7 +55,7 @@ const useAutoScroll = (
       toRef(props.setting, 'pageFullscreen')
     ],
     () => {
-      nextTick(rebindEvent);
+      void nextTick(rebindEvent);
     }
   );
 

@@ -1,7 +1,7 @@
-import { ComputedRef } from 'vue';
 import markdownit from 'markdown-it';
-import { Themes } from '~/type';
+import { ComputedRef } from 'vue';
 import { prefix } from '~/config';
+import { Themes } from '~/type';
 import { mermaidCache } from '~/utils/cache';
 
 const MermaidPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> }) => {
@@ -10,26 +10,29 @@ const MermaidPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> 
     const token = tokens[idx];
     const code = token.content.trim();
     if (token.info === 'mermaid') {
-      let line;
-      if (tokens[idx].map && tokens[idx].level === 0) {
-        line = tokens[idx].map![0];
-        tokens[idx].attrSet('data-line', String(line));
+      token.attrSet('class', `${prefix}-mermaid`);
+      token.attrSet('data-mermaid-theme', options.themeRef.value);
+
+      if (token.map && token.level === 0) {
+        const closeLine = token.map[1] - 1;
+        const closeLineText = env.srcLines[closeLine]?.trim();
+        const isClosingFence = !!closeLineText?.startsWith('```');
+
+        token.attrSet('data-closed', `${isClosingFence}`);
+        token.attrSet('data-line', String(token.map[0]));
       }
 
       const mermaidHtml = mermaidCache.get(code) as string;
 
       if (mermaidHtml) {
-        return `<p class="${prefix}-mermaid" ${
-          line !== undefined ? 'data-line=' + line : ''
-        } data-processed>${mermaidHtml}</p>`;
+        token.attrSet('data-processed', '');
+        return `<p ${slf.renderAttrs(token)}>${mermaidHtml}</p>`;
       }
 
-      return `<div class="${prefix}-mermaid" ${
-        line !== undefined ? 'data-line=' + line : ''
-      } data-mermaid-theme=${options.themeRef.value}">${md.utils.escapeHtml(code)}</div>`;
+      return `<div ${slf.renderAttrs(token)}>${md.utils.escapeHtml(code)}</div>`;
     }
 
-    return temp!(tokens, idx, ops, env, slf);
+    return temp(tokens, idx, ops, env, slf);
   };
 };
 

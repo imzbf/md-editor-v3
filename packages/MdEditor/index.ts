@@ -1,11 +1,11 @@
 import { App } from 'vue';
 
-import Editor from './Editor';
-import NormalToolbar from '~~/NormalToolbar';
 import DropdownToolbar from '~~/DropdownToolbar';
 import MdCatalog from '~~/MdCatalog';
-import ModalToolbar from '~~/ModalToolbar';
 import MdPreview from '~~/MdPreview';
+import ModalToolbar from '~~/ModalToolbar';
+import NormalToolbar from '~~/NormalToolbar';
+import Editor from './Editor';
 
 Editor.install = (app: App) => {
   app.component(Editor.name as string, Editor);

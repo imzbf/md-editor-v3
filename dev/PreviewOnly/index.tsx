@@ -8,12 +8,24 @@ import mdText from '../data.md';
 const editorId = 'preview-only-test';
 
 const PreviewOnlyTest = defineComponent({
-  name: 'preview-only-test',
+  name: 'PreviewOnlyTest',
   props: {
-    theme: String as PropType<Theme>,
-    previewTheme: String as PropType<string>,
-    codeTheme: String as PropType<string>,
-    lang: String as PropType<string>
+    theme: {
+      type: String as PropType<Theme>,
+      default: 'light'
+    },
+    previewTheme: {
+      type: String as PropType<string>,
+      default: undefined
+    },
+    codeTheme: {
+      type: String as PropType<string>,
+      default: undefined
+    },
+    lang: {
+      type: String as PropType<string>,
+      default: 'zh-CN'
+    }
   },
   setup(props) {
     const previewRef = ref<ExposePreviewParam>();

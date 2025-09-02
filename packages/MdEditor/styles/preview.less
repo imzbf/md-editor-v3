@@ -8,34 +8,6 @@
   font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui,
     ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-
-  /* 浏览器滚动条 */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-corner,
-  ::-webkit-scrollbar-track {
-    background-color: var(--md-scrollbar-bg-color);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 2px;
-    background-color: var(--md-scrollbar-thumb-color);
-  }
-
-  ::-webkit-scrollbar-button:vertical {
-    display: none;
-  }
-
-  ::-webkit-scrollbar-thumb:vertical:hover {
-    background-color: var(--md-scrollbar-thumb-hover-color);
-  }
-
-  ::-webkit-scrollbar-thumb:vertical:active {
-    background-color: var(--md-scrollbar-thumb-active-color);
-  }
 }
 
 .@{prefix} {
@@ -84,7 +56,8 @@
 
   &-preview-wrapper {
     position: relative;
-    flex: 1;
+    // flex: 1;
+    height: 100%;
     box-sizing: border-box;
     overflow: auto;
   }

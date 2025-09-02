@@ -1,8 +1,7 @@
-import { defineComponent, PropType, SetupContext, ExtractPropTypes, VNode } from 'vue';
-import { LooseRequired } from '@vue/shared';
+import { defineComponent, PropType, SetupContext, VNode } from 'vue';
 import { prefix } from '~/config';
-import { getSlot } from '~/utils/vue-tsx';
 import { PreviewThemes, Themes } from '~/type';
+import { getSlot } from '~/utils/vue-tsx';
 
 const props = {
   title: {
@@ -58,32 +57,27 @@ const props = {
    */
 };
 
-type NormalToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
->;
-
 export default defineComponent({
   name: 'NormalToolbar',
   props,
   emits: ['onClick'],
-  setup(props: NormalToolbarProps, ctx: SetupContext<Array<'onClick'>>) {
+  setup(props, ctx: SetupContext<Array<'onClick'>>) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const Default = getSlot({ props, ctx });
 
       return (
-        <div
+        <button
           class={[`${prefix}-toolbar-item`, props.disabled && `${prefix}-disabled`]}
           title={props.title}
+          disabled={props.disabled}
           onClick={(e) => {
-            if (props.disabled) return;
-
             props.onClick?.(e);
             ctx.emit('onClick', e);
           }}
         >
           {Default || Trigger}
-        </div>
+        </button>
       );
     };
   }

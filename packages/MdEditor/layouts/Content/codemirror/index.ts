@@ -1,3 +1,4 @@
+import { indentUnit } from '@codemirror/language';
 import {
   EditorState,
   Extension,
@@ -6,10 +7,9 @@ import {
   EditorSelection
 } from '@codemirror/state';
 import { EditorView, placeholder } from '@codemirror/view';
-import { indentUnit } from '@codemirror/language';
+import { ERROR_CATCHER } from '~/static/event-name';
 import { FocusOption } from '~/type';
 import bus from '~/utils/event-bus';
-import { ERROR_CATCHER } from '~/static/event-name';
 
 const toggleWith = (view: EditorView) => {
   const mc = new Compartment();

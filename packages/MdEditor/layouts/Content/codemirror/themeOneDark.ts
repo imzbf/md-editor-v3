@@ -2,9 +2,9 @@
  * From https://github.com/codemirror/theme-one-dark
  */
 
-import { EditorView } from '@codemirror/view';
-import { Extension } from '@codemirror/state';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+import { Extension } from '@codemirror/state';
+import { EditorView } from '@codemirror/view';
 import { tags as t } from '@lezer/highlight';
 
 // Using https://github.com/one-dark/vscode-one-dark-theme/ as reference for the colors
@@ -103,8 +103,8 @@ export const oneDarkTheme = EditorView.theme(
       backgroundColor: tooltipBackground
     },
     '.cm-tooltip .cm-tooltip-arrow:before': {
-      borderTopColor: 'transparent',
-      borderBottomColor: 'transparent'
+      borderTopColor: 'var(--md-border-color)', //'transparent',
+      borderBottomColor: 'var(--md-border-color)'
     },
     '.cm-tooltip .cm-tooltip-arrow:after': {
       borderTopColor: tooltipBackground,

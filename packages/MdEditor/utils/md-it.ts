@@ -1,7 +1,7 @@
 import { Token } from 'markdown-it';
 
 export const mergeAttrs = (token: Token, addAttrs: [string, string][]) => {
-  const tmpAttrs = token.attrs ? token.attrs!.slice() : [];
+  const tmpAttrs = token.attrs ? token.attrs.slice() : [];
 
   addAttrs.forEach((addAttr) => {
     const i = token.attrIndex(addAttr[0]);

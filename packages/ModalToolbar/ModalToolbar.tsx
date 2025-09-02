@@ -1,16 +1,8 @@
-import {
-  defineComponent,
-  PropType,
-  SetupContext,
-  ExtractPropTypes,
-  VNode,
-  CSSProperties
-} from 'vue';
-import { LooseRequired } from '@vue/shared';
-import { prefix } from '~/config';
-import { getSlot } from '~/utils/vue-tsx';
+import { defineComponent, PropType, SetupContext, VNode, CSSProperties } from 'vue';
 import Modal from '~/components/Modal';
+import { prefix } from '~/config';
 import { PreviewThemes, Themes } from '~/type';
+import { getSlot } from '~/utils/vue-tsx';
 
 const props = {
   title: {
@@ -109,18 +101,11 @@ const props = {
    */
 };
 
-type ModalToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
->;
-
 export default defineComponent({
   name: 'ModalToolbar',
   props,
   emits: ['onClick', 'onClose', 'onAdjust'],
-  setup(
-    props: ModalToolbarProps,
-    ctx: SetupContext<Array<'onClick' | 'onClose' | 'onAdjust'>>
-  ) {
+  setup(props, ctx: SetupContext<Array<'onClick' | 'onClose' | 'onAdjust'>>) {
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const ModalTitle = getSlot({ props, ctx }, 'modalTitle');
@@ -128,18 +113,17 @@ export default defineComponent({
 
       return (
         <>
-          <div
+          <button
             class={[`${prefix}-toolbar-item`, props.disabled && `${prefix}-disabled`]}
             title={props.title}
+            disabled={props.disabled}
             onClick={() => {
-              if (props.disabled) return;
-
               props.onClick?.();
               ctx.emit('onClick');
             }}
           >
             {Trigger}
-          </div>
+          </button>
           <Modal
             style={props.style}
             class={props.class}
