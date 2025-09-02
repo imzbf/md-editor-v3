@@ -12,7 +12,7 @@ import { Compartment } from '@codemirror/state';
 import { keymap, drawSelection } from '@codemirror/view';
 import { throttle } from '@vavt/util';
 import { EditorView } from 'codemirror';
-import { ref, onMounted, inject, ComputedRef, watch, shallowRef } from 'vue';
+import { ref, onMounted, inject, ComputedRef, watch, shallowRef, VNode } from 'vue';
 import { globalConfig } from '~/config';
 import {
   CTRL_SHIFT_Z,
@@ -24,12 +24,22 @@ import {
   SEND_EDITOR_VIEW,
   TASK_STATE_CHANGED
 } from '~/static/event-name';
-import { Themes, DOMEventHandlers, CodeMirrorExtension } from '~/type';
+import {
+  Themes,
+  DOMEventHandlers,
+  CodeMirrorExtension,
+  StaticTextDefaultValue,
+  CustomIcon,
+  PreviewThemes,
+  SettingType,
+  ToolbarNames
+} from '~/type';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
 import bus from '~/utils/event-bus';
 
 import CodeMirrorUt from '../codemirror';
 import { createAutocompletion } from '../codemirror/autocompletion';
+import { createFloatingToolbarPlugin } from '../codemirror/floatingToolbar';
 import { oneLight } from '../codemirror/themeLight';
 import { oneDark } from '../codemirror/themeOneDark';
 import { ContentProps } from '../props';
@@ -51,6 +61,24 @@ const useCodeMirror = (props: ContentProps) => {
   const tabWidth = inject('tabWidth') as number;
   const editorId = inject('editorId') as string;
   const theme = inject('theme') as ComputedRef<Themes>;
+  const previewTheme = inject('previewTheme') as ComputedRef<PreviewThemes>;
+  const language = inject('language') as ComputedRef<string>;
+  const usedLanguageText = inject(
+    'usedLanguageText'
+  ) as ComputedRef<StaticTextDefaultValue>;
+  const disabled = inject('disabled') as ComputedRef<boolean>;
+  const showToolbarName = inject('showToolbarName') as ComputedRef<boolean>;
+  const customIcon = inject('customIcon') as ComputedRef<CustomIcon>;
+  const noUploadImg = inject('noUploadImg') as ComputedRef<boolean>;
+  const tableShape = inject('tableShape') as ComputedRef<Array<number>>;
+  const noPrettier = inject('noPrettier') as boolean;
+  const codeTheme = inject('codeTheme') as ComputedRef<string>;
+  const setting = inject('setting') as ComputedRef<SettingType>;
+  const updateSetting = inject('updateSetting') as (key: string, value?: any) => void;
+  const catalogVisible = inject('catalogVisible') as ComputedRef<boolean>;
+  const defToolbars = inject('defToolbars') as ComputedRef<VNode | VNode[]>;
+  const floatingToolbars = inject('floatingToolbars') as ComputedRef<Array<ToolbarNames>>;
+
   const inputWrapperRef = ref<HTMLDivElement>();
 
   // 编辑器的实例不能用ref包裹，vue会处理内部属性
@@ -65,7 +93,9 @@ const useCodeMirror = (props: ContentProps) => {
     historyComp = new Compartment(),
     eventComp = new Compartment();
 
-  const mdEditorCommands = createCommands(editorId, props);
+  const mdEditorCommands = createCommands(editorId, {
+    noPrettier
+  });
 
   // 搜集默认快捷键列表，通过方法返回，防止默认列表被篡改
   const getDefaultKeymaps = () => [
@@ -157,6 +187,31 @@ const useCodeMirror = (props: ContentProps) => {
       extension: textShortenerPlugin({
         maxLength: 30
       })
+    },
+    {
+      type: 'floatingToolbar',
+      extension: createFloatingToolbarPlugin({
+        privide(app) {
+          app.provide('editorId', editorId);
+          app.provide('theme', theme);
+          app.provide('previewTheme', previewTheme);
+          app.provide('language', language);
+          app.provide('disabled', disabled);
+          app.provide('noUploadImg', noUploadImg);
+          app.provide('tableShape', tableShape);
+          app.provide('noPrettier', noPrettier);
+          app.provide('codeTheme', codeTheme);
+          app.provide('showToolbarName', showToolbarName);
+          app.provide('setting', setting);
+          app.provide('updateSetting', updateSetting);
+          app.provide('usedLanguageText', usedLanguageText);
+          app.provide('catalogVisible', catalogVisible);
+          app.provide('defToolbars', defToolbars);
+          app.provide('tabWidth', tabWidth);
+          app.provide('customIcon', customIcon);
+          app.provide('floatingToolbars', floatingToolbars);
+        }
+      })
     }
   ];
 
@@ -198,7 +253,7 @@ const useCodeMirror = (props: ContentProps) => {
 
     setTimeout(() => {
       nc.setTabSize(tabWidth);
-      nc.setDisabled(props.disabled!);
+      nc.setDisabled(disabled.value);
       nc.setReadOnly(props.readonly!);
 
       if (props.placeholder) nc.setPlaceholder(props.placeholder);
@@ -350,12 +405,9 @@ const useCodeMirror = (props: ContentProps) => {
     }
   );
 
-  watch(
-    () => props.disabled,
-    () => {
-      codeMirrorUt.value?.setDisabled(props.disabled!);
-    }
-  );
+  watch([disabled], () => {
+    codeMirrorUt.value?.setDisabled(disabled.value);
+  });
 
   watch(
     () => props.readonly,

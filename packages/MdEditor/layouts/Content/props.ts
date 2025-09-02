@@ -2,7 +2,7 @@ import { CompletionSource } from '@codemirror/autocomplete';
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
 import { ExtractPropTypes, PropType } from 'vue';
-import { HeadList, SettingType, MdHeadingId, Themes } from '~/type';
+import { HeadList, SettingType, MdHeadingId } from '~/type';
 
 export const contentPreviewProps = {
   modelValue: {
@@ -90,10 +90,6 @@ export const contentProps = {
   autofocus: {
     type: Boolean as PropType<boolean>
   },
-
-  disabled: {
-    type: Boolean as PropType<boolean>
-  },
   readonly: {
     type: Boolean as PropType<boolean>
   },
@@ -117,18 +113,8 @@ export const contentProps = {
     type: Function as PropType<(event: FocusEvent) => void>,
     default: () => {}
   },
-  noPrettier: {
-    type: Boolean as PropType<boolean>
-  },
   completions: {
     type: Array as PropType<Array<CompletionSource>>
-  },
-  catalogVisible: {
-    type: Boolean as PropType<boolean>
-  },
-  theme: {
-    type: String as PropType<Themes>,
-    default: 'light'
   },
   onInput: {
     type: Function as PropType<(event: Event) => void>

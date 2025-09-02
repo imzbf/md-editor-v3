@@ -1,8 +1,8 @@
 import { createSmoothScroll } from '@vavt/util';
-import { defineComponent, ref, inject } from 'vue';
+import { defineComponent, ref, inject, ComputedRef } from 'vue';
 import CustomScrollbar from '~/components/CustomScrollbar';
 import { prefix } from '~/config';
-import { FocusOption } from '~/type';
+import { FocusOption, Themes } from '~/type';
 import MdCatalog from '~~/MdCatalog';
 import { useAutoScroll, useCodeMirror, useFollowCatalog, useResize } from './composition';
 import ContentPreview from './ContentPreview';
@@ -15,6 +15,9 @@ export default defineComponent({
   props,
   setup(props: ContentProps, ctx) {
     const editorId = inject('editorId') as string;
+    const catalogVisible = inject('catalogVisible') as ComputedRef<boolean>;
+    const theme = inject('theme') as ComputedRef<Themes>;
+
     const html = ref<string>('');
 
     const contentRef = ref<HTMLDivElement>();
@@ -89,14 +92,14 @@ export default defineComponent({
               />
             </CustomScrollbar>
           </div>
-          {props.catalogVisible && (
+          {catalogVisible.value && (
             <CustomScrollbar
               class={`${prefix}-catalog-${props.catalogLayout}`}
               onMouseenter={onMouseenter}
               onMouseleave={onMouseleave}
             >
               <MdCatalog
-                theme={props.theme}
+                theme={theme.value}
                 class={`${prefix}-catalog-editor`}
                 editorId={editorId}
                 mdHeadingId={props.mdHeadingId}

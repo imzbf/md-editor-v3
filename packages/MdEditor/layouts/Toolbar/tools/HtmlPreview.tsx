@@ -1,36 +1,28 @@
-import { ComputedRef, defineComponent, inject, PropType } from 'vue';
+import { ComputedRef, defineComponent, inject } from 'vue';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
 import { SettingType, StaticTextDefaultValue, UpdateSetting } from '~/type';
 
 const ToolbarHtmlPreview = defineComponent({
   name: 'ToolbarHtmlPreview',
-  props: {
-    setting: {
-      type: Object as PropType<SettingType>,
-      default: () => ({})
-    },
-    updateSetting: {
-      type: Function as PropType<UpdateSetting>,
-      default: () => {}
-    }
-  },
-  setup(props) {
+  setup() {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const disabled = inject<ComputedRef<boolean>>('disabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
+    const setting = inject('setting') as ComputedRef<SettingType>;
+    const updateSetting = inject('updateSetting') as UpdateSetting;
 
     return () => (
       <button
         class={[
           `${prefix}-toolbar-item`,
-          props.setting.htmlPreview && `${prefix}-toolbar-active`,
+          setting.value.htmlPreview && `${prefix}-toolbar-active`,
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.htmlPreview}
         disabled={disabled?.value}
         onClick={() => {
-          props.updateSetting('htmlPreview');
+          updateSetting('htmlPreview');
         }}
       >
         <Icon name="preview-html" />

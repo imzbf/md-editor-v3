@@ -424,6 +424,7 @@ export default defineComponent({
               'catalog',
               'github'
             ]}
+            floatingToolbars={['bold', 'underline', 'italic', 'strikeThrough']}
             defToolbars={
               <>
                 <Normal />

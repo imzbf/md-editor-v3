@@ -1,26 +1,25 @@
 import { ComputedRef, defineComponent, inject } from 'vue';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
-import { StaticTextDefaultValue } from '~/type';
+import { SettingType, StaticTextDefaultValue } from '~/type';
 import { useSreenfull } from '../composition';
-import { toolbarProps as props } from '../props';
 
 const ToolbarFullscreen = defineComponent({
   name: 'ToolbarFullscreen',
-  props,
-  setup(props) {
+  setup() {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const disabled = inject<ComputedRef<boolean>>('disabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
+    const setting = inject('setting') as ComputedRef<SettingType>;
 
     // 全屏功能
-    const { fullscreenHandler } = useSreenfull(props);
+    const { fullscreenHandler } = useSreenfull();
 
     return () => (
       <button
         class={[
           `${prefix}-toolbar-item`,
-          props.setting.fullscreen && `${prefix}-toolbar-active`,
+          setting.value.fullscreen && `${prefix}-toolbar-active`,
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.fullscreen}
@@ -29,7 +28,7 @@ const ToolbarFullscreen = defineComponent({
           fullscreenHandler();
         }}
       >
-        <Icon name={props.setting.fullscreen ? 'fullscreen-exit' : 'fullscreen'} />
+        <Icon name={setting.value.fullscreen ? 'fullscreen-exit' : 'fullscreen'} />
 
         {showToolbarName?.value && (
           <div class={`${prefix}-toolbar-item-name`}>

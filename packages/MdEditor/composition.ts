@@ -1,5 +1,15 @@
 import { deepClone, deepMerge } from '@vavt/util';
-import { reactive, watch, computed, onMounted, provide, ref, Ref, useId } from 'vue';
+import {
+  reactive,
+  watch,
+  computed,
+  onMounted,
+  provide,
+  ref,
+  Ref,
+  useId,
+  ComputedRef
+} from 'vue';
 import { prefix, staticTextDefault, codeCss, globalConfig } from '~/config';
 import {
   CHANGE_CATALOG_VISIBLE,
@@ -105,6 +115,15 @@ export const useOnSave = (
   });
 };
 
+export interface ProvideOptions {
+  rootRef: Ref<HTMLDivElement | undefined>;
+  editorId: string;
+  setting: SettingType;
+  updateSetting: UpdateSetting;
+  catalogVisible: Ref<boolean>;
+  defToolbars: ComputedRef<any>;
+}
+
 /**
  * 抽离预览组件需要提供的组件全局属性
  *
@@ -112,12 +131,10 @@ export const useOnSave = (
  */
 export const useProvidePreview = (
   props: MdPreviewProps,
-  rootRef: Ref<HTMLDivElement | undefined>
+  { editorId, rootRef }: Pick<ProvideOptions, 'editorId' | 'rootRef'>
 ) => {
   const hljsUrls = globalConfig.editorExtensions.highlight;
   const hljsAttrs = globalConfig.editorExtensionsAttrs.highlight;
-
-  const editorId = useEditorId(props);
 
   provide('editorId', editorId);
 
@@ -210,15 +227,13 @@ export const useProvidePreview = (
 
   return { editorId };
 };
+
 /**
  * 向下提供部分公共参数
  *
  * @param props
  */
-export const useProvide = (
-  props: EditorProps,
-  rootRef: Ref<HTMLDivElement | undefined>
-) => {
+export const useProvide = (props: EditorProps, options: ProvideOptions) => {
   // tab=2space
   provide('tabWidth', props.tabWidth);
 
@@ -227,7 +242,51 @@ export const useProvide = (
     computed(() => props.disabled)
   );
 
-  return useProvidePreview(props, rootRef);
+  provide(
+    'showToolbarName',
+    computed(() => props.showToolbarName)
+  );
+
+  provide(
+    'noUploadImg',
+    computed(() => props.noUploadImg)
+  );
+
+  provide(
+    'tableShape',
+    computed(() => props.tableShape)
+  );
+
+  provide('noPrettier', props.noPrettier);
+
+  provide(
+    'codeTheme',
+    computed(() => props.codeTheme)
+  );
+
+  provide(
+    'setting',
+    computed(() => ({
+      // setting是reactive，不转化是可以直接赋值的
+      ...options.setting
+    }))
+  );
+
+  provide('updateSetting', options.updateSetting);
+
+  provide(
+    'catalogVisible',
+    computed(() => options.catalogVisible.value)
+  );
+
+  provide('defToolbars', options.defToolbars);
+
+  provide(
+    'floatingToolbars',
+    computed(() => props.floatingToolbars)
+  );
+
+  return useProvidePreview(props, options);
 };
 
 /**

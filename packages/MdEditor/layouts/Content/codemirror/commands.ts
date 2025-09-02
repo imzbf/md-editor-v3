@@ -4,9 +4,13 @@ import { KeyBinding } from '@codemirror/view';
 import { ON_SAVE, REPLACE } from '~/static/event-name';
 import { ToolDirective } from '~/utils/content-help';
 import bus from '~/utils/event-bus';
-import { ContentProps } from '../props';
 
-export const createCommands = (id: string, contentProps: ContentProps) => {
+export const createCommands = (
+  id: string,
+  options: {
+    noPrettier: boolean;
+  }
+) => {
   const CtrlB: KeyBinding = {
     key: 'Ctrl-b',
     mac: 'Cmd-b',
@@ -182,7 +186,7 @@ export const createCommands = (id: string, contentProps: ContentProps) => {
 
     shift: () => {
       // ctrl+shift+f 美化内容
-      if (!contentProps.noPrettier) {
+      if (!options.noPrettier) {
         bus.emit(id, REPLACE, 'prettier');
         return true;
       }

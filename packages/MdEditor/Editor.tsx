@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeUnmount, reactive, ref } from 'vue';
+import { computed, defineComponent, onBeforeUnmount, reactive, ref } from 'vue';
 import { prefix } from '~/config';
 import Content from '~/layouts/Content';
 import Footer from '~/layouts/Footer';
@@ -15,7 +15,8 @@ import {
   useConfig,
   useCatalog,
   useExpose,
-  useErrorCatcher
+  useErrorCatcher,
+  useEditorId
 } from './composition';
 
 import { ContentExposeParam } from './layouts/Content/type';
@@ -26,9 +27,7 @@ const Editor = defineComponent({
   props,
   emits,
   setup(props, ctx: EditorContext) {
-    // ID不允许响应式（解构会失去响应式能力），这会扰乱eventbus
-
-    const { noKatex, noMermaid, noPrettier, noUploadImg, noHighlight } = props;
+    const { noKatex, noMermaid, noHighlight } = props;
 
     const state = reactive({
       scrollAuto: props.scrollAuto
@@ -37,8 +36,11 @@ const Editor = defineComponent({
     const rootRef = ref<HTMLDivElement>();
     const codeRef = ref<ContentExposeParam>();
 
-    // provide 部分prop
-    const { editorId } = useProvide(props, rootRef);
+    const defToolbars = computed(() => getSlot({ props, ctx }, 'defToolbars'));
+    const defFooters = computed(() => getSlot({ props, ctx }, 'defFooters'));
+
+    const editorId = useEditorId(props);
+
     // 部分配置重构
     const [setting, updateSetting] = useConfig(props, ctx, { editorId });
     // 目录状态
@@ -61,15 +63,23 @@ const Editor = defineComponent({
       updateSetting,
       codeRef
     });
+
+    // provide 部分
+    useProvide(props, {
+      rootRef,
+      editorId,
+      setting,
+      updateSetting,
+      catalogVisible,
+      defToolbars
+    });
+
     // 卸载组件前清空全部事件监听
     onBeforeUnmount(() => {
       bus.clear(editorId);
     });
 
     return () => {
-      const defToolbars = getSlot({ props, ctx }, 'defToolbars');
-      const defFooters = getSlot({ props, ctx }, 'defFooters');
-
       return (
         <div
           id={editorId}
@@ -83,34 +93,19 @@ const Editor = defineComponent({
           ref={rootRef}
         >
           {props.toolbars.length > 0 && (
-            <ToolBar
-              noPrettier={noPrettier}
-              toolbars={props.toolbars}
-              toolbarsExclude={props.toolbarsExclude}
-              setting={setting}
-              updateSetting={updateSetting}
-              tableShape={props.tableShape}
-              defToolbars={defToolbars}
-              noUploadImg={noUploadImg}
-              showToolbarName={props.showToolbarName}
-              catalogVisible={catalogVisible.value}
-              codeTheme={props.codeTheme}
-            />
+            <ToolBar toolbars={props.toolbars} toolbarsExclude={props.toolbarsExclude} />
           )}
           <Content
             ref={codeRef}
             modelValue={props.modelValue}
-            setting={setting}
             mdHeadingId={props.mdHeadingId}
             noMermaid={noMermaid}
-            noPrettier={noPrettier}
             sanitize={props.sanitize}
             placeholder={props.placeholder}
             noKatex={noKatex}
             scrollAuto={state.scrollAuto}
             formatCopiedText={props.formatCopiedText}
             autofocus={props.autoFocus}
-            disabled={props.disabled}
             readonly={props.readOnly}
             maxlength={props.maxLength}
             autoDetectCode={props.autoDetectCode}
@@ -144,8 +139,6 @@ const Editor = defineComponent({
               ctx.emit('onInput', e);
             }}
             completions={props.completions}
-            catalogVisible={catalogVisible.value}
-            theme={props.theme}
             noImgZoomIn={props.noImgZoomIn}
             onDrop={(e) => {
               props.onDrop?.(e);
@@ -172,7 +165,7 @@ const Editor = defineComponent({
             <Footer
               modelValue={props.modelValue}
               footers={props.footers}
-              defFooters={defFooters}
+              defFooters={defFooters.value}
               noScrollAuto={
                 (!setting.preview && !setting.htmlPreview) || setting.previewOnly
               }

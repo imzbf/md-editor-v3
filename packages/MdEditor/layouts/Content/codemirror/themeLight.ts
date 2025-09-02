@@ -100,8 +100,8 @@ export const oneLightTheme = EditorView.theme(
       backgroundColor: tooltipBackground
     },
     '.cm-tooltip .cm-tooltip-arrow:before': {
-      borderTopColor: 'transparent',
-      borderBottomColor: 'transparent'
+      borderTopColor: 'var(--md-border-color)', //'transparent',
+      borderBottomColor: 'var(--md-border-color)'
     },
     '.cm-tooltip .cm-tooltip-arrow:after': {
       borderTopColor: tooltipBackground,

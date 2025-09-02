@@ -1,5 +1,5 @@
 import { defineComponent, onBeforeUnmount, ref } from 'vue';
-import { useProvidePreview } from '~/composition';
+import { useEditorId, useProvidePreview } from '~/composition';
 import { prefix } from '~/config';
 
 import ContentPreview from '~/layouts/Content/ContentPreview';
@@ -17,8 +17,14 @@ const MdPreview = defineComponent({
 
     const { noKatex, noMermaid, noHighlight } = props;
     const rootRef = ref<HTMLDivElement>();
+
+    const editorId = useEditorId(props);
+
     // provide 部分prop
-    const { editorId } = useProvidePreview(props, rootRef);
+    useProvidePreview(props, {
+      rootRef,
+      editorId
+    });
     // 插入扩展的外链
     // useExpansionPreview(props);
 

@@ -322,6 +322,16 @@ export const editorProps = {
     default: allToolbar
   },
   /**
+   * 浮动工具栏
+   *
+   * @version 6.0.0
+   * @default []
+   */
+  floatingToolbars: {
+    type: Array as PropType<Array<ToolbarNames>>,
+    default: []
+  },
+  /**
    * 工具栏选择不显示
    *
    * @default []
