@@ -2,7 +2,7 @@ import { Compartment, Extension } from '@codemirror/state';
 import { KeyBinding, EditorView } from '@codemirror/view';
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
-import markdownit from 'markdown-it';
+import markdownit, { Token } from 'markdown-it';
 import { Component, SetupContext, ExtractPropTypes, VNode } from 'vue';
 import { IconName } from './components/Icon/Icon';
 import { editorProps, mdPreviewProps } from './props';
@@ -149,9 +149,17 @@ export interface HeadList {
   level: 1 | 2 | 3 | 4 | 5 | 6;
   active?: boolean;
   line: number;
+  currentToken?: Token;
+  nextToken?: Token;
 }
 
-export type MdHeadingId = (text: string, level: number, index: number) => string;
+export type MdHeadingId = (options: {
+  text: string;
+  level: number;
+  index: number;
+  currentToken?: Token;
+  nextToken?: Token;
+}) => string;
 
 export interface MermaidTemplate {
   /**

@@ -64,7 +64,13 @@ const CatalogLink = defineComponent({
             if (e.defaultPrevented) {
               return;
             }
-            const id = mdHeadingId(tocItem.text, tocItem.level, tocItem.index);
+            const id = mdHeadingId({
+              text: tocItem.text,
+              level: tocItem.level,
+              index: tocItem.index,
+              currentToken: tocItem.currentToken,
+              nextToken: tocItem.nextToken
+            });
             const targetHeadEle = rootNodeRef.value.getElementById(id);
             const scrollContainer = scrollElementRef.value;
 

@@ -17,7 +17,7 @@ import {
   ModalToolbar,
   NormalFooterToolbar
 } from '~~/index';
-import type { ExposeParam } from '~~/index';
+import type { ExposeParam, MdHeadingId } from '~~/index';
 
 import { Theme } from '../App';
 import mdText from '../data.md';
@@ -65,7 +65,9 @@ import './index.less';
 const SAVE_KEY = 'XHMPGLJIZTDB';
 const INPUT_BOX_WITDH = 'tcxll8alg5jx52hw';
 
-const mdHeadingId = (t: string, l: number, index: number) => `heading-${index}`;
+const mdHeadingId: MdHeadingId = ({ index }) => {
+  return `heading-${index}`;
+};
 
 export default defineComponent({
   name: 'EditorPreview1',
