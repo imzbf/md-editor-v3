@@ -234,7 +234,13 @@ const MdCatalog = defineComponent({
 
           if (props.syncWith === 'preview') {
             const linkEle = rootNodeRef.value?.getElementById(
-              props.mdHeadingId(link.text, link.level, index + 1)
+              props.mdHeadingId({
+                text: link.text,
+                level: link.level,
+                index: index + 1,
+                currentToken: link.currentToken,
+                nextToken: link.nextToken
+              })
             );
 
             if (linkEle instanceof HTMLElement) {

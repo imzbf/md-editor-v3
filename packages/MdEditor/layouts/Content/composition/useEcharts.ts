@@ -9,8 +9,10 @@ import {
 } from 'vue';
 import { prefix, globalConfig } from '~/config';
 import { CDN_IDS } from '~/static';
+import { ERROR_CATCHER } from '~/static/event-name';
 import { appendHandler } from '~/utils/dom';
 
+import bus from '~/utils/event-bus';
 import { ContentPreviewProps } from '../ContentPreview';
 
 /**
@@ -57,7 +59,7 @@ const useEcharts = (props: ContentPreviewProps) => {
           configEcharts();
         }
       },
-      'mermaid'
+      'echarts'
     );
   });
 
@@ -93,19 +95,28 @@ const useEcharts = (props: ContentPreviewProps) => {
           return false;
         }
 
-        const code = item.innerText;
-        const ins = echarts.init(item, theme.value);
-        // eslint-disable-next-line @typescript-eslint/no-implied-eval
-        ins.setOption(new Function(`return ${code}`)());
-        item.setAttribute('data-processed', '');
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-implied-eval
+          const options = new Function(`return ${item.innerText}`)();
+          const ins = echarts.init(item, theme.value);
 
-        echartsInstances.push(ins);
+          ins.setOption(options);
+          item.setAttribute('data-processed', '');
 
-        const observer = new ResizeObserver(() => {
-          ins.resize();
-        });
-        observer.observe(item);
-        observers.push(observer);
+          echartsInstances.push(ins);
+
+          const observer = new ResizeObserver(() => {
+            ins.resize();
+          });
+          observer.observe(item);
+          observers.push(observer);
+        } catch (error: any) {
+          bus.emit(editorId, ERROR_CATCHER, {
+            name: 'echarts',
+            message: error?.message,
+            error
+          });
+        }
       });
     }
   };

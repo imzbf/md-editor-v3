@@ -17,7 +17,7 @@ import {
   CustomIcon
 } from './type';
 
-export const mdHeadingId: MdHeadingId = (text) => text;
+export const mdHeadingId: MdHeadingId = ({ text }) => text;
 
 export const mdPreviewProps = {
   /**
