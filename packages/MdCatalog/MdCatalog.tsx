@@ -44,7 +44,7 @@ const props = {
   },
   mdHeadingId: {
     type: Function as PropType<MdHeadingId>,
-    default: (text: string) => text
+    default: (({ text }) => text) as MdHeadingId
   },
   /**
    * 指定滚动的容器，选择器需带上对应的符号，默认预览框
