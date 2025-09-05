@@ -105,9 +105,9 @@ export default defineComponent({
     };
 
     /** 隐藏原生滚动条 */
-    const hideNativeScrollbar = (el: HTMLElement) => {
-      el.classList.add(`${prefix}-custom-scrollbar--hide-native`);
-    };
+    // const hideNativeScrollbar = (el: HTMLElement) => {
+    //   el.classList.add(`${prefix}-custom-scrollbar--hide-native`);
+    // };
 
     /** 绑定滚动元素事件 */
     const bindScrollEl = (el: HTMLElement | null) => {
@@ -119,7 +119,7 @@ export default defineComponent({
       scrollEl.value = el;
 
       if (scrollEl.value) {
-        hideNativeScrollbar(scrollEl.value);
+        // hideNativeScrollbar(scrollEl.value);
         scrollEl.value.addEventListener('scroll', onScroll);
         updateThumb();
       } else {
