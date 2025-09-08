@@ -57,22 +57,6 @@ const ToolbarImageDropdown = defineComponent({
           multiple={true}
           style={{ display: 'none' }}
         />
-        <Modals
-          clipVisible={clipVisible.value}
-          onCancel={() => {
-            clipVisible.value = false;
-          }}
-          onOk={(data) => {
-            if (data) {
-              emitHandler('image', {
-                desc: data.desc,
-                url: data.url,
-                transform: true
-              });
-            }
-            clipVisible.value = false;
-          }}
-        />
         <Dropdown
           relative={`#${wrapperId}`}
           visible={visible.value}
@@ -134,6 +118,22 @@ const ToolbarImageDropdown = defineComponent({
             )}
           </button>
         </Dropdown>
+        <Modals
+          clipVisible={clipVisible.value}
+          onCancel={() => {
+            clipVisible.value = false;
+          }}
+          onOk={(data) => {
+            if (data) {
+              emitHandler('image', {
+                desc: data.desc,
+                url: data.url,
+                transform: true
+              });
+            }
+            clipVisible.value = false;
+          }}
+        />
       </>
     );
   }
