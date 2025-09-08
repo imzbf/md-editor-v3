@@ -247,10 +247,7 @@ export const useProvide = (props: EditorProps, options: ProvideOptions) => {
     computed(() => props.showToolbarName)
   );
 
-  provide(
-    'noUploadImg',
-    computed(() => props.noUploadImg)
-  );
+  provide('noUploadImg', props.noUploadImg);
 
   provide(
     'tableShape',

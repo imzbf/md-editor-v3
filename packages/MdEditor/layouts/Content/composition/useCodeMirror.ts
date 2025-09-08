@@ -32,7 +32,8 @@ import {
   CustomIcon,
   PreviewThemes,
   SettingType,
-  ToolbarNames
+  ToolbarNames,
+  UpdateSetting
 } from '~/type';
 import { directive2flag, ToolDirective } from '~/utils/content-help';
 import bus from '~/utils/event-bus';
@@ -74,7 +75,7 @@ const useCodeMirror = (props: ContentProps) => {
   const noPrettier = inject('noPrettier') as boolean;
   const codeTheme = inject('codeTheme') as ComputedRef<string>;
   const setting = inject('setting') as ComputedRef<SettingType>;
-  const updateSetting = inject('updateSetting') as (key: string, value?: any) => void;
+  const updateSetting = inject('updateSetting') as UpdateSetting;
   const catalogVisible = inject('catalogVisible') as ComputedRef<boolean>;
   const defToolbars = inject('defToolbars') as ComputedRef<VNode | VNode[]>;
   const floatingToolbars = inject('floatingToolbars') as ComputedRef<Array<ToolbarNames>>;
