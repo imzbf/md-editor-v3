@@ -25,6 +25,13 @@ export const createFloatingToolbarPlugin = (options: { privide: (app: App) => vo
         arrow: true,
         create: () => {
           const dom = document.createElement('div');
+
+          // 保持与react版本一直，虽然vue不存在该问题
+          // 这里需要创建一个 react 根节点
+          // 如果直接使用dom，每次react更新都会重置dom中codemirror添加的节点，比如箭头
+          const appNode = document.createElement('div');
+          dom.appendChild(appNode);
+
           const app = createApp(Toolbar);
           options.privide(app);
 
