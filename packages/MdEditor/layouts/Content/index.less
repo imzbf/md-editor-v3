@@ -29,6 +29,22 @@
     box-sizing: border-box;
   }
 
+  &-preview-wrapper {
+    position: relative;
+    // flex: 1;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+
+    // Firefox
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      // Chrome/Safari
+      display: none;
+    }
+  }
+
   &-html {
     font-size: 16px;
     word-break: break-all;
@@ -52,6 +68,14 @@
   line-height: 1.5;
   list-style: none;
   font-feature-settings: 'tnum';
+
+  // Firefox
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    // Chrome/Safari
+    display: none;
+  }
 }
 
 .@{prefix}-catalog-fixed {

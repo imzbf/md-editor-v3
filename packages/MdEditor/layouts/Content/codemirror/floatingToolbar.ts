@@ -17,7 +17,7 @@ const tooltipField = StateField.define<Tooltip | null>({
 });
 
 export const createFloatingToolbarPlugin = (options: { privide: (app: App) => void }) => {
-  const showVueTooltip = (view: EditorView, pos: number) => {
+  const showTooltip = (view: EditorView, pos: number) => {
     view.dispatch({
       effects: tooltipEffect.of({
         pos,
@@ -25,6 +25,13 @@ export const createFloatingToolbarPlugin = (options: { privide: (app: App) => vo
         arrow: true,
         create: () => {
           const dom = document.createElement('div');
+
+          // 保持与react版本一直，虽然vue不存在该问题
+          // 这里需要创建一个 react 根节点
+          // 如果直接使用dom，每次react更新都会重置dom中codemirror添加的节点，比如箭头
+          const appNode = document.createElement('div');
+          dom.appendChild(appNode);
+
           const app = createApp(Toolbar);
           options.privide(app);
 
@@ -42,13 +49,13 @@ export const createFloatingToolbarPlugin = (options: { privide: (app: App) => vo
 
       if (!sel.empty) {
         // 选中文字 → 显示
-        showVueTooltip(update.view, sel.from);
+        showTooltip(update.view, sel.from);
       } else {
         // 光标位置 → 判断是不是空白行
         const pos = sel.head;
         const line = state.doc.lineAt(pos);
         if (/^\s*$/.test(line.text)) {
-          showVueTooltip(update.view, pos);
+          showTooltip(update.view, pos);
         } else {
           update.view.dispatch({ effects: tooltipEffect.of(null) });
         }
