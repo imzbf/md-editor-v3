@@ -32,19 +32,7 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
         style: resolvePath('packages/MdEditor/styles/style.less')
       }
     ],
-    ['cjs', moduleEntry],
-    [
-      'umd',
-      {
-        index: resolvePath('packages')
-      }
-    ],
-    [
-      'umd',
-      {
-        preview: resolvePath('packages/preview')
-      }
-    ]
+    ['cjs', moduleEntry]
   ];
 
   const extnames = {
@@ -82,8 +70,6 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
           emptyOutDir: false,
           cssCodeSplit: true,
           outDir: resolvePath('lib'),
-          // nuxt识别出，压缩后的h与vue导出的冲突了
-          minify: t === 'umd',
           lib: {
             entry,
             name: 'MdEditorV3',
@@ -103,29 +89,20 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
             }
           },
           rollupOptions: {
-            external:
-              t === 'umd'
-                ? ['vue']
-                : [
-                    'vue',
-                    'medium-zoom',
-                    'lru-cache',
-                    'codemirror',
-                    'lucide-vue-next',
-                    /@vavt\/.*/,
-                    /@codemirror\/.*/,
-                    /@lezer\/.*/,
-                    /markdown-it.*/
-                  ],
+            external: [
+              'vue',
+              'medium-zoom',
+              'lru-cache',
+              'codemirror',
+              'lucide-vue-next',
+              /@vavt\/.*/,
+              /@codemirror\/.*/,
+              /@lezer\/.*/,
+              /markdown-it.*/
+            ],
             output: {
               chunkFileNames: `${t}/chunks/[name].${extnames[t]}`,
-              assetFileNames: '[name][extname]',
-              globals:
-                t === 'umd'
-                  ? {
-                      vue: 'Vue'
-                    }
-                  : {}
+              assetFileNames: '[name][extname]'
             }
           }
         }

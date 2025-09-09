@@ -31,7 +31,7 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
               codeBlock.querySelector('input:checked + pre code') ||
               codeBlock.querySelector('pre code');
 
-            const codeText = (activeCode as HTMLElement).textContent!;
+            const codeText = (activeCode as HTMLElement).textContent;
             const { text, successTips, failTips } = ult.value.copyCode!;
 
             let msg = successTips!;
