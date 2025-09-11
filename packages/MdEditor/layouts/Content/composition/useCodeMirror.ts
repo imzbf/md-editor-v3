@@ -38,6 +38,7 @@ import { directive2flag, ToolDirective } from '~/utils/content-help';
 import bus from '~/utils/event-bus';
 
 import CodeMirrorUt from '../codemirror';
+import { useToolbarEffect } from './useToolbarEffect';
 import { createAutocompletion } from '../codemirror/autocompletion';
 import { createFloatingToolbar } from '../codemirror/floatingToolbar';
 import { oneLight } from '../codemirror/themeLight';
@@ -51,9 +52,14 @@ import { TextShortenerOptions, createTextShortener } from '../codemirror/textSho
 // 禁用掉>=6.28.0的实验性功能
 (EditorView as any).EDIT_CONTEXT = false;
 
+const getSourceExtension = (item: CodeMirrorExtension) => {
+  return item.extension instanceof Function
+    ? item.extension(item.options)
+    : item.extension;
+};
+
 const produceExtension = (item: CodeMirrorExtension): Extension => {
-  const extension =
-    item.extension instanceof Function ? item.extension(item.options) : item.extension;
+  const extension = getSourceExtension(item);
   return item.compartment ? item.compartment.of(extension) : extension;
 };
 
@@ -440,29 +446,24 @@ const useCodeMirror = (props: ContentProps) => {
     }
   );
 
-  watch([floatingToolbars], () => {
-    // if (floatingToolbars.value.length > 0) {
-    //   codeMirrorUt.value?.view.dispatch({
-    //     effects: floatingToolbarComp.reconfigure(floatingToolbarExtension)
-    //   });
-    // } else
-    //   codeMirrorUt.value?.view.dispatch({ effects: floatingToolbarComp.reconfigure([]) });
-
+  useToolbarEffect(() => {
     const _floatingToolbarExtension = userDefindeExtension.find(
       (extension) => extension.type === 'floatingToolbar'
     );
 
-    if (floatingToolbars.value.length > 0 && _floatingToolbarExtension) {
+    if (!_floatingToolbarExtension?.compartment) return;
+
+    if (floatingToolbars.value.length > 0) {
       codeMirrorUt.value?.view.dispatch({
-        effects: floatingToolbarComp.reconfigure(
-          produceExtension(_floatingToolbarExtension)
+        effects: _floatingToolbarExtension.compartment.reconfigure(
+          getSourceExtension(_floatingToolbarExtension)
         )
       });
     } else
       codeMirrorUt.value?.view.dispatch({
-        effects: floatingToolbarComp.reconfigure([])
+        effects: _floatingToolbarExtension.compartment.reconfigure([])
       });
-  });
+  }, floatingToolbars);
 
   // 附带的设置
   // useAttach(codeMirrorUt);

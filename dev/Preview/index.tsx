@@ -17,7 +17,7 @@ import {
   ModalToolbar,
   NormalFooterToolbar
 } from '~~/index';
-import type { ExposeParam, MdHeadingId } from '~~/index';
+import type { ExposeParam, MdHeadingId, ToolbarNames } from '~~/index';
 
 import { Theme } from '../App';
 import mdText from '../data.md';
@@ -92,14 +92,24 @@ export default defineComponent({
   setup(props) {
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
     const storagedWidth = localStorage.getItem(INPUT_BOX_WITDH) || '50%';
-    const md = reactive({
+    const md = reactive<{
+      text: string;
+      text2: string;
+      visible: boolean;
+      modalVisible: boolean;
+      isFullscreen: boolean;
+      inputBoxWidth: string;
+      disabled: boolean;
+      floatingToolbars: ToolbarNames[];
+    }>({
       text: storagedText || (mdText as string),
       text2: 'Hello world',
       visible: false,
       modalVisible: false,
       isFullscreen: false,
       inputBoxWidth: storagedWidth,
-      disabled: false
+      disabled: false,
+      floatingToolbars: ['bold', 'underline', 'italic', 'strikeThrough']
     });
 
     const editorRef = ref<ExposeParam>();
@@ -228,7 +238,9 @@ export default defineComponent({
             // editorRef.value?.resetHistory();
             // editorRef.value?.focus();
             // editorRef.value?.execCommand('gantt');
-            md.disabled = !md.disabled;
+            // md.disabled = !md.disabled;
+
+            md.floatingToolbars = ['bold'];
           }}
         >
           1
@@ -426,7 +438,7 @@ export default defineComponent({
               'catalog',
               'github'
             ]}
-            floatingToolbars={['bold', 'underline', 'italic', 'strikeThrough']}
+            floatingToolbars={md.floatingToolbars}
             defToolbars={
               <>
                 <Normal />
