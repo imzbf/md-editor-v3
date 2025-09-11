@@ -52,7 +52,18 @@ config({
         type: 'lineNumbers',
         extension: lineNumbers()
       }
-    ];
+    ].map((item) => {
+      if (item.type === 'linkShortener') {
+        return {
+          ...item,
+          options: {
+            maxLength: 100
+          }
+        };
+      }
+
+      return item;
+    });
   },
   // iconfontType: 'class',
   // markdownItConfig: (mdit) => {

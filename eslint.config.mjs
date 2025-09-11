@@ -1,4 +1,5 @@
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -8,7 +9,7 @@ import pluginVue from 'eslint-plugin-vue';
 import parserTs from '@typescript-eslint/parser';
 import vueParser from 'vue-eslint-parser';
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ['eslint.config.mjs']
   },

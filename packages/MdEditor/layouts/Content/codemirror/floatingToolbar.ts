@@ -16,7 +16,7 @@ const tooltipField = StateField.define<Tooltip | null>({
   provide: (f) => showTooltip.from(f)
 });
 
-export const createFloatingToolbarPlugin = (options: { privide: (app: App) => void }) => {
+export const createFloatingToolbar = (options: { privide: (app: App) => void }) => {
   const showTooltip = (view: EditorView, pos: number) => {
     view.dispatch({
       effects: tooltipEffect.of({

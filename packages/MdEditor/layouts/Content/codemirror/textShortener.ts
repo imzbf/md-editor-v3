@@ -26,7 +26,7 @@ const defaultTextRegex = new RegExp(
   'gi'
 );
 
-export const textShortenerPlugin = (options: TextShortenerOptions) => {
+export const createTextShortener = (options: TextShortenerOptions) => {
   const shortenText = (text: string): string => {
     return text.length > 10 ? text.slice(0, 10) + '...' : text;
   };
