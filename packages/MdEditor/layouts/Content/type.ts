@@ -1,4 +1,4 @@
-import { EditorView } from 'codemirror';
+import { EditorView } from '@codemirror/view';
 import { FocusOption } from '~/type';
 
 export interface ContentExposeParam {
