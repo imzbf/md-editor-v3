@@ -9,9 +9,8 @@ import {
 import { markdown } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { Compartment, Extension } from '@codemirror/state';
-import { keymap, drawSelection } from '@codemirror/view';
+import { EditorView, keymap, drawSelection } from '@codemirror/view';
 import { throttle } from '@vavt/util';
-import { EditorView } from 'codemirror';
 import { ref, onMounted, inject, ComputedRef, watch, shallowRef, VNode, Ref } from 'vue';
 import { globalConfig } from '~/config';
 import {
