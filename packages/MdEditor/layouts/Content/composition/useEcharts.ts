@@ -63,7 +63,7 @@ const useEcharts = (props: ContentPreviewProps) => {
     );
   });
 
-  let mermaidSourceEles: Array<HTMLElement>;
+  let echartsSourceEles: Array<HTMLElement>;
   let echartsInstances: any[] = [];
   let observers: Array<ResizeObserver> = [];
 
@@ -76,7 +76,7 @@ const useEcharts = (props: ContentPreviewProps) => {
     });
 
     echartsInstances = [];
-    mermaidSourceEles = [];
+    echartsSourceEles = [];
     observers = [];
   };
 
@@ -84,13 +84,13 @@ const useEcharts = (props: ContentPreviewProps) => {
     clearEchartsEffects();
 
     if (!props.noEcharts && echarts) {
-      mermaidSourceEles = Array.from(
+      echartsSourceEles = Array.from(
         rootRef.value.querySelectorAll<HTMLElement>(
           `#${editorId} div.${prefix}-echarts:not([data-processed])`
         )
       );
 
-      mermaidSourceEles.forEach((item) => {
+      echartsSourceEles.forEach((item) => {
         if (item.dataset.closed === 'false') {
           return false;
         }
