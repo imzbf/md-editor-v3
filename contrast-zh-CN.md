@@ -1,5 +1,107 @@
 下面仅列举不兼容的内容，兼容内容不作展示。
 
+## 🧙🏼 从 5.x 升级到 6.x
+
+### 🐈 UMD
+
+为了跟进前端生态的发展，部分三方依赖自 6.x 开始已全面转向 ESM 模式，我们也不再继续提供 UMD 格式支持。
+
+这里提供了全局使用的新的参考： [🤓 CDN 链接](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%A4%93%20CDN%20%E9%93%BE%E6%8E%A5)
+
+### 🔖 Props
+
+#### 🧷 insertLinkDirect
+
+移除，现在点击添加链接时不再弹出输入框
+
+#### 🎱 mdHeadingId
+
+类型变更
+
+现在
+
+```ts
+type MdHeadingId = (options: {
+  text: string;
+  level: number;
+  index: number;
+  currentToken?: Token;
+  nextToken?: Token;
+}) => string;
+```
+
+以前
+
+```ts
+type MdHeadingId = (text: string, level: number, index: number) => string;
+```
+
+### 💴 Config
+
+新：
+
+```ts
+import { config, type CodeMirrorExtension, type Themes } from 'md-editor-v3';
+import { type KeyBinding } from '@codemirror/view';
+
+config({
+  codeMirrorExtensions(
+    extensions: Array<CodeMirrorExtension>,
+    options: {
+      editorId: string;
+      theme: Themes;
+      keyBindings: Array<KeyBinding>;
+    }
+  ): Array<CodeMirrorExtension> {
+    return extensions;
+  },
+});
+```
+
+```ts ::close
+interface CodeMirrorExtension {
+  /**
+   * 仅用来提供开发者分别不同扩展的依据
+   */
+  type: string;
+  /**
+   * CodeMirror的扩展
+   */
+  extension: Extension | ((options: any) => Extension);
+  /**
+   * 包裹扩展的Compartment，只有部分扩展有，提供扩展更新的能力
+   */
+  compartment?: Compartment;
+  options?: any;
+}
+```
+
+!!! note
+
+现在你可以从 extensions[i].type 中准确的知道这个哪个扩展。
+
+!!!
+
+旧：
+
+```ts
+import { config, type CodeMirrorExtension, type Themes } from 'md-editor-v3';
+import { type KeyBinding } from '@codemirror/view';
+
+config({
+  codeMirrorExtensions(
+    theme: Themes,
+    extensions: Array<Extension>,
+    keyBindings: Array<KeyBinding>,
+    options: {
+      editorId: string;
+    }
+  ): Array<Extension> {
+    return extensions;
+  },
+});
+```
+
 ## 🧙🏼 从 4.x 升级到 5.x
 
 !!! warning

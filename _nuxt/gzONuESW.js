@@ -1,0 +1,1 @@
+import{h as n,au as o,az as r,aA as u,n as _}from"#entry";const i=n({name:"DocsPage",__name:"index",async setup(p){let e,a;const t=o(),s=r();return[e,a]=u(()=>_({path:`/${t.lang}/api`,hash:s.currentRoute.value.hash})),await e,a(),()=>{}}});export{i as default};

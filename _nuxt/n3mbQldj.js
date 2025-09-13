@@ -1,0 +1,1 @@
+const s=(t,e)=>Object.keys(e).reduce((o,f)=>o.replaceAll(`\${${f}}`,e[f]),t),r=t=>{let e=t.offsetParent,o=t.offsetTop,f=t.offsetLeft;if(e?.nodeName.toLowerCase()!=="body")for(;e;)o+=e?.offsetTop,f+=e?.offsetLeft,e=e?.offsetParent;return{left:f,top:o}};export{r as g,s as r};
