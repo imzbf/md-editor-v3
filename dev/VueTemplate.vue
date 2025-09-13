@@ -6,10 +6,10 @@
     <MdEditorV3
       v-if="visible"
       v-model="text"
-      :custom-icon="customIcon"
-      @on-drop="onDrop"
-      @on-change="onChange"
-      @on-input="onInput"
+      :customIcon="customIcon"
+      @onDrop="onDrop"
+      @onChange="onChange"
+      @onInput="onInput"
     />
   </div>
 </template>
@@ -20,7 +20,7 @@ import { StrIcon } from '~~/index';
 import data from './data.md';
 
 const text = ref(data);
-const visible = ref(true);
+const visible = ref(false);
 
 const customIcon = {
   copy: StrIcon('copy', {}) // '<i class="fa fa-car"></i>',

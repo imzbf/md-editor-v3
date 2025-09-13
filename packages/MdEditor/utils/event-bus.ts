@@ -37,7 +37,7 @@ class Bus {
   }
 
   // 触发事件
-  emit(race: string, name: string, ...params: any) {
+  emit(race: string, name: string, ...params: unknown[]) {
     // 存在由于部分组件展示没有监听事件，却触发了事件的情况。现在视为正常情况！
     if (!this.pools[race]) {
       this.pools[race] = {};

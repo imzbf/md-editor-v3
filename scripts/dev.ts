@@ -1,16 +1,16 @@
 import path from 'path';
-import { createServer } from 'vite';
 import { fileURLToPath } from 'url';
+import markdown from '@vavt/vite-plugin-import-markdown';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import markdown from '@vavt/vite-plugin-import-markdown';
+import { createServer } from 'vite';
 
 import nodeService from './plugins/nodeService';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const resolvePath = (p: string) => path.resolve(__dirname, p);
 
-!(async () => {
+void (async () => {
   const server = await createServer({
     base: '/',
     publicDir: resolvePath('dev/public'),

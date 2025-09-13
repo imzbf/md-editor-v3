@@ -1,3 +1,5 @@
+import { CompletionSource } from '@codemirror/autocomplete';
+import axios from 'axios';
 import {
   defineComponent,
   reactive,
@@ -7,6 +9,7 @@ import {
   ref,
   onMounted
 } from 'vue';
+import Icon from '~/components/Icon';
 import {
   MdEditor,
   MdCatalog,
@@ -14,16 +17,15 @@ import {
   ModalToolbar,
   NormalFooterToolbar
 } from '~~/index';
-import type { ExposeParam } from '~~/index';
-import mdText from '../data.md';
+import type { ExposeParam, MdHeadingId, ToolbarNames } from '~~/index';
+
 import { Theme } from '../App';
+import mdText from '../data.md';
 import Normal from './Normal/index.vue';
-import axios from 'axios';
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
 
 // import { Extension } from '@codemirror/state';
-import { CompletionSource } from '@codemirror/autocomplete';
 // import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
 // import DDD from './.local/DDD.vue';
 // import screenfull from 'screenfull';
@@ -40,7 +42,6 @@ import { CompletionSource } from '@codemirror/autocomplete';
 // import ancher from 'markdown-it-anchor';
 
 import './index.less';
-import Icon from '~/components/Icon';
 
 // import { cdnBase } from '~/config';
 
@@ -64,27 +65,51 @@ import Icon from '~/components/Icon';
 const SAVE_KEY = 'XHMPGLJIZTDB';
 const INPUT_BOX_WITDH = 'tcxll8alg5jx52hw';
 
-const mdHeadingId = (t: string, l: number, index: number) => `heading-${index}`;
+const mdHeadingId: MdHeadingId = ({ index }) => {
+  return `heading-${index}`;
+};
 
 export default defineComponent({
-  name: 'preview-1',
+  name: 'EditorPreview1',
   props: {
-    theme: String as PropType<Theme>,
-    previewTheme: String as PropType<string>,
-    codeTheme: String as PropType<string>,
-    lang: String as PropType<string>
+    theme: {
+      type: String as PropType<Theme>,
+      default: 'light'
+    },
+    previewTheme: {
+      type: String as PropType<string>,
+      default: undefined
+    },
+    codeTheme: {
+      type: String as PropType<string>,
+      default: undefined
+    },
+    lang: {
+      type: String as PropType<string>,
+      default: 'zh-CN'
+    }
   },
   setup(props) {
     const storagedText = localStorage.getItem(SAVE_KEY) || '';
     const storagedWidth = localStorage.getItem(INPUT_BOX_WITDH) || '50%';
-    const md = reactive({
-      text: storagedText || mdText,
+    const md = reactive<{
+      text: string;
+      text2: string;
+      visible: boolean;
+      modalVisible: boolean;
+      isFullscreen: boolean;
+      inputBoxWidth: string;
+      disabled: boolean;
+      floatingToolbars: ToolbarNames[];
+    }>({
+      text: storagedText || (mdText as string),
       text2: 'Hello world',
       visible: false,
       modalVisible: false,
       isFullscreen: false,
       inputBoxWidth: storagedWidth,
-      disabled: false
+      disabled: false,
+      floatingToolbars: ['bold', 'underline', 'italic', 'strikeThrough']
     });
 
     const editorRef = ref<ExposeParam>();
@@ -149,7 +174,7 @@ export default defineComponent({
         completions.list.push((context) => {
           const word = context.matchBefore(/^>\s*/);
 
-          if (word === null || (word.from == word!.to && context.explicit)) {
+          if (word === null || (word.from == word.to && context.explicit)) {
             return null;
           }
 
@@ -213,7 +238,9 @@ export default defineComponent({
             // editorRef.value?.resetHistory();
             // editorRef.value?.focus();
             // editorRef.value?.execCommand('gantt');
-            md.disabled = !md.disabled;
+            // md.disabled = !md.disabled;
+
+            md.floatingToolbars = ['bold'];
           }}
         >
           1
@@ -221,7 +248,7 @@ export default defineComponent({
         <div class="container">
           <MdEditor
             id="md-prev"
-            catalogMaxDepth={2}
+            // catalogMaxDepth={2}
             catalogLayout="flat"
             completions={completions.list}
             ref={editorRef}
@@ -263,29 +290,42 @@ export default defineComponent({
             //   );
             // }}
             // onError={console.log}
-            insertLinkDirect
-            onDrop={async (e) => {
+            // insertLinkDirect
+            onDrop={(e) => {
               e.stopPropagation();
 
-              const form = new FormData();
-              form.append('file', e.dataTransfer?.files[0] as any);
+              void (async () => {
+                const form = new FormData();
+                const file = e.dataTransfer?.files[0];
+                if (file) {
+                  form.append('file', file);
 
-              const res = await axios.post('/api/img/upload', form, {
-                headers: {
-                  'Content-Type': 'multipart/form-data'
+                  try {
+                    const res = await axios.post('/api/img/upload', form, {
+                      headers: {
+                        'Content-Type': 'multipart/form-data'
+                      }
+                    });
+
+                    editorRef.value?.insert(() => {
+                      return {
+                        targetValue: `![](${res.data.url})`
+                      };
+                    });
+                  } catch (error) {
+                    console.error('Image upload failed:', error);
+                  }
+                } else {
+                  console.warn('No file found in drop event.');
                 }
-              });
-
-              editorRef.value?.insert(() => {
-                return {
-                  targetValue: `![](${res.data.url})`
-                };
-              });
+              })();
             }}
             onSave={(v, h) => {
               console.log('onSave');
               h.then((html) => {
                 console.log('onSaveAsync', html);
+              }).catch((error) => {
+                console.error('Error during save:', error);
               });
               localStorage.setItem(SAVE_KEY, v);
             }}
@@ -317,32 +357,36 @@ export default defineComponent({
                 // }
               }
             }
-            onUploadImg={async (files, callback) => {
-              const res = await Promise.all(
-                files.map((file) => {
-                  return new Promise((rev, rej) => {
-                    const form = new FormData();
-                    form.append('file', file);
+            onUploadImg={(files, callback) => {
+              void (async () => {
+                const res = await Promise.all(
+                  files.map((file) => {
+                    return new Promise((rev, rej) => {
+                      const form = new FormData();
+                      form.append('file', file);
 
-                    axios
-                      .post('/api/img/upload', form, {
-                        headers: {
-                          'Content-Type': 'multipart/form-data'
-                        }
-                      })
-                      .then((res) => rev(res))
-                      .catch((error) => rej(error));
-                  });
-                })
-              );
+                      axios
+                        .post('/api/img/upload', form, {
+                          headers: {
+                            'Content-Type': 'multipart/form-data'
+                          }
+                        })
+                        .then((res) => rev(res))
+                        .catch((error) =>
+                          rej(error instanceof Error ? error : new Error(String(error)))
+                        );
+                    });
+                  })
+                );
 
-              callback(
-                res.map((item: any) => ({
-                  url: item.data.url,
-                  alt: 'alt',
-                  title: 'title'
-                }))
-              );
+                callback(
+                  res.map((item: any) => ({
+                    url: item.data.url,
+                    alt: 'alt',
+                    title: 'title'
+                  }))
+                );
+              })();
             }}
             formatCopiedText={(text: string) => {
               return `${text} \nfrom @imzbf`;
@@ -394,6 +438,7 @@ export default defineComponent({
               'catalog',
               'github'
             ]}
+            floatingToolbars={md.floatingToolbars}
             defToolbars={
               <>
                 <Normal />

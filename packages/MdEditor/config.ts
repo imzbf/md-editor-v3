@@ -2,6 +2,7 @@ import { deepMerge } from '@vavt/util';
 import { CodeCss, Config, GlobalConfig, Footers, StaticTextDefault } from './type';
 
 export const prefix = 'md-editor';
+export const prefixHump = 'MdEditor';
 
 // 编辑器ID
 export const defaultEditorId = 'md-editor-v3';
@@ -66,6 +67,8 @@ export const codeCss: CodeCss = {
     dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/stackoverflow-dark.min.css`
   }
 };
+
+export const echartsUrl = `${cdnBase}/echarts@6.0.0/dist/echarts.min.js`;
 
 // 当前版本的值
 export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
@@ -221,6 +224,13 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
     css: {
       integrity:
         'sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP',
+      crossOrigin: 'anonymous'
+    }
+  },
+  echarts: {
+    js: {
+      integrity:
+        'sha384-F07Cpw5v8spSU0H113F33m2NQQ/o6GqPTnTjf45ssG4Q6q58ZwhxBiQtIaqvnSpR',
       crossOrigin: 'anonymous'
     }
   }
@@ -454,6 +464,9 @@ export const globalConfig: GlobalConfig = {
     },
     katex: {
       ...katexUrl
+    },
+    echarts: {
+      js: echartsUrl
     }
   },
   editorExtensionsAttrs: {},
@@ -463,11 +476,12 @@ export const globalConfig: GlobalConfig = {
     renderDelay: 500,
     zIndex: 20000
   },
-  codeMirrorExtensions: (_theme, innerExtensions) => innerExtensions,
+  codeMirrorExtensions: (innerExtensions) => innerExtensions,
   markdownItConfig: () => {},
   markdownItPlugins: (s) => s,
   mermaidConfig: (c) => c,
-  katexConfig: (c) => c
+  katexConfig: (c) => c,
+  echartsConfig: (c) => c
 };
 
 export const config: Config = (option) => {

@@ -7,18 +7,16 @@ import {
   nextTick,
   ComputedRef,
   watch,
-  ExtractPropTypes,
   Ref,
   toRef
 } from 'vue';
-import { LooseRequired } from '@vue/shared';
-import { StaticTextDefaultValue } from '~/type';
-import { globalConfig, prefix } from '~/config';
-import { base642File } from '~/utils';
-import Modal from '~/components/Modal';
-import bus from '~/utils/event-bus';
 import Icon from '~/components/Icon';
+import Modal from '~/components/Modal';
+import { globalConfig, prefix } from '~/config';
 import { ERROR_CATCHER, UPLOAD_IMAGE } from '~/static/event-name';
+import { StaticTextDefaultValue } from '~/type';
+import { base642File } from '~/utils';
+import bus from '~/utils/event-bus';
 
 const props = {
   visible: {
@@ -35,12 +33,10 @@ const props = {
   }
 };
 
-type ClipProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
-
 export default defineComponent({
   name: `${prefix}-modal-clip`,
   props,
-  setup(props: ClipProps) {
+  setup(props) {
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
     const editorId = inject('editorId') as string;
     const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
@@ -110,7 +106,7 @@ export default defineComponent({
     // 全屏变化时，清理cropper
     watch([toRef(() => data.isFullscreen), toRef(() => data.imgSrc)], () => {
       if (data.imgSrc) {
-        nextTick(() => {
+        void nextTick(() => {
           cropper?.destroy();
           previewTargetRef.value.style = '';
 
@@ -188,7 +184,7 @@ export default defineComponent({
             type="button"
             onClick={() => {
               if (cropper) {
-                const cvs = cropper.getCroppedCanvas();
+                const cvs: HTMLCanvasElement = cropper.getCroppedCanvas();
                 bus.emit(
                   editorId,
                   UPLOAD_IMAGE,

@@ -1,16 +1,8 @@
-import {
-  defineComponent,
-  PropType,
-  inject,
-  SetupContext,
-  ExtractPropTypes,
-  VNode
-} from 'vue';
-import { LooseRequired } from '@vue/shared';
-import { prefix } from '~/config';
-import { getSlot } from '~/utils/vue-tsx';
+import { defineComponent, PropType, inject, SetupContext, VNode } from 'vue';
 import Dropdown from '~/components/Dropdown';
+import { prefix } from '~/config';
 import { PreviewThemes, Themes } from '~/type';
+import { getSlot } from '~/utils/vue-tsx';
 
 const props = {
   title: {
@@ -75,16 +67,12 @@ const props = {
    */
 };
 
-type DropdownToolbarProps = Readonly<
-  LooseRequired<Readonly<ExtractPropTypes<typeof props>>>
->;
-
 export default defineComponent({
   name: 'DropdownToolbar',
   props,
   emits: ['onChange'],
-  setup(props: DropdownToolbarProps, ctx: SetupContext<Array<'onChange'>>) {
-    const editorId = inject('editorId');
+  setup(props, ctx: SetupContext<Array<'onChange'>>) {
+    const editorId = inject<string>('editorId');
 
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
@@ -102,12 +90,13 @@ export default defineComponent({
           overlay={Overlay}
           disabled={props.disabled}
         >
-          <div
+          <button
             class={[`${prefix}-toolbar-item`, props.disabled && `${prefix}-disabled`]}
             title={props.title || ''}
+            disabled={props.disabled}
           >
             {Default || Trigger}
-          </div>
+          </button>
         </Dropdown>
       );
     };

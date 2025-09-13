@@ -20,13 +20,13 @@ const useAutoScroll = (
     const rootNode = codeMirrorUt.value?.view.contentDOM.getRootNode() as
       | Document
       | ShadowRoot;
-    const cmScroller = rootNode.querySelector<HTMLDivElement>(
+    const cmScroller = rootNode?.querySelector<HTMLDivElement>(
       `#${editorId} .cm-scroller`
     );
-    const previewEle = rootNode.querySelector<HTMLElement>(
+    const previewEle = rootNode?.querySelector<HTMLElement>(
       `[id="${editorId}-preview-wrapper"]`
     );
-    const htmlEle = rootNode.querySelector<HTMLElement>(
+    const htmlEle = rootNode?.querySelector<HTMLElement>(
       `[id="${editorId}-html-wrapper"]`
     );
 
@@ -55,7 +55,7 @@ const useAutoScroll = (
       toRef(props.setting, 'pageFullscreen')
     ],
     () => {
-      nextTick(rebindEvent);
+      void nextTick(rebindEvent);
     }
   );
 

@@ -8,10 +8,10 @@
  */
 import markdownit, { Renderer, Token } from 'markdown-it';
 import { ComputedRef, Ref } from 'vue';
-import { CustomIcon, StaticTextDefaultValue } from '~/type';
-import { prefix } from '~/config';
-import { mergeAttrs } from '~/utils/md-it';
 import StrIcon from '~/components/Icon/Str';
+import { prefix } from '~/config';
+import { CustomIcon, StaticTextDefaultValue } from '~/type';
+import { mergeAttrs } from '~/utils/md-it';
 
 export interface CodeTabsPluginOps extends markdownit.Options {
   editorId: string;

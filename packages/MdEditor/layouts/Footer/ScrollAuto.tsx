@@ -1,8 +1,7 @@
-import { defineComponent, inject, ComputedRef, PropType, ExtractPropTypes } from 'vue';
-import { LooseRequired } from '@vue/shared';
+import { defineComponent, inject, ComputedRef, PropType } from 'vue';
+import Checkbox from '~/components/Checkbox';
 import { prefix } from '~/config';
 import { StaticTextDefaultValue } from '~/type';
-import Checkbox from '~/components/Checkbox';
 
 const props = {
   scrollAuto: {
@@ -14,11 +13,9 @@ const props = {
   }
 };
 
-type ScrollAutoProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
-
 export default defineComponent({
   props,
-  setup(props: ScrollAutoProps) {
+  setup(props) {
     const ult = inject<ComputedRef<StaticTextDefaultValue>>('usedLanguageText');
     const disabled = inject<ComputedRef<boolean>>('disabled');
 
@@ -27,6 +24,7 @@ export default defineComponent({
         <label
           class={`${prefix}-footer-label`}
           onClick={() => {
+            if (disabled?.value) return;
             props.onScrollAutoChange(!props.scrollAuto);
           }}
         >

@@ -23,8 +23,19 @@ export default defineComponent({
       localStorage.setItem('lang', lang.value);
     });
 
+    watch(
+      [theme],
+      () => {
+        document.body.setAttribute(
+          'class',
+          theme.value === 'dark' ? 'theme-dark' : 'theme-light'
+        );
+      },
+      { immediate: true }
+    );
+
     return () => (
-      <div class={['app', theme.value === 'dark' && 'theme-dark']}>
+      <div class={['app']}>
         <Header
           theme={theme.value}
           onChange={(v: Theme) => (theme.value = v)}

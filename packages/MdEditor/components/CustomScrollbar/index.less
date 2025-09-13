@@ -1,0 +1,29 @@
+@scrollbar-width: 6px;
+
+.@{prefix}-custom-scrollbar {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+
+  &__track {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: @scrollbar-width;
+    height: 100%;
+    background: var(--md-scrollbar-bg-color);
+  }
+
+  &__thumb {
+    position: absolute;
+    width: @scrollbar-width;
+    background: var(--md-scrollbar-thumb-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--md-scrollbar-thumb-hover-color);
+    }
+  }
+}

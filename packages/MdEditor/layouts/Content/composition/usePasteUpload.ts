@@ -1,8 +1,8 @@
 import { ShallowRef, inject } from 'vue';
-import bus from '~/utils/event-bus';
-import { ContentProps } from '../props';
 import { ERROR_CATCHER, REPLACE, UPLOAD_IMAGE } from '~/static/event-name';
+import bus from '~/utils/event-bus';
 import CodeMirrorUt from '../codemirror';
+import { ContentProps } from '../props';
 
 /**
  * 处理粘贴板
@@ -84,13 +84,17 @@ const usePasteUpload = (
           matchArr.map((img) => {
             return props.transformImgUrl(img);
           })
-        ).then((newUrls) => {
-          imgInsert(
-            newUrls.reduce((prev, curr, index) => {
-              return prev.replace(matchArr[index], curr);
-            }, targetValue)
-          );
-        });
+        )
+          .then((newUrls) => {
+            imgInsert(
+              newUrls.reduce((prev, curr, index) => {
+                return prev.replace(matchArr[index], curr);
+              }, targetValue)
+            );
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       } else {
         imgInsert(targetValue);
       }

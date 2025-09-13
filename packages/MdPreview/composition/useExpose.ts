@@ -1,7 +1,7 @@
 import type { SetupContext } from 'vue';
-import eventBus from '~/utils/event-bus';
-import { EditorEmits, ExposePreviewParam, MdPreviewProps } from '~/type';
 import { RERENDER } from '~/static/event-name';
+import { EditorEmits, ExposePreviewParam, MdPreviewProps } from '~/type';
+import eventBus from '~/utils/event-bus';
 
 export const useExpose = (
   props: MdPreviewProps,

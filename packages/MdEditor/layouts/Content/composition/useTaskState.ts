@@ -1,7 +1,7 @@
-import bus from '~/utils/event-bus';
-import { TASK_STATE_CHANGED } from '~/static/event-name';
-import { ContentPreviewProps } from '../ContentPreview';
 import { inject, nextTick, onBeforeUnmount, Ref, watch } from 'vue';
+import { TASK_STATE_CHANGED } from '~/static/event-name';
+import bus from '~/utils/event-bus';
+import { ContentPreviewProps } from '../ContentPreview';
 
 const template = {
   checked: {
@@ -72,7 +72,7 @@ export const useTaskState = (props: ContentPreviewProps, html: Ref<string>) => {
     [html],
     () => {
       removeListener();
-      nextTick(addListener);
+      void nextTick(addListener);
     },
     {
       immediate: true

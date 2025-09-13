@@ -1,10 +1,10 @@
+import { EditorView } from '@codemirror/view';
 import {
   reactive,
   onMounted,
   computed,
   defineComponent,
   PropType,
-  ExtractPropTypes,
   shallowRef,
   onBeforeUnmount,
   ref,
@@ -12,20 +12,18 @@ import {
   CSSProperties,
   watch
 } from 'vue';
-import { EditorView } from 'codemirror';
-import { LooseRequired } from '@vue/shared';
-import { HeadList, MdHeadingId, Themes } from '~/type';
 import { prefix } from '~/config';
-import { getRelativeTop } from '~/utils';
-import bus from '~/utils/event-bus';
-import CatalogLink from './CatalogLink';
 import {
   CATALOG_CHANGED,
   GET_EDITOR_VIEW,
   PUSH_CATALOG,
   SEND_EDITOR_VIEW
 } from '~/static/event-name';
+import { HeadList, MdHeadingId, Themes } from '~/type';
+import { getRelativeTop } from '~/utils';
+import bus from '~/utils/event-bus';
 import { getComputedStyleNum } from '~/utils/scroll-auto';
+import CatalogLink from './CatalogLink';
 
 export interface TocItem extends HeadList {
   index: number;
@@ -46,7 +44,7 @@ const props = {
   },
   mdHeadingId: {
     type: Function as PropType<MdHeadingId>,
-    default: (text: string) => text
+    default: (({ text }) => text) as MdHeadingId
   },
   /**
    * 指定滚动的容器，选择器需带上对应的符号，默认预览框
@@ -117,13 +115,11 @@ const props = {
   }
 };
 
-type MdCatalogProps = Readonly<LooseRequired<Readonly<ExtractPropTypes<typeof props>>>>;
-
 const MdCatalog = defineComponent({
   name: 'MdCatalog',
   props,
   emits: ['onClick', 'onActive'],
-  setup(props: MdCatalogProps, ctx) {
+  setup(props, ctx) {
     // 获取Id
     const editorId = props.editorId as string;
     const defaultScrollElement = `#${editorId}-preview-wrapper`;
@@ -238,7 +234,13 @@ const MdCatalog = defineComponent({
 
           if (props.syncWith === 'preview') {
             const linkEle = rootNodeRef.value?.getElementById(
-              props.mdHeadingId(link.text, link.level, index + 1)
+              props.mdHeadingId({
+                text: link.text,
+                level: link.level,
+                index: index + 1,
+                currentToken: link.currentToken,
+                nextToken: link.nextToken
+              })
             );
 
             if (linkEle instanceof HTMLElement) {

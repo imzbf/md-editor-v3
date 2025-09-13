@@ -7,7 +7,7 @@ export const useRemount = (
   key: Ref<string>
 ) => {
   const handler = () => {
-    nextTick(() => {
+    void nextTick(() => {
       props.onRemount?.();
     });
   };
