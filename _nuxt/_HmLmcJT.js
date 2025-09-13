@@ -541,6 +541,17 @@ Except for the same as \`MdPreview\`:
 
 ---
 
+### 🧱 floatingToolbars
+
+- **type**: \`Array\`
+- **default**: \`[]\`
+
+  Show contents of floating toolbar.
+
+  You can sort the toolbar as you like, split tools by \`'-'\`.
+
+---
+
 ### 🪒 noPrettier
 
 - **type**: \`boolean\`
@@ -3000,6 +3011,17 @@ Example: [Add XSS extension](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0
 - **默认值**：\`[]\`
 
   选择性不展示工具栏，内容同上。
+
+---
+
+### 🧱 floatingToolbars
+
+- **类型**：\`Array\`
+- **默认值**：\`[]\`
+
+  选择性展示浮动工具栏，可选内容和 \`toolbars\` 相同。
+
+  你可以随意排序浮动工具栏，通过\`'-'\`分割两个工具。
 
 ---
 
