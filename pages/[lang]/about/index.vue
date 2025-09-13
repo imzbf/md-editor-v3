@@ -8,19 +8,12 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useStore } from '@/store';
+import { DESCRIPTION_CN, DESCRIPTION_EN, KEYWORDS_CN, KEYWORDS_EN, SITE_NAME_CN, SITE_NAME_EN } from '~/config';
 import IzPreviewContent from '@/layouts/PreviewContent/index.vue';
 
 import mdEN from '@/public/about-en-US.md';
 import mdCN from '@/public/about-zh-CN.md';
-import {
-  DESCRIPTION_CN,
-  DESCRIPTION_EN,
-  KEYWORDS_CN,
-  KEYWORDS_EN,
-  SITE_NAME_CN,
-  SITE_NAME_EN,
-} from '~/config';
+import { useStore } from '@/store';
 const store = useStore();
 
 const mdText = ref(store.lang === 'en-US' ? mdEN : mdCN);
@@ -30,10 +23,7 @@ const queryMd = () => {
 watch(() => store.lang, queryMd);
 
 useHead({
-  title:
-    store.lang === 'en-US'
-      ? `About - ${SITE_NAME_EN}`
-      : `关于 - ${SITE_NAME_CN}`,
+  title: store.lang === 'en-US' ? `About - ${SITE_NAME_EN}` : `关于 - ${SITE_NAME_CN}`,
   meta: [
     {
       name: 'keywords',

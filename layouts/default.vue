@@ -8,8 +8,8 @@
 
 <script setup lang="ts">
 import { watch, onMounted } from 'vue';
-import { useStore, type Lang } from '@/store';
 import BackTop from '@/components/BackTop/index.vue';
+import { useStore, type Lang } from '@/store';
 import IzHeader from './Header/index.vue';
 
 const store = useStore();

@@ -2,9 +2,7 @@
   <header class="page-header">
     <section class="container">
       <h1 class="project-name">
-        md-editor-v3<sup
-          >@{{ pack.dependencies['md-editor-v3'].replace('^', '') }}</sup
-        >
+        md-editor-v3<sup>@{{ pack.dependencies['md-editor-v3'].replace('^', '') }}</sup>
       </h1>
       <p class="project-desc">{{ texts.desc }}</p>
 
@@ -60,10 +58,7 @@
             <IzNavigation />
             <div class="header-hr" />
             <p class="header-actions">
-              <button
-                class="btn btn-header"
-                @click="store.changeTheme('light')"
-              >
+              <button class="btn btn-header" @click="store.changeTheme('light')">
                 {{ texts.defaultTheme }}
               </button>
               <button class="btn btn-header" @click="store.changeTheme('dark')">
@@ -107,42 +102,21 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { useStore } from '@/store';
-import {
-  IzDropdown,
-  IzDropdownMenu,
-  IzDropdownMenuItem,
-} from '@/components/Dropdown';
 import { IzDrawer } from '@/components/Drawer';
-import IzNavigation from '../Navigation/index.vue';
-import './index.less';
-
+import { IzDropdown, IzDropdownMenu, IzDropdownMenuItem } from '@/components/Dropdown';
+import { useStore } from '@/store';
 import pack from '../../package.json';
+import IzNavigation from '../Navigation/index.vue';
+
+import './index.less';
 
 const store = useStore();
 
 const data = reactive({
   previewThemevisible: false,
   codeThemevisible: false,
-  previewThemes: [
-    'default',
-    'github',
-    'vuepress',
-    'mk-cute',
-    'smart-blue',
-    'cyanosis',
-    'arknights',
-  ],
-  codeThemes: [
-    'atom',
-    'a11y',
-    'github',
-    'gradient',
-    'kimbie',
-    'paraiso',
-    'qtcreator',
-    'stackoverflow',
-  ],
+  previewThemes: ['default', 'github', 'vuepress', 'mk-cute', 'smart-blue', 'cyanosis', 'arknights'],
+  codeThemes: ['atom', 'a11y', 'github', 'gradient', 'kimbie', 'paraiso', 'qtcreator', 'stackoverflow'],
 });
 
 const texts = computed(() => {

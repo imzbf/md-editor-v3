@@ -9,20 +9,13 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useStore } from '@/store';
-import { replaceTemplate } from '@/utils';
-import IzPreviewContent from '@/layouts/PreviewContent/index.vue';
+import { DESCRIPTION_CN, DESCRIPTION_EN, KEYWORDS_CN, KEYWORDS_EN, SITE_NAME_CN, SITE_NAME_EN } from '~/config';
 import IzCatalog from '@/layouts/Catalog/index.vue';
+import IzPreviewContent from '@/layouts/PreviewContent/index.vue';
 import mdEN from '@/public/api-en-US.md';
 import mdCN from '@/public/api-zh-CN.md';
-import {
-  DESCRIPTION_CN,
-  DESCRIPTION_EN,
-  KEYWORDS_CN,
-  KEYWORDS_EN,
-  SITE_NAME_CN,
-  SITE_NAME_EN,
-} from '~/config';
+import { useStore } from '@/store';
+import { replaceTemplate } from '@/utils';
 const store = useStore();
 
 const editorId = 'doc-preview';
@@ -34,8 +27,7 @@ const queryMd = () => {
 watch(() => store.lang, queryMd);
 
 useHead({
-  title:
-    store.lang === 'en-US' ? `API - ${SITE_NAME_EN}` : `API - ${SITE_NAME_CN}`,
+  title: store.lang === 'en-US' ? `API - ${SITE_NAME_EN}` : `API - ${SITE_NAME_CN}`,
   meta: [
     {
       name: 'keywords',

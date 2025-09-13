@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="catalog"
-    @mouseenter="() => (activeSync = false)"
-    @mouseleave="() => (activeSync = true)"
-  >
+  <div class="catalog" @mouseenter="() => (activeSync = false)" @mouseleave="() => (activeSync = true)">
     <div ref="scrollerRef" class="affix">
       <MdCatalog
         :editorId="props.editorId"
@@ -24,10 +20,10 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, type PropType } from 'vue';
 import { createSmoothScroll } from '@vavt/util';
 import { MdCatalog } from 'md-editor-v3';
 import type { TocItem } from 'md-editor-v3/lib/types/MdCatalog/MdCatalog';
+import { ref, type PropType } from 'vue';
 import { useStore } from '@/store';
 
 const store = useStore();

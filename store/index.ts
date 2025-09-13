@@ -1,4 +1,3 @@
-import { defineStore } from 'pinia';
 import { STORAGED_STORE_KEY } from '@/config';
 import { type PreviewThemes } from 'md-editor-v3';
 

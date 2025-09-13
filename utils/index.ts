@@ -5,7 +5,7 @@ export const replaceTemplate = (
   }
 ) => {
   return Object.keys(target).reduce((prev, curr) => {
-    return prev.replaceAll(`$\{${curr}}`, target[curr]);
+    return prev.replaceAll(`$\{${curr}}`, target[curr]!);
   }, text);
 };
 
@@ -30,6 +30,6 @@ export const getOffset = (targetEle: HTMLElement) => {
 
   return {
     left: offsetLeft,
-    top: offsetTop
+    top: offsetTop,
   };
 };

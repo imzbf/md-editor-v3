@@ -330,3 +330,59 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 !!!
 ```
+
+---
+
+## 📊 Echarts
+
+\>= v6.0.0
+
+```echarts
+{
+  tooltip: {
+    trigger: 'axis'
+  },
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line'
+    }
+  ]
+}
+```
+
+````markdown
+```echarts
+{
+  tooltip: {
+    trigger: 'axis'
+  },
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line'
+    }
+  ]
+}
+```
+````
+
+!!! warning
+
+Please note that this module will not handle dangerous code, and you need to ensure the security of your data on your own!
+
+!!!

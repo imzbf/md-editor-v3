@@ -183,7 +183,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ### 🎱 mdHeadingId
 
-- **type**: `(text: string, level: number, index: number) => string`
+- **type**: `MdHeadingId`
 - **default**: `(text) => text`
 
   Heading `ID` generator.
@@ -197,8 +197,18 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
   import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
-  const mdHeadingId = (_text, _level, index) => `heading-${index}`;
+  const mdHeadingId = ({ index }) => `heading-${index}`;
   </script>
+  ```
+
+  ```ts
+  type MdHeadingId = (options: {
+    text: string;
+    level: number;
+    index: number;
+    currentToken?: Token;
+    nextToken?: Token;
+  }) => string;
   ```
 
 ---
@@ -748,16 +758,12 @@ Except for the same as `MdPreview`:
 
 ---
 
-### 🖌 insertLinkDirect
+### 🖌 noEcharts
 
 - **type**: `boolean`
 - **default**: `false`
 
-  \>=5.6.0 Set if you want to insert a link directly into the edit field, set it to `false` will open a popup window and type in the input box.
-
-  !!! warning
-  Deprecated since 6.0, popups no longer used by default.
-  !!!
+  \>=6.0.0 Disable echarts preview
 
 ---
 
@@ -1420,13 +1426,32 @@ Customize new extensions based on theme and default extensions f codeMirror.
 
 ```ts
 type CodeMirrorExtensions = (
-  theme: Themes,
-  extensions: Array<Extension>,
-  keyBindings: Array<KeyBinding>,
+  extensions: Array<CodeMirrorExtension>,
   options: {
     editorId: string;
+    theme: Themes;
+    keyBindings: Array<KeyBinding>;
   }
-) => Array<Extension>;
+) => Array<CodeMirrorExtension>;
+```
+
+```ts
+interface CodeMirrorExtension {
+  /**
+   * Only used to provide developers with a basis for distinguishing between different extensions.
+   */
+  type: string;
+  /**
+   * CodeMirror extensions
+   */
+  extension: Extension | ((options: any) => Extension);
+  /**
+   * A Compartment that wraps the extension
+   * Only available for certain extensions—providing the capability to update the extension.
+   */
+  compartment?: Compartment;
+  options?: any;
+}
 ```
 
 Example: Editor does not render the line number of textarea by default, this extension needs to be manually added
@@ -1436,8 +1461,14 @@ import { config } from 'md-editor-v3';
 import { lineNumbers } from '@codemirror/view';
 
 config({
-  codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, lineNumbers()];
+  codeMirrorExtensions(extensions) {
+    return [
+      ...extensions,
+      {
+        type: 'lineNumbers',
+        extension: lineNumbers(),
+      },
+    ];
   },
 });
 ```

@@ -1,10 +1,10 @@
 <template>
   <Trigger v-if="teleportTo" ref="triggerRef" @click="changeVisible" />
   <Teleport v-if="teleportTo" :to="teleportTo">
-    <div class="iz-drawer" ref="containerRef" @click="changeVisible">
+    <div ref="containerRef" class="iz-drawer" @click="changeVisible">
       <div
-        class="iz-drawer-content"
         ref="contentRef"
+        class="iz-drawer-content"
         @click="
           (e) => {
             e.stopPropagation();
@@ -18,18 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import {
-  Teleport,
-  cloneVNode,
-  defineComponent,
-  nextTick,
-  reactive,
-  ref,
-  useSlots,
-  watch,
-} from 'vue';
+import { Teleport, cloneVNode, nextTick, reactive, ref, useSlots, watch } from 'vue';
 
 import './index.less';
+
+defineOptions({
+  name: 'IzDrawer',
+});
 
 const slots = useSlots();
 const triggerRef = ref<HTMLElement>();
@@ -85,11 +80,11 @@ watch(
 const Trigger = ref();
 
 watchEffect(() => {
-  Trigger.value = cloneVNode(slots.default!()[0]);
+  Trigger.value = cloneVNode(slots.default!()[0]!);
 });
 
 onMounted(() => {
   teleportTo.value = document.body;
-  Trigger.value = cloneVNode(slots.default!()[0]);
+  Trigger.value = cloneVNode(slots.default!()[0]!);
 });
 </script>

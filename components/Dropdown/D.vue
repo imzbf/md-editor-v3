@@ -1,18 +1,13 @@
 <template>
   <!-- {{ DropdownTrigger }} -->
-  <DropdownTrigger
-    v-if="teleportTo"
-    ref="triggerRef"
-    @mouseenter="setVisible(true)"
-    @mouseleave="setVisible(false)"
-  />
+  <DropdownTrigger v-if="teleportTo" ref="triggerRef" @mouseenter="setVisible(true)" @mouseleave="setVisible(false)" />
   <slot v-else />
   <!-- {{ ddd }} -->
-  <Teleport :to="teleportTo" v-if="teleportTo">
+  <Teleport v-if="teleportTo" :to="teleportTo">
     <div
+      ref="contentRef"
       :class="state.class"
       :style="state.style"
-      ref="contentRef"
       @mouseenter="setVisible(true)"
       @mouseleave="setVisible(false)"
     >
@@ -23,15 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  reactive,
-  cloneVNode,
-  useSlots,
-  watch,
-  ref,
-  type CSSProperties,
-} from 'vue';
 import { debounce } from '@vavt/util';
+import { reactive, cloneVNode, useSlots, watch, ref, type CSSProperties } from 'vue';
 import './index.less';
 
 // const IzDropdown = defineComponent(() => {
@@ -59,12 +47,7 @@ const resetClass = (visible = true) => {
 };
 
 const changeVisibility = (visible = true) => {
-  state.class = [
-    'dropdown-content',
-    'dropdown-active',
-    'animated',
-    visible ? 'dropdown-enter' : 'dropdown-leave',
-  ];
+  state.class = ['dropdown-content', 'dropdown-active', 'animated', visible ? 'dropdown-enter' : 'dropdown-leave'];
 
   setTimeout(() => {
     resetClass(visible);
@@ -85,8 +68,7 @@ watch(
 
       const contentWidth = contentRef.value?.offsetWidth || 0;
 
-      state.style.left =
-        offsetValue.left + triggerWidth / 2 - contentWidth / 2 + 'px';
+      state.style.left = offsetValue.left + triggerWidth / 2 - contentWidth / 2 + 'px';
       state.style.top = offsetValue.top + triggerHeight + 'px';
       changeVisibility(true);
     } else {
@@ -98,12 +80,12 @@ watch(
 const DropdownTrigger = ref();
 
 watchEffect(() => {
-  DropdownTrigger.value = cloneVNode(slots.default!()[0]);
+  DropdownTrigger.value = cloneVNode(slots.default!()[0]!);
 });
 
 onMounted(() => {
   teleportTo.value = document.body;
-  DropdownTrigger.value = cloneVNode(slots.default!()[0]);
+  DropdownTrigger.value = cloneVNode(slots.default!()[0]!);
 });
 </script>
 

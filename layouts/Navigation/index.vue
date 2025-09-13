@@ -57,11 +57,7 @@
       </NuxtLink>
     </li>
     <li class="nav-item" @click="changeLang">
-      <NuxtLink
-        :to="`${store.lang === 'en-US' ? '/zh-CN' : '/en-US'}`"
-        :prefetch="false"
-        style="display: none"
-      >
+      <NuxtLink :to="`${store.lang === 'en-US' ? '/zh-CN' : '/en-US'}`" :prefetch="false" style="display: none">
         {{ linkNames.lang }}
       </NuxtLink>
       <svg class="icon" aria-hidden="true">
@@ -73,8 +69,8 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '@/store';
 import { computed } from 'vue';
+import { useStore } from '@/store';
 import './index.less';
 
 const store = useStore();

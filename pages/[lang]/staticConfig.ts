@@ -37,5 +37,5 @@ export const toolbars: ToolbarNames[] = [
   'previewOnly',
   'htmlPreview',
   'catalog',
-  'github'
+  'github',
 ];

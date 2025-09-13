@@ -5,6 +5,10 @@
 <script setup lang="ts">
 import { DESCRIPTION_EN, KEYWORDS_EN, SITE_NAME_EN } from '~/config';
 
+defineOptions({
+  name: 'RedirectPage',
+});
+
 useHead({
   title: `Redirect - ${SITE_NAME_EN}`,
   meta: [

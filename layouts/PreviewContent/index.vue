@@ -19,8 +19,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import type { PropType } from 'vue';
 import { MdPreview } from 'md-editor-v3';
+import type { PropType } from 'vue';
 // import { debounce, getRootOffset } from '@vavt/util';
 import { useStore } from '@/store';
 

@@ -2,8 +2,7 @@ export const SITE_TITLE_PREFIX = 'MdEditorV3';
 
 export const STORAGED_STORE_KEY = 'storaged_store_key';
 
-export const ROUTE_PREFIX =
-  process.env.NODE_ENV === 'production' ? '/md-editor-v3' : '';
+export const ROUTE_PREFIX = process.env.NODE_ENV === 'production' ? '/md-editor-v3' : '';
 
 export const SITE_NAME_CN = 'MdEditorV3 使用文档';
 export const SITE_NAME_EN = 'MdEditorV3 Documentation';

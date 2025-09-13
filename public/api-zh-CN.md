@@ -183,7 +183,7 @@
 
 ### 🎱 mdHeadingId
 
-- **类型**：`(text: string, level: number, index: number) => string`
+- **类型**：`MdHeadingId`
 - **默认值**：`(text) => text`
 
   构造标题`ID`的生成方式。
@@ -197,8 +197,18 @@
   import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
-  const mdHeadingId = (_text, _level, index) => `heading-${index}`;
+  const mdHeadingId = ({ index }) => `heading-${index}`;
   </script>
+  ```
+
+  ```ts
+  type MdHeadingId = (options: {
+    text: string;
+    level: number;
+    index: number;
+    currentToken?: Token;
+    nextToken?: Token;
+  }) => string;
   ```
 
 ---
@@ -755,16 +765,12 @@
 
 ---
 
-### 🖌 insertLinkDirect
+### 🖌 noEcharts
 
 - **类型**：`boolean`
 - **默认值**：`false`
 
-  \>=5.6.0 设置是否直接插入链接到编辑区域，设置为 `false` 会打开弹窗后在输入框输入。
-
-  !!! warning
-  6.0 开始废弃，默认不再使用弹窗。
-  !!!
+  \>=6.0.0 是否禁用 echarts 模块
 
 ---
 
@@ -1454,13 +1460,31 @@ editorRef.value?.execCommand('bold');
 
 ```ts
 type CodeMirrorExtensions = (
-  theme: Themes,
-  extensions: Array<Extension>,
-  keyBindings: Array<KeyBinding>,
+  extensions: Array<CodeMirrorExtension>,
   options: {
     editorId: string;
+    theme: Themes;
+    keyBindings: Array<KeyBinding>;
   }
-) => Array<Extension>;
+) => Array<CodeMirrorExtension>;
+```
+
+```ts
+interface CodeMirrorExtension {
+  /**
+   * 仅用来提供开发者分别不同扩展的依据
+   */
+  type: string;
+  /**
+   * CodeMirror的扩展
+   */
+  extension: Extension | ((options: any) => Extension);
+  /**
+   * 包裹扩展的Compartment，只有部分扩展有，提供扩展更新的能力
+   */
+  compartment?: Compartment;
+  options?: any;
+}
 ```
 
 使用示例：编辑器默认不显示输入框的行号，需要手动添加扩展
@@ -1470,8 +1494,14 @@ import { config } from 'md-editor-v3';
 import { lineNumbers } from '@codemirror/view';
 
 config({
-  codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, lineNumbers()];
+  codeMirrorExtensions(extensions) {
+    return [
+      ...extensions,
+      {
+        type: 'lineNumbers',
+        extension: lineNumbers(),
+      },
+    ];
   },
 });
 ```

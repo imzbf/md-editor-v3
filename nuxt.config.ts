@@ -3,7 +3,12 @@ import markdown from '@vavt/vite-plugin-import-markdown';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-10-23',
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', '@nuxt/eslint'],
+  eslint: {
+    config: {
+      standalone: false,
+    },
+  },
   vite: {
     plugins: [markdown()],
   },

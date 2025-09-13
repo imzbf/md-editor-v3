@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useStore } from '@/store';
 
+defineOptions({
+  name: 'GrammarPage',
+});
+
 const store = useStore();
 const router = useRouter();
 

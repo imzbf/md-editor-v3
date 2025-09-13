@@ -31,22 +31,43 @@ yarn add md-editor-v3
     <meta charset="UTF-8" />
     <title>全局引用</title>
     <link href="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/style.css" rel="stylesheet" />
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://esm.sh/vue/dist/vue.esm-browser.js",
+          "medium-zoom": "https://esm.sh/medium-zoom",
+          "lru-cache": "https://esm.sh/lru-cache",
+          "codemirror": "https://esm.sh/codemirror",
+          "lucide-vue-next": "https://esm.sh/lucide-vue-next",
+          "@vavt/": "https://esm.sh/@vavt/",
+          "@codemirror/": "https://esm.sh/@codemirror/",
+          "@lezer/": "https://esm.sh/@lezer/",
+          "markdown-it": "https://esm.sh/markdown-it",
+          "markdown-it-image-figures": "https://esm.sh/markdown-it-image-figures",
+          "markdown-it-sub": "https://esm.sh/markdown-it-sub",
+          "markdown-it-sup": "https://esm.sh/markdown-it-sup",
+          "md-editor-v3": "https://cdn.jsdelivr.net/npm/md-editor-v3@${EDITOR_VERSION}/lib/es/index.mjs"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="md-editor-v3">
-      <md-editor-v3 v-model="text" />
+      <md-editor v-model="text" />
     </div>
-    <script src="https://unpkg.com/vue@3.5.12/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/md-editor-v3@${EDITOR_VERSION}/lib/umd/index.js"></script>
-    <script>
+    <script type="module">
+      import { createApp, ref } from 'vue';
+      import { MdEditor } from 'md-editor-v3';
+
       const App = {
-        data() {
-          return {
-            text: 'Hello Editor!!',
-          };
+        components: { MdEditor },
+        setup() {
+          const text = ref('# Hello md-editor-v3!');
+          return { text };
         },
       };
-      Vue.createApp(App).use(MdEditorV3.MdEditor).mount('#md-editor-v3');
+
+      createApp(App).mount('#md-editor-v3');
     </script>
   </body>
 </html>
