@@ -24,6 +24,7 @@ const ToolbarHtmlPreview = defineComponent({
         onClick={() => {
           updateSetting('htmlPreview');
         }}
+        type="button"
       >
         <Icon name="preview-html" />
 

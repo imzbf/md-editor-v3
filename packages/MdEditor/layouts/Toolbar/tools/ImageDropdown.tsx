@@ -109,6 +109,7 @@ const ToolbarImageDropdown = defineComponent({
             class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
             title={ult.value.toolbarTips?.image}
             disabled={disabled?.value}
+            type="button"
           >
             <Icon name="image" />
             {showToolbarName?.value && (

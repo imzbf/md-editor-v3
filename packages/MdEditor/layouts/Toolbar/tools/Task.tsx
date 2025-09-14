@@ -21,6 +21,7 @@ const ToolbarTask = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'task');
         }}
+        type="button"
       >
         <Icon name="task" />
         {showToolbarName?.value && (

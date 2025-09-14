@@ -127,6 +127,7 @@ const ToolbarMermaid = defineComponent({
           class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
           title={ult.value.toolbarTips?.mermaid}
           disabled={disabled?.value}
+          type="button"
         >
           <Icon name="mermaid" />
           {showToolbarName?.value && (

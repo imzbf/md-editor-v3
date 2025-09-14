@@ -21,6 +21,7 @@ const ToolbarImage = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'image');
         }}
+        type="button"
       >
         <Icon name="image" />
         {showToolbarName?.value && (

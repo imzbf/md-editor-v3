@@ -21,6 +21,7 @@ const ToolbarItalic = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'italic');
         }}
+        type="button"
       >
         <Icon name="italic" />
         {showToolbarName?.value && (

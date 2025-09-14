@@ -21,6 +21,7 @@ const ToolbarSup = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'sup');
         }}
+        type="button"
       >
         <Icon name="sup" />
         {showToolbarName?.value && (

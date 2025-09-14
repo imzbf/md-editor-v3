@@ -21,6 +21,7 @@ const ToolbarSub = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'sub');
         }}
+        type="button"
       >
         <Icon name="sub" />
         {showToolbarName?.value && (

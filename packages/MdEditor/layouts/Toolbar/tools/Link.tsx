@@ -21,6 +21,7 @@ const ToolbarLink = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'link');
         }}
+        type="button"
       >
         <Icon name="link" />
         {showToolbarName?.value && (

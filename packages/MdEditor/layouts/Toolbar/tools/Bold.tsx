@@ -21,6 +21,7 @@ const ToolbarBold = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'bold');
         }}
+        type="button"
       >
         <Icon name="bold" />
         {showToolbarName?.value && (
