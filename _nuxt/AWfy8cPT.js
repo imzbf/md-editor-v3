@@ -1,4 +1,4 @@
-import{h as r,au as d,q as m,v as s,K as l,av as h,D as p,aw as c,S as u,ax as v,c as y,a as w,b as a,o as g}from"#entry";import{_ as f}from"./C4FVnCsf.js";import{_ as k}from"./gEJX4xHq.js";import{u as x}from"./zBP5nJiZ.js";import"./DcQIYjet.js";import"./CaH81vPM.js";import"./CPfvRdFC.js";const o=`## 🐶 Heading
+import{h as r,au as d,q as m,v as s,K as l,av as h,D as p,aw as c,S as u,ax as v,c as y,a as w,b as a,o as g}from"#entry";import{_ as f}from"./C4FVnCsf.js";import{_ as k}from"./DBZkhOpB.js";import{u as x}from"./zBP5nJiZ.js";import"./DcQIYjet.js";import"./CaH81vPM.js";import"./BN-6WhkG.js";const o=`## 🐶 Heading
 
 \`\`\`markdown
 ## Heading
