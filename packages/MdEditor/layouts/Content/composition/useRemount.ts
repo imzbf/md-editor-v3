@@ -1,4 +1,5 @@
-import { nextTick, onMounted, Ref, watch } from 'vue';
+import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
+import { SettingType } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
 
 export const useRemount = (
@@ -6,6 +7,8 @@ export const useRemount = (
   html: Ref<string>,
   key: Ref<string>
 ) => {
+  const setting = inject('setting') as ComputedRef<SettingType>;
+
   const handler = () => {
     void nextTick(() => {
       props.onRemount?.();
@@ -19,7 +22,7 @@ export const useRemount = (
   };
 
   watch([html, key], handler);
-  watch(() => props.setting.preview, settingPreviewChanged);
-  watch(() => props.setting.htmlPreview, settingPreviewChanged);
+  watch(() => setting.value.preview, settingPreviewChanged);
+  watch(() => setting.value.htmlPreview, settingPreviewChanged);
   onMounted(handler);
 };

@@ -1,7 +1,8 @@
 import { debounce } from '@vavt/util';
 import mediumZoom from 'medium-zoom';
-import { watch, inject, Ref, toRef, onMounted } from 'vue';
+import { watch, inject, Ref, onMounted, ComputedRef } from 'vue';
 
+import { SettingType } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
 
 /**
@@ -12,6 +13,7 @@ import { ContentPreviewProps } from '../ContentPreview';
  */
 const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
   const editorId = inject('editorId') as string;
+  const setting = inject('setting') as ComputedRef<SettingType>;
 
   // 解构出来，不让它响应式更新
   const { noImgZoomIn } = props;
@@ -31,13 +33,13 @@ const userZoom = (props: ContentPreviewProps, html: Ref<string>) => {
   });
 
   onMounted(async () => {
-    if (!noImgZoomIn && props.setting.preview) {
+    if (!noImgZoomIn && setting.value.preview) {
       await zoomHander();
     }
   });
 
-  watch([html, toRef(props.setting, 'preview')], async () => {
-    if (!noImgZoomIn && props.setting.preview) {
+  watch([html, () => setting.value.preview], async () => {
+    if (!noImgZoomIn && setting.value.preview) {
       await zoomHander();
     }
   });

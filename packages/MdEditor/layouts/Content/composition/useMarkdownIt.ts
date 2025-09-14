@@ -25,6 +25,7 @@ import {
   CustomIcon,
   HeadList,
   MarkdownItConfigPlugin,
+  SettingType,
   StaticTextDefaultValue,
   Themes
 } from '~/type';
@@ -74,6 +75,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const themeRef = inject('theme') as ComputedRef<Themes>;
   const customIconRef = inject('customIcon') as ComputedRef<CustomIcon>;
   const rootRef = inject('rootRef') as ComputedRef<HTMLDivElement>;
+  const setting = inject('setting') as ComputedRef<SettingType>;
   const headsRef = ref<HeadList[]>([]);
 
   // 存储每次mermaid更新后，需要清除的绑定事件
@@ -281,9 +283,9 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   });
 
   watch(
-    () => props.setting.preview,
+    () => setting.value.preview,
     () => {
-      if (props.setting.preview) {
+      if (setting.value.preview) {
         // 生成目录
         void nextTick(() => {
           void replaceMermaid().then(() => {

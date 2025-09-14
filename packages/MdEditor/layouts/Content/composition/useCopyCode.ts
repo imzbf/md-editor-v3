@@ -1,13 +1,14 @@
 import copy2clipboard from '@vavt/copy2clipboard';
 import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
 import { prefix } from '~/config';
-import { StaticTextDefaultValue } from '~/type';
+import { SettingType, StaticTextDefaultValue } from '~/type';
 import { ContentPreviewProps } from '../ContentPreview';
 
 const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<string>) => {
   const editorId = inject('editorId') as string;
   const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
   const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
+  const setting = inject('setting') as ComputedRef<SettingType>;
 
   // 向页面代码块注入复制按钮
   const initCopyEntry = () => {
@@ -36,7 +37,7 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
 
             let msg = successTips!;
 
-            copy2clipboard(props.formatCopiedText(codeText))
+            copy2clipboard(props.formatCopiedText(codeText || ''))
               .catch(() => {
                 msg = failTips!;
               })
@@ -73,8 +74,8 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
   };
 
   watch([html, key], htmlChanged);
-  watch(() => props.setting.preview, settingPreviewChanged);
-  watch(() => props.setting.htmlPreview, settingPreviewChanged);
+  watch(() => setting.value.preview, settingPreviewChanged);
+  watch(() => setting.value.htmlPreview, settingPreviewChanged);
   // watch(() => ult.value, initCopyEntry);
   onMounted(initCopyEntry);
 };

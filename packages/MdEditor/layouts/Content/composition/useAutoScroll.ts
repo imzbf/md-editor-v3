@@ -1,4 +1,5 @@
-import { inject, nextTick, onMounted, Ref, toRef, watch } from 'vue';
+import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
+import { SettingType } from '~/type';
 import scrollAuto, { scrollAutoWithScale } from '~/utils/scroll-auto';
 import CodeMirrorUt from '../codemirror';
 import { ContentProps } from '../props';
@@ -9,6 +10,7 @@ const useAutoScroll = (
   codeMirrorUt: Ref<CodeMirrorUt | undefined>
 ) => {
   const editorId = inject('editorId') as string;
+  const setting = inject('setting') as ComputedRef<SettingType>;
 
   let clearScrollAuto = () => {};
   let initScrollAuto = () => {};
@@ -46,18 +48,9 @@ const useAutoScroll = (
     }
   };
 
-  watch(
-    [
-      html,
-      toRef(props.setting, 'preview'),
-      toRef(props.setting, 'htmlPreview'),
-      toRef(props.setting, 'fullscreen'),
-      toRef(props.setting, 'pageFullscreen')
-    ],
-    () => {
-      void nextTick(rebindEvent);
-    }
-  );
+  watch([html, setting], () => {
+    void nextTick(rebindEvent);
+  });
 
   // 切换滚动状态
   watch(
@@ -73,7 +66,7 @@ const useAutoScroll = (
 
   // 编辑状态的仅预览
   watch(
-    () => props.setting.previewOnly,
+    () => setting.value.previewOnly,
     (po) => {
       if (po) {
         clearScrollAuto();

@@ -1,8 +1,9 @@
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
-import { defineComponent, inject, ExtractPropTypes } from 'vue';
+import { defineComponent, inject, ExtractPropTypes, ComputedRef } from 'vue';
 import { prefix } from '~/config';
 
+import { SettingType } from '~/type';
 import {
   useCopyCode,
   userZoom,
@@ -22,6 +23,7 @@ const ContentPreview = defineComponent({
   props: contentPreviewProps,
   setup(props) {
     const editorId = inject('editorId') as string;
+    const setting = inject('setting') as ComputedRef<SettingType>;
 
     // markdown => html
     const { html, key } = useMarkdownIt(props, props.previewOnly);
@@ -37,7 +39,7 @@ const ContentPreview = defineComponent({
     return () => {
       return (
         <>
-          {props.setting.preview &&
+          {setting.value.preview &&
             (props.previewOnly ? (
               <UpdateOnDemand key={key.value} html={html.value} />
             ) : (
@@ -50,7 +52,7 @@ const ContentPreview = defineComponent({
               </div>
             ))}
 
-          {props.setting.htmlPreview && (
+          {setting.value.htmlPreview && (
             <div
               id={`${editorId}-html-wrapper`}
               class={`${prefix}-preview-wrapper`}

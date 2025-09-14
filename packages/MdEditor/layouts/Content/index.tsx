@@ -2,7 +2,7 @@ import { createSmoothScroll } from '@vavt/util';
 import { defineComponent, ref, inject, ComputedRef } from 'vue';
 import CustomScrollbar from '~/components/CustomScrollbar';
 import { prefix } from '~/config';
-import { FocusOption, Themes } from '~/type';
+import { FocusOption, SettingType, Themes } from '~/type';
 import MdCatalog from '~~/MdCatalog';
 import { useAutoScroll, useCodeMirror, useFollowCatalog, useResize } from './composition';
 import ContentPreview from './ContentPreview';
@@ -17,6 +17,7 @@ export default defineComponent({
     const editorId = inject('editorId') as string;
     const catalogVisible = inject('catalogVisible') as ComputedRef<boolean>;
     const theme = inject('theme') as ComputedRef<Themes>;
+    const setting = inject('setting') as ComputedRef<SettingType>;
 
     const html = ref<string>('');
 
@@ -60,8 +61,8 @@ export default defineComponent({
             >
               <div class={`${prefix}-input-wrapper`} ref={inputWrapperRef} />
             </CustomScrollbar>
-            {/* 拖拽入口需要保持props.setting变化时就挂载 */}
-            {(props.setting.htmlPreview || props.setting.preview) && (
+            {/* 拖拽入口需要保持setting变化时就挂载 */}
+            {(setting.value.htmlPreview || setting.value.preview) && (
               <div
                 class={`${prefix}-resize-operate`}
                 style={resizeOperateStyle}
@@ -72,7 +73,6 @@ export default defineComponent({
               <ContentPreview
                 modelValue={props.modelValue}
                 onChange={props.onChange}
-                setting={props.setting}
                 onHtmlChanged={(html_) => {
                   html.value = html_;
                   props.onHtmlChanged(html_);
@@ -105,10 +105,10 @@ export default defineComponent({
                 mdHeadingId={props.mdHeadingId}
                 key="internal-catalog"
                 scrollElementOffsetTop={2}
-                syncWith={!props.setting.preview ? 'editor' : 'preview'}
+                syncWith={!setting.value.preview ? 'editor' : 'preview'}
                 onClick={(e, toc) => {
                   // 如果没有预览区域，就将目录与编辑器同步滚动
-                  if (!props.setting.preview && toc.line !== undefined) {
+                  if (!setting.value.preview && toc.line !== undefined) {
                     e.preventDefault();
                     const view = codeMirrorUt.value?.view;
 
