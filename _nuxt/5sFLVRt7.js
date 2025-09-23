@@ -1,4 +1,4 @@
-import{h as m,au as a,q as l,v as c,K as p,av as u,D as f,aw as h,S as g,ax as v,c as x,a as b,b as o,o as k}from"#entry";import{_ as y}from"./C4FVnCsf.js";import{_ as E}from"./DBZkhOpB.js";import{p as r}from"./CnU1M0Bk.js";import{r as i}from"./n3mbQldj.js";import{u as w}from"./zBP5nJiZ.js";import"./DcQIYjet.js";import"./CaH81vPM.js";import"./BN-6WhkG.js";const s=`## 😁 Basic Usage
+import{h as m,au as a,q as l,v as c,K as p,av as u,D as f,aw as h,S as g,ax as v,c as x,a as y,b as o,o as b}from"#entry";import{_ as k}from"./C4FVnCsf.js";import{_ as E}from"./DBZkhOpB.js";import{p as r}from"./CnU1M0Bk.js";import{r as i}from"./n3mbQldj.js";import{u as w}from"./zBP5nJiZ.js";import"./DcQIYjet.js";import"./CaH81vPM.js";import"./BN-6WhkG.js";const s=`## 😁 Basic Usage
 
 It has been developing iteratively, so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -150,7 +150,7 @@ Usages of some APIs.
 
 - The basic principle of replacing or deleting shortcut keys is to find the corresponding extension, and handle it.
 
-- In fact, The Second input parameter \`extensions\` of \`codeMirrorExtensions\` is an array, The first item in the array is the shortcut key extension. The third input parameter is the default shortcut key configuration.
+- The first input parameter \`extensions\` of \`codeMirrorExtensions\` is an array, use \`extensions[i].type\` to distinguish the type.
 
 #### 💅 Modify Shortcut Key
 
@@ -161,15 +161,15 @@ import { config } from 'md-editor-v3';
 import { keymap } from '@codemirror/view';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions, mdEditorCommands) {
-    const newExtensions = [...extensions];
+  codeMirrorExtensions(extensions, { keyBindings }) {
     // 1. Remove the default shortcut key extension first
-    newExtensions.shift();
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
     // 2. Reference the source code for shortcut key configuration
-    // Find the location of the configuration item for CtrlB in mdEditorCommands
-    const CtrlB = mdEditorCommands[0];
+    // Find the location of the configuration item for CtrlB in keyBindings
+    const CtrlB = keyBindings.find((i) => i.key === 'Ctrl-b');
 
     // 3. Document for configuring shortcut keys of codemirror
     // https://codemirror.net/docs/ref/#commands
@@ -181,9 +181,12 @@ config({
     };
 
     // 4. Add the modified shortcut key to the array
-    const newMdEditorCommands = [CtrlM, ...mdEditorCommands.filter((i) => i.key !== 'Ctrl-b')];
+    const newKeyBindings = [CtrlM, ...keyBindings.filter((i) => i.key !== 'Ctrl-b')];
 
-    newExtensions.push(keymap.of(newMdEditorCommands));
+    newExtensions.push({
+      type: 'newKeymap',
+      extension: keymap.of(newKeyBindings),
+    });
 
     return newExtensions;
   },
@@ -198,11 +201,11 @@ Disable all shortcut keys
 import { config } from 'md-editor-v3';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions) {
-    const newExtensions = [...extensions];
+  codeMirrorExtensions(extensions) {
     // 1. Remove default shortcut key extensions
-    newExtensions.shift();
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
     // 2. Return extension list
     return newExtensions;
@@ -227,11 +230,11 @@ import { keymap, KeyBinding } from '@codemirror/view';
 import bus from '@/utils/event-bus';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions, mdEditorCommands) {
-    const newExtensions = [...extensions];
+  codeMirrorExtensions(extensions, { keyBindings }) {
     // 1. Remove the default shortcut key extension first
-    newExtensions.shift();
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
     // 2. Create a new shortcut key configuration, reference: https://codemirror.net/docs/ref/#commands
     const CtrlM: KeyBinding = {
@@ -244,9 +247,12 @@ config({
     };
 
     // 4. Add a new shortcut key to the array
-    const newMdEditorCommands = [...mdEditorCommands, CtrlM];
+    const newKeyBindings = [...keyBindings, CtrlM];
 
-    newExtensions.push(keymap.of(newMdEditorCommands));
+    newExtensions.push({
+      type: 'newKeymap',
+      extension: keymap.of(newKeyBindings),
+    });
 
     return newExtensions;
   },
@@ -995,8 +1001,18 @@ import { foldGutter } from '@codemirror/language';
 import { lineNumbers } from '@codemirror/view';
 
 config({
-  codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, lineNumbers(), foldGutter()];
+  codeMirrorExtensions(extensions) {
+    return [
+      ...extensions,
+      {
+        type: 'lineNumbers',
+        extension: lineNumbers(),
+      },
+      {
+        type: 'foldGutter',
+        extension: foldGutter(),
+      },
+    ];
   },
 });
 \`\`\`
@@ -1142,8 +1158,14 @@ export const createYjsExtension = (roomId: string) => {
 };
 
 config({
-  codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, yjsCompartment.of([])];
+  codeMirrorExtensions(extensions) {
+    return [
+      ...extensions,
+      {
+        type: 'yjs',
+        extension: yjsCompartment.of([]),
+      },
+    ];
   },
 });
 \`\`\`
@@ -1152,8 +1174,16 @@ If you want to use it in only one editor, try distinguishing using \`editorId\` 
 
 \`\`\`js
 config({
-  codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
-    return editorId === 'myId' ? [...extensions, yjsCompartment.of([])] : extensions;
+  codeMirrorExtensions(extensions, { editorId }) {
+    return editorId === 'myId'
+      ? [
+          ...extensions,
+          {
+            type: 'yjs',
+            extension: yjsCompartment.of([]),
+          },
+        ]
+      : extensions;
   },
 });
 \`\`\`
@@ -1421,7 +1451,7 @@ const scrollElement = document.documentElement;
 
 - 想要替换、删除快捷键的基本原理是找到对应的扩展，然后遍历这个快捷键配置的数组，找到并处理它。
 
-- 事实上，\`config\`中\`codeMirrorExtensions\`的第二入参\`extensions\`是一个数组，它的第一项就是快捷键扩展，第三入参就是默认的快捷键配置。
+- \`config\`中\`codeMirrorExtensions\`的第一入参\`extensions\`是一个数组，可以用\`extensions[i].type\`区分类型。
 
 #### 💅 修改快捷键
 
@@ -1432,14 +1462,14 @@ import { config } from 'md-editor-v3';
 import { keymap } from '@codemirror/view';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions, mdEditorCommands) {
-    const newExtensions = [...extensions];
+  codeMirrorExtensions(extensions, { keyBindings }) {
     // 1. 先把默认的快捷键扩展移除
-    newExtensions.shift();
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
-    // 2. 参考快捷键配置的源码，找到CtrlB的配置项在mdEditorCommands中的位置
-    const CtrlB = mdEditorCommands[0];
+    // 2. 参考快捷键配置的源码，找到CtrlB的配置项在keyBindings中的位置
+    const CtrlB = keyBindings.find((i) => i.key === 'Ctrl-b');
 
     // 3. 配置codemirror快捷键的文档
     // https://codemirror.net/docs/ref/#commands
@@ -1451,9 +1481,12 @@ config({
     };
 
     // 4. 把修改后的快捷键放到待构建扩展的数组中
-    const newMdEditorCommands = [CtrlM, ...mdEditorCommands.filter((i) => i.key !== 'Ctrl-b')];
+    const newKeyBindings = [CtrlM, ...keyBindings.filter((i) => i.key !== 'Ctrl-b')];
 
-    newExtensions.push(keymap.of(newMdEditorCommands));
+    newExtensions.push({
+      type: 'newKeymap',
+      extension: keymap.of(newKeyBindings),
+    });
 
     return newExtensions;
   },
@@ -1468,11 +1501,11 @@ config({
 import { config } from 'md-editor-v3';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions) {
-    const newExtensions = [...extensions];
+  codeMirrorExtensions(extensions) {
     // 1. 把默认的快捷键扩展移除
-    newExtensions.shift();
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
     // 2. 返回扩展列表即可
     return newExtensions;
@@ -1497,11 +1530,11 @@ import { keymap, KeyBinding } from '@codemirror/view';
 import bus from '@/utils/event-bus';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions, mdEditorCommands) {
-    const newExtensions = [...extensions];
-    // 1. 先把默认的快捷键扩展移除
-    newExtensions.shift();
+  codeMirrorExtensions(extensions, { keyBindings }) {
+    // 1. 把默认的快捷键扩展移除
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
     // 2. 创建一个新的快捷键配置，参考https://codemirror.net/docs/ref/#commands
     const CtrlM: KeyBinding = {
@@ -1514,9 +1547,12 @@ config({
     };
 
     // 4. 把新的快捷键添加到数组中
-    const newMdEditorCommands = [...mdEditorCommands, CtrlM];
+    const newKeyBindings = [...keyBindings, CtrlM];
 
-    newExtensions.push(keymap.of(newMdEditorCommands));
+    newExtensions.push({
+      type: 'newKeymap',
+      extension: keymap.of(newKeyBindings),
+    });
 
     return newExtensions;
   },
@@ -2275,8 +2311,18 @@ import { foldGutter } from '@codemirror/language';
 import { lineNumbers } from '@codemirror/view';
 
 config({
-  codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, lineNumbers(), foldGutter()];
+  codeMirrorExtensions(extensions) {
+    return [
+      ...extensions,
+      {
+        type: 'lineNumbers',
+        extension: lineNumbers(),
+      },
+      {
+        type: 'foldGutter',
+        extension: foldGutter(),
+      },
+    ];
   },
 });
 \`\`\`
@@ -2422,8 +2468,14 @@ export const createYjsExtension = (roomId: string) => {
 };
 
 config({
-  codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, yjsCompartment.of([])];
+  codeMirrorExtensions(extensions) {
+    return [
+      ...extensions,
+      {
+        type: 'yjs',
+        extension: yjsCompartment.of([]),
+      },
+    ];
   },
 });
 \`\`\`
@@ -2432,8 +2484,16 @@ config({
 
 \`\`\`js
 config({
-  codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
-    return editorId === 'myId' ? [...extensions, yjsCompartment.of([])] : extensions;
+  codeMirrorExtensions(extensions, { editorId }) {
+    return editorId === 'myId'
+      ? [
+          ...extensions,
+          {
+            type: 'yjs',
+            extension: yjsCompartment.of([]),
+          },
+        ]
+      : extensions;
   },
 });
 \`\`\`
@@ -2547,4 +2607,4 @@ const onRemount = () => {
 ## 🧻 编辑此页面
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)
-`,M={class:"container"},C={class:"doc"},j={name:"DemoPage"},U=m({...j,setup(I){const n=a(),e="demo-preview",t=l(i(n.lang==="en-US"?s:d,{EDITOR_VERSION:r.dependencies["md-editor-v3"].replace("^","")}));return c(()=>n.lang,()=>{t.value=i(n.lang==="en-US"?s:d,{EDITOR_VERSION:r.dependencies["md-editor-v3"].replace("^","")})}),w({title:n.lang==="en-US"?`Example - ${g}`:`示例 - ${v}`,meta:[{name:"keywords",content:n.lang==="en-US"?p:u},{name:"description",content:n.lang==="en-US"?f:h}]}),(S,D)=>(k(),x("div",M,[b("div",C,[o(E,{editorId:e,modelValue:t.value},null,8,["modelValue"]),o(y,{editorId:e})])]))}});export{U as default};
+`,M={class:"container"},C={class:"doc"},j={name:"DemoPage"},F=m({...j,setup(I){const n=a(),e="demo-preview",t=l(i(n.lang==="en-US"?s:d,{EDITOR_VERSION:r.dependencies["md-editor-v3"].replace("^","")}));return c(()=>n.lang,()=>{t.value=i(n.lang==="en-US"?s:d,{EDITOR_VERSION:r.dependencies["md-editor-v3"].replace("^","")})}),w({title:n.lang==="en-US"?`Example - ${g}`:`示例 - ${v}`,meta:[{name:"keywords",content:n.lang==="en-US"?p:u},{name:"description",content:n.lang==="en-US"?f:h}]}),(S,D)=>(b(),x("div",M,[y("div",C,[o(E,{editorId:e,modelValue:t.value},null,8,["modelValue"]),o(k,{editorId:e})])]))}});export{F as default};

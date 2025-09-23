@@ -152,7 +152,7 @@ const scrollElement = document.documentElement;
 
 - 想要替换、删除快捷键的基本原理是找到对应的扩展，然后遍历这个快捷键配置的数组，找到并处理它。
 
-- 事实上，`config`中`codeMirrorExtensions`的第二入参`extensions`是一个数组，它的第一项就是快捷键扩展，第三入参就是默认的快捷键配置。
+- `config`中`codeMirrorExtensions`的第一入参`extensions`是一个数组，可以用`extensions[i].type`区分类型。
 
 #### 💅 修改快捷键
 
@@ -163,14 +163,14 @@ import { config } from 'md-editor-v3';
 import { keymap } from '@codemirror/view';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions, mdEditorCommands) {
-    const newExtensions = [...extensions];
+  codeMirrorExtensions(extensions, { keyBindings }) {
     // 1. 先把默认的快捷键扩展移除
-    newExtensions.shift();
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
-    // 2. 参考快捷键配置的源码，找到CtrlB的配置项在mdEditorCommands中的位置
-    const CtrlB = mdEditorCommands[0];
+    // 2. 参考快捷键配置的源码，找到CtrlB的配置项在keyBindings中的位置
+    const CtrlB = keyBindings.find((i) => i.key === 'Ctrl-b');
 
     // 3. 配置codemirror快捷键的文档
     // https://codemirror.net/docs/ref/#commands
@@ -182,9 +182,12 @@ config({
     };
 
     // 4. 把修改后的快捷键放到待构建扩展的数组中
-    const newMdEditorCommands = [CtrlM, ...mdEditorCommands.filter((i) => i.key !== 'Ctrl-b')];
+    const newKeyBindings = [CtrlM, ...keyBindings.filter((i) => i.key !== 'Ctrl-b')];
 
-    newExtensions.push(keymap.of(newMdEditorCommands));
+    newExtensions.push({
+      type: 'newKeymap',
+      extension: keymap.of(newKeyBindings),
+    });
 
     return newExtensions;
   },
@@ -199,11 +202,11 @@ config({
 import { config } from 'md-editor-v3';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions) {
-    const newExtensions = [...extensions];
+  codeMirrorExtensions(extensions) {
     // 1. 把默认的快捷键扩展移除
-    newExtensions.shift();
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
     // 2. 返回扩展列表即可
     return newExtensions;
@@ -228,11 +231,11 @@ import { keymap, KeyBinding } from '@codemirror/view';
 import bus from '@/utils/event-bus';
 
 config({
-  // [keymap, minimalSetup, markdown, EditorView.lineWrapping, EditorView.updateListener, EditorView.domEventHandlers, oneDark??oneLight]
-  codeMirrorExtensions(theme, extensions, mdEditorCommands) {
-    const newExtensions = [...extensions];
-    // 1. 先把默认的快捷键扩展移除
-    newExtensions.shift();
+  codeMirrorExtensions(extensions, { keyBindings }) {
+    // 1. 把默认的快捷键扩展移除
+    const newExtensions = [...extensions].filter((item) => {
+      return item.type !== 'keymap';
+    });
 
     // 2. 创建一个新的快捷键配置，参考https://codemirror.net/docs/ref/#commands
     const CtrlM: KeyBinding = {
@@ -245,9 +248,12 @@ config({
     };
 
     // 4. 把新的快捷键添加到数组中
-    const newMdEditorCommands = [...mdEditorCommands, CtrlM];
+    const newKeyBindings = [...keyBindings, CtrlM];
 
-    newExtensions.push(keymap.of(newMdEditorCommands));
+    newExtensions.push({
+      type: 'newKeymap',
+      extension: keymap.of(newKeyBindings),
+    });
 
     return newExtensions;
   },
@@ -1006,8 +1012,18 @@ import { foldGutter } from '@codemirror/language';
 import { lineNumbers } from '@codemirror/view';
 
 config({
-  codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, lineNumbers(), foldGutter()];
+  codeMirrorExtensions(extensions) {
+    return [
+      ...extensions,
+      {
+        type: 'lineNumbers',
+        extension: lineNumbers(),
+      },
+      {
+        type: 'foldGutter',
+        extension: foldGutter(),
+      },
+    ];
   },
 });
 ```
@@ -1153,8 +1169,14 @@ export const createYjsExtension = (roomId: string) => {
 };
 
 config({
-  codeMirrorExtensions(_theme, extensions) {
-    return [...extensions, yjsCompartment.of([])];
+  codeMirrorExtensions(extensions) {
+    return [
+      ...extensions,
+      {
+        type: 'yjs',
+        extension: yjsCompartment.of([]),
+      },
+    ];
   },
 });
 ```
@@ -1163,8 +1185,16 @@ config({
 
 ```js
 config({
-  codeMirrorExtensions(_theme, extensions, _keyBindings, { editorId }) {
-    return editorId === 'myId' ? [...extensions, yjsCompartment.of([])] : extensions;
+  codeMirrorExtensions(extensions, { editorId }) {
+    return editorId === 'myId'
+      ? [
+          ...extensions,
+          {
+            type: 'yjs',
+            extension: yjsCompartment.of([]),
+          },
+        ]
+      : extensions;
   },
 });
 ```
