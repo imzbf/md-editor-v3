@@ -2,23 +2,6 @@ import{h as m,au as a,q as l,v as c,K as p,av as u,D as f,aw as h,S as g,ax as v
 
 It has been developing iteratively, so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
-### 🤖 Npm Install
-
-\`\`\`shell [install:npm]
-npm install md-editor-v3
-\`\`\`
-
-\`\`\`shell [install:yarn]
-yarn add md-editor-v3
-\`\`\`
-
-!!! warning
-
-~~When using server-side rendering, make sure to set \`editorId\` to a constant value.~~
-Starting from version 5.0, there is no such limitation.
-
-!!!
-
 ### 🤓 CDN
 
 Use production version in html directly:
@@ -71,6 +54,23 @@ Use production version in html directly:
   </body>
 </html>
 \`\`\`
+
+### 🤖 Npm Install
+
+\`\`\`shell [install:npm]
+npm install md-editor-v3
+\`\`\`
+
+\`\`\`shell [install:yarn]
+yarn add md-editor-v3
+\`\`\`
+
+!!! warning
+
+~~When using server-side rendering, make sure to set \`editorId\` to a constant value.~~
+Starting from version 5.0, there is no such limitation.
+
+!!!
 
 #### 🥱 Setup Template
 
@@ -1271,24 +1271,6 @@ const onRemount = () => {
 
 目前一直在迭代开发，所以尽量安装最新版本。发布日志请前往：[releases](https://github.com/imzbf/md-editor-v3/releases)
 
-### 🤖 NPM 安装
-
-\`\`\`shell [install:npm]
-npm install md-editor-v3
-\`\`\`
-
-\`\`\`shell [install:yarn]
-yarn add md-editor-v3
-\`\`\`
-
-!!! warning
-
-~~当使用服务端渲染时，请务必设置\`editorId\`为固定值。~~
-
-5.0 开始，没有该限制了。
-
-!!!
-
 ### 🤓 CDN 链接
 
 通过直接链接生产版本来使用，下面是一个小例子：
@@ -1341,6 +1323,24 @@ yarn add md-editor-v3
   </body>
 </html>
 \`\`\`
+
+### 🤖 NPM 安装
+
+\`\`\`shell [install:npm]
+npm install md-editor-v3
+\`\`\`
+
+\`\`\`shell [install:yarn]
+yarn add md-editor-v3
+\`\`\`
+
+!!! warning
+
+~~当使用服务端渲染时，请务必设置\`editorId\`为固定值。~~
+
+5.0 开始，没有该限制了。
+
+!!!
 
 #### 🥱 Setup 模板
 
