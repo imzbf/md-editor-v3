@@ -23,7 +23,7 @@
           <Mark />
           <Emoji />
           <!-- <ReadExtension :mdText="state.text" /> -->
-          <ExportPDF :modelValue="state.text" height="700px" @onSuccess="onSuccess" @onProgress="onProgress" />
+          <ExportPDF :modelValue="state.text" height="700px" />
         </template>
         <template #defFooters>
           <TimeNow />
@@ -41,7 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import { message } from '@vavt/message';
 import { isMobile } from '@vavt/util';
 import { Emoji, Mark, ExportPDF } from '@vavt/v3-extension';
 import { MdEditor } from 'md-editor-v3';
@@ -138,35 +137,6 @@ const changeLayout = () => {
     state.inputBoxWidth = '50%';
     editorRef.value?.togglePreview(true);
   }
-};
-
-let updateRatio: ((str: string) => void) | undefined;
-let closrRatio = () => {};
-
-const onProgress = ({ ratio }: any) => {
-  if (updateRatio) {
-    updateRatio(`Progress: ${ratio * 100}%`);
-  } else {
-    const { close, update } = message.info(`Progress: ${ratio * 100}%`, {
-      zIndex: 999999,
-      duration: 0,
-    });
-
-    updateRatio = update;
-    closrRatio = close;
-  }
-};
-
-const onSuccess = () => {
-  closrRatio();
-
-  setTimeout(() => {
-    updateRatio = undefined;
-  }, 100);
-
-  message.success(store.lang === 'en-US' ? 'Export successful.' : '导出成功！', {
-    zIndex: 999999,
-  });
 };
 
 useHead({

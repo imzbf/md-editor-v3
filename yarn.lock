@@ -2323,10 +2323,10 @@
   resolved "https://registry.npmjs.org/@vavt/util/-/util-2.1.0.tgz#b8a28da361675195fd6331a1db7cbfd02f68f590"
   integrity sha512-YIfAvArSFVXmWvoF+DEGD0FhkhVNcCtVWWkfYtj76eSrwHh/wuEEFhiEubg1XLNM3tChO8FH8xJCT/hnizjgFQ==
 
-"@vavt/v3-extension@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-3.0.0.tgz#041ecca6437105ea4e1a6fd54db0622f2d8dc913"
-  integrity sha512-R3XFrihlk+FmoTEivToszgcv7D168hHkfMyS6pkHWyrvQy0MNP8m8b6qIWuINfvpbhr0OiMa9ktzyUH2DLFWfA==
+"@vavt/v3-extension@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/@vavt/v3-extension/-/v3-extension-4.0.0.tgz#932727c9a1ea3484404456353af328c1ceaccae6"
+  integrity sha512-H/bnrSyvLC9yvZ4RLPwXDToLwcvyN6jPm5pI/7X/nAcRRDPXim9Db1/zWn3Kz9HdeCrLoHuPOUBuGu4gy1QP7A==
 
 "@vavt/vite-plugin-import-markdown@^1.0.1":
   version "1.0.1"
