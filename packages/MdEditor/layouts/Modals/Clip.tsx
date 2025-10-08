@@ -129,6 +129,7 @@ export default defineComponent({
       cropper = null;
       (uploadRef.value as HTMLInputElement).value = '';
       data.imgSelected = false;
+      data.imgSrc = '';
     };
 
     return () => (

@@ -26,6 +26,7 @@ const MermaidPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> 
 
       if (mermaidHtml) {
         token.attrSet('data-processed', '');
+        token.attrSet('data-content', code);
         return `<p ${slf.renderAttrs(token)}>${mermaidHtml}</p>`;
       }
 

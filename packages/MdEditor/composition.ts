@@ -131,7 +131,11 @@ export interface ProvideOptions {
  */
 export const useProvidePreview = (
   props: MdPreviewProps,
-  { editorId, rootRef }: Pick<ProvideOptions, 'editorId' | 'rootRef'>
+  {
+    editorId,
+    rootRef,
+    setting
+  }: Partial<Pick<ProvideOptions, 'editorId' | 'rootRef' | 'setting'>>
 ) => {
   const hljsUrls = globalConfig.editorExtensions.highlight;
   const hljsAttrs = globalConfig.editorExtensionsAttrs.highlight;
@@ -225,6 +229,24 @@ export const useProvidePreview = (
     computed(() => props.customIcon)
   );
 
+  provide(
+    'setting',
+    computed(() => {
+      return setting
+        ? {
+            // setting是reactive，不转化是可以直接赋值的
+            ...setting
+          }
+        : {
+            preview: true,
+            htmlPreview: false,
+            previewOnly: false,
+            pageFullscreen: false,
+            fullscreen: false
+          };
+    })
+  );
+
   return { editorId };
 };
 
@@ -259,14 +281,6 @@ export const useProvide = (props: EditorProps, options: ProvideOptions) => {
   provide(
     'codeTheme',
     computed(() => props.codeTheme)
-  );
-
-  provide(
-    'setting',
-    computed(() => ({
-      // setting是reactive，不转化是可以直接赋值的
-      ...options.setting
-    }))
   );
 
   provide('updateSetting', options.updateSetting);

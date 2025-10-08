@@ -21,6 +21,7 @@ const ToolbarCodeRow = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'codeRow');
         }}
+        type="button"
       >
         <Icon name="code-row" />
         {showToolbarName?.value && (

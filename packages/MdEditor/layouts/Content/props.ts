@@ -2,7 +2,7 @@ import { CompletionSource } from '@codemirror/autocomplete';
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
 import { ExtractPropTypes, PropType } from 'vue';
-import { HeadList, SettingType, MdHeadingId } from '~/type';
+import { HeadList, MdHeadingId } from '~/type';
 
 export const contentPreviewProps = {
   modelValue: {
@@ -12,10 +12,6 @@ export const contentPreviewProps = {
   onChange: {
     type: Function as PropType<(v: string) => void>,
     default: () => {}
-  },
-  setting: {
-    type: Object as PropType<SettingType>,
-    default: () => ({ preview: true })
   },
   onHtmlChanged: {
     type: Function as PropType<(h: string) => void>,

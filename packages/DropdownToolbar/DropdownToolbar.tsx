@@ -94,6 +94,7 @@ export default defineComponent({
             class={[`${prefix}-toolbar-item`, props.disabled && `${prefix}-disabled`]}
             title={props.title || ''}
             disabled={props.disabled}
+            type="button"
           >
             {Default || Trigger}
           </button>

@@ -24,6 +24,7 @@ const ToolbarPreview = defineComponent({
         onClick={() => {
           updateSetting('preview');
         }}
+        type="button"
       >
         <Icon name="preview" />
         {showToolbarName?.value && (

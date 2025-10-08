@@ -1,6 +1,16 @@
-import { Ref, computed, onBeforeUnmount, onMounted, reactive, toRef, watch } from 'vue';
+import {
+  ComputedRef,
+  Ref,
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  watch
+} from 'vue';
 import { MinInputBoxWidth } from '~/config';
 
+import { SettingType } from '~/type';
 import { ContentProps } from '../props';
 
 const useResize = (
@@ -8,6 +18,7 @@ const useResize = (
   contentRef: Ref<HTMLDivElement | undefined>,
   resizeRef: Ref<HTMLDivElement | undefined>
 ) => {
+  const setting = inject('setting') as ComputedRef<SettingType>;
   // 向后兼容，防止以前使用px的用户的编辑器布局混乱
   const compatibledInputBoxWidth = computed(() => {
     return /px$/.test(`${props.inputBoxWidth}`) ? '50%' : props.inputBoxWidth;
@@ -85,15 +96,15 @@ const useResize = (
 
   watch(
     [
-      toRef(props.setting, 'htmlPreview'),
-      toRef(props.setting, 'preview'),
-      toRef(props.setting, 'previewOnly')
+      () => setting.value.htmlPreview,
+      () => setting.value.preview,
+      () => setting.value.previewOnly
     ],
     () => {
-      if (props.setting.previewOnly) {
+      if (setting.value.previewOnly) {
         inputWrapperStyle.width = '0%';
         resizeOperateStyle.display = 'none';
-      } else if (!props.setting.htmlPreview && !props.setting.preview) {
+      } else if (!setting.value.htmlPreview && !setting.value.preview) {
         inputWrapperStyle.width = '100%';
         resizeOperateStyle.display = 'none';
       } else {

@@ -21,6 +21,7 @@ const ToolbarOrderedList = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'orderedList');
         }}
+        type="button"
       >
         <Icon name="ordered-list" />
         {showToolbarName?.value && (

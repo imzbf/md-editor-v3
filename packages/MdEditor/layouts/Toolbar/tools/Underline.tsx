@@ -21,6 +21,7 @@ const ToolbarUnderline = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'underline');
         }}
+        type="button"
       >
         <Icon name="underline" />
         {showToolbarName?.value && (

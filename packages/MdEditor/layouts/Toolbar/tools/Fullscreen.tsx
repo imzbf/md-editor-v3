@@ -27,6 +27,7 @@ const ToolbarFullscreen = defineComponent({
         onClick={() => {
           fullscreenHandler();
         }}
+        type="button"
       >
         <Icon name={setting.value.fullscreen ? 'fullscreen-exit' : 'fullscreen'} />
 

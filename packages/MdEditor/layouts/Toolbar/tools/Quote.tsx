@@ -21,6 +21,7 @@ const ToolbarQuote = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'quote');
         }}
+        type="button"
       >
         <Icon name="quote" />
         {showToolbarName?.value && (

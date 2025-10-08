@@ -106,6 +106,7 @@ const ToolbarTitle = defineComponent({
           class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
           disabled={disabled?.value}
           title={ult.value.toolbarTips?.title}
+          type="button"
         >
           <Icon name="title" />
 

@@ -21,6 +21,7 @@ const ToolbarPrettier = defineComponent({
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'prettier');
         }}
+        type="button"
       >
         <Icon name="prettier" />
         {showToolbarName?.value && (

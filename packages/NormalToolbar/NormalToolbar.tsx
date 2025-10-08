@@ -75,6 +75,7 @@ export default defineComponent({
             props.onClick?.(e);
             ctx.emit('onClick', e);
           }}
+          type="button"
         >
           {Default || Trigger}
         </button>

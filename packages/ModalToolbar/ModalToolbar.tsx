@@ -121,6 +121,7 @@ export default defineComponent({
               props.onClick?.();
               ctx.emit('onClick');
             }}
+            type="button"
           >
             {Trigger}
           </button>

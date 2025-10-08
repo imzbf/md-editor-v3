@@ -25,6 +25,7 @@ const ToolbarPageFullscreen = defineComponent({
         onClick={() => {
           updateSetting('pageFullscreen');
         }}
+        type="button"
       >
         <Icon name={setting.value.pageFullscreen ? 'minimize' : 'maximize'} />
         {showToolbarName?.value && (

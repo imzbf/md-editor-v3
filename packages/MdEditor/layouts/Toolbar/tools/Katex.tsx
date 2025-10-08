@@ -67,6 +67,7 @@ const ToolbarKatex = defineComponent({
           class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
           title={ult.value.toolbarTips?.katex}
           disabled={disabled?.value}
+          type="button"
         >
           <Icon name="formula" />
           {showToolbarName?.value && (
