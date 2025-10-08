@@ -1,3 +1,4 @@
+import copy2Clipboard from '@vavt/copy2clipboard';
 import StrIcon from '~/components/Icon/Str';
 import { prefix } from '~/config';
 import { CustomIcon } from '~/type';
@@ -126,6 +127,63 @@ export const createHTMLElement = <K extends keyof HTMLElementTagNameMap>(
   });
 
   return element;
+};
+
+/**
+ * mermaid复制代码事件绑定
+ */
+export const copyMermaid = (
+  containers: NodeListOf<HTMLElement> | undefined,
+  options: { customIcon: CustomIcon }
+) => {
+  const removeEventsMap = new Map<HTMLElement, { removeClick?: () => void }>();
+  containers?.forEach((mm) => {
+    let actionDiv = mm.querySelector(`.${prefix}-mermaid-action`);
+    if (!actionDiv) {
+      mm.insertAdjacentHTML(
+        'beforeend',
+        `<div class="${prefix}-mermaid-action"><span class="${prefix}-mermaid-copy">${StrIcon('copy', options.customIcon)}</span></div>`
+      );
+      actionDiv = mm.querySelector(`.${prefix}-mermaid-action`)!;
+    } else {
+      // 如果没有copy按钮则补充
+      if (!actionDiv.querySelector(`.${prefix}-mermaid-copy`)) {
+        actionDiv.insertAdjacentHTML(
+          'beforeend',
+          `<span class="${prefix}-mermaid-copy">${StrIcon('copy', options.customIcon)}</span>`
+        );
+      }
+    }
+    const copySpan = actionDiv.querySelector(`.${prefix}-mermaid-copy`)!;
+    let clearTimer = -1;
+    const copyEvent = () => {
+      clearTimeout(clearTimer);
+      copy2Clipboard(mm.dataset.content || '')
+        .then(() => {
+          copySpan.innerHTML = StrIcon('check', options.customIcon);
+        })
+        .catch(() => {
+          copySpan.innerHTML = StrIcon('copy', options.customIcon);
+        })
+        .finally(() => {
+          clearTimer = window.setTimeout(() => {
+            copySpan.innerHTML = StrIcon('copy', options.customIcon);
+          }, 1500);
+        });
+    };
+    copySpan.addEventListener('click', copyEvent);
+    removeEventsMap.set(mm, {
+      removeClick: () => {
+        copySpan.removeEventListener('click', copyEvent);
+      }
+    });
+  });
+  return () => {
+    removeEventsMap.forEach(({ removeClick }) => {
+      removeClick?.();
+    });
+    removeEventsMap.clear();
+  };
 };
 
 /**
@@ -274,9 +332,7 @@ export const zoomMermaid = (() => {
 
   const handler = (
     containers: NodeListOf<HTMLElement>,
-    options: {
-      customIcon: CustomIcon;
-    }
+    options: { customIcon: CustomIcon }
   ) => {
     const removeEventsMap = new Map<
       HTMLElement,
@@ -289,12 +345,20 @@ export const zoomMermaid = (() => {
       if (!actionDiv) {
         mm.insertAdjacentHTML(
           'beforeend',
-          `<div class="${prefix}-mermaid-action">${StrIcon('pin-off', options.customIcon)}</div>`
+          `<div class="${prefix}-mermaid-action"><span class="${prefix}-mermaid-zoom">${StrIcon('pin-off', options.customIcon)}</span></div>`
         );
 
         actionDiv = mm.querySelector(`.${prefix}-mermaid-action`)!;
+      } else {
+        // 如果没有zoom按钮则补充
+        if (!actionDiv.querySelector(`.${prefix}-mermaid-zoom`)) {
+          actionDiv.insertAdjacentHTML(
+            'beforeend',
+            `<span class="${prefix}-mermaid-zoom">${StrIcon('pin-off', options.customIcon)}</span>`
+          );
+        }
       }
-
+      const zoomSpan = actionDiv.querySelector(`.${prefix}-mermaid-zoom`)!;
       const onClick = () => {
         const current = removeEventsMap.get(mm);
 
@@ -303,22 +367,22 @@ export const zoomMermaid = (() => {
           current.removeEvent();
           mm.removeAttribute('data-grab');
           removeEventsMap.set(mm, { removeClick: current.removeClick });
-          actionDiv.innerHTML = StrIcon('pin-off', options.customIcon);
+          zoomSpan.innerHTML = StrIcon('pin-off', options.customIcon);
         } else {
           // 添加事件并记录
           const removeEvent = addEvent(mm);
           mm.setAttribute('data-grab', '');
           removeEventsMap.set(mm, { removeEvent, removeClick: current?.removeClick });
-          actionDiv.innerHTML = StrIcon('pin', options.customIcon);
+          zoomSpan.innerHTML = StrIcon('pin', options.customIcon);
         }
       };
 
       // 绑定点击事件
-      actionDiv.addEventListener('click', onClick);
+      zoomSpan.addEventListener('click', onClick);
 
       // 将 `click` 事件也放入 Map 中，以便未来注销
       removeEventsMap.set(mm, {
-        removeClick: () => actionDiv.removeEventListener('click', onClick)
+        removeClick: () => zoomSpan.removeEventListener('click', onClick)
       });
     });
 

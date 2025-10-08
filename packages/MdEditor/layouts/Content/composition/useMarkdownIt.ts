@@ -30,7 +30,7 @@ import {
   Themes
 } from '~/type';
 import { generateCodeRowNumber } from '~/utils';
-import { zoomMermaid } from '~/utils/dom';
+import { zoomMermaid, copyMermaid } from '~/utils/dom';
 import bus from '~/utils/event-bus';
 
 import useEcharts from './useEcharts';
@@ -77,9 +77,6 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const rootRef = inject('rootRef') as ComputedRef<HTMLDivElement>;
   const setting = inject('setting') as ComputedRef<SettingType>;
   const headsRef = ref<HeadList[]>([]);
-
-  // 存储每次mermaid更新后，需要清除的绑定事件
-  let clearMermaidEvents = () => {};
 
   const hljsRef = useHighlight(props);
   const katexRef = useKatex(props);
@@ -225,6 +222,26 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     )
   );
 
+  // 存储每次mermaid更新后，需要清除的绑定事件
+  let clearZoomMermaidEvents = () => {};
+  let clearCopyMermaidEvents = () => {};
+  // mermaid相关操作统一处理
+  const handleMermaidActions = () => {
+    const mermaidEles = rootRef.value?.querySelectorAll<HTMLElement>(
+      `#${editorId} p.${prefix}-mermaid:not([data-closed=false])`
+    );
+    clearCopyMermaidEvents();
+    clearCopyMermaidEvents = copyMermaid(mermaidEles, {
+      customIcon: customIconRef.value
+    });
+    if (editorExtensions.mermaid?.enableZoom) {
+      clearZoomMermaidEvents();
+      clearZoomMermaidEvents = zoomMermaid(mermaidEles, {
+        customIcon: customIconRef.value
+      });
+    }
+  };
+
   const updatedTodo = () => {
     // 触发异步的保存事件（html总是会比text后更新）
     bus.emit(editorId, BUILD_FINISHED, html.value);
@@ -235,19 +252,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
 
     void nextTick(() => {
-      void replaceMermaid().then(() => {
-        if (editorExtensions.mermaid?.enableZoom) {
-          clearMermaidEvents();
-          clearMermaidEvents = zoomMermaid(
-            rootRef.value?.querySelectorAll(
-              `#${editorId} p.${prefix}-mermaid:not([data-closed=false])`
-            ),
-            {
-              customIcon: customIconRef.value
-            }
-          );
-        }
-      });
+      void replaceMermaid().then(handleMermaidActions);
 
       void replaceEcharts();
     });
@@ -288,19 +293,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       if (setting.value.preview) {
         // 生成目录
         void nextTick(() => {
-          void replaceMermaid().then(() => {
-            if (editorExtensions.mermaid?.enableZoom) {
-              clearMermaidEvents();
-              clearMermaidEvents = zoomMermaid(
-                rootRef.value?.querySelectorAll(
-                  `#${editorId} p.${prefix}-mermaid:not([data-closed=false])`
-                ),
-                {
-                  customIcon: customIconRef.value
-                }
-              );
-            }
-          });
+          void replaceMermaid().then(handleMermaidActions);
 
           void replaceEcharts();
 
@@ -336,7 +329,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   });
 
   onBeforeUnmount(() => {
-    clearMermaidEvents();
+    clearZoomMermaidEvents();
+    clearCopyMermaidEvents();
     clearTimeout(timer);
   });
 

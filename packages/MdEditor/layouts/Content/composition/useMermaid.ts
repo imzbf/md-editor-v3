@@ -135,6 +135,7 @@ const useMermaid = (props: ContentPreviewProps) => {
                 const p = document.createElement('p');
                 p.className = `${prefix}-mermaid`;
                 p.setAttribute('data-processed', '');
+                p.setAttribute('data-content', code);
                 p.innerHTML = mermaidHtml;
                 p.children[0]?.removeAttribute('height');
 
