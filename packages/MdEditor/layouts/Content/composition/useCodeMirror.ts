@@ -183,7 +183,8 @@ const useCodeMirror = (props: ContentProps) => {
   const defaultExtensions: Array<CodeMirrorExtension> = [
     {
       type: 'theme',
-      extension: (theme: Ref<Themes>) => (theme.value === 'light' ? oneLight : oneDark),
+      extension: ({ theme }: { theme: Ref<Themes> }) =>
+        theme.value === 'light' ? oneLight : oneDark,
       compartment: themeComp,
       options: {
         theme
