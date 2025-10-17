@@ -119,7 +119,6 @@ export interface StaticTextDefaultValue {
 export interface StaticTextDefault {
   'zh-CN': StaticTextDefaultValue;
   'en-US': StaticTextDefaultValue;
-  'ko-KR': StaticTextDefaultValue;
 }
 
 export type StaticTextDefaultKey = keyof StaticTextDefault;
