@@ -1707,7 +1707,7 @@ const state = reactive({
 
 #### 🎄 代码主题
 
-内置了\`atom\`、\`a11y\`、\`github\`、\`gradient\`、\`kimbie\`、\`paraiso\`、\`qtcreator\`、\`stackoverflow\`代码主题，均来至[highlight.js](https://highlightjs.org/)
+内置了\`atom\`、\`a11y\`、\`github\`、\`gradient\`、\`kimbie\`、\`paraiso\`、\`qtcreator\`、\`stackoverflow\`代码主题，均来自[highlight.js](https://highlightjs.org/)
 
 - 使用
 
