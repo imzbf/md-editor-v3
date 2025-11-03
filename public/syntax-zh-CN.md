@@ -1,3 +1,17 @@
+!!! tip
+
+在使用行内语法（如加粗、斜体等）时，如果需要加粗的文本中包含特殊字符，并且加粗标识符（如 `**`）前后紧挨着其他字符，请务必在第二个标识符（如 `**`）后添加至少一个空格。否则，Markdown 解析器可能无法正确识别加粗效果。
+
+示例：
+
+错误写法：`AAA**I have a dream.**BBB`
+
+正确写法：`AAA**I have a dream.** BBB`
+
+同样的问题也适用于其它行内语法（如斜体等），请注意在语法标识符后添加空格以确保正确解析。
+
+!!!
+
 ## 🐶 标题
 
 ```markdown
@@ -386,3 +400,15 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 请注意，该模块不会处理危险的代码，你需要自行保证数据的安全！
 
 !!!
+
+## 🦄 链接引用语法
+
+[md-editor-v3][1]
+
+[1]: https://imzbf.github.io/md-editor-v3/
+
+```markdown
+[md-editor-v3][1]
+
+[1]: https://imzbf.github.io/md-editor-v3/
+```
