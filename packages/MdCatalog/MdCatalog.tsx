@@ -228,7 +228,7 @@ const MdCatalog = defineComponent({
       }
 
       // 获取标记当前位置的目录
-      const { activeHead } = list.reduce(
+      const { activeHead, activeIndex } = list.reduce(
         (activeData, link, index) => {
           let relativeTop = 0;
 
@@ -262,6 +262,7 @@ const MdCatalog = defineComponent({
           if (relativeTop < props.offsetTop && relativeTop > activeData.minTop) {
             return {
               activeHead: link,
+              activeIndex: index,
               minTop: relativeTop
             };
           }
@@ -270,11 +271,34 @@ const MdCatalog = defineComponent({
         },
         {
           activeHead: list[0],
+          activeIndex: 0,
           minTop: Number.MIN_SAFE_INTEGER
         }
       );
 
-      activeItem.value = activeHead;
+      let highlightHead = activeHead;
+
+      const { catalogMaxDepth } = props;
+
+      if (catalogMaxDepth && highlightHead.level > catalogMaxDepth) {
+        for (let i = activeIndex; i >= 0; i--) {
+          const candidate = list[i];
+
+          if (candidate.level <= catalogMaxDepth) {
+            highlightHead = candidate;
+            break;
+          }
+        }
+
+        if (highlightHead.level > catalogMaxDepth) {
+          const fallback = list.find((item) => item.level <= catalogMaxDepth);
+          if (fallback) {
+            highlightHead = fallback;
+          }
+        }
+      }
+
+      activeItem.value = highlightHead;
       state.list = list;
     };
 

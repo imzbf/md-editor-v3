@@ -10,38 +10,20 @@ const splitNodes = (html: string): ChildNode[] => {
 };
 
 // 比较新旧 HTML，返回需更新和删除的节点信息
-const compareHtml = (newNodes: ChildNode[], currentNodes: ChildNode[]) => {
-  const updates: { index: number; newNode: ChildNode }[] = [];
-  const deletes: ChildNode[] = [];
-
-  newNodes.forEach((newNode, index) => {
-    const currentNode = currentNodes[index];
-
-    // 如果旧节点不存在，标记为新增
-    if (!currentNode) {
-      updates.push({ index, newNode });
-      return;
-    }
-
-    // 如果节点类型不一致或内容不同，标记更新
-    if (
-      newNode.nodeType !== currentNode.nodeType ||
-      newNode.textContent !== currentNode.textContent ||
-      (newNode.nodeType === 1 &&
-        (newNode as HTMLElement).outerHTML !== (currentNode as HTMLElement).outerHTML)
-    ) {
-      updates.push({ index, newNode });
-    }
-  });
-
-  // 旧节点中有但新 HTML 中不存在的，标记为需要删除
-  if (currentNodes.length > newNodes.length) {
-    for (let i = newNodes.length; i < currentNodes.length; i++) {
-      deletes.push(currentNodes[i]);
-    }
+const isSameNode = (newNode: ChildNode, currentNode: ChildNode) => {
+  if (newNode.nodeType !== currentNode.nodeType) {
+    return false;
   }
 
-  return { updates, deletes };
+  if (newNode.nodeType === Node.TEXT_NODE || newNode.nodeType === Node.COMMENT_NODE) {
+    return newNode.textContent === currentNode.textContent;
+  }
+
+  if (newNode.nodeType === Node.ELEMENT_NODE) {
+    return (newNode as Element).outerHTML === (currentNode as Element).outerHTML;
+  }
+
+  return newNode.isEqualNode ? newNode.isEqualNode(currentNode) : false;
 };
 
 const UpdateOnDemand = defineComponent({
@@ -65,39 +47,49 @@ const UpdateOnDemand = defineComponent({
     const firstHtml = props.html;
 
     // 更新 DOM 内容
-    const updateHtmlContent = (
-      updates: { index: number; newNode: ChildNode }[],
-      deletes: ChildNode[]
-    ) => {
+    const updateHtmlContent = (newNodes: ChildNode[], prevNodes: ChildNode[]) => {
       if (!htmlContainer.value) return;
 
-      // 先删除待删除的节点
-      deletes.forEach((node) => {
-        node.remove();
-      });
+      const container = htmlContainer.value;
+      const currentNodes = Array.from(container.childNodes);
+      const minLength = Math.min(newNodes.length, prevNodes.length);
 
-      // 更新或插入新的节点
-      updates.forEach(({ index, newNode }) => {
-        const targetNode = htmlContainer.value?.childNodes[index];
+      let divergenceIndex = -1;
 
-        // 如果目标节点不存在，直接插入新节点
-        if (!targetNode) {
-          htmlContainer.value?.appendChild(newNode.cloneNode(true));
-        } else {
-          // 如果目标节点存在但内容需要更新，替换
-          htmlContainer.value?.replaceChild(newNode.cloneNode(true), targetNode);
+      for (let i = 0; i < minLength; i++) {
+        if (!isSameNode(newNodes[i], prevNodes[i])) {
+          divergenceIndex = i;
+          break;
         }
-      });
+      }
+
+      if (divergenceIndex === -1) {
+        if (prevNodes.length > newNodes.length) {
+          divergenceIndex = newNodes.length;
+        } else if (newNodes.length > prevNodes.length) {
+          divergenceIndex = prevNodes.length;
+        } else {
+          return;
+        }
+      }
+
+      const startRemove = Math.min(divergenceIndex, currentNodes.length);
+
+      for (let i = currentNodes.length - 1; i >= startRemove; i--) {
+        currentNodes[i].remove();
+      }
+
+      for (let i = divergenceIndex; i < newNodes.length; i++) {
+        container.appendChild(newNodes[i].cloneNode(true));
+      }
     };
 
     watch(
       () => props.html,
-      (newHtml) => {
+      (newHtml, oldHtml) => {
         const newNodes = splitNodes(newHtml);
-        // 从页面上获取真实的节点
-        const currentNodes = Array.from(htmlContainer.value?.childNodes || []);
-        const { updates, deletes } = compareHtml(newNodes, currentNodes);
-        updateHtmlContent(updates, deletes);
+        const prevNodes = splitNodes(oldHtml || '');
+        updateHtmlContent(newNodes, prevNodes);
       }
     );
 

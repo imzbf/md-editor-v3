@@ -84,7 +84,8 @@ export const directive2flag = async (
       return handleTable(params);
     }
     case 'link': {
-      const { desc = '', url = '' } = params;
+      const selectedText = codeMirrorUt.getSelectedText();
+      const { desc = selectedText, url = '' } = params;
       const text = `[${desc}](${url})`;
 
       return {
@@ -97,7 +98,7 @@ export const directive2flag = async (
       };
     }
     case 'image': {
-      return handleImage(params);
+      return handleImage(params, codeMirrorUt);
     }
     case 'flow':
     case 'sequence':
@@ -275,8 +276,10 @@ const handleMermaid = (type: string) => {
 /**
  * 处理图片插入
  */
-const handleImage = (params: any) => {
-  const { desc = '', url = '', urls } = params;
+const handleImage = (params: any, codeMirrorUt: CodeMirrorUt) => {
+  const selectedText = codeMirrorUt.getSelectedText();
+
+  const { desc = selectedText, url = '', urls } = params;
   let text = '';
 
   const urlIsEmpty =
