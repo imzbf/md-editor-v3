@@ -2,6 +2,7 @@ import { defineComponent, ref, watch } from 'vue';
 import Header from './Header';
 import Preview from './Preview';
 import PreviewOnly from './PreviewOnly';
+import StreamDemo from './StreamDemo';
 
 import VueTemplate from './VueTemplate.vue';
 
@@ -50,7 +51,6 @@ export default defineComponent({
           }}
         />
         <div class="page-body">
-          {/* <VueTemplate /> */}
           <Preview
             theme={theme.value}
             previewTheme={previewTheme.value}
@@ -59,6 +59,13 @@ export default defineComponent({
           />
 
           <VueTemplate />
+
+          <StreamDemo
+            theme={theme.value}
+            previewTheme={previewTheme.value}
+            codeTheme={codeTheme.value}
+            lang={lang.value}
+          />
 
           <PreviewOnly
             theme={theme.value}

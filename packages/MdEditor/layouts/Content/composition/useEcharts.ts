@@ -63,34 +63,69 @@ const useEcharts = (props: ContentPreviewProps) => {
     );
   });
 
-  let echartsSourceEles: Array<HTMLElement>;
+  let echartsSourceEles: Array<HTMLElement> = [];
   let echartsInstances: any[] = [];
   let observers: Array<ResizeObserver> = [];
 
-  const clearEchartsEffects = () => {
-    echartsInstances.forEach((instance) => {
-      instance.dispose();
-    });
-    observers.forEach((observer) => {
-      observer.disconnect();
+  const clearEchartsEffects = (force = false) => {
+    if (!echartsSourceEles.length) {
+      if (force) {
+        echartsInstances.forEach((instance) => {
+          instance.dispose?.();
+        });
+        observers.forEach((observer) => {
+          observer.disconnect?.();
+        });
+        echartsInstances = [];
+        observers = [];
+      }
+      return;
+    }
+
+    const nextSourceEles: Array<HTMLElement> = [];
+    const nextInstances: any[] = [];
+    const nextObservers: Array<ResizeObserver> = [];
+
+    echartsSourceEles.forEach((element, index) => {
+      const instance = echartsInstances[index];
+      const observer = observers[index];
+      const shouldDispose =
+        force ||
+        !element ||
+        !element.isConnected ||
+        (rootRef?.value ? !rootRef.value.contains(element) : false);
+
+      if (shouldDispose) {
+        instance?.dispose?.();
+        observer?.disconnect?.();
+        return;
+      }
+
+      nextSourceEles.push(element);
+      if (instance) {
+        nextInstances.push(instance);
+      }
+      if (observer) {
+        nextObservers.push(observer);
+      }
     });
 
-    echartsInstances = [];
-    echartsSourceEles = [];
-    observers = [];
+    echartsSourceEles = nextSourceEles;
+    echartsInstances = nextInstances;
+    observers = nextObservers;
   };
 
   const replaceEcharts = () => {
     clearEchartsEffects();
 
     if (!props.noEcharts && echarts) {
-      echartsSourceEles = Array.from(
+      const pendingSourceEles = Array.from(
         rootRef.value.querySelectorAll<HTMLElement>(
           `#${editorId} div.${prefix}-echarts:not([data-processed])`
         )
       );
 
-      echartsSourceEles.forEach((item) => {
+      pendingSourceEles.forEach((item) => {
         if (item.dataset.closed === 'false') {
           return false;
         }
@@ -103,6 +138,7 @@ const useEcharts = (props: ContentPreviewProps) => {
           ins.setOption(options);
           item.setAttribute('data-processed', '');
 
+          echartsSourceEles.push(item);
           echartsInstances.push(ins);
 
           const observer = new ResizeObserver(() => {
@@ -122,7 +158,7 @@ const useEcharts = (props: ContentPreviewProps) => {
   };
 
   onBeforeUnmount(() => {
-    clearEchartsEffects();
+    clearEchartsEffects(true);
   });
 
   return { reRenderEcharts, replaceEcharts };
