@@ -1294,6 +1294,30 @@ const onRemount = () => {
 };
 ```
 
+### 🛞 Link Shortener Extension
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  codeMirrorExtensions(extensions) {
+    return extensions.map((item) => {
+      if (item.type === 'linkShortener') {
+        return {
+          ...item,
+          options: {
+            maxLength: 100,
+            shortenText: (url: string) => '...',
+          },
+        };
+      }
+
+      return item;
+    });
+  },
+});
+```
+
 ## 🧻 Edit This Page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)

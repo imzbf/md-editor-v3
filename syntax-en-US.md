@@ -1,3 +1,17 @@
+!!! tip
+
+When using inline syntax (such as bold, italic, etc.), if the text to be bolded contains special characters and the bold markers (like `**`) are immediately adjacent to other characters, be sure to add at least one space after the second marker (such as `**`). Otherwise, the Markdown parser may not correctly recognize the bold effect.
+
+Example:
+
+Incorrect: `AAA**I have a dream.**BBB`
+
+Correct: `AAA**I have a dream.** BBB`
+
+The same issue applies to other inline syntaxes (such as italics, etc.). Please remember to add a space after the syntax marker to ensure correct parsing.
+
+!!!
+
 ## 🐶 Heading
 
 ```markdown
@@ -386,3 +400,15 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 Please note that this module will not handle dangerous code, and you need to ensure the security of your data on your own!
 
 !!!
+
+## 🦄 Link Reference
+
+[md-editor-v3][1]
+
+[1]: https://imzbf.github.io/md-editor-v3/
+
+```markdown
+[md-editor-v3][1]
+
+[1]: https://imzbf.github.io/md-editor-v3/
+```
