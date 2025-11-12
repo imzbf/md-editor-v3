@@ -3,3 +3,23 @@
   display: flex;
   align-items: center;
 }
+
+.@{prefix}-floating-toolbar-container {
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+  transition-delay: 20ms;
+  will-change: opacity;
+
+  &[data-state='visible'] {
+    opacity: 1;
+  }
+
+  .cm-tooltip-arrow {
+    transition: opacity 120ms ease-out;
+    opacity: 0;
+  }
+
+  &[data-state='visible'] .cm-tooltip-arrow {
+    opacity: 1;
+  }
+}
