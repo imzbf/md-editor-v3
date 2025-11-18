@@ -81,6 +81,7 @@ const MdPreview = defineComponent({
               ctx.emit('onRemount');
             }}
             noEcharts={props.noEcharts}
+            previewComponent={props.previewComponent}
           />
         </div>
       );

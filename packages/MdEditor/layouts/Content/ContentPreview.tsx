@@ -1,9 +1,9 @@
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
-import { defineComponent, inject, ExtractPropTypes, ComputedRef } from 'vue';
+import { defineComponent, inject, ExtractPropTypes, ComputedRef, computed, h } from 'vue';
 import { prefix } from '~/config';
 
-import { SettingType } from '~/type';
+import { PreviewThemes, SettingType } from '~/type';
 import {
   useCopyCode,
   userZoom,
@@ -24,6 +24,8 @@ const ContentPreview = defineComponent({
   setup(props) {
     const editorId = inject('editorId') as string;
     const setting = inject('setting') as ComputedRef<SettingType>;
+    const previewTheme = inject<ComputedRef<PreviewThemes>>('previewTheme');
+    const showCodeRowNumber = inject<boolean>('showCodeRowNumber');
 
     // markdown => html
     const { html, key } = useMarkdownIt(props, props.previewOnly);
@@ -36,19 +38,49 @@ const ContentPreview = defineComponent({
     // 标准的重新渲染事件，能够正确获取到html
     useRemount(props, html, key);
 
+    const previewClass = computed(() =>
+      [
+        `${prefix}-preview`,
+        `${previewTheme?.value}-theme`,
+        showCodeRowNumber && `${prefix}-scrn`
+      ].filter(Boolean)
+    );
+
+    const renderPreview = () => {
+      const idValue = `${editorId}-preview`;
+
+      if (props.previewComponent) {
+        return h(props.previewComponent, {
+          key: key.value,
+          html: html.value,
+          id: idValue,
+          class: previewClass.value
+        });
+      }
+
+      return (
+        <UpdateOnDemand
+          key={key.value}
+          html={html.value}
+          id={idValue}
+          class={previewClass.value}
+        />
+      );
+    };
+
     return () => {
       return (
         <>
           {setting.value.preview &&
             (props.previewOnly ? (
-              <UpdateOnDemand key={key.value} html={html.value} />
+              renderPreview()
             ) : (
               <div
                 id={`${editorId}-preview-wrapper`}
                 class={`${prefix}-preview-wrapper`}
                 key="content-preview-wrapper"
               >
-                <UpdateOnDemand key={key.value} html={html.value} />
+                {renderPreview()}
               </div>
             ))}
 

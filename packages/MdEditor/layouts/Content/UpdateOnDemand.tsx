@@ -1,6 +1,4 @@
-import { ref, defineComponent, watch, inject, ComputedRef } from 'vue';
-import { PreviewThemes } from '~/type';
-import { prefix } from '~~/config';
+import { ref, defineComponent, watch } from 'vue';
 
 // 将 HTML 字符串拆分为元素，返回第一层子节点（包括文本节点）
 const splitNodes = (html: string): ChildNode[] => {
@@ -29,17 +27,20 @@ const isSameNode = (newNode: ChildNode, currentNode: ChildNode) => {
 const UpdateOnDemand = defineComponent({
   name: 'UpdateOnDemand',
   props: {
+    id: {
+      type: String,
+      required: true
+    },
+    class: {
+      type: [String, Array, Object],
+      required: true
+    },
     html: {
       type: String,
       required: true
     }
   },
   setup(props) {
-    // 注入 editorId、previewTheme 和 showCodeRowNumber
-    const editorId = inject('editorId') as string;
-    const previewTheme = inject<ComputedRef<PreviewThemes>>('previewTheme');
-    const showCodeRowNumber = inject('showCodeRowNumber') as boolean;
-
     // HTML 容器的 ref
     const htmlContainer = ref<HTMLElement>();
 
@@ -94,16 +95,7 @@ const UpdateOnDemand = defineComponent({
     );
 
     return () => (
-      <div
-        id={`${editorId}-preview`}
-        class={[
-          `${prefix}-preview`,
-          `${previewTheme?.value}-theme`,
-          showCodeRowNumber && `${prefix}-scrn`
-        ]}
-        innerHTML={firstHtml}
-        ref={htmlContainer}
-      />
+      <div id={props.id} class={props.class} innerHTML={firstHtml} ref={htmlContainer} />
     );
   }
 });

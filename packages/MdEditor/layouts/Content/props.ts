@@ -1,7 +1,7 @@
 import { CompletionSource } from '@codemirror/autocomplete';
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
-import { ExtractPropTypes, PropType } from 'vue';
+import { ExtractPropTypes, PropType, Component } from 'vue';
 import { HeadList, MdHeadingId } from '~/type';
 
 export const contentPreviewProps = {
@@ -50,6 +50,7 @@ export const contentPreviewProps = {
     type: Boolean as PropType<boolean>,
     default: false
   },
+
   noImgZoomIn: {
     type: Boolean as PropType<boolean>
   },
@@ -67,6 +68,10 @@ export const contentPreviewProps = {
   },
   noEcharts: {
     type: Boolean as PropType<boolean>
+  },
+  previewComponent: {
+    type: [Object, Function] as PropType<Component>,
+    default: undefined
   }
 };
 

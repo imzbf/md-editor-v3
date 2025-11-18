@@ -40,6 +40,7 @@
   "scripts": {
     "dev": "tsx ./scripts/dev",
     "build": "tsx ./scripts/build",
+    "lint": "eslint --ext .ts,.tsx,.vue --fix packages",
     "lint-staged": "lint-staged",
     "prepare": "husky"
   },

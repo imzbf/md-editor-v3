@@ -1,5 +1,5 @@
 import { CompletionSource } from '@codemirror/autocomplete';
-import { PropType, CSSProperties, VNode } from 'vue';
+import { PropType, CSSProperties, VNode, Component } from 'vue';
 import { allToolbar, allFooter } from './config';
 import {
   ToolbarNames,
@@ -253,6 +253,10 @@ export const mdPreviewProps = {
   noEcharts: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  previewComponent: {
+    type: [Object, Function] as PropType<Component>,
+    default: undefined
   }
 };
 

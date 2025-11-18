@@ -160,6 +160,7 @@ const Editor = defineComponent({
             catalogLayout={props.catalogLayout}
             catalogMaxDepth={props.catalogMaxDepth}
             noEcharts={props.noEcharts}
+            previewComponent={props.previewComponent}
           />
           {props.footers.length > 0 && (
             <Footer
