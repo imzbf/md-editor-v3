@@ -29,7 +29,7 @@
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-mark": "^4.0.0",
-    "md-editor-v3": "^6.1.1",
+    "md-editor-v3": "^6.2.0",
     "nuxt": "^4.1.1",
     "pinia": "^3.0.3",
     "vue": "^3.5.21",
