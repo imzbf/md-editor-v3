@@ -118,6 +118,7 @@ export default defineComponent({
                 autoFoldThreshold={props.autoFoldThreshold}
                 onRemount={props.onRemount}
                 previewComponent={props.previewComponent}
+                noEcharts={props.noEcharts}
               />
             </CustomScrollbar>
           </div>
