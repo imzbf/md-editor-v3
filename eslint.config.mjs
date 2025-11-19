@@ -11,7 +11,7 @@ import vueParser from 'vue-eslint-parser';
 
 export default defineConfig(
   {
-    ignores: ['eslint.config.mjs']
+    ignores: ['lib', 'eslint.config.mjs', '**/.local/**']
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,

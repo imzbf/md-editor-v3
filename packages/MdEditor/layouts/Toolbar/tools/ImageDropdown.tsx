@@ -1,4 +1,4 @@
-import { ComputedRef, defineComponent, inject, onMounted, ref } from 'vue';
+import { ComputedRef, computed, defineComponent, inject, onMounted, ref } from 'vue';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
@@ -42,13 +42,73 @@ const ToolbarImageDropdown = defineComponent({
       (uploadRef.value as HTMLInputElement).addEventListener('change', uploadHandler);
     });
 
+    const handleDropdownChange = (v: boolean) => {
+      visible.value = v;
+    };
+
+    const handleClipCancel = () => {
+      clipVisible.value = false;
+    };
+
+    const handleClipOk = (data: any) => {
+      if (data) {
+        emitHandler('image', {
+          desc: data.desc,
+          url: data.url,
+          transform: true
+        });
+      }
+      clipVisible.value = false;
+    };
+
+    const overlayContent = computed(() => (
+      <ul
+        class={`${prefix}-menu`}
+        onClick={() => {
+          visible.value = false;
+        }}
+        role="menu"
+      >
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-image`}
+          onClick={() => {
+            emitHandler('image');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.imgTitleItem?.link}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-image`}
+          onClick={() => {
+            (uploadRef.value as HTMLInputElement).click();
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.imgTitleItem?.upload}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-image`}
+          onClick={() => {
+            clipVisible.value = true;
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.imgTitleItem?.clip2upload}
+        </li>
+      </ul>
+    ));
+
     return () => (
       <>
         <label
           for={`${wrapperId}_label`}
           style={{ display: 'none' }}
           aria-label={ult.value.imgTitleItem?.upload}
-        ></label>
+        />
         <input
           id={`${wrapperId}_label`}
           ref={uploadRef}
@@ -60,50 +120,9 @@ const ToolbarImageDropdown = defineComponent({
         <Dropdown
           relative={`#${wrapperId}`}
           visible={visible.value}
-          onChange={(v) => {
-            visible.value = v;
-          }}
+          onChange={handleDropdownChange}
           disabled={disabled?.value}
-          overlay={
-            <ul
-              class={`${prefix}-menu`}
-              onClick={() => {
-                visible.value = false;
-              }}
-              role="menu"
-            >
-              <li
-                class={`${prefix}-menu-item ${prefix}-menu-item-image`}
-                onClick={() => {
-                  emitHandler('image');
-                }}
-                role="menuitem"
-                tabindex="0"
-              >
-                {ult.value.imgTitleItem?.link}
-              </li>
-              <li
-                class={`${prefix}-menu-item ${prefix}-menu-item-image`}
-                onClick={() => {
-                  (uploadRef.value as HTMLInputElement).click();
-                }}
-                role="menuitem"
-                tabindex="0"
-              >
-                {ult.value.imgTitleItem?.upload}
-              </li>
-              <li
-                class={`${prefix}-menu-item ${prefix}-menu-item-image`}
-                onClick={() => {
-                  clipVisible.value = true;
-                }}
-                role="menuitem"
-                tabindex="0"
-              >
-                {ult.value.imgTitleItem?.clip2upload}
-              </li>
-            </ul>
-          }
+          overlay={overlayContent.value}
         >
           <button
             class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
@@ -121,19 +140,8 @@ const ToolbarImageDropdown = defineComponent({
         </Dropdown>
         <Modals
           clipVisible={clipVisible.value}
-          onCancel={() => {
-            clipVisible.value = false;
-          }}
-          onOk={(data) => {
-            if (data) {
-              emitHandler('image', {
-                desc: data.desc,
-                url: data.url,
-                transform: true
-              });
-            }
-            clipVisible.value = false;
-          }}
+          onCancel={handleClipCancel}
+          onOk={handleClipOk}
         />
       </>
     );

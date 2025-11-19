@@ -132,6 +132,10 @@ export default defineComponent({
       data.imgSrc = '';
     };
 
+    const handleAdjust = (val: boolean) => {
+      data.isFullscreen = val;
+    };
+
     return () => (
       <Modal
         class={`${prefix}-modal-clip`}
@@ -140,9 +144,7 @@ export default defineComponent({
         onClose={props.onCancel}
         showAdjust
         isFullscreen={data.isFullscreen}
-        onAdjust={(val) => {
-          data.isFullscreen = val;
-        }}
+        onAdjust={handleAdjust}
         width="668px"
         height="421px"
       >

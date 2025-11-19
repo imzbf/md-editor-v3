@@ -3,7 +3,7 @@ import { prefix } from '~/config';
 import Content from '~/layouts/Content';
 import Footer from '~/layouts/Footer';
 import ToolBar from '~/layouts/Toolbar';
-import { EditorContext } from '~/type';
+import { EditorContext, HeadList } from '~/type';
 import bus from '~/utils/event-bus';
 
 import { getSlot } from '~/utils/vue-tsx';
@@ -79,6 +79,59 @@ const Editor = defineComponent({
       bus.clear(editorId);
     });
 
+    const handleUpdateModelValue = (value: string) => {
+      ctx.emit('update:modelValue', value);
+    };
+
+    const handleChange = (value: string) => {
+      props.onChange?.(value);
+      ctx.emit('onChange', value);
+    };
+
+    const handleHtmlChanged = (html: string) => {
+      props.onHtmlChanged?.(html);
+      ctx.emit('onHtmlChanged', html);
+    };
+
+    const handleGetCatalog = (list: HeadList[]) => {
+      props.onGetCatalog?.(list);
+      ctx.emit('onGetCatalog', list);
+    };
+
+    const handleBlur = (e: FocusEvent) => {
+      props.onBlur?.(e);
+      ctx.emit('onBlur', e);
+    };
+
+    const handleFocus = (e: FocusEvent) => {
+      props.onFocus?.(e);
+      ctx.emit('onFocus', e);
+    };
+
+    const handleInput = (e: Event) => {
+      props.onInput?.(e);
+      ctx.emit('onInput', e);
+    };
+
+    const handleDrop = (e: DragEvent) => {
+      props.onDrop?.(e);
+      ctx.emit('onDrop', e);
+    };
+
+    const handleInputBoxWidthChange = (width: string) => {
+      props.oninputBoxWidthChange?.(width);
+      ctx.emit('oninputBoxWidthChange', width);
+    };
+
+    const handleRemount = () => {
+      props.onRemount?.();
+      ctx.emit('onRemount');
+    };
+
+    const handleScrollAutoChange = (v: boolean) => {
+      state.scrollAuto = v;
+    };
+
     return () => {
       return (
         <div
@@ -111,52 +164,23 @@ const Editor = defineComponent({
             autoDetectCode={props.autoDetectCode}
             noHighlight={noHighlight}
             // 区别v-model，它在compositionend之前不会触发
-            updateModelValue={(value) => {
-              ctx.emit('update:modelValue', value);
-            }}
-            onChange={(value) => {
-              props.onChange?.(value);
-              ctx.emit('onChange', value);
-            }}
-            onHtmlChanged={(html) => {
-              props.onHtmlChanged?.(html);
-              ctx.emit('onHtmlChanged', html);
-            }}
-            onGetCatalog={(list) => {
-              props.onGetCatalog?.(list);
-              ctx.emit('onGetCatalog', list);
-            }}
-            onBlur={(e) => {
-              props.onBlur?.(e);
-              ctx.emit('onBlur', e);
-            }}
-            onFocus={(e) => {
-              props.onFocus?.(e);
-              ctx.emit('onFocus', e);
-            }}
-            onInput={(e) => {
-              props.onInput?.(e);
-              ctx.emit('onInput', e);
-            }}
+            updateModelValue={handleUpdateModelValue}
+            onChange={handleChange}
+            onHtmlChanged={handleHtmlChanged}
+            onGetCatalog={handleGetCatalog}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+            onInput={handleInput}
             completions={props.completions}
             noImgZoomIn={props.noImgZoomIn}
-            onDrop={(e) => {
-              props.onDrop?.(e);
-              ctx.emit('onDrop', e);
-            }}
+            onDrop={handleDrop}
             inputBoxWidth={props.inputBoxWidth}
-            oninputBoxWidthChange={(width: string) => {
-              props.oninputBoxWidthChange?.(width);
-              ctx.emit('oninputBoxWidthChange', width);
-            }}
+            oninputBoxWidthChange={handleInputBoxWidthChange}
             sanitizeMermaid={props.sanitizeMermaid}
             transformImgUrl={props.transformImgUrl}
             codeFoldable={props.codeFoldable}
             autoFoldThreshold={props.autoFoldThreshold}
-            onRemount={() => {
-              props.onRemount?.();
-              ctx.emit('onRemount');
-            }}
+            onRemount={handleRemount}
             catalogLayout={props.catalogLayout}
             catalogMaxDepth={props.catalogMaxDepth}
             noEcharts={props.noEcharts}
@@ -171,7 +195,7 @@ const Editor = defineComponent({
                 (!setting.preview && !setting.htmlPreview) || setting.previewOnly
               }
               scrollAuto={state.scrollAuto}
-              onScrollAutoChange={(v) => (state.scrollAuto = v)}
+              onScrollAutoChange={handleScrollAutoChange}
             />
           )}
         </div>

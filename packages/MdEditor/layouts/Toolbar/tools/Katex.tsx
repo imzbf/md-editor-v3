@@ -1,4 +1,4 @@
-import { ComputedRef, defineComponent, inject, ref } from 'vue';
+import { ComputedRef, computed, defineComponent, inject, ref } from 'vue';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
@@ -23,44 +23,48 @@ const ToolbarKatex = defineComponent({
       bus.emit(editorId, REPLACE, direct);
     };
 
+    const handleDropdownChange = (v: boolean) => {
+      visible.value = v;
+    };
+
+    const overlayContent = computed(() => (
+      <ul
+        class={`${prefix}-menu`}
+        onClick={() => {
+          visible.value = false;
+        }}
+        role="menu"
+      >
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
+          onClick={() => {
+            emitHandler('katexInline');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.katex?.inline}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
+          onClick={() => {
+            emitHandler('katexBlock');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.katex?.block}
+        </li>
+      </ul>
+    ));
+
     return () => (
       <Dropdown
         relative={`#${wrapperId}`}
         visible={visible.value}
-        onChange={(v) => {
-          visible.value = v;
-        }}
+        onChange={handleDropdownChange}
         disabled={disabled?.value}
-        overlay={
-          <ul
-            class={`${prefix}-menu`}
-            onClick={() => {
-              visible.value = false;
-            }}
-            role="menu"
-          >
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
-              onClick={() => {
-                emitHandler('katexInline');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.katex?.inline}
-            </li>
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-katex`}
-              onClick={() => {
-                emitHandler('katexBlock');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.katex?.block}
-            </li>
-          </ul>
-        }
+        overlay={overlayContent.value}
         key="bar-katex"
       >
         <button

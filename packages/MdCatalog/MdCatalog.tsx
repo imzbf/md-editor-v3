@@ -364,6 +364,11 @@ const MdCatalog = defineComponent({
       scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
     });
 
+    const handleCatalogClick = (e: MouseEvent, t: TocItem) => {
+      props.onClick?.(e, t);
+      ctx.emit('onClick', e, t);
+    };
+
     return () => (
       <div
         class={[
@@ -375,10 +380,7 @@ const MdCatalog = defineComponent({
       >
         {catalogs.value.length > 0 && (
           <>
-            <div
-              class={`${prefix}-catalog-indicator`}
-              style={indicatorStyles.value}
-            ></div>
+            <div class={`${prefix}-catalog-indicator`} style={indicatorStyles.value} />
             <div class={`${prefix}-catalog-container`}>
               {catalogs.value.map((item) => {
                 return (
@@ -387,10 +389,7 @@ const MdCatalog = defineComponent({
                     tocItem={item}
                     key={`link-${item.level}-${item.text}`}
                     onActive={onActive}
-                    onClick={(e: MouseEvent, t: TocItem) => {
-                      props.onClick?.(e, t);
-                      ctx.emit('onClick', e, t);
-                    }}
+                    onClick={handleCatalogClick}
                     scrollElementOffsetTop={props.scrollElementOffsetTop}
                   />
                 );

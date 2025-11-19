@@ -1,4 +1,4 @@
-import { ComputedRef, defineComponent, inject, ref } from 'vue';
+import { ComputedRef, computed, defineComponent, inject, ref } from 'vue';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
@@ -20,24 +20,30 @@ const ToolbarTable = defineComponent({
     const wrapperId = `${editorId}-toolbar-wrapper`;
     const visible = ref(false);
 
+    const handleDropdownChange = (value: boolean) => {
+      visible.value = value;
+    };
+
+    const handleSelected = (selectedShape: { x: number; y: number }) => {
+      if (disabled?.value) {
+        return;
+      }
+
+      bus.emit(editorId, REPLACE, 'table', { selectedShape });
+    };
+
+    const overlayContent = computed(() => (
+      <TableShape tableShape={tableShape.value} onSelected={handleSelected} />
+    ));
+
     return () => (
       <Dropdown
         relative={`#${wrapperId}`}
         visible={visible.value}
-        onChange={(v) => {
-          visible.value = v;
-        }}
+        onChange={handleDropdownChange}
         disabled={disabled?.value}
         key="bar-table"
-        overlay={
-          <TableShape
-            tableShape={tableShape.value}
-            onSelected={(selectedShape) => {
-              if (disabled?.value) return;
-              bus.emit(editorId, REPLACE, 'table', { selectedShape });
-            }}
-          />
-        }
+        overlay={overlayContent.value}
       >
         <button
           class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}

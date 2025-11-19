@@ -4,7 +4,7 @@ import { prefix } from '~/config';
 
 import ContentPreview from '~/layouts/Content/ContentPreview';
 import { mdPreviewProps as props, mdPreviewEmits as emits } from '~/props';
-import { MdPreviewProps } from '~/type';
+import { HeadList, MdPreviewProps } from '~/type';
 import bus from '~/utils/event-bus';
 import { useExpose } from './composition/useExpose';
 
@@ -37,6 +37,27 @@ const MdPreview = defineComponent({
       bus.clear(editorId);
     });
 
+    const handleChange = (value: string) => {
+      props.onChange?.(value);
+      ctx.emit('onChange', value);
+      ctx.emit('update:modelValue', value);
+    };
+
+    const handleHtmlChanged = (html: string) => {
+      props.onHtmlChanged?.(html);
+      ctx.emit('onHtmlChanged', html);
+    };
+
+    const handleGetCatalog = (list: HeadList[]) => {
+      props.onGetCatalog?.(list);
+      ctx.emit('onGetCatalog', list);
+    };
+
+    const handleRemount = () => {
+      props.onRemount?.();
+      ctx.emit('onRemount');
+    };
+
     return () => {
       return (
         <div
@@ -52,19 +73,9 @@ const MdPreview = defineComponent({
         >
           <ContentPreview
             modelValue={props.modelValue}
-            onChange={(value) => {
-              props.onChange?.(value);
-              ctx.emit('onChange', value);
-              ctx.emit('update:modelValue', value);
-            }}
-            onHtmlChanged={(html) => {
-              props.onHtmlChanged?.(html);
-              ctx.emit('onHtmlChanged', html);
-            }}
-            onGetCatalog={(list) => {
-              props.onGetCatalog?.(list);
-              ctx.emit('onGetCatalog', list);
-            }}
+            onChange={handleChange}
+            onHtmlChanged={handleHtmlChanged}
+            onGetCatalog={handleGetCatalog}
             mdHeadingId={props.mdHeadingId}
             noMermaid={noMermaid}
             sanitize={props.sanitize}
@@ -76,10 +87,7 @@ const MdPreview = defineComponent({
             sanitizeMermaid={props.sanitizeMermaid}
             codeFoldable={props.codeFoldable}
             autoFoldThreshold={props.autoFoldThreshold}
-            onRemount={() => {
-              props.onRemount?.();
-              ctx.emit('onRemount');
-            }}
+            onRemount={handleRemount}
             noEcharts={props.noEcharts}
             previewComponent={props.previewComponent}
           />

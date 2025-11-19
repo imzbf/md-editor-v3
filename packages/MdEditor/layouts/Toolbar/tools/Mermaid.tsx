@@ -1,4 +1,4 @@
-import { ComputedRef, defineComponent, inject, ref } from 'vue';
+import { ComputedRef, computed, defineComponent, inject, ref } from 'vue';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
@@ -23,104 +23,108 @@ const ToolbarMermaid = defineComponent({
       bus.emit(editorId, REPLACE, direct);
     };
 
+    const handleDropdownChange = (v: boolean) => {
+      visible.value = v;
+    };
+
+    const overlayContent = computed(() => (
+      <ul
+        class={`${prefix}-menu`}
+        onClick={() => {
+          visible.value = false;
+        }}
+        role="menu"
+      >
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
+          onClick={() => {
+            emitHandler('flow');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.mermaid?.flow}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
+          onClick={() => {
+            emitHandler('sequence');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.mermaid?.sequence}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
+          onClick={() => {
+            emitHandler('gantt');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.mermaid?.gantt}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
+          onClick={() => {
+            emitHandler('class');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.mermaid?.class}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
+          onClick={() => {
+            emitHandler('state');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.mermaid?.state}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
+          onClick={() => {
+            emitHandler('pie');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.mermaid?.pie}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
+          onClick={() => {
+            emitHandler('relationship');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.mermaid?.relationship}
+        </li>
+        <li
+          class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
+          onClick={() => {
+            emitHandler('journey');
+          }}
+          role="menuitem"
+          tabindex="0"
+        >
+          {ult.value.mermaid?.journey}
+        </li>
+      </ul>
+    ));
+
     return () => (
       <Dropdown
         relative={`#${wrapperId}`}
         visible={visible.value}
-        onChange={(v) => {
-          visible.value = v;
-        }}
+        onChange={handleDropdownChange}
         disabled={disabled?.value}
-        overlay={
-          <ul
-            class={`${prefix}-menu`}
-            onClick={() => {
-              visible.value = false;
-            }}
-            role="menu"
-          >
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-              onClick={() => {
-                emitHandler('flow');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.mermaid?.flow}
-            </li>
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-              onClick={() => {
-                emitHandler('sequence');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.mermaid?.sequence}
-            </li>
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-              onClick={() => {
-                emitHandler('gantt');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.mermaid?.gantt}
-            </li>
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-              onClick={() => {
-                emitHandler('class');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.mermaid?.class}
-            </li>
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-              onClick={() => {
-                emitHandler('state');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.mermaid?.state}
-            </li>
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-              onClick={() => {
-                emitHandler('pie');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.mermaid?.pie}
-            </li>
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-              onClick={() => {
-                emitHandler('relationship');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.mermaid?.relationship}
-            </li>
-            <li
-              class={`${prefix}-menu-item ${prefix}-menu-item-mermaid`}
-              onClick={() => {
-                emitHandler('journey');
-              }}
-              role="menuitem"
-              tabindex="0"
-            >
-              {ult.value.mermaid?.journey}
-            </li>
-          </ul>
-        }
+        overlay={overlayContent.value}
         key="bar-mermaid"
       >
         <button

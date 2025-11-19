@@ -50,67 +50,70 @@ const CatalogLink = defineComponent({
       }
     });
 
-    return () => {
-      const { tocItem, mdHeadingId, onClick, scrollElementOffsetTop } = props;
+    const handleClick = (e: MouseEvent) => {
+      e.stopPropagation();
 
+      props.onClick(e, props.tocItem);
+      if (e.defaultPrevented) {
+        return;
+      }
+      const id = props.mdHeadingId({
+        text: props.tocItem.text,
+        level: props.tocItem.level,
+        index: props.tocItem.index,
+        currentToken: props.tocItem.currentToken,
+        nextToken: props.tocItem.nextToken
+      });
+      const targetHeadEle = rootNodeRef.value.getElementById(id);
+      const scrollContainer = scrollElementRef.value;
+
+      if (targetHeadEle && scrollContainer) {
+        let par = targetHeadEle.offsetParent as HTMLElement;
+        let offsetTop = targetHeadEle.offsetTop;
+
+        // 滚动容器包含父级offser标准元素
+        if (scrollContainer.contains(par)) {
+          while (par && scrollContainer != par) {
+            // 循环获取当前对象与相对的top高度
+            offsetTop += par?.offsetTop;
+            par = par?.offsetParent as HTMLElement;
+          }
+        }
+
+        const pel = targetHeadEle.previousElementSibling;
+        let currMarginTop = 0;
+        if (!pel) {
+          currMarginTop = getComputedStyleNum(targetHeadEle, 'margin-top');
+        }
+
+        scrollContainer?.scrollTo({
+          top: offsetTop - props.scrollElementOffsetTop - currMarginTop,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    return () => {
       return (
         <div
           ref={currRef}
-          class={[`${prefix}-catalog-link`, tocItem.active && `${prefix}-catalog-active`]}
-          onClick={(e) => {
-            e.stopPropagation();
-
-            onClick(e, tocItem);
-            if (e.defaultPrevented) {
-              return;
-            }
-            const id = mdHeadingId({
-              text: tocItem.text,
-              level: tocItem.level,
-              index: tocItem.index,
-              currentToken: tocItem.currentToken,
-              nextToken: tocItem.nextToken
-            });
-            const targetHeadEle = rootNodeRef.value.getElementById(id);
-            const scrollContainer = scrollElementRef.value;
-
-            if (targetHeadEle && scrollContainer) {
-              let par = targetHeadEle.offsetParent as HTMLElement;
-              let offsetTop = targetHeadEle.offsetTop;
-
-              // 滚动容器包含父级offser标准元素
-              if (scrollContainer.contains(par)) {
-                while (par && scrollContainer != par) {
-                  // 循环获取当前对象与相对的top高度
-                  offsetTop += par?.offsetTop;
-                  par = par?.offsetParent as HTMLElement;
-                }
-              }
-
-              const pel = targetHeadEle.previousElementSibling;
-              let currMarginTop = 0;
-              if (!pel) {
-                currMarginTop = getComputedStyleNum(targetHeadEle, 'margin-top');
-              }
-
-              scrollContainer?.scrollTo({
-                top: offsetTop - scrollElementOffsetTop - currMarginTop,
-                behavior: 'smooth'
-              });
-            }
-          }}
+          class={[
+            `${prefix}-catalog-link`,
+            props.tocItem.active && `${prefix}-catalog-active`
+          ]}
+          onClick={handleClick}
         >
-          <span title={tocItem.text}>{tocItem.text}</span>
-          {tocItem.children && tocItem.children.length > 0 && (
+          <span title={props.tocItem.text}>{props.tocItem.text}</span>
+          {props.tocItem.children && props.tocItem.children.length > 0 && (
             <div class={`${prefix}-catalog-wrapper`}>
-              {tocItem.children.map((item) => (
+              {props.tocItem.children.map((item) => (
                 <CatalogLink
-                  mdHeadingId={mdHeadingId}
-                  key={`${tocItem.text}-link-${item.level}-${item.text}`}
+                  mdHeadingId={props.mdHeadingId}
+                  key={`${props.tocItem.text}-link-${item.level}-${item.text}`}
                   tocItem={item}
                   onActive={props.onActive}
-                  onClick={onClick}
-                  scrollElementOffsetTop={scrollElementOffsetTop}
+                  onClick={props.onClick}
+                  scrollElementOffsetTop={props.scrollElementOffsetTop}
                 />
               ))}
             </div>
