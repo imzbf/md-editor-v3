@@ -445,6 +445,15 @@
 
 ---
 
+### 🖌 noEcharts
+
+- **类型**：`boolean`
+- **默认值**：`false`
+
+  \>=6.0.0 是否禁用 echarts 模块
+
+---
+
 ### 🎨 previewComponent
 
 如果你需要完全掌控预览区域的渲染方式，可以通过 `previewComponent` 注入自定义组件。组件会接收到 `html`、`id` 和 `className` 三个属性，其中 `id` 与 `className` 需要应用在容器元素上以保持内置样式与行为。
@@ -797,15 +806,6 @@ defineProps<{
 - **默认值**：`undefined`
 
   \>=5.5.0 控制要显示的目录的最大深度。
-
----
-
-### 🖌 noEcharts
-
-- **类型**：`boolean`
-- **默认值**：`false`
-
-  \>=6.0.0 是否禁用 echarts 模块
 
 ---
 

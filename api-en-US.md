@@ -445,6 +445,15 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ---
 
+### 🖌 noEcharts
+
+- **type**: `boolean`
+- **default**: `false`
+
+  \>=6.0.0 Disable echarts preview
+
+---
+
 ### 🎨 previewComponent
 
 If you need full control over how the preview area is rendered, you can inject a custom component via `previewComponent`. The component will receive three props: `html`, `id`, and `className`. Apply `id` and `className` to the container element to preserve the built-in styles and behavior.
@@ -790,15 +799,6 @@ Except for the same as `MdPreview`:
 - **default**: `undefined`
 
   \>=5.5.0 Controls the maximum depth of the catalog to be displayed.
-
----
-
-### 🖌 noEcharts
-
-- **type**: `boolean`
-- **default**: `false`
-
-  \>=6.0.0 Disable echarts preview
 
 ---
 
