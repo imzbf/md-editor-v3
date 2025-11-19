@@ -445,6 +445,30 @@
 
 ---
 
+### 🎨 previewComponent
+
+如果你需要完全掌控预览区域的渲染方式，可以通过 `previewComponent` 注入自定义组件。组件会接收到 `html`、`id` 和 `className` 三个属性，其中 `id` 与 `className` 需要应用在容器元素上以保持内置样式与行为。
+
+```vue
+<script setup lang="ts">
+defineProps<{
+  html: string;
+  id?: string;
+  className?: string;
+}>();
+</script>
+
+<template>
+  <div :id="id" :class="className" v-html="html" />
+</template>
+```
+
+```vue
+<MdEditor :previewComponent="CustomPreview" />
+```
+
+---
+
 ## 🔩 MdEditor Props
 
 除去和`MdPreivew`相同的以外：

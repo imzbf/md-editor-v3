@@ -445,6 +445,30 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ---
 
+### 🎨 previewComponent
+
+If you need full control over how the preview area is rendered, you can inject a custom component via `previewComponent`. The component will receive three props: `html`, `id`, and `className`. Apply `id` and `className` to the container element to preserve the built-in styles and behavior.
+
+```vue
+<script setup lang="ts">
+defineProps<{
+  html: string;
+  id?: string;
+  className?: string;
+}>();
+</script>
+
+<template>
+  <div :id="id" :class="className" v-html="html" />
+</template>
+```
+
+```vue
+<MdEditor :previewComponent="CustomPreview" />
+```
+
+---
+
 ## 🔩 MdEditor Props
 
 Except for the same as `MdPreview`:
