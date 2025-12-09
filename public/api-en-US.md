@@ -1508,6 +1508,34 @@ config({
 });
 ```
 
+Below is the list of built-in extensions:
+
+| Name            | type              | Description                                                                                                            | compartment           | options type                       | default options |
+| --------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------- | ---------------------------------- | --------------- |
+| lineWrapping    | `lineWrapping`    | Enable the editor's line-wrapping mode (automatically wrap long lines).                                                | none                  | none                               | none            |
+| keymap          | `keymap`          | Register default keybindings (including editor commands, undo/redo, indentation with Tab, etc.).                       | none                  | none                               | none            |
+| drawSelection   | `drawSelection`   | Fix cursor rendering or selection drawing issues with multi-line placeholders by using CodeMirror's `drawSelection()`. | none                  | none                               | none            |
+| markdown        | `markdown`        | Enable Markdown language support using `@codemirror/lang-markdown` and provide a list of recognized code languages.    | none                  | none                               | none            |
+| linkShortener   | `linkShortener`   | Link shortener to collapse long links in the editor, created via the `createTextShortener` factory.                    | none                  | `TextShortenerOptions` (see below) | `maxLength: 30` |
+| floatingToolbar | `floatingToolbar` | Floating toolbar extension, created via `createFloatingToolbar`. Enabled when `floatingToolbars.length > 0`.           | `floatingToolbarComp` | none                               | none            |
+
+```ts
+interface FindTextsContext {
+  state: EditorState;
+  lineText: string;
+  lineNumber: number;
+  lineFrom: number;
+  lineTo: number;
+  defaultTextRegex: RegExp;
+}
+
+interface TextShortenerOptions {
+  maxLength: number;
+  shortenText?: (text: string) => string;
+  findTexts?: (context: FindTextsContext) => Array<[number, number]>;
+}
+```
+
 ---
 
 ### 🍤 markdownItConfig
