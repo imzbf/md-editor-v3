@@ -1541,6 +1541,33 @@ config({
 });
 ```
 
+以下是内置的扩展列表：
+
+| 名称            | type              | 描述                                                                                                             | compartment           | options 类型                         | 默认 options    |
+| --------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------ | --------------- |
+| lineWrapping    | `lineWrapping`    | 启用编辑器的横向换行模式（当行太长时自动换行显示）。                                                             | 无                    | 无                                   | 无              |
+| keymap          | `keymap`          | 注册默认快捷键集合（包括编辑器命令、历史撤销/重做、缩进 Tab 等）。                                               | 无                    | 无                                   | 无              |
+| drawSelection   | `drawSelection`   | 解决多行 placeholder 时光标渲染或选择绘制的问题，使用 CodeMirror 的 `drawSelection()` 插件来绘制选择区域和光标。 | 无                    | 无                                   | 无              |
+| markdown        | `markdown`        | 启用 Markdown 语言支持，使用 `@codemirror/lang-markdown` 并传入可识别的代码语言列表（`languages`）。             | 无                    | 无                                   | 无              |
+| linkShortener   | `linkShortener`   | 链接缩短器，用于在编辑器中对长链接进行短化显示，基于 `createTextShortener` 工厂函数创建扩展。                    | 无                    | `TextShortenerOptions`，参见下方接口 | `maxLength: 30` |
+| floatingToolbar | `floatingToolbar` | 浮动工具栏扩展，基于 `createFloatingToolbar` 创建。该扩展在 `floatingToolbars.length > 0` 时启用，否则为空数组。 | `floatingToolbarComp` | 无                                   | 无              |
+
+```ts
+interface FindTextsContext {
+  state: EditorState;
+  lineText: string;
+  lineNumber: number;
+  lineFrom: number;
+  lineTo: number;
+  defaultTextRegex: RegExp;
+}
+interface TextShortenerOptions {
+  maxLength: number;
+  shortenText?: (text: string) => string;
+  findTexts?: (context: FindTextsContext) => Array<[number, number]>;
+}
+```
+
 ---
 
 ### 🍤 markdownItConfig

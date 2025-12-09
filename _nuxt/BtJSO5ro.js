@@ -1508,6 +1508,34 @@ config({
 });
 \`\`\`
 
+Below is the list of built-in extensions:
+
+| Name            | type              | Description                                                                                                            | compartment           | options type                       | default options |
+| --------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------- | ---------------------------------- | --------------- |
+| lineWrapping    | \`lineWrapping\`    | Enable the editor's line-wrapping mode (automatically wrap long lines).                                                | none                  | none                               | none            |
+| keymap          | \`keymap\`          | Register default keybindings (including editor commands, undo/redo, indentation with Tab, etc.).                       | none                  | none                               | none            |
+| drawSelection   | \`drawSelection\`   | Fix cursor rendering or selection drawing issues with multi-line placeholders by using CodeMirror's \`drawSelection()\`. | none                  | none                               | none            |
+| markdown        | \`markdown\`        | Enable Markdown language support using \`@codemirror/lang-markdown\` and provide a list of recognized code languages.    | none                  | none                               | none            |
+| linkShortener   | \`linkShortener\`   | Link shortener to collapse long links in the editor, created via the \`createTextShortener\` factory.                    | none                  | \`TextShortenerOptions\` (see below) | \`maxLength: 30\` |
+| floatingToolbar | \`floatingToolbar\` | Floating toolbar extension, created via \`createFloatingToolbar\`. Enabled when \`floatingToolbars.length > 0\`.           | \`floatingToolbarComp\` | none                               | none            |
+
+\`\`\`ts
+interface FindTextsContext {
+  state: EditorState;
+  lineText: string;
+  lineNumber: number;
+  lineFrom: number;
+  lineTo: number;
+  defaultTextRegex: RegExp;
+}
+
+interface TextShortenerOptions {
+  maxLength: number;
+  shortenText?: (text: string) => string;
+  findTexts?: (context: FindTextsContext) => Array<[number, number]>;
+}
+\`\`\`
+
 ---
 
 ### 🍤 markdownItConfig
@@ -4038,6 +4066,33 @@ config({
 });
 \`\`\`
 
+以下是内置的扩展列表：
+
+| 名称            | type              | 描述                                                                                                             | compartment           | options 类型                         | 默认 options    |
+| --------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------ | --------------- |
+| lineWrapping    | \`lineWrapping\`    | 启用编辑器的横向换行模式（当行太长时自动换行显示）。                                                             | 无                    | 无                                   | 无              |
+| keymap          | \`keymap\`          | 注册默认快捷键集合（包括编辑器命令、历史撤销/重做、缩进 Tab 等）。                                               | 无                    | 无                                   | 无              |
+| drawSelection   | \`drawSelection\`   | 解决多行 placeholder 时光标渲染或选择绘制的问题，使用 CodeMirror 的 \`drawSelection()\` 插件来绘制选择区域和光标。 | 无                    | 无                                   | 无              |
+| markdown        | \`markdown\`        | 启用 Markdown 语言支持，使用 \`@codemirror/lang-markdown\` 并传入可识别的代码语言列表（\`languages\`）。             | 无                    | 无                                   | 无              |
+| linkShortener   | \`linkShortener\`   | 链接缩短器，用于在编辑器中对长链接进行短化显示，基于 \`createTextShortener\` 工厂函数创建扩展。                    | 无                    | \`TextShortenerOptions\`，参见下方接口 | \`maxLength: 30\` |
+| floatingToolbar | \`floatingToolbar\` | 浮动工具栏扩展，基于 \`createFloatingToolbar\` 创建。该扩展在 \`floatingToolbars.length > 0\` 时启用，否则为空数组。 | \`floatingToolbarComp\` | 无                                   | 无              |
+
+\`\`\`ts
+interface FindTextsContext {
+  state: EditorState;
+  lineText: string;
+  lineNumber: number;
+  lineFrom: number;
+  lineTo: number;
+  defaultTextRegex: RegExp;
+}
+interface TextShortenerOptions {
+  maxLength: number;
+  shortenText?: (text: string) => string;
+  findTexts?: (context: FindTextsContext) => Array<[number, number]>;
+}
+\`\`\`
+
 ---
 
 ### 🍤 markdownItConfig
@@ -5040,4 +5095,4 @@ clearSideEffects();
 ## ✍️ 编辑此页面
 
 [doc-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/api-zh-CN.md)
-`,E={class:"container"},M={class:"doc"},k={name:"DocPage"},H=a({...k,setup(C){const n=l(),e="doc-preview",t=d(r(n.lang==="en-US"?i:s,{}));return m(()=>n.lang,()=>{t.value=r(n.lang==="en-US"?i:s,{})}),T({title:n.lang==="en-US"?`API - ${f}`:`API - ${v}`,meta:[{name:"keywords",content:n.lang==="en-US"?p:c},{name:"description",content:n.lang==="en-US"?u:g}]}),(S,j)=>(y(),h("div",E,[b("div",M,[o(w,{editorId:e,modelValue:t.value},null,8,["modelValue"]),o(x,{editorId:e})])]))}});export{H as default};
+`,E={class:"container"},k={class:"doc"},M={name:"DocPage"},H=a({...M,setup(C){const n=l(),e="doc-preview",t=d(r(n.lang==="en-US"?i:s,{}));return m(()=>n.lang,()=>{t.value=r(n.lang==="en-US"?i:s,{})}),T({title:n.lang==="en-US"?`API - ${f}`:`API - ${v}`,meta:[{name:"keywords",content:n.lang==="en-US"?p:c},{name:"description",content:n.lang==="en-US"?u:g}]}),(I,j)=>(y(),h("div",E,[b("div",k,[o(w,{editorId:e,modelValue:t.value},null,8,["modelValue"]),o(x,{editorId:e})])]))}});export{H as default};
