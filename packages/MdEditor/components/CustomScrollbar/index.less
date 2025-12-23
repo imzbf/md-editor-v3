@@ -12,6 +12,11 @@
     width: @scrollbar-width;
     height: 100%;
     background: var(--md-scrollbar-bg-color);
+
+    [dir='rtl'] & {
+      right: auto;
+      left: 0;
+    }
   }
 
   &__thumb {
