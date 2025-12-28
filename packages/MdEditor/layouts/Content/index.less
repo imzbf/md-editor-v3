@@ -1,5 +1,6 @@
 .@{prefix} {
   &-content {
+    direction: ltr;
     position: relative;
     display: flex;
     // height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 1px);
@@ -39,6 +40,10 @@
     // Firefox
     scrollbar-width: none;
 
+    [dir='rtl'] & {
+      direction: rtl;
+    }
+
     &::-webkit-scrollbar {
       // Chrome/Safari
       display: none;
@@ -58,11 +63,13 @@
   overflow-y: auto;
   height: 100%;
   background-color: var(--md-bk-color);
-  border-left: 1px solid var(--md-border-color);
+  border-inline-start: 1px solid var(--md-border-color);
   width: 200px;
   box-sizing: border-box;
-  margin: 0;
-  padding: 5px 10px;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-block: 5px;
+  padding-inline: 10px;
   font-size: 14px;
   font-variant: tabular-nums;
   line-height: 1.5;
@@ -80,8 +87,8 @@
 
 .@{prefix}-catalog-fixed {
   position: absolute;
-  top: 0;
-  right: 0;
+  inset-block-start: 0;
+  inset-inline-end: 0;
   z-index: 10002;
 }
 

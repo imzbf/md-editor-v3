@@ -2,8 +2,10 @@
 
 .@{prefix} {
   &-menu {
-    margin: 0;
-    padding: 0;
+    margin-block: 0;
+    margin-inline: 0;
+    padding-block: 0;
+    padding-inline: 0;
     border-radius: 3px;
     border: 1px solid var(--md-border-color);
     background-color: inherit;
@@ -12,16 +14,17 @@
       list-style: none;
       font-size: 12px;
       color: var(--md-color);
-      padding: 4px 10px;
+      padding-block: 4px;
+      padding-inline: 10px;
       cursor: pointer;
       line-height: 16px;
 
       &:first-of-type {
-        padding-top: 8px;
+        padding-block-start: 8px;
       }
 
       &:last-of-type {
-        padding-bottom: 8px;
+        padding-block-end: 8px;
       }
 
       &:hover {
@@ -31,7 +34,8 @@
   }
 
   &-table-shape {
-    padding: 4px;
+    padding-block: 4px;
+    padding-inline: 4px;
     border-radius: 3px;
     border: 1px solid var(--md-border-color);
     display: flex;
@@ -42,7 +46,8 @@
     }
 
     &-col {
-      padding: 2px;
+      padding-block: 2px;
+      padding-inline: 2px;
       cursor: pointer;
 
       &-default {
@@ -64,8 +69,9 @@
     overflow-y: hidden;
     scrollbar-width: none;
     flex-shrink: 0;
-    padding: @toolBarPadding;
-    border-bottom: 1px solid var(--md-border-color);
+    padding-block: @toolBarPadding;
+    padding-inline: @toolBarPadding;
+    border-block-end: 1px solid var(--md-border-color);
 
     &::-webkit-scrollbar {
       height: 0 !important;
@@ -83,8 +89,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 0 2px;
-      padding: 0 2px;
+      margin-block: 0;
+      margin-inline: 2px;
+      padding-block: 0;
+      padding-inline: 2px;
       transition: all 0.3s;
       border-radius: 3px;
       cursor: pointer;
@@ -111,7 +119,8 @@
 
     &-left,
     &-right {
-      padding: 1px 0;
+      padding-block: 1px;
+      padding-inline: 0;
       display: flex;
       align-items: center;
     }
@@ -119,7 +128,8 @@
 
   .@{prefix}-stn {
     .@{prefix}-toolbar-item {
-      padding: 0 6px;
+      padding-block: 0;
+      padding-inline: 6px;
     }
   }
 }

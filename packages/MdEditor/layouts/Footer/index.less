@@ -4,7 +4,7 @@
     flex-shrink: 0;
     font-size: 12px;
     color: var(--md-color);
-    border-top: 1px solid var(--md-border-color);
+    border-block-start: 1px solid var(--md-border-color);
     display: flex;
     justify-content: space-between;
 
@@ -12,15 +12,16 @@
       display: inline-flex;
       align-items: center;
       height: 100%;
-      padding: 0 10px;
+      padding-block: 0;
+      padding-inline: 10px;
     }
 
     &-item + &-item {
-      padding-left: 0;
+      padding-inline-start: 0;
     }
 
     &-label {
-      padding-right: 5px;
+      padding-inline-end: 5px;
       line-height: 1;
     }
   }

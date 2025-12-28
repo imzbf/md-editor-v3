@@ -132,7 +132,7 @@ export default defineComponent({
           <h2>模拟流式输出</h2>
           <p>点击“播放”开始模拟，文本会逐字追加到预览区，可随时切换速度、暂停或跳过。</p>
         </header>
-        <div class="stream-demo__controls" style={{ marginTop: '14px' }}>
+        <div class="stream-demo__controls" style={{ marginBlockStart: '14px' }}>
           <button class="btn" disabled={state.running} onClick={startStream}>
             播放
           </button>
@@ -146,7 +146,7 @@ export default defineComponent({
             快速完成
           </button>
         </div>
-        <div class="stream-demo__speeds" style={{ marginTop: '14px' }}>
+        <div class="stream-demo__speeds" style={{ marginBlockStart: '14px' }}>
           {SPEED_PRESETS.map((item) => (
             <button
               class={['btn', state.speed === item.value ? 'btn-active' : '']}

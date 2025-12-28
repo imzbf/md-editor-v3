@@ -196,11 +196,12 @@ export default defineComponent({
         <div
           style={{
             width: '200px',
-            padding: '10px',
+            paddingBlock: '10px',
+            paddingInline: '10px',
             border: '1px solid #666',
             position: 'fixed',
-            right: '10px',
-            top: '170px'
+            insetInlineEnd: '10px',
+            insetBlockStart: '170px'
           }}
         >
           <MdCatalog
@@ -213,8 +214,8 @@ export default defineComponent({
         <button
           style={{
             position: 'absolute',
-            left: '10px',
-            top: '10px',
+            insetInlineStart: '10px',
+            insetBlockStart: '10px',
             zIndex: 1000000
           }}
           onClick={() => {

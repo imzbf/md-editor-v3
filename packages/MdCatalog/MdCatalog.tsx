@@ -304,7 +304,7 @@ const MdCatalog = defineComponent({
 
     const onActive = (tocItem: TocItem, ele: HTMLDivElement) => {
       indicatorStyles.value.top =
-        ele.offsetTop + getComputedStyleNum(ele, 'padding-top') + 'px';
+        ele.offsetTop + getComputedStyleNum(ele, 'padding-block-start') + 'px';
 
       props.onActive?.(tocItem, ele);
       ctx.emit('onActive', tocItem, ele);

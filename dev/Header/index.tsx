@@ -27,6 +27,14 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const switchDir = () => {
+      const dir = document.documentElement.getAttribute('dir');
+      if (dir === 'rtl') {
+        document.documentElement.setAttribute('dir', 'ltr');
+      } else {
+        document.documentElement.setAttribute('dir', 'rtl');
+      }
+    };
     return () => (
       <header class="page-header">
         <section class="container">
@@ -42,6 +50,9 @@ export default defineComponent({
             </button>
             <button class="btn btn-header" onClick={() => props.onLangChange('en-US')}>
               英文
+            </button>
+            <button class="btn btn-header" onClick={switchDir}>
+              切换方向
             </button>
           </p>
           <p class="header-actions">

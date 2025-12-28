@@ -12,7 +12,7 @@
     }
 
     &-main {
-      margin-right: 1em;
+      margin-inline-end: 1em;
 
       .@{prefix}-clip-cropper {
         position: relative;
@@ -21,8 +21,8 @@
 
         .@{prefix}-clip-delete {
           position: absolute;
-          top: 0;
-          right: 0;
+          inset-block-start: 0;
+          inset-inline-end: 0;
           // 幽灵空白
           font-size: 0;
           background-color: var(--md-bk-color-outstand);
@@ -59,11 +59,11 @@
   }
 
   &-form-item {
-    margin-bottom: 20px;
+    margin-block-end: 20px;
     text-align: center;
 
     &:last-of-type {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
 
@@ -77,7 +77,8 @@
 
   &-input {
     border-radius: 4px;
-    padding: 4px 11px;
+    padding-block: 4px;
+    padding-inline: 11px;
     color: var(--md-color);
     font-size: 14px;
     line-height: 1.5715;
@@ -106,17 +107,18 @@
     white-space: nowrap;
     user-select: none;
     height: 32px;
-    padding: 0 15px;
+    padding-block: 0;
+    padding-inline: 15px;
     font-size: 14px;
     border-radius: 4px;
     transition: all 0.2s linear;
     color: var(--md-color);
     background-color: var(--md-bk-color);
     border-color: var(--md-border-color);
-    margin-left: 10px;
+    margin-inline-start: 10px;
 
     &:first-of-type {
-      margin-left: 0;
+      margin-inline-start: 0;
     }
 
     &:hover {
@@ -136,8 +138,9 @@
     .@{prefix}-modal {
       max-width: calc(100% - 20px);
       max-height: calc(100% - 20px);
-      margin: 10px;
-      left: 0 !important;
+      margin-block: 10px;
+      margin-inline: 10px;
+      inset-inline-start: 0 !important;
     }
 
     .@{prefix}-clip {
@@ -151,7 +154,7 @@
       }
 
       &-main {
-        margin-bottom: 1em;
+        margin-block-end: 1em;
       }
     }
   }

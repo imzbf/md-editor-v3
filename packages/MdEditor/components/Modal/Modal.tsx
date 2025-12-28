@@ -102,12 +102,12 @@ export default defineComponent({
         zIndex: -1
       },
       initPos: {
-        left: '0px',
-        top: '0px'
+        insetInlineStart: '0px',
+        insetBlockStart: '0px'
       },
       historyPos: {
-        left: '0px',
-        top: '0px'
+        insetInlineStart: '0px',
+        insetBlockStart: '0px'
       }
     });
 
@@ -134,8 +134,8 @@ export default defineComponent({
         } else {
           void nextTick(() => {
             keyMoveClear = keyMove(modalHeaderRef.value!, (left, top) => {
-              state.initPos.left = left + 'px';
-              state.initPos.top = top + 'px';
+              state.initPos.insetInlineStart = left + 'px';
+              state.initPos.insetBlockStart = top + 'px';
             });
           });
         }
@@ -161,14 +161,14 @@ export default defineComponent({
             const halfClientWidth = document.documentElement.clientWidth / 2;
             const halfClientHeight = document.documentElement.clientHeight / 2;
 
-            state.initPos.left = halfClientWidth - halfWidth + 'px';
-            state.initPos.top = halfClientHeight - halfHeight + 'px';
+            state.initPos.insetInlineStart = halfClientWidth - halfWidth + 'px';
+            state.initPos.insetBlockStart = halfClientHeight - halfHeight + 'px';
 
             // 如果预设了全屏展示弹窗，就不需要注册拖动事件
             if (!props.isFullscreen) {
               keyMoveClear = keyMove(modalHeaderRef.value!, (left, top) => {
-                state.initPos.left = left + 'px';
-                state.initPos.top = top + 'px';
+                state.initPos.insetInlineStart = left + 'px';
+                state.initPos.insetBlockStart = top + 'px';
               });
             }
           });
@@ -258,8 +258,8 @@ export default defineComponent({
                         if (!props.isFullscreen) {
                           state.historyPos = state.initPos;
                           state.initPos = {
-                            left: '0',
-                            top: '0'
+                            insetInlineStart: '0',
+                            insetBlockStart: '0'
                           };
                         } else {
                           state.initPos = state.historyPos;

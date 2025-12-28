@@ -75,7 +75,7 @@
     "@typescript-eslint/eslint-plugin": "^8.43.0",
     "@typescript-eslint/parser": "^8.43.0",
     "@typescript-eslint/utils": "^8.43.0",
-    "@vavt/markdown-theme": "^4.5.3",
+    "@vavt/markdown-theme": "^5.0.1",
     "@vavt/vite-plugin-import-markdown": "^1.0.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.1.1",

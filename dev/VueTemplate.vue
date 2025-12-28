@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div style="margin: 1em 0">
+    <div style="margin-block: 1em; margin-inline: 0">
       <button @click="changeVisible">点击</button>
     </div>
     <MdEditorV3

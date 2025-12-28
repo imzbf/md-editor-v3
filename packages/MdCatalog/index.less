@@ -1,4 +1,8 @@
 .@{prefix}-catalog {
+  [dir='rtl'] & {
+    direction: rtl;
+  }
+
   &-indicator {
     height: 18px;
     width: 4px;
@@ -9,11 +13,13 @@
   }
 
   & > &-link {
-    padding: 5px 8px;
+    padding-block: 5px;
+    padding-inline: 8px;
   }
 
   &-link {
-    padding: 5px 0 5px 1em;
+    padding-block: 5px;
+    padding-inline-start: 1em;
     display: flex;
     flex-direction: column;
 
@@ -35,15 +41,15 @@
     }
 
     .@{prefix}-catalog-wrapper > & {
-      padding-top: 5px;
-      padding-bottom: 5px;
+      padding-block-start: 5px;
+      padding-block-end: 5px;
 
       &:first-of-type {
-        padding-top: 10px;
+        padding-block-start: 10px;
       }
 
       &:last-of-type {
-        padding-bottom: 0;
+        padding-block-end: 0;
       }
     }
   }

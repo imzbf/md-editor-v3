@@ -26,10 +26,10 @@
 
   .@{prefix}-fullscreen {
     position: fixed !important;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+    inset-inline-start: 0;
     width: auto !important;
     height: auto !important;
     z-index: 10000;
@@ -38,7 +38,8 @@
   svg&-icon {
     width: 16px;
     height: 16px;
-    padding: 4px;
+    padding-block: 4px;
+    padding-inline: 4px;
     fill: none;
     overflow: hidden;
     display: block;
@@ -51,7 +52,8 @@
   .lucide-list-todo-icon {
     width: 18px;
     height: 18px;
-    padding: 3px;
+    padding-block: 3px;
+    padding-inline: 3px;
   }
 
   &-preview {
@@ -59,7 +61,8 @@
     word-break: break-all;
     // 需要设置为bfc，父级才能正确获取到滚动高度
     display: flow-root;
-    padding: 10px 20px;
+    padding-block: 10px;
+    padding-inline: 20px;
   }
 }
 
@@ -70,7 +73,8 @@
   .lucide-xicon {
     width: 20px;
     height: 20px;
-    padding: 2px;
+    padding-block: 2px;
+    padding-inline: 2px;
   }
 }
 
@@ -84,7 +88,8 @@
   }
 
   .@{prefix}-preview {
-    padding: 0;
+    padding-block: 0;
+    padding-inline: 0;
   }
 
   .@{prefix}-preview-wrapper {

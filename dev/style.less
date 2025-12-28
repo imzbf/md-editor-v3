@@ -25,8 +25,10 @@ input,
 textarea,
 th,
 td {
-  margin: 0;
-  padding: 0;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
 }
 
 body {
@@ -76,7 +78,8 @@ body {
 .container {
   width: 100%;
   max-width: 1170px;
-  margin: 0 auto;
+  margin-block: 0;
+  margin-inline: auto;
   position: relative;
   // overflow: auto;
 }
@@ -90,17 +93,18 @@ body {
   white-space: nowrap;
   user-select: none;
   height: 32px;
-  padding: 0 15px;
+  padding-block: 0;
+  padding-inline: 15px;
   font-size: 14px;
   border-radius: 4px;
   transition: all 0.2s linear;
   color: #515a6e;
   background-color: @bkColor;
   border-color: @borderColor;
-  margin-left: 10px;
+  margin-inline-start: 10px;
 
   &:first-of-type {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
   &:hover {
