@@ -1,4 +1,4 @@
-import{h as d,au as s,q as a,v as m,K as p,av as c,D as l,aw as g,S as u,ax as h,c as f,a as x,b as o,o as E}from"#entry";import{_ as M}from"./D9PeAVF0.js";import{_ as v}from"./DSOYCDZ1.js";import{u as y}from"./zBP5nJiZ.js";import"./DgQBrPoA.js";import"./CaH81vPM.js";import"./DZviNvY9.js";const i=`This is the content that is incompatible only.
+import{h as d,au as s,q as a,v as m,K as p,av as c,D as l,aw as g,S as u,ax as h,c as f,a as x,b as o,o as E}from"#entry";import{_ as M}from"./DxuQosKn.js";import{_ as v}from"./DSOYCDZ1.js";import{u as y}from"./zBP5nJiZ.js";import"./_45FkwNO.js";import"./CaH81vPM.js";import"./DZviNvY9.js";const i=`This is the content that is incompatible only.
 
 ## 🧙🏼 Upgrade from 5.x to 6.x
 
