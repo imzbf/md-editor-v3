@@ -17,6 +17,7 @@ const ToolbarStrikeThrough = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.strikeThrough}
+        aria-label={ult.value.toolbarTips?.strikeThrough}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'strikeThrough');

@@ -17,6 +17,7 @@ const ToolbarImage = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.image}
+        aria-label={ult.value.toolbarTips?.image}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'image');

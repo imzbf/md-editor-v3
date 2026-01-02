@@ -17,6 +17,7 @@ const ToolbarTask = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.task}
+        aria-label={ult.value.toolbarTips?.task}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'task');

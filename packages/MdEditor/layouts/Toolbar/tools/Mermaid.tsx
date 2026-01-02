@@ -130,6 +130,7 @@ const ToolbarMermaid = defineComponent({
         <button
           class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
           title={ult.value.toolbarTips?.mermaid}
+          aria-label={ult.value.toolbarTips?.mermaid}
           disabled={disabled?.value}
           type="button"
         >

@@ -48,6 +48,7 @@ const ToolbarTable = defineComponent({
         <button
           class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
           title={ult.value.toolbarTips?.table}
+          aria-label={ult.value.toolbarTips?.table}
           disabled={disabled?.value}
           type="button"
         >

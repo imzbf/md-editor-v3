@@ -21,6 +21,7 @@ const ToolbarPreviewOnly = defineComponent({
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.previewOnly}
+        aria-label={ult.value.toolbarTips?.previewOnly}
         disabled={disabled?.value}
         onClick={() => {
           updateSetting('previewOnly');

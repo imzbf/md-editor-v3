@@ -17,6 +17,7 @@ const ToolbarNext = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.next}
+        aria-label={ult.value.toolbarTips?.next}
         disabled={disabled?.value}
         onClick={() => {
           bus.emit(editorId, CTRL_SHIFT_Z);

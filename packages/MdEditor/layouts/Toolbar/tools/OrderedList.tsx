@@ -17,6 +17,7 @@ const ToolbarOrderedList = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.orderedList}
+        aria-label={ult.value.toolbarTips?.orderedList}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'orderedList');

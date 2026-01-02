@@ -17,6 +17,7 @@ const ToolbarUnderline = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.underline}
+        aria-label={ult.value.toolbarTips?.underline}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'underline');

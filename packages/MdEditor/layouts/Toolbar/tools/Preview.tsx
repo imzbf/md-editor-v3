@@ -20,6 +20,7 @@ const ToolbarPreview = defineComponent({
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.preview}
+        aria-label={ult.value.toolbarTips?.preview}
         disabled={disabled?.value}
         onClick={() => {
           updateSetting('preview');

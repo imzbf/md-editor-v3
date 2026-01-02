@@ -70,6 +70,7 @@ const ToolbarKatex = defineComponent({
         <button
           class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
           title={ult.value.toolbarTips?.katex}
+          aria-label={ult.value.toolbarTips?.katex}
           disabled={disabled?.value}
           type="button"
         >
