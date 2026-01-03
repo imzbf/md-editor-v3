@@ -17,6 +17,7 @@ const ToolbarQuote = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.quote}
+        aria-label={ult.value.toolbarTips?.quote}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'quote');

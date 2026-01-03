@@ -17,6 +17,7 @@ const ToolbarSup = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.sup}
+        aria-label={ult.value.toolbarTips?.sup}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'sup');

@@ -17,6 +17,7 @@ const ToolbarSub = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.sub}
+        aria-label={ult.value.toolbarTips?.sub}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'sub');

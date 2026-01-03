@@ -23,6 +23,7 @@ const ToolbarFullscreen = defineComponent({
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.fullscreen}
+        aria-label={ult.value.toolbarTips?.fullscreen}
         disabled={disabled?.value}
         onClick={() => {
           fullscreenHandler();

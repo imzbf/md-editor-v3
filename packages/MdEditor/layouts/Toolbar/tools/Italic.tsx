@@ -17,6 +17,7 @@ const ToolbarItalic = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.italic}
+        aria-label={ult.value.toolbarTips?.italic}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'italic');

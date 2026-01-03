@@ -17,6 +17,7 @@ const ToolbarBold = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.bold}
+        aria-label={ult.value.toolbarTips?.bold}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'bold');

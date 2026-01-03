@@ -17,6 +17,7 @@ const ToolbarLink = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.link}
+        aria-label={ult.value.toolbarTips?.link}
         disabled={disabled?.value}
         onClick={() => {
           eventBus.emit(editorId, REPLACE, 'link');

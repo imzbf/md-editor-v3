@@ -17,6 +17,7 @@ const ToolbarRevoke = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.revoke}
+        aria-label={ult.value.toolbarTips?.revoke}
         disabled={disabled?.value}
         onClick={() => {
           bus.emit(editorId, CTRL_Z);
