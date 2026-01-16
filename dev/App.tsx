@@ -35,6 +35,8 @@ export default defineComponent({
       { immediate: true }
     );
 
+    console.log('Lets see what this preview does')
+
     return () => (
       <div class={['app']}>
         <Header
