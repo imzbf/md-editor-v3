@@ -21,8 +21,8 @@ const EchartsPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> 
         token.attrSet('data-line', String(token.map[0]));
       }
 
-      let width = 640;
-      let height = 480;
+      let width = '100%';
+      let aspectRatio = '4 / 3';
 
       try {
         const func = new Function('return (' + code + ')')
@@ -31,8 +31,8 @@ const EchartsPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> 
           const w = cfg.grid.width;
           const h = cfg.grid.height;
           if (!!w && !!h) {
-            width = w;
-            height = h;
+            width = `${w}px`;
+            aspectRatio = `${w} / ${h}`;
           }
           delete cfg.grid;
           code = JSON.stringify(cfg);
@@ -43,7 +43,7 @@ const EchartsPlugin = (md: markdownit, options: { themeRef: ComputedRef<Themes> 
         console.error(ex);
       }
 
-      return `<div ${slf.renderAttrs(token)} style="margin: 0 auto; width: ${width}px; height: ${height}px;">${md.utils.escapeHtml(code)}</div>`;
+      return `<div ${slf.renderAttrs(token)} style="margin: 0 auto; width: ${width};  aspect-ratio: ${aspectRatio};">${md.utils.escapeHtml(code)}</div>`;
     }
 
     return temp(tokens, idx, ops, env, slf);
