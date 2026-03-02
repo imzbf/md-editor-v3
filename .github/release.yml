@@ -1,0 +1,33 @@
+changelog:
+  categories:
+    - title: Breaking Changes
+      labels:
+        - breaking-change
+        - release-blocker
+    - title: Features
+      labels:
+        - 'type: feature'
+    - title: Performance
+      labels:
+        - 'type: performance'
+    - title: Bug Fixes
+      labels:
+        - 'type: bug'
+    - title: Security
+      labels:
+        - 'type: security'
+        - 'area: xss'
+        - v4xss
+    - title: Documentation
+      labels:
+        - 'type: docs'
+    - title: Maintenance
+      labels:
+        - 'type: refactor'
+        - chore
+        - dependencies
+        - ci
+  exclude:
+    labels:
+      - skip-changelog
+      - 'type: question'

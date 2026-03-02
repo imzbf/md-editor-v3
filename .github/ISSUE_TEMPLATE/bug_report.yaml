@@ -1,5 +1,8 @@
 name: Create An Issue
 description: Describe a problem
+labels:
+  - 'type: bug'
+  - needs-triage
 body:
   - type: markdown
     attributes:

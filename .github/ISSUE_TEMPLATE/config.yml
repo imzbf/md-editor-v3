@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & Discussions
+    url: https://github.com/imzbf/md-editor-v3/discussions
+    about: Use discussions for Q&A and usage support.
+  - name: Security Vulnerability
+    url: https://github.com/imzbf/md-editor-v3/security/policy
+    about: Please report security issues responsibly.

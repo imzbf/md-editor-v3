@@ -3,34 +3,34 @@ name: Npm Beta Publish
 on:
   push:
     branches: [beta]
-  pull_request:
-    branches: [beta]
+
+permissions:
+  contents: read
 
 jobs:
   publish:
     name: Build And Publish
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
       - name: Get Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
 
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: install
+        run: yarn install --frozen-lockfile
 
       - name: Build
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: build
+        run: yarn build
 
-      - name: Publish
+      - name: Publish beta
         run: npm publish --access public --tag beta
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

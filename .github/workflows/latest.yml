@@ -5,31 +5,318 @@ on:
     tags:
       - v*
 
+permissions:
+  contents: write
+  issues: write
+
 jobs:
   publish:
-    name: Build And Publish
+    name: Build Publish And Release
     runs-on: ubuntu-latest
     steps:
-      - name: Get Node
-        uses: actions/setup-node@v4
+      - name: Checkout Code
+        uses: actions/checkout@v6
         with:
-          node-version: 20
+          fetch-depth: 0
+
+      - name: Get Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
           registry-url: https://registry.npmjs.org/
 
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: install
+        run: yarn install --frozen-lockfile
 
       - name: Build
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: build
+        run: yarn build
 
-      - name: Publish
+      - name: Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          make_latest: true
+          body: |
+            See full changelog in [`CHANGELOG.md`](https://github.com/${{ github.repository }}/blob/${{ github.event.repository.default_branch }}/CHANGELOG.md).
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update CHANGELOG.md
+        continue-on-error: true
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          if [ ! -f CHANGELOG.md ]; then
+            printf '%s\n' '<!-- next-release -->' > CHANGELOG.md
+          fi
+
+          DISPLAY_VERSION="${TAG_NAME#v}"
+
+          if grep -q "^## ${TAG_NAME} (" CHANGELOG.md || grep -q "^## ${DISPLAY_VERSION} (" CHANGELOG.md; then
+            echo "CHANGELOG already contains ${TAG_NAME}, skip update."
+            exit 0
+          fi
+
+          DATE="$(date -u +%Y-%m-%d)"
+          MARKER='<!-- next-release -->'
+          REPO_URL="https://github.com/${GITHUB_REPOSITORY}"
+
+          PREV_TAG="$(git tag --list 'v*' --sort=-creatordate | grep -Fxv "${TAG_NAME}" | head -n1 || true)"
+
+          if [ -n "${PREV_TAG}" ]; then
+            RANGE="${PREV_TAG}..${TAG_NAME}"
+            COMPARE_FROM="${PREV_TAG}"
+          else
+            ROOT_COMMIT="$(git rev-list --max-parents=0 "${TAG_NAME}" | tail -n1)"
+            RANGE="${ROOT_COMMIT}..${TAG_NAME}"
+            COMPARE_FROM="${ROOT_COMMIT}"
+          fi
+
+          COMPARE_URL="${REPO_URL}/compare/${COMPARE_FROM}...${TAG_NAME}"
+
+          FEATURES_FILE='/tmp/changelog-features.md'
+          REFACTORS_FILE='/tmp/changelog-refactors.md'
+          FIXES_FILE='/tmp/changelog-fixed-bugs.md'
+          OTHERS_FILE='/tmp/changelog-others.md'
+          : > "${FEATURES_FILE}"
+          : > "${REFACTORS_FILE}"
+          : > "${FIXES_FILE}"
+          : > "${OTHERS_FILE}"
+
+          while IFS= read -r -d '' FULL_HASH \
+            && IFS= read -r -d '' SUBJECT \
+            && IFS= read -r -d '' BODY; do
+            [ -z "${FULL_HASH:-}" ] && continue
+            FULL_HASH="$(printf '%s' "${FULL_HASH}" | tr -d '\r\n[:space:]')"
+            [ -z "${FULL_HASH}" ] && continue
+            SUBJECT="$(printf '%s' "${SUBJECT}" | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
+            [ -z "${SUBJECT}" ] && continue
+
+            # Skip auto-generated changelog commits.
+            if printf '%s' "${SUBJECT}" | grep -Eiq '^docs\(changelog\):[[:space:]]*'; then
+              continue
+            fi
+
+            # Skip plain version bump commits such as "0.3.0" or "v0.3.0-beta.1".
+            if printf '%s' "${SUBJECT}" | grep -Eq '^v?[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$'; then
+              continue
+            fi
+
+            TARGET_FILE="${OTHERS_FILE}"
+            CLEAN_SUBJECT="${SUBJECT}"
+
+            if printf '%s' "${SUBJECT}" | grep -Eiq '^feat(\([^)]*\))?(!)?:[[:space:]]*'; then
+              TARGET_FILE="${FEATURES_FILE}"
+              CLEAN_SUBJECT="$(printf '%s' "${SUBJECT}" | sed -E 's/^feat(\([^)]*\))?(!)?:[[:space:]]*//I')"
+            elif printf '%s' "${SUBJECT}" | grep -Eiq '^refactor(\([^)]*\))?(!)?:[[:space:]]*'; then
+              TARGET_FILE="${REFACTORS_FILE}"
+              CLEAN_SUBJECT="$(printf '%s' "${SUBJECT}" | sed -E 's/^refactor(\([^)]*\))?(!)?:[[:space:]]*//I')"
+            elif printf '%s' "${SUBJECT}" | grep -Eiq '^fix(\([^)]*\))?(!)?:[[:space:]]*'; then
+              TARGET_FILE="${FIXES_FILE}"
+              CLEAN_SUBJECT="$(printf '%s' "${SUBJECT}" | sed -E 's/^fix(\([^)]*\))?(!)?:[[:space:]]*//I')"
+            fi
+
+            if [ -z "${CLEAN_SUBJECT}" ]; then
+              CLEAN_SUBJECT="${SUBJECT}"
+            fi
+            CLEAN_SUBJECT="$(printf '%s' "${CLEAN_SUBJECT}" \
+              | tr '\r\n' ' ' \
+              | sed -E 's/[[:space:]]+/ /g; s/^[[:space:]]+|[[:space:]]+$//g')"
+
+            ISSUE_IDS="$(printf '%s\n%s\n' "${SUBJECT}" "${BODY}" \
+              | perl -ne 'while(/(?:^|[^A-Za-z0-9_])#([0-9]+)\b/g){print "$1\n"}' \
+              | awk '!seen[$0]++')"
+            ISSUE_SUFFIX=""
+            if [ -n "${ISSUE_IDS}" ]; then
+              ISSUE_LINKS=""
+              while IFS= read -r ISSUE_ID; do
+                [ -z "${ISSUE_ID}" ] && continue
+                if [ -n "${ISSUE_LINKS}" ]; then
+                  ISSUE_LINKS="${ISSUE_LINKS} "
+                fi
+                ISSUE_LINKS="${ISSUE_LINKS}[#${ISSUE_ID}](${REPO_URL}/issues/${ISSUE_ID})"
+              done <<< "${ISSUE_IDS}"
+
+              if [ -n "${ISSUE_LINKS}" ]; then
+                ISSUE_SUFFIX=" ${ISSUE_LINKS}"
+              fi
+            fi
+
+            SHORT_HASH="$(printf '%s' "${FULL_HASH}" | cut -c1-7)"
+            printf -- '- %s ([commit %s](%s/commit/%s))%s\n' \
+              "${CLEAN_SUBJECT}" \
+              "${SHORT_HASH}" \
+              "${REPO_URL}" \
+              "${FULL_HASH}" \
+              "${ISSUE_SUFFIX}" >> "${TARGET_FILE}"
+
+            BODY_CLEAN="$(printf '%s\n' "${BODY}" \
+              | sed 's/\r$//' \
+              | sed -E 's/^[[:space:]]+|[[:space:]]+$//g' \
+              | sed '/^[[:space:]]*$/d')"
+
+            if [ -n "${BODY_CLEAN}" ]; then
+              while IFS= read -r BODY_LINE; do
+                [ -z "${BODY_LINE}" ] && continue
+                BODY_LINE="$(printf '%s' "${BODY_LINE}" \
+                  | tr '\r\n' ' ' \
+                  | sed -E 's/[[:space:]]+/ /g; s/^[[:space:]]+|[[:space:]]+$//g')"
+                [ -z "${BODY_LINE}" ] && continue
+                if printf '%s' "${BODY_LINE}" | grep -Eiq '^(re|ref|refs|close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)[:[:space:]]*(#[0-9]+([,[:space:]]+#[0-9]+)*)$'; then
+                  continue
+                fi
+                if printf '%s' "${BODY_LINE}" | grep -Eq '^(issues?:)?[[:space:]]*(#[0-9]+([,[:space:]]+#[0-9]+)*)$'; then
+                  continue
+                fi
+                if printf '%s' "${BODY_LINE}" | grep -Eiq '^BREAKING[[:space:]]+CHANGE:'; then
+                  printf '  - **%s**\n' "${BODY_LINE}" >> "${TARGET_FILE}"
+                else
+                  printf '  - %s\n' "${BODY_LINE}" >> "${TARGET_FILE}"
+                fi
+              done <<< "${BODY_CLEAN}"
+            fi
+
+            printf '\n' >> "${TARGET_FILE}"
+          # Do not use `-z` here. The format already uses NUL separators,
+          # and combining both introduces extra empty fields that can shift parsing.
+          done < <(git log "${RANGE}" --no-merges --format='%H%x00%s%x00%b%x00' || true)
+
+          write_section() {
+            local title="$1"
+            local file="$2"
+            if [ ! -s "${file}" ]; then
+              return 1
+            fi
+            printf '### %s\n\n' "${title}"
+            cat "${file}"
+            printf '\n'
+            return 0
+          }
+
+          {
+            printf '## %s (%s)\n\n' "${DISPLAY_VERSION}" "${DATE}"
+            write_section 'Features' "${FEATURES_FILE}" || true
+            write_section 'Refactors' "${REFACTORS_FILE}" || true
+            write_section 'Fixed Bugs' "${FIXES_FILE}" || true
+            write_section 'Others' "${OTHERS_FILE}" || true
+            printf '**Full Changelog**: [%s...%s](%s)\n\n' "${COMPARE_FROM}" "${TAG_NAME}" "${COMPARE_URL}"
+            printf -- '---\n'
+          } > /tmp/release-entry.md
+
+          grep -vF "${MARKER}" CHANGELOG.md \
+            | sed '/^# Changelog$/d; /^All notable changes to this project will be documented in this file\.$/d' \
+            > /tmp/changelog-existing.raw.md || true
+          sed '/./,$!d' /tmp/changelog-existing.raw.md > /tmp/changelog-existing.md
+
+          {
+            printf '%s\n\n' "${MARKER}"
+            cat /tmp/release-entry.md
+            if [ -s /tmp/changelog-existing.md ]; then
+              printf '\n'
+              cat /tmp/changelog-existing.md
+            fi
+          } > /tmp/CHANGELOG.md
+
+          mv /tmp/CHANGELOG.md CHANGELOG.md
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+
+          if git diff --cached --quiet; then
+            echo "No changelog change to commit."
+            exit 0
+          fi
+
+          git commit -m "docs(changelog): update for ${TAG_NAME}"
+          git push origin "HEAD:${DEFAULT_BRANCH}"
+
+      - name: Notify Linked Issues
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          PREV_TAG="$(git tag --list 'v*' --sort=-creatordate | grep -Fxv "${TAG_NAME}" | head -n1 || true)"
+
+          if [ -n "${PREV_TAG}" ]; then
+            RANGE="${PREV_TAG}..${TAG_NAME}"
+          else
+            ROOT_COMMIT="$(git rev-list --max-parents=0 "${TAG_NAME}" | tail -n1)"
+            RANGE="${ROOT_COMMIT}..${TAG_NAME}"
+          fi
+
+          ISSUE_IDS="$(
+            git log "${RANGE}" --no-merges --format='%s%n%b%n' \
+              | perl -ne 'while(/(?:^|[^A-Za-z0-9_])#([0-9]+)\b/g){print "$1\n"}' \
+              | sort -n -u
+          )"
+
+          if [ -z "${ISSUE_IDS}" ]; then
+            echo "No linked issues found in commit messages."
+            exit 0
+          fi
+
+          RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
+          CHANGELOG_URL="https://github.com/${GITHUB_REPOSITORY}/blob/${DEFAULT_BRANCH}/CHANGELOG.md"
+          MARKER="<!-- release-notify:${TAG_NAME} -->"
+
+          while IFS= read -r ISSUE_ID; do
+            [ -z "${ISSUE_ID}" ] && continue
+
+            ISSUE_PAYLOAD="$(gh api "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_ID}" 2>/dev/null || true)"
+            if [ -z "${ISSUE_PAYLOAD}" ]; then
+              echo "Skip #${ISSUE_ID}: issue not found or inaccessible."
+              continue
+            fi
+
+            if printf '%s' "${ISSUE_PAYLOAD}" | jq -e '.pull_request != null' >/dev/null; then
+              echo "Skip #${ISSUE_ID}: reference is a pull request."
+              continue
+            fi
+
+            ISSUE_STATE="$(printf '%s' "${ISSUE_PAYLOAD}" | jq -r '.state // ""')"
+
+            if gh api "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_ID}/comments?per_page=100" \
+              --jq '.[] | select(.body | contains("'"${MARKER}"'")) | .id' \
+              | grep -q .; then
+              echo "Skip #${ISSUE_ID}: release notification already exists for ${TAG_NAME}."
+              continue
+            fi
+
+            COMMENT_BODY="$(printf '%s\n\n- Release: %s\n- Changelog: %s\n\n%s\n' \
+              "This issue is included in release \`${TAG_NAME}\`." \
+              "${RELEASE_URL}" \
+              "${CHANGELOG_URL}" \
+              "${MARKER}")"
+
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_ID}/comments" \
+              --method POST \
+              -f "body=${COMMENT_BODY}" >/dev/null
+
+            echo "Notified issue #${ISSUE_ID}."
+
+            if [ "${ISSUE_STATE}" = "open" ]; then
+              gh api "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_ID}" \
+                --method PATCH \
+                -f state=closed >/dev/null
+              echo "Closed issue #${ISSUE_ID}."
+            else
+              echo "Issue #${ISSUE_ID} already closed."
+            fi
+          done <<< "${ISSUE_IDS}"
