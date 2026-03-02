@@ -37,19 +37,19 @@ Inputing prompt and mark, emoji extensions
 ## 📦 Install
 
 ```shell
-yarn add md-editor-v3
+npm i md-editor-v3
 ```
 
 Use existing extension of language and theme, such as Japanese
 
 ```shell
-yarn add @vavt/cm-extension
+npm i @vavt/cm-extension
 ```
 
 Use existing components of toolbar, such as exporting content as PDF
 
 ```shell
-yarn add @vavt/v3-extension
+npm i @vavt/v3-extension
 ```
 
 For more ways to use or contribute, please refer to: [md-editor-extension](https://github.com/imzbf/md-editor-extension)

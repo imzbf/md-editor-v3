@@ -20,15 +20,14 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org/
-
-      - name: Enable Corepack
-        run: corepack enable
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
       - name: Publish beta
         run: npm publish --access public --tag beta
