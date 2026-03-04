@@ -97,3 +97,27 @@ const scrollElement = document.documentElement;
 ---
 
 更多用法请前往 [文档](https://imzbf.github.io/md-editor-v3)。
+
+## 🏁 参与贡献
+
+### 🤝 提交规范（对齐发布流水线）
+
+`.github/workflows/latest.yml` 会基于提交信息生成 `CHANGELOG.md`，协同维护时统一使用以下规范。
+
+- 格式：`<type>(<scope>)!: <summary>`
+- 推荐类型：
+  - `feat`：进入 **Features**
+  - `refactor`：进入 **Refactors**
+  - `fix`：进入 **Fixed Bugs**
+  - 其他类型：进入 **Others**
+- 不要使用纯版本号作为标题（如 `6.3.2`、`v6.3.2-beta.1`），发布脚本会忽略。
+- `docs(changelog): ...` 预留给流水线自动生成的 changelog 提交。
+- 如果在提交标题或正文写了 `#123`，发布后流水线会给该 issue 留言并自动关闭；只关联真正已在该版本解决的问题。
+
+示例：
+
+```bash
+git commit -m "feat(editor): support drag-sort toolbar items"
+git commit -m "fix(preview): sync anchor when heading id contains emoji #1234"
+git commit -m "refactor(build): simplify dts rollup pipeline"
+```
