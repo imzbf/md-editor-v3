@@ -10,12 +10,12 @@ export const defaultEditorId = 'md-editor-v3';
 export const cdnBase = 'https://unpkg.com';
 
 // 代码高亮cdn链接
-export const highlightUrl = `${cdnBase}/@highlightjs/cdn-assets@11.10.0/highlight.min.js`;
+export const highlightUrl = `${cdnBase}/@highlightjs/cdn-assets@11.11.1/highlight.min.js`;
 
 // 美化代码cdn连接
 export const prettierUrl = {
-  main: `${cdnBase}/prettier@3.3.3/standalone.js`,
-  markdown: `${cdnBase}/prettier@3.3.3/plugins/markdown.js`
+  main: `${cdnBase}/prettier@3.8.1/standalone.js`,
+  markdown: `${cdnBase}/prettier@3.8.1/plugins/markdown.js`
 };
 
 export const cropperUrl = {
@@ -25,46 +25,46 @@ export const cropperUrl = {
 
 export const screenfullUrl = `${cdnBase}/screenfull@5.2.0/dist/screenfull.js`;
 
-export const mermaidUrl = `${cdnBase}/mermaid@11.9.0/dist/mermaid.min.js`;
+export const mermaidUrl = `${cdnBase}/mermaid@11.12.3/dist/mermaid.min.js`;
 // export const mermaidUrl = `${cdnBase}/mermaid/9.4.0/mermaid.min.js`;
 
 export const katexUrl = {
-  js: `${cdnBase}/katex@0.16.22/dist/katex.min.js`,
-  css: `${cdnBase}/katex@0.16.22/dist/katex.min.css`
+  js: `${cdnBase}/katex@0.16.33/dist/katex.min.js`,
+  css: `${cdnBase}/katex@0.16.33/dist/katex.min.css`
 };
 
 export const codeCss: CodeCss = {
   a11y: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/a11y-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/a11y-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/a11y-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/a11y-dark.min.css`
   },
   atom: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/atom-one-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/atom-one-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/atom-one-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/atom-one-dark.min.css`
   },
   github: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/github.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/github-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/github.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/github-dark.min.css`
   },
   gradient: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/gradient-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/gradient-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/gradient-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/gradient-dark.min.css`
   },
   kimbie: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/kimbie-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/kimbie-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/kimbie-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/kimbie-dark.min.css`
   },
   paraiso: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/paraiso-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/paraiso-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/paraiso-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/paraiso-dark.min.css`
   },
   qtcreator: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/qtcreator-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/qtcreator-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/qtcreator-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/qtcreator-dark.min.css`
   },
   stackoverflow: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/stackoverflow-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.10.0/styles/stackoverflow-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/stackoverflow-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/stackoverflow-dark.min.css`
   }
 };
 
@@ -75,7 +75,7 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   highlight: {
     js: {
       integrity:
-        'sha384-GdEWAbCjn+ghjX0gLx7/N1hyTVmPAjdC2OvoAA0RyNcAOhqwtT8qnbCxWle2+uJX',
+        'sha384-RH2xi4eIQ/gjtbs9fUXM68sLSi99C7ZWBRX1vDrVv6GQXRibxXLbwO2NGZB74MbU',
       crossOrigin: 'anonymous'
     },
     css: {
@@ -180,12 +180,12 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   prettier: {
     standaloneJs: {
       integrity:
-        'sha384-92h6ALm8/lHpNGn6MfGlgZ+I8c/4yn/nSN8dV9ZmDxqbP9L93gk/Jj2i0LtV+AVd',
+        'sha384-Q+dEbdxfNurK4ryC0T77wU8G3EYhxdAierqqKOppGHnJ4e/85wVnMXDNWbaYYghP',
       crossOrigin: 'anonymous'
     },
     parserMarkdownJs: {
       integrity:
-        'sha384-5ufuUgoSsr/2oihBZ5d+c+yt0qaUmzLtUz41VZNJ4txtyJ6mBve3ZwuKoq/IygYX',
+        'sha384-UGdkYlLyq47VQhe9mHyNzuPhBTL9GA9YO5Vb0sXf2fnMYGuSMGAbZ8upsQj1+u4O',
       crossOrigin: 'anonymous'
     }
   },
@@ -211,19 +211,19 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   mermaid: {
     js: {
       integrity:
-        'sha384-UzWEhMP22MxNnr2bzqAdmtf1FDy5iKDUq6hLXJFLqC7dfGkc6W/hshbx9m71zyt5',
+        'sha384-jFhLSLFn4m565eRAS0CDMWubMqOtfZWWbE8kqgGdU+VHbJ3B2G/4X8u+0BM8MtdU',
       crossOrigin: 'anonymous'
     }
   },
   katex: {
     js: {
       integrity:
-        'sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6',
+        'sha384-YPHNAPyrxGS8BNnA7Q4ommqra8WQPEjooVSLzFgwgs8OXJBvadbyvx4QpfiFurGr',
       crossOrigin: 'anonymous'
     },
     css: {
       integrity:
-        'sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP',
+        'sha384-fgYS3VC1089n2J3rVcEbXDHlnDLQ9B2Y1hvpQ720q1NvxCduQqT4JoGc4u2QCnzE',
       crossOrigin: 'anonymous'
     }
   },
