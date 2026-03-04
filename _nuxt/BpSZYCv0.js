@@ -1,0 +1,1 @@
+import{h as n,aw as o,aB as r,aC as u,n as _}from"#entry";const c=n({name:"GrammarPage",__name:"index",async setup(m){let a,e;const t=o(),s=r();return[a,e]=u(()=>_({path:`/${t.lang}/syntax`,hash:s.currentRoute.value.hash})),await a,e(),()=>{}}});export{c as default};
