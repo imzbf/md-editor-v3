@@ -13,22 +13,24 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
           registry-url: https://registry.npmjs.org/
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install Dependencies
-        run: yarn install
+        run: npm ci
 
       - name: Generate Static Files
-        run: yarn generate
+        run: npm run generate
 
       - name: Publish to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.6.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: docs
           folder: .output/public
