@@ -42,7 +42,7 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
 
   rmSync(resolvePath('lib'), { recursive: true, force: true });
 
-  buildType();
+  await buildType();
 
   await Promise.all(
     entries.map(([t, entry]) => {

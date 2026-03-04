@@ -1,55 +1,35 @@
 import fs from 'fs';
 import path from 'path';
-import chalk from 'chalk';
-import { replaceTscAliasPaths } from 'tsc-alias';
-import ts from 'typescript';
+import { rollup } from 'rollup';
+import { dts } from 'rollup-plugin-dts';
 
-export const buildType = () => {
-  const configFile = 'tsconfig.build.json';
+const TSCONFIG_PATH = path.resolve('tsconfig.build.json');
+const TYPE_ENTRY = path.resolve('packages/index.ts');
+const OUTPUT_DECL_FILE = path.resolve('lib/types/index.d.ts');
 
-  const configPath = path.resolve(configFile);
-  const configFileContents = fs.readFileSync(configPath, 'utf8');
-  const config = ts.parseConfigFileTextToJson(configPath, configFileContents);
+export const buildType = async () => {
+  fs.rmSync(path.dirname(OUTPUT_DECL_FILE), { recursive: true, force: true });
+  fs.mkdirSync(path.dirname(OUTPUT_DECL_FILE), { recursive: true });
 
-  const parsedCommandLine = ts.parseJsonConfigFileContent(
-    config.config,
-    ts.sys,
-    path.dirname(configPath)
-  );
-
-  const program = ts.createProgram(
-    parsedCommandLine.fileNames,
-    parsedCommandLine.options
-  );
-
-  const emitResult = program.emit();
-
-  const allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
-
-  allDiagnostics.forEach((diagnostic) => {
-    if (diagnostic.file) {
-      const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(
-        diagnostic.start
-      );
-      const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
-      console.log(
-        chalk.red(
-          `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
-        )
-      );
-    } else {
-      console.log(
-        chalk.red(ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'))
-      );
-    }
+  const bundle = await rollup({
+    input: TYPE_ENTRY,
+    plugins: [
+      dts({
+        tsconfig: TSCONFIG_PATH
+      })
+    ]
   });
 
-  if (allDiagnostics.length > 0) {
-    process.exit(1);
+  try {
+    await bundle.write({
+      file: OUTPUT_DECL_FILE,
+      format: 'es'
+    });
+  } finally {
+    await bundle.close();
   }
 
-  // 处理别名
-  void replaceTscAliasPaths({
-    configFile: configPath
-  });
+  if (!fs.existsSync(OUTPUT_DECL_FILE)) {
+    throw new Error('Missing output file: lib/types/index.d.ts');
+  }
 };
