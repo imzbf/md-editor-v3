@@ -24,12 +24,30 @@ const useMermaid = (props: ContentPreviewProps) => {
 
   const configMermaid = () => {
     if (!props.noMermaid && mermaid) {
-      mermaid.initialize(
-        mermaidConfig({
-          startOnLoad: false,
-          theme: theme.value === 'dark' ? 'dark' : 'default'
-        })
-      );
+      const mermaidBaseConfig =
+        theme.value === 'dark'
+          ? {
+              startOnLoad: false,
+              theme: 'dark'
+            }
+          : {
+              startOnLoad: false,
+              theme: 'base',
+              themeVariables: {
+                background: '#ffffff',
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1f2329',
+                primaryBorderColor: '#b7c0cc',
+                secondaryColor: '#f7f8fa',
+                tertiaryColor: '#f7f8fa',
+                lineColor: '#596273',
+                edgeLabelBackground: '#ffffff',
+                clusterBkg: '#ffffff',
+                clusterBorder: '#b7c0cc'
+              }
+            };
+
+      mermaid.initialize(mermaidConfig(mermaidBaseConfig));
       reRenderRef.value = reRenderRef.value + 1;
     }
   };
