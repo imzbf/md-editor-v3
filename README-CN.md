@@ -110,6 +110,8 @@ const scrollElement = document.documentElement;
   - `refactor`：进入 **Refactors**
   - `fix`：进入 **Fixed Bugs**
   - 其他类型：进入 **Others**
+- 标题应描述“用户可感知的改动/修复问题”，不要只写机械动作（例如只写 `bump xxx`）。
+- 建议补充正文（对应 `git cz` 的 long description），说明动机与影响，特别是依赖升级类提交。
 - 不要使用纯版本号作为标题（如 `6.3.2`、`v6.3.2-beta.1`），发布脚本会忽略。
 - `docs(changelog): ...` 预留给流水线自动生成的 changelog 提交。
 - 如果在提交标题或正文写了 `#123`，发布后流水线会给该 issue 留言并自动关闭；只关联真正已在该版本解决的问题。
@@ -119,5 +121,6 @@ const scrollElement = document.documentElement;
 ```bash
 git commit -m "feat(editor): support drag-sort toolbar items"
 git commit -m "fix(preview): sync anchor when heading id contains emoji #1234"
+git commit -m "fix(deps): bump @vavt/markdown-theme to fix mermaid overflow"
 git commit -m "refactor(build): simplify dts rollup pipeline"
 ```

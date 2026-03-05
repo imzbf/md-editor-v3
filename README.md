@@ -113,6 +113,8 @@ The release workflow in `.github/workflows/latest.yml` reads commit messages to 
   - `refactor`: goes to **Refactors**
   - `fix`: goes to **Fixed Bugs**
   - other types: goes to **Others**
+- Subject should describe the user-visible change/problem being solved, not only the mechanical action (e.g. avoid only writing `bump xxx`).
+- Prefer adding commit body (`git cz` long description) to explain motivation and impact, especially for dependency upgrades.
 - Do not use pure version subjects like `6.3.2` or `v6.3.2-beta.1` (ignored by release parser).
 - `docs(changelog): ...` is reserved for the bot-generated changelog commit.
 - If you add `#123` in subject/body, release automation will notify and close that issue after publishing. Only reference issue numbers that are truly resolved.
@@ -122,5 +124,6 @@ Examples:
 ```bash
 git commit -m "feat(editor): support drag-sort toolbar items"
 git commit -m "fix(preview): sync anchor when heading id contains emoji #1234"
+git commit -m "fix(deps): bump @vavt/markdown-theme to fix mermaid overflow"
 git commit -m "refactor(build): simplify dts rollup pipeline"
 ```
