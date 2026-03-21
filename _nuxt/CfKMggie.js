@@ -1,4 +1,4 @@
-import{h as r,aw as d,q as m,v as s,K as l,ax as h,D as c,ay as p,S as u,az as v,c as y,a as w,b as a,o as g}from"#entry";import{_ as f}from"./VDWqeEPF.js";import{_ as k}from"./BBtYvpo3.js";import{u as x}from"./C1K6BqhZ.js";import"./9uaPzWKJ.js";import"./CaH81vPM.js";import"./Du21dRCw.js";const o=`!!! tip
+import{h as r,aw as d,q as m,v as s,K as l,ax as h,D as c,ay as p,S as u,az as v,c as y,a as w,b as a,o as g}from"#entry";import{_ as f}from"./B8hA0tRl.js";import{_ as k}from"./BBtYvpo3.js";import{u as x}from"./C1K6BqhZ.js";import"./C7y6EjaW.js";import"./CaH81vPM.js";import"./Du21dRCw.js";const o=`!!! tip
 
 When using inline syntax (such as bold, italic, etc.), if the text to be bolded contains special characters and the bold markers (like \`**\`) are immediately adjacent to other characters, be sure to add at least one space after the second marker (such as \`**\`). Otherwise, the Markdown parser may not correctly recognize the bold effect.
 
