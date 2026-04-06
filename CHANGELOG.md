@@ -1,5 +1,15 @@
 <!-- next-release -->
 
+## 6.4.1 (2026-03-21)
+
+### Fixed Bugs
+
+- bump @vavt/util to address config prototype pollution ([commit 718faa0](https://github.com/imzbf/md-editor-v3/commit/718faa0548145e4bfe653c335f276c712ee733be)) [#1016](https://github.com/imzbf/md-editor-v3/issues/1016)
+
+**Full Changelog**: [v6.4.0...v6.4.1](https://github.com/imzbf/md-editor-v3/compare/v6.4.0...v6.4.1)
+
+---
+
 ## 6.4.0 (2026-03-05)
 
 ### Features
