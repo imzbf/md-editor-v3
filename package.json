@@ -58,7 +58,6 @@
     "@vavt/copy2clipboard": "^1.0.1",
     "@vavt/util": "^2.1.2",
     "codemirror": "^6.0.2",
-    "lru-cache": "^11.2.1",
     "lucide-vue-next": "^0.543.0",
     "markdown-it": "^14.0.0",
     "markdown-it-image-figures": "^2.1.1",

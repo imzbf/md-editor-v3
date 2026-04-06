@@ -92,7 +92,6 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
             external: [
               'vue',
               'medium-zoom',
-              'lru-cache',
               'codemirror',
               'lucide-vue-next',
               /@vavt\/.*/,
