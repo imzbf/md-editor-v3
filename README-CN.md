@@ -77,7 +77,7 @@ const text = ref('# Hello Editor');
 
 ```vue
 <template>
-  <MdPreview :editorId="id" :modelValue="text" />
+  <MdPreview :id="id" :modelValue="text" />
   <MdCatalog :editorId="id" :scrollElement="scrollElement" />
 </template>
 

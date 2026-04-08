@@ -56,7 +56,7 @@ For more ways to use or contribute, please refer to: [md-editor-extension](https
 
 ## 💡 Usage
 
-When using server-side rendering, make sure to set `editorId` to a constant value.
+When using server-side rendering, make sure to set `id` to a constant value.
 
 Starting from `4.0.0`, internal components can be imported on-demand.
 
