@@ -1,5 +1,16 @@
 <!-- next-release -->
 
+## 6.4.2 (2026-04-06)
+
+### Fixed Bugs
+
+- remove lru-cache runtime dependency ([commit c07d75b](https://github.com/imzbf/md-editor-v3/commit/c07d75b3ff5ed44e20b55944f5b659855bcfce4e)) [#1018](https://github.com/imzbf/md-editor-v3/issues/1018)
+  - Replace the mermaid cache implementation with an internal TTL/LRU cache and stop externalizing lru-cache in library builds.
+
+**Full Changelog**: [v6.4.1...v6.4.2](https://github.com/imzbf/md-editor-v3/compare/v6.4.1...v6.4.2)
+
+---
+
 ## 6.4.1 (2026-03-21)
 
 ### Fixed Bugs
