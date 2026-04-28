@@ -522,6 +522,28 @@ const text = ref('');
 </script>
 ```
 
+### 📊 Echarts 配置解析
+
+\>=6.5.0 支持通过 `parseOption` 自定义 echarts 代码块的解析方法。当前版本默认仍使用 `new Function` 解析，如果希望提前按未来 v7.0.0 的计划行为约束配置内容，可以改为 `JSON.parse`。
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: {
+    echarts: {
+      parseOption(code) {
+        return JSON.parse(code);
+      },
+    },
+  },
+});
+```
+
+未来 v7.0.0 计划默认使用 `JSON.parse`。如果升级后仍需要兼容 ECharts 官方示例中的函数写法，可以自行将 `parseOption` 配置为 `new Function`。
+
+> 注意：`new Function` 会执行代码块内容，只应在内容来源可信时使用。
+
 ### 📷 图片上传
 
 默认可以选择多张图片，支持截图粘贴板上传图片，支持复制网页图片粘贴上传。

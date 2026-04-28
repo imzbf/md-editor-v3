@@ -1869,8 +1869,26 @@ export interface EditorExtensions {
     js?: string;
     css?: string;
   };
+  echarts?: {
+    instance?: any;
+    js?: string;
+    // >=6.5.0，解析 echarts 代码块内容
+    parseOption?: (
+      code: string,
+      options: {
+        editorId: string;
+        element: HTMLElement;
+      }
+    ) => any;
+  };
 }
 ```
+
+echarts 代码块内容的解析方式：
+
+- `>=6.0.0 <6.5.0`：内部使用 `new Function` 解析，不支持自定义解析方法。
+- `>=6.5.0 <7.0.0`：当前新版本默认仍使用 `new Function` 解析，同时支持通过 `editorExtensions.echarts.parseOption` 自定义解析方法。
+- `>=7.0.0`：未来版本计划默认改为 `JSON.parse` 解析，并继续保留 `editorExtensions.echarts.parseOption`；需要兼容函数写法时由用户自行配置。
 
 ---
 
@@ -1950,6 +1968,25 @@ config({
     return {
       ...base,
       strict: false,
+    };
+  },
+});
+```
+
+---
+
+### 📊 echartsConfig
+
+echarts 配置项，用于在代码块内容解析完成后调整最终传给 `setOption` 的配置。该方法不负责解析代码块内容，如需修改解析方式，请使用 `editorExtensions.echarts.parseOption`。
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  echartsConfig(base: any) {
+    return {
+      ...base,
+      backgroundColor: 'transparent',
     };
   },
 });

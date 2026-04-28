@@ -351,22 +351,24 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 \>= v6.0.0
 
+Use the `echarts` code block to render charts. \>= v6.5.0 supports customizing the parser with `parseOption`; the current version still uses `new Function` by default. A future v7.0.0 release plans to switch the default parser to `JSON.parse`, so valid JSON is recommended for new content.
+
 ```echarts
 {
-  tooltip: {
-    trigger: 'axis'
+  "tooltip": {
+    "trigger": "axis"
   },
-  xAxis: {
-    type: 'category',
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  "xAxis": {
+    "type": "category",
+    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
   },
-  yAxis: {
-    type: 'value'
+  "yAxis": {
+    "type": "value"
   },
-  series: [
+  "series": [
     {
-      data: [150, 230, 224, 218, 135, 147, 260],
-      type: 'line'
+      "data": [150, 230, 224, 218, 135, 147, 260],
+      "type": "line"
     }
   ]
 }
@@ -375,20 +377,20 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 ````markdown
 ```echarts
 {
-  tooltip: {
-    trigger: 'axis'
+  "tooltip": {
+    "trigger": "axis"
   },
-  xAxis: {
-    type: 'category',
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  "xAxis": {
+    "type": "category",
+    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
   },
-  yAxis: {
-    type: 'value'
+  "yAxis": {
+    "type": "value"
   },
-  series: [
+  "series": [
     {
-      data: [150, 230, 224, 218, 135, 147, 260],
-      type: 'line'
+      "data": [150, 230, 224, 218, 135, 147, 260],
+      "type": "line"
     }
   ]
 }
@@ -397,7 +399,7 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 !!! warning
 
-Please note that this module will not handle dangerous code, and you need to ensure the security of your data on your own!
+The current default parser executes the code block content. If the content is untrusted, use `parseOption` in \>= v6.5.0 to replace it with `JSON.parse` or another strict parser.
 
 !!!
 
