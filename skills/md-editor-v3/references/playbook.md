@@ -195,6 +195,39 @@ import 'katex/dist/katex.min.css';
 import 'cropperjs/dist/cropper.css';
 ```
 
+## 3.2 ECharts 配置解析
+
+`>=6.5.0` 支持通过 `editorExtensions.echarts.parseOption` 自定义 echarts 代码块解析。当前 `6.5.x` 默认仍用 `new Function`，如果内容来源不可信，建议在应用启动阶段改成严格解析：
+
+```ts
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: {
+    echarts: {
+      parseOption(code) {
+        return JSON.parse(code);
+      }
+    }
+  }
+});
+```
+
+未来 `7.0` 计划默认使用 `JSON.parse`。如果升级后仍要兼容 ECharts 官方示例里的函数写法，可以由业务显式配置执行型解析器，但只应在内容可信时使用：
+
+```ts
+config({
+  editorExtensions: {
+    echarts: {
+      parseOption(code) {
+        // eslint-disable-next-line no-new-func
+        return new Function(`return ${code}`)();
+      }
+    }
+  }
+});
+```
+
 ## 4. 图片上传
 
 ```vue

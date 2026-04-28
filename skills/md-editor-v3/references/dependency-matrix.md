@@ -27,7 +27,7 @@
 | 浏览器全屏 | `editorExtensions.screenfull` | 可走默认 CDN | Electron、CSP 或版本锁定时 | 只影响全屏能力 |
 | Mermaid | `editorExtensions.mermaid` | 可走默认 CDN | 图表稳定性要求高或无法访问 CDN 时 | 可通过 `enableZoom` 控制缩放 |
 | KaTeX | `editorExtensions.katex` | 可走默认 CDN | 数学公式是核心能力或需要离线时 | 还涉及样式文件 |
-| ECharts | `editorExtensions.echarts` | 可走默认 CDN | 图表页面、内网或 CSP 时 | 可用 `noEcharts` 关闭 |
+| ECharts | `editorExtensions.echarts` | 可走默认 CDN；`6.5.x` 默认用 `new Function` 解析代码块 | 图表页面、内网、CSP 或不可信内容时 | 可用 `noEcharts` 关闭；`>=6.5.0` 可用 `parseOption` 改成 `JSON.parse` |
 
 ## 3. 推荐决策顺序
 
@@ -39,4 +39,5 @@
 补充提醒：
 
 - `highlight.js`、`katex`、`cropperjs` 这类能力除了 JS 实例外，往往还需要同步引入对应 CSS。
+- ECharts 代码块如果来自不可信内容，`>=6.5.0` 优先通过 `editorExtensions.echarts.parseOption` 替换默认解析器；未来 `7.0` 计划默认改为 `JSON.parse`。
 - 如果业务已经自行管理代码高亮或公式样式，应先确认是否还需要保留 md-editor-v3 默认样式链路。
