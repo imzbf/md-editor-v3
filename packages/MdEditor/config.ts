@@ -466,7 +466,12 @@ export const globalConfig: GlobalConfig = {
       ...katexUrl
     },
     echarts: {
-      js: echartsUrl
+      js: echartsUrl,
+      parseOption: (code) => {
+        // 默认保持历史行为，允许echarts官方配置中的函数写法；不可信内容应由业务侧覆盖该解析方法。
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
+        return new Function(`return ${code}`)();
+      }
     }
   },
   editorExtensionsAttrs: {},

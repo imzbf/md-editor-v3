@@ -267,6 +267,19 @@ export interface GlobalConfig {
     echarts?: {
       instance?: any;
       js?: string;
+      /**
+       * 解析echarts代码块内容。
+       *
+       * 默认实现会使用new Function以兼容官方配置中的函数写法；当内容来源不可信时，
+       * 业务侧应通过该方法替换为更严格的解析策略。
+       */
+      parseOption?: (
+        code: string,
+        options: {
+          editorId: string;
+          element: HTMLElement;
+        }
+      ) => any;
     };
   };
 

@@ -23,7 +23,7 @@ const useEcharts = (props: ContentPreviewProps) => {
   const editorId = inject('editorId') as string;
   const theme = inject('theme') as ComputedRef<string>;
   const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
-  const { editorExtensions, editorExtensionsAttrs } = globalConfig;
+  const { editorExtensions, editorExtensionsAttrs, echartsConfig } = globalConfig;
 
   let echarts = editorExtensions.echarts!.instance;
   const reRenderEcharts = shallowRef(-1);
@@ -131,8 +131,11 @@ const useEcharts = (props: ContentPreviewProps) => {
         }
 
         try {
-          // eslint-disable-next-line @typescript-eslint/no-implied-eval
-          const options = new Function(`return ${item.innerText}`)();
+          const baseOptions = editorExtensions.echarts!.parseOption!(item.innerText, {
+            editorId,
+            element: item
+          });
+          const options = echartsConfig(baseOptions);
           const ins = echarts.init(item, theme.value);
 
           ins.setOption(options);
