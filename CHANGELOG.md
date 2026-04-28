@@ -1,5 +1,19 @@
 <!-- next-release -->
 
+## 6.5.0 (2026-04-28)
+
+### Features
+
+- allow custom option parser ([commit 9236506](https://github.com/imzbf/md-editor-v3/commit/923650670e14feca7a8986bfb623cea85975852c))
+
+### Others
+
+- docs(skill): add downstream usage skill and align id guidance ([commit ed09046](https://github.com/imzbf/md-editor-v3/commit/ed0904660163faa10bd0ca5fb85288172443db0e))
+
+**Full Changelog**: [v6.4.2...v6.5.0](https://github.com/imzbf/md-editor-v3/compare/v6.4.2...v6.5.0)
+
+---
+
 ## 6.4.2 (2026-04-06)
 
 ### Fixed Bugs
