@@ -1828,26 +1828,8 @@ export interface EditorExtensions {
     js?: string;
     css?: string;
   };
-  echarts?: {
-    instance?: any;
-    js?: string;
-    // >=6.5.0, parse echarts code block content
-    parseOption?: (
-      code: string,
-      options: {
-        editorId: string;
-        element: HTMLElement;
-      }
-    ) => any;
-  };
 }
 ```
-
-How echarts code blocks are parsed:
-
-- `>=6.0.0 <6.5.0`: parsed internally with `new Function`; custom parsers are not supported.
-- `>=6.5.0 <7.0.0`: the current new version still uses `new Function` by default, and custom parsers are supported via `editorExtensions.echarts.parseOption`.
-- `>=7.0.0`: a future version plans to use `JSON.parse` by default. `editorExtensions.echarts.parseOption` will remain available, so users can explicitly configure a parser when function expressions are needed.
 
 ---
 
@@ -1927,25 +1909,6 @@ config({
     return {
       ...base,
       strict: false,
-    };
-  },
-});
-```
-
----
-
-### 📊 echartsConfig
-
-Configure `echarts`. This hook receives the parsed code block option and lets you adjust the final option passed to `setOption`. It does not parse the code block content; use `editorExtensions.echarts.parseOption` if you need to change parsing.
-
-```js
-import { config } from 'md-editor-v3';
-
-config({
-  echartsConfig(base: any) {
-    return {
-      ...base,
-      backgroundColor: 'transparent',
     };
   },
 });

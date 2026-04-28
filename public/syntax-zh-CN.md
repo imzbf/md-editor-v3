@@ -351,24 +351,22 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 \>= v6.0.0
 
-使用 `echarts` 代码块渲染图表。\>= v6.5.0 可以通过 `parseOption` 自定义配置解析方法；当前版本默认仍使用 `new Function` 解析。未来 v7.0.0 计划默认改为 `JSON.parse`，因此建议新内容尽量使用合法 JSON。
-
 ```echarts
 {
-  "tooltip": {
-    "trigger": "axis"
+  tooltip: {
+    trigger: 'axis'
   },
-  "xAxis": {
-    "type": "category",
-    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   },
-  "yAxis": {
-    "type": "value"
+  yAxis: {
+    type: 'value'
   },
-  "series": [
+  series: [
     {
-      "data": [150, 230, 224, 218, 135, 147, 260],
-      "type": "line"
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line'
     }
   ]
 }
@@ -377,20 +375,20 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 ````markdown
 ```echarts
 {
-  "tooltip": {
-    "trigger": "axis"
+  tooltip: {
+    trigger: 'axis'
   },
-  "xAxis": {
-    "type": "category",
-    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   },
-  "yAxis": {
-    "type": "value"
+  yAxis: {
+    type: 'value'
   },
-  "series": [
+  series: [
     {
-      "data": [150, 230, 224, 218, 135, 147, 260],
-      "type": "line"
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line'
     }
   ]
 }
@@ -399,7 +397,7 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 !!! warning
 
-当前默认解析方式会执行代码块内容；如果内容来源不可信，建议在 \>= v6.5.0 中通过 `parseOption` 替换为 `JSON.parse` 或其他严格解析方法。
+请注意，该模块不会处理危险的代码，你需要自行保证数据的安全！
 
 !!!
 

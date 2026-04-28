@@ -520,28 +520,6 @@ const text = ref('');
 </script>
 ```
 
-### 📊 Echarts Option Parser
-
-\>=6.5.0 supports customizing echarts code block parsing with `parseOption`. The current version still uses `new Function` by default. If you want to follow the planned v7.0.0 behavior early, switch parsing to `JSON.parse`.
-
-```js
-import { config } from 'md-editor-v3';
-
-config({
-  editorExtensions: {
-    echarts: {
-      parseOption(code) {
-        return JSON.parse(code);
-      },
-    },
-  },
-});
-```
-
-v7.0.0 plans to use `JSON.parse` by default. After upgrading, if you still need to support function expressions from ECharts official examples, configure `parseOption` with `new Function` explicitly.
-
-> Note: `new Function` executes the code block content. Use it only when the content is trusted.
-
 ### 📷 Upload Pictures
 
 By default, you can select multiple pictures. You can paste and upload screenshots and copy web page pictures.
