@@ -184,6 +184,7 @@ const Editor = defineComponent({
             catalogLayout={props.catalogLayout}
             catalogMaxDepth={props.catalogMaxDepth}
             noEcharts={props.noEcharts}
+            noGeogebra={props.noGeogebra}
             previewComponent={props.previewComponent}
           />
           {props.footers.length > 0 && (

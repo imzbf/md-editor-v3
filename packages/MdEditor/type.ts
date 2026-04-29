@@ -18,6 +18,7 @@ declare global {
     mermaid: any;
     katex: any;
     echarts: any;
+    GGBApplet: any;
   }
 }
 
@@ -281,6 +282,23 @@ export interface GlobalConfig {
         }
       ) => any;
     };
+    geogebra?: {
+      instance?: any;
+      js?: string;
+      /**
+       * 解析geogebra代码块内容。
+       *
+       * 默认实现使用JSON.parse解析纯配置数据；如果需要兼容对象字面量或其他格式，
+       * 业务侧可以通过该方法替换解析策略。
+       */
+      parseOption?: (
+        code: string,
+        options: {
+          editorId: string;
+          element: HTMLElement;
+        }
+      ) => any;
+    };
   };
 
   /**
@@ -313,6 +331,9 @@ export interface GlobalConfig {
       css?: Partial<HTMLElementTagNameMap['link']>;
     };
     echarts?: {
+      js?: Partial<HTMLElementTagNameMap['script']>;
+    };
+    geogebra?: {
       js?: Partial<HTMLElementTagNameMap['script']>;
     };
   };
@@ -394,6 +415,12 @@ export interface GlobalConfig {
    * @returns
    */
   echartsConfig: (base: any) => any;
+  /**
+   * geogebra配置
+   *
+   * @returns
+   */
+  geogebraConfig: (base: any) => any;
 }
 
 /**
@@ -405,7 +432,14 @@ export type Config = (options: Partial<GlobalConfig>) => void;
  * 编辑器操作潜在的错误
  */
 export interface InnerError {
-  name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid';
+  name:
+    | 'Cropper'
+    | 'fullscreen'
+    | 'prettier'
+    | 'overlength'
+    | 'mermaid'
+    | 'echarts'
+    | 'geogebra';
   message: string;
   data?: any;
   error?: Error;

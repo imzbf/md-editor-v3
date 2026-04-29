@@ -20,7 +20,7 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 - Upload picture, paste or clip the picture and upload it.
 - Render article directly(no editor, no event listener, only preview of content).
 - Theme of preview, `default`, `vuepress`, `github`, `cyanosis`, `mk-cute`, `smart-blue` styles(not identical). It can be customized also(Refer to example page).
-- `mermaid`(>=1.8.0), `katex` mathematical formula(>=1.9.0).
+- `mermaid`(>=1.8.0), `katex` mathematical formula(>=1.9.0), `echarts`, `geogebra`.
 - Customize the toolbar as you like.
 - On-demand Import(>=4.0.0).
 

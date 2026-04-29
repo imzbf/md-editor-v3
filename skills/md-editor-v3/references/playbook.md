@@ -228,6 +228,22 @@ config({
 });
 ```
 
+## 3.3 GeoGebra 配置解析
+
+GeoGebra 使用 `geogebra` 代码块，代码块内容默认按 JSON 解析为 `GGBApplet` 参数：
+
+````md
+```geogebra
+{
+  "appName": "graphing",
+  "showAlgebraInput": true,
+  "commands": ["f(x)=sin(x)", "g(x)=cos(x)"]
+}
+```
+````
+
+如果业务需要支持对象字面量或其他格式，可以在应用启动阶段显式替换解析策略。
+
 ## 4. 图片上传
 
 ```vue

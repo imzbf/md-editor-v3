@@ -102,6 +102,7 @@
 - `noHighlight`
 - `noImgZoomIn`
 - `noEcharts`
+- `noGeogebra`
 
 图片与拖拽：
 
@@ -250,6 +251,8 @@ ref API 只有：
   - 传入本地实例或 CDN 地址
   - `editorExtensions.echarts.parseOption(code, { editorId, element })`
     - `>=6.5.0` 支持；用于自定义 echarts 代码块内容解析
+  - `editorExtensions.geogebra.parseOption(code, { editorId, element })`
+    - 用于自定义 geogebra 代码块内容解析
 - `editorExtensionsAttrs`
   - 为注入的 script/link 补充 `integrity`、`crossOrigin` 等属性
 - `editorConfig`
@@ -266,6 +269,8 @@ ref API 只有：
 - `mermaidConfig(base)`
 - `katexConfig(base)`
 - `echartsConfig(base)`
+  - 只处理解析后的 option，不负责解析代码块文本
+- `geogebraConfig(base)`
   - 只处理解析后的 option，不负责解析代码块文本
 
 细节：

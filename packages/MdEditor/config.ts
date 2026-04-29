@@ -70,6 +70,8 @@ export const codeCss: CodeCss = {
 
 export const echartsUrl = `${cdnBase}/echarts@6.0.0/dist/echarts.min.js`;
 
+export const geogebraUrl = 'https://www.geogebra.org/apps/deployggb.js';
+
 // 当前版本的值
 export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   highlight: {
@@ -233,6 +235,9 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
         'sha384-F07Cpw5v8spSU0H113F33m2NQQ/o6GqPTnTjf45ssG4Q6q58ZwhxBiQtIaqvnSpR',
       crossOrigin: 'anonymous'
     }
+  },
+  geogebra: {
+    js: {}
   }
 };
 
@@ -472,6 +477,12 @@ export const globalConfig: GlobalConfig = {
         // eslint-disable-next-line @typescript-eslint/no-implied-eval
         return new Function(`return ${code}`)();
       }
+    },
+    geogebra: {
+      js: geogebraUrl,
+      parseOption: (code) => {
+        return JSON.parse(code);
+      }
     }
   },
   editorExtensionsAttrs: {},
@@ -486,7 +497,8 @@ export const globalConfig: GlobalConfig = {
   markdownItPlugins: (s) => s,
   mermaidConfig: (c) => c,
   katexConfig: (c) => c,
-  echartsConfig: (c) => c
+  echartsConfig: (c) => c,
+  geogebraConfig: (c) => c
 };
 
 export const config: Config = (option) => {

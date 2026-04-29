@@ -119,6 +119,7 @@ export default defineComponent({
                 onRemount={props.onRemount}
                 previewComponent={props.previewComponent}
                 noEcharts={props.noEcharts}
+                noGeogebra={props.noGeogebra}
               />
             </CustomScrollbar>
           </div>

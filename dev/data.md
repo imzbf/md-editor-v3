@@ -92,6 +92,15 @@ flowchart TD
 }
 ```
 
+```geogebra
+{
+  "appName": "graphing",
+  "showToolBar": false,
+  "showAlgebraInput": true,
+  "commands": ["f(x)=sin(x)", "g(x)=cos(x)"]
+}
+```
+
 ## 7. 占个坑@！
 
 !!! note

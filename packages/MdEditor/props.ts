@@ -254,6 +254,13 @@ export const mdPreviewProps = {
     type: Boolean as PropType<boolean>,
     default: false
   },
+  /**
+   * 不使用 geogebra
+   */
+  noGeogebra: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
   previewComponent: {
     type: [Object, Function] as PropType<Component>,
     default: undefined

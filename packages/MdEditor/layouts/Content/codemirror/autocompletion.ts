@@ -85,7 +85,8 @@ export const createAutocompletion = (
           ['`', ''],
           ['```', 'language'],
           ['```mermaid\n', ''],
-          ['```echarts\n', '']
+          ['```echarts\n', ''],
+          ['```geogebra\n', '']
         ].map((c) => {
           return {
             label: `${c[0]}${c[1]}`,

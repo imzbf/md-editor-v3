@@ -69,6 +69,9 @@ export const contentPreviewProps = {
   noEcharts: {
     type: Boolean as PropType<boolean>
   },
+  noGeogebra: {
+    type: Boolean as PropType<boolean>
+  },
   previewComponent: {
     type: [Object, Function] as PropType<Component>,
     default: undefined

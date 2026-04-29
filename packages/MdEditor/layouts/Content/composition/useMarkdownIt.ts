@@ -34,6 +34,7 @@ import { zoomMermaid, copyMermaid } from '~/utils/dom';
 import bus from '~/utils/event-bus';
 
 import useEcharts from './useEcharts';
+import useGeogebra from './useGeogebra';
 import useHighlight from './useHighlight';
 import useKatex from './useKatex';
 import useMermaid from './useMermaid';
@@ -42,6 +43,7 @@ import { ContentPreviewProps } from '../ContentPreview';
 import AdmonitionPlugin from '../markdownIt/admonition';
 import CodePlugin from '../markdownIt/code';
 import EchartsPlugin from '../markdownIt/echarts';
+import GeogebraPlugin from '../markdownIt/geogebra';
 import HeadingPlugin from '../markdownIt/heading';
 import KatexPlugin from '../markdownIt/katex';
 import MermaidPlugin from '../markdownIt/mermaid';
@@ -82,6 +84,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const katexRef = useKatex(props);
   const { reRenderRef, replaceMermaid } = useMermaid(props);
   const { reRenderEcharts, replaceEcharts } = useEcharts(props);
+  const { reRenderGeogebra, replaceGeogebra } = useGeogebra(props);
 
   const md = mdit({
     html: true,
@@ -160,6 +163,14 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       type: 'echarts',
       plugin: EchartsPlugin,
       options: { themeRef }
+    });
+  }
+
+  if (!props.noGeogebra) {
+    plugins.push({
+      type: 'geogebra',
+      plugin: GeogebraPlugin,
+      options: {}
     });
   }
 
@@ -255,6 +266,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       void replaceMermaid().then(handleMermaidActions);
 
       void replaceEcharts();
+
+      void replaceGeogebra();
     });
   };
 
@@ -297,13 +310,15 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
           void replaceEcharts();
 
+          void replaceGeogebra();
+
           bus.emit(editorId, CATALOG_CHANGED, headsRef.value);
         });
       }
     }
   );
 
-  watch([html, reRenderEcharts], () => {
+  watch([html, reRenderEcharts, reRenderGeogebra], () => {
     updatedTodo();
   });
 

@@ -89,6 +89,7 @@ const MdPreview = defineComponent({
             autoFoldThreshold={props.autoFoldThreshold}
             onRemount={handleRemount}
             noEcharts={props.noEcharts}
+            noGeogebra={props.noGeogebra}
             previewComponent={props.previewComponent}
           />
         </div>

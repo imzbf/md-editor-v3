@@ -1,6 +1,6 @@
 ---
 name: md-editor-v3
-description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 3、Nuxt、Electron 或 Web Component 项目中接入 MdEditor、MdPreview、MdCatalog，给 md-editor-v3 增加图片上传、目录联动、自定义工具栏、主题/语言、markdown-it 与 CodeMirror 扩展、config() 全局依赖替换，以及处理 SSR、样式、MdCatalog 滚动、高亮/公式/mermaid/echarts、本地实例替代 CDN、XSS 与副作用等常见问题。
+description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 3、Nuxt、Electron 或 Web Component 项目中接入 MdEditor、MdPreview、MdCatalog，给 md-editor-v3 增加图片上传、目录联动、自定义工具栏、主题/语言、markdown-it 与 CodeMirror 扩展、config() 全局依赖替换，以及处理 SSR、样式、MdCatalog 滚动、高亮/公式/mermaid/echarts/geogebra、本地实例替代 CDN、XSS 与副作用等常见问题。
 ---
 
 # md-editor-v3
@@ -14,7 +14,7 @@ description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 
 - 帮我在 Vue 3 / Nuxt 项目里接入 `md-editor-v3`
 - 帮我把 `MdPreview` 和 `MdCatalog` 接到文章详情页
 - 给 `md-editor-v3` 加图片上传或自定义工具栏
-- 用 `config()` 把 `highlight.js` / `katex` / `mermaid` / `echarts` 改成本地实例或自定义解析策略
+- 用 `config()` 把 `highlight.js` / `katex` / `mermaid` / `echarts` / `geogebra` 改成本地实例或自定义解析策略
 - 排查 `MdCatalog` 不跟随滚动、SSR 报错、样式不对、保存时 HTML 不更新
 
 ## 先按任务找文档
@@ -28,7 +28,7 @@ description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 
 - 想扩展 markdown-it：看 `references/playbook.md#8-扩展-markdown-it-插件链`
 - 想扩展 CodeMirror：看 `references/playbook.md#9-扩展-codemirror`
 - 想确认某个功能依赖什么库、是否建议本地注入：看 `references/dependency-matrix.md`
-- 想调整 ECharts 代码块解析方式：看 `references/api.md#7-config-全局配置` 和 `references/playbook.md#32-echarts-配置解析`
+- 想调整 ECharts / GeoGebra 代码块解析方式：看 `references/api.md#7-config-全局配置`、`references/playbook.md#32-echarts-配置解析` 和 `references/playbook.md#33-geogebra-配置解析`
 - 遇到 SSR、目录滚动、旧 API、样式或安全问题：看 `references/pitfalls.md`
 - 想理解实现机制或需要深度排障：看 `references/architecture.md`
 
@@ -81,6 +81,7 @@ description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 
 - 把 `config()` 当作全局单例初始化，而不是组件局部状态。
 - 面向用户输入时主动处理 HTML/XSS 风险；默认 markdown-it 允许 `html: true`。
 - ECharts 解析策略要按版本区分：`<6.5.0` 不支持 `parseOption`；`6.5.x` 默认仍用 `new Function`，可通过 `editorExtensions.echarts.parseOption` 改成 `JSON.parse`；未来 `7.0` 计划默认改为 `JSON.parse`，需要函数写法时再由业务显式配置。
+- GeoGebra 默认使用 `JSON.parse` 解析纯配置数据；如果业务需要对象字面量或其他格式，可通过 `editorExtensions.geogebra.parseOption` 显式替换解析策略。
 
 ## 先核对安装版本，再决定是否深挖源码
 
