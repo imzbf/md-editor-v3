@@ -94,7 +94,7 @@ const resolvePath = (p: string) => path.resolve(__dirname, p);
               'vue',
               'medium-zoom',
               'codemirror',
-              'lucide-vue-next',
+              '@lucide/vue',
               /@vavt\/.*/,
               /@codemirror\/.*/,
               /@lezer\/.*/,
