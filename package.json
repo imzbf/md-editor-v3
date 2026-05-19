@@ -80,7 +80,6 @@
     "@vitejs/plugin-vue-jsx": "^5.1.1",
     "@vue/eslint-config-prettier": "^10.0.0",
     "@vue/eslint-config-typescript": "^14.6.0",
-    "axios": "^1.11.0",
     "cropperjs": "^1.6.2",
     "echarts": "^6.0.0",
     "eslint": "^9.35.0",
