@@ -38,8 +38,8 @@
     "**/*.css"
   ],
   "scripts": {
-    "dev": "tsx ./scripts/dev",
-    "build": "tsx ./scripts/build",
+    "dev": "node ./scripts/dev.ts",
+    "build": "node ./scripts/build.ts",
     "lint": "eslint --ext .ts,.tsx,.vue --fix packages",
     "lint-staged": "lint-staged",
     "prepare": "husky"
@@ -98,7 +98,6 @@
     "prettier": "^3.6.2",
     "rollup-plugin-dts": "^6.3.0",
     "screenfull": "^6.0.2",
-    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.43.0",
     "vite": "^7.1.5",

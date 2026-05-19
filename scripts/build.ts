@@ -3,8 +3,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import { build, LibraryFormats } from 'vite';
-import { buildType } from './build.type';
+import { build } from 'vite';
+import type { LibraryFormats } from 'vite';
+import { buildType } from './build.type.ts';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const resolvePath = (p: string) => path.resolve(__dirname, p);
