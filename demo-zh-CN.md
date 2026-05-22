@@ -20,7 +20,7 @@
           "medium-zoom": "https://esm.sh/medium-zoom",
           "lru-cache": "https://esm.sh/lru-cache",
           "codemirror": "https://esm.sh/codemirror",
-          "lucide-vue-next": "https://esm.sh/lucide-vue-next",
+          "@lucide/": "https://esm.sh/@lucide/",
           "@vavt/": "https://esm.sh/@vavt/",
           "@codemirror/": "https://esm.sh/@codemirror/",
           "@lezer/": "https://esm.sh/@lezer/",
@@ -381,7 +381,6 @@ const state = reactive({
   ```
 
 - 自定义
-
   1. 先以`xxx-theme`为类名，定义你的主题`css`，xxx 是主题名称，具体的内容参考[markdown-theme](https://github.com/imzbf/markdown-theme)
 
   _xxx.css_
@@ -430,7 +429,6 @@ const state = reactive({
   ```
 
 - 自定义
-
   1. 找到你喜欢的代码主题，最好支持暗夜模式
 
   ```js
@@ -454,9 +452,7 @@ const state = reactive({
   });
   ```
 
-  你可以通过将`css`的`key`设置为内置名称来覆盖内置的链接。
-
-  2. 设置`codeTheme`
+  你可以通过将`css`的`key`设置为内置名称来覆盖内置的链接。2. 设置`codeTheme`
 
   ```vue
   <template>
@@ -557,7 +553,7 @@ const onUploadImg = async (files, callback) => {
           .then((res) => rev(res))
           .catch((error) => rej(error));
       });
-    })
+    }),
   );
 
   callback(res.map((item) => item.data.url));

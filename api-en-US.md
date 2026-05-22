@@ -87,7 +87,6 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
   Preview themes.
 
   Custom:
-
   1. Write css
 
   ```css
@@ -149,7 +148,6 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
   Highlight code css name. Get Them from `highlight.js`.
 
   Custom:
-
   1. Config `editorExtensions`
 
   ```js
@@ -837,7 +835,7 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
 
   <script setup>
   import { NormalToolbar } from 'md-editor-v3';
-  import { BookMarked } from 'lucide-vue-next';
+  import { BookMarked } from '@lucide/vue';
   const handler = () => {
     console.log('NormalToolbar clicked!');
   };
@@ -874,7 +872,7 @@ Custom toolbar in `DropdownToolbar`, `NormalToolbar` or `ModalToolbar`.
   ```jsx
   import { defineComponent } from 'vue';
   import { NormalToolbar } from 'md-editor-v3';
-  import { BookMarked } from 'lucide-vue-next';
+  import { BookMarked } from '@lucide/vue';
 
   export default defineComponent({
     setup() {
@@ -1043,7 +1041,7 @@ Except for the same as `MdPreview`:
             .then((res) => rev(res))
             .catch((error) => rej(error));
         });
-      })
+      }),
     );
 
     // Approach 1
@@ -1466,7 +1464,7 @@ type CodeMirrorExtensions = (
     editorId: string;
     theme: Themes;
     keyBindings: Array<KeyBinding>;
-  }
+  },
 ) => Array<CodeMirrorExtension>;
 ```
 
@@ -1547,7 +1545,7 @@ type MarkdownItConfig = (
   md: markdownit,
   options: {
     editorId: string;
-  }
+  },
 ) => void;
 ```
 
@@ -1577,7 +1575,7 @@ type MarkdownItPlugins = (
   plugins: Array<MarkdownItConfigPlugin>,
   options: {
     editorId: string;
-  }
+  },
 ) => Array<MarkdownItConfigPlugin>;
 ```
 
@@ -2042,15 +2040,12 @@ const footers = [0];
 ### 🐣 NormalToolbar
 
 - **props**
-
   - **title**: `string`, optional, title of toolbar.
 
 - **events**
-
   - **onClick**: `(e: MouseEvent) => void`, required.
 
 - **slots**
-
   - **default**: `any`, optional, it is usually an icon, which is displayed on the toolbar.
   - ~~**trigger**~~: `string | VNode`, optional, deprecated, as above.
 
@@ -2128,16 +2123,13 @@ const toolbars = ['bold', 0, 'github'];
 ### 🐼 DropdownToolbar
 
 - **props**
-
   - **title**: `string`, optional, title of toolbar.
   - **visible**: `boolean`, required.
 
 - **events**
-
   - **onChange**: `(visible: boolean) => void`, required.
 
 - **slots**
-
   - **default**: `any`, optional, it is usually an icon, which is displayed on the toolbar.
   - ~~**trigger**~~: `string | VNode`, optional, deprecated, as above.
   - **overlay**: `string | VNode`, required, content of dropdown box.
@@ -2229,7 +2221,6 @@ const toolbars = ['bold', 0, 'github'];
 ### 🦉 ModalToolbar
 
 - **props**
-
   - **title**: `string`, optional, title of toolbar.
   - **visible**: `boolean`, required, visibility of Modal.
   - **width**: `string`, optional, width of Modal, default `auto`.
@@ -2241,13 +2232,11 @@ const toolbars = ['bold', 0, 'github'];
   - **showMask**: `boolean`, `^4.16.8`, optional, whether to display the mask layer, default `true`.
 
 - **events**
-
   - **onClick**: `() => void`, required.
   - **onClose**: `() => void`, required, close event.
   - **onAdjust**: `(val: boolean) => void`, fullscreen button click event.
 
 - **slots**
-
   - **modalTitle**: `string | VNode`, optional, title of the Modal.
   - **trigger**: `string | VNode`, required, it is usually an icon, which is displayed on the toolbar.
   - **default**: `any`, optional, content of Modal.
@@ -2343,7 +2332,6 @@ const toolbars = ['bold', 0, 'github'];
 ### 🐻 MdCatalog
 
 - **props**
-
   - **editorId**: `string`, required, editor's `id`, used to register listening events.
   - **class**: `string`, optional.
   - **mdHeadingId**: `mdHeadingId`, optional, same as editor.
@@ -2354,7 +2342,6 @@ const toolbars = ['bold', 0, 'github'];
   - **catalogMaxDepth**: `number`, `^5.5.0`, optional, controls the maximum depth of the catalog to be displayed.
 
 - **events**
-
   - **onClick**: `(e: MouseEvent, t: TocItem) => void`, optional.
   - **onActive**: `(heading: HeadList | undefined) => void`, optional, heading was highlighted.
 
@@ -2387,7 +2374,6 @@ const scrollElement = document.documentElement;
 It is usually used in conjunction with `DropdownToolbar`.
 
 - **props**
-
   - **visible**: `boolean`, required, visibility of Modal.
   - **width**: `string`, optional, width of Modal, default `auto`.
   - **height**: `string`, same as `width`.
@@ -2398,12 +2384,10 @@ It is usually used in conjunction with `DropdownToolbar`.
   - **showMask**: `boolean`, `^4.16.8`, optional, whether to display the mask layer, default `true`.
 
 - **events**
-
   - **onClose**: `() => void`, required, close event.
   - **onAdjust**: `(val: boolean) => void`, fullscreen button click event.
 
 - **slots**
-
   - **title**: `string | VNode`, optional, title of Modal.
   - **default**: `any`, optional, content of Modal.
 
@@ -2450,11 +2434,9 @@ const onChange = (_visible: boolean) => {
 ### 🛸 NormalFooterToolbar
 
 - **events**
-
   - **onClick**: `(e: MouseEvent) => void`, optional, toolbar was clicked.
 
 - **slots**
-
   - **default**: `any`, required, content.
 
 ```vue

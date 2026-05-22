@@ -87,7 +87,6 @@ This is the props of \`MdPreview\`, which is also part of \`MdEditor\`:
   Preview themes.
 
   Custom:
-
   1. Write css
 
   \`\`\`css
@@ -149,7 +148,6 @@ This is the props of \`MdPreview\`, which is also part of \`MdEditor\`:
   Highlight code css name. Get Them from \`highlight.js\`.
 
   Custom:
-
   1. Config \`editorExtensions\`
 
   \`\`\`js
@@ -837,7 +835,7 @@ Custom toolbar in \`DropdownToolbar\`, \`NormalToolbar\` or \`ModalToolbar\`.
 
   <script setup>
   import { NormalToolbar } from 'md-editor-v3';
-  import { BookMarked } from 'lucide-vue-next';
+  import { BookMarked } from '@lucide/vue';
   const handler = () => {
     console.log('NormalToolbar clicked!');
   };
@@ -874,7 +872,7 @@ Custom toolbar in \`DropdownToolbar\`, \`NormalToolbar\` or \`ModalToolbar\`.
   \`\`\`jsx
   import { defineComponent } from 'vue';
   import { NormalToolbar } from 'md-editor-v3';
-  import { BookMarked } from 'lucide-vue-next';
+  import { BookMarked } from '@lucide/vue';
 
   export default defineComponent({
     setup() {
@@ -1043,7 +1041,7 @@ Except for the same as \`MdPreview\`:
             .then((res) => rev(res))
             .catch((error) => rej(error));
         });
-      })
+      }),
     );
 
     // Approach 1
@@ -1466,7 +1464,7 @@ type CodeMirrorExtensions = (
     editorId: string;
     theme: Themes;
     keyBindings: Array<KeyBinding>;
-  }
+  },
 ) => Array<CodeMirrorExtension>;
 \`\`\`
 
@@ -1547,7 +1545,7 @@ type MarkdownItConfig = (
   md: markdownit,
   options: {
     editorId: string;
-  }
+  },
 ) => void;
 \`\`\`
 
@@ -1577,7 +1575,7 @@ type MarkdownItPlugins = (
   plugins: Array<MarkdownItConfigPlugin>,
   options: {
     editorId: string;
-  }
+  },
 ) => Array<MarkdownItConfigPlugin>;
 \`\`\`
 
@@ -2042,15 +2040,12 @@ const footers = [0];
 ### 🐣 NormalToolbar
 
 - **props**
-
   - **title**: \`string\`, optional, title of toolbar.
 
 - **events**
-
   - **onClick**: \`(e: MouseEvent) => void\`, required.
 
 - **slots**
-
   - **default**: \`any\`, optional, it is usually an icon, which is displayed on the toolbar.
   - ~~**trigger**~~: \`string | VNode\`, optional, deprecated, as above.
 
@@ -2128,16 +2123,13 @@ const toolbars = ['bold', 0, 'github'];
 ### 🐼 DropdownToolbar
 
 - **props**
-
   - **title**: \`string\`, optional, title of toolbar.
   - **visible**: \`boolean\`, required.
 
 - **events**
-
   - **onChange**: \`(visible: boolean) => void\`, required.
 
 - **slots**
-
   - **default**: \`any\`, optional, it is usually an icon, which is displayed on the toolbar.
   - ~~**trigger**~~: \`string | VNode\`, optional, deprecated, as above.
   - **overlay**: \`string | VNode\`, required, content of dropdown box.
@@ -2229,7 +2221,6 @@ const toolbars = ['bold', 0, 'github'];
 ### 🦉 ModalToolbar
 
 - **props**
-
   - **title**: \`string\`, optional, title of toolbar.
   - **visible**: \`boolean\`, required, visibility of Modal.
   - **width**: \`string\`, optional, width of Modal, default \`auto\`.
@@ -2241,13 +2232,11 @@ const toolbars = ['bold', 0, 'github'];
   - **showMask**: \`boolean\`, \`^4.16.8\`, optional, whether to display the mask layer, default \`true\`.
 
 - **events**
-
   - **onClick**: \`() => void\`, required.
   - **onClose**: \`() => void\`, required, close event.
   - **onAdjust**: \`(val: boolean) => void\`, fullscreen button click event.
 
 - **slots**
-
   - **modalTitle**: \`string | VNode\`, optional, title of the Modal.
   - **trigger**: \`string | VNode\`, required, it is usually an icon, which is displayed on the toolbar.
   - **default**: \`any\`, optional, content of Modal.
@@ -2343,7 +2332,6 @@ const toolbars = ['bold', 0, 'github'];
 ### 🐻 MdCatalog
 
 - **props**
-
   - **editorId**: \`string\`, required, editor's \`id\`, used to register listening events.
   - **class**: \`string\`, optional.
   - **mdHeadingId**: \`mdHeadingId\`, optional, same as editor.
@@ -2354,7 +2342,6 @@ const toolbars = ['bold', 0, 'github'];
   - **catalogMaxDepth**: \`number\`, \`^5.5.0\`, optional, controls the maximum depth of the catalog to be displayed.
 
 - **events**
-
   - **onClick**: \`(e: MouseEvent, t: TocItem) => void\`, optional.
   - **onActive**: \`(heading: HeadList | undefined) => void\`, optional, heading was highlighted.
 
@@ -2387,7 +2374,6 @@ const scrollElement = document.documentElement;
 It is usually used in conjunction with \`DropdownToolbar\`.
 
 - **props**
-
   - **visible**: \`boolean\`, required, visibility of Modal.
   - **width**: \`string\`, optional, width of Modal, default \`auto\`.
   - **height**: \`string\`, same as \`width\`.
@@ -2398,12 +2384,10 @@ It is usually used in conjunction with \`DropdownToolbar\`.
   - **showMask**: \`boolean\`, \`^4.16.8\`, optional, whether to display the mask layer, default \`true\`.
 
 - **events**
-
   - **onClose**: \`() => void\`, required, close event.
   - **onAdjust**: \`(val: boolean) => void\`, fullscreen button click event.
 
 - **slots**
-
   - **title**: \`string | VNode\`, optional, title of Modal.
   - **default**: \`any\`, optional, content of Modal.
 
@@ -2450,11 +2434,9 @@ const onChange = (_visible: boolean) => {
 ### 🛸 NormalFooterToolbar
 
 - **events**
-
   - **onClick**: \`(e: MouseEvent) => void\`, optional, toolbar was clicked.
 
 - **slots**
-
   - **default**: \`any\`, required, content.
 
 \`\`\`vue
@@ -2612,7 +2594,6 @@ Example: [Add XSS extension](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0
   预览内容主题，支持自定义。
 
   主题自定义方式：
-
   1. 编辑 css
 
   \`\`\`css
@@ -2674,7 +2655,6 @@ Example: [Add XSS extension](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0
   代码块高亮样式名称。
 
   你可以添加自己的样式，把该属性设置为你想要的即可，方式如下：
-
   1. 配置样式链接
 
   \`\`\`js
@@ -3369,7 +3349,7 @@ defineProps<{
 
   <script setup>
   import { NormalToolbar } from 'md-editor-v3';
-  import { BookMarked } from 'lucide-vue-next';
+  import { BookMarked } from '@lucide/vue';
   const handler = () => {
     console.log('NormalToolbar clicked!');
   };
@@ -3406,7 +3386,7 @@ defineProps<{
   \`\`\`jsx
   import { defineComponent } from 'vue';
   import { NormalToolbar } from 'md-editor-v3';
-  import { BookMarked } from 'lucide-vue-next';
+  import { BookMarked } from '@lucide/vue';
 
   export default defineComponent({
     setup() {
@@ -3600,7 +3580,7 @@ defineProps<{
             .then((res) => rev(res))
             .catch((error) => rej(error));
         });
-      })
+      }),
     );
 
     // 方式一
@@ -4025,7 +4005,7 @@ type CodeMirrorExtensions = (
     editorId: string;
     theme: Themes;
     keyBindings: Array<KeyBinding>;
-  }
+  },
 ) => Array<CodeMirrorExtension>;
 \`\`\`
 
@@ -4104,7 +4084,7 @@ type MarkdownItConfig = (
   md: markdownit,
   options: {
     editorId: string;
-  }
+  },
 ) => void;
 \`\`\`
 
@@ -4134,7 +4114,7 @@ type MarkdownItPlugins = (
   plugins: Array<MarkdownItConfigPlugin>,
   options: {
     editorId: string;
-  }
+  },
 ) => Array<MarkdownItConfigPlugin>;
 \`\`\`
 
@@ -4610,15 +4590,12 @@ const footers = [0];
 ### 🐣 NormalToolbar
 
 - **props**
-
   - **title**: \`string\`，非必须，作为工具栏上的 hover 提示。
 
 - **events**
-
   - **onClick**: \`(e: MouseEvent) => void\`，必须，点击事件。
 
 - **slots**
-
   - **default**: \`any\`，非必须，通常是个图标，用来展示在工具栏上。
   - ~~**trigger**~~: \`string | VNode\`，非必须，已废弃，同上。
 
@@ -4694,16 +4671,13 @@ const toolbars = ['bold', 0, 'github'];
 ### 🐼 DropdownToolbar
 
 - **props**
-
   - **title**: \`string\`，非必须，作为工具栏上的 hover 提示。
   - **visible**: \`boolean\`，必须，下拉状态。
 
 - **events**
-
   - **onChange**: \`(visible: boolean) => void\`，必须，状态变化事件。
 
 - **slots**
-
   - **default**: \`any\`，非必须，通常是个图标，用来展示在工具栏上。
   - ~~**trigger**~~: \`string | VNode\`，非必须，已废弃，同上。
   - **overlay**: \`string | VNode\`，必须，下拉框中的内容。
@@ -4795,7 +4769,6 @@ const toolbars = ['bold', 0, 'github'];
 ### 🦉 ModalToolbar
 
 - **props**
-
   - **title**: \`string\`，非必须，作为工具栏上的 hover 提示。
   - **visible**: \`boolean\`，必须，弹窗显示状态。
   - **width**: \`string\`，非必须，弹窗宽度，默认\`auto\`。
@@ -4807,13 +4780,11 @@ const toolbars = ['bold', 0, 'github'];
   - **showMask**: \`boolean\`，\`^4.16.8\`，非必须，是否展示遮罩层，默认 true。
 
 - **events**
-
   - **onClick**: \`() => void\`，必须，工具栏点击事件。
   - **onClose**: \`() => void\`，必须，弹窗点击关闭事件。
   - **onAdjust**: \`(val: boolean) => void\`，弹窗全屏按钮点击事件。
 
 - **slots**
-
   - **modalTitle**: \`string | VNode\`，非必须，弹窗标题栏。
   - **trigger**: \`string | VNode\`，必须，通常是个图标，用来展示在工具栏上。
   - **default**: \`any\`，非必须，弹窗中的内容。
@@ -4909,7 +4880,6 @@ const toolbars = ['bold', 0, 'github'];
 ### 🐻 MdCatalog
 
 - **props**
-
   - **editorId**: \`string\`，必须，对应编辑器的\`id\`，在内部注册目录变化监听事件。
   - **class**: \`string\`，非必须，目录组件最外层类名。
   - **mdHeadingId**: \`mdHeadingId\`，非必须，特殊化编辑器标题的算法，与编辑器相同。
@@ -4921,7 +4891,6 @@ const toolbars = ['bold', 0, 'github'];
   - **catalogMaxDepth**: \`number\`，\`^5.5.0\`，非必须，控制要显示的目录的最大深度。
 
 - **events**
-
   - **onClick**: \`(e: MouseEvent, t: TocItem) => void\`，非必须，导航点击事件。
   - **onActive**: \`(heading: HeadList | undefined) => void\`，非必须，高亮的标题变化事件。
 
@@ -4954,7 +4923,6 @@ const scrollElement = document.documentElement;
 编辑器内部的弹窗组件，它通常配合下拉工具栏组件使用。
 
 - **props**
-
   - **visible**: \`boolean\`，必须，弹窗显示状态。
   - **width**: \`string\`，非必须，弹窗宽度，默认\`auto\`。
   - **height**: \`string\`，同\`width\`。
@@ -4965,12 +4933,10 @@ const scrollElement = document.documentElement;
   - **showMask**: \`boolean\`，\`^4.16.8\`，非必须，是否展示遮罩层，默认 true。
 
 - **events**
-
   - **onClose**: \`() => void\`，必须，弹窗点击关闭事件。
   - **onAdjust**: \`(val: boolean) => void\`，弹窗全屏按钮点击事件。
 
 - **slots**
-
   - **title**: \`string | VNode\`，非必须，弹窗标题栏。
   - **default**: \`any\`，非必须，弹窗中的内容。
 
@@ -5020,11 +4986,9 @@ const onChange = (_visible: boolean) => {
 通用的页脚工具组件
 
 - **events**
-
   - **onClick**: \`(e: MouseEvent) => void\`，非必须，点击事件。
 
 - **slots**
-
   - **default**: \`any\`，必须，内容。
 
 \`\`\`vue

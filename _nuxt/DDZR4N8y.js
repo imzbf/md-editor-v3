@@ -1,4 +1,4 @@
-import{h as d,aw as a,q as l,v as c,K as p,ax as u,D as f,ay as h,S as g,az as v,c as x,a as y,b as o,o as b}from"#entry";import{_ as k}from"./B8hA0tRl.js";import{_ as E}from"./62gIIqWL.js";import{p as r}from"./CVaI593g.js";import{r as i}from"./n3mbQldj.js";import{u as w}from"./C1K6BqhZ.js";import"./C7y6EjaW.js";import"./CaH81vPM.js";import"./CyDODzLq.js";const s=`## 😁 Basic Usage
+import{h as d,aw as a,q as l,v as c,K as p,ax as u,D as f,ay as h,S as g,az as v,c as x,a as y,b as o,o as b}from"#entry";import{_ as k}from"./B8hA0tRl.js";import{_ as E}from"./62gIIqWL.js";import{p as r}from"./1aKY2K_3.js";import{r as i}from"./n3mbQldj.js";import{u as w}from"./C1K6BqhZ.js";import"./C7y6EjaW.js";import"./CaH81vPM.js";import"./CyDODzLq.js";const s=`## 😁 Basic Usage
 
 It has been developing iteratively, so update the latest version please. Publish logs: [releases](https://github.com/imzbf/md-editor-v3/releases)
 
@@ -20,7 +20,7 @@ Use production version in html directly:
           "medium-zoom": "https://esm.sh/medium-zoom",
           "lru-cache": "https://esm.sh/lru-cache",
           "codemirror": "https://esm.sh/codemirror",
-          "lucide-vue-next": "https://esm.sh/lucide-vue-next",
+          "@lucide/": "https://esm.sh/@lucide/",
           "@vavt/": "https://esm.sh/@vavt/",
           "@codemirror/": "https://esm.sh/@codemirror/",
           "@lezer/": "https://esm.sh/@lezer/",
@@ -380,7 +380,6 @@ There are 6 kinds of themes: \`default\`, \`github\`, \`vuepress\`, \`mk-cute\`,
   \`\`\`
 
 - Custom
-
   1. Write \`css\` under the \`xxx-theme\` claa. \`xxx\` is the name of your theme, for more examples, refer to [markdown-theme](https://github.com/imzbf/markdown-theme).
 
   _xxx.css_
@@ -429,7 +428,6 @@ There are 8 kinds of themes: \`atom\`, \`a11y\`, \`github\`, \`gradient\`, \`kim
   \`\`\`
 
 - Custom
-
   1. Find or Write your favorite theme, then config them:
 
   \`\`\`js
@@ -453,9 +451,7 @@ There are 8 kinds of themes: \`atom\`, \`a11y\`, \`github\`, \`gradient\`, \`kim
   });
   \`\`\`
 
-  If some keys in object \`css\` are same as Editor's, Editor's whill be replaced.
-
-  2. Set \`codeTheme\`
+  If some keys in object \`css\` are same as Editor's, Editor's whill be replaced. 2. Set \`codeTheme\`
 
   \`\`\`vue
   <template>
@@ -555,7 +551,7 @@ const onUploadImg = async (files, callback) => {
           .then((res) => rev(res))
           .catch((error) => rej(error));
       });
-    })
+    }),
   );
 
   callback(res.map((item) => item.data.url));
@@ -1343,7 +1339,7 @@ config({
           "medium-zoom": "https://esm.sh/medium-zoom",
           "lru-cache": "https://esm.sh/lru-cache",
           "codemirror": "https://esm.sh/codemirror",
-          "lucide-vue-next": "https://esm.sh/lucide-vue-next",
+          "@lucide/": "https://esm.sh/@lucide/",
           "@vavt/": "https://esm.sh/@vavt/",
           "@codemirror/": "https://esm.sh/@codemirror/",
           "@lezer/": "https://esm.sh/@lezer/",
@@ -1704,7 +1700,6 @@ const state = reactive({
   \`\`\`
 
 - 自定义
-
   1. 先以\`xxx-theme\`为类名，定义你的主题\`css\`，xxx 是主题名称，具体的内容参考[markdown-theme](https://github.com/imzbf/markdown-theme)
 
   _xxx.css_
@@ -1753,7 +1748,6 @@ const state = reactive({
   \`\`\`
 
 - 自定义
-
   1. 找到你喜欢的代码主题，最好支持暗夜模式
 
   \`\`\`js
@@ -1777,9 +1771,7 @@ const state = reactive({
   });
   \`\`\`
 
-  你可以通过将\`css\`的\`key\`设置为内置名称来覆盖内置的链接。
-
-  2. 设置\`codeTheme\`
+  你可以通过将\`css\`的\`key\`设置为内置名称来覆盖内置的链接。2. 设置\`codeTheme\`
 
   \`\`\`vue
   <template>
@@ -1880,7 +1872,7 @@ const onUploadImg = async (files, callback) => {
           .then((res) => rev(res))
           .catch((error) => rej(error));
       });
-    })
+    }),
   );
 
   callback(res.map((item) => item.data.url));
