@@ -20,7 +20,7 @@ Use production version in html directly:
           "medium-zoom": "https://esm.sh/medium-zoom",
           "lru-cache": "https://esm.sh/lru-cache",
           "codemirror": "https://esm.sh/codemirror",
-          "lucide-vue-next": "https://esm.sh/lucide-vue-next",
+          "@lucide/": "https://esm.sh/@lucide/",
           "@vavt/": "https://esm.sh/@vavt/",
           "@codemirror/": "https://esm.sh/@codemirror/",
           "@lezer/": "https://esm.sh/@lezer/",
@@ -380,7 +380,6 @@ There are 6 kinds of themes: `default`, `github`, `vuepress`, `mk-cute`, `smart-
   ```
 
 - Custom
-
   1. Write `css` under the `xxx-theme` claa. `xxx` is the name of your theme, for more examples, refer to [markdown-theme](https://github.com/imzbf/markdown-theme).
 
   _xxx.css_
@@ -429,7 +428,6 @@ There are 8 kinds of themes: `atom`, `a11y`, `github`, `gradient`, `kimbie`, `pa
   ```
 
 - Custom
-
   1. Find or Write your favorite theme, then config them:
 
   ```js
@@ -453,9 +451,7 @@ There are 8 kinds of themes: `atom`, `a11y`, `github`, `gradient`, `kimbie`, `pa
   });
   ```
 
-  If some keys in object `css` are same as Editor's, Editor's whill be replaced.
-
-  2. Set `codeTheme`
+  If some keys in object `css` are same as Editor's, Editor's whill be replaced. 2. Set `codeTheme`
 
   ```vue
   <template>
@@ -555,7 +551,7 @@ const onUploadImg = async (files, callback) => {
           .then((res) => rev(res))
           .catch((error) => rej(error));
       });
-    })
+    }),
   );
 
   callback(res.map((item) => item.data.url));
