@@ -1,5 +1,33 @@
 <!-- next-release -->
 
+## 6.5.1 (2026-05-22)
+
+### Refactors
+
+- replace lucide-vue-next with @lucide/vue ([commit f04c440](https://github.com/imzbf/md-editor-v3/commit/f04c44071337314a4a13fa763643de11931174f4)) [#1023](https://github.com/imzbf/md-editor-v3/issues/1023)
+  - Migrate to the new official @lucide/vue package as lucide-vue-next
+  - is deprecated, updating imports and build externals accordingly.
+
+- replace axios with native fetch for image upload ([commit 63e9a53](https://github.com/imzbf/md-editor-v3/commit/63e9a5311ae560a4035e16bb59d86b70d165f948))
+  - Extract a shared `uploadImage` helper that uses the Fetch API with
+  - proper HTTP status and response-code validation, and remove the
+  - `axios` dev dependency.
+
+### Others
+
+- build(scripts): replace tsx with native Node TypeScript support ([commit a81b874](https://github.com/imzbf/md-editor-v3/commit/a81b874e753fe9b5388b5a6d623ba08a48bcb6f9))
+  - Remove the `tsx` dev dependency and switch npm scripts to use
+  - `node` directly, leveraging Node's built-in TypeScript stripping.
+  - Update imports to use `.ts` extensions and type-only imports where
+  - appropriate, and add the required tsconfig flags
+  - (`allowImportingTsExtensions`, `emitDeclarationOnly`).
+
+- docs(skill): update echarts parser guidance ([commit bdd9d83](https://github.com/imzbf/md-editor-v3/commit/bdd9d830b70a867d714a6f5cc7d85519e7f47a92))
+
+**Full Changelog**: [v6.5.0...v6.5.1](https://github.com/imzbf/md-editor-v3/compare/v6.5.0...v6.5.1)
+
+---
+
 ## 6.5.0 (2026-04-28)
 
 ### Features
