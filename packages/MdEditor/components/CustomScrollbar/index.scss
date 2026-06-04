@@ -1,6 +1,8 @@
-@scrollbar-width: 6px;
+@use '../../styles/vars' as *;
 
-.@{prefix}-custom-scrollbar {
+$scrollbar-width: 6px;
+
+.#{$prefix}-custom-scrollbar {
   position: relative;
   overflow: hidden;
   height: 100%;
@@ -9,14 +11,14 @@
     position: absolute;
     inset-block-start: 0;
     inset-inline-end: 0;
-    width: @scrollbar-width;
+    width: $scrollbar-width;
     height: 100%;
     background: var(--md-scrollbar-bg-color);
   }
 
   &__thumb {
     position: absolute;
-    width: @scrollbar-width;
+    width: $scrollbar-width;
     background: var(--md-scrollbar-thumb-color);
     border-radius: 4px;
     cursor: pointer;

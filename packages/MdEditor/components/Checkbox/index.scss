@@ -1,4 +1,6 @@
-.@{prefix}-checkbox {
+@use '../../styles/vars' as *;
+
+.#{$prefix}-checkbox {
   cursor: pointer;
   width: 12px;
   height: 12px;

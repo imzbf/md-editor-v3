@@ -1,4 +1,6 @@
-.@{prefix}-dropdown {
+@use '../../styles/vars' as *;
+
+.#{$prefix}-dropdown {
   overflow: hidden;
   box-sizing: border-box;
   position: absolute;

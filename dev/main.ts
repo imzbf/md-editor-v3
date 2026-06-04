@@ -159,6 +159,6 @@ config({
   editorExtensionsAttrs
 });
 
-import '~/styles/style.less';
+import '~/styles/style.scss';
 
 createApp(App).use(MdEditor).mount('#app');

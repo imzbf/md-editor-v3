@@ -1,0 +1,21 @@
+// 统一的前缀
+$prefix: 'md-editor';
+
+@mixin css-vars($is-dark) {
+  --md-color: #{if(sass($is-dark): #999; else: #3f4a54)};
+  --md-hover-color: #{if(sass($is-dark): #bbb; else: #000)};
+  --md-bk-color: #{if(sass($is-dark): #000; else: #fff)};
+  --md-bk-color-outstand: #{if(sass($is-dark): #333; else: #f2f2f2)};
+  --md-bk-hover-color: #{if(sass($is-dark): #1b1a1a; else: #f5f7fa)};
+  --md-border-color: #{if(sass($is-dark): #2d2d2d; else: #e6e6e6)};
+  --md-border-hover-color: #{if(sass($is-dark): #636262; else: #b9b9b9)};
+  --md-border-active-color: #{if(sass($is-dark): #777; else: #999)};
+  --md-modal-mask: #00000073;
+  --md-modal-shadow: #{if(
+      sass($is-dark): 0px 6px 24px 2px #00000066; else: 0px 6px 24px 2px #00000019
+    )};
+  --md-scrollbar-bg-color: #{if(sass($is-dark): #0f0f0f; else: #e2e2e2)};
+  --md-scrollbar-thumb-color: #{if(sass($is-dark): #2d2d2d; else: #0000004d)};
+  --md-scrollbar-thumb-hover-color: #{if(sass($is-dark): #3a3a3a; else: #00000059)};
+  --md-scrollbar-thumb-active-color: #{if(sass($is-dark): #3a3a3a; else: #00000061)};
+}

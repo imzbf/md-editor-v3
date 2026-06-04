@@ -1,5 +1,5 @@
 import { defineComponent, PropType } from 'vue';
-import './index.less';
+import './index.scss';
 import { Theme } from '../App';
 
 export default defineComponent({

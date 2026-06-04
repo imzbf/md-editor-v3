@@ -1,0 +1,33 @@
+@use './vars' as *;
+
+@use '../components/Checkbox';
+@use '../components/Divider';
+@use '../components/Dropdown';
+@use '../components/Modal';
+@use '../components/CustomScrollbar';
+
+@use '../layouts/Content';
+@use '../layouts/Footer';
+@use '../layouts/Modals';
+@use '../layouts/Toolbar';
+@use '../layouts/FloatingToolbar';
+
+@use './codeMirror';
+
+@use './preview';
+
+.#{$prefix}-fullscreen {
+  position: fixed !important;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  width: auto !important;
+  height: auto !important;
+  z-index: 10000;
+}
+
+.#{$prefix}-disabled {
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}

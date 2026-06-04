@@ -1,9 +1,11 @@
-.@{prefix} {
+@use '../../styles/vars' as *;
+
+.#{$prefix} {
   &-content {
     direction: ltr;
     position: relative;
     display: flex;
-    // height: calc(100% - @toolBarHeight - 2 * @toolBarPadding - 1px);
+    // height: calc(100% - $toolbar-height - 2 * $toolbar-padding - 1px);
     flex: 1;
     height: 0;
     flex-shrink: 0;
@@ -56,8 +58,8 @@
   }
 }
 
-.@{prefix}-catalog-editor {
-  // .css-vars(false);
+.#{$prefix}-catalog-editor {
+  // @include css-vars(false);
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
@@ -85,14 +87,14 @@
   }
 }
 
-.@{prefix}-catalog-fixed {
+.#{$prefix}-catalog-fixed {
   position: absolute;
   inset-block-start: 0;
   inset-inline-end: 0;
   z-index: 10002;
 }
 
-.@{prefix}-catalog-flat {
+.#{$prefix}-catalog-flat {
   position: initial;
   flex-shrink: 0;
 }

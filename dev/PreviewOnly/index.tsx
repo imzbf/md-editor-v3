@@ -4,7 +4,7 @@ import { Theme } from '../App';
 import mdText from '../data.md';
 import previewComponent from './PreviewComponent';
 
-// import '~/styles/preview.less';
+// import '~/styles/preview.scss';
 
 const editorId = 'preview-only-test';
 

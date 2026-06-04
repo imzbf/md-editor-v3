@@ -1,4 +1,6 @@
-.@{prefix} {
+@use './vars' as *;
+
+.#{$prefix} {
   .cm-editor {
     direction: ltr;
     font-size: 14px;

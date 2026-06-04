@@ -1,17 +1,19 @@
-@maskZIndex: 20000;
+@use '../../styles/vars' as *;
 
-.@{prefix}-modal-mask {
+$mask-z-index: 20000;
+
+.#{$prefix}-modal-mask {
   position: fixed;
   inset-block-start: 0;
   inset-inline-end: 0;
   inset-block-end: 0;
   inset-inline-start: 0;
-  z-index: @maskZIndex;
+  z-index: $mask-z-index;
   height: 100%;
   background-color: var(--md-modal-mask);
 }
 
-.@{prefix}-modal {
+.#{$prefix}-modal {
   display: block;
   background-color: var(--md-bk-color);
   font-family:
@@ -20,7 +22,7 @@
   border-radius: 3px;
   border: 1px solid var(--md-border-color);
   position: fixed;
-  z-index: @maskZIndex + 1;
+  z-index: $mask-z-index + 1;
   box-shadow: var(--md-modal-shadow);
 
   &-header {
@@ -48,13 +50,13 @@
     box-sizing: border-box;
   }
 
-  .@{prefix}-modal-func {
+  .#{$prefix}-modal-func {
     position: absolute;
     inset-block-start: 10px;
     inset-inline-end: 10px;
 
-    .@{prefix}-modal-adjust,
-    .@{prefix}-modal-close {
+    .#{$prefix}-modal-adjust,
+    .#{$prefix}-modal-close {
       cursor: pointer;
       width: 24px;
       height: 24px;
@@ -63,15 +65,19 @@
       display: inline-block;
     }
 
-    .@{prefix}-modal-adjust {
+    .#{$prefix}-modal-adjust {
       padding-inline-end: 10px;
     }
   }
 }
 
-.animation {
+@mixin animation {
   animation-duration: 0.15s;
   animation-fill-mode: forwards;
+}
+
+.animation {
+  @include animation;
 }
 
 @keyframes zoomIn {
@@ -87,7 +93,7 @@
 
 .zoom-in {
   animation-name: zoomIn;
-  .animation();
+  @include animation;
 }
 
 @keyframes zoomOut {
@@ -107,5 +113,5 @@
 
 .zoom-out {
   animation-name: zoomOut;
-  .animation();
+  @include animation;
 }

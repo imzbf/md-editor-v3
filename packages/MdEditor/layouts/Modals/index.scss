@@ -1,4 +1,6 @@
-.@{prefix} {
+@use '../../styles/vars' as *;
+
+.#{$prefix} {
   &-clip {
     position: relative;
     display: flex;
@@ -14,12 +16,12 @@
     &-main {
       margin-inline-end: 1em;
 
-      .@{prefix}-clip-cropper {
+      .#{$prefix}-clip-cropper {
         position: relative;
         width: 100%;
         height: 100%;
 
-        .@{prefix}-clip-delete {
+        .#{$prefix}-clip-delete {
           position: absolute;
           inset-block-start: 0;
           inset-inline-end: 0;
@@ -32,7 +34,7 @@
         }
       }
 
-      .@{prefix}-clip-upload {
+      .#{$prefix}-clip-upload {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -40,8 +42,8 @@
         height: 100%;
         cursor: pointer;
 
-        .@{prefix}-icon,
-        .@{prefix}-iconfont {
+        .#{$prefix}-icon,
+        .#{$prefix}-iconfont {
           width: auto;
           height: 40px;
           font-size: 40px;
@@ -134,8 +136,8 @@
 }
 
 @media (max-width: 688px) {
-  .@{prefix}-modal-clip {
-    .@{prefix}-modal {
+  .#{$prefix}-modal-clip {
+    .#{$prefix}-modal {
       max-width: calc(100% - 20px);
       max-height: calc(100% - 20px);
       margin-block: 10px;
@@ -143,7 +145,7 @@
       inset-inline-start: 0 !important;
     }
 
-    .@{prefix}-clip {
+    .#{$prefix}-clip {
       flex-direction: column;
 
       &-main,

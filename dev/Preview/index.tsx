@@ -40,7 +40,7 @@ import Normal from './Normal/index.vue';
 
 // import ancher from 'markdown-it-anchor';
 
-import './index.less';
+import './index.scss';
 
 // import { cdnBase } from '~/config';
 

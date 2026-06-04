@@ -1,4 +1,4 @@
-@import './vars';
+@use './vars' as *;
 
 body,
 h1,
@@ -99,8 +99,8 @@ body {
   border-radius: 4px;
   transition: all 0.2s linear;
   color: #515a6e;
-  background-color: @bkColor;
-  border-color: @borderColor;
+  background-color: $bk-color;
+  border-color: $border-color;
   margin-inline-start: 10px;
 
   &:first-of-type {
@@ -109,29 +109,29 @@ body {
 
   &:hover {
     color: #57a3f3;
-    background-color: @bkColor;
+    background-color: $bk-color;
     border-color: #57a3f3;
   }
 }
 
 .app {
-  color: @color;
-  // background-color: @bkColor;
+  color: $color;
+  // background-color: $bk-color;
 }
 
 .theme-dark {
   color-scheme: dark;
-  color: @colorDark;
-  background-color: @bkColorDark;
+  color: $color-dark;
+  background-color: $bk-color-dark;
 
   .preview-actions {
     button {
-      color: @colorDark;
-      background-color: @bkColorDark;
-      border-color: @borderColorDark;
+      color: $color-dark;
+      background-color: $bk-color-dark;
+      border-color: $border-color-dark;
 
       &:hover {
-        background-color: @bkColorDark;
+        background-color: $bk-color-dark;
       }
     }
   }

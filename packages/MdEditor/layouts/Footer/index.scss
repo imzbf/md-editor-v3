@@ -1,4 +1,6 @@
-.@{prefix} {
+@use '../../styles/vars' as *;
+
+.#{$prefix} {
   &-footer {
     height: 24px;
     flex-shrink: 0;

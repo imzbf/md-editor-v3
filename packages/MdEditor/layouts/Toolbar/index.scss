@@ -1,6 +1,8 @@
-@toolBarPadding: 4px;
+@use '../../styles/vars' as *;
 
-.@{prefix} {
+$toolbar-padding: 4px;
+
+.#{$prefix} {
   &-menu {
     margin-block: 0;
     margin-inline: 0;
@@ -69,8 +71,8 @@
     overflow-y: hidden;
     scrollbar-width: none;
     flex-shrink: 0;
-    padding-block: @toolBarPadding;
-    padding-inline: @toolBarPadding;
+    padding-block: $toolbar-padding;
+    padding-inline: $toolbar-padding;
     border-block-end: 1px solid var(--md-border-color);
 
     &::-webkit-scrollbar {
@@ -126,16 +128,16 @@
     }
   }
 
-  .@{prefix}-stn {
-    .@{prefix}-toolbar-item {
+  .#{$prefix}-stn {
+    .#{$prefix}-toolbar-item {
       padding-block: 0;
       padding-inline: 6px;
     }
   }
 }
 
-.@{prefix}-dark {
-  .@{prefix}-table-shape {
+.#{$prefix}-dark {
+  .#{$prefix}-table-shape {
     &-col {
       &-default {
         background-color: #222;

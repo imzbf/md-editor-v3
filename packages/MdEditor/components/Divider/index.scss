@@ -1,4 +1,6 @@
-.@{prefix}-divider {
+@use '../../styles/vars' as *;
+
+.#{$prefix}-divider {
   position: relative;
   display: inline-block;
   width: 1px;
