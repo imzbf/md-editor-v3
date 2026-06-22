@@ -114,6 +114,14 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     const tempStartLines = [...startLines];
     const { lines } = view.state.doc;
 
+    // 原生 HTML block 的 data-line 会留在 markdown-it token 上，但默认 renderer
+    // 直接输出原始 HTML，不会把 attrs 挂到真实 DOM。此时第一个可见锚点可能
+    // 出现在文档中段，需要补出 [0, firstAnchor) 这段隐式块，避免开头内容被
+    // 错误映射到后续段落。
+    if (tempStartLines[0] !== 0) {
+      tempStartLines.unshift(0);
+    }
+
     let start = tempStartLines.shift() || 0;
     let end = tempStartLines.shift() || lines;
 
@@ -303,7 +311,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
           // =0就是开始行，不用找了
           virtualLine = -1;
-          startLineIndex = i;
+          startLineIndex = -1;
           break;
         } else {
           // 说明下一个带有行号的行也不在可视区域，行号需要往下走
@@ -325,7 +333,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       switch (startLineIndex) {
         case -1: {
           realEleStart = cEle.firstElementChild?.firstElementChild as HTMLElement;
-          realEleEnd = elesHasLineNumber[startLineIndex];
+          realEleEnd = elesHasLineNumber[0];
           break;
         }
 
