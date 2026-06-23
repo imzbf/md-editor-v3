@@ -1,7 +1,8 @@
-// 部分样式来源于其他开源UI库
-@use '@vavt/markdown-theme/css/all';
 @use './vars' as *;
-@use '../../MdCatalog';
+@use '../../MdCatalog/index';
+
+// 部分样式来源于其他开源UI库
+@import '@vavt/markdown-theme/css/all.css';
 
 @mixin basic-style {
   color: var(--md-color);
@@ -35,7 +36,7 @@
     z-index: 10000;
   }
 
-  @at-root svg#{&}-icon {
+  svg.#{$prefix}-icon {
     width: 16px;
     height: 16px;
     padding-block: 4px;
@@ -47,9 +48,9 @@
   }
 
   // 特殊处理这三个图标大小
-  .lucide-list-icon,
-  .lucide-list-ordered-icon,
-  .lucide-list-todo-icon {
+  .lucide-list,
+  .lucide-list-ordered,
+  .lucide-list-todo {
     width: 18px;
     height: 18px;
     padding-block: 3px;
@@ -70,9 +71,17 @@
   @include css-vars(false);
   @include basic-style;
 
-  .lucide-xicon {
+  .lucide-x {
     width: 20px;
     height: 20px;
+    padding-block: 2px;
+    padding-inline: 2px;
+  }
+
+  .lucide-minimize-2,
+  .lucide-maximize-2 {
+    width: 18px;
+    height: 18px;
     padding-block: 2px;
     padding-inline: 2px;
   }
