@@ -1,5 +1,17 @@
 <!-- next-release -->
 
+## 6.5.3 (2026-06-23)
+
+### Fixed Bugs
+
+- include markdown theme as runtime dependency ([commit b2b3250](https://github.com/imzbf/md-editor-v3/commit/b2b3250e9115d887547b3d31dac9008035d9dcdc))
+  - Move @vavt/markdown-theme into production dependencies and align preview style imports with the generated CSS output.
+  - Also update related logical style properties for search and clip controls.
+
+**Full Changelog**: [v6.5.2...v6.5.3](https://github.com/imzbf/md-editor-v3/compare/v6.5.2...v6.5.3)
+
+---
+
 ## 6.5.2 (2026-06-22)
 
 ### Refactors
