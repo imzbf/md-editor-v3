@@ -408,7 +408,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       } else {
         blockHeight = endLineScrollTop;
       }
-
+      firstLineScrollTop = 0
       scale = Math.max(cScrollTop / eleEndOffsetTop, 0);
     }
     // 正常情况
