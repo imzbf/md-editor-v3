@@ -106,7 +106,7 @@
   }
 }
 
-.#{$prefix}-dark,
+.#{$prefix}[data-theme='dark'],
 .#{$prefix}-modal-container[data-theme='dark'] {
   @include css-vars(true);
 }

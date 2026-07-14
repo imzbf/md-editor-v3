@@ -1,4 +1,5 @@
 import { defineComponent, onBeforeUnmount, ref } from 'vue';
+import { useExpose } from './composition/useExpose';
 import { useEditorId, useProvidePreview } from '~/composition';
 import { prefix } from '~/config';
 
@@ -6,7 +7,6 @@ import ContentPreview from '~/layouts/Content/ContentPreview';
 import { mdPreviewProps as props, mdPreviewEmits as emits } from '~/props';
 import { HeadList, MdPreviewProps } from '~/type';
 import bus from '~/utils/event-bus';
-import { useExpose } from './composition/useExpose';
 
 const MdPreview = defineComponent({
   name: 'MdPreview',
@@ -62,12 +62,8 @@ const MdPreview = defineComponent({
       return (
         <div
           id={editorId}
-          class={[
-            prefix,
-            props.class,
-            props.theme === 'dark' && `${prefix}-dark`,
-            `${prefix}-previewOnly`
-          ]}
+          class={[prefix, props.class, `${prefix}-previewOnly`]}
+          data-theme={props.theme}
           style={props.style}
           ref={rootRef}
         >

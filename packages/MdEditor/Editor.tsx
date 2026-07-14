@@ -1,13 +1,4 @@
 import { computed, defineComponent, onBeforeUnmount, reactive, ref } from 'vue';
-import { prefix } from '~/config';
-import Content from '~/layouts/Content';
-import Footer from '~/layouts/Footer';
-import ToolBar from '~/layouts/Toolbar';
-import { EditorContext, HeadList } from '~/type';
-import bus from '~/utils/event-bus';
-
-import { getSlot } from '~/utils/vue-tsx';
-
 import {
   useOnSave,
   useProvide,
@@ -18,9 +9,16 @@ import {
   useErrorCatcher,
   useEditorId
 } from './composition';
-
 import { ContentExposeParam } from './layouts/Content/type';
 import { editorProps as props, editorEmits as emits } from './props';
+import { prefix } from '~/config';
+import Content from '~/layouts/Content';
+import Footer from '~/layouts/Footer';
+import ToolBar from '~/layouts/Toolbar';
+import { EditorContext, HeadList } from '~/type';
+import bus from '~/utils/event-bus';
+
+import { getSlot } from '~/utils/vue-tsx';
 
 const Editor = defineComponent({
   name: 'MdEditorV3',
@@ -139,9 +137,9 @@ const Editor = defineComponent({
           class={[
             prefix,
             props.class,
-            props.theme === 'dark' && `${prefix}-dark`,
             setting.fullscreen || setting.pageFullscreen ? `${prefix}-fullscreen` : ''
           ]}
+          data-theme={props.theme}
           style={props.style}
           ref={rootRef}
         >
