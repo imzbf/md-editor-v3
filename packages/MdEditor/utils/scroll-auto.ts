@@ -142,21 +142,15 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     let lineNumer = 1;
     for (let i = elesHasLineNumber.length - 1; i - 1 >= 0; i--) {
       const curr = elesHasLineNumber[i];
-      const sibling = elesHasLineNumber[i - 1];
-      if (
-        curr.offsetTop + curr.offsetHeight > cMaxScrollLength &&
-        sibling.offsetTop < cMaxScrollLength
-      ) {
-        lineNumer = Number(sibling.dataset.line);
+      if (curr.offsetTop <= cMaxScrollLength) {
+        lineNumer = Number(curr.dataset.line);
         break;
       }
     }
 
     for (let i = blockMap.length - 1; i >= 0; i--) {
-      const itemBottom = getBottomByLine(blockMap[i].end);
       const itemTop = getTopByLine(blockMap[i].start);
-
-      if (itemBottom > pMaxScrollLength && itemTop <= pMaxScrollLength) {
+      if (itemTop <= pMaxScrollLength) {
         lineNumer = lineNumer < blockMap[i].start ? lineNumer : blockMap[i].start;
         break;
       }
@@ -177,7 +171,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     // 加把锁，当前滚动结束后再减掉。
     pLock++;
 
-    const { scrollDOM, contentHeight } = view;
+    const { scrollDOM } = view;
 
     let cElePaddingTop = getComputedStyleNum(cEle, 'padding-block-start');
 
@@ -216,13 +210,10 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       // offsetTop会包含margin，所以当是开始行时，要将margin-block-start纳入高度
       // 而后面的则不需要
       startEleOffetTop = 0;
-      // 开始结束相同时(文档中只存在一个模块)，需要将padding算入滚动区域
+
       if (startEle === endEle) {
         cElePaddingTop = 0;
-
-        // 如果开始和结束节点相同，则需要将这个节点的高度也算进滚动区域
-        endBottom = contentHeight - scrollDOM.offsetHeight;
-        blockHeight = cMaxScrollLength;
+        blockHeight = 0;
       } else {
         blockHeight = endEle.offsetTop;
       }
@@ -345,12 +336,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
         default: {
           realEleStart = elesHasLineNumber[startLineIndex];
-          realEleEnd =
-            elesHasLineNumber[
-              startLineIndex + 1 === elesHasLineNumber.length
-                ? startLineIndex
-                : startLineIndex + 1
-            ];
+          realEleEnd = elesHasLineNumber[startLineIndex + 1];
         }
       }
     }
@@ -378,11 +364,12 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     );
     let blockHeight = 0;
 
+    const realEleEndPos =
+      realEleEnd == cEle.lastElementChild?.lastElementChild
+        ? realEleEnd.offsetTop + realEleEnd.offsetHeight
+        : realEleEnd.offsetTop;
     // 最后一行距离顶部高度超出了可以滚动的高度，则将当前开始行到最后一个节点视为同一个模块
-    if (
-      endLineScrollTop > pMaxScrollLength ||
-      realEleEnd.offsetTop + realEleEnd.offsetHeight > cMaxScrollLength
-    ) {
+    if (endLineScrollTop > pMaxScrollLength || realEleEndPos > cMaxScrollLength) {
       const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
       const _startEle = cEle.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
@@ -408,7 +395,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       } else {
         blockHeight = endLineScrollTop;
       }
-      firstLineScrollTop = 0
+      firstLineScrollTop = 0;
       scale = Math.max(cScrollTop / eleEndOffsetTop, 0);
     }
     // 正常情况
