@@ -22,11 +22,20 @@ export interface CodeTabsPluginOps extends markdownit.Options {
   extraTools?: string | (({ lang }: { lang: string }) => string);
 }
 
+const toSafeDomSegment = (value: string) => {
+  return Array.from(value)
+    .map((char) =>
+      /[A-Za-z0-9_-]/.test(char) ? char : `_${char.codePointAt(0)!.toString(16)}_`
+    )
+    .join('');
+};
+
 const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   const defaultRender = md.renderer.rules.fence,
     unescapeAll = md.utils.unescapeAll,
     re = /\[(\w*)(?::([\w ]*))?\]/,
     mandatoryRe = /::(open|close)/;
+  const safeEditorId = toSafeDomSegment(_opts.editorId);
 
   const getInfo = (token: Token) => {
     return token.info ? unescapeAll(token.info).trim() : '';
@@ -69,9 +78,11 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       return '';
     }
 
-    const codeCodeText = _opts.usedLanguageTextRef.value?.copyCode!.text;
-    const copyBtnHtml = _opts.customIconRef.value.copy || codeCodeText;
-    const isIcon = !!_opts.customIconRef.value.copy;
+    const codeCodeText = _opts.usedLanguageTextRef.value?.copyCode!.text || '';
+    const customCopyIcon = _opts.customIconRef.value.copy;
+    const copyTips = md.utils.escapeHtml(codeCodeText);
+    const copyBtnHtml = customCopyIcon || copyTips;
+    const isIcon = !!customCopyIcon;
 
     const collapseTips = `<span class="${prefix}-collapse-tips">${StrIcon('collapse-tips', _opts.customIconRef.value)}</span>`;
 
@@ -95,7 +106,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
             <div class="${prefix}-code-flag"><span></span><span></span><span></span></div>
             <div class="${prefix}-code-action">
               <span class="${prefix}-code-lang">${md.utils.escapeHtml(tokens[idx].info.trim())}</span>
-              <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
+              <span class="${prefix}-copy-button" data-tips="${copyTips}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
               ${_opts.extraTools instanceof Function ? _opts.extraTools({ lang: tokens[idx].info.trim() }) : _opts.extraTools || ''}
               ${tagContainer === 'details' ? collapseTips : ''}
             </div>
@@ -132,7 +143,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       token.info = token.info.replace(re, '').replace(mandatoryRe, '');
       token.hidden = true;
 
-      const className = `${prefix}-codetab-${_opts.editorId}-${idx}-${i - idx}`;
+      const className = `${prefix}-codetab-${safeEditorId}-${idx}-${i - idx}`;
 
       checked = i - idx > 0 ? '' : 'checked';
 
@@ -140,13 +151,13 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
         <li>
           <input
             type="radio"
-            id="label-${prefix}-codetab-label-1-${_opts.editorId}-${idx}-${i - idx}"
-            name="${prefix}-codetab-label-${_opts.editorId}-${idx}"
+            id="label-${prefix}-codetab-label-1-${safeEditorId}-${idx}-${i - idx}"
+            name="${prefix}-codetab-label-${safeEditorId}-${idx}"
             class="${className}"
             ${checked}
           >
           <label
-            for="label-${prefix}-codetab-label-1-${_opts.editorId}-${idx}-${i - idx}"
+            for="label-${prefix}-codetab-label-1-${safeEditorId}-${idx}-${i - idx}"
             onclick="this.getRootNode().querySelectorAll('.${className}').forEach(e => e.click())"
           >
             ${md.utils.escapeHtml(tab || getLangName(token))}
@@ -157,7 +168,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
         <div role="tabpanel">
           <input
             type="radio"
-            name="${prefix}-codetab-pre-${_opts.editorId}-${idx}"
+            name="${prefix}-codetab-pre-${safeEditorId}-${idx}"
             class="${className}"
             ${checked}
             role="presentation">
@@ -167,7 +178,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
       langs += `
         <input
           type="radio"
-          name="${prefix}-codetab-lang-${_opts.editorId}-${idx}"
+          name="${prefix}-codetab-lang-${safeEditorId}-${idx}"
           class="${className}"
           ${checked}
           role="presentation">
@@ -182,7 +193,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
           </div>
           <div class="${prefix}-code-action">
             <span class="${prefix}-codetab-lang">${langs}</span>
-            <span class="${prefix}-copy-button" data-tips="${codeCodeText}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
+            <span class="${prefix}-copy-button" data-tips="${copyTips}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
             ${_opts.extraTools instanceof Function ? _opts.extraTools({ lang: tokens[idx].info.trim() }) : _opts.extraTools || ''}
             ${tagContainer === 'details' ? collapseTips : ''}
           </div>
