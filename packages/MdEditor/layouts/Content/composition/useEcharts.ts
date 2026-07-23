@@ -119,8 +119,12 @@ const useEcharts = (props: ContentPreviewProps) => {
     clearEchartsEffects();
 
     if (!props.noEcharts && echarts) {
+      const root = rootRef.value;
+
+      if (!root) return;
+
       const pendingSourceEles = Array.from(
-        rootRef.value.querySelectorAll<HTMLElement>(
+        root.querySelectorAll<HTMLElement>(
           `#${editorId} div.${prefix}-echarts:not([data-processed])`
         )
       );
