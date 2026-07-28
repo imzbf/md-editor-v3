@@ -198,14 +198,16 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
       const escapedLanguage = md.utils.escapeHtml(language);
 
-      const codeSpan = showCodeRowNumber
-        ? generateCodeRowNumber(
-            codeHtml.replace(/^\n+|\n+$/g, ''),
-            str.replace(/^\n+|\n+$/g, '')
-          )
-        : `<span class="${prefix}-code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
+      let codeSpan = `<span class="${prefix}-code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
+      let codeStyle = '';
 
-      return `<pre><code class="language-${escapedLanguage}" language="${escapedLanguage}">${codeSpan}</code></pre>`;
+      if (showCodeRowNumber) {
+        const rowNumberResult = generateCodeRowNumber(codeHtml, str);
+        codeSpan = rowNumberResult.html;
+        codeStyle = ` style="--md-code-line-number-width: ${rowNumberResult.lineNumberWidth};"`;
+      }
+
+      return `<pre><code class="language-${escapedLanguage}" language="${escapedLanguage}"${codeStyle}>${codeSpan}</code></pre>`;
     }
   });
 
