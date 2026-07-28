@@ -2,25 +2,24 @@ import { ComputedRef, computed, defineComponent, inject, ref } from 'vue';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
-import { REPLACE } from '~/static/event-name';
 import { StaticTextDefaultValue } from '~/type';
 import { ToolDirective } from '~/utils/content-help';
-import bus from '~/utils/event-bus';
+import { emitReplace } from '~/utils/replace';
 
 const ToolbarTitle = defineComponent({
   name: 'ToolbarTitle',
   setup() {
     const editorId = inject('editorId') as string;
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const disabled = inject<ComputedRef<boolean>>('disabled');
+    const contentDisabled = inject<ComputedRef<boolean>>('contentDisabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
     const wrapperId = `${editorId}-toolbar-wrapper`;
     const visible = ref(false);
 
     const emitHandler = (direct: ToolDirective) => {
-      if (disabled?.value) return;
+      if (contentDisabled?.value) return;
 
-      bus.emit(editorId, REPLACE, direct);
+      emitReplace(editorId, { direct });
     };
 
     const handleDropdownChange = (v: boolean) => {
@@ -103,12 +102,15 @@ const ToolbarTitle = defineComponent({
         relative={`#${wrapperId}`}
         visible={visible.value}
         onChange={handleDropdownChange}
-        disabled={disabled?.value}
+        disabled={contentDisabled?.value}
         overlay={overlayContent.value}
       >
         <button
-          class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
-          disabled={disabled?.value}
+          class={[
+            `${prefix}-toolbar-item`,
+            contentDisabled?.value && `${prefix}-disabled`
+          ]}
+          disabled={contentDisabled?.value}
           title={ult.value.toolbarTips?.title}
           aria-label={ult.value.toolbarTips?.title}
           type="button"

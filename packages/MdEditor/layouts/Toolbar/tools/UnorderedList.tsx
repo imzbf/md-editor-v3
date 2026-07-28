@@ -1,26 +1,25 @@
 import { ComputedRef, defineComponent, inject } from 'vue';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
-import { REPLACE } from '~/static/event-name';
 import { StaticTextDefaultValue } from '~/type';
-import eventBus from '~/utils/event-bus';
+import { emitReplace } from '~/utils/replace';
 
 const ToolbarUnorderedList = defineComponent({
   name: 'ToolbarUnorderedList',
   setup() {
     const editorId = inject('editorId') as string;
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const disabled = inject<ComputedRef<boolean>>('disabled');
+    const contentDisabled = inject<ComputedRef<boolean>>('contentDisabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
 
     return () => (
       <button
-        class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
+        class={[`${prefix}-toolbar-item`, contentDisabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.unorderedList}
         aria-label={ult.value.toolbarTips?.unorderedList}
-        disabled={disabled?.value}
+        disabled={contentDisabled?.value}
         onClick={() => {
-          eventBus.emit(editorId, REPLACE, 'unorderedList');
+          emitReplace(editorId, { direct: 'unorderedList' });
         }}
         type="button"
       >
