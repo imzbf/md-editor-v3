@@ -8,6 +8,9 @@ import {
   ref,
   onMounted
 } from 'vue';
+import { Theme } from '../App';
+import mdText from '../data.md';
+import Normal from './Normal/index.vue';
 import Icon from '~/components/Icon';
 import {
   MdEditor,
@@ -18,9 +21,6 @@ import {
 } from '~~/index';
 import type { ExposeParam, MdHeadingId, ToolbarNames } from '~~/index';
 
-import { Theme } from '../App';
-import mdText from '../data.md';
-import Normal from './Normal/index.vue';
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
 
@@ -104,6 +104,7 @@ export default defineComponent({
       isFullscreen: boolean;
       inputBoxWidth: string;
       disabled: boolean;
+      readOnly: boolean;
       floatingToolbars: ToolbarNames[];
     }>({
       text: storagedText || (mdText as string),
@@ -113,6 +114,7 @@ export default defineComponent({
       isFullscreen: false,
       inputBoxWidth: storagedWidth,
       disabled: false,
+      readOnly: false,
       floatingToolbars: ['bold', 'underline', 'italic', 'strikeThrough']
     });
 
@@ -271,7 +273,9 @@ export default defineComponent({
             // editorRef.value?.execCommand('gantt');
             // md.disabled = !md.disabled;
 
-            md.floatingToolbars = ['bold'];
+            md.readOnly = !md.readOnly;
+
+            // md.floatingToolbars = ['bold'];
           }}
         >
           1
@@ -307,7 +311,7 @@ export default defineComponent({
             // codeStyleReverseList={['mk-cute']}
             // autoFocus
             disabled={md.disabled}
-            // readOnly
+            readOnly={md.readOnly}
             // maxLength={10}
             // autoDetectCode
             // onHtmlChanged={console.log}

@@ -1,19 +1,20 @@
 import { ComputedRef, computed, defineComponent, inject, onMounted, ref } from 'vue';
+import Modals from '../../Modals';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
-import { REPLACE, UPLOAD_IMAGE } from '~/static/event-name';
+import { UPLOAD_IMAGE } from '~/static/event-name';
 import { StaticTextDefaultValue } from '~/type';
 import { ToolDirective } from '~/utils/content-help';
 import bus from '~/utils/event-bus';
-import Modals from '../../Modals';
+import { emitReplace } from '~/utils/replace';
 
 const ToolbarImageDropdown = defineComponent({
   name: 'ToolbarImageDropdown',
   setup() {
     const editorId = inject('editorId') as string;
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const disabled = inject<ComputedRef<boolean>>('disabled');
+    const contentDisabled = inject<ComputedRef<boolean>>('contentDisabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
     const wrapperId = `${editorId}-toolbar-wrapper`;
     const visible = ref(false);
@@ -32,10 +33,10 @@ const ToolbarImageDropdown = defineComponent({
       (uploadRef.value as HTMLInputElement).value = '';
     };
 
-    const emitHandler = (direct: ToolDirective, params?: unknown) => {
-      if (disabled?.value) return;
+    const emitHandler = (direct: ToolDirective, params?: Record<string, unknown>) => {
+      if (contentDisabled?.value) return;
 
-      bus.emit(editorId, REPLACE, direct, params);
+      emitReplace(editorId, { direct, params });
     };
 
     onMounted(() => {
@@ -121,14 +122,17 @@ const ToolbarImageDropdown = defineComponent({
           relative={`#${wrapperId}`}
           visible={visible.value}
           onChange={handleDropdownChange}
-          disabled={disabled?.value}
+          disabled={contentDisabled?.value}
           overlay={overlayContent.value}
         >
           <button
-            class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
+            class={[
+              `${prefix}-toolbar-item`,
+              contentDisabled?.value && `${prefix}-disabled`
+            ]}
             title={ult.value.toolbarTips?.image}
             aria-label={ult.value.toolbarTips?.image}
-            disabled={disabled?.value}
+            disabled={contentDisabled?.value}
             type="button"
           >
             <Icon name="image" />

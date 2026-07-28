@@ -1,5 +1,36 @@
 <!-- next-release -->
 
+## 6.5.4 (2026-07-17)
+
+### Fixed Bugs
+
+- escape code fence metadata in preview output ([commit 2c07360](https://github.com/imzbf/md-editor-v3/commit/2c07360420e74087f5bc63032ab155d93e0a0b10))
+
+- fix misalignment when syncing editor to preview at the top ([commit bea48ec](https://github.com/imzbf/md-editor-v3/commit/bea48ec0ba51c19deda9486eb06050b5b8f50b51))
+  - ### 描述
+  - - 修复 `pEleHandler` 中 `startTop === 0` 且无显式初始块时的隐式高度计算，避免开头留白时映射错误。
+  - - 修改 `getLineNumber` 倒序遍历逻辑
+  - - 移除冗余的越界条件判断
+  - ### 问题
+  - 编辑区开头有空白时滑动，预览区会直接跳到文档中段
+  - ### 解决
+  - - 如果“文档中只存在一个模块”，实际应该被触底逻辑覆盖
+  - - `startEle === endEle`条件在`buildMap`隐式填充0、且无多余DOM才会进入，对应预览区域无实际dom，直接置零
+  - (cherry picked from commit 389f926b18030ef1c80c900472d44ed6957dbcb7)
+
+- fix misalignment when syncing preview to editor at the top ([commit ea6f13b](https://github.com/imzbf/md-editor-v3/commit/ea6f13b98e8248eaa3166cec4fe900f32a5d34e1))
+  - ### Description
+  - Fixed a bug where the editor and preview areas failed to align at the top when scrolling the preview area.
+  - ### Cause
+  - In `cEleHandler` (preview-to-editor), when `realEleStart` matches the first child, `scale` is calculated from absolute `0`, but `firstLineScrollTop` was not reset to `0`. This caused the old/cached `firstLineScrollTop` value to be added, preventing the editor from scrolling back to the absolute top.
+  - ### Solution
+  - Explicitly set `firstLineScrollTop = 0` inside the `else if` branch for the top element area to ensure a proper 0-based scale mapping.
+  - (cherry picked from commit d3ebcfe19dbbd7e9dd385ac143a331879f321fce)
+
+**Full Changelog**: [v6.5.3...v6.5.4](https://github.com/imzbf/md-editor-v3/compare/v6.5.3...v6.5.4)
+
+---
+
 ## 6.5.3 (2026-06-23)
 
 ### Fixed Bugs

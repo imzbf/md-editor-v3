@@ -110,7 +110,11 @@ const useMermaid = (props: ContentPreviewProps) => {
 
   const replaceMermaid = async () => {
     if (!props.noMermaid && mermaid) {
-      const mermaidSourceEles = rootRef.value.querySelectorAll<HTMLElement>(
+      const root = rootRef.value;
+
+      if (!root) return;
+
+      const mermaidSourceEles = root.querySelectorAll<HTMLElement>(
         `div.${prefix}-mermaid`
       );
 

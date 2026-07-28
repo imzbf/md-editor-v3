@@ -10,15 +10,15 @@ const ToolbarNext = defineComponent({
   setup() {
     const editorId = inject('editorId') as string;
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const disabled = inject<ComputedRef<boolean>>('disabled');
+    const contentDisabled = inject<ComputedRef<boolean>>('contentDisabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
 
     return () => (
       <button
-        class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
+        class={[`${prefix}-toolbar-item`, contentDisabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.next}
         aria-label={ult.value.toolbarTips?.next}
-        disabled={disabled?.value}
+        disabled={contentDisabled?.value}
         onClick={() => {
           bus.emit(editorId, CTRL_SHIFT_Z);
         }}

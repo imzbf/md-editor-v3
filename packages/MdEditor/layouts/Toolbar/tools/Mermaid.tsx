@@ -2,25 +2,24 @@ import { ComputedRef, computed, defineComponent, inject, ref } from 'vue';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
-import { REPLACE } from '~/static/event-name';
 import { StaticTextDefaultValue } from '~/type';
 import { ToolDirective } from '~/utils/content-help';
-import bus from '~/utils/event-bus';
+import { emitReplace } from '~/utils/replace';
 
 const ToolbarMermaid = defineComponent({
   name: 'ToolbarMermaid',
   setup() {
     const editorId = inject('editorId') as string;
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const disabled = inject<ComputedRef<boolean>>('disabled');
+    const contentDisabled = inject<ComputedRef<boolean>>('contentDisabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
     const wrapperId = `${editorId}-toolbar-wrapper`;
     const visible = ref(false);
 
     const emitHandler = (direct: ToolDirective) => {
-      if (disabled?.value) return;
+      if (contentDisabled?.value) return;
 
-      bus.emit(editorId, REPLACE, direct);
+      emitReplace(editorId, { direct });
     };
 
     const handleDropdownChange = (v: boolean) => {
@@ -123,15 +122,18 @@ const ToolbarMermaid = defineComponent({
         relative={`#${wrapperId}`}
         visible={visible.value}
         onChange={handleDropdownChange}
-        disabled={disabled?.value}
+        disabled={contentDisabled?.value}
         overlay={overlayContent.value}
         key="bar-mermaid"
       >
         <button
-          class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
+          class={[
+            `${prefix}-toolbar-item`,
+            contentDisabled?.value && `${prefix}-disabled`
+          ]}
           title={ult.value.toolbarTips?.mermaid}
           aria-label={ult.value.toolbarTips?.mermaid}
-          disabled={disabled?.value}
+          disabled={contentDisabled?.value}
           type="button"
         >
           <Icon name="mermaid" />

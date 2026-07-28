@@ -14,6 +14,20 @@ import {
   toRef,
   watch
 } from 'vue';
+
+import useEcharts from './useEcharts';
+import useHighlight from './useHighlight';
+import useKatex from './useKatex';
+import useMermaid from './useMermaid';
+
+import { ContentPreviewProps } from '../ContentPreview';
+import AdmonitionPlugin from '../markdownIt/admonition';
+import CodePlugin from '../markdownIt/code';
+import EchartsPlugin from '../markdownIt/echarts';
+import HeadingPlugin from '../markdownIt/heading';
+import KatexPlugin from '../markdownIt/katex';
+import MermaidPlugin from '../markdownIt/mermaid';
+import TaskListPlugin from '../markdownIt/task';
 import { globalConfig, prefix } from '~/config';
 import {
   BUILD_FINISHED,
@@ -32,20 +46,6 @@ import {
 import { generateCodeRowNumber } from '~/utils';
 import { zoomMermaid, copyMermaid } from '~/utils/dom';
 import bus from '~/utils/event-bus';
-
-import useEcharts from './useEcharts';
-import useHighlight from './useHighlight';
-import useKatex from './useKatex';
-import useMermaid from './useMermaid';
-
-import { ContentPreviewProps } from '../ContentPreview';
-import AdmonitionPlugin from '../markdownIt/admonition';
-import CodePlugin from '../markdownIt/code';
-import EchartsPlugin from '../markdownIt/echarts';
-import HeadingPlugin from '../markdownIt/heading';
-import KatexPlugin from '../markdownIt/katex';
-import MermaidPlugin from '../markdownIt/mermaid';
-import TaskListPlugin from '../markdownIt/task';
 
 const initLineNumber = (md: mdit) => {
   md.core.ruler.push('init-line-number', (state) => {
@@ -196,6 +196,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
         codeHtml = md.utils.escapeHtml(str);
       }
 
+      const escapedLanguage = md.utils.escapeHtml(language);
+
       const codeSpan = showCodeRowNumber
         ? generateCodeRowNumber(
             codeHtml.replace(/^\n+|\n+$/g, ''),
@@ -203,7 +205,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
           )
         : `<span class="${prefix}-code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
 
-      return `<pre><code class="language-${language}" language=${language}>${codeSpan}</code></pre>`;
+      return `<pre><code class="language-${escapedLanguage}" language="${escapedLanguage}">${codeSpan}</code></pre>`;
     }
   });
 

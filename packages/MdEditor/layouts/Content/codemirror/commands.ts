@@ -1,9 +1,9 @@
 import { deleteLine } from '@codemirror/commands';
 import { searchKeymap } from '@codemirror/search';
 import { KeyBinding } from '@codemirror/view';
-import { ON_SAVE, REPLACE } from '~/static/event-name';
-import { ToolDirective } from '~/utils/content-help';
+import { ON_SAVE } from '~/static/event-name';
 import bus from '~/utils/event-bus';
+import { emitReplace } from '~/utils/replace';
 
 export const createCommands = (
   id: string,
@@ -15,7 +15,7 @@ export const createCommands = (
     key: 'Ctrl-b',
     mac: 'Cmd-b',
     run: () => {
-      bus.emit(id, REPLACE, 'bold' as ToolDirective);
+      emitReplace(id, { direct: 'bold' });
       return true;
     }
   };
@@ -29,7 +29,7 @@ export const createCommands = (
       return true;
     },
     shift: () => {
-      bus.emit(id, REPLACE, 'strikeThrough' as ToolDirective);
+      emitReplace(id, { direct: 'strikeThrough' });
       return true;
     }
   };
@@ -40,12 +40,12 @@ export const createCommands = (
     preventDefault: true,
     run: () => {
       // ctrl+u触发下划线
-      bus.emit(id, REPLACE, 'underline' as ToolDirective);
+      emitReplace(id, { direct: 'underline' });
       return true;
     },
     shift: () => {
       // ctrl+shift+u触发无需列表
-      bus.emit(id, REPLACE, 'unorderedList' as ToolDirective);
+      emitReplace(id, { direct: 'unorderedList' });
       return true;
     }
   };
@@ -55,12 +55,12 @@ export const createCommands = (
     mac: 'Cmd-i',
     preventDefault: true,
     run: () => {
-      bus.emit(id, REPLACE, 'italic' as ToolDirective);
+      emitReplace(id, { direct: 'italic' });
       return true;
     },
     shift: () => {
       // ctrl+shift+i触发图片链接
-      bus.emit(id, REPLACE, 'image');
+      emitReplace(id, { direct: 'image' });
       return true;
     }
   };
@@ -69,7 +69,7 @@ export const createCommands = (
     key: 'Ctrl-1',
     mac: 'Cmd-1',
     run: () => {
-      bus.emit(id, REPLACE, 'h1' as ToolDirective);
+      emitReplace(id, { direct: 'h1' });
       return true;
     }
   };
@@ -78,7 +78,7 @@ export const createCommands = (
     key: 'Ctrl-2',
     mac: 'Cmd-2',
     run: () => {
-      bus.emit(id, REPLACE, 'h2' as ToolDirective);
+      emitReplace(id, { direct: 'h2' });
       return true;
     }
   };
@@ -86,7 +86,7 @@ export const createCommands = (
     key: 'Ctrl-3',
     mac: 'Cmd-3',
     run: () => {
-      bus.emit(id, REPLACE, 'h3' as ToolDirective);
+      emitReplace(id, { direct: 'h3' });
       return true;
     }
   };
@@ -94,7 +94,7 @@ export const createCommands = (
     key: 'Ctrl-4',
     mac: 'Cmd-4',
     run: () => {
-      bus.emit(id, REPLACE, 'h4' as ToolDirective);
+      emitReplace(id, { direct: 'h4' });
       return true;
     }
   };
@@ -102,7 +102,7 @@ export const createCommands = (
     key: 'Ctrl-5',
     mac: 'Cmd-5',
     run: () => {
-      bus.emit(id, REPLACE, 'h5' as ToolDirective);
+      emitReplace(id, { direct: 'h5' });
       return true;
     }
   };
@@ -110,7 +110,7 @@ export const createCommands = (
     key: 'Ctrl-6',
     mac: 'Cmd-6',
     run: () => {
-      bus.emit(id, REPLACE, 'h6' as ToolDirective);
+      emitReplace(id, { direct: 'h6' });
       return true;
     }
   };
@@ -119,7 +119,7 @@ export const createCommands = (
     key: 'Ctrl-ArrowUp',
     mac: 'Cmd-ArrowUp',
     run: () => {
-      bus.emit(id, REPLACE, 'sup' as ToolDirective);
+      emitReplace(id, { direct: 'sup' });
       return true;
     }
   };
@@ -128,7 +128,7 @@ export const createCommands = (
     key: 'Ctrl-ArrowDown',
     mac: 'Cmd-ArrowDown',
     run: () => {
-      bus.emit(id, REPLACE, 'sub' as ToolDirective);
+      emitReplace(id, { direct: 'sub' });
       return true;
     }
   };
@@ -138,7 +138,7 @@ export const createCommands = (
   //   key: 'Ctrl-q',
   //   mac: 'Cmd-q',
   //   run: () => {
-  //     bus.emit(id, REPLACE, 'quote' as ToolDirective);
+  //     emitReplace(id, { direct: 'quote' });
   //     return true;
   //   }
   // };
@@ -147,7 +147,7 @@ export const createCommands = (
     key: 'Ctrl-o',
     mac: 'Cmd-o',
     run: () => {
-      bus.emit(id, REPLACE, 'orderedList' as ToolDirective);
+      emitReplace(id, { direct: 'orderedList' });
       return true;
     }
   };
@@ -157,13 +157,13 @@ export const createCommands = (
     mac: 'Cmd-c',
     shift: () => {
       // ctrl+shift+c触发块级代码
-      bus.emit(id, REPLACE, 'code' as ToolDirective);
+      emitReplace(id, { direct: 'code' });
       return true;
     },
     any(_view, e) {
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.code === 'KeyC') {
         // ctrl+alt+c触发行内代码
-        bus.emit(id, REPLACE, 'codeRow' as ToolDirective);
+        emitReplace(id, { direct: 'codeRow' });
         return true;
       }
 
@@ -175,7 +175,7 @@ export const createCommands = (
     key: 'Ctrl-l',
     mac: 'Cmd-l',
     run: () => {
-      bus.emit(id, REPLACE, 'link');
+      emitReplace(id, { direct: 'link' });
       return true;
     }
   };
@@ -187,7 +187,7 @@ export const createCommands = (
     shift: () => {
       // ctrl+shift+f 美化内容
       if (!options.noPrettier) {
-        bus.emit(id, REPLACE, 'prettier');
+        emitReplace(id, { direct: 'prettier' });
         return true;
       }
       return false;
@@ -198,7 +198,7 @@ export const createCommands = (
     any: (_view, e) => {
       // ctrl+shift+alt+t 新增表格
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.shiftKey && e.code === 'KeyT') {
-        bus.emit(id, REPLACE, 'table');
+        emitReplace(id, { direct: 'table' });
         return true;
       }
 

@@ -1,20 +1,4 @@
 import { onMounted, inject, ref, ComputedRef, cloneVNode, VNode } from 'vue';
-import Divider from '~/components/Divider';
-import { globalConfig } from '~/config';
-import { allToolbar } from '~/config';
-import { CDN_IDS } from '~/static';
-import { CHANGE_FULL_SCREEN, ERROR_CATCHER } from '~/static/event-name';
-import { REPLACE } from '~/static/event-name';
-import {
-  InsertContentGenerator,
-  PreviewThemes,
-  SettingType,
-  Themes,
-  ToolbarNames,
-  UpdateSetting
-} from '~/type';
-import { appendHandler } from '~/utils/dom';
-import bus from '~/utils/event-bus';
 
 import ToolbarBold from './tools/Bold';
 import ToolbarCatalog from './tools/Catalog';
@@ -46,6 +30,22 @@ import ToolbarTask from './tools/Task';
 import ToolbarTitle from './tools/Title';
 import ToolbarUnderline from './tools/Underline';
 import ToolbarUnorderedList from './tools/UnorderedList';
+import Divider from '~/components/Divider';
+import { allToolbar } from '~/config';
+import { globalConfig } from '~/config';
+import { CDN_IDS } from '~/static';
+import { CHANGE_FULL_SCREEN, ERROR_CATCHER } from '~/static/event-name';
+import {
+  InsertContentGenerator,
+  PreviewThemes,
+  SettingType,
+  Themes,
+  ToolbarNames,
+  UpdateSetting
+} from '~/type';
+import { appendHandler } from '~/utils/dom';
+import bus from '~/utils/event-bus';
+import { emitReplace } from '~/utils/replace';
 
 export const useSreenfull = () => {
   const editorId = inject('editorId') as string;
@@ -255,10 +255,12 @@ export const useBarRender = () => {
           previewTheme: defItem.props?.theme || previewTheme.value,
           language: defItem.props?.theme || language.value,
           codeTheme: defItem.props?.codeTheme || codeTheme.value,
+          // `disabled` 是自定义工具栏的公开属性，只绑定真正的 disabled 状态；
+          // 只读下的正文写入由统一替换入口拦截。
           disabled: defItem.props?.disabled || disabled.value,
           showToolbarName: defItem.props?.showToolbarName || showToolbarName.value,
           insert(generate: InsertContentGenerator) {
-            bus.emit(editorId, REPLACE, 'universal', { generate });
+            emitReplace(editorId, { direct: 'universal', params: { generate } });
           }
         });
         return defItemCloned;
@@ -275,10 +277,11 @@ export const useBarRender = () => {
           previewTheme: defItem.props?.theme || previewTheme.value,
           language: defItem.props?.theme || language.value,
           codeTheme: defItem.props?.codeTheme || codeTheme.value,
+          // 只读时仍保留非编辑型自定义操作的可用性。
           disabled: defItem.props?.disabled || disabled.value,
           showToolbarName: defItem.props?.showToolbarName || showToolbarName.value,
           insert(generate: InsertContentGenerator) {
-            bus.emit(editorId, REPLACE, 'universal', { generate });
+            emitReplace(editorId, { direct: 'universal', params: { generate } });
           }
         });
         return defItemCloned;

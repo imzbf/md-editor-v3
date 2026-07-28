@@ -1,11 +1,10 @@
 import { ComputedRef, computed, defineComponent, inject, ref } from 'vue';
+import TableShape from '../TableShape';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
-import { REPLACE } from '~/static/event-name';
 import { StaticTextDefaultValue } from '~/type';
-import bus from '~/utils/event-bus';
-import TableShape from '../TableShape';
+import { emitReplace } from '~/utils/replace';
 
 const ToolbarTable = defineComponent({
   name: 'ToolbarTable',
@@ -13,7 +12,7 @@ const ToolbarTable = defineComponent({
   setup() {
     const editorId = inject('editorId') as string;
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const disabled = inject<ComputedRef<boolean>>('disabled');
+    const contentDisabled = inject<ComputedRef<boolean>>('contentDisabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
     const tableShape = inject('tableShape') as ComputedRef<Array<number>>;
 
@@ -25,11 +24,11 @@ const ToolbarTable = defineComponent({
     };
 
     const handleSelected = (selectedShape: { x: number; y: number }) => {
-      if (disabled?.value) {
+      if (contentDisabled?.value) {
         return;
       }
 
-      bus.emit(editorId, REPLACE, 'table', { selectedShape });
+      emitReplace(editorId, { direct: 'table', params: { selectedShape } });
     };
 
     const overlayContent = computed(() => (
@@ -41,15 +40,18 @@ const ToolbarTable = defineComponent({
         relative={`#${wrapperId}`}
         visible={visible.value}
         onChange={handleDropdownChange}
-        disabled={disabled?.value}
+        disabled={contentDisabled?.value}
         key="bar-table"
         overlay={overlayContent.value}
       >
         <button
-          class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
+          class={[
+            `${prefix}-toolbar-item`,
+            contentDisabled?.value && `${prefix}-disabled`
+          ]}
           title={ult.value.toolbarTips?.table}
           aria-label={ult.value.toolbarTips?.table}
-          disabled={disabled?.value}
+          disabled={contentDisabled?.value}
           type="button"
         >
           <Icon name="table" />

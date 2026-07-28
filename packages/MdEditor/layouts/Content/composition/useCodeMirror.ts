@@ -12,6 +12,18 @@ import { Compartment, Extension } from '@codemirror/state';
 import { EditorView, keymap, drawSelection } from '@codemirror/view';
 import { throttle } from '@vavt/util';
 import { ref, onMounted, inject, ComputedRef, watch, shallowRef, VNode, Ref } from 'vue';
+
+import CodeMirrorUt from '../codemirror';
+import { useToolbarEffect } from './useToolbarEffect';
+import { createAutocompletion } from '../codemirror/autocompletion';
+import { createFloatingToolbar } from '../codemirror/floatingToolbar';
+import { oneLight } from '../codemirror/themeLight';
+import { oneDark } from '../codemirror/themeOneDark';
+import { ContentProps } from '../props';
+import usePasteUpload from './usePasteUpload';
+// import useAttach from './useAttach';
+import { createCommands } from '../codemirror/commands';
+import { TextShortenerOptions, createTextShortener } from '../codemirror/textShortener';
 import { globalConfig } from '~/config';
 import {
   CTRL_SHIFT_Z,
@@ -34,20 +46,9 @@ import {
   ToolbarNames,
   UpdateSetting
 } from '~/type';
-import { directive2flag, ToolDirective } from '~/utils/content-help';
+import { directive2flag } from '~/utils/content-help';
 import bus from '~/utils/event-bus';
-
-import CodeMirrorUt from '../codemirror';
-import { useToolbarEffect } from './useToolbarEffect';
-import { createAutocompletion } from '../codemirror/autocompletion';
-import { createFloatingToolbar } from '../codemirror/floatingToolbar';
-import { oneLight } from '../codemirror/themeLight';
-import { oneDark } from '../codemirror/themeOneDark';
-import { ContentProps } from '../props';
-import usePasteUpload from './usePasteUpload';
-// import useAttach from './useAttach';
-import { createCommands } from '../codemirror/commands';
-import { TextShortenerOptions, createTextShortener } from '../codemirror/textShortener';
+import type { ReplacePayload } from '~/utils/replace';
 
 // 禁用掉>=6.28.0的实验性功能
 (EditorView as any).EDIT_CONTEXT = false;
@@ -79,6 +80,7 @@ const useCodeMirror = (props: ContentProps) => {
     'usedLanguageText'
   ) as ComputedRef<StaticTextDefaultValue>;
   const disabled = inject('disabled') as ComputedRef<boolean>;
+  const contentDisabled = inject('contentDisabled') as ComputedRef<boolean>;
   const showToolbarName = inject('showToolbarName') as ComputedRef<boolean>;
   const customIcon = inject('customIcon') as ComputedRef<CustomIcon>;
   const noUploadImg = inject('noUploadImg') as ComputedRef<boolean>;
@@ -159,7 +161,9 @@ const useCodeMirror = (props: ContentProps) => {
       app.provide('theme', theme);
       app.provide('previewTheme', previewTheme);
       app.provide('language', language);
+      // 浮动工具栏同时需要两种状态：查看类操作只遵循 `disabled`，编辑类操作还要遵循 `readOnly`。
       app.provide('disabled', disabled);
+      app.provide('contentDisabled', contentDisabled);
       app.provide('noUploadImg', noUploadImg);
       app.provide('tableShape', tableShape);
       app.provide('noPrettier', noPrettier);
@@ -300,36 +304,38 @@ const useCodeMirror = (props: ContentProps) => {
     // 注册指令替换内容事件
     bus.on(editorId, {
       name: REPLACE,
-      async callback(direct: ToolDirective, params = {}) {
+      async callback({ direct, params = {}, source = 'interaction' }: ReplacePayload) {
+        // 公开 API 与直接设置 modelValue 一样属于程序化更新，不受原生 disabled/readOnly 约束；
+        // 工具栏、快捷键和异步上传等用户交互则在真正写入前再次校验当前状态。
+        const replaceDisabled = () => contentDisabled.value && source !== 'programmatic';
+
+        if (replaceDisabled()) return;
+
+        const applyReplace = async (nextParams: Record<string, unknown>) => {
+          const { text, options } = await directive2flag(
+            direct,
+            codeMirrorUt.value!,
+            nextParams
+          );
+
+          if (replaceDisabled()) return;
+
+          codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
+        };
+
         // 弹窗插入图片时，将链接使用transformImgUrl转换后再插入
         if (direct === 'image' && params.transform) {
           const tv = props.transformImgUrl(params.url as string);
 
           if (tv instanceof Promise) {
-            tv.then(async (url) => {
-              const { text, options } = await directive2flag(
-                direct,
-                codeMirrorUt.value!,
-                { ...params, url }
-              );
-              codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
-            }).catch((err) => {
+            tv.then((url) => applyReplace({ ...params, url })).catch((err) => {
               console.error(err);
             });
           } else {
-            const { text, options } = await directive2flag(direct, codeMirrorUt.value!, {
-              ...params,
-              url: tv
-            });
-            codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
+            await applyReplace({ ...params, url: tv });
           }
         } else {
-          const { text, options } = await directive2flag(
-            direct,
-            codeMirrorUt.value!,
-            params
-          );
-          codeMirrorUt.value?.replaceSelectedText(text as string, options, editorId);
+          await applyReplace(params);
         }
       }
     });
@@ -371,6 +377,8 @@ const useCodeMirror = (props: ContentProps) => {
     bus.on(editorId, {
       name: TASK_STATE_CHANGED,
       callback: (lineNumber: number, value: string) => {
+        if (contentDisabled.value) return;
+
         const line = view.state.doc.line(lineNumber);
         // 应用交易到编辑器视图
         view.dispatch(
@@ -434,7 +442,7 @@ const useCodeMirror = (props: ContentProps) => {
   watch(
     () => props.readonly,
     () => {
-      codeMirrorUt.value?.setDisabled(props.readonly!);
+      codeMirrorUt.value?.setReadOnly(props.readonly!);
     }
   );
 
