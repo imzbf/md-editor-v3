@@ -60,6 +60,7 @@
     "@vavt/markdown-theme": "^5.0.2",
     "@vavt/util": "^2.1.2",
     "codemirror": "^6.0.2",
+    "json5": "^2.2.3",
     "markdown-it": "^14.0.0",
     "markdown-it-image-figures": "^2.1.1",
     "markdown-it-sub": "^2.0.0",

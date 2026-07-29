@@ -1,6 +1,5 @@
 import { Compartment, Extension } from '@codemirror/state';
 import { KeyBinding, EditorView } from '@codemirror/view';
-// eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
 import markdownit, { Token } from 'markdown-it';
 import { Component, SetupContext, ExtractPropTypes, VNode } from 'vue';
@@ -268,10 +267,10 @@ export interface GlobalConfig {
       instance?: any;
       js?: string;
       /**
-       * 解析echarts代码块内容。
+       * 解析 ECharts 代码块内容。
        *
-       * 默认实现会使用new Function以兼容官方配置中的函数写法；当内容来源不可信时，
-       * 业务侧应通过该方法替换为更严格的解析策略。
+       * 从 v7.x 开始，默认基于 JSON5.parse 解析 JSON5 数据，并要求顶层为对象，不会执行代码块中的 JavaScript。
+       * 如需函数回调等 JavaScript 配置可覆盖该方法；自定义解析器需要自行保证输入安全。
        */
       parseOption?: (
         code: string,

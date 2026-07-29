@@ -1,4 +1,5 @@
 import { deepMerge } from '@vavt/util';
+import JSON5 from 'json5';
 import { CodeCss, Config, GlobalConfig, Footers, StaticTextDefault } from './type';
 
 export const prefix = 'md-editor';
@@ -468,9 +469,23 @@ export const globalConfig: GlobalConfig = {
     echarts: {
       js: echartsUrl,
       parseOption: (code) => {
-        // 默认保持历史行为，允许echarts官方配置中的函数写法；不可信内容应由业务侧覆盖该解析方法。
-        // eslint-disable-next-line @typescript-eslint/no-implied-eval
-        return new Function(`return ${code}`)();
+        // ECharts 代码块可能来自外部输入。JSON5 仅解析数据，不会执行函数或其他 JavaScript 表达式。
+        let option: unknown;
+        try {
+          option = JSON5.parse(code);
+        } catch (error) {
+          // 保留原始错误作为 cause，同时补充业务上下文，便于 ERROR_CATCHER 准确定位配置问题。
+          const message = error instanceof Error ? error.message : String(error);
+          throw new SyntaxError(`Invalid ECharts option: ${message}`, {
+            cause: error
+          });
+        }
+
+        if (!option || typeof option !== 'object' || Array.isArray(option)) {
+          throw new TypeError('ECharts option must be an object.');
+        }
+
+        return option;
       }
     }
   },
