@@ -43,9 +43,10 @@ import {
   StaticTextDefaultValue,
   Themes
 } from '~/type';
-import { generateCodeRowNumber } from '~/utils';
+import { generateCodeBlock, prepareCustomCodeHighlight } from '~/utils';
 import { zoomMermaid, copyMermaid } from '~/utils/dom';
 import bus from '~/utils/event-bus';
+import { parseCodeBlockInfo } from '~/utils/md-it';
 
 const initLineNumber = (md: mdit) => {
   md.core.ruler.push('init-line-number', (state) => {
@@ -173,41 +174,54 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   md.set({
     highlight: (str, language, attrs) => {
+      const codeInfo = parseCodeBlockInfo(language, attrs);
+      const { attrs: codeAttrs, language: codeLanguage, lineHighlightRanges } = codeInfo;
+      let codeHtml = '';
+
       if (userDefHighlight) {
-        const result = userDefHighlight(str, language, attrs);
+        const result = userDefHighlight(str, codeLanguage, codeAttrs);
         if (result) {
-          return result;
+          const customCodeHighlight = prepareCustomCodeHighlight(result, str, {
+            lineHighlightRanges,
+            showLineNumber: showCodeRowNumber
+          });
+          if (customCodeHighlight.shouldReturnDirectly) {
+            return customCodeHighlight.html;
+          }
+
+          codeHtml = customCodeHighlight.html;
         }
       }
-      let codeHtml: string;
 
-      // 不高亮或者没有实例，返回默认
-      if (!props.noHighlight && hljsRef.value) {
-        const hljsLang = hljsRef.value.getLanguage(language);
-        if (hljsLang) {
-          codeHtml = hljsRef.value.highlight(str, {
-            language,
-            ignoreIllegals: true
-          }).value;
+      if (!codeHtml) {
+        // 不高亮或者没有实例，返回默认
+        if (!props.noHighlight && hljsRef.value) {
+          const hljsLang = hljsRef.value.getLanguage(codeLanguage);
+          if (hljsLang) {
+            codeHtml = hljsRef.value.highlight(str, {
+              language: codeLanguage,
+              ignoreIllegals: true
+            }).value;
+          } else {
+            codeHtml = hljsRef.value.highlightAuto(str).value;
+          }
         } else {
-          codeHtml = hljsRef.value.highlightAuto(str).value;
+          codeHtml = md.utils.escapeHtml(str);
         }
-      } else {
-        codeHtml = md.utils.escapeHtml(str);
       }
 
-      const escapedLanguage = md.utils.escapeHtml(language);
+      const escapedLanguage = md.utils.escapeHtml(codeLanguage);
 
       let codeSpan = `<span class="${prefix}-code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
-      let codeStyle = '';
 
-      if (showCodeRowNumber) {
-        const rowNumberResult = generateCodeRowNumber(codeHtml, str);
-        codeSpan = rowNumberResult.html;
-        codeStyle = ` style="--md-code-line-number-width: ${rowNumberResult.lineNumberWidth};"`;
+      if (showCodeRowNumber || lineHighlightRanges.length) {
+        codeSpan = generateCodeBlock(codeHtml, str, {
+          lineHighlightRanges,
+          showLineNumber: showCodeRowNumber
+        });
       }
 
-      return `<pre><code class="language-${escapedLanguage}" language="${escapedLanguage}"${codeStyle}>${codeSpan}</code></pre>`;
+      return `<pre><code class="language-${escapedLanguage}" language="${escapedLanguage}">${codeSpan}</code></pre>`;
     }
   });
 
@@ -276,20 +290,23 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     return (props.noKatex || !!katexRef.value) && (props.noHighlight || !!hljsRef.value);
   });
 
-  /**
-   * 组件移除后，异步任务可能还未执行，无法取消debounce
-   * 通过unMounted中断编译任务
-   */
-  let timer = -1;
   // 由于复制按钮被放到了编译内容中，所以切换语言时，需要重新编译一次
-  watch([toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef], () => {
-    timer = window.setTimeout(
-      () => {
-        markHtml();
-      },
-      previewOnly ? 0 : editorConfig.renderDelay
-    );
-  });
+  watch(
+    [toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef],
+    (_value, _oldValue, onCleanup) => {
+      const timer = window.setTimeout(
+        () => {
+          markHtml();
+        },
+        previewOnly ? 0 : editorConfig.renderDelay
+      );
+
+      // 连续输入或配置切换时取消上一轮延迟编译，避免堆积重复的 Markdown 渲染。
+      onCleanup(() => {
+        clearTimeout(timer);
+      });
+    }
+  );
 
   watch(
     () => setting.value.preview,
@@ -335,7 +352,6 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   onBeforeUnmount(() => {
     clearZoomMermaidEvents();
     clearCopyMermaidEvents();
-    clearTimeout(timer);
   });
 
   return { html, key };
