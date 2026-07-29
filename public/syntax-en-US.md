@@ -119,6 +119,32 @@ import 'md-editor-v3/lib/style.css';
 ```
 ````
 
+### 🖍 Line Highlighting
+
+\>= v7.0.0
+
+Append a `{...}` marker to the language identifier to highlight specific code lines. Line numbers are 1-based; separate individual lines with commas and use `start-end` for ranges. Both `js {2,4-5}` and `js{2,4-5}` are supported.
+
+```js {2,4-5}
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+const value = ref('# Hello');
+export { MdEditor, value };
+```
+
+````markdown
+```js {2,4-5}
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+const value = ref('# Hello');
+export { MdEditor, value };
+```
+````
+
+Line highlighting works independently of `showCodeRowNumber`, so it remains active when line numbers are hidden.
+
 ### 🗄 Combination
 
 ```shell [id:yarn]
@@ -351,6 +377,8 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 \>= v6.0.0
 
+Starting with v7.x, the default parser uses `JSON5.parse` and requires a top-level object. Unquoted property names, single-quoted strings, comments, and trailing commas are supported. JSON5 parses data only, so functions, variable references, `new`, and call expressions are not supported.
+
 ```echarts
 {
   tooltip: {
@@ -397,7 +425,7 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 !!! warning
 
-Please note that this module will not handle dangerous code, and you need to ensure the security of your data on your own!
+Starting with v7.x, the default parser does not execute JavaScript. For functions or other JavaScript-only options, provide a custom `editorExtensions.echarts.parseOption`. Custom parsers receive the raw Markdown content, so use them only with trusted input or strict validation.
 
 !!!
 

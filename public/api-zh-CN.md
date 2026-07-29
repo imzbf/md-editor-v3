@@ -75,7 +75,7 @@
 - **类型**：`boolean`
 - **默认值**：`true`
 
-  代码块是否显示行号。
+  默认显示代码块行号；初始化组件时设置为 `false` 可关闭，运行时修改不会生效。从 v7.x 开始支持的代码块行高亮不受该配置影响。
 
 ---
 
@@ -1867,8 +1867,25 @@ export interface EditorExtensions {
     js?: string;
     css?: string;
   };
+  echarts?: {
+    instance?: any;
+    js?: string;
+    /**
+     * 解析 ECharts 代码块。从 v7.x 开始，默认使用 JSON5.parse，
+     * 要求顶层为对象，且不会执行 JavaScript。
+     */
+    parseOption?: (
+      code: string,
+      options: {
+        editorId: string;
+        element: HTMLElement;
+      },
+    ) => any;
+  };
 }
 ```
+
+从 v7.x 开始，默认的 `editorExtensions.echarts.parseOption` 使用 `JSON5.parse`，并要求解析结果为对象。支持未加引号的属性名、单引号字符串、注释和尾随逗号等 JSON5 数据语法，但不支持函数、变量引用、`new` 或调用表达式。自定义解析器会接收原始 Markdown 内容，需要自行保证输入可信并完成必要校验。
 
 ---
 

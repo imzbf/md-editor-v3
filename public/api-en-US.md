@@ -75,7 +75,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 - **type**: `boolean`
 - **default**: `true`
 
-  Show row number for code block or not.
+  Code block line numbers are shown by default. Set this prop to `false` when initializing the component to hide them; runtime changes are not observed. Code-fence line highlighting, available starting with v7.x, works independently.
 
 ---
 
@@ -1826,8 +1826,25 @@ export interface EditorExtensions {
     js?: string;
     css?: string;
   };
+  echarts?: {
+    instance?: any;
+    js?: string;
+    /**
+     * Parse an ECharts code block. Starting with v7.x, the default uses
+     * JSON5.parse, requires a top-level object, and does not execute JavaScript.
+     */
+    parseOption?: (
+      code: string,
+      options: {
+        editorId: string;
+        element: HTMLElement;
+      },
+    ) => any;
+  };
 }
 ```
+
+Starting with v7.x, the default `editorExtensions.echarts.parseOption` uses `JSON5.parse` and requires the parsed value to be an object. It supports JSON5 data syntax such as unquoted property names, single-quoted strings, comments, and trailing commas, but not functions, variable references, `new`, or call expressions. A custom parser receives raw Markdown content and must enforce its own trust and validation rules.
 
 ---
 

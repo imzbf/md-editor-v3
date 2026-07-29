@@ -119,6 +119,32 @@ import 'md-editor-v3/lib/style.css';
 ```
 ````
 
+### 🖍 行高亮
+
+\>= v7.0.0
+
+在语言标识后添加 `{...}` 可高亮指定代码行。行号从 `1` 开始，多个行号使用逗号分隔，连续区间使用 `起始行-结束行`；支持 `js {2,4-5}` 和 `js{2,4-5}` 两种写法。
+
+```js {2,4-5}
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+const value = ref('# Hello');
+export { MdEditor, value };
+```
+
+````markdown
+```js {2,4-5}
+import { ref } from 'vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+const value = ref('# Hello');
+export { MdEditor, value };
+```
+````
+
+行高亮与 `showCodeRowNumber` 相互独立，隐藏行号后仍会保留高亮效果。
+
 ### 🗄 代码组合
 
 ```shell [id:yarn]
@@ -351,6 +377,8 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 \>= v6.0.0
 
+从 v7.x 开始，默认解析器使用 `JSON5.parse`，且顶层必须是对象。支持未加引号的属性名、单引号字符串、注释和尾随逗号等 JSON5 数据语法。JSON5 只解析数据，因此不支持函数、变量引用、`new` 或调用表达式。
+
 ```echarts
 {
   tooltip: {
@@ -397,7 +425,7 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 !!! warning
 
-请注意，该模块不会处理危险的代码，你需要自行保证数据的安全！
+从 v7.x 开始，默认解析不会执行 JavaScript。若需函数回调等仅 JavaScript 支持的配置，可通过 `editorExtensions.echarts.parseOption` 自定义解析器。自定义解析器会接收原始 Markdown 内容，请仅在输入可信或完成严格校验后使用。
 
 !!!
 
