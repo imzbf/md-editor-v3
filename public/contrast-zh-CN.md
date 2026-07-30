@@ -1,5 +1,94 @@
 下面仅列举不兼容的内容，兼容内容不作展示。
 
+## 🧙🏼 从 6.x 升级到 7.x
+
+### 事件
+
+#### 📐 onInputBoxWidthChange
+
+`MdEditor`的输入框宽度变化事件已更名，旧事件名称不再支持：
+
+Vue 模板：
+
+```diff
+- <MdEditor @oninputBoxWidthChange="handleInputBoxWidthChange" />
++ <MdEditor @onInputBoxWidthChange="handleInputBoxWidthChange" />
+```
+
+JSX/TSX：
+
+```diff
+- <MdEditor oninputBoxWidthChange={handleInputBoxWidthChange} />
++ <MdEditor onInputBoxWidthChange={handleInputBoxWidthChange} />
+```
+
+### 💴 Config
+
+#### 📊 editorExtensions.echarts.parseOption
+
+6.x 的默认解析器会执行代码块中的 JavaScript，因此可以直接使用函数：
+
+```js
+{
+  tooltip: {
+    formatter: (params) => `${params[0].value}`,
+  },
+}
+```
+
+7.x 默认使用`JSON5.parse`，并要求顶层结果为非数组对象。配置需要调整为不包含函数、变量引用、`new`或调用表达式的 JSON5 数据：
+
+```json5
+{
+  tooltip: {
+    trigger: 'axis',
+  },
+  series: [
+    {
+      type: 'line',
+      data: [1, 2, 3],
+    },
+  ],
+}
+```
+
+如果仍需兼容函数写法，可以显式覆盖`parseOption(code, { editorId, element })`：
+
+```ts
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: {
+    echarts: {
+      parseOption(code) {
+        return new Function(`return (${code})`)();
+      },
+    },
+  },
+});
+```
+
+!!! warning
+
+执行型解析器只适用于完全可信的 Markdown 内容，自定义解析器需要自行完成输入校验和安全控制。
+
+!!!
+
+### 🎨 样式
+
+#### 🌗 暗色主题选择器
+
+暗色模式选择器需要按下面的方式迁移：
+
+```diff
+-.md-editor-dark,
+-.md-editor-catalog-dark {
++.md-editor[data-theme='dark'],
++.md-editor-catalog[data-theme='dark'] {
+  /* 自定义暗色样式 */
+}
+```
+
 ## 🧙🏼 从 5.x 升级到 6.x
 
 ### 🐈 UMD

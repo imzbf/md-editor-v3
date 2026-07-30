@@ -773,7 +773,7 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
   .css-vars(false);
 }
 
-.md-editor-dark {
+.md-editor[data-theme='dark'] {
   .css-vars(true);
 }
 ```
@@ -781,7 +781,7 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 只需要调整对应的 css 变量，比如调整暗夜模式下的背景：
 
 ```css
-.md-editor-dark {
+.md-editor[data-theme='dark'] {
   --md-bk-color: #333 !important;
 }
 ```
@@ -1205,7 +1205,8 @@ MyEditor.vue
 
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, useId, watch } from 'vue';
-import { MdEditor, ExposeParam } from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
 import { createYjsExtension, yjsCompartment, cleanupYjs } from './extendEditor';
 
 defineOptions({

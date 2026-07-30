@@ -768,7 +768,7 @@ To get complete code, refer to [docs](https://github.com/imzbf/md-editor-v3/blob
   .css-vars(false);
 }
 
-.md-editor-dark {
+.md-editor[data-theme='dark'] {
   .css-vars(true);
 }
 ```
@@ -776,7 +776,7 @@ To get complete code, refer to [docs](https://github.com/imzbf/md-editor-v3/blob
 Change background color in dark mode:
 
 ```css
-.md-editor-dark {
+.md-editor[data-theme='dark'] {
   --md-bk-color: #333 !important;
 }
 ```
@@ -1194,7 +1194,8 @@ MyEditor.vue
 
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, useId, watch } from 'vue';
-import { MdEditor, ExposeParam } from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
 import { createYjsExtension, yjsCompartment, cleanupYjs } from './extendEditor';
 
 defineOptions({

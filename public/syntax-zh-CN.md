@@ -114,7 +114,7 @@ I have a dream that one day this nation will rise up.~[2]~
 
 ````markdown
 ```js
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 ````
@@ -127,7 +127,7 @@ import 'md-editor-v3/lib/style.css';
 
 ```js {2,4-5}
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 const value = ref('# Hello');
 export { MdEditor, value };
@@ -136,7 +136,7 @@ export { MdEditor, value };
 ````markdown
 ```js {2,4-5}
 import { ref } from 'vue';
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 const value = ref('# Hello');
 export { MdEditor, value };
@@ -176,13 +176,13 @@ pnpm install md-editor-v3
 ### 🤌🏻 强制折叠
 
 ```js ::close
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 
 ````markdown
 ```js ::close
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 ````
@@ -190,13 +190,13 @@ import 'md-editor-v3/lib/style.css';
 ### 👐 强制展开
 
 ```js ::open
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 
 ````markdown
 ```js ::open
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 ````

@@ -16,7 +16,7 @@ Markdown 编辑器，vue3 版本，使用 jsx 模板 和 typescript 开发，支
 - [ ] 周六
 - [x] 周天
 
-![图片](https://imzbf.github.io/md-editor-rt/imgs/mark_emoji.gif)
+![图片](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
 ## 🤗 代码演示
 

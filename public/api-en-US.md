@@ -53,7 +53,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 ### 🎲 editorId
 
 - **type**: `string`
-- **default**: `'md-editor-v-\d'`
+- **default**: `undefined` (generated automatically when omitted)
 
   Deprecated. Starting from version 5.x, Replace with `id`.
 
@@ -64,7 +64,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 ### 🎲 id
 
 - **type**: `string`
-- **default**: `'md-editor-v-\d'`
+- **default**: `undefined` (generated automatically when omitted)
 
   Unique identifier of the editor, use the default prefix and `useId` for concatenation.
 
@@ -81,10 +81,10 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ### 🔦 previewTheme
 
-- **type**: `'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'`
+- **type**: `string`
 - **default**: `'default'`
 
-  Preview themes.
+  Preview theme. Built-in values are `default`, `github`, `vuepress`, `mk-cute`, `smart-blue`, and `cyanosis`; custom theme names are also supported.
 
   Custom:
   1. Write css
@@ -108,7 +108,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 ### 🎅🏻 style
 
 - **type**: `string | CSSProperties`
-- **default**: `''`
+- **default**: `{}`
 
   Editor's inline style.
 
@@ -142,10 +142,10 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ### 🦉 codeTheme
 
-- **type**: `'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'`
+- **type**: `string`
 - **default**: `'atom'`
 
-  Highlight code css name. Get Them from `highlight.js`.
+  Code highlighting theme name. Built-in values are `atom`, `a11y`, `github`, `gradient`, `kimbie`, `paraiso`, `qtcreator`, and `stackoverflow`; custom names are also supported.
 
   Custom:
   1. Config `editorExtensions`
@@ -182,7 +182,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 ### 🎱 mdHeadingId
 
 - **type**: `MdHeadingId`
-- **default**: `(text) => text`
+- **default**: `({ text }) => text`
 
   Heading `ID` generator.
 
@@ -220,11 +220,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   !!! warning
 
-  This is a reserved attribute.
-
-  Basic solution for dangerous code has been built-in since version 3.x. eg: `<script>alert(123)</script>`. Prior to version 4.11.3, it was recommended to utilize this attribute for cleaning more complex content to prevent XSS attacks.
-
-  A more comprehensive solution has been implemented since version 4.11.3. Refer to [Modify XSS configuration](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0%9F%94%8F%20Modify%20XSS%20configuration)
+  Raw HTML in Markdown is not sanitized by default. When rendering untrusted content, sanitize the compiled HTML with this prop or explicitly enable `XSSPlugin`, which has been exported since v5 but is not enabled by default. Refer to [Modify XSS configuration](https://imzbf.github.io/md-editor-v3/en-US/demo#%F0%9F%94%8F%20Modify%20XSS%20configuration).
 
   !!!
 
@@ -281,7 +277,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ### 🧼 codeStyleReverseList
 
-- **type**: `Array`
+- **type**: `Array<string>`
 - **default**: `['default', 'mk-cute']`
 
   Themes to be reversed.
@@ -325,7 +321,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   !!! warning Type Warning
 
-  The icon corresponding to `copy` and `collapse-tips` can only be a string, while others can be components or strings
+  The icons for `copy`, `collapse-tips`, `pin`, `pin-off`, and `check` can only be strings. Other icons can be components or strings.
 
   !!!
 
@@ -334,7 +330,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
     <MdEditor :customIcon="customIcon" />
   </template>
 
-  <script 😬setup lang="ts">
+  <script setup lang="ts">
   import type { CustomIcon } from 'md-editor-v3';
   import { MdEditor, StrIcon } from 'md-editor-v3';
   // Assuming you have installed an icon library or customized icon components
@@ -403,14 +399,17 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
   type CustomIcon = {
     [key in IconName]?: {
-      component: VNode;
-      props: {
+      component: Component | VNode | string;
+      props?: {
         [key: string | number | symbol]: any;
       };
     };
   } & {
     copy?: string;
-    'collapse-tips': string;
+    'collapse-tips'?: string;
+    pin?: string;
+    'pin-off'?: string;
+    check?: string;
   };
   ```
 
@@ -454,19 +453,22 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 
 ### 🎨 previewComponent
 
-If you need full control over how the preview area is rendered, you can inject a custom component via `previewComponent`. The component will receive three props: `html`, `id`, and `className`. Apply `id` and `className` to the container element to preserve the built-in styles and behavior.
+- **type**: `Component`
+- **default**: `undefined`
+
+To take full control of preview rendering, provide a custom component through `previewComponent`. It receives `html`, `id`, and `class`; apply `id` and `class` to the container element to preserve the built-in styles and behavior.
 
 ```vue
 <script setup lang="ts">
 defineProps<{
   html: string;
   id?: string;
-  className?: string;
+  class?: string;
 }>();
 </script>
 
 <template>
-  <div :id="id" :class="className" v-html="html" />
+  <div :id="id" :class="class" v-html="html" />
 </template>
 ```
 
@@ -505,15 +507,15 @@ Except for the same as `MdPreview`:
 
   Preview html in editor. Set `preview` to `false` when `htmlPreview` is `true`.
 
-  ```jsx
-  <MdEditor htmlPreview preview={false} />
+  ```vue
+  <MdEditor htmlPreview :preview="false" />
   ```
 
 ---
 
 ### 🧱 toolbars
 
-- **type**: `Array`
+- **type**: `Array<ToolbarNames>`
 - **default**: `[all]`
 
   Show contents of toolbar, all keys.
@@ -529,9 +531,9 @@ Except for the same as `MdPreview`:
     'bold',
     'underline',
     'italic',
+    'strikeThrough',
     '-',
     'title',
-    'strikeThrough',
     'sub',
     'sup',
     'quote',
@@ -551,6 +553,7 @@ Except for the same as `MdPreview`:
     'next',
     'save',
     '=',
+    'prettier',
     'pageFullscreen',
     'fullscreen',
     'preview',
@@ -565,7 +568,7 @@ Except for the same as `MdPreview`:
 
 ### 🧱 toolbarsExclude
 
-- **type**: `Array`
+- **type**: `Array<ToolbarNames>`
 - **default**: `[]`
 
   Don't show contents of toolbar.
@@ -574,7 +577,7 @@ Except for the same as `MdPreview`:
 
 ### 🧱 floatingToolbars
 
-- **type**: `Array`
+- **type**: `Array<ToolbarNames>`
 - **default**: `[]`
 
   Show contents of floating toolbar.
@@ -588,7 +591,7 @@ Except for the same as `MdPreview`:
 - **type**: `boolean`
 - **default**: `false`
 
-  Use prettier to beautify content or not.
+  Disable Prettier formatting for Markdown content. Set it to `true` to disable Prettier.
 
 ---
 
@@ -611,7 +614,7 @@ Except for the same as `MdPreview`:
   ```vue
   <template>
     <MdEditor :tableShape="tableShape" />
-  </tempale>
+  </template>
 
   <script setup>
   const tableShape = [8, 4];
@@ -685,14 +688,14 @@ Except for the same as `MdPreview`:
 - **type**: `boolean`
 - **default**: `false`
 
-  Same as `readonly` in native textarea.
+  Prevent editing while still allowing text selection and copying.
 
 ---
 
 ### 📏 maxLength
 
 - **type**: `number`
-- **default**: ``
+- **default**: `undefined`
 
   Same as `maxlength` in native textarea.
 
@@ -710,7 +713,7 @@ Except for the same as `MdPreview`:
 ### 📝 completions
 
 - **type**: `Array<CompletionSource>`
-- **default**: `[]`
+- **default**: `undefined`
 
   Additional completion sources.
 
@@ -765,7 +768,7 @@ Except for the same as `MdPreview`:
 ### 📥 inputBoxWidth
 
 - **type**: `string`
-- **default**: `50%`
+- **default**: `'50%'`
 
   Default width of input box
 
@@ -785,7 +788,7 @@ Except for the same as `MdPreview`:
 ### 🔖 catalogLayout
 
 - **type**: `'fixed' | 'flat'`
-- **default**: `fixed`
+- **default**: `'fixed'`
 
   \>=5.3.0, the built-in catalog status: 'fixed' - floats above the content; 'flat' - displays on the right side.
 
@@ -991,7 +994,7 @@ Except for the same as `MdPreview`:
   </template>
 
   <script setup>
-  import MdEditor from 'md-editor-v3';
+  import { MdEditor } from 'md-editor-v3';
   import 'md-editor-v3/lib/style.css';
 
   const onSave = (v, h) => {
@@ -1008,7 +1011,7 @@ Except for the same as `MdPreview`:
 
 ### 📸 onUploadImg
 
-- **type**: `files: Array<File>, callback: (urls: string[] | { url: string; alt: string; title: string }[]) => void`
+- **type**: `(files: Array<File>, callback: (urls: string[] | { url: string; alt: string; title: string }[]) => void) => void`
 
   Uploading picture event, when picture is uploading the modal will not close, please provide right urls to the callback function.
 
@@ -1209,6 +1212,9 @@ onMounted(() => {
 | rerender             | √        | √         |
 | getSelectedText      | √        | ×         |
 | resetHistory         | √        | ×         |
+| domEventHandlers     | √        | ×         |
+| execCommand          | √        | ×         |
+| getEditorView        | √        | ×         |
 
 ### 👂🏼 on
 
@@ -1616,6 +1622,7 @@ List of built-in Plugins.
 | sup        | none                                                                                                                          |
 | katex      | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/katex/index.ts#L18)     |
 | mermaid    | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/mermaid/index.ts#L7)    |
+| echarts    | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/echarts/index.ts)       |
 
 [Source code for adding plugins](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/composition/useMarkdownIt.ts#L95)
 
@@ -1931,6 +1938,25 @@ config({
 
 ---
 
+### 📊 echartsConfig
+
+Configure ECharts options. This function receives the option already parsed and validated by `editorExtensions.echarts.parseOption`; its return value is passed to ECharts `setOption`. It does not receive the raw code-block string.
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  echartsConfig(option) {
+    return {
+      ...option,
+      animation: false,
+    };
+  },
+});
+```
+
+---
+
 ## 🪡 Shortcut keys
 
 !!! warning Pay attention
@@ -1974,14 +2000,15 @@ On-demand import, eg: `import { DropdownToolbar } from 'md-editor-v3'`.
 
 To help developers quickly insert content and use editor attributes, the editor component has already added the following property values to the extension components in the header toolbar and footer toolbar by default(If you provide it as well, your content will be given priority), More detailed reference examples: [ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94)
 
-| Name         | defToolbars | defFooters |
-| ------------ | ----------- | ---------- |
-| insert       | √           | ×          |
-| theme        | √           | √          |
-| previewtheme | √           | ×          |
-| codeTheme    | √           | ×          |
-| language     | √           | √          |
-| disabled     | √           | √          |
+| Name            | defToolbars | defFooters |
+| --------------- | ----------- | ---------- |
+| insert          | √           | ×          |
+| theme           | √           | √          |
+| previewTheme    | √           | ×          |
+| codeTheme       | √           | ×          |
+| language        | √           | √          |
+| disabled        | √           | √          |
+| showToolbarName | √           | ×          |
 
 Example:
 
@@ -2058,9 +2085,10 @@ const footers = [0];
 
 - **props**
   - **title**: `string`, optional, title of toolbar.
+  - **disabled**: `boolean`, optional, whether the toolbar is disabled.
 
 - **events**
-  - **onClick**: `(e: MouseEvent) => void`, required.
+  - **onClick**: `(e: MouseEvent) => void`, optional.
 
 - **slots**
   - **default**: `any`, optional, it is usually an icon, which is displayed on the toolbar.
@@ -2141,15 +2169,16 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
   - **title**: `string`, optional, title of toolbar.
-  - **visible**: `boolean`, required.
+  - **visible**: `boolean`, optional.
+  - **disabled**: `boolean`, optional, whether the toolbar is disabled.
 
 - **events**
-  - **onChange**: `(visible: boolean) => void`, required.
+  - **onChange**: `(visible: boolean) => void`, optional.
 
 - **slots**
   - **default**: `any`, optional, it is usually an icon, which is displayed on the toolbar.
   - ~~**trigger**~~: `string | VNode`, optional, deprecated, as above.
-  - **overlay**: `string | VNode`, required, content of dropdown box.
+  - **overlay**: `string | VNode`, optional, content of dropdown box.
 
 ```vue
 <template>
@@ -2239,23 +2268,24 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
   - **title**: `string`, optional, title of toolbar.
-  - **visible**: `boolean`, required, visibility of Modal.
+  - **visible**: `boolean`, optional, visibility of Modal.
   - **width**: `string`, optional, width of Modal, default `auto`.
   - **height**: `string`, same as `width`.
   - **showAdjust**: `boolean`, optional, visibility of fullscreen button.
-  - **isFullscreen**: `boolean`, required when `showAdjust = true`, status of fullscreen.
+  - **isFullscreen**: `boolean`, optional, fullscreen state of the Modal, default `false`.
   - **class**: `string`, `^4.16.8`, optional.
   - **style**: `CSSProperties | string`, `^4.16.8`, optional.
   - **showMask**: `boolean`, `^4.16.8`, optional, whether to display the mask layer, default `true`.
+  - **disabled**: `boolean`, optional, whether the toolbar is disabled.
 
 - **events**
-  - **onClick**: `() => void`, required.
-  - **onClose**: `() => void`, required, close event.
-  - **onAdjust**: `(val: boolean) => void`, fullscreen button click event.
+  - **onClick**: `() => void`, optional.
+  - **onClose**: `() => void`, optional, close event.
+  - **onAdjust**: `(val: boolean) => void`, optional, fullscreen button click event.
 
 - **slots**
   - **modalTitle**: `string | VNode`, optional, title of the Modal.
-  - **trigger**: `string | VNode`, required, it is usually an icon, which is displayed on the toolbar.
+  - **trigger**: `string | VNode`, optional, it is usually an icon, which is displayed on the toolbar.
   - **default**: `any`, optional, content of Modal.
 
 ```vue
@@ -2351,16 +2381,18 @@ const toolbars = ['bold', 0, 'github'];
 - **props**
   - **editorId**: `string`, required, editor's `id`, used to register listening events.
   - **class**: `string`, optional.
-  - **mdHeadingId**: `mdHeadingId`, optional, same as editor.
+  - **mdHeadingId**: `MdHeadingId`, optional, same as editor.
   - **scrollElement**: `string | HTMLElement`, optional, it is an element selector when its type is string. When `previewOnly` eq `true`, it is usually set to `document.documentElement`. ⚠️ The element must be positioned (e.g., relative, absolute, or fixed) and have scrollable content.
   - **theme**: 'light' | 'dark', optional, provide it when you want to change theme online, it is the same as Editor `theme`.
   - **offsetTop**: `number`, optional, highlight current item of catalogs when title is `offsetTop` pixels from the top, default 20.
   - **scrollElementOffsetTop**: `number`, optional, offsetTop of the scroll container, default 0.
+  - **isScrollElementInShadow**: `boolean`, optional, whether the scroll container is inside Shadow DOM, default `false`.
+  - **syncWith**: `'editor' | 'preview'`, optional, synchronize with the editor or preview area, default `'preview'`.
   - **catalogMaxDepth**: `number`, `^5.5.0`, optional, controls the maximum depth of the catalog to be displayed.
 
 - **events**
   - **onClick**: `(e: MouseEvent, t: TocItem) => void`, optional.
-  - **onActive**: `(heading: HeadList | undefined) => void`, optional, heading was highlighted.
+  - **onActive**: `(heading: HeadList | undefined, activeElement: HTMLDivElement) => void`, optional; the second argument is the active catalog item element.
 
 ```vue
 <template>
@@ -2391,21 +2423,21 @@ const scrollElement = document.documentElement;
 It is usually used in conjunction with `DropdownToolbar`.
 
 - **props**
-  - **visible**: `boolean`, required, visibility of Modal.
+  - **visible**: `boolean`, optional, visibility of Modal, default `false`.
   - **width**: `string`, optional, width of Modal, default `auto`.
   - **height**: `string`, same as `width`.
-  - **showAdjust**: `boolean`, optional, visibility of fullscreen button.
-  - **isFullscreen**: `boolean`, required when `showAdjust = true`, status of fullscreen.
+  - **showAdjust**: `boolean`, optional, visibility of fullscreen button, default `false`.
+  - **isFullscreen**: `boolean`, optional, fullscreen state of the Modal, default `false`.
   - **class**: `string`, optional.
-  - **style**: `CSSProperties | string`, optional.
+  - **style**: `CSSProperties | string`, optional, default `{}`.
   - **showMask**: `boolean`, `^4.16.8`, optional, whether to display the mask layer, default `true`.
+  - **onAdjust**: `(val: boolean) => void`, optional, fullscreen button click callback.
 
 - **events**
-  - **onClose**: `() => void`, required, close event.
-  - **onAdjust**: `(val: boolean) => void`, fullscreen button click event.
+  - **onClose**: `() => void`, optional, close event.
 
 - **slots**
-  - **title**: `string | VNode`, optional, title of Modal.
+  - **title**: `string | VNode | VNode[]`, optional, title of Modal, default empty string.
   - **default**: `any`, optional, content of Modal.
 
 ```vue
@@ -2441,7 +2473,7 @@ const onClose = () => {
 };
 
 const onChange = (_visible: boolean) => {
-  visible.value = _visible;
+  state.visible = _visible;
 };
 </script>
 ```
@@ -2450,11 +2482,14 @@ const onChange = (_visible: boolean) => {
 
 ### 🛸 NormalFooterToolbar
 
+- **props**
+  - **disabled**: `boolean`, optional, whether the footer toolbar is disabled.
+
 - **events**
   - **onClick**: `(e: MouseEvent) => void`, optional, toolbar was clicked.
 
 - **slots**
-  - **default**: `any`, required, content.
+  - **default**: `any`, optional, content.
 
 ```vue
 <!-- FooterTool.vue -->
@@ -2488,9 +2523,9 @@ const footers = [0];
 ## 🪤 Internal Configuration
 
 ```js
-import { allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs } from 'md-editor-v3';
+import { allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs, prefix } from 'md-editor-v3';
 
-console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs);
+console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs, prefix);
 ```
 
 ## 📦 Internal Tools

@@ -53,7 +53,7 @@
 ### 🎲 editorId
 
 - **类型**：`string`
-- **默认值**：`'md-editor-v-\d'`
+- **默认值**：`undefined`（未传入时自动生成）
 
   已过时。5.x 版本开始使用 id 替换。
 
@@ -64,7 +64,7 @@
 ### 🎲 id
 
 - **类型**：`string`
-- **默认值**：`'md-editor-v-\d'`
+- **默认值**：`undefined`（未传入时自动生成）
 
   编辑器唯一标识，使用默认前缀和`useId`拼接。
 
@@ -81,10 +81,10 @@
 
 ### 🔦 previewTheme
 
-- **类型**：`'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'`
+- **类型**：`string`
 - **默认值**：`'default'`
 
-  预览内容主题，支持自定义。
+  预览内容主题。内置主题包括`default`、`github`、`vuepress`、`mk-cute`、`smart-blue`和`cyanosis`，也支持自定义主题名称。
 
   主题自定义方式：
   1. 编辑 css
@@ -108,7 +108,7 @@
 ### 🎅🏻 style
 
 - **类型**：`string | CSSProperties`
-- **默认值**：`''`
+- **默认值**：`{}`
 
   编辑器内联样式。
 
@@ -142,10 +142,10 @@
 
 ### 🦉 codeTheme
 
-- **类型**：`'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'`
+- **类型**：`string`
 - **默认值**：`'atom'`
 
-  代码块高亮样式名称。
+  代码块高亮样式名称。内置值包括`atom`、`a11y`、`github`、`gradient`、`kimbie`、`paraiso`、`qtcreator`和`stackoverflow`，也支持自定义名称。
 
   你可以添加自己的样式，把该属性设置为你想要的即可，方式如下：
   1. 配置样式链接
@@ -182,7 +182,7 @@
 ### 🎱 mdHeadingId
 
 - **类型**：`MdHeadingId`
-- **默认值**：`(text) => text`
+- **默认值**：`({ text }) => text`
 
   构造标题`ID`的生成方式。
 
@@ -220,11 +220,7 @@
 
   !!! warning
 
-  该属性为保留属性
-
-  基本的危险代码处理方案在 3.x 以后已内置，例如`<script>alert(123)</script>`，4.11.3 之前建议使用该属性来清理更复杂的内容以防止 XSS。
-
-  在 4.11.3 以后实现了更完善的处理方案，参阅[修改 xss 配置](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)
+  Markdown 中的原生 HTML 默认不会被清洗。渲染不可信内容时，请通过该属性清洗编译后的 HTML，或者显式启用从 v5 起导出的`XSSPlugin`；`XSSPlugin`不会默认启用。参阅[修改 xss 配置](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)。
 
   !!!
 
@@ -281,7 +277,7 @@
 
 ### 🧼 codeStyleReverseList
 
-- **类型**：`Array`
+- **类型**：`Array<string>`
 - **默认值**：`['default', 'mk-cute']`
 
   需要自动调整的预览主题，已默认包含 default、mk-cute。
@@ -325,7 +321,7 @@
 
   !!! warning 类型提示
 
-  copy、collapse-tips 对应的图标只能是字符串，其他的都可以是组件或者字符串
+  `copy`、`collapse-tips`、`pin`、`pin-off`和`check`对应的图标只能是字符串，其他图标可以是组件或者字符串。
 
   !!!
 
@@ -334,7 +330,7 @@
     <MdEditor :customIcon="customIcon" />
   </template>
 
-  <script 😬setup lang="ts">
+  <script setup lang="ts">
   import type { CustomIcon } from 'md-editor-v3';
   import { MdEditor, StrIcon } from 'md-editor-v3';
   // 假设你使用了三方图标库或者自定义了图标组件
@@ -403,14 +399,17 @@
 
   type CustomIcon = {
     [key in IconName]?: {
-      component: VNode;
-      props: {
+      component: Component | VNode | string;
+      props?: {
         [key: string | number | symbol]: any;
       };
     };
   } & {
     copy?: string;
-    'collapse-tips': string;
+    'collapse-tips'?: string;
+    pin?: string;
+    'pin-off'?: string;
+    check?: string;
   };
   ```
 
@@ -454,19 +453,22 @@
 
 ### 🎨 previewComponent
 
-如果你需要完全掌控预览区域的渲染方式，可以通过 `previewComponent` 注入自定义组件。组件会接收到 `html`、`id` 和 `className` 三个属性，其中 `id` 与 `className` 需要应用在容器元素上以保持内置样式与行为。
+- **类型**：`Component`
+- **默认值**：`undefined`
+
+如果需要完全控制预览区域的渲染方式，可以通过`previewComponent`注入自定义组件。组件会接收到`html`、`id`和`class`三个属性，请将`id`和`class`应用到容器元素，以保留内置样式和行为。
 
 ```vue
 <script setup lang="ts">
 defineProps<{
   html: string;
   id?: string;
-  className?: string;
+  class?: string;
 }>();
 </script>
 
 <template>
-  <div :id="id" :class="className" v-html="html" />
+  <div :id="id" :class="class" v-html="html" />
 </template>
 ```
 
@@ -505,15 +507,15 @@ defineProps<{
 
   是否显示 html 预览。当设置为`true`时，需要将`preview`设置为`false`
 
-  ```jsx
-  <MdEditor htmlPreview preview={false} />
+  ```vue
+  <MdEditor htmlPreview :preview="false" />
   ```
 
 ---
 
 ### 🧱 toolbars
 
-- **类型**：`Array`
+- **类型**：`Array<ToolbarNames>`
 - **默认值**：`[all]`
 
   选择性展示工具栏，可选内容见下方。
@@ -529,9 +531,9 @@ defineProps<{
     'bold',
     'underline',
     'italic',
+    'strikeThrough',
     '-',
     'title',
-    'strikeThrough',
     'sub',
     'sup',
     'quote',
@@ -551,6 +553,7 @@ defineProps<{
     'next',
     'save',
     '=',
+    'prettier',
     'pageFullscreen',
     'fullscreen',
     'preview',
@@ -565,7 +568,7 @@ defineProps<{
 
 ### 🧱 toolbarsExclude
 
-- **类型**：`Array`
+- **类型**：`Array<ToolbarNames>`
 - **默认值**：`[]`
 
   选择性不展示工具栏，内容同上。
@@ -574,7 +577,7 @@ defineProps<{
 
 ### 🧱 floatingToolbars
 
-- **类型**：`Array`
+- **类型**：`Array<ToolbarNames>`
 - **默认值**：`[]`
 
   选择性展示浮动工具栏，可选内容和 `toolbars` 相同。
@@ -588,7 +591,7 @@ defineProps<{
 - **类型**：`boolean`
 - **默认值**：`false`
 
-  是否启用 prettier 优化 md 内容。
+  是否禁用 Prettier 对 Markdown 内容的格式化。设置为`true`时禁用。
 
 ---
 
@@ -611,7 +614,7 @@ defineProps<{
   ```vue
   <template>
     <MdEditor :tableShape="tableShape" />
-  </tempale>
+  </template>
 
   <script setup>
   const tableShape = [8, 4];
@@ -699,7 +702,7 @@ defineProps<{
 ### 📏 maxLength
 
 - **类型**：`number`
-- **默认值**：``
+- **默认值**：`undefined`
 
   原生属性，文本区域允许的最大字符数。
 
@@ -717,7 +720,7 @@ defineProps<{
 ### 📝 completions
 
 - **类型**：`Array<CompletionSource>`
-- **默认值**：`[]`
+- **默认值**：`undefined`
 
   添加额外的输入自动完成来源。
 
@@ -772,7 +775,7 @@ defineProps<{
 ### 📥 inputBoxWidth
 
 - **类型**：`string`
-- **默认值**：`50%`
+- **默认值**：`'50%'`
 
   输入框默认的宽度
 
@@ -792,7 +795,7 @@ defineProps<{
 ### 🔖 catalogLayout
 
 - **类型**：`'fixed' | 'flat'`
-- **默认值**：`fixed`
+- **默认值**：`'fixed'`
 
   \>=5.3.0 内置的目录显示的状态，'fixed': 悬浮在内容上方，'flat': 展示在右侧。
 
@@ -1040,7 +1043,7 @@ defineProps<{
 
 ### 📸 onUploadImg
 
-- **类型**：`files: Array<File>, callback: (urls: string[] | { url: string; alt: string; title: string }[]) => void`
+- **类型**：`(files: Array<File>, callback: (urls: string[] | { url: string; alt: string; title: string }[]) => void) => void`
 
   上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传。
 
@@ -1241,6 +1244,9 @@ onMounted(() => {
 | rerender             | √        | √         |
 | getSelectedText      | √        | ×         |
 | resetHistory         | √        | ×         |
+| domEventHandlers     | √        | ×         |
+| execCommand          | √        | ×         |
+| getEditorView        | √        | ×         |
 
 ### 👂🏼 on
 
@@ -1648,6 +1654,7 @@ config({
 | sup        | 没有                                                                                                                          |
 | katex      | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/katex/index.ts#L18)     |
 | mermaid    | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/mermaid/index.ts#L7)    |
+| echarts    | [URL](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/markdownIt/echarts/index.ts)       |
 
 [添加插件的源码](https://github.com/imzbf/md-editor-v3/blob/develop/packages/MdEditor/layouts/Content/composition/useMarkdownIt.ts#L95)
 
@@ -1972,6 +1979,25 @@ config({
 
 ---
 
+### 📊 echartsConfig
+
+ECharts 配置项。该函数接收`editorExtensions.echarts.parseOption`已经解析并校验后的 option，其返回值会传给 ECharts 的`setOption`；它不会接收原始代码块字符串。
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  echartsConfig(option) {
+    return {
+      ...option,
+      animation: false,
+    };
+  },
+});
+```
+
+---
+
 ## 🪡 快捷键
 
 主要以`CTRL`搭配对应功能英文单词首字母，冲突项添加`SHIFT`，再冲突替换为`ALT`。
@@ -2017,14 +2043,15 @@ config({
 
 为了帮助开发者快速插入和使用编辑器的属性，编辑器组件已经默认向头部工具栏和尾部工具栏中的扩展组件添加了下面的属性的值（如果你也提供了，那么会优先使用你提供的内容），更详细的参考示例：[ExportPDF](https://github.com/imzbf/md-editor-extension/blob/main/packages/v3/components/ExportPDF/ExportPDF.tsx#L94)
 
-| 名称         | defToolbars | defFooters |
-| ------------ | ----------- | ---------- |
-| insert       | √           | ×          |
-| theme        | √           | √          |
-| previewtheme | √           | ×          |
-| codeTheme    | √           | ×          |
-| language     | √           | √          |
-| disabled     | √           | √          |
+| 名称            | defToolbars | defFooters |
+| --------------- | ----------- | ---------- |
+| insert          | √           | ×          |
+| theme           | √           | √          |
+| previewTheme    | √           | ×          |
+| codeTheme       | √           | ×          |
+| language        | √           | √          |
+| disabled        | √           | √          |
+| showToolbarName | √           | ×          |
 
 例子：
 
@@ -2101,9 +2128,10 @@ const footers = [0];
 
 - **props**
   - **title**: `string`，非必须，作为工具栏上的 hover 提示。
+  - **disabled**: `boolean`，非必须，是否禁用工具栏。
 
 - **events**
-  - **onClick**: `(e: MouseEvent) => void`，必须，点击事件。
+  - **onClick**: `(e: MouseEvent) => void`，非必须，点击事件。
 
 - **slots**
   - **default**: `any`，非必须，通常是个图标，用来展示在工具栏上。
@@ -2182,15 +2210,16 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
   - **title**: `string`，非必须，作为工具栏上的 hover 提示。
-  - **visible**: `boolean`，必须，下拉状态。
+  - **visible**: `boolean`，非必须，下拉状态。
+  - **disabled**: `boolean`，非必须，是否禁用工具栏。
 
 - **events**
-  - **onChange**: `(visible: boolean) => void`，必须，状态变化事件。
+  - **onChange**: `(visible: boolean) => void`，非必须，状态变化事件。
 
 - **slots**
   - **default**: `any`，非必须，通常是个图标，用来展示在工具栏上。
   - ~~**trigger**~~: `string | VNode`，非必须，已废弃，同上。
-  - **overlay**: `string | VNode`，必须，下拉框中的内容。
+  - **overlay**: `string | VNode`，非必须，下拉框中的内容。
 
 ```vue
 <template>
@@ -2280,23 +2309,24 @@ const toolbars = ['bold', 0, 'github'];
 
 - **props**
   - **title**: `string`，非必须，作为工具栏上的 hover 提示。
-  - **visible**: `boolean`，必须，弹窗显示状态。
+  - **visible**: `boolean`，非必须，弹窗显示状态。
   - **width**: `string`，非必须，弹窗宽度，默认`auto`。
   - **height**: `string`，同`width`。
   - **showAdjust**: `boolean`，非必须，是否显示弹窗全屏按钮。
-  - **isFullscreen**: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
+  - **isFullscreen**: `boolean`，非必须，弹窗全屏状态，默认`false`。
   - **class**: `string`，`^4.16.8`，非必须，类名。
   - **style**: `CSSProperties | string`，`^4.16.8`，非必须，样式。
   - **showMask**: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认 true。
+  - **disabled**: `boolean`，非必须，是否禁用工具栏。
 
 - **events**
-  - **onClick**: `() => void`，必须，工具栏点击事件。
-  - **onClose**: `() => void`，必须，弹窗点击关闭事件。
-  - **onAdjust**: `(val: boolean) => void`，弹窗全屏按钮点击事件。
+  - **onClick**: `() => void`，非必须，工具栏点击事件。
+  - **onClose**: `() => void`，非必须，弹窗点击关闭事件。
+  - **onAdjust**: `(val: boolean) => void`，非必须，弹窗全屏按钮点击事件。
 
 - **slots**
   - **modalTitle**: `string | VNode`，非必须，弹窗标题栏。
-  - **trigger**: `string | VNode`，必须，通常是个图标，用来展示在工具栏上。
+  - **trigger**: `string | VNode`，非必须，通常是个图标，用来展示在工具栏上。
   - **default**: `any`，非必须，弹窗中的内容。
 
 ```vue
@@ -2392,17 +2422,19 @@ const toolbars = ['bold', 0, 'github'];
 - **props**
   - **editorId**: `string`，必须，对应编辑器的`id`，在内部注册目录变化监听事件。
   - **class**: `string`，非必须，目录组件最外层类名。
-  - **mdHeadingId**: `mdHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
+  - **mdHeadingId**: `MdHeadingId`，非必须，特殊化编辑器标题的算法，与编辑器相同。
   - **scrollElement**: `string | HTMLElement`，非必须，为字符时应是一个元素选择器。仅预览模式中，整页滚动时，设置为`document.documentElement`。⚠️ 该元素必须定位（如相对、绝对或固定），且内容可滚动。
 
   - **theme**: `'light' | 'dark'`，非必须，当需要切换主题时提供，同编辑器的`theme`。
   - **offsetTop**: `number`，非必须，标题距离顶部该像素时高亮当前目录项，默认 20 像素。
   - **scrollElementOffsetTop**: `number`，非必须，滚动区域的固定顶部高度，默认 0。
+  - **isScrollElementInShadow**: `boolean`，非必须，滚动容器是否位于 Shadow DOM 中，默认`false`。
+  - **syncWith**: `'editor' | 'preview'`，非必须，目录与编辑区或预览区同步，默认`'preview'`。
   - **catalogMaxDepth**: `number`，`^5.5.0`，非必须，控制要显示的目录的最大深度。
 
 - **events**
   - **onClick**: `(e: MouseEvent, t: TocItem) => void`，非必须，导航点击事件。
-  - **onActive**: `(heading: HeadList | undefined) => void`，非必须，高亮的标题变化事件。
+  - **onActive**: `(heading: HeadList | undefined, activeElement: HTMLDivElement) => void`，非必须，高亮的标题变化事件，第二个参数是当前目录项元素。
 
 ```vue
 <template>
@@ -2433,21 +2465,21 @@ const scrollElement = document.documentElement;
 编辑器内部的弹窗组件，它通常配合下拉工具栏组件使用。
 
 - **props**
-  - **visible**: `boolean`，必须，弹窗显示状态。
+  - **visible**: `boolean`，非必须，弹窗显示状态，默认`false`。
   - **width**: `string`，非必须，弹窗宽度，默认`auto`。
   - **height**: `string`，同`width`。
-  - **showAdjust**: `boolean`，非必须，是否显示弹窗全屏按钮。
-  - **isFullscreen**: `boolean`，显示全屏按钮时必须，弹窗全屏状态。
+  - **showAdjust**: `boolean`，非必须，是否显示弹窗全屏按钮，默认`false`。
+  - **isFullscreen**: `boolean`，非必须，弹窗全屏状态，默认`false`。
   - **class**: `string`，非必须，类名。
-  - **style**: `CSSProperties | string`，非必须，样式。
+  - **style**: `CSSProperties | string`，非必须，样式，默认`{}`。
   - **showMask**: `boolean`，`^4.16.8`，非必须，是否展示遮罩层，默认 true。
+  - **onAdjust**: `(val: boolean) => void`，非必须，弹窗全屏按钮点击回调。
 
 - **events**
-  - **onClose**: `() => void`，必须，弹窗点击关闭事件。
-  - **onAdjust**: `(val: boolean) => void`，弹窗全屏按钮点击事件。
+  - **onClose**: `() => void`，非必须，弹窗点击关闭事件。
 
 - **slots**
-  - **title**: `string | VNode`，非必须，弹窗标题栏。
+  - **title**: `string | VNode | VNode[]`，非必须，弹窗标题栏，默认空字符串。
   - **default**: `any`，非必须，弹窗中的内容。
 
 ```vue
@@ -2484,7 +2516,7 @@ const onClose = () => {
 };
 
 const onChange = (_visible: boolean) => {
-  visible.value = _visible;
+  state.visible = _visible;
 };
 </script>
 ```
@@ -2495,11 +2527,14 @@ const onChange = (_visible: boolean) => {
 
 通用的页脚工具组件
 
+- **props**
+  - **disabled**: `boolean`，非必须，是否禁用页脚工具。
+
 - **events**
   - **onClick**: `(e: MouseEvent) => void`，非必须，点击事件。
 
 - **slots**
-  - **default**: `any`，必须，内容。
+  - **default**: `any`，非必须，内容。
 
 ```vue
 <!-- FooterTool.vue -->
@@ -2533,9 +2568,9 @@ const footers = [0];
 ## 🪤 内部配置
 
 ```js
-import { allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs } from 'md-editor-v3';
+import { allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs, prefix } from 'md-editor-v3';
 
-console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs);
+console.log(allToolbar, allFooter, zh_CN, en_US, editorExtensionsAttrs, prefix);
 ```
 
 ## 📦 内部工具

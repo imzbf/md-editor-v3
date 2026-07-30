@@ -1,5 +1,94 @@
 This is the content that is incompatible only.
 
+## 🧙🏼 Upgrade from 6.x to 7.x
+
+### Events
+
+#### 📐 onInputBoxWidthChange
+
+The input-box width change event emitted by `MdEditor` has been renamed, and the old event name is no longer supported:
+
+Vue template:
+
+```diff
+- <MdEditor @oninputBoxWidthChange="handleInputBoxWidthChange" />
++ <MdEditor @onInputBoxWidthChange="handleInputBoxWidthChange" />
+```
+
+JSX/TSX:
+
+```diff
+- <MdEditor oninputBoxWidthChange={handleInputBoxWidthChange} />
++ <MdEditor onInputBoxWidthChange={handleInputBoxWidthChange} />
+```
+
+### 💴 Config
+
+#### 📊 editorExtensions.echarts.parseOption
+
+The default parser in 6.x executes JavaScript from code blocks, so functions can be used directly:
+
+```js
+{
+  tooltip: {
+    formatter: (params) => `${params[0].value}`,
+  },
+}
+```
+
+Starting with 7.x, the default uses `JSON5.parse` and requires the top-level result to be a non-array object. Update the option to JSON5 data without functions, variable references, `new`, or call expressions:
+
+```json5
+{
+  tooltip: {
+    trigger: 'axis',
+  },
+  series: [
+    {
+      type: 'line',
+      data: [1, 2, 3],
+    },
+  ],
+}
+```
+
+If function syntax is still required, explicitly override `parseOption(code, { editorId, element })`:
+
+```ts
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: {
+    echarts: {
+      parseOption(code) {
+        return new Function(`return (${code})`)();
+      },
+    },
+  },
+});
+```
+
+!!! warning
+
+Only use an executable parser with fully trusted Markdown. A custom parser must enforce its own input validation and security controls.
+
+!!!
+
+### 🎨 Styles
+
+#### 🌗 Dark-theme selectors
+
+Migrate dark-mode selectors as follows:
+
+```diff
+-.md-editor-dark,
+-.md-editor-catalog-dark {
++.md-editor[data-theme='dark'],
++.md-editor-catalog[data-theme='dark'] {
+  /* Custom dark-mode styles */
+}
+```
+
 ## 🧙🏼 Upgrade from 5.x to 6.x
 
 ### 🐈 UMD
