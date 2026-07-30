@@ -125,7 +125,7 @@
 - `onFocus`
 - `onInput`
 - `onDrop`
-- `oninputBoxWidthChange`
+- `onInputBoxWidthChange`
 - `onRemount`
 
 ## 3. `MdEditor` ref API

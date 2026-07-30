@@ -1,5 +1,4 @@
 import { CompletionSource } from '@codemirror/autocomplete';
-// eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
 import { ExtractPropTypes, PropType, Component } from 'vue';
 import { HeadList, MdHeadingId } from '~/type';
@@ -127,7 +126,7 @@ export const contentProps = {
   inputBoxWidth: {
     type: String as PropType<string>
   },
-  oninputBoxWidthChange: {
+  onInputBoxWidthChange: {
     type: Function as PropType<(width: string) => void>
   },
   transformImgUrl: {

@@ -117,8 +117,8 @@ const Editor = defineComponent({
     };
 
     const handleInputBoxWidthChange = (width: string) => {
-      props.oninputBoxWidthChange?.(width);
-      ctx.emit('oninputBoxWidthChange', width);
+      props.onInputBoxWidthChange?.(width);
+      ctx.emit('onInputBoxWidthChange', width);
     };
 
     const handleRemount = () => {
@@ -173,7 +173,7 @@ const Editor = defineComponent({
             noImgZoomIn={props.noImgZoomIn}
             onDrop={handleDrop}
             inputBoxWidth={props.inputBoxWidth}
-            oninputBoxWidthChange={handleInputBoxWidthChange}
+            onInputBoxWidthChange={handleInputBoxWidthChange}
             sanitizeMermaid={props.sanitizeMermaid}
             transformImgUrl={props.transformImgUrl}
             codeFoldable={props.codeFoldable}

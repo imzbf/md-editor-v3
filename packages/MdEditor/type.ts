@@ -615,7 +615,7 @@ export type EditorEmits = Array<
   | 'onFocus'
   | 'onInput'
   | 'onDrop'
-  | 'oninputBoxWidthChange'
+  | 'onInputBoxWidthChange'
   | 'onRemount'
 >;
 
