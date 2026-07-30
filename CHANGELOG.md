@@ -1,5 +1,21 @@
 <!-- next-release -->
 
+## 6.5.5 (2026-07-30)
+
+### Fixed Bugs
+
+- clean up temporary render container ([commit 7fcff92](https://github.com/imzbf/md-editor-v3/commit/7fcff923c5cb42d1fc5195aa93d0b90d94caa687))
+  - Always remove the off-screen container after rendering, including unclosed and failed render paths.
+
+- preserve selection and copy in read-only mode ([commit 7b6b93d](https://github.com/imzbf/md-editor-v3/commit/7b6b93d00132f6a194b98f08b998242ada6d9450)) [#1032](https://github.com/imzbf/md-editor-v3/issues/1032)
+  - Separate read-only behavior from disabled state and block user-triggered mutations while keeping programmatic updates available.
+
+- guard DOM work after unmount ([commit f3dc7eb](https://github.com/imzbf/md-editor-v3/commit/f3dc7eb329d0cc09315f4ce34faf41dbb19b2ca5))
+
+**Full Changelog**: [v6.5.4...v6.5.5](https://github.com/imzbf/md-editor-v3/compare/v6.5.4...v6.5.5)
+
+---
+
 ## 6.5.4 (2026-07-17)
 
 ### Fixed Bugs
