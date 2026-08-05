@@ -38,22 +38,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          generate_release_notes: true
-          make_latest: true
-          body: |
-            See full changelog in [`CHANGELOG.md`](https://github.com/${{ github.repository }}/blob/${{ github.event.repository.default_branch }}/CHANGELOG.md).
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update CHANGELOG.md
-        continue-on-error: true
+      - name: Generate Release Notes And Update CHANGELOG.md
         env:
           TAG_NAME: ${{ github.ref_name }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -euo pipefail
 
@@ -64,7 +51,14 @@ jobs:
           DISPLAY_VERSION="${TAG_NAME#v}"
 
           if grep -q "^## ${TAG_NAME} (" CHANGELOG.md || grep -q "^## ${DISPLAY_VERSION} (" CHANGELOG.md; then
-            echo "CHANGELOG already contains ${TAG_NAME}, skip update."
+            # Workflow reruns reuse the committed entry so the release body is still reproducible.
+            awk -v tag_heading="## ${TAG_NAME} (" -v version_heading="## ${DISPLAY_VERSION} (" '
+              index($0, tag_heading) == 1 || index($0, version_heading) == 1 { capture = 1 }
+              capture { print }
+              capture && $0 == "---" { exit }
+            ' CHANGELOG.md > "${RUNNER_TEMP}/release-entry.md"
+            test -s "${RUNNER_TEMP}/release-entry.md"
+            echo "CHANGELOG already contains ${TAG_NAME}, reuse the existing entry."
             exit 0
           fi
 
@@ -212,7 +206,7 @@ jobs:
             write_section 'Others' "${OTHERS_FILE}" || true
             printf '**Full Changelog**: [%s...%s](%s)\n\n' "${COMPARE_FROM}" "${TAG_NAME}" "${COMPARE_URL}"
             printf -- '---\n'
-          } > /tmp/release-entry.md
+          } > "${RUNNER_TEMP}/release-entry.md"
 
           grep -vF "${MARKER}" CHANGELOG.md \
             | sed '/^# Changelog$/d; /^All notable changes to this project will be documented in this file\.$/d' \
@@ -221,7 +215,7 @@ jobs:
 
           {
             printf '%s\n\n' "${MARKER}"
-            cat /tmp/release-entry.md
+            cat "${RUNNER_TEMP}/release-entry.md"
             if [ -s /tmp/changelog-existing.md ]; then
               printf '\n'
               cat /tmp/changelog-existing.md
@@ -229,6 +223,23 @@ jobs:
           } > /tmp/CHANGELOG.md
 
           mv /tmp/CHANGELOG.md CHANGELOG.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          make_latest: true
+          body_path: ${{ runner.temp }}/release-entry.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit CHANGELOG.md
+        continue-on-error: true
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
