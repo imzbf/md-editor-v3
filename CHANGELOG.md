@@ -1,5 +1,19 @@
 <!-- next-release -->
 
+## 6.5.6 (2026-08-05)
+
+### Fixed Bugs
+
+- preserve structured tokens for rich content ([commit 60db605](https://github.com/imzbf/md-editor-v3/commit/60db60561f8667fccd8ac6235c00ba476ec27031))
+
+### Others
+
+- ci(release): use changelog entry as release notes ([commit 91410e9](https://github.com/imzbf/md-editor-v3/commit/91410e9da45f913212221f768eac6325f3f5056a))
+
+**Full Changelog**: [v6.5.5...v6.5.6](https://github.com/imzbf/md-editor-v3/compare/v6.5.5...v6.5.6)
+
+---
+
 ## 6.5.5 (2026-07-30)
 
 ### Fixed Bugs
