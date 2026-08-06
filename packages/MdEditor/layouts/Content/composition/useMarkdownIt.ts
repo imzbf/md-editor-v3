@@ -52,10 +52,8 @@ const initLineNumber = (md: mdit) => {
   md.core.ruler.push('init-line-number', (state) => {
     state.tokens.forEach((token) => {
       if (token.map) {
-        if (!token.attrs) {
-          token.attrs = [];
-        }
-        token.attrs.push(['data-line', token.map[0].toString()]);
+        // 使用官方属性 API 覆盖同名值，避免扩展提前声明 data-line 时产生重复属性。
+        token.attrSet('data-line', token.map[0].toString());
       }
     });
     return true;

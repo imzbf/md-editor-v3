@@ -6,13 +6,15 @@
 import markdownit, { Renderer, Token, ParserInline, ParserBlock } from 'markdown-it';
 import { ShallowRef } from 'vue';
 import { prefix, globalConfig } from '~/config';
-import { mergeAttrs } from '~/utils/md-it';
+import { renderTokenContent } from '~/utils/md-it';
 
 interface CreateOptions {
   delimiters: Array<{
     open: string;
     close: string;
   }>;
+  className: string;
+  tag: 'p' | 'span';
 }
 
 interface KatexOptions {
@@ -88,7 +90,8 @@ const create_math_inline =
 
       // 创建数学公式 token
       if (!silent) {
-        const token = state.push('math_inline', 'math', 0);
+        const token = state.push('math_inline', options.tag, 0);
+        token.attrSet('class', options.className);
         token.markup = delim.open;
         token.content = state.src.slice(start, match);
       }
@@ -110,7 +113,8 @@ const create_math_block =
     // 辅助函数：创建数学块 token
     const createMathToken = (content: string, endLine: number, markup: string) => {
       state.line = endLine;
-      const token = state.push('math_block', 'math', 0);
+      const token = state.push('math_block', options.tag, 0);
+      token.attrSet('class', options.className);
       token.block = true;
       token.content = content;
       token.map = [start, state.line];
@@ -195,20 +199,11 @@ const KatexPlugin = (
   md: markdownit,
   { katexRef, inlineDelimiters, blockDelimiters }: KatexOptions
 ) => {
-  const renderKatex = (
-    token: Token,
-    className: string,
-    tagName: 'span' | 'p',
-    slf: Renderer,
-    displayMode = false
-  ) => {
-    const tmpToken = {
-      attrs: mergeAttrs(token, [['class', className]])
-    };
-    const attrs = slf.renderAttrs(tmpToken as Token);
-
+  const renderKatex = (token: Token, slf: Renderer, displayMode = false) => {
     if (!katexRef.value) {
-      return `<${tagName} ${attrs}>${token.content}</${tagName}>`;
+      // KaTeX 默认在 mounted 后异步加载，首屏公式必须按普通文本输出，不能让
+      // token.content 绕过 html_inline/html_block 的 XSS 处理直接进入 innerHTML。
+      return renderTokenContent(token, md.utils.escapeHtml(token.content), slf);
     }
 
     const html = katexRef.value.renderToString(
@@ -219,29 +214,34 @@ const KatexPlugin = (
       })
     );
 
-    return `<${tagName} ${attrs} data-processed>${html}</${tagName}>`;
+    token.attrSet('data-processed', '');
+    return renderTokenContent(token, String(html), slf);
   };
 
   const katexInline: Renderer.RenderRule = (tokens, idx, options, env, slf) => {
-    return renderKatex(tokens[idx], `${prefix}-katex-inline`, 'span', slf);
+    return renderKatex(tokens[idx], slf);
   };
 
   const katexBlock: Renderer.RenderRule = (tokens, idx, options, env, slf) => {
-    return renderKatex(tokens[idx], `${prefix}-katex-block`, 'p', slf, true);
+    return renderKatex(tokens[idx], slf, true);
   };
 
   md.inline.ruler.before(
     'escape',
     'math_inline',
     create_math_inline({
-      delimiters: inlineDelimiters || delimiters.inline
+      delimiters: inlineDelimiters || delimiters.inline,
+      className: `${prefix}-katex-inline`,
+      tag: 'span'
     })
   );
   md.block.ruler.after(
     'blockquote',
     'math_block',
     create_math_block({
-      delimiters: blockDelimiters || delimiters.block
+      delimiters: blockDelimiters || delimiters.block,
+      className: `${prefix}-katex-block`,
+      tag: 'p'
     }),
     {
       alt: ['paragraph', 'reference', 'blockquote', 'list']
