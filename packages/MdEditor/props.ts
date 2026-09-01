@@ -540,7 +540,7 @@ export const editorProps = {
   /**
    * 输入框宽度变化事件
    */
-  oninputBoxWidthChange: {
+  onInputBoxWidthChange: {
     type: Function as PropType<(width: string) => void>,
     default: undefined
   },
@@ -594,5 +594,5 @@ export const editorEmits: EditorEmits = [
   'onFocus',
   'onInput',
   'onDrop',
-  'oninputBoxWidthChange'
+  'onInputBoxWidthChange'
 ];

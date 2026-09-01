@@ -1,6 +1,6 @@
 # md-editor-v3 公开 API 速查
 
-> 基于 `md-editor-v3@6.5.0` 新版本 API 整理。若用户项目版本不同，先核对本地安装包类型定义。
+> 面向 `md-editor-v3@7.x` 使用环境整理（当前对应 `feature/7` 分支，首个发布版本为 `7.0.0`）。若用户项目版本不同，先核对本地安装包类型定义。
 
 ## 目录
 
@@ -125,7 +125,7 @@
 - `onFocus`
 - `onInput`
 - `onDrop`
-- `oninputBoxWidthChange`
+- `onInputBoxWidthChange`
 - `onRemount`
 
 ## 3. `MdEditor` ref API
@@ -249,7 +249,7 @@ ref API 只有：
 - `editorExtensions`
   - 传入本地实例或 CDN 地址
   - `editorExtensions.echarts.parseOption(code, { editorId, element })`
-    - `>=6.5.0` 支持；用于自定义 echarts 代码块内容解析
+    - `>=6.5.0` 支持；用于自定义 ECharts 代码块内容解析
 - `editorExtensionsAttrs`
   - 为注入的 script/link 补充 `integrity`、`crossOrigin` 等属性
 - `editorConfig`
@@ -274,9 +274,9 @@ ref API 只有：
 - 名字带 `instance` 的字段不会深合并，而是直接替换。
 - 默认把 `config()` 放在应用启动阶段执行一次，不要在组件 `setup()` 里频繁调用。
 - ECharts 代码块解析版本边界：
-  - `>=6.0.0 <6.5.0`：内部使用 `new Function`，不能自定义解析器。
-  - `>=6.5.0 <7.0.0`：默认仍使用 `new Function`，可以用 `editorExtensions.echarts.parseOption` 自定义，例如提前切换到 `JSON.parse`。
-  - `>=7.0.0`：未来计划默认使用 `JSON.parse`，仍保留 `parseOption`；如果需要兼容函数写法，由业务显式配置执行型解析器。
+  - `<6.5.0`：历史版本不支持 `parseOption`。
+  - `>=6.5.0 <7.0.0`：支持 `parseOption`，默认解析行为沿用旧版本。
+  - `>=7.0.0`：默认使用 `JSON5.parse`，只接受对象数据且不会执行代码；仍可通过 `editorExtensions.echarts.parseOption` 自定义解析器。
 
 ## 8. 安全与 HTML 清洗
 

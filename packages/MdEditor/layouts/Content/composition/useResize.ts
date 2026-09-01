@@ -8,10 +8,9 @@ import {
   reactive,
   watch
 } from 'vue';
-import { MinInputBoxWidth } from '~/config';
-
-import { SettingType } from '~/type';
 import { ContentProps } from '../props';
+import { MinInputBoxWidth } from '~/config';
+import { SettingType } from '~/type';
 
 const useResize = (
   props: ContentProps,
@@ -57,7 +56,7 @@ const useResize = (
     inputWrapperStyle.width = ibw;
     resizeOperateStyle.insetInlineStart = ibw;
     state.resizedWidth = ibw;
-    props.oninputBoxWidthChange?.(ibw);
+    props.onInputBoxWidthChange?.(ibw);
   };
 
   const resizeMousedown = (ev: MouseEvent) => {

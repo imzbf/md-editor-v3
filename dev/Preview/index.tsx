@@ -406,7 +406,7 @@ export default defineComponent({
             // onInput={console.log}
             // showToolbarName
             inputBoxWidth={md.inputBoxWidth}
-            oninputBoxWidthChange={(w) => {
+            onInputBoxWidthChange={(w) => {
               md.inputBoxWidth = w;
               localStorage.setItem(INPUT_BOX_WITDH, w);
             }}

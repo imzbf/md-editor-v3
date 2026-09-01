@@ -7,7 +7,7 @@ description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 
 
 默认把这个 skill 用在**下游业务项目**里，而不是 md-editor-v3 仓库维护流程里。
 
-本 skill 依据 `md-editor-v3@6.5.0` 新版本 API 整理。如果用户项目安装的版本不同，先核对本地安装包版本，再决定是否沿用这里的结论。
+本 skill 面向 `md-editor-v3@7.x` 使用环境（当前对应 `feature/7` 分支，首个发布版本为 `7.0.0`）。如果用户项目安装的版本不同，先核对本地安装包版本，再决定是否沿用这里的结论。
 
 ## 典型用户请求
 
@@ -80,7 +80,7 @@ description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 
 - 使用自定义工具栏和页脚时，牢记是“数字占位符 + `defToolbars` / `defFooters`”映射，不是按名字自动注册。
 - 把 `config()` 当作全局单例初始化，而不是组件局部状态。
 - 面向用户输入时主动处理 HTML/XSS 风险；默认 markdown-it 允许 `html: true`。
-- ECharts 解析策略要按版本区分：`<6.5.0` 不支持 `parseOption`；`6.5.x` 默认仍用 `new Function`，可通过 `editorExtensions.echarts.parseOption` 改成 `JSON.parse`；未来 `7.0` 计划默认改为 `JSON.parse`，需要函数写法时再由业务显式配置。
+- ECharts 解析策略要按版本区分：`>=6.5.0` 已支持 `parseOption`；`7.x` 默认用 `JSON5.parse` 解析对象，可通过 `editorExtensions.echarts.parseOption` 显式支持函数写法或其他格式。
 
 ## 先核对安装版本，再决定是否深挖源码
 

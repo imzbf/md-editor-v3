@@ -12,6 +12,7 @@ import {
   CSSProperties,
   watch
 } from 'vue';
+import CatalogLink from './CatalogLink';
 import { prefix } from '~/config';
 import {
   CATALOG_CHANGED,
@@ -23,7 +24,6 @@ import { HeadList, MdHeadingId, Themes } from '~/type';
 import { getRelativeTop } from '~/utils';
 import bus from '~/utils/event-bus';
 import { getComputedStyleNum } from '~/utils/scroll-auto';
-import CatalogLink from './CatalogLink';
 
 export interface TocItem extends HeadList {
   index: number;
@@ -371,11 +371,8 @@ const MdCatalog = defineComponent({
 
     return () => (
       <div
-        class={[
-          `${prefix}-catalog`,
-          props.theme === 'dark' && `${prefix}-catalog-dark`,
-          props.class || ''
-        ]}
+        class={[`${prefix}-catalog`, props.class || '']}
+        data-theme={props.theme}
         ref={catalogRef}
       >
         {catalogs.value.length > 0 && (

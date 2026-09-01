@@ -11,7 +11,7 @@ import { ComputedRef, Ref } from 'vue';
 import StrIcon from '~/components/Icon/Str';
 import { prefix } from '~/config';
 import { CustomIcon, StaticTextDefaultValue } from '~/type';
-import { mergeAttrs } from '~/utils/md-it';
+import { mergeAttrs, parseCodeBlockInfo } from '~/utils/md-it';
 
 export interface CodeTabsPluginOps extends markdownit.Options {
   editorId: string;
@@ -49,8 +49,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
   };
 
   const getLangName = (token: Token) => {
-    const info = getInfo(token);
-    return info ? info.split(/(\s+)/g)[0] : '';
+    return parseCodeBlockInfo(getInfo(token)).language;
   };
 
   const getTagType = (token: Token) => {
@@ -99,15 +98,19 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
 
       tokens[idx].info = tokens[idx].info.replace(mandatoryRe, '');
 
+      const { attrs: codeAttrs, language: codeLanguage } = parseCodeBlockInfo(
+        getInfo(tokens[idx])
+      );
+      const normalizedInfo = [codeLanguage, codeAttrs].filter(Boolean).join(' ');
       const codeRendered = defaultRender!(tokens, idx, options, env, slf);
       return `
         <${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
           <${tagHeader} class="${prefix}-code-head">
             <div class="${prefix}-code-flag"><span></span><span></span><span></span></div>
             <div class="${prefix}-code-action">
-              <span class="${prefix}-code-lang">${md.utils.escapeHtml(tokens[idx].info.trim())}</span>
+              <span class="${prefix}-code-lang">${md.utils.escapeHtml(normalizedInfo)}</span>
               <span class="${prefix}-copy-button" data-tips="${copyTips}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
-              ${_opts.extraTools instanceof Function ? _opts.extraTools({ lang: tokens[idx].info.trim() }) : _opts.extraTools || ''}
+              ${_opts.extraTools instanceof Function ? _opts.extraTools({ lang: normalizedInfo }) : _opts.extraTools || ''}
               ${tagContainer === 'details' ? collapseTips : ''}
             </div>
           </${tagHeader}>
@@ -185,6 +188,11 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
         <span class=${prefix}-code-lang role="note">${md.utils.escapeHtml(getLangName(token))}</span>`;
     }
 
+    const { attrs: codeAttrs, language: codeLanguage } = parseCodeBlockInfo(
+      getInfo(tokens[idx])
+    );
+    const normalizedInfo = [codeLanguage, codeAttrs].filter(Boolean).join(' ');
+
     return `
       <${tagContainer} ${slf.renderAttrs(tmpToken as Token)}>
         <${tagHeader} class="${prefix}-code-head">
@@ -194,7 +202,7 @@ const codetabs = (md: markdownit, _opts: CodeTabsPluginOps) => {
           <div class="${prefix}-code-action">
             <span class="${prefix}-codetab-lang">${langs}</span>
             <span class="${prefix}-copy-button" data-tips="${copyTips}"${isIcon ? ' data-is-icon=true' : ''}>${copyBtnHtml}</span>
-            ${_opts.extraTools instanceof Function ? _opts.extraTools({ lang: tokens[idx].info.trim() }) : _opts.extraTools || ''}
+            ${_opts.extraTools instanceof Function ? _opts.extraTools({ lang: normalizedInfo }) : _opts.extraTools || ''}
             ${tagContainer === 'details' ? collapseTips : ''}
           </div>
         </${tagHeader}>

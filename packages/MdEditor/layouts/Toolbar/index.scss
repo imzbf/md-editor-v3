@@ -136,7 +136,7 @@ $toolbar-padding: 4px;
   }
 }
 
-.#{$prefix}-dark {
+.#{$prefix}[data-theme='dark'] {
   .#{$prefix}-table-shape {
     &-col {
       &-default {
