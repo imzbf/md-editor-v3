@@ -197,7 +197,7 @@ import 'cropperjs/dist/cropper.css';
 
 ## 3.2 ECharts 配置解析
 
-`>=6.5.0` 支持通过 `editorExtensions.echarts.parseOption` 自定义 echarts 代码块解析。当前 `6.5.x` 默认仍用 `new Function`，如果内容来源不可信，建议在应用启动阶段改成严格解析：
+`>=6.5.0` 支持通过 `editorExtensions.echarts.parseOption` 自定义 ECharts 代码块解析。7.x 默认使用 `JSON5.parse`，只接受对象数据且不会执行代码；如需函数写法，应在应用启动阶段显式覆盖解析器：
 
 ```ts
 import { config } from 'md-editor-v3';
@@ -213,7 +213,7 @@ config({
 });
 ```
 
-未来 `7.0` 计划默认使用 `JSON.parse`。如果升级后仍要兼容 ECharts 官方示例里的函数写法，可以由业务显式配置执行型解析器，但只应在内容可信时使用：
+如果业务需要兼容 ECharts 官方示例里的函数写法，可以显式配置执行型解析器，但只应在内容可信时使用：
 
 ```ts
 config({

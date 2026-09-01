@@ -11,72 +11,73 @@ export const defaultEditorId = 'md-editor-v3';
 export const cdnBase = 'https://unpkg.com';
 
 // 代码高亮cdn链接
-export const highlightUrl = `${cdnBase}/@highlightjs/cdn-assets@11.11.1/highlight.min.js`;
+export const highlightUrl = `${cdnBase}/@highlightjs/cdn-assets@11.12.0/highlight.min.js`;
 
 // 美化代码cdn连接
 export const prettierUrl = {
-  main: `${cdnBase}/prettier@3.8.1/standalone.js`,
-  markdown: `${cdnBase}/prettier@3.8.1/plugins/markdown.js`
+  main: `${cdnBase}/prettier@3.9.6/standalone.js`,
+  markdown: `${cdnBase}/prettier@3.9.6/plugins/markdown.js`
 };
 
 export const cropperUrl = {
-  css: `${cdnBase}/cropperjs@1.6.2/dist/cropper.min.css`,
-  js: `${cdnBase}/cropperjs@1.6.2/dist/cropper.min.js`
+  css: `${cdnBase}/cropperjs@1.6.3/dist/cropper.min.css`,
+  js: `${cdnBase}/cropperjs@1.6.3/dist/cropper.min.js`
 };
 
+// screenfull@6 改为 ESM，而当前加载器通过经典 script 读取 window.screenfull，因此固定使用 5.2.0。
 export const screenfullUrl = `${cdnBase}/screenfull@5.2.0/dist/screenfull.js`;
 
-export const mermaidUrl = `${cdnBase}/mermaid@11.12.3/dist/mermaid.min.js`;
+export const mermaidUrl = `${cdnBase}/mermaid@11.17.2/dist/mermaid.min.js`;
 // export const mermaidUrl = `${cdnBase}/mermaid/9.4.0/mermaid.min.js`;
 
 export const katexUrl = {
-  js: `${cdnBase}/katex@0.16.33/dist/katex.min.js`,
-  css: `${cdnBase}/katex@0.16.33/dist/katex.min.css`
+  js: `${cdnBase}/katex@0.18.5/dist/katex.min.js`,
+  css: `${cdnBase}/katex@0.18.5/dist/katex.min.css`
 };
 
 export const codeCss: CodeCss = {
   a11y: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/a11y-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/a11y-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/a11y-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/a11y-dark.min.css`
   },
   atom: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/atom-one-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/atom-one-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/atom-one-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/atom-one-dark.min.css`
   },
   github: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/github.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/github-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/github.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/github-dark.min.css`
   },
   gradient: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/gradient-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/gradient-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/gradient-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/gradient-dark.min.css`
   },
   kimbie: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/kimbie-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/kimbie-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/kimbie-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/kimbie-dark.min.css`
   },
   paraiso: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/paraiso-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/paraiso-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/paraiso-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/paraiso-dark.min.css`
   },
   qtcreator: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/qtcreator-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/qtcreator-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/qtcreator-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/qtcreator-dark.min.css`
   },
   stackoverflow: {
-    light: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/stackoverflow-light.min.css`,
-    dark: `${cdnBase}/@highlightjs/cdn-assets@11.11.1/styles/stackoverflow-dark.min.css`
+    light: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/stackoverflow-light.min.css`,
+    dark: `${cdnBase}/@highlightjs/cdn-assets@11.12.0/styles/stackoverflow-dark.min.css`
   }
 };
 
-export const echartsUrl = `${cdnBase}/echarts@6.0.0/dist/echarts.min.js`;
+export const echartsUrl = `${cdnBase}/echarts@6.1.0/dist/echarts.min.js`;
 
 // 当前版本的值
 export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   highlight: {
     js: {
       integrity:
-        'sha384-RH2xi4eIQ/gjtbs9fUXM68sLSi99C7ZWBRX1vDrVv6GQXRibxXLbwO2NGZB74MbU',
+        'sha384-wjfDDhOPPdjtva8vWBhWeVprSpmxisEu5aYT3q1JyACqXpdKpo3PWZTMVq24MBix',
       crossOrigin: 'anonymous'
     },
     css: {
@@ -181,24 +182,24 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   prettier: {
     standaloneJs: {
       integrity:
-        'sha384-Q+dEbdxfNurK4ryC0T77wU8G3EYhxdAierqqKOppGHnJ4e/85wVnMXDNWbaYYghP',
+        'sha384-+W7xqeAu5I/86lmhtNbTUhXsleRqShVIHN475c2jis2jC/2u7yauvSMLvoWpOcRR',
       crossOrigin: 'anonymous'
     },
     parserMarkdownJs: {
       integrity:
-        'sha384-UGdkYlLyq47VQhe9mHyNzuPhBTL9GA9YO5Vb0sXf2fnMYGuSMGAbZ8upsQj1+u4O',
+        'sha384-i4vYrgvZzKDF8P9xog44TQUyDL6uIGMYBrmvTQSgClA0mKyxAHAv9ACYN+FgJLWc',
       crossOrigin: 'anonymous'
     }
   },
   cropper: {
     js: {
       integrity:
-        'sha384-jrOgQzBlDeUNdmQn3rUt/PZD+pdcRBdWd/HWRqRo+n2OR2QtGyjSaJC0GiCeH+ir',
+        'sha384-aKBOyDyHi7nysLl4xSArmbTpotGkhOQNGnSQaljyIveY3ofQZ3GWak4U9F5NcPxI',
       crossOrigin: 'anonymous'
     },
     css: {
       integrity:
-        'sha384-6LFfkTKLRlzFtgx8xsWyBdKGpcMMQTkv+dB7rAbugeJAu1Ym2q1Aji1cjHBG12Xh',
+        'sha384-4B0iRmDz7QrXJK2xob77YvAC46zoUOJDr2MOKrkWWR7QoJg9i63rGSnCwIjGYGHs',
       crossOrigin: 'anonymous'
     }
   },
@@ -212,26 +213,26 @@ export const editorExtensionsAttrs: GlobalConfig['editorExtensionsAttrs'] = {
   mermaid: {
     js: {
       integrity:
-        'sha384-jFhLSLFn4m565eRAS0CDMWubMqOtfZWWbE8kqgGdU+VHbJ3B2G/4X8u+0BM8MtdU',
+        'sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2',
       crossOrigin: 'anonymous'
     }
   },
   katex: {
     js: {
       integrity:
-        'sha384-YPHNAPyrxGS8BNnA7Q4ommqra8WQPEjooVSLzFgwgs8OXJBvadbyvx4QpfiFurGr',
+        'sha384-TTF8eEsEKInX2meLzP5V1z/npGYIElXYGksx93f0qBZHu6IL3PdzVB8objytx+TR',
       crossOrigin: 'anonymous'
     },
     css: {
       integrity:
-        'sha384-fgYS3VC1089n2J3rVcEbXDHlnDLQ9B2Y1hvpQ720q1NvxCduQqT4JoGc4u2QCnzE',
+        'sha384-2dNi/m6JtSiviznrOIZ5fTiZ5As0In2QwkuXSgoqcQtCNplvJAbt+jveeN+8en73',
       crossOrigin: 'anonymous'
     }
   },
   echarts: {
     js: {
       integrity:
-        'sha384-F07Cpw5v8spSU0H113F33m2NQQ/o6GqPTnTjf45ssG4Q6q58ZwhxBiQtIaqvnSpR',
+        'sha384-C2iskrW/uPW46KzOjrvJIQo4YkV8lkD+QS0CrDN18IIPIpT/g2USu8bTP3nvmIAD',
       crossOrigin: 'anonymous'
     }
   }
