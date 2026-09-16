@@ -72,7 +72,7 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🙉 Underline
 
-<u>So even though we face the difficulties of today and tomorrow, I still have a dream.</u>
+Underline uses the raw HTML tag `<u>`, which is also inserted by the toolbar button and shortcut. With the default `html: false`, it is displayed as text. To render an underline, explicitly enable `html: true` through [markdownItConfig](https://imzbf.github.io/md-editor-v3/en-US/api#%F0%9F%8D%A4%20markdownItConfig).
 
 ```markdown
 <u>So even though we face the difficulties of today and tomorrow, I still have a dream.</u>
@@ -114,10 +114,36 @@ I have a dream that one day this nation will rise up.~[2]~
 
 ````markdown
 ```js
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 ````
+
+### 🖍 Line Highlighting
+
+\>= v7.0.0
+
+Append a `{...}` marker to the language identifier to highlight specific code lines. Line numbers are 1-based; separate individual lines with commas and use `start-end` for ranges. Both `js {2,4-5}` and `js{2,4-5}` are supported.
+
+```js {2,4-5}
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+const value = ref('# Hello');
+export { MdEditor, value };
+```
+
+````markdown
+```js {2,4-5}
+import { ref } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+const value = ref('# Hello');
+export { MdEditor, value };
+```
+````
+
+Line highlighting works independently of `showCodeRowNumber`, so it remains active when line numbers are hidden.
 
 ### 🗄 Combination
 
@@ -150,13 +176,13 @@ pnpm install md-editor-v3
 ### 🤌🏻 Forcefully fold
 
 ```js ::close
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 
 ````markdown
 ```js ::close
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 ````
@@ -164,13 +190,13 @@ import 'md-editor-v3/lib/style.css';
 ### 👐 Forcefully open
 
 ```js ::open
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 
 ````markdown
 ```js ::open
-import MdEditor from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 ```
 ````
@@ -351,6 +377,8 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 \>= v6.0.0
 
+Starting with v7.x, the default parser uses `JSON5.parse` and requires a top-level object. Unquoted property names, single-quoted strings, comments, and trailing commas are supported. JSON5 parses data only, so functions, variable references, `new`, and call expressions are not supported.
+
 ```echarts
 {
   tooltip: {
@@ -397,7 +425,7 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 !!! warning
 
-Please note that this module will not handle dangerous code, and you need to ensure the security of your data on your own!
+Starting with v7.x, the default parser does not execute JavaScript. For functions or other JavaScript-only options, provide a custom `editorExtensions.echarts.parseOption`. Custom parsers receive the raw Markdown content, so use them only with trusted input or strict validation.
 
 !!!
 

@@ -4,7 +4,9 @@ Markdown 编辑器，vue3 版本，使用 jsx 模板 和 typescript 开发，支
 
 ### 🤖 基本演示
 
-**加粗**，<u>下划线</u>，_斜体_，~~删除线~~，上标^26^，下标~1~，`inline code`，[超链接](https://github.com/imzbf)
+**加粗**，_斜体_，~~删除线~~，上标^26^，下标~1~，`inline code`，[超链接](https://github.com/imzbf)
+
+> 原生 HTML 默认关闭。`<u>下划线</u>` 等写法会显示为文本，开启方式见 [markdownItConfig](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%8D%A4%20markdownItConfig)。
 
 > 引用：《I Have a Dream》
 
@@ -16,7 +18,7 @@ Markdown 编辑器，vue3 版本，使用 jsx 模板 和 typescript 开发，支
 - [ ] 周六
 - [x] 周天
 
-![图片](https://imzbf.github.io/md-editor-rt/imgs/mark_emoji.gif)
+![图片](https://imzbf.github.io/md-editor-v3/imgs/mark_emoji.gif)
 
 ## 🤗 代码演示
 

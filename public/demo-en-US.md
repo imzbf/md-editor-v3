@@ -768,7 +768,7 @@ To get complete code, refer to [docs](https://github.com/imzbf/md-editor-v3/blob
   .css-vars(false);
 }
 
-.md-editor-dark {
+.md-editor[data-theme='dark'] {
   .css-vars(true);
 }
 ```
@@ -776,7 +776,7 @@ To get complete code, refer to [docs](https://github.com/imzbf/md-editor-v3/blob
 Change background color in dark mode:
 
 ```css
-.md-editor-dark {
+.md-editor[data-theme='dark'] {
   --md-bk-color: #333 !important;
 }
 ```
@@ -869,6 +869,8 @@ const text = ref('');
 > Tips: While import highlight styles by yourself, editor will not be able to change code styles.
 
 ### 🔒 Handling XSS at Compile Time
+
+Raw HTML is disabled by default through `html: false`. Adding `XSSPlugin` does not enable HTML parsing. To render raw HTML, explicitly enable it through [markdownItConfig](https://imzbf.github.io/md-editor-v3/en-US/api#%F0%9F%8D%A4%20markdownItConfig). This plugin only processes HTML tokens; use `sanitize` to sanitize the final generated HTML.
 
 Version 5.0 exports the built-in XSS plugin, which is no longer added by default. The exported XSS plugin includes additional tags and attributes on top of the default whitelist:
 
@@ -1194,7 +1196,8 @@ MyEditor.vue
 
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, useId, watch } from 'vue';
-import { MdEditor, ExposeParam } from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
 import { createYjsExtension, yjsCompartment, cleanupYjs } from './extendEditor';
 
 defineOptions({

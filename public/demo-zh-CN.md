@@ -773,7 +773,7 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
   .css-vars(false);
 }
 
-.md-editor-dark {
+.md-editor[data-theme='dark'] {
   .css-vars(true);
 }
 ```
@@ -781,7 +781,7 @@ const toolbars = ['italic', 'underline', '-', 'bold', '=', 'github'];
 只需要调整对应的 css 变量，比如调整暗夜模式下的背景：
 
 ```css
-.md-editor-dark {
+.md-editor[data-theme='dark'] {
   --md-bk-color: #333 !important;
 }
 ```
@@ -878,6 +878,8 @@ const text = ref('');
 > 注意：highlight 的样式自行引入后，将不支持切换代码样式。
 
 ### 🔒 编译时处理 XSS
+
+原生 HTML 默认通过 `html: false` 关闭，添加 `XSSPlugin` 不会开启 HTML 解析。需要渲染原生 HTML 时，请先通过 [markdownItConfig](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%8D%A4%20markdownItConfig) 显式开启。该插件仅处理 HTML token，清洗最终生成的 HTML 请使用 `sanitize`。
 
 5.0 版本将内置的 XSS 扩展导出了，不再默认添加， 导出的 XSS 扩展在默认白名单的基础上，增加了部分标签和属性：
 
@@ -1205,7 +1207,8 @@ MyEditor.vue
 
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, useId, watch } from 'vue';
-import { MdEditor, ExposeParam } from 'md-editor-v3';
+import { MdEditor } from 'md-editor-v3';
+import type { ExposeParam } from 'md-editor-v3';
 import { createYjsExtension, yjsCompartment, cleanupYjs } from './extendEditor';
 
 defineOptions({

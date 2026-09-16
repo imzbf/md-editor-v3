@@ -1,5 +1,121 @@
 下面仅列举不兼容的内容，兼容内容不作展示。
 
+## 🧙🏼 从 6.x 升级到 7.x
+
+### 事件
+
+#### 📐 onInputBoxWidthChange
+
+`MdEditor`的输入框宽度变化事件已更名，旧事件名称不再支持：
+
+Vue 模板：
+
+```diff
+- <MdEditor @oninputBoxWidthChange="handleInputBoxWidthChange" />
++ <MdEditor @onInputBoxWidthChange="handleInputBoxWidthChange" />
+```
+
+JSX/TSX：
+
+```diff
+- <MdEditor oninputBoxWidthChange={handleInputBoxWidthChange} />
++ <MdEditor onInputBoxWidthChange={handleInputBoxWidthChange} />
+```
+
+### 💴 Config
+
+#### 🍤 markdownItConfig：原生 HTML 默认关闭
+
+这是一个破坏性变更：7.x 中，`MdEditor` 和 `MdPreview` 初始化 markdown-it 时，`html` 的默认值从 `true` 改为 `false`：
+
+```diff
+- html: true
++ html: false
+```
+
+升级后，Markdown 中直接书写的 `<u>`、`<img>`、`<br>`、`<iframe>`、`<details>` 等原生 HTML 会显示为文本，图片说明中的 HTML 也不再按标签渲染。下划线工具栏和快捷键仍插入 `<u>文字</u>`，默认不再显示下划线。
+
+可以将已有内容中的 HTML 图片、上下标改为 `![描述](地址)`、`^上标^`、`~下标~` 等 Markdown 或插件语法。任务列表、代码块、公式和图表等由插件生成的 HTML 不受此选项影响。
+
+若需要保留 6.x 的原生 HTML 渲染行为，请在创建编辑器或预览组件前显式开启：
+
+```ts
+import { config } from 'md-editor-v3';
+
+config({
+  markdownItConfig(mdit) {
+    mdit.set({ html: true });
+  },
+});
+```
+
+`html` 控制原生 HTML 的解析，不负责清洗最终输出；需要清洗生成的 HTML 时，请使用 `sanitize`。更多配置说明见 [markdownItConfig](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%8D%A4%20markdownItConfig)。
+
+#### 📊 editorExtensions.echarts.parseOption
+
+6.x 的默认解析器会执行代码块中的 JavaScript，因此可以直接使用函数：
+
+```js
+{
+  tooltip: {
+    formatter: (params) => `${params[0].value}`,
+  },
+}
+```
+
+7.x 默认使用`JSON5.parse`，并要求顶层结果为非数组对象。配置需要调整为不包含函数、变量引用、`new`或调用表达式的 JSON5 数据：
+
+```json5
+{
+  tooltip: {
+    trigger: 'axis',
+  },
+  series: [
+    {
+      type: 'line',
+      data: [1, 2, 3],
+    },
+  ],
+}
+```
+
+如果仍需兼容函数写法，可以显式覆盖`parseOption(code, { editorId, element })`：
+
+```ts
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: {
+    echarts: {
+      parseOption(code) {
+        return new Function(`return (${code})`)();
+      },
+    },
+  },
+});
+```
+
+!!! warning
+
+执行型解析器只适用于完全可信的 Markdown 内容，自定义解析器需要自行完成输入校验和安全控制。
+
+!!!
+
+### 🎨 样式
+
+#### 🌗 暗色主题选择器
+
+暗色模式选择器需要按下面的方式迁移：
+
+```diff
+-.md-editor-dark,
+-.md-editor-catalog-dark {
++.md-editor[data-theme='dark'],
++.md-editor-catalog[data-theme='dark'] {
+  /* 自定义暗色样式 */
+}
+```
+
 ## 🧙🏼 从 5.x 升级到 6.x
 
 ### 🐈 UMD

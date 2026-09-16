@@ -25,6 +25,9 @@ import 'md-editor-v3/lib/style.css';
 // import { basicSetup } from 'codemirror';
 
 config({
+  markdownItConfig(md) {
+    md.set({ html: true });
+  },
   markdownItPlugins(plugins, { editorId }) {
     return [
       ...plugins.map((item) => {
