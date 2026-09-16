@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div style="margin: 1em 0">
+    <div style="margin-block: 1em; margin-inline: 0">
       <button @click="changeVisible">点击</button>
     </div>
     <MdEditorV3
@@ -16,8 +16,8 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { StrIcon } from '~~/index';
 import data from './data.md';
+import { StrIcon } from '~~/index';
 
 const text = ref(data);
 const visible = ref(false);

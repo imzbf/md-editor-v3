@@ -4,7 +4,9 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "emitDeclarationOnly": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["scripts/**/*.ts", "./package.json"]
 }

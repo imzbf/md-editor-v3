@@ -106,6 +106,16 @@ export default defineComponent({
   props,
   emits: ['onClick', 'onClose', 'onAdjust'],
   setup(props, ctx: SetupContext<Array<'onClick' | 'onClose' | 'onAdjust'>>) {
+    const handleClose = () => {
+      props.onClose?.();
+      ctx.emit('onClose');
+    };
+
+    const handleAdjust = (v: boolean) => {
+      props.onAdjust?.(v);
+      ctx.emit('onAdjust', v);
+    };
+
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const ModalTitle = getSlot({ props, ctx }, 'modalTitle');
@@ -133,16 +143,10 @@ export default defineComponent({
             title={ModalTitle}
             visible={props.visible}
             showMask={props.showMask}
-            onClose={() => {
-              props.onClose?.();
-              ctx.emit('onClose');
-            }}
+            onClose={handleClose}
             showAdjust={props.showAdjust}
             isFullscreen={props.isFullscreen}
-            onAdjust={(v) => {
-              props.onAdjust?.(v);
-              ctx.emit('onAdjust', v);
-            }}
+            onAdjust={handleAdjust}
           >
             {Default}
           </Modal>

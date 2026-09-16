@@ -1,0 +1,135 @@
+- name: 'type: bug'
+  color: d73a4a
+  description: Something is not working
+- name: 'type: feature'
+  color: a2eeef
+  description: New feature or enhancement request
+- name: 'type: docs'
+  color: 0075ca
+  description: Documentation related changes
+- name: 'type: question'
+  color: d876e3
+  description: Usage or support question
+- name: 'type: performance'
+  color: fbca04
+  description: Performance or optimization improvement
+- name: 'type: security'
+  color: b60205
+  description: Security related issue or change
+- name: 'type: refactor'
+  color: cfd3d7
+  description: Refactoring without behavior changes
+
+- name: 'area: editor-core'
+  color: 5319e7
+  description: Core editor behavior and input handling
+- name: 'area: preview'
+  color: 1d76db
+  description: Markdown preview and catalog
+- name: 'area: toolbar'
+  color: 0e8a16
+  description: Toolbar and custom toolbar components
+- name: 'area: theme'
+  color: c5def5
+  description: Theme, style and appearance
+- name: 'area: upload'
+  color: 0052cc
+  description: Image upload, paste, clip and crop flow
+- name: 'area: extensions'
+  color: 7057ff
+  description: Plugin and extension ecosystem
+- name: 'area: i18n'
+  color: 006b75
+  description: Language pack and localization
+- name: 'area: ssr'
+  color: 0b3d91
+  description: Server-side rendering integration
+- name: 'area: mobile'
+  color: 6f42c1
+  description: Mobile and touch behavior
+- name: 'area: mermaid'
+  color: 6a5acd
+  description: Mermaid rendering support
+- name: 'area: katex'
+  color: 1f6feb
+  description: KaTeX/math rendering support
+- name: 'area: wysiwyg'
+  color: b76e79
+  description: WYSIWYG editing mode
+- name: 'area: xss'
+  color: 8b0000
+  description: XSS sanitization and content safety
+- name: 'area: cdn'
+  color: b08800
+  description: CDN usage and package distribution
+- name: 'area: docs-site'
+  color: 0366d6
+  description: Documentation site and examples
+
+- name: needs-triage
+  color: fbca04
+  description: Needs maintainer triage
+- name: needs-demo
+  color: 00bcd4
+  description: More details or a runnable demo is required
+- name: needs-repro
+  color: ff9800
+  description: Reproduction steps or minimal repo required
+- name: stale
+  color: eeeeee
+  description: Inactive issue
+- name: release-blocker
+  color: d93f0b
+  description: Must be resolved before release
+
+- name: 'priority: p0'
+  color: b60205
+  description: Critical issue, urgent fix
+- name: 'priority: p1'
+  color: d93f0b
+  description: High priority
+- name: 'priority: p2'
+  color: fbca04
+  description: Normal priority
+- name: 'priority: p3'
+  color: 0e8a16
+  description: Low priority
+
+- name: 'resolution: duplicate'
+  color: cfd3d7
+  description: Already tracked by another issue
+- name: 'resolution: invalid'
+  color: e4e669
+  description: Report is invalid or incomplete
+- name: 'resolution: not-bug'
+  color: f9d0c4
+  description: Expected behavior, not a bug
+- name: wontfix
+  color: ffffff
+  description: This will not be worked on
+
+- name: good first issue
+  color: 7057ff
+  description: Good for newcomers
+- name: help wanted
+  color: 008672
+  description: Extra attention is needed
+
+- name: breaking-change
+  color: b60205
+  description: Includes breaking API or behavior changes
+- name: dependencies
+  color: 0366d6
+  description: Dependency updates
+- name: ci
+  color: 1d76db
+  description: CI/CD related changes
+- name: chore
+  color: cfd3d7
+  description: Maintenance tasks
+- name: skip-changelog
+  color: ffffff
+  description: Exclude from release notes and changelog
+- name: v4xss
+  color: 8b0000
+  description: Security issues that only affect v4.x

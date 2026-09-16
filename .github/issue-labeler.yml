@@ -1,0 +1,44 @@
+'type: bug':
+  - '/(bug|error|exception|crash|defect|regression|报错|异常|崩溃|问题|失效)/i'
+'type: feature':
+  - '/(feature|enhancement|proposal|request|improve|优化|建议|功能|需求)/i'
+'type: docs':
+  - '/(doc|docs|documentation|readme|文档|示例)/i'
+'type: question':
+  - '/(question|how to|usage|help|咨询|请教|怎么|如何)/i'
+'type: performance':
+  - '/(performance|optimi[sz]e|slow|lag|卡顿|性能|优化)/i'
+'type: security':
+  - '/(security|xss|sanitize|sanitizer|漏洞|注入|安全)/i'
+
+'area: editor-core':
+  - '/(editor|codemirror|cursor|selection|shortcut|快捷键|编辑器|输入)/i'
+'area: preview':
+  - '/(preview|catalog|toc|scroll|anchor|预览|目录|滚动|锚点)/i'
+'area: toolbar':
+  - '/(toolbar|tool bar|button|dropdown|modal|工具栏|按钮|弹窗)/i'
+'area: theme':
+  - '/(theme|style|css|dark mode|light mode|主题|样式)/i'
+'area: upload':
+  - '/(upload|image|paste|clip|cropper|裁剪|上传|图片|粘贴)/i'
+'area: i18n':
+  - '/(i18n|locale|language|国际化|多语言|翻译)/i'
+'area: ssr':
+  - '/(ssr|server-side|nuxt|next|hydration|服务端渲染)/i'
+'area: mobile':
+  - '/(mobile|ios|android|touch|h5|移动端|手机)/i'
+'area: mermaid':
+  - '/(mermaid|flowchart|sequence diagram|gantt|流程图|时序图|甘特图)/i'
+'area: katex':
+  - '/(katex|mathjax|formula|equation|数学公式|公式)/i'
+'area: wysiwyg':
+  - '/(wysiwyg|rich text|所见即所得)/i'
+'area: xss':
+  - '/(xss|sanitize|sanitizer|script injection|注入|跨站)/i'
+'area: cdn':
+  - '/(cdn|unpkg|jsdelivr|esm\.sh|cdn\.jsdelivr|distribution)/i'
+
+needs-demo:
+  - '/(need demo|demo required|请提供demo|提供demo|复现demo)/i'
+needs-repro:
+  - '/(no repro|cannot reproduce|repro steps|最小复现|无法复现|缺少复现)/i'

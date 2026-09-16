@@ -21,6 +21,7 @@ const ToolbarPageFullscreen = defineComponent({
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.pageFullscreen}
+        aria-label={ult.value.toolbarTips?.pageFullscreen}
         disabled={disabled?.value}
         onClick={() => {
           updateSetting('pageFullscreen');

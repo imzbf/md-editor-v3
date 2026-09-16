@@ -15,6 +15,7 @@ const ToolbarGithub = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.github}
+        aria-label={ult.value.toolbarTips?.github}
         disabled={disabled?.value}
         onClick={() => {
           linkTo('https://github.com/imzbf/md-editor-v3');

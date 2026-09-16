@@ -1,8 +1,8 @@
 import { ComputedRef, defineComponent, inject } from 'vue';
+import { useSreenfull } from '../composition';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
 import { SettingType, StaticTextDefaultValue } from '~/type';
-import { useSreenfull } from '../composition';
 
 const ToolbarFullscreen = defineComponent({
   name: 'ToolbarFullscreen',
@@ -23,6 +23,7 @@ const ToolbarFullscreen = defineComponent({
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.fullscreen}
+        aria-label={ult.value.toolbarTips?.fullscreen}
         disabled={disabled?.value}
         onClick={() => {
           fullscreenHandler();

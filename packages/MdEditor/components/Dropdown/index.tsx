@@ -103,8 +103,8 @@ export default defineComponent({
       // 设置好正对位置
       ctl.overlayStyle = {
         ...ctl.overlayStyle,
-        top: triggerTop + triggerHeight + 'px',
-        left: left + 'px'
+        insetBlockStart: triggerTop + triggerHeight + 'px',
+        insetInlineStart: left + 'px'
       };
 
       props.onChange(true);

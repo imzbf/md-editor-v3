@@ -1,5 +1,5 @@
 import { CompletionSource } from '@codemirror/autocomplete';
-import { PropType, CSSProperties, VNode } from 'vue';
+import { PropType, CSSProperties, VNode, Component } from 'vue';
 import { allToolbar, allFooter } from './config';
 import {
   ToolbarNames,
@@ -253,6 +253,10 @@ export const mdPreviewProps = {
   noEcharts: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  previewComponent: {
+    type: [Object, Function] as PropType<Component>,
+    default: undefined
   }
 };
 
@@ -536,7 +540,7 @@ export const editorProps = {
   /**
    * 输入框宽度变化事件
    */
-  oninputBoxWidthChange: {
+  onInputBoxWidthChange: {
     type: Function as PropType<(width: string) => void>,
     default: undefined
   },
@@ -590,5 +594,5 @@ export const editorEmits: EditorEmits = [
   'onFocus',
   'onInput',
   'onDrop',
-  'oninputBoxWidthChange'
+  'onInputBoxWidthChange'
 ];

@@ -1,0 +1,10 @@
+@use '../vars' as *;
+
+.project-preview {
+  padding-block: 2rem;
+  padding-inline: 2rem;
+
+  .tips-text {
+    color: #777;
+  }
+}

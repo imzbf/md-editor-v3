@@ -1,6 +1,6 @@
 import { debounce, createSmoothScroll } from '@vavt/util';
-import CodeMirrorUt from '~/layouts/Content/codemirror';
 import { prefix } from '../config';
+import CodeMirrorUt from '~/layouts/Content/codemirror';
 
 const DATA_LINE_SELECTOR = `.${prefix}-preview > [data-line]`;
 
@@ -114,6 +114,14 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     const tempStartLines = [...startLines];
     const { lines } = view.state.doc;
 
+    // 原生 HTML block 的 data-line 会留在 markdown-it token 上，但默认 renderer
+    // 直接输出原始 HTML，不会把 attrs 挂到真实 DOM。此时第一个可见锚点可能
+    // 出现在文档中段，需要补出 [0, firstAnchor) 这段隐式块，避免开头内容被
+    // 错误映射到后续段落。
+    if (tempStartLines[0] !== 0) {
+      tempStartLines.unshift(0);
+    }
+
     let start = tempStartLines.shift() || 0;
     let end = tempStartLines.shift() || lines;
 
@@ -134,21 +142,15 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     let lineNumer = 1;
     for (let i = elesHasLineNumber.length - 1; i - 1 >= 0; i--) {
       const curr = elesHasLineNumber[i];
-      const sibling = elesHasLineNumber[i - 1];
-      if (
-        curr.offsetTop + curr.offsetHeight > cMaxScrollLength &&
-        sibling.offsetTop < cMaxScrollLength
-      ) {
-        lineNumer = Number(sibling.dataset.line);
+      if (curr.offsetTop <= cMaxScrollLength) {
+        lineNumer = Number(curr.dataset.line);
         break;
       }
     }
 
     for (let i = blockMap.length - 1; i >= 0; i--) {
-      const itemBottom = getBottomByLine(blockMap[i].end);
       const itemTop = getTopByLine(blockMap[i].start);
-
-      if (itemBottom > pMaxScrollLength && itemTop <= pMaxScrollLength) {
+      if (itemTop <= pMaxScrollLength) {
         lineNumer = lineNumer < blockMap[i].start ? lineNumer : blockMap[i].start;
         break;
       }
@@ -169,9 +171,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     // 加把锁，当前滚动结束后再减掉。
     pLock++;
 
-    const { scrollDOM, contentHeight } = view;
+    const { scrollDOM } = view;
 
-    let cElePaddingTop = getComputedStyleNum(cEle, 'padding-top');
+    let cElePaddingTop = getComputedStyleNum(cEle, 'padding-block-start');
 
     const blockInfo = view.lineBlockAtHeight(scrollDOM.scrollTop);
     // 可视区域第一行行号
@@ -198,23 +200,20 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     const cMaxScrollLength = cEle.scrollHeight - cEle.clientHeight;
 
     let startTop = getTopByLine(blockData.start);
-    let endBottom = getBottomByLine(blockData.end);
+    const endBottom = getBottomByLine(blockData.end);
 
     // 把margin算到元素高度中去，可以避免第一个元素不到顶部的情况
     let startEleOffetTop = startEle.offsetTop;
     let blockHeight = endEle.offsetTop - startEleOffetTop;
 
     if (startTop === 0) {
-      // offsetTop会包含margin，所以当是开始行时，要将margin-top纳入高度
+      // offsetTop会包含margin，所以当是开始行时，要将margin-block-start纳入高度
       // 而后面的则不需要
       startEleOffetTop = 0;
-      // 开始结束相同时(文档中只存在一个模块)，需要将padding算入滚动区域
+
       if (startEle === endEle) {
         cElePaddingTop = 0;
-
-        // 如果开始和结束节点相同，则需要将这个节点的高度也算进滚动区域
-        endBottom = contentHeight - scrollDOM.offsetHeight;
-        blockHeight = cMaxScrollLength;
+        blockHeight = 0;
       } else {
         blockHeight = endEle.offsetTop;
       }
@@ -246,7 +245,9 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       }
 
       blockHeight =
-        cMaxScrollLength - startEleOffetTop + getComputedStyleNum(cEle, 'padding-top');
+        cMaxScrollLength -
+        startEleOffetTop +
+        getComputedStyleNum(cEle, 'padding-block-start');
     }
 
     const scrollToTop = startEleOffetTop - cElePaddingTop + blockHeight * scale;
@@ -301,7 +302,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
           // =0就是开始行，不用找了
           virtualLine = -1;
-          startLineIndex = i;
+          startLineIndex = -1;
           break;
         } else {
           // 说明下一个带有行号的行也不在可视区域，行号需要往下走
@@ -323,7 +324,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
       switch (startLineIndex) {
         case -1: {
           realEleStart = cEle.firstElementChild?.firstElementChild as HTMLElement;
-          realEleEnd = elesHasLineNumber[startLineIndex];
+          realEleEnd = elesHasLineNumber[0];
           break;
         }
 
@@ -335,12 +336,7 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
 
         default: {
           realEleStart = elesHasLineNumber[startLineIndex];
-          realEleEnd =
-            elesHasLineNumber[
-              startLineIndex + 1 === elesHasLineNumber.length
-                ? startLineIndex
-                : startLineIndex + 1
-            ];
+          realEleEnd = elesHasLineNumber[startLineIndex + 1];
         }
       }
     }
@@ -352,7 +348,8 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     let eleStartOffsetTop =
       realEleStart === cEle.firstElementChild?.firstElementChild
         ? 0
-        : realEleStart.offsetTop - getComputedStyleNum(realEleStart, 'margin-top');
+        : realEleStart.offsetTop -
+          getComputedStyleNum(realEleStart, 'margin-block-start');
 
     let eleEndOffsetTop = realEleEnd.offsetTop;
 
@@ -367,17 +364,18 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
     );
     let blockHeight = 0;
 
+    const realEleEndPos =
+      realEleEnd == cEle.lastElementChild?.lastElementChild
+        ? realEleEnd.offsetTop + realEleEnd.offsetHeight
+        : realEleEnd.offsetTop;
     // 最后一行距离顶部高度超出了可以滚动的高度，则将当前开始行到最后一个节点视为同一个模块
-    if (
-      endLineScrollTop > pMaxScrollLength ||
-      realEleEnd.offsetTop + realEleEnd.offsetHeight > cMaxScrollLength
-    ) {
+    if (endLineScrollTop > pMaxScrollLength || realEleEndPos > cMaxScrollLength) {
       const lineNumer = getLineNumber(pMaxScrollLength, cMaxScrollLength);
 
       const _startEle = cEle.querySelector<HTMLElement>(`[data-line="${lineNumer}"]`);
 
       eleStartOffsetTop = _startEle
-        ? _startEle.offsetTop - getComputedStyleNum(_startEle, 'margin-top')
+        ? _startEle.offsetTop - getComputedStyleNum(_startEle, 'margin-block-start')
         : eleStartOffsetTop;
       firstLineScrollTop = getTopByLine(lineNumer);
 
@@ -391,13 +389,13 @@ const scrollAuto = (pEle: HTMLElement, cEle: HTMLElement, codeMirrorUt: CodeMirr
         eleEndOffsetTop =
           realEleEnd.offsetTop +
           realEleEnd.offsetHeight +
-          +getComputedStyle(realEleEnd).marginBottom.replace('px', '');
+          getComputedStyleNum(realEleEnd, 'margin-block-end');
 
         blockHeight = endLineScrollTop;
       } else {
         blockHeight = endLineScrollTop;
       }
-
+      firstLineScrollTop = 0;
       scale = Math.max(cScrollTop / eleEndOffsetTop, 0);
     }
     // 正常情况

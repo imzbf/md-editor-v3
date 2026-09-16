@@ -1,6 +1,5 @@
 import { Compartment, Extension } from '@codemirror/state';
 import { KeyBinding, EditorView } from '@codemirror/view';
-// eslint-disable-next-line vue/prefer-import-from-vue
 import { LooseRequired } from '@vue/shared';
 import markdownit, { Token } from 'markdown-it';
 import { Component, SetupContext, ExtractPropTypes, VNode } from 'vue';
@@ -267,6 +266,19 @@ export interface GlobalConfig {
     echarts?: {
       instance?: any;
       js?: string;
+      /**
+       * 解析 ECharts 代码块内容。
+       *
+       * 从 v7.x 开始，默认基于 JSON5.parse 解析 JSON5 数据，并要求顶层为对象，不会执行代码块中的 JavaScript。
+       * 如需函数回调等 JavaScript 配置可覆盖该方法；自定义解析器需要自行保证输入安全。
+       */
+      parseOption?: (
+        code: string,
+        options: {
+          editorId: string;
+          element: HTMLElement;
+        }
+      ) => any;
     };
   };
 
@@ -603,7 +615,7 @@ export type EditorEmits = Array<
   | 'onFocus'
   | 'onInput'
   | 'onDrop'
-  | 'oninputBoxWidthChange'
+  | 'onInputBoxWidthChange'
   | 'onRemount'
 >;
 

@@ -1,5 +1,4 @@
 import { CompletionSource } from '@codemirror/autocomplete';
-import axios from 'axios';
 import {
   defineComponent,
   reactive,
@@ -9,6 +8,9 @@ import {
   ref,
   onMounted
 } from 'vue';
+import { Theme } from '../App';
+import mdText from '../data.md';
+import Normal from './Normal/index.vue';
 import Icon from '~/components/Icon';
 import {
   MdEditor,
@@ -19,9 +21,6 @@ import {
 } from '~~/index';
 import type { ExposeParam, MdHeadingId, ToolbarNames } from '~~/index';
 
-import { Theme } from '../App';
-import mdText from '../data.md';
-import Normal from './Normal/index.vue';
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
 
@@ -41,7 +40,7 @@ import Normal from './Normal/index.vue';
 
 // import ancher from 'markdown-it-anchor';
 
-import './index.less';
+import './index.scss';
 
 // import { cdnBase } from '~/config';
 
@@ -67,6 +66,11 @@ const INPUT_BOX_WITDH = 'tcxll8alg5jx52hw';
 
 const mdHeadingId: MdHeadingId = ({ index }) => {
   return `heading-${index}`;
+};
+
+type UploadImageResponse = {
+  code: number;
+  url: string;
 };
 
 export default defineComponent({
@@ -100,6 +104,7 @@ export default defineComponent({
       isFullscreen: boolean;
       inputBoxWidth: string;
       disabled: boolean;
+      readOnly: boolean;
       floatingToolbars: ToolbarNames[];
     }>({
       text: storagedText || (mdText as string),
@@ -109,6 +114,7 @@ export default defineComponent({
       isFullscreen: false,
       inputBoxWidth: storagedWidth,
       disabled: false,
+      readOnly: false,
       floatingToolbars: ['bold', 'underline', 'italic', 'strikeThrough']
     });
 
@@ -191,16 +197,43 @@ export default defineComponent({
       }, 5000);
     });
 
+    /**
+     * `fetch` 遇到 4xx/5xx 时不会自动抛错，这里统一补上状态校验，
+     * 让拖拽上传和批量上传都复用同一套返回值与错误处理。
+     */
+    const uploadImage = async (file: File) => {
+      const form = new FormData();
+      form.append('file', file);
+
+      const response = await fetch('/api/img/upload', {
+        method: 'POST',
+        body: form
+      });
+
+      if (!response.ok) {
+        throw new Error(`图片上传失败：${response.status}`);
+      }
+
+      const data = (await response.json()) as UploadImageResponse;
+
+      if (data.code !== 0) {
+        throw new Error('图片上传失败：无效的响应代码');
+      }
+
+      return data;
+    };
+
     return () => (
       <div class="project-preview">
         <div
           style={{
             width: '200px',
-            padding: '10px',
+            paddingBlock: '10px',
+            paddingInline: '10px',
             border: '1px solid #666',
             position: 'fixed',
-            right: '10px',
-            top: '170px'
+            insetInlineEnd: '10px',
+            insetBlockStart: '170px'
           }}
         >
           <MdCatalog
@@ -213,8 +246,8 @@ export default defineComponent({
         <button
           style={{
             position: 'absolute',
-            left: '10px',
-            top: '10px',
+            insetInlineStart: '10px',
+            insetBlockStart: '10px',
             zIndex: 1000000
           }}
           onClick={() => {
@@ -240,7 +273,9 @@ export default defineComponent({
             // editorRef.value?.execCommand('gantt');
             // md.disabled = !md.disabled;
 
-            md.floatingToolbars = ['bold'];
+            md.readOnly = !md.readOnly;
+
+            // md.floatingToolbars = ['bold'];
           }}
         >
           1
@@ -276,7 +311,7 @@ export default defineComponent({
             // codeStyleReverseList={['mk-cute']}
             // autoFocus
             disabled={md.disabled}
-            // readOnly
+            readOnly={md.readOnly}
             // maxLength={10}
             // autoDetectCode
             // onHtmlChanged={console.log}
@@ -295,21 +330,14 @@ export default defineComponent({
               e.stopPropagation();
 
               void (async () => {
-                const form = new FormData();
                 const file = e.dataTransfer?.files[0];
                 if (file) {
-                  form.append('file', file);
-
                   try {
-                    const res = await axios.post('/api/img/upload', form, {
-                      headers: {
-                        'Content-Type': 'multipart/form-data'
-                      }
-                    });
+                    const res = await uploadImage(file);
 
                     editorRef.value?.insert(() => {
                       return {
-                        targetValue: `![](${res.data.url})`
+                        targetValue: `![](${res.url})`
                       };
                     });
                   } catch (error) {
@@ -359,29 +387,11 @@ export default defineComponent({
             }
             onUploadImg={(files, callback) => {
               void (async () => {
-                const res = await Promise.all(
-                  files.map((file) => {
-                    return new Promise((rev, rej) => {
-                      const form = new FormData();
-                      form.append('file', file);
-
-                      axios
-                        .post('/api/img/upload', form, {
-                          headers: {
-                            'Content-Type': 'multipart/form-data'
-                          }
-                        })
-                        .then((res) => rev(res))
-                        .catch((error) =>
-                          rej(error instanceof Error ? error : new Error(String(error)))
-                        );
-                    });
-                  })
-                );
+                const res = await Promise.all(files.map((file) => uploadImage(file)));
 
                 callback(
-                  res.map((item: any) => ({
-                    url: item.data.url,
+                  res.map((item) => ({
+                    url: item.url,
                     alt: 'alt',
                     title: 'title'
                   }))
@@ -396,7 +406,7 @@ export default defineComponent({
             // onInput={console.log}
             // showToolbarName
             inputBoxWidth={md.inputBoxWidth}
-            oninputBoxWidthChange={(w) => {
+            onInputBoxWidthChange={(w) => {
               md.inputBoxWidth = w;
               localStorage.setItem(INPUT_BOX_WITDH, w);
             }}

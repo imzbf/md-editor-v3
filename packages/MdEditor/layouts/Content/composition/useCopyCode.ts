@@ -1,8 +1,8 @@
 import copy2clipboard from '@vavt/copy2clipboard';
 import { ComputedRef, inject, nextTick, onMounted, Ref, watch } from 'vue';
+import { ContentPreviewProps } from '../ContentPreview';
 import { prefix } from '~/config';
 import { SettingType, StaticTextDefaultValue } from '~/type';
-import { ContentPreviewProps } from '../ContentPreview';
 
 const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<string>) => {
   const editorId = inject('editorId') as string;
@@ -45,14 +45,14 @@ const useCopyCode = (props: ContentPreviewProps, html: Ref<string>, key: Ref<str
                 if (copyButton.dataset.isIcon) {
                   copyButton.dataset.tips = msg;
                 } else {
-                  copyButton.innerHTML = msg;
+                  copyButton.textContent = msg;
                 }
 
                 clearTimer = window.setTimeout(() => {
                   if (copyButton.dataset.isIcon) {
                     copyButton.dataset.tips = text;
                   } else {
-                    copyButton.innerHTML = text!;
+                    copyButton.textContent = text!;
                   }
                 }, 1500);
               });

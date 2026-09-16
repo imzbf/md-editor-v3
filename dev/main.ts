@@ -1,7 +1,7 @@
 import { lineNumbers } from '@codemirror/view';
 import { createApp } from 'vue';
-import { MdEditor, config, XSSPlugin, editorExtensionsAttrs } from '~~/index';
 import App from './App';
+import { MdEditor, config, XSSPlugin, editorExtensionsAttrs } from '~~/index';
 
 // import TargetBlankExtension from './image/TargetBlankExtension.js';
 // import 'katex/dist/katex.min.css';
@@ -159,6 +159,6 @@ config({
   editorExtensionsAttrs
 });
 
-import '~/styles/style.less';
+import '~/styles/style.scss';
 
 createApp(App).use(MdEditor).mount('#app');

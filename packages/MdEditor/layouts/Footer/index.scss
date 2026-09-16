@@ -1,0 +1,30 @@
+@use '../../styles/vars' as *;
+
+.#{$prefix} {
+  &-footer {
+    height: 24px;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--md-color);
+    border-block-start: 1px solid var(--md-border-color);
+    display: flex;
+    justify-content: space-between;
+
+    &-item {
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+      padding-block: 0;
+      padding-inline: 10px;
+    }
+
+    &-item + &-item {
+      padding-inline-start: 0;
+    }
+
+    &-label {
+      padding-inline-end: 5px;
+      line-height: 1;
+    }
+  }
+}

@@ -36,19 +36,19 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 ## 📦 安装
 
 ```shell
-yarn add md-editor-v3
+npm i md-editor-v3
 ```
 
 使用已存在的语言、主题扩展，例如：日语
 
 ```shell
-yarn add @vavt/cm-extension
+npm i @vavt/cm-extension
 ```
 
 使用更多的扩展工具栏组件，例如：导出内容为 PDF
 
 ```shell
-yarn add @vavt/v3-extension
+npm i @vavt/v3-extension
 ```
 
 更多使用及贡献方式参考：[md-editor-extension](https://github.com/imzbf/md-editor-extension)
@@ -77,7 +77,7 @@ const text = ref('# Hello Editor');
 
 ```vue
 <template>
-  <MdPreview :editorId="id" :modelValue="text" />
+  <MdPreview :id="id" :modelValue="text" />
   <MdCatalog :editorId="id" :scrollElement="scrollElement" />
 </template>
 
@@ -97,3 +97,30 @@ const scrollElement = document.documentElement;
 ---
 
 更多用法请前往 [文档](https://imzbf.github.io/md-editor-v3)。
+
+## 🏁 参与贡献
+
+### 🤝 提交规范（对齐发布流水线）
+
+`.github/workflows/latest.yml` 会基于提交信息生成 `CHANGELOG.md`，协同维护时统一使用以下规范。
+
+- 格式：`<type>(<scope>)!: <summary>`
+- 推荐类型：
+  - `feat`：进入 **Features**
+  - `refactor`：进入 **Refactors**
+  - `fix`：进入 **Fixed Bugs**
+  - 其他类型：进入 **Others**
+- 标题应描述“用户可感知的改动/修复问题”，不要只写机械动作（例如只写 `bump xxx`）。
+- 建议补充正文（对应 `git cz` 的 long description），说明动机与影响，特别是依赖升级类提交。
+- 不要使用纯版本号作为标题（如 `6.3.2`、`v6.3.2-beta.1`），发布脚本会忽略。
+- `docs(changelog): ...` 预留给流水线自动生成的 changelog 提交。
+- 如果在提交标题或正文写了 `#123`，发布后流水线会给该 issue 留言并自动关闭；只关联真正已在该版本解决的问题。
+
+示例：
+
+```bash
+git commit -m "feat(editor): support drag-sort toolbar items"
+git commit -m "fix(preview): sync anchor when heading id contains emoji #1234"
+git commit -m "fix(deps): bump @vavt/markdown-theme to fix mermaid overflow"
+git commit -m "refactor(build): simplify dts rollup pipeline"
+```

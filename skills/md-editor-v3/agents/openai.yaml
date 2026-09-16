@@ -1,0 +1,4 @@
+interface:
+  display_name: 'md-editor-v3'
+  short_description: 'Integrate and customize md-editor-v3'
+  default_prompt: 'Use $md-editor-v3 to integrate, customize, or debug md-editor-v3 in my Vue 3 project.'

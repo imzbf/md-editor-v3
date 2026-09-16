@@ -1,0 +1,100 @@
+@use '../../styles/vars' as *;
+
+.#{$prefix} {
+  &-content {
+    direction: ltr;
+    position: relative;
+    display: flex;
+    // height: calc(100% - $toolbar-height - 2 * $toolbar-padding - 1px);
+    flex: 1;
+    height: 0;
+    flex-shrink: 0;
+
+    &-wrapper {
+      display: flex;
+      flex: 1;
+      width: 0;
+      position: relative;
+    }
+  }
+
+  &-resize-operate {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background-color: var(--md-bk-color);
+    z-index: 1;
+    cursor: col-resize;
+  }
+
+  &-input-wrapper {
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  &-preview-wrapper {
+    position: relative;
+    // flex: 1;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+
+    // Firefox
+    scrollbar-width: none;
+
+    [dir='rtl'] & {
+      direction: rtl;
+    }
+
+    &::-webkit-scrollbar {
+      // Chrome/Safari
+      display: none;
+    }
+  }
+
+  &-html {
+    font-size: 16px;
+    word-break: break-all;
+  }
+}
+
+.#{$prefix}-catalog-editor {
+  // @include css-vars(false);
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+  background-color: var(--md-bk-color);
+  border-inline-start: 1px solid var(--md-border-color);
+  width: 200px;
+  box-sizing: border-box;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-block: 5px;
+  padding-inline: 10px;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  font-feature-settings: 'tnum';
+
+  // Firefox
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    // Chrome/Safari
+    display: none;
+  }
+}
+
+.#{$prefix}-catalog-fixed {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  z-index: 10002;
+}
+
+.#{$prefix}-catalog-flat {
+  position: initial;
+  flex-shrink: 0;
+}

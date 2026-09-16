@@ -1,13 +1,14 @@
 import { randomId } from '@vavt/util';
 import { watch, inject, ComputedRef, onMounted, shallowRef, Ref } from 'vue';
+
+import { ContentPreviewProps } from '../ContentPreview';
+
 import { prefix, globalConfig } from '~/config';
 import { CDN_IDS } from '~/static';
 import { ERROR_CATCHER } from '~/static/event-name';
 import { mermaidCache } from '~/utils/cache';
 import { appendHandler } from '~/utils/dom';
 import eventBus from '~/utils/event-bus';
-
-import { ContentPreviewProps } from '../ContentPreview';
 
 /**
  * 注册katex扩展到页面
@@ -24,12 +25,30 @@ const useMermaid = (props: ContentPreviewProps) => {
 
   const configMermaid = () => {
     if (!props.noMermaid && mermaid) {
-      mermaid.initialize(
-        mermaidConfig({
-          startOnLoad: false,
-          theme: theme.value === 'dark' ? 'dark' : 'default'
-        })
-      );
+      const mermaidBaseConfig =
+        theme.value === 'dark'
+          ? {
+              startOnLoad: false,
+              theme: 'dark'
+            }
+          : {
+              startOnLoad: false,
+              theme: 'base',
+              themeVariables: {
+                background: '#ffffff',
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1f2329',
+                primaryBorderColor: '#b7c0cc',
+                secondaryColor: '#f7f8fa',
+                tertiaryColor: '#f7f8fa',
+                lineColor: '#596273',
+                edgeLabelBackground: '#ffffff',
+                clusterBkg: '#ffffff',
+                clusterBorder: '#b7c0cc'
+              }
+            };
+
+      mermaid.initialize(mermaidConfig(mermaidBaseConfig));
       reRenderRef.value = reRenderRef.value + 1;
     }
   };
@@ -92,9 +111,15 @@ const useMermaid = (props: ContentPreviewProps) => {
 
   const replaceMermaid = async () => {
     if (!props.noMermaid && mermaid) {
-      const mermaidSourceEles = rootRef.value.querySelectorAll<HTMLElement>(
+      const root = rootRef.value;
+
+      if (!root) return;
+
+      const mermaidSourceEles = root.querySelectorAll<HTMLElement>(
         `div.${prefix}-mermaid`
       );
+
+      if (mermaidSourceEles.length === 0) return;
 
       const svgContainingElement = document.createElement('div');
       const sceWidth =
@@ -106,63 +131,61 @@ const useMermaid = (props: ContentPreviewProps) => {
       svgContainingElement.style.height = sceHeight + 'px';
       svgContainingElement.style.position = 'fixed';
       svgContainingElement.style.zIndex = '-10000';
-      svgContainingElement.style.top = '-10000';
+      svgContainingElement.style.top = '-10000px';
+      svgContainingElement.style.left = '-10000px';
 
-      let count = mermaidSourceEles.length;
+      document.body.appendChild(svgContainingElement);
 
-      if (count > 0) {
-        document.body.appendChild(svgContainingElement);
-      }
+      try {
+        await Promise.allSettled(
+          Array.from(mermaidSourceEles).map((ele) => {
+            const handler = async (item: HTMLElement) => {
+              if (item.dataset.closed === 'false') {
+                return false;
+              }
 
-      await Promise.allSettled(
-        Array.from(mermaidSourceEles).map((ele) => {
-          const handler = async (item: HTMLElement) => {
-            if (item.dataset.closed === 'false') {
-              return false;
-            }
+              const code = item.innerText;
+              let mermaidHtml = mermaidCache.get(code) as string;
 
-            const code = item.innerText;
-            let mermaidHtml = mermaidCache.get(code) as string;
+              if (!mermaidHtml) {
+                const idRand = randomId();
+                let result: { svg: string } = { svg: '' };
+                try {
+                  result = await mermaid.render(idRand, code, svgContainingElement);
 
-            if (!mermaidHtml) {
-              const idRand = randomId();
-              let result: { svg: string } = { svg: '' };
-              try {
-                result = await mermaid.render(idRand, code, svgContainingElement);
+                  mermaidHtml = await props.sanitizeMermaid!(result.svg);
 
-                mermaidHtml = await props.sanitizeMermaid!(result.svg);
+                  const p = document.createElement('p');
+                  p.className = `${prefix}-mermaid`;
+                  p.setAttribute('data-processed', '');
+                  p.setAttribute('data-content', code);
+                  p.innerHTML = mermaidHtml;
+                  p.children[0]?.removeAttribute('height');
 
-                const p = document.createElement('p');
-                p.className = `${prefix}-mermaid`;
-                p.setAttribute('data-processed', '');
-                p.setAttribute('data-content', code);
-                p.innerHTML = mermaidHtml;
-                p.children[0]?.removeAttribute('height');
+                  mermaidCache.set(code, p.innerHTML);
 
-                mermaidCache.set(code, p.innerHTML);
+                  if (item.dataset.line !== undefined) {
+                    p.dataset.line = item.dataset.line;
+                  }
 
-                if (item.dataset.line !== undefined) {
-                  p.dataset.line = item.dataset.line;
+                  item.replaceWith(p);
+                } catch (error: any) {
+                  eventBus.emit(editorId, ERROR_CATCHER, {
+                    name: 'mermaid',
+                    message: error.message,
+                    error
+                  });
                 }
-
-                item.replaceWith(p);
-              } catch (error: any) {
-                eventBus.emit(editorId, ERROR_CATCHER, {
-                  name: 'mermaid',
-                  message: error.message,
-                  error
-                });
               }
+            };
 
-              if (--count === 0) {
-                svgContainingElement.remove();
-              }
-            }
-          };
-
-          return handler(ele);
-        })
-      );
+            return handler(ele);
+          })
+        );
+      } finally {
+        // 缓存命中、未闭合节点和渲染异常都会提前结束，离屏测量容器必须统一清理。
+        svgContainingElement.remove();
+      }
     }
   };
 

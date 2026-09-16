@@ -1,11 +1,10 @@
-import { ComputedRef, defineComponent, inject, ref } from 'vue';
+import { ComputedRef, computed, defineComponent, inject, ref } from 'vue';
+import TableShape from '../TableShape';
 import Dropdown from '~/components/Dropdown';
 import Icon from '~/components/Icon';
 import { prefix } from '~/config';
-import { REPLACE } from '~/static/event-name';
 import { StaticTextDefaultValue } from '~/type';
-import bus from '~/utils/event-bus';
-import TableShape from '../TableShape';
+import { emitReplace } from '~/utils/replace';
 
 const ToolbarTable = defineComponent({
   name: 'ToolbarTable',
@@ -13,36 +12,46 @@ const ToolbarTable = defineComponent({
   setup() {
     const editorId = inject('editorId') as string;
     const ult = inject('usedLanguageText') as ComputedRef<StaticTextDefaultValue>;
-    const disabled = inject<ComputedRef<boolean>>('disabled');
+    const contentDisabled = inject<ComputedRef<boolean>>('contentDisabled');
     const showToolbarName = inject<ComputedRef<boolean>>('showToolbarName');
     const tableShape = inject('tableShape') as ComputedRef<Array<number>>;
 
     const wrapperId = `${editorId}-toolbar-wrapper`;
     const visible = ref(false);
 
+    const handleDropdownChange = (value: boolean) => {
+      visible.value = value;
+    };
+
+    const handleSelected = (selectedShape: { x: number; y: number }) => {
+      if (contentDisabled?.value) {
+        return;
+      }
+
+      emitReplace(editorId, { direct: 'table', params: { selectedShape } });
+    };
+
+    const overlayContent = computed(() => (
+      <TableShape tableShape={tableShape.value} onSelected={handleSelected} />
+    ));
+
     return () => (
       <Dropdown
         relative={`#${wrapperId}`}
         visible={visible.value}
-        onChange={(v) => {
-          visible.value = v;
-        }}
-        disabled={disabled?.value}
+        onChange={handleDropdownChange}
+        disabled={contentDisabled?.value}
         key="bar-table"
-        overlay={
-          <TableShape
-            tableShape={tableShape.value}
-            onSelected={(selectedShape) => {
-              if (disabled?.value) return;
-              bus.emit(editorId, REPLACE, 'table', { selectedShape });
-            }}
-          />
-        }
+        overlay={overlayContent.value}
       >
         <button
-          class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
+          class={[
+            `${prefix}-toolbar-item`,
+            contentDisabled?.value && `${prefix}-disabled`
+          ]}
           title={ult.value.toolbarTips?.table}
-          disabled={disabled?.value}
+          aria-label={ult.value.toolbarTips?.table}
+          disabled={contentDisabled?.value}
           type="button"
         >
           <Icon name="table" />

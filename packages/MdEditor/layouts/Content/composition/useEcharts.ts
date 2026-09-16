@@ -7,13 +7,13 @@ import {
   Ref,
   onBeforeUnmount
 } from 'vue';
+import { ContentPreviewProps } from '../ContentPreview';
 import { prefix, globalConfig } from '~/config';
 import { CDN_IDS } from '~/static';
 import { ERROR_CATCHER } from '~/static/event-name';
 import { appendHandler } from '~/utils/dom';
 
 import bus from '~/utils/event-bus';
-import { ContentPreviewProps } from '../ContentPreview';
 
 /**
  * 注册katex扩展到页面
@@ -23,7 +23,7 @@ const useEcharts = (props: ContentPreviewProps) => {
   const editorId = inject('editorId') as string;
   const theme = inject('theme') as ComputedRef<string>;
   const rootRef = inject('rootRef') as Ref<HTMLDivElement>;
-  const { editorExtensions, editorExtensionsAttrs } = globalConfig;
+  const { editorExtensions, editorExtensionsAttrs, echartsConfig } = globalConfig;
 
   let echarts = editorExtensions.echarts!.instance;
   const reRenderEcharts = shallowRef(-1);
@@ -119,8 +119,12 @@ const useEcharts = (props: ContentPreviewProps) => {
     clearEchartsEffects();
 
     if (!props.noEcharts && echarts) {
+      const root = rootRef.value;
+
+      if (!root) return;
+
       const pendingSourceEles = Array.from(
-        rootRef.value.querySelectorAll<HTMLElement>(
+        root.querySelectorAll<HTMLElement>(
           `#${editorId} div.${prefix}-echarts:not([data-processed])`
         )
       );
@@ -131,8 +135,11 @@ const useEcharts = (props: ContentPreviewProps) => {
         }
 
         try {
-          // eslint-disable-next-line @typescript-eslint/no-implied-eval
-          const options = new Function(`return ${item.innerText}`)();
+          const baseOptions = editorExtensions.echarts!.parseOption!(item.innerText, {
+            editorId,
+            element: item
+          });
+          const options = echartsConfig(baseOptions);
           const ins = echarts.init(item, theme.value);
 
           ins.setOption(options);

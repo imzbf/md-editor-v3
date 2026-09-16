@@ -1,14 +1,16 @@
 import { createSmoothScroll } from '@vavt/util';
-import { defineComponent, ref, inject, ComputedRef } from 'vue';
+import { defineComponent, ref, inject, ComputedRef, computed } from 'vue';
+import { useAutoScroll, useCodeMirror, useFollowCatalog, useResize } from './composition';
+import ContentPreview from './ContentPreview';
+import { contentProps as props, ContentProps } from './props';
 import CustomScrollbar from '~/components/CustomScrollbar';
 import { prefix } from '~/config';
 import { FocusOption, SettingType, Themes } from '~/type';
 import MdCatalog from '~~/MdCatalog';
-import { useAutoScroll, useCodeMirror, useFollowCatalog, useResize } from './composition';
-import ContentPreview from './ContentPreview';
-import { contentProps as props, ContentProps } from './props';
 
 const smoothScroll = createSmoothScroll();
+
+const PREVIEW_SCROLLBAR_STYLE = { flex: 1 };
 
 export default defineComponent({
   name: 'MDEditorContent',
@@ -36,6 +38,35 @@ export default defineComponent({
 
     // 跟随目录
     const { onCatalogActive, onMouseenter, onMouseleave } = useFollowCatalog();
+
+    const handleCatalogClick = (
+      e: MouseEvent,
+      toc: { line?: number; [key: string]: any }
+    ) => {
+      // 如果没有预览区域，就将目录与编辑器同步滚动
+      if (!setting.value.preview && toc.line !== undefined) {
+        e.preventDefault();
+        const view = codeMirrorUt.value?.view;
+
+        if (view) {
+          const line = view.state.doc.line(toc.line + 1);
+
+          const top = view.lineBlockAt(line.from)?.top;
+
+          const scroller = view.scrollDOM;
+          smoothScroll(scroller, top); // 滚动到目标行
+        }
+      }
+    };
+
+    // 优化：缓存同步模式
+    const syncWith = computed(() => (!setting.value.preview ? 'editor' : 'preview'));
+
+    // 优化：提取 ContentPreview 的事件处理器
+    const handleHtmlChanged = (html_: string) => {
+      html.value = html_;
+      props.onHtmlChanged(html_);
+    };
 
     ctx.expose({
       getSelectedText() {
@@ -69,14 +100,11 @@ export default defineComponent({
                 ref={resizeRef}
               />
             )}
-            <CustomScrollbar style={{ flex: 1 }}>
+            <CustomScrollbar style={PREVIEW_SCROLLBAR_STYLE}>
               <ContentPreview
                 modelValue={props.modelValue}
                 onChange={props.onChange}
-                onHtmlChanged={(html_) => {
-                  html.value = html_;
-                  props.onHtmlChanged(html_);
-                }}
+                onHtmlChanged={handleHtmlChanged}
                 onGetCatalog={props.onGetCatalog}
                 mdHeadingId={props.mdHeadingId}
                 noMermaid={props.noMermaid}
@@ -89,6 +117,8 @@ export default defineComponent({
                 codeFoldable={props.codeFoldable}
                 autoFoldThreshold={props.autoFoldThreshold}
                 onRemount={props.onRemount}
+                previewComponent={props.previewComponent}
+                noEcharts={props.noEcharts}
               />
             </CustomScrollbar>
           </div>
@@ -105,23 +135,8 @@ export default defineComponent({
                 mdHeadingId={props.mdHeadingId}
                 key="internal-catalog"
                 scrollElementOffsetTop={2}
-                syncWith={!setting.value.preview ? 'editor' : 'preview'}
-                onClick={(e, toc) => {
-                  // 如果没有预览区域，就将目录与编辑器同步滚动
-                  if (!setting.value.preview && toc.line !== undefined) {
-                    e.preventDefault();
-                    const view = codeMirrorUt.value?.view;
-
-                    if (view) {
-                      const line = view.state.doc.line(toc.line + 1);
-
-                      const top = view.lineBlockAt(line.from)?.top;
-
-                      const scroller = view.scrollDOM;
-                      smoothScroll(scroller, top); // 滚动到目标行
-                    }
-                  }
-                }}
+                syncWith={syncWith.value}
+                onClick={handleCatalogClick}
                 catalogMaxDepth={props.catalogMaxDepth}
                 onActive={onCatalogActive}
               />

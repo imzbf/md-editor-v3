@@ -74,6 +74,11 @@ export default defineComponent({
   setup(props, ctx: SetupContext<Array<'onChange'>>) {
     const editorId = inject<string>('editorId');
 
+    const handleChange = (v: boolean) => {
+      props.onChange?.(v);
+      ctx.emit('onChange', v);
+    };
+
     return () => {
       const Trigger = getSlot({ props, ctx }, 'trigger');
       const Overlay = getSlot({ props, ctx }, 'overlay');
@@ -83,10 +88,7 @@ export default defineComponent({
         <Dropdown
           relative={`#${editorId}-toolbar-wrapper`}
           visible={props.visible}
-          onChange={(v) => {
-            props.onChange?.(v);
-            ctx.emit('onChange', v);
-          }}
+          onChange={handleChange}
           overlay={Overlay}
           disabled={props.disabled}
         >

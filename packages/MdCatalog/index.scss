@@ -1,0 +1,68 @@
+@use '../MdEditor/styles/vars' as *;
+
+.#{$prefix}-catalog {
+  [dir='rtl'] & {
+    direction: rtl;
+  }
+
+  &-indicator {
+    height: 18px;
+    width: 4px;
+    background-color: #73d13d;
+    position: absolute;
+    border-radius: 4px;
+    transition: top 0.3s;
+  }
+
+  & > &-link {
+    padding-block: 5px;
+    padding-inline: 8px;
+  }
+
+  &-link {
+    padding-block: 5px;
+    padding-inline-start: 1em;
+    display: flex;
+    flex-direction: column;
+
+    span {
+      display: inline-block;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      color: var(--md-color);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      transition: color 0.3s;
+      cursor: pointer;
+      line-height: 18px;
+
+      &:hover {
+        color: #73d13d;
+      }
+    }
+
+    .#{$prefix}-catalog-wrapper > & {
+      padding-block-start: 5px;
+      padding-block-end: 5px;
+
+      &:first-of-type {
+        padding-block-start: 10px;
+      }
+
+      &:last-of-type {
+        padding-block-end: 0;
+      }
+    }
+  }
+
+  &-active {
+    & > span {
+      color: #73d13d;
+    }
+  }
+}
+
+.#{$prefix}-catalog[data-theme='dark'] {
+  @include css-vars(true);
+}

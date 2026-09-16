@@ -1,9 +1,10 @@
 import { defineComponent, PropType, ref } from 'vue';
-import { ExposePreviewParam, MdPreview, prefix } from '~~/index';
 import { Theme } from '../App';
 import mdText from '../data.md';
+import previewComponent from './PreviewComponent';
+import { ExposePreviewParam, MdPreview, prefix } from '~~/index';
 
-// import '~/styles/preview.less';
+// import '~/styles/preview.scss';
 
 const editorId = 'preview-only-test';
 
@@ -74,6 +75,7 @@ const PreviewOnlyTest = defineComponent({
             onChange={(v) => (value.value = v)}
             showCodeRowNumber
             onRemount={onRemount}
+            previewComponent={previewComponent}
           />
         </div>
       </div>

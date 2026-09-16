@@ -22,6 +22,7 @@ const ToolbarCatalog = defineComponent({
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.catalog}
+        aria-label={ult.value.toolbarTips?.catalog}
         disabled={disabled?.value}
         onClick={() => {
           bus.emit(editorId, CHANGE_CATALOG_VISIBLE);

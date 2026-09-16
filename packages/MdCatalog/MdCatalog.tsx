@@ -12,6 +12,7 @@ import {
   CSSProperties,
   watch
 } from 'vue';
+import CatalogLink from './CatalogLink';
 import { prefix } from '~/config';
 import {
   CATALOG_CHANGED,
@@ -23,7 +24,6 @@ import { HeadList, MdHeadingId, Themes } from '~/type';
 import { getRelativeTop } from '~/utils';
 import bus from '~/utils/event-bus';
 import { getComputedStyleNum } from '~/utils/scroll-auto';
-import CatalogLink from './CatalogLink';
 
 export interface TocItem extends HeadList {
   index: number;
@@ -304,7 +304,7 @@ const MdCatalog = defineComponent({
 
     const onActive = (tocItem: TocItem, ele: HTMLDivElement) => {
       indicatorStyles.value.top =
-        ele.offsetTop + getComputedStyleNum(ele, 'padding-top') + 'px';
+        ele.offsetTop + getComputedStyleNum(ele, 'padding-block-start') + 'px';
 
       props.onActive?.(tocItem, ele);
       ctx.emit('onActive', tocItem, ele);
@@ -364,21 +364,20 @@ const MdCatalog = defineComponent({
       scrollContainerRef.value?.removeEventListener('scroll', scrollHandler);
     });
 
+    const handleCatalogClick = (e: MouseEvent, t: TocItem) => {
+      props.onClick?.(e, t);
+      ctx.emit('onClick', e, t);
+    };
+
     return () => (
       <div
-        class={[
-          `${prefix}-catalog`,
-          props.theme === 'dark' && `${prefix}-catalog-dark`,
-          props.class || ''
-        ]}
+        class={[`${prefix}-catalog`, props.class || '']}
+        data-theme={props.theme}
         ref={catalogRef}
       >
         {catalogs.value.length > 0 && (
           <>
-            <div
-              class={`${prefix}-catalog-indicator`}
-              style={indicatorStyles.value}
-            ></div>
+            <div class={`${prefix}-catalog-indicator`} style={indicatorStyles.value} />
             <div class={`${prefix}-catalog-container`}>
               {catalogs.value.map((item) => {
                 return (
@@ -387,10 +386,7 @@ const MdCatalog = defineComponent({
                     tocItem={item}
                     key={`link-${item.level}-${item.text}`}
                     onActive={onActive}
-                    onClick={(e: MouseEvent, t: TocItem) => {
-                      props.onClick?.(e, t);
-                      ctx.emit('onClick', e, t);
-                    }}
+                    onClick={handleCatalogClick}
                     scrollElementOffsetTop={props.scrollElementOffsetTop}
                   />
                 );

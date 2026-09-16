@@ -1,0 +1,118 @@
+@use './vars' as *;
+@use '../../MdCatalog/index';
+
+// 部分样式来源于其他开源UI库
+@import '@vavt/markdown-theme/css/all.css';
+
+@mixin basic-style {
+  color: var(--md-color);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui,
+    ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+.#{$prefix} {
+  @include css-vars(false);
+  @include basic-style;
+
+  width: 100%;
+  height: 500px;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid var(--md-border-color);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--md-bk-color);
+
+  .#{$prefix}-fullscreen {
+    position: fixed !important;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    width: auto !important;
+    height: auto !important;
+    z-index: 10000;
+  }
+
+  svg.#{$prefix}-icon {
+    width: 16px;
+    height: 16px;
+    padding-block: 4px;
+    padding-inline: 4px;
+    fill: none;
+    overflow: hidden;
+    display: block;
+    box-sizing: content-box;
+  }
+
+  // 特殊处理这三个图标大小
+  .lucide-list,
+  .lucide-list-ordered,
+  .lucide-list-todo {
+    width: 18px;
+    height: 18px;
+    padding-block: 3px;
+    padding-inline: 3px;
+  }
+
+  &-preview {
+    font-size: 16px;
+    word-break: break-all;
+    // 需要设置为bfc，父级才能正确获取到滚动高度
+    display: flow-root;
+    padding-block: 10px;
+    padding-inline: 20px;
+  }
+}
+
+.#{$prefix}-modal-container {
+  @include css-vars(false);
+  @include basic-style;
+
+  .lucide-x {
+    width: 20px;
+    height: 20px;
+    padding-block: 2px;
+    padding-inline: 2px;
+  }
+
+  .lucide-minimize-2,
+  .lucide-maximize-2 {
+    width: 18px;
+    height: 18px;
+    padding-block: 2px;
+    padding-inline: 2px;
+  }
+}
+
+.#{$prefix}-previewOnly {
+  border: none;
+  height: auto;
+  overflow: visible;
+
+  .#{$prefix}-content {
+    height: 100%;
+  }
+
+  .#{$prefix}-preview {
+    padding-block: 0;
+    padding-inline: 0;
+  }
+
+  .#{$prefix}-preview-wrapper {
+    overflow: visible;
+  }
+}
+
+.#{$prefix}[data-theme='dark'],
+.#{$prefix}-modal-container[data-theme='dark'] {
+  @include css-vars(true);
+}
+
+// 图片预览优先级高于编辑器，低于编辑器弹窗
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 100001;
+}

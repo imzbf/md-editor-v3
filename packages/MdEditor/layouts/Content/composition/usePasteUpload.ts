@@ -1,8 +1,9 @@
 import { ShallowRef, inject } from 'vue';
-import { ERROR_CATCHER, REPLACE, UPLOAD_IMAGE } from '~/static/event-name';
-import bus from '~/utils/event-bus';
 import CodeMirrorUt from '../codemirror';
 import { ContentProps } from '../props';
+import { ERROR_CATCHER, UPLOAD_IMAGE } from '~/static/event-name';
+import bus from '~/utils/event-bus';
+import { emitReplace } from '~/utils/replace';
 
 /**
  * 处理粘贴板
@@ -16,22 +17,28 @@ const usePasteUpload = (
   const imgInsert = (tv: string | Promise<string>) => {
     if (tv instanceof Promise) {
       tv.then((targetValue) => {
-        bus.emit(editorId, REPLACE, 'universal', {
-          generate() {
-            return {
-              targetValue
-            };
+        emitReplace(editorId, {
+          direct: 'universal',
+          params: {
+            generate() {
+              return {
+                targetValue
+              };
+            }
           }
         });
       }).catch((err) => {
         console.error(err);
       });
     } else {
-      bus.emit(editorId, REPLACE, 'universal', {
-        generate() {
-          return {
-            targetValue: tv
-          };
+      emitReplace(editorId, {
+        direct: 'universal',
+        params: {
+          generate() {
+            return {
+              targetValue: tv
+            };
+          }
         }
       });
     }
@@ -80,9 +87,10 @@ const usePasteUpload = (
       const matchArr = targetValue.match(/(?<=!\[.*\]\()([^)\s]+)(?=\s?["']?.*["']?\))/g);
 
       if (matchArr) {
+        // transformImgUrl 同时支持同步值和 Promise，先归一化后再统一替换所有链接。
         Promise.all(
           matchArr.map((img) => {
-            return props.transformImgUrl(img);
+            return Promise.resolve(props.transformImgUrl(img));
           })
         )
           .then((newUrls) => {
@@ -107,9 +115,12 @@ const usePasteUpload = (
     if (props.autoDetectCode && e.clipboardData.types.includes('vscode-editor-data')) {
       const vscCoodInfo = JSON.parse(e.clipboardData.getData('vscode-editor-data'));
 
-      bus.emit(editorId, REPLACE, 'code', {
-        mode: vscCoodInfo.mode,
-        text: e.clipboardData.getData('text/plain')
+      emitReplace(editorId, {
+        direct: 'code',
+        params: {
+          mode: vscCoodInfo.mode,
+          text: e.clipboardData.getData('text/plain')
+        }
       });
 
       e.preventDefault();

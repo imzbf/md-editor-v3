@@ -20,6 +20,7 @@ const ToolbarHtmlPreview = defineComponent({
           disabled?.value && `${prefix}-disabled`
         ]}
         title={ult.value.toolbarTips?.htmlPreview}
+        aria-label={ult.value.toolbarTips?.htmlPreview}
         disabled={disabled?.value}
         onClick={() => {
           updateSetting('htmlPreview');

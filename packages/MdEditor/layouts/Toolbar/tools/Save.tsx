@@ -17,6 +17,7 @@ const ToolbarSave = defineComponent({
       <button
         class={[`${prefix}-toolbar-item`, disabled?.value && `${prefix}-disabled`]}
         title={ult.value.toolbarTips?.save}
+        aria-label={ult.value.toolbarTips?.save}
         disabled={disabled?.value}
         onClick={() => {
           bus.emit(editorId, ON_SAVE);

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import multiparty from 'multiparty';
-import { Plugin, ViteDevServer } from 'vite';
+import type { Plugin, ViteDevServer } from 'vite';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const LOCAL_IMG_PATH = path.resolve(__dirname, '../dev/public/temp.local');

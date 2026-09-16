@@ -141,6 +141,10 @@ export default defineComponent({
 
     onMounted(async () => {
       await nextTick();
+      const wrapper = wrapperRef.value;
+
+      if (!wrapper) return;
+
       findAndBindScrollEl();
 
       // 监听 slot 内容变化（防抖）
@@ -150,7 +154,7 @@ export default defineComponent({
           findAndBindScrollEl();
         });
       });
-      observer.observe(wrapperRef.value!, {
+      observer.observe(wrapper, {
         childList: true,
         subtree: true
       });

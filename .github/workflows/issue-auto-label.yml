@@ -1,0 +1,23 @@
+name: Issue Auto Label
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Label issue by title and body
+        uses: github/issue-labeler@v3.4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/issue-labeler.yml
+          enable-versioned-regex: 0

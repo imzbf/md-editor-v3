@@ -14,6 +14,20 @@ import {
   toRef,
   watch
 } from 'vue';
+
+import useEcharts from './useEcharts';
+import useHighlight from './useHighlight';
+import useKatex from './useKatex';
+import useMermaid from './useMermaid';
+
+import { ContentPreviewProps } from '../ContentPreview';
+import AdmonitionPlugin from '../markdownIt/admonition';
+import CodePlugin from '../markdownIt/code';
+import EchartsPlugin from '../markdownIt/echarts';
+import HeadingPlugin from '../markdownIt/heading';
+import KatexPlugin from '../markdownIt/katex';
+import MermaidPlugin from '../markdownIt/mermaid';
+import TaskListPlugin from '../markdownIt/task';
 import { globalConfig, prefix } from '~/config';
 import {
   BUILD_FINISHED,
@@ -29,32 +43,17 @@ import {
   StaticTextDefaultValue,
   Themes
 } from '~/type';
-import { generateCodeRowNumber } from '~/utils';
+import { generateCodeBlock, prepareCustomCodeHighlight } from '~/utils';
 import { zoomMermaid, copyMermaid } from '~/utils/dom';
 import bus from '~/utils/event-bus';
-
-import useEcharts from './useEcharts';
-import useHighlight from './useHighlight';
-import useKatex from './useKatex';
-import useMermaid from './useMermaid';
-
-import { ContentPreviewProps } from '../ContentPreview';
-import AdmonitionPlugin from '../markdownIt/admonition';
-import CodePlugin from '../markdownIt/code';
-import EchartsPlugin from '../markdownIt/echarts';
-import HeadingPlugin from '../markdownIt/heading';
-import KatexPlugin from '../markdownIt/katex';
-import MermaidPlugin from '../markdownIt/mermaid';
-import TaskListPlugin from '../markdownIt/task';
+import { parseCodeBlockInfo } from '~/utils/md-it';
 
 const initLineNumber = (md: mdit) => {
   md.core.ruler.push('init-line-number', (state) => {
     state.tokens.forEach((token) => {
       if (token.map) {
-        if (!token.attrs) {
-          token.attrs = [];
-        }
-        token.attrs.push(['data-line', token.map[0].toString()]);
+        // 使用官方属性 API 覆盖同名值，避免扩展提前声明 data-line 时产生重复属性。
+        token.attrSet('data-line', token.map[0].toString());
       }
     });
     return true;
@@ -84,7 +83,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const { reRenderEcharts, replaceEcharts } = useEcharts(props);
 
   const md = mdit({
-    html: true,
+    // 关闭源文本中的原生 HTML 解析，插件生成的 HTML 不受影响。
+    html: false,
     breaks: true,
     linkify: true
   });
@@ -173,37 +173,54 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   md.set({
     highlight: (str, language, attrs) => {
+      const codeInfo = parseCodeBlockInfo(language, attrs);
+      const { attrs: codeAttrs, language: codeLanguage, lineHighlightRanges } = codeInfo;
+      let codeHtml = '';
+
       if (userDefHighlight) {
-        const result = userDefHighlight(str, language, attrs);
+        const result = userDefHighlight(str, codeLanguage, codeAttrs);
         if (result) {
-          return result;
+          const customCodeHighlight = prepareCustomCodeHighlight(result, str, {
+            lineHighlightRanges,
+            showLineNumber: showCodeRowNumber
+          });
+          if (customCodeHighlight.shouldReturnDirectly) {
+            return customCodeHighlight.html;
+          }
+
+          codeHtml = customCodeHighlight.html;
         }
       }
-      let codeHtml: string;
 
-      // 不高亮或者没有实例，返回默认
-      if (!props.noHighlight && hljsRef.value) {
-        const hljsLang = hljsRef.value.getLanguage(language);
-        if (hljsLang) {
-          codeHtml = hljsRef.value.highlight(str, {
-            language,
-            ignoreIllegals: true
-          }).value;
+      if (!codeHtml) {
+        // 不高亮或者没有实例，返回默认
+        if (!props.noHighlight && hljsRef.value) {
+          const hljsLang = hljsRef.value.getLanguage(codeLanguage);
+          if (hljsLang) {
+            codeHtml = hljsRef.value.highlight(str, {
+              language: codeLanguage,
+              ignoreIllegals: true
+            }).value;
+          } else {
+            codeHtml = hljsRef.value.highlightAuto(str).value;
+          }
         } else {
-          codeHtml = hljsRef.value.highlightAuto(str).value;
+          codeHtml = md.utils.escapeHtml(str);
         }
-      } else {
-        codeHtml = md.utils.escapeHtml(str);
       }
 
-      const codeSpan = showCodeRowNumber
-        ? generateCodeRowNumber(
-            codeHtml.replace(/^\n+|\n+$/g, ''),
-            str.replace(/^\n+|\n+$/g, '')
-          )
-        : `<span class="${prefix}-code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
+      const escapedLanguage = md.utils.escapeHtml(codeLanguage);
 
-      return `<pre><code class="language-${language}" language=${language}>${codeSpan}</code></pre>`;
+      let codeSpan = `<span class="${prefix}-code-block">${codeHtml.replace(/^\n+|\n+$/g, '')}</span>`;
+
+      if (showCodeRowNumber || lineHighlightRanges.length) {
+        codeSpan = generateCodeBlock(codeHtml, str, {
+          lineHighlightRanges,
+          showLineNumber: showCodeRowNumber
+        });
+      }
+
+      return `<pre><code class="language-${escapedLanguage}" language="${escapedLanguage}">${codeSpan}</code></pre>`;
     }
   });
 
@@ -272,20 +289,23 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     return (props.noKatex || !!katexRef.value) && (props.noHighlight || !!hljsRef.value);
   });
 
-  /**
-   * 组件移除后，异步任务可能还未执行，无法取消debounce
-   * 通过unMounted中断编译任务
-   */
-  let timer = -1;
   // 由于复制按钮被放到了编译内容中，所以切换语言时，需要重新编译一次
-  watch([toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef], () => {
-    timer = window.setTimeout(
-      () => {
-        markHtml();
-      },
-      previewOnly ? 0 : editorConfig.renderDelay
-    );
-  });
+  watch(
+    [toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef],
+    (_value, _oldValue, onCleanup) => {
+      const timer = window.setTimeout(
+        () => {
+          markHtml();
+        },
+        previewOnly ? 0 : editorConfig.renderDelay
+      );
+
+      // 连续输入或配置切换时取消上一轮延迟编译，避免堆积重复的 Markdown 渲染。
+      onCleanup(() => {
+        clearTimeout(timer);
+      });
+    }
+  );
 
   watch(
     () => setting.value.preview,
@@ -331,7 +351,6 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   onBeforeUnmount(() => {
     clearZoomMermaidEvents();
     clearCopyMermaidEvents();
-    clearTimeout(timer);
   });
 
   return { html, key };

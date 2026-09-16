@@ -10,6 +10,8 @@ import {
   useId,
   ComputedRef
 } from 'vue';
+import { ContentExposeParam } from './layouts/Content/type';
+import { CDN_IDS } from './static';
 import { prefix, staticTextDefault, codeCss, globalConfig } from '~/config';
 import {
   CHANGE_CATALOG_VISIBLE,
@@ -23,7 +25,6 @@ import {
   BUILD_FINISHED,
   ERROR_CATCHER,
   UPLOAD_IMAGE,
-  REPLACE,
   RERENDER,
   EVENT_LISTENER,
   PREVIEW_ONLY_CHANGED
@@ -33,7 +34,6 @@ import {
   SettingType,
   ExposeParam,
   UpdateSetting,
-  ExposeEvent,
   MdPreviewProps,
   FocusOption,
   UploadImgCallBack,
@@ -43,8 +43,7 @@ import {
 } from '~/type';
 import { appendHandler } from '~/utils/dom';
 import bus from '~/utils/event-bus';
-import { ContentExposeParam } from './layouts/Content/type';
-import { CDN_IDS } from './static';
+import { emitReplace } from '~/utils/replace';
 
 /**
  * 处理保存逻辑，主要是需要异步返回编译后的html
@@ -211,7 +210,7 @@ export const useProvidePreview = (
 
     return deepMerge(
       deepClone(staticTextDefault['en-US']),
-      allText[props.language] || ({} as StaticTextDefaultValue)
+      allText[props.language] || {}
     );
   });
 
@@ -262,6 +261,13 @@ export const useProvide = (props: EditorProps, options: ProvideOptions) => {
   provide(
     'disabled',
     computed(() => props.disabled)
+  );
+
+  // 内容写入入口统一使用组合状态，CodeMirror 本身仍分别处理 disabled
+  // 与 readOnly，以保留只读状态下选中、复制文本的能力。
+  provide(
+    'contentDisabled',
+    computed(() => props.disabled || props.readOnly)
   );
 
   provide(
@@ -485,9 +491,12 @@ export const useConfig = (
       name: UPLOAD_IMAGE,
       callback(files: Array<File>, cb: () => void) {
         const insertHanlder: UploadImgCallBack = (urls) => {
-          bus.emit(editorId, REPLACE, 'image', {
-            desc: '',
-            urls
+          emitReplace(editorId, {
+            direct: 'image',
+            params: {
+              desc: '',
+              urls
+            }
           });
 
           cb?.();
@@ -602,7 +611,7 @@ export const useExpose = (
           bus.on(editorId, {
             name: PAGE_FULL_SCREEN_CHANGED,
             callback(status: boolean) {
-              (callBack as ExposeEvent['pageFullscreen'])(status);
+              callBack(status);
             }
           });
 
@@ -612,7 +621,7 @@ export const useExpose = (
           bus.on(editorId, {
             name: FULL_SCREEN_CHANGED,
             callback(status: boolean) {
-              (callBack as ExposeEvent['fullscreen'])(status);
+              callBack(status);
             }
           });
 
@@ -623,7 +632,7 @@ export const useExpose = (
           bus.on(editorId, {
             name: PREVIEW_CHANGED,
             callback(status: boolean) {
-              (callBack as ExposeEvent['preview'])(status);
+              callBack(status);
             }
           });
 
@@ -634,7 +643,7 @@ export const useExpose = (
           bus.on(editorId, {
             name: PREVIEW_ONLY_CHANGED,
             callback(status: boolean) {
-              (callBack as ExposeEvent['previewOnly'])(status);
+              callBack(status);
             }
           });
 
@@ -645,7 +654,7 @@ export const useExpose = (
           bus.on(editorId, {
             name: HTML_PREVIEW_CHANGED,
             callback(status: boolean) {
-              (callBack as ExposeEvent['htmlPreview'])(status);
+              callBack(status);
             }
           });
 
@@ -656,7 +665,7 @@ export const useExpose = (
           bus.on(editorId, {
             name: CATALOG_VISIBLE_CHANGED,
             callback(status: boolean) {
-              (callBack as ExposeEvent['catalog'])(status);
+              callBack(status);
             }
           });
 
@@ -690,7 +699,11 @@ export const useExpose = (
       bus.emit(editorId, ON_SAVE);
     },
     insert(generate) {
-      bus.emit(editorId, REPLACE, 'universal', { generate });
+      emitReplace(editorId, {
+        direct: 'universal',
+        params: { generate },
+        source: 'programmatic'
+      });
     },
     focus(options: FocusOption) {
       codeRef.value?.focus(options);
@@ -708,7 +721,7 @@ export const useExpose = (
       bus.emit(editorId, EVENT_LISTENER, handlers);
     },
     execCommand(direct) {
-      bus.emit(editorId, REPLACE, direct);
+      emitReplace(editorId, { direct, source: 'programmatic' });
     },
     getEditorView() {
       return codeRef.value?.getEditorView();

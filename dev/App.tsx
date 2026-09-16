@@ -6,7 +6,7 @@ import StreamDemo from './StreamDemo';
 
 import VueTemplate from './VueTemplate.vue';
 
-import './style.less';
+import './style.scss';
 
 export type Theme = 'dark' | 'light';
 

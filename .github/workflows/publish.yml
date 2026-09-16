@@ -1,0 +1,103 @@
+name: Npm Publish
+
+on:
+  push:
+    branches: [beta]
+    tags:
+      - v*
+
+# 发布 npm 包和回写 CHANGELOG 都会改动远端状态，串行执行避免并发写入。
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+# npm trusted publishing 使用此工作流的 OIDC 身份换取短期发布凭证，
+# 不再需要长期有效的 NPM_TOKEN。
+permissions:
+  contents: write
+  issues: write
+  id-token: write
+
+jobs:
+  publish:
+    name: Build and publish npm package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          registry-url: https://registry.npmjs.org/
+          # 发布任务始终依据 lockfile 安装依赖，不复用其他工作流产生的缓存，
+          # 避免缓存中的构建产物影响发布结果。
+          package-manager-cache: false
+
+      - name: Checkout Code
+        uses: actions/checkout@v7
+        with:
+          # 发布说明和 issue 通知脚本要靠完整历史与 tag 定位上一个版本，
+          # 回写 CHANGELOG 的 push 在浅克隆下也会被 GitHub 拒绝。
+          fetch-depth: 0
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # npm trust 为每个包限制一个受信任工作流，因此将两个发布渠道放在这里，
+      # 再根据触发来源的标签或分支决定 npm 发布标签。
+      - name: Publish latest
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: npm publish --access public
+
+      - name: Publish beta
+        if: github.ref == 'refs/heads/beta'
+        run: npm publish --access public --tag beta
+
+      # 将发布说明生成逻辑放在版本化脚本中，使此文件专注于工作流编排和触发条件。
+      - name: Generate Release Notes And Update CHANGELOG.md
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: bash .github/scripts/generate-release-notes.sh
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          make_latest: true
+          body_path: ${{ runner.temp }}/release-entry.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit CHANGELOG.md
+        if: startsWith(github.ref, 'refs/tags/v')
+        continue-on-error: true
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+
+          if git diff --cached --quiet; then
+            echo "No changelog change to commit."
+            exit 0
+          fi
+
+          git commit -m "docs(changelog): update for ${TAG_NAME}"
+          git push origin "HEAD:${DEFAULT_BRANCH}"
+
+      - name: Notify Linked Issues
+        if: startsWith(github.ref, 'refs/tags/v')
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: bash .github/scripts/notify-linked-issues.sh

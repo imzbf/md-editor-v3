@@ -31,10 +31,10 @@ import {
   Upload,
   View,
   X
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 import { Component, PropType, defineComponent, h } from 'vue';
-import { prefix } from '~/config';
 import Github from './Github';
+import { prefix } from '~/config';
 
 export type IconName =
   | 'bold'

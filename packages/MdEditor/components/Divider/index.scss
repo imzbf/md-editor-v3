@@ -1,0 +1,12 @@
+@use '../../styles/vars' as *;
+
+.#{$prefix}-divider {
+  position: relative;
+  display: inline-block;
+  width: 1px;
+  inset-block-start: 0.1em;
+  height: 0.9em;
+  margin-block: 0;
+  margin-inline: 8px;
+  background-color: var(--md-border-color);
+}

@@ -8,10 +8,9 @@ import {
   reactive,
   watch
 } from 'vue';
-import { MinInputBoxWidth } from '~/config';
-
-import { SettingType } from '~/type';
 import { ContentProps } from '../props';
+import { MinInputBoxWidth } from '~/config';
+import { SettingType } from '~/type';
 
 const useResize = (
   props: ContentProps,
@@ -33,7 +32,7 @@ const useResize = (
   });
 
   const resizeOperateStyle = reactive({
-    left: compatibledInputBoxWidth.value,
+    insetInlineStart: compatibledInputBoxWidth.value,
     display: 'initial'
   });
 
@@ -55,9 +54,9 @@ const useResize = (
     const ibw = `${(nextWidth / maxWidth) * 100}%`;
 
     inputWrapperStyle.width = ibw;
-    resizeOperateStyle.left = ibw;
+    resizeOperateStyle.insetInlineStart = ibw;
     state.resizedWidth = ibw;
-    props.oninputBoxWidthChange?.(ibw);
+    props.onInputBoxWidthChange?.(ibw);
   };
 
   const resizeMousedown = (ev: MouseEvent) => {
@@ -91,7 +90,7 @@ const useResize = (
   watch([compatibledInputBoxWidth], ([nVal]) => {
     state.resizedWidth = nVal;
     inputWrapperStyle.width = nVal;
-    resizeOperateStyle.left = nVal;
+    resizeOperateStyle.insetInlineStart = nVal;
   });
 
   watch(

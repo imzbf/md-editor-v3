@@ -14,10 +14,19 @@ import {
 } from '@codemirror/state';
 import { Decoration, DecorationSet, EditorView, WidgetType } from '@codemirror/view';
 
+export interface FindTextsContext {
+  state: EditorState;
+  lineText: string;
+  lineNumber: number;
+  lineFrom: number;
+  lineTo: number;
+  defaultTextRegex: RegExp;
+}
+
 export interface TextShortenerOptions {
   maxLength: number;
   shortenText?: (text: string) => string;
-  // findTexts?: (text: string, defaultTextRegex: RegExp) => Array<[number, number]>;
+  findTexts?: (context: FindTextsContext) => Array<[number, number]>;
 }
 
 // http:// https:// ftp:// 等
@@ -30,9 +39,34 @@ const dataUri = /data:[a-z]+\/[a-z0-9.+-]+(?:;base64)?,[a-z0-9+/=%]+/i;
 const absPath = /\/(?!\/)[^\s<>"'`()]+/i;
 
 const defaultTextRegex = new RegExp(
-  `(?<![a-z0-9.+-])(${protoLink.source}|${protocolRelative.source}|${dataUri.source}|${absPath.source})`,
+  `(${protoLink.source}|${protocolRelative.source}|${dataUri.source}|${absPath.source})`,
   'gi'
 );
+const boundaryCharRegex = /[a-z0-9.+-]/i;
+
+const findDefaultTextRanges = (text: string): Array<[number, number]> => {
+  const ranges: Array<[number, number]> = [];
+  defaultTextRegex.lastIndex = 0;
+
+  let m: RegExpExecArray | null;
+  while ((m = defaultTextRegex.exec(text))) {
+    const start = m.index ?? 0;
+    const prevChar = start > 0 ? text[start - 1] : '';
+    if (prevChar && boundaryCharRegex.test(prevChar)) {
+      continue;
+    }
+
+    const isClosingTag = prevChar === '<' && text[start] === '/';
+    if (isClosingTag) {
+      continue;
+    }
+
+    const end = start + m[0].length;
+    ranges.push([start, end]);
+  }
+
+  return ranges;
+};
 
 type ShortenedRange = { from: number; to: number };
 
@@ -62,16 +96,38 @@ export const createTextShortener = (options: TextShortenerOptions): Extension =>
       const text = line.text;
 
       defaultTextRegex.lastIndex = 0;
+      const ranges =
+        options.findTexts?.({
+          state,
+          lineText: text,
+          lineNumber: line.number,
+          lineFrom: line.from,
+          lineTo: line.to,
+          defaultTextRegex
+        }) ?? findDefaultTextRanges(text);
 
-      let m: RegExpExecArray | null;
-      while ((m = defaultTextRegex.exec(text))) {
-        if (!m[0]) continue;
+      for (const range of ranges) {
+        if (!range) continue;
 
-        const raw = m[0];
-        if (raw.length <= options.maxLength) continue;
+        const [relativeFrom, relativeTo] = range;
+        if (
+          typeof relativeFrom !== 'number' ||
+          typeof relativeTo !== 'number' ||
+          relativeFrom < 0 ||
+          relativeTo <= relativeFrom ||
+          relativeFrom >= text.length ||
+          relativeTo > text.length
+        ) {
+          continue;
+        }
 
-        const from = line.from + m.index;
-        const to = from + raw.length;
+        const raw = text.slice(relativeFrom, relativeTo);
+        if (!raw || raw.length <= options.maxLength) {
+          continue;
+        }
+
+        const from = line.from + relativeFrom;
+        const to = line.from + relativeTo;
 
         if (isExpandedRange(expanded, from, to)) {
           nextExpanded.push({ from, to });

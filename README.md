@@ -37,26 +37,26 @@ Inputing prompt and mark, emoji extensions
 ## 📦 Install
 
 ```shell
-yarn add md-editor-v3
+npm i md-editor-v3
 ```
 
 Use existing extension of language and theme, such as Japanese
 
 ```shell
-yarn add @vavt/cm-extension
+npm i @vavt/cm-extension
 ```
 
 Use existing components of toolbar, such as exporting content as PDF
 
 ```shell
-yarn add @vavt/v3-extension
+npm i @vavt/v3-extension
 ```
 
 For more ways to use or contribute, please refer to: [md-editor-extension](https://github.com/imzbf/md-editor-extension)
 
 ## 💡 Usage
 
-When using server-side rendering, make sure to set `editorId` to a constant value.
+When using server-side rendering, make sure to set `id` to a constant value.
 
 Starting from `4.0.0`, internal components can be imported on-demand.
 
@@ -100,3 +100,30 @@ When using server-side rendering, `scrollElement` should be of string type, eg: 
 ---
 
 For more usage, please visit the [document](https://imzbf.github.io/md-editor-v3).
+
+## 🏁 Contribute
+
+### 🤝 Commit Convention (Release Aligned)
+
+The release workflow in `.github/workflows/latest.yml` reads commit messages to build `CHANGELOG.md`.
+
+- Format: `<type>(<scope>)!: <summary>`
+- Recommended types:
+  - `feat`: goes to **Features**
+  - `refactor`: goes to **Refactors**
+  - `fix`: goes to **Fixed Bugs**
+  - other types: goes to **Others**
+- Subject should describe the user-visible change/problem being solved, not only the mechanical action (e.g. avoid only writing `bump xxx`).
+- Prefer adding commit body (`git cz` long description) to explain motivation and impact, especially for dependency upgrades.
+- Do not use pure version subjects like `6.3.2` or `v6.3.2-beta.1` (ignored by release parser).
+- `docs(changelog): ...` is reserved for the bot-generated changelog commit.
+- If you add `#123` in subject/body, release automation will notify and close that issue after publishing. Only reference issue numbers that are truly resolved.
+
+Examples:
+
+```bash
+git commit -m "feat(editor): support drag-sort toolbar items"
+git commit -m "fix(preview): sync anchor when heading id contains emoji #1234"
+git commit -m "fix(deps): bump @vavt/markdown-theme to fix mermaid overflow"
+git commit -m "refactor(build): simplify dts rollup pipeline"
+```
