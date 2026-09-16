@@ -83,7 +83,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
   const { reRenderEcharts, replaceEcharts } = useEcharts(props);
 
   const md = mdit({
-    html: true,
+    // 关闭源文本中的原生 HTML 解析，插件生成的 HTML 不受影响。
+    html: false,
     breaks: true,
     linkify: true
   });
