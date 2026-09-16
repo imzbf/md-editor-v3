@@ -57,7 +57,7 @@
     "@lucide/vue": "^1.16.0",
     "@types/markdown-it": "^14.0.1",
     "@vavt/copy2clipboard": "^1.0.1",
-    "@vavt/markdown-theme": "^5.0.2",
+    "@vavt/markdown-theme": "^6.0.0",
     "@vavt/util": "^2.1.2",
     "codemirror": "^6.0.2",
     "json5": "^2.2.3",
