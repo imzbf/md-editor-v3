@@ -4,7 +4,9 @@ Markdown Editor for Vue3, developed in jsx and typescript, support different the
 
 ### 🤖 Base
 
-**bold**, <u>underline</u>, _italic_, ~~line-through~~, superscript^26^, subscript~1~, `inline code`, [link](https://github.com/imzbf)
+**bold**, _italic_, ~~line-through~~, superscript^26^, subscript~1~, `inline code`, [link](https://github.com/imzbf)
+
+> Raw HTML is disabled by default. Markup such as `<u>underline</u>` is displayed as text. See [markdownItConfig](https://imzbf.github.io/md-editor-v3/en-US/api#%F0%9F%8D%A4%20markdownItConfig) to enable it.
 
 > quote: I Have a Dream
 

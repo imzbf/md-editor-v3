@@ -72,7 +72,7 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🙉 下划线
 
-<u>So even though we face the difficulties of today and tomorrow, I still have a dream.</u>
+下划线使用原生 HTML 标签 `<u>`，工具栏按钮和快捷键都会插入这种写法。由于默认 `html: false`，它会显示为普通文本。需要渲染下划线时，请通过 [markdownItConfig](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%8D%A4%20markdownItConfig) 显式开启 `html: true`。
 
 ```markdown
 <u>So even though we face the difficulties of today and tomorrow, I still have a dream.</u>

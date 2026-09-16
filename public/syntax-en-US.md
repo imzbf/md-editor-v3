@@ -72,7 +72,7 @@ _It is a dream deeply rooted in the American dream._
 
 ## 🙉 Underline
 
-<u>So even though we face the difficulties of today and tomorrow, I still have a dream.</u>
+Underline uses the raw HTML tag `<u>`, which is also inserted by the toolbar button and shortcut. With the default `html: false`, it is displayed as text. To render an underline, explicitly enable `html: true` through [markdownItConfig](https://imzbf.github.io/md-editor-v3/en-US/api#%F0%9F%8D%A4%20markdownItConfig).
 
 ```markdown
 <u>So even though we face the difficulties of today and tomorrow, I still have a dream.</u>

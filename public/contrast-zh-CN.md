@@ -24,6 +24,33 @@ JSX/TSX：
 
 ### 💴 Config
 
+#### 🍤 markdownItConfig：原生 HTML 默认关闭
+
+这是一个破坏性变更：7.x 中，`MdEditor` 和 `MdPreview` 初始化 markdown-it 时，`html` 的默认值从 `true` 改为 `false`：
+
+```diff
+- html: true
++ html: false
+```
+
+升级后，Markdown 中直接书写的 `<u>`、`<img>`、`<br>`、`<iframe>`、`<details>` 等原生 HTML 会显示为文本，图片说明中的 HTML 也不再按标签渲染。下划线工具栏和快捷键仍插入 `<u>文字</u>`，默认不再显示下划线。
+
+可以将已有内容中的 HTML 图片、上下标改为 `![描述](地址)`、`^上标^`、`~下标~` 等 Markdown 或插件语法。任务列表、代码块、公式和图表等由插件生成的 HTML 不受此选项影响。
+
+若需要保留 6.x 的原生 HTML 渲染行为，请在创建编辑器或预览组件前显式开启：
+
+```ts
+import { config } from 'md-editor-v3';
+
+config({
+  markdownItConfig(mdit) {
+    mdit.set({ html: true });
+  },
+});
+```
+
+`html` 控制原生 HTML 的解析，不负责清洗最终输出；需要清洗生成的 HTML 时，请使用 `sanitize`。更多配置说明见 [markdownItConfig](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%8D%A4%20markdownItConfig)。
+
 #### 📊 editorExtensions.echarts.parseOption
 
 6.x 的默认解析器会执行代码块中的 JavaScript，因此可以直接使用函数：

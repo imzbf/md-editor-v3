@@ -220,7 +220,7 @@
 
   !!! warning
 
-  Markdown 中的原生 HTML 默认不会被清洗。渲染不可信内容时，请通过该属性清洗编译后的 HTML，或者显式启用从 v5 起导出的`XSSPlugin`；`XSSPlugin`不会默认启用。参阅[修改 xss 配置](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)。
+  默认的 `html: false` 会将 Markdown 中的原生 HTML 当作普通文本处理，但不会清洗插件生成的 HTML。需要清洗最终输出时，请通过该属性处理。`XSSPlugin` 从 v5 起单独导出且默认不启用，它处理的是 HTML token，不等同于清洗最终输出。参阅[修改 xss 配置](https://imzbf.github.io/md-editor-v3/zh-CN/demo#%F0%9F%94%8F%20%E4%BF%AE%E6%94%B9%20xss%20%E9%85%8D%E7%BD%AE)。
 
   !!!
 
@@ -305,6 +305,8 @@
   ```
 
   在`4.15.4`以后，也可以设置`.not-zoom`来禁用它
+
+  直接在 Markdown 中使用下面的 `<img>` 标签，需要先通过 [markdownItConfig](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%8D%A4%20markdownItConfig) 开启 `html: true`。
 
   ```markdown
   <img class="not-zoom">
@@ -1587,6 +1589,24 @@ type MarkdownItConfig = (
 ) => void;
 ```
 
+`MdEditor` 和 `MdPreview` 默认使用 `{ html: false, breaks: true, linkify: true }` 初始化 markdown-it。Markdown 中直接输入的原生 HTML（如 `<u>`、`<img>`、`<br>`、`<iframe>`）会作为普通文本显示，图片说明中的 HTML 也不再按标签渲染。
+
+下划线工具栏和快捷键仍插入 `<u>文字</u>`，默认不会显示下划线。上标 `^文字^`、下标 `~文字~`、任务列表、Markdown 图片、代码块、公式、Mermaid、ECharts 和提示块由 Markdown 或插件生成 HTML，不受此选项影响。
+
+如需恢复原生 HTML 渲染，请在创建编辑器或预览组件前配置：
+
+```js
+import { config } from 'md-editor-v3';
+
+config({
+  markdownItConfig(mdit) {
+    mdit.set({ html: true });
+  },
+});
+```
+
+`html` 控制原生 HTML 的解析，`sanitize` 用于清洗最终生成的 HTML，二者独立。
+
 使用示例：配置使用`markdown-it-anchor`并在标题右侧显示一个超链接符号
 
 ```js
@@ -2006,6 +2026,8 @@ config({
 
 快捷键仅在输入框获取到焦点时可用！
 
+下划线快捷键仍插入 `<u>文字</u>`，需要开启 `html: true` 才能显示下划线。
+
 !!!
 
 | 键位                   | 功能       | 说明                                                          |
@@ -2020,8 +2042,8 @@ config({
 | CTRL + U               | 下划线     | `<u>下划线</u>`                                               |
 | CTRL + I               | 斜体       | `*斜体*`                                                      |
 | CTRL + 1-6             | 1-6 级标题 | `# 标题`                                                      |
-| CTRL + ↑               | 上角标     | `<sup>上角标</sup>`                                           |
-| CTRL + ↓               | 下角标     | `<sub>下角标</sub>`                                           |
+| CTRL + ↑               | 上角标     | `^上角标^`                                                    |
+| CTRL + ↓               | 下角标     | `~下角标~`                                                    |
 | CTRL + O               | 有序列表   | `1. 有序列表`                                                 |
 | CTRL + L               | 链接       | `[链接](https://github.com/imzbf)`                            |
 | CTRL + Z               | 撤回       | 触发编辑器内内容撤回，与系统无关                              |
