@@ -214,6 +214,7 @@ export const mdPreviewProps = {
     type: Object as PropType<CustomIcon>,
     default: {}
   },
+  /** Mermaid 在默认 strict 渲染之后的异步 SVG 后处理入口。 */
   sanitizeMermaid: {
     type: Function as PropType<(h: string) => Promise<string>>,
     default: (h: string) => Promise.resolve(h)

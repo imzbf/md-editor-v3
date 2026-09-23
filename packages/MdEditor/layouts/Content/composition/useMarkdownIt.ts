@@ -79,7 +79,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   const hljsRef = useHighlight(props);
   const katexRef = useKatex(props);
-  const { reRenderRef, replaceMermaid } = useMermaid(props);
+  const { reRenderRef, replaceMermaid, invalidateMermaid, getCachedMermaid } =
+    useMermaid(props);
   const { reRenderEcharts, replaceEcharts } = useEcharts(props);
 
   const md = mdit({
@@ -151,7 +152,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     plugins.push({
       type: 'mermaid',
       plugin: MermaidPlugin,
-      options: { themeRef }
+      options: { themeRef, revision: reRenderRef, getCached: getCachedMermaid }
     });
   }
 
@@ -323,7 +324,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     }
   );
 
-  watch([html, reRenderEcharts], () => {
+  watch([html, reRenderEcharts, key], () => {
     updatedTodo();
   });
 
@@ -342,6 +343,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       name: RERENDER,
       callback: () => {
         // 强制更新节点
+        invalidateMermaid();
         key.value = `_article-key_${randomId()}`;
         markHtml();
       }
