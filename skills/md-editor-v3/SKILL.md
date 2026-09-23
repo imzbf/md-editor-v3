@@ -29,6 +29,7 @@ description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 
 - 想扩展 CodeMirror：看 `references/playbook.md#9-扩展-codemirror`
 - 想确认某个功能依赖什么库、是否建议本地注入：看 `references/dependency-matrix.md`
 - 想调整 ECharts 代码块解析方式：看 `references/api.md#7-config-全局配置` 和 `references/playbook.md#32-echarts-配置解析`
+- 想开放原生 HTML、Mermaid 交互或 KaTeX 受信任命令：看 `references/playbook.md#33-按模块开放受信任能力`
 - 遇到 SSR、目录滚动、旧 API、样式或安全问题：看 `references/pitfalls.md`
 - 想理解实现机制或需要深度排障：看 `references/architecture.md`
 
@@ -79,8 +80,8 @@ description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 
 - 把 `onSave` 的第二个参数当成 `Promise<string>` 处理，不要当同步 HTML 字符串用。
 - 使用自定义工具栏和页脚时，牢记是“数字占位符 + `defToolbars` / `defFooters`”映射，不是按名字自动注册。
 - 把 `config()` 当作全局单例初始化，而不是组件局部状态。
-- 面向用户输入时主动处理 HTML/XSS 风险；默认 markdown-it 允许 `html: true`。
-- ECharts 解析策略要按版本区分：`>=6.5.0` 已支持 `parseOption`；`7.x` 默认用 `JSON5.parse` 解析对象，可通过 `editorExtensions.echarts.parseOption` 显式支持函数写法或其他格式。
+- 当前默认 markdown-it 使用 `html: false`、Mermaid 使用 `securityLevel: 'strict'`、KaTeX 使用 `trust: false`；通过各模块配置显式开放所需能力，替换依赖实例不会自动放宽策略。
+- ECharts 解析策略要按版本区分：`>=6.5.0` 已支持 `parseOption`；`7.x` 默认用 `JSON5.parse` 解析对象。当前渲染链另有 `editorExtensions.echarts.sanitizeOption`；自定义解析器不会自动关闭渲染防护。应用提供的插件、解析器和回调属于受信任代码。
 
 ## 先核对安装版本，再决定是否深挖源码
 

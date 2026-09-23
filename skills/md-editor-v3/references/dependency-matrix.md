@@ -25,9 +25,9 @@
 | Markdown 格式化 | `editorExtensions.prettier` | 可走默认 CDN | 希望稳定版本、避免外链时 | 需同时提供 `prettier` 和 `parserMarkdown` |
 | 图片裁剪上传 | `editorExtensions.cropper` | 上传能力可能触发资源注入 | 上传体验重要、不能走外链时 | 若完全禁用上传可用 `noUploadImg` |
 | 浏览器全屏 | `editorExtensions.screenfull` | 可走默认 CDN | Electron、CSP 或版本锁定时 | 只影响全屏能力 |
-| Mermaid | `editorExtensions.mermaid` | 可走默认 CDN | 图表稳定性要求高或无法访问 CDN 时 | 可通过 `enableZoom` 控制缩放 |
-| KaTeX | `editorExtensions.katex` | 可走默认 CDN | 数学公式是核心能力或需要离线时 | 还涉及样式文件 |
-| ECharts | `editorExtensions.echarts` | 可走默认 CDN；`7.x` 默认用 `JSON5.parse` 解析对象 | 图表页面、内网、CSP 或不可信内容时 | 可用 `noEcharts` 关闭；可通过 `parseOption` 自定义解析策略 |
+| Mermaid | `editorExtensions.mermaid` | CDN 与注入实例均使用 `securityLevel: 'strict'` | 图表稳定性要求高或无法访问 CDN 时 | `mermaidConfig` 可显式放宽策略；`enableZoom` 控制缩放 |
+| KaTeX | `editorExtensions.katex` | 可走默认 CDN；默认 `trust: false` | 数学公式是核心能力或需要离线时 | `katexConfig` 可开放受信任命令；还涉及样式文件 |
+| ECharts | `editorExtensions.echarts` | 可走默认 CDN；`7.x` 默认用 JSON5 解析对象，渲染前另有安全处理 | 图表页面、内网、CSP 或不可信内容时 | `parseOption` 和 `sanitizeOption` 分别管理解析与渲染策略 |
 
 ## 3. 推荐决策顺序
 
@@ -39,5 +39,5 @@
 补充提醒：
 
 - `highlight.js`、`katex`、`cropperjs` 这类能力除了 JS 实例外，往往还需要同步引入对应 CSS。
-- ECharts 代码块如果来自不可信内容，当前分支默认使用不会执行代码的 `JSON5.parse`；如需更严格的格式约束，可通过 `editorExtensions.echarts.parseOption` 替换默认解析器。
+- ECharts 的 JSON5 解析不执行文档代码，但字符串仍可能进入 HTML 或导航入口，因此默认 `sanitizeOption` 独立处理这些字段。仅替换 `parseOption` 不会移除渲染防护。
 - 如果业务已经自行管理代码高亮或公式样式，应先确认是否还需要保留 md-editor-v3 默认样式链路。

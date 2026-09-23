@@ -197,7 +197,7 @@ import 'cropperjs/dist/cropper.css';
 
 ## 3.2 ECharts 配置解析
 
-`>=6.5.0` 支持通过 `editorExtensions.echarts.parseOption` 自定义 ECharts 代码块解析。7.x 默认使用 `JSON5.parse`，只接受对象数据且不会执行代码；如需函数写法，应在应用启动阶段显式覆盖解析器：
+`>=6.5.0` 支持通过 `editorExtensions.echarts.parseOption` 自定义 ECharts 代码块解析。7.x 默认使用 `JSON5.parse`，只接受对象数据且不会执行代码；例如，需要严格 JSON 格式时可在应用启动阶段覆盖解析器：
 
 ```ts
 import { config } from 'md-editor-v3';
@@ -221,12 +221,61 @@ config({
     echarts: {
       parseOption(code) {
         // eslint-disable-next-line no-new-func
-        return new Function(`return ${code}`)();
+        return new Function(`"use strict"; return (${code}\n);`)();
       }
     }
   }
 });
 ```
+
+渲染链按 `parseOption → echartsConfig → sanitizeOption → setOption` 执行。上例只开放 JavaScript 解析，默认仍将 tooltip 设为 `richText`、转义数据视图文案并过滤危险跳转协议。格式化模板中的 HTML 会作为文本显示。
+
+当内容及回调都可信，而且需要 HTML tooltip 等完整渲染能力时，再独立开放渲染策略：
+
+```ts
+config({
+  editorExtensions: {
+    echarts: {
+      sanitizeOption: (option) => option
+    }
+  }
+});
+```
+
+`sanitizeOption` 是同步函数，接收 `(option, { editorId, element })`，返回交给 `setOption` 的对象。自定义它会接管整个渲染安全处理；JSON5 解析失败不会自动尝试 `new Function`。执行型解析器仍受宿主 CSP 限制。
+
+## 3.3 按模块开放受信任能力
+
+下面各项相互独立，在应用挂载前只配置需要开放的模块。
+
+```ts
+import { config } from 'md-editor-v3';
+
+// 原生 HTML：默认 html:false，显式开启后可按需搭配 sanitize 或 XSSPlugin。
+config({
+  markdownItConfig(md) {
+    md.set({ html: true });
+  }
+});
+
+// Mermaid：默认 strict；loose 允许受信任的图表交互，插入 SVG 后会绑定回调。
+config({
+  mermaidConfig(base) {
+    return { ...base, securityLevel: 'loose' };
+  }
+});
+
+// KaTeX：默认 trust:false，也可将 trust 设为按命令和协议判断的函数。
+config({
+  katexConfig(base) {
+    return { ...base, trust: true };
+  }
+});
+```
+
+普通主题配置和依赖实例替换会继续继承安全默认值。Mermaid 文档中的 frontmatter / init 指令不能覆盖 `securityLevel`、`secure`、`dompurifyConfig` 等受保护配置；这些选项由应用的 `mermaidConfig` 决定。`sanitizeMermaid` 保持异步后处理接口，更换它或切换主题会使当前预览的 SVG 缓存失效。
+
+默认安全边界覆盖文档内容。应用注入的 renderer、插件、解析器和回调属于受信任代码，需要与文档数据区分。
 
 ## 4. 图片上传
 

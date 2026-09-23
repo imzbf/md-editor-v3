@@ -156,15 +156,17 @@
 
 并且设置了：
 
-- `html: true`
+- `html: false`
 - `breaks: true`
 - `linkify: true`
 
 这意味着：
 
-- HTML 片段默认会被渲染
-- 安全策略需要业务方主动考虑
+- 原生 HTML 片段默认作为文本显示，业务方可通过 `markdownItConfig` 显式开启
+- Mermaid 和 KaTeX 在各自渲染入口提供安全默认配置；ECharts 在解析和业务配置之后单独执行 `sanitizeOption`
 - code block、标题、任务列表、公式、图表都已经有一层内置包装逻辑
+
+Mermaid 的 SVG 缓存属于单个预览实例，键包含策略版本、代码块位置和源码。主题、`sanitizeMermaid` 变化及显式 `rerender()` 会使缓存失效；同一个第三方实例的初始化和渲染串行执行。缓存命中后仍对新的 DOM 执行 `bindFunctions`，文档更新或卸载后不写入过期的异步结果。
 
 ## 7. 为什么 ref API 很适合业务集成
 
