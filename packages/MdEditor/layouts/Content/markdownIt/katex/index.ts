@@ -206,13 +206,14 @@ const KatexPlugin = (
       return renderTokenContent(token, md.utils.escapeHtml(token.content), slf);
     }
 
-    const html = katexRef.value.renderToString(
-      token.content,
-      globalConfig.katexConfig({
-        throwOnError: false,
-        displayMode
-      })
-    );
+    const baseConfig = { throwOnError: false, displayMode, trust: false };
+    const configured = globalConfig.katexConfig(baseConfig);
+    const html = katexRef.value.renderToString(token.content, {
+      ...baseConfig,
+      ...configured,
+      // 配置其他选项不应隐式开放 HTML 命令；调用方仍可显式传 true 或判断函数。
+      trust: configured?.trust ?? false
+    });
 
     token.attrSet('data-processed', '');
     return renderTokenContent(token, String(html), slf);

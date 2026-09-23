@@ -393,7 +393,7 @@ export interface GlobalConfig {
    */
   mermaidConfig: (base: any) => any;
   /**
-   * katex配置
+   * KaTeX 配置。默认 trust 为 false，可显式设置 true 或信任判断函数。
    *
    * @param baseConfig
    * @returns
