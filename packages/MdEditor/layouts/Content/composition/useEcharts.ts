@@ -7,16 +7,16 @@ import {
   Ref,
   onBeforeUnmount
 } from 'vue';
+import { ContentPreviewProps } from '../ContentPreview';
 import { prefix, globalConfig } from '~/config';
 import { CDN_IDS } from '~/static';
 import { ERROR_CATCHER } from '~/static/event-name';
 import { appendHandler } from '~/utils/dom';
 
 import bus from '~/utils/event-bus';
-import { ContentPreviewProps } from '../ContentPreview';
 
 /**
- * 注册katex扩展到页面
+ * 加载 ECharts，并依次执行解析、业务配置与渲染安全处理。
  *
  */
 const useEcharts = (props: ContentPreviewProps) => {
@@ -124,9 +124,7 @@ const useEcharts = (props: ContentPreviewProps) => {
       if (!root) return;
 
       const pendingSourceEles = Array.from(
-        root.querySelectorAll<HTMLElement>(
-          `#${editorId} div.${prefix}-echarts:not([data-processed])`
-        )
+        root.querySelectorAll<HTMLElement>(`div.${prefix}-echarts:not([data-processed])`)
       );
 
       pendingSourceEles.forEach((item) => {
@@ -134,26 +132,38 @@ const useEcharts = (props: ContentPreviewProps) => {
           return false;
         }
 
+        const baseSource = item.textContent || '';
+        let instance: any;
+        let observer: ResizeObserver | undefined;
         try {
-          const baseOptions = editorExtensions.echarts!.parseOption!(item.innerText, {
+          const context = {
             editorId,
             element: item
-          });
-          const options = echartsConfig(baseOptions);
-          const ins = echarts.init(item, theme.value);
+          };
+          const baseOptions = editorExtensions.echarts!.parseOption!(baseSource, context);
+          const options = editorExtensions.echarts!.sanitizeOption!(
+            echartsConfig(baseOptions),
+            context
+          );
+          instance = echarts.init(item, theme.value);
 
-          ins.setOption(options);
-          item.setAttribute('data-processed', '');
-
-          echartsSourceEles.push(item);
-          echartsInstances.push(ins);
-
-          const observer = new ResizeObserver(() => {
-            ins.resize();
+          instance.setOption(options);
+          observer = new ResizeObserver(() => {
+            instance.resize();
           });
           observer.observe(item);
+
+          item.setAttribute('data-processed', '');
+          echartsSourceEles.push(item);
+          echartsInstances.push(instance);
           observers.push(observer);
         } catch (error: any) {
+          // setOption 失败后恢复转义源码，避免留下半初始化的图表和失效实例。
+          if (instance) {
+            observer?.disconnect();
+            instance.dispose();
+            item.textContent = baseSource;
+          }
           bus.emit(editorId, ERROR_CATCHER, {
             name: 'echarts',
             message: error?.message,

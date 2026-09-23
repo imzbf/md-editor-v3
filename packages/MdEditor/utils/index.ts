@@ -1,5 +1,5 @@
 import { prefix } from '../config';
-import type { CodeLineHighlightRange } from './md-it';
+import { escapeHtml, type CodeLineHighlightRange } from './md-it';
 
 const HIGHLIGHT_TAG_PATTERN =
   /^<\s*(\/?)\s*([a-zA-Z][a-zA-Z0-9:_-]*)(?:\s[\s\S]*?)?\s*(\/?)>$/;
@@ -42,15 +42,6 @@ interface HighlightContentRange {
   endIndex: number;
   startIndex: number;
 }
-
-const escapeHtml = (value: string) => {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
-};
 
 const splitCodeLines = (source: string) => {
   const normalizedSource = source.replace(/\r\n?/g, '\n');

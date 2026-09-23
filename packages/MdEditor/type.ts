@@ -279,6 +279,18 @@ export interface GlobalConfig {
           element: HTMLElement;
         }
       ) => any;
+      /**
+       * 在 echartsConfig 之后、setOption 之前同步处理渲染配置。
+       * 默认使用 richText tooltip、转义数据视图文案并限制跳转协议。
+       * 与 parseOption 独立；内容可信时可配置 (option) => option 开放完整渲染能力。
+       */
+      sanitizeOption?: (
+        option: any,
+        context: {
+          editorId: string;
+          element: HTMLElement;
+        }
+      ) => any;
     };
   };
 
@@ -388,7 +400,7 @@ export interface GlobalConfig {
    */
   katexConfig: (baseConfig: any) => any;
   /**
-   * echarts配置
+   * 处理解析后的 ECharts option，随后仍会经过 editorExtensions.echarts.sanitizeOption。
    *
    * @returns
    */
@@ -404,7 +416,7 @@ export type Config = (options: Partial<GlobalConfig>) => void;
  * 编辑器操作潜在的错误
  */
 export interface InnerError {
-  name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid';
+  name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid' | 'echarts';
   message: string;
   data?: any;
   error?: Error;
