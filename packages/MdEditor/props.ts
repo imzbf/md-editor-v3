@@ -132,8 +132,8 @@ export const mdPreviewProps = {
   },
   /**
    *
-   * 不能保证文本正确的情况，在marked编译md文本后通过该方法处理
-   * 推荐DOMPurify、sanitize-html
+   * Markdown 编译后的 HTML 后处理入口。原生 HTML 默认关闭；显式开启或使用
+   * 自定义 renderer 时，可在这里接入 DOMPurify、sanitize-html 等业务清洗策略。
    *
    * @default (text: string) => text
    */

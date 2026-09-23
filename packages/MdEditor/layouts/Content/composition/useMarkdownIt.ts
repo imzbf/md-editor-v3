@@ -290,9 +290,15 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     return (props.noKatex || !!katexRef.value) && (props.noHighlight || !!hljsRef.value);
   });
 
-  // 由于复制按钮被放到了编译内容中，所以切换语言时，需要重新编译一次
+  // 语言和清洗策略都会影响生成的 HTML，即使 Markdown 未变化也要重新编译。
   watch(
-    [toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef],
+    [
+      toRef(props, 'modelValue'),
+      toRef(props, 'sanitize'),
+      needReRender,
+      reRenderRef,
+      languageRef
+    ],
     (_value, _oldValue, onCleanup) => {
       const timer = window.setTimeout(
         () => {
