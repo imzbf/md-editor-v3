@@ -68,23 +68,11 @@ const parentToken = (tokens: Token[], index: number) => {
 // these next two functions are kind of hacky; probably should really be a
 // true block-level token with .tag=='label'
 const beginLabel = (TokenConstructor: any) => {
-  const token: Token = new TokenConstructor('html_inline', '', 0);
-  token.content = '<label>';
-  return token;
+  return new TokenConstructor('label_open', 'label', 1) as Token;
 };
 
 const endLabel = (TokenConstructor: any) => {
-  const token: Token = new TokenConstructor('html_inline', '', 0);
-  token.content = '</label>';
-  return token;
-};
-
-const afterLabel = (content: string, id: string, TokenConstructor: any) => {
-  const token: Token = new TokenConstructor('html_inline', '', 0);
-  token.content =
-    '<label class="task-list-item-label" for="' + id + '">' + content + '</label>';
-  token.attrs = [['for', id]];
-  return token;
+  return new TokenConstructor('label_close', 'label', -1) as Token;
 };
 
 const makeCheckbox = (token: Token, TokenConstructor: any, options: Options) => {
@@ -110,13 +98,17 @@ const todoify = (token: Token, TokenConstructor: any, options: Options) => {
 
   if (options.label) {
     if (options.labelAfter) {
-      token.children.pop();
-
       // Use large random number as id property of the checkbox.
       const id = 'task-item-' + Math.ceil(Math.random() * (10000 * 1000) - 1000);
       token.children[0].content =
         token.children[0].content.slice(0, -1) + ' id="' + id + '">';
-      token.children.push(afterLabel(token.content, id, TokenConstructor));
+      // 包住已有行内 token，保留强调、链接等语义，也不把 html:false 已转义的
+      // 原始文本重新拼成 HTML。label 的属性由 markdown-it renderer 统一转义。
+      const label = beginLabel(TokenConstructor);
+      label.attrSet('class', 'task-list-item-label');
+      label.attrSet('for', id);
+      token.children.splice(1, 0, label);
+      token.children.push(endLabel(TokenConstructor));
     } else {
       token.children.unshift(beginLabel(TokenConstructor));
       token.children.push(endLabel(TokenConstructor));

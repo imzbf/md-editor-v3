@@ -79,7 +79,8 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
 
   const hljsRef = useHighlight(props);
   const katexRef = useKatex(props);
-  const { reRenderRef, replaceMermaid } = useMermaid(props);
+  const { reRenderRef, replaceMermaid, invalidateMermaid, getCachedMermaid } =
+    useMermaid(props);
   const { reRenderEcharts, replaceEcharts } = useEcharts(props);
 
   const md = mdit({
@@ -151,7 +152,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     plugins.push({
       type: 'mermaid',
       plugin: MermaidPlugin,
-      options: { themeRef }
+      options: { themeRef, revision: reRenderRef, getCached: getCachedMermaid }
     });
   }
 
@@ -289,9 +290,15 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     return (props.noKatex || !!katexRef.value) && (props.noHighlight || !!hljsRef.value);
   });
 
-  // 由于复制按钮被放到了编译内容中，所以切换语言时，需要重新编译一次
+  // 语言和清洗策略都会影响生成的 HTML，即使 Markdown 未变化也要重新编译。
   watch(
-    [toRef(props, 'modelValue'), needReRender, reRenderRef, languageRef],
+    [
+      toRef(props, 'modelValue'),
+      toRef(props, 'sanitize'),
+      needReRender,
+      reRenderRef,
+      languageRef
+    ],
     (_value, _oldValue, onCleanup) => {
       const timer = window.setTimeout(
         () => {
@@ -323,7 +330,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
     }
   );
 
-  watch([html, reRenderEcharts], () => {
+  watch([html, reRenderEcharts, key], () => {
     updatedTodo();
   });
 
@@ -342,6 +349,7 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
       name: RERENDER,
       callback: () => {
         // 强制更新节点
+        invalidateMermaid();
         key.value = `_article-key_${randomId()}`;
         markHtml();
       }

@@ -8,7 +8,7 @@ interface CacheEntry<V> {
   value: V;
 }
 
-class TtlLruCache<K, V> {
+export class TtlLruCache<K, V> {
   private readonly cache = new Map<K, CacheEntry<V>>();
 
   constructor(private readonly options: CacheOptions) {}
@@ -72,9 +72,3 @@ class TtlLruCache<K, V> {
     this.cache.clear();
   }
 }
-
-export const mermaidCache = new TtlLruCache<string, string>({
-  max: 1000,
-  // 缓存10分钟
-  ttl: 600000
-});

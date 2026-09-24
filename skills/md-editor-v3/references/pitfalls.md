@@ -121,13 +121,16 @@
 
 现状：
 
-- markdown-it 默认 `html: true`
-- `sanitize` 默认直接返回原 HTML
+- markdown-it 默认 `html: false`，原生 HTML 作为文本显示
+- Mermaid 默认 `strict`，KaTeX 默认 `trust: false`
+- ECharts 的 JSON5 解析与渲染安全处理相互独立，替换 `parseOption` 不会关闭 `sanitizeOption`
+- `sanitize`、`sanitizeMermaid` 默认透传，作为应用额外的后处理入口
 
 处理：
 
-- 面向用户输入时，至少接入 `sanitize`
-- 或在 `markdownItPlugins` 中加入 `XSSPlugin`
+- 对不可信文档保留模块默认值；按需对受信任内容开放 HTML、图表交互或公式命令
+- 显式开启原生 HTML 后，可通过 `sanitize` 或 `XSSPlugin` 实现应用的过滤策略；`XSSPlugin` 仅处理 HTML token，不能代替图表自身的安全边界
+- 使用 `sanitizeOption: (option) => option` 会接管 ECharts 渲染安全处理；仅需要函数解析时，可以只覆盖 `parseOption`
 
 ## 9. 在组件内部频繁调用 `config()`
 

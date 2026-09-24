@@ -1,5 +1,48 @@
 <!-- next-release -->
 
+## 7.0.0 (2026-09-16)
+
+### Features
+
+- support code block line highlighting ([commit 1bcd84d](https://github.com/imzbf/md-editor-v3/commit/1bcd84d8b49757ad7886709232a4857c1c50d520))
+  - Parse fence metadata for line highlighting, support custom highlighters, and cancel stale delayed preview renders.
+
+- replace `.md-editor-dark` with `.md-editor[data-theme="dark"]` for theme toggling ([commit 6d408c9](https://github.com/imzbf/md-editor-v3/commit/6d408c9abd92a373582b909d22ba3907d4001458))
+
+### Fixed Bugs
+
+- disable raw HTML parsing in markdown-it ([commit 22ba4aa](https://github.com/imzbf/md-editor-v3/commit/22ba4aae1faa9b0a33feb8c14645018e4b19a6c8))
+
+- correct input box width change event casing ([commit d7cf506](https://github.com/imzbf/md-editor-v3/commit/d7cf50686958641c14501a750e19bdcdcceebef1))
+  - Rename oninputBoxWidthChange to onInputBoxWidthChange across event declarations, runtime forwarding, JSX usage, and API references.
+  - **BREAKING CHANGE: replace oninputBoxWidthChange listeners with onInputBoxWidthChange.**
+
+- replace dynamic option evaluation with JSON5 ([commit 909d153](https://github.com/imzbf/md-editor-v3/commit/909d1533892733221b9e082d53376203183afa9f))
+  - Parse ECharts code blocks as data and require a top-level object.
+
+- keep code line numbers aligned after wrapping ([commit 8202ccd](https://github.com/imzbf/md-editor-v3/commit/8202ccdc16286be987d22106a858bffeb3ee01ec))
+
+### Others
+
+- chore(deps): upgrade @vavt/markdown-theme ([commit d556e26](https://github.com/imzbf/md-editor-v3/commit/d556e26fea9d1087e20579811e10b1960e417deb))
+
+- chore(config): update CDN extensions and v7 integration docs ([commit fead4ea](https://github.com/imzbf/md-editor-v3/commit/fead4ea4b41d200677e5125c9b453ad917d83e5f))
+
+- ci(publish): merge beta and latest publish into one workflow ([commit 0b2a19c](https://github.com/imzbf/md-editor-v3/commit/0b2a19c7d2bf7492ad4835007095913dacb0ff54))
+  - npm trusted publishing allows only one trusted workflow per package, so
+  - both release channels now live in publish.yml and pick the npm dist-tag
+  - from the trigger ref. NPM_TOKEN is no longer needed.
+  - Release note generation and issue notification move to versioned scripts
+  - under .github/scripts/, keeping the workflow file declarative.
+  - Checkout keeps fetch-depth: 0 because both scripts resolve the previous
+  - tag from history, and pushing the CHANGELOG commit fails on a shallow
+  - clone. Publish permissions are scoped to the job, and a concurrency group
+  - serializes runs that write to npm or the default branch.
+
+**Full Changelog**: [v6.5.6...v7.0.0](https://github.com/imzbf/md-editor-v3/compare/v6.5.6...v7.0.0)
+
+---
+
 ## 6.5.6 (2026-08-05)
 
 ### Fixed Bugs

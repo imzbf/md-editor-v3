@@ -1,5 +1,15 @@
 import type { Renderer, Token } from 'markdown-it';
 
+/** 将纯文本安全地放入 HTML 内容或带引号的属性中。 */
+export const escapeHtml = (value: string) => {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+};
+
 const CODE_LINE_HIGHLIGHT_VALUE_PATTERN =
   /^\s*\d+(?:\s*-\s*\d+)?(?:\s*,\s*\d+(?:\s*-\s*\d+)?)*\s*$/;
 

@@ -250,6 +250,8 @@ ref API 只有：
   - 传入本地实例或 CDN 地址
   - `editorExtensions.echarts.parseOption(code, { editorId, element })`
     - `>=6.5.0` 支持；用于自定义 ECharts 代码块内容解析
+  - `editorExtensions.echarts.sanitizeOption(option, { editorId, element })`
+    - 同步返回处理后的 option；默认限制 tooltip HTML、转义数据视图文案并检查导航协议
 - `editorExtensionsAttrs`
   - 为注入的 script/link 补充 `integrity`、`crossOrigin` 等属性
 - `editorConfig`
@@ -264,15 +266,19 @@ ref API 只有：
 - `markdownItPlugins(plugins, options)`
   - 调整内置插件列表与参数
 - `mermaidConfig(base)`
+  - 默认 `securityLevel: 'strict'`，显式返回 `loose` 可开放受信任交互；受保护配置包含 `dompurifyConfig`
 - `katexConfig(base)`
+  - 默认 `trust: false`，允许显式返回 `true` 或信任判断函数
 - `echartsConfig(base)`
-  - 只处理解析后的 option，不负责解析代码块文本
+  - 只处理解析后的 option，不负责解析代码块文本；之后还会执行 `sanitizeOption`
 
 细节：
 
 - `config()` 内部是深合并。
 - 名字带 `instance` 的字段不会深合并，而是直接替换。
 - 默认把 `config()` 放在应用启动阶段执行一次，不要在组件 `setup()` 里频繁调用。
+- ECharts 的调用顺序为 `parseOption → echartsConfig → sanitizeOption → setOption`。默认只处理配置字段及 `baseOption`、时间轴 `options`、`media[].option`，保留普通业务数据；导航允许 HTTP(S)、mailto、tel、相对地址和锚点。
+- 在内容可信时，可单独覆盖 `parseOption` 支持 JavaScript 函数，再按需设置 `sanitizeOption: (option) => option` 开放 HTML tooltip 等能力。解析或清洗失败保留转义源码，通过 `echarts` 错误事件报告，不回退执行 JavaScript。
 - ECharts 代码块解析版本边界：
   - `<6.5.0`：历史版本不支持 `parseOption`。
   - `>=6.5.0 <7.0.0`：支持 `parseOption`，默认解析行为沿用旧版本。
@@ -284,10 +290,12 @@ ref API 只有：
 
 - `sanitize(html) => html`
   - 适合业务方接入 DOMPurify、自定义清洗逻辑
+- `sanitizeMermaid(svg) => Promise<string>`
+  - 默认 Mermaid 渲染之后的 SVG 后处理；清洗失败不插入原始 SVG，更换函数时使当前预览缓存失效
 - `XSSPlugin`
   - 作为 markdown-it 插件插入渲染链
 
-因为默认 markdown-it 开启了 `html: true`，如果业务允许用户输入任意 Markdown/HTML，应主动处理安全问题。
+原生 HTML 默认关闭。业务方可通过 `markdownItConfig(md)` 调用 `md.set({ html: true })` 显式开启，并根据输入来源选择清洗规则。自定义 renderer、解析器和回调是应用提供的受信任代码，不属于文档数据的安全边界。
 
 ## 9. 清理副作用
 

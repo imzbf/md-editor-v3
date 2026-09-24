@@ -1,6 +1,7 @@
 import { deepMerge } from '@vavt/util';
 import JSON5 from 'json5';
 import { CodeCss, Config, GlobalConfig, Footers, StaticTextDefault } from './type';
+import { sanitizeEchartsOption } from './utils/echarts';
 
 export const prefix = 'md-editor';
 export const prefixHump = 'MdEditor';
@@ -487,7 +488,8 @@ export const globalConfig: GlobalConfig = {
         }
 
         return option;
-      }
+      },
+      sanitizeOption: sanitizeEchartsOption
     }
   },
   editorExtensionsAttrs: {},
