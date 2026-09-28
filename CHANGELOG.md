@@ -1,5 +1,42 @@
 <!-- next-release -->
 
+## 7.1.0 (2026-09-28)
+
+### Fixed Bugs
+
+- rerender when the HTML sanitizer changes ([commit 99840af](https://github.com/imzbf/md-editor-v3/commit/99840af779655eb4ce92e5382e017154ce398748))
+
+- preserve inline tokens in checkbox labels ([commit a1a9076](https://github.com/imzbf/md-editor-v3/commit/a1a907618597becd9b7a5e6233be084d806e088d))
+  - Wrap existing inline tokens with structured labels to preserve
+  - formatting and HTML escaping.
+
+- preserve safe defaults in custom configuration ([commit dcb2788](https://github.com/imzbf/md-editor-v3/commit/dcb2788c88cef1e560a919dd02c91c55c99ada59))
+  - Merge custom options over rendering defaults while keeping trust
+  - disabled unless explicitly overridden.
+
+- isolate rendering state and enforce safe defaults ([commit 4905824](https://github.com/imzbf/md-editor-v3/commit/49058245910ef1824c4a3730a6ff07be3d5974bd))
+  - Keep strict defaults, serialize library initialization and rendering,
+  - and cache sanitized SVGs per preview and code block.
+  - Reject outdated async results after content or policy changes and
+  - rebind interactions when cached SVGs create new DOM.
+
+- sanitize chart options before rendering ([commit 22307aa](https://github.com/imzbf/md-editor-v3/commit/22307aad740dfea004a7a7e33fe6ca192ea131db))
+  - Use rich-text tooltips, escape inherited DataView labels and restrict
+  - links across base, timeline and media options. Keep parsing and
+  - sanitization independently configurable.
+  - Restore source text after render failures and recognize closed
+  - backtick, tilde and nested fences.
+
+### Others
+
+- docs(skills): document renderer security configuration ([commit 55916b4](https://github.com/imzbf/md-editor-v3/commit/55916b4c8818cc437050e6a0254625d4ee3eebdb))
+  - Describe independent ECharts parsing and rendering policies, trusted
+  - renderer opt-ins and Mermaid cache invalidation.
+
+**Full Changelog**: [v7.0.0...v7.1.0](https://github.com/imzbf/md-editor-v3/compare/v7.0.0...v7.1.0)
+
+---
+
 ## 7.0.0 (2026-09-16)
 
 ### Features
