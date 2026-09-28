@@ -379,6 +379,10 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 
 Starting with v7.x, the default parser uses `JSON5.parse` and requires a top-level object. Unquoted property names, single-quoted strings, comments, and trailing commas are supported. JSON5 parses data only, so functions, variable references, `new`, and call expressions are not supported.
 
+ECharts fences support backticks or tildes (for example, `~~~echarts`) and can be nested in lists or blockquotes. Charts initialize only after the fence is correctly closed.
+
+Default rendering protection sets tooltips to `richText`, so HTML formatters appear as text. It also escapes data-view labels and restricts chart link protocols, including in `baseOption`, timeline, and media options. `parseOption` only controls parsing; replacing it keeps rendering protection enabled. Override `editorExtensions.echarts.sanitizeOption` only for fully trusted documents. See [ECharts configuration and rendering protection](https://imzbf.github.io/md-editor-v3/en-US/api#%F0%9F%A5%A0%20editorExtensions).
+
 ```echarts
 {
   tooltip: {

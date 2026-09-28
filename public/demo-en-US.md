@@ -1317,6 +1317,19 @@ config({
 });
 ```
 
+## 🛡 Safe Defaults and Trusted Content
+
+Built-in renderers treat document content as untrusted by default. Configure each module independently with `config()` before mounting components.
+
+| Module | Default | Trusted configuration |
+| --- | --- | --- |
+| Raw HTML | `html: false`; tags appear as text | Call `md.set({ html: true })` in `markdownItConfig(md)` |
+| Mermaid | `securityLevel: 'strict'`; document directives cannot override protected settings | Return `{ ...base, securityLevel: 'loose' }` from `mermaidConfig(base)` |
+| KaTeX | `trust: false` | Return `{ ...base, trust: true }` or a trust predicate from `katexConfig(base)` |
+| ECharts | JSON5 object parsing, `richText` tooltips, escaped data-view labels, restricted navigation protocols | Configure `parseOption` and `sanitizeOption` independently |
+
+Default rendering protection sets tooltips to `richText`, so HTML formatters appear as text. It also escapes data-view labels and restricts chart link protocols, including in `baseOption`, timeline, and media options. `parseOption` only controls parsing; replacing it keeps rendering protection enabled. Override `editorExtensions.echarts.sanitizeOption` only for fully trusted documents. See [ECharts configuration and rendering protection](https://imzbf.github.io/md-editor-v3/en-US/api#%F0%9F%A5%A0%20editorExtensions).
+
 ## 🧻 Edit This Page
 
 [demo-en-US](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-en-US.md)
