@@ -88,7 +88,7 @@ config({
   editorExtensions: {
     echarts: {
       parseOption(code) {
-        return new Function(`return (${code})`)();
+        return new Function(`"use strict"; return (${code}\n);`)();
       },
     },
   },
@@ -100,6 +100,20 @@ config({
 Only use an executable parser with fully trusted Markdown. A custom parser must enforce its own input validation and security controls.
 
 !!!
+
+#### 📊 editorExtensions.echarts.sanitizeOption
+
+Chart rendering now has an independent protection step: `parseOption → echartsConfig → sanitizeOption → setOption`. Tooltips use `richText` by default, so HTML formatters no longer create HTML nodes. Data-view labels are escaped, and title and tree-node links use restricted protocols. These rules also cover timeline and media options.
+
+Existing custom `parseOption` implementations still pass through the default protection. If fully trusted content requires HTML tooltips, separately set `editorExtensions.echarts.sanitizeOption: (option) => option`. This does not enable JavaScript parsing. If you only need callbacks, prefer adding them in your application's `echartsConfig`.
+
+`sanitize` cannot clean DOM that ECharts generates during interactions and cannot replace this setting. See [editorExtensions](https://imzbf.github.io/md-editor-v3/en-US/api#%F0%9F%A5%A0%20editorExtensions) for the full API.
+
+#### 🛡 Mermaid and KaTeX security defaults
+
+Mermaid renders with `securityLevel: 'strict'` by default, and document directives cannot override protected settings. KaTeX defaults to `trust: false`. Returning partial theme or formatting options preserves these defaults.
+
+For fully trusted content, return `{ ...base, securityLevel: 'loose' }` from `mermaidConfig(base)` and independently return `{ ...base, trust: true }` or a trust predicate from `katexConfig(base)`. `sanitizeMermaid` remains an asynchronous SVG hook. Theme changes, sanitizer changes, and manual `rerender()` calls invalidate cached and pending results.
 
 ### 🎨 Styles
 

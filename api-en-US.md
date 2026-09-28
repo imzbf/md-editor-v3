@@ -216,7 +216,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 - **type**: `(html: string) => string`
 - **default**: `(html) => html`
 
-  This attribute is used to alter the compiled HTML content.
+  This attribute is used to alter the compiled HTML content. Updating this function recompiles the current Markdown and refreshes the preview.
 
   !!! warning
 
@@ -247,7 +247,7 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 - **type**: `(text: string) => string`
 - **default**: `(text) => text`
 
-  Format copied code
+  Format copied code. Updating this function also applies to the copy buttons of existing ordinary code blocks.
 
   ```vue
   <template>
@@ -423,6 +423,8 @@ This is the props of `MdPreview`, which is also part of `MdEditor`:
 - **default**: `(h: string) => Promise.resolve(h)`
 
   Convert the generated mermaid code
+
+  This asynchronous SVG hook runs after the default strict rendering. Replacing it invalidates the current preview's chart cache. If sanitization fails, the source remains visible; the renderer does not fall back to unsanitized SVG.
 
 ---
 
@@ -1070,11 +1072,11 @@ Except for the same as `MdPreview`:
 
 - **type**: `(err: InnerError) => void`
 
-  Captures execution error events, currently supports `Cropper`, `fullscreen`, `prettier` instances of unloaded completed operations, inputs exceeding restricted lengths, and `mermaid` rendering errors.
+  Captures missing `Cropper`, `fullscreen`, or `prettier` dependencies, input length limit errors, `mermaid` rendering errors, and `echarts` parsing, sanitization, or rendering errors.
 
   ```ts
   export interface InnerError {
-    name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid'; // Component version greater than or equal to 5.4.0 to catch mermaid errors
+    name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid' | 'echarts';
     message: string;
     data?: any;
     error?: Error;
@@ -1656,6 +1658,8 @@ Add more languages, reset `mermaid` template or delay rendering time
 
 #### 🍚 languageUserDefined
 
+Custom languages may provide only some labels; missing labels fall back to the built-in English defaults.
+
 ```js
 import { config } from 'md-editor-v3';
 
@@ -1867,11 +1871,55 @@ export interface EditorExtensions {
         element: HTMLElement;
       },
     ) => any;
+    /**
+     * Synchronously process rendering options after echartsConfig and before setOption.
+     * Defaults to richText tooltips, escaped data-view labels, and restricted link protocols.
+     */
+    sanitizeOption?: (
+      option: any,
+      context: {
+        editorId: string;
+        element: HTMLElement;
+      },
+    ) => any;
   };
 }
 ```
 
 Starting with v7.x, the default `editorExtensions.echarts.parseOption` uses `JSON5.parse` and requires the parsed value to be an object. It supports JSON5 data syntax such as unquoted property names, single-quoted strings, comments, and trailing commas, but not functions, variable references, `new`, or call expressions. A custom parser receives raw Markdown content and must enforce its own trust and validation rules.
+
+#### ECharts rendering protection
+
+The full pipeline is `parseOption → echartsConfig → sanitizeOption → setOption`. JSON5 prevents JavaScript execution during parsing, but strings can still contain HTML. The default `editorExtensions.echarts.sanitizeOption` therefore processes options synchronously after `echartsConfig`:
+
+- Tooltips use `renderMode: 'richText'`, drawing HTML strings as text. Setting `renderMode: 'html'` in Markdown does not restore HTML tooltips.
+- `title` and `lang` labels in `toolbox.feature.dataView` are HTML-escaped, including values inherited from toolbox and top-level options.
+- Title `link` / `sublink` and treemap or sunburst node `link` values, including links inherited from top-level options, allow HTTP(S), `mailto:`, `tel:`, and relative URLs. Other protocols, including `javascript:`, are removed.
+- The same rules apply to `baseOption`, timeline `options`, and `media[].option`, preserving business data in identified ordinary series and `dataset`.
+
+In mixed charts, incremental series that omit `type` (or provide an empty value) and have no identifiable `id` also have their `link` fields restricted as tree links. Provide an explicit `type` or a stable `id` to preserve business fields with that name in ordinary series.
+
+`sanitize` processes the HTML generated from Markdown. It cannot cover DOM that ECharts creates later during hover or click interactions. Overriding only `parseOption` or `echartsConfig` keeps the default rendering protection. Application-provided function callbacks remain trusted code.
+
+If all Markdown content is trusted and requires HTML tooltips or unrestricted rendering, explicitly disable this layer before mounting components:
+
+```ts
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: {
+    echarts: {
+      sanitizeOption: (option) => option,
+    },
+  },
+});
+```
+
+This does not change JSON5 parsing. Functions written inside a code block still require a separate `parseOption` override. Executable parsers are only suitable for fully trusted input and remain subject to the host CSP. If you only need shared callbacks, prefer adding them in your application's `echartsConfig`.
+
+`sanitizeOption(option, { editorId, element })` must return the option synchronously. If parsing, sanitization, or `setOption` fails, `onError` reports `name: 'echarts'`, the escaped code-block source is preserved, and any initialized failed instance is disposed.
+
+The `onError` callback above belongs to `MdEditor`; `MdPreview` currently does not expose this event.
 
 ---
 
@@ -1925,6 +1973,10 @@ Do not attempt to define the src \ onload \ id of the script and rel \ href \ id
 
 Configure `mermaid`, [Details](https://mermaid.js.org/config/schema-docs/config.html)
 
+The default is `securityLevel: 'strict'`. Diagram init directives and YAML frontmatter cannot override protected security settings. For fully trusted content, return `{ ...base, securityLevel: 'loose' }` before mounting components to enable callbacks and other interactions. Returning only part of the theme configuration preserves the security defaults.
+
+SVG caches are isolated by preview instance and code block. Changing the theme or `sanitizeMermaid`, or calling `rerender()`, invalidates cached and pending results. Reused SVGs still have their interaction handlers bound to the new DOM.
+
 ```js
 import { config } from 'md-editor-v3';
 config({
@@ -1943,6 +1995,8 @@ config({
 
 Configure `katex`, [Details](https://katex.org/docs/options)
 
+The default is `trust: false`. Changing other KaTeX options does not implicitly enable HTML commands. For fully trusted content, explicitly set `trust: true` or provide a trust predicate.
+
 ```js
 import { config } from 'md-editor-v3';
 
@@ -1960,7 +2014,7 @@ config({
 
 ### 📊 echartsConfig
 
-Configure ECharts options. This function receives the option already parsed and validated by `editorExtensions.echarts.parseOption`; its return value is passed to ECharts `setOption`. It does not receive the raw code-block string.
+Configure ECharts options. This function receives the option parsed by `editorExtensions.echarts.parseOption`; its return value passes through `editorExtensions.echarts.sanitizeOption` before reaching ECharts `setOption`. It does not receive the raw code-block string. Setting `tooltip.renderMode: 'html'` here does not disable the default protection.
 
 ```js
 import { config } from 'md-editor-v3';

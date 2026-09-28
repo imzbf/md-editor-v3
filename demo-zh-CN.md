@@ -1328,6 +1328,19 @@ config({
 });
 ```
 
+## 🛡 安全默认值与受信任内容
+
+内置渲染默认按不可信文档处理，各模块可在应用挂载前通过 `config()` 独立开放能力。
+
+| 模块 | 默认行为 | 受信任配置入口 |
+| --- | --- | --- |
+| 原生 HTML | `html: false`，标签作为文本显示 | `markdownItConfig(md)` 中调用 `md.set({ html: true })` |
+| Mermaid | `securityLevel: 'strict'`，文档不能覆盖受保护配置 | `mermaidConfig(base)` 返回 `{ ...base, securityLevel: 'loose' }` |
+| KaTeX | `trust: false` | `katexConfig(base)` 返回 `{ ...base, trust: true }` 或提供信任判断函数 |
+| ECharts | JSON5 对象解析；tooltip 使用 `richText`，数据视图文案转义，跳转协议受限 | 分别配置 `parseOption` 和 `sanitizeOption` |
+
+默认渲染防护会将 tooltip 设为 `richText`，HTML formatter 作为文本显示；同时转义数据视图文案并限制图表链接协议。`baseOption`、时间轴和 media 配置也遵循这些规则。`parseOption` 仅负责解析，更换解析器不会关闭渲染防护；仅对完全可信的文档才可覆盖 `editorExtensions.echarts.sanitizeOption`。详见 [ECharts 配置与渲染防护](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%A5%A0%20editorExtensions)。
+
 ## 🧻 编辑此页面
 
 [demo-zh-CN](https://github.com/imzbf/md-editor-v3/blob/dev-docs/public/demo-zh-CN.md)

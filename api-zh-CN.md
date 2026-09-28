@@ -216,7 +216,7 @@
 - **类型**：`(html: string) => string`
 - **默认值**：`(html) => html`
 
-  通过该属性修改编译后的 html 内容
+  通过该属性修改编译后的 HTML 内容。更新此函数会重新编译当前 Markdown 并刷新预览。
 
   !!! warning
 
@@ -247,7 +247,7 @@
 - **类型**：`(text: string) => string`
 - **默认值**：`(text) => text`
 
-  格式化复制代码
+  格式化复制的代码。更新此函数后，已有普通代码块的复制按钮也会使用新函数。
 
   ```vue
   <template>
@@ -424,6 +424,8 @@
 
   转换生成的 mermaid 代码
 
+  这是默认 strict 渲染之后的异步 SVG 后处理入口。更换此函数会失效当前预览的图表缓存；清洗失败时保留源码，不回退到未经清洗的 SVG。
+
 ---
 
 ### 🕹 codeFoldable
@@ -482,7 +484,7 @@ defineProps<{
 
 ## 🔩 MdEditor Props
 
-除去和`MdPreivew`相同的以外：
+除去和`MdPreview`相同的以外：
 
 ### 💻 pageFullscreen
 
@@ -1014,7 +1016,7 @@ defineProps<{
 
 ## 🪢 MdEditor 绑定事件
 
-除去和`MdPreivew`相同的以外：
+除去和`MdPreview`相同的以外：
 
 ### 💾 onSave
 
@@ -1102,11 +1104,11 @@ defineProps<{
 
 - **类型**：`(err: InnerError) => void`
 
-  捕获执行错误事件，目前支持`Cropper`、`fullscreen`、`prettier`实例未加载完成操作、输入内容超出限制长度、`mermaid`渲染的错误。
+  捕获执行错误事件，包括 `Cropper`、`fullscreen`、`prettier` 实例未加载完成时的操作、输入内容超出限制长度、`mermaid` 渲染错误，以及 `echarts` 的解析、清洗或渲染错误。
 
   ```ts
   export interface InnerError {
-    name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid'; // 组件版本大于等于5.4.0才能捕获mermaid错误
+    name: 'Cropper' | 'fullscreen' | 'prettier' | 'overlength' | 'mermaid' | 'echarts';
     message: string;
     data?: any;
     error?: Error;
@@ -1688,6 +1690,8 @@ config({
 
 #### 🍚 languageUserDefined
 
+自定义语言允许只提供部分文案；缺失项会回退到内置英文默认文案。
+
 ```js
 import { config } from 'md-editor-v3';
 
@@ -1908,17 +1912,61 @@ export interface EditorExtensions {
         element: HTMLElement;
       },
     ) => any;
+    /**
+     * 在 echartsConfig 之后、setOption 之前同步处理渲染配置。
+     * 默认使用 richText tooltip、转义数据视图文案并限制跳转协议。
+     */
+    sanitizeOption?: (
+      option: any,
+      context: {
+        editorId: string;
+        element: HTMLElement;
+      },
+    ) => any;
   };
 }
 ```
 
 从 v7.x 开始，默认的 `editorExtensions.echarts.parseOption` 使用 `JSON5.parse`，并要求解析结果为对象。支持未加引号的属性名、单引号字符串、注释和尾随逗号等 JSON5 数据语法，但不支持函数、变量引用、`new` 或调用表达式。自定义解析器会接收原始 Markdown 内容，需要自行保证输入可信并完成必要校验。
 
+#### ECharts 渲染防护
+
+完整调用顺序为 `parseOption → echartsConfig → sanitizeOption → setOption`。JSON5 阻止解析阶段执行 JavaScript，但字符串仍可能携带 HTML，因此默认的 `editorExtensions.echarts.sanitizeOption` 会在 `echartsConfig` 之后同步处理配置：
+
+- tooltip 固定使用 `renderMode: 'richText'`，HTML 字符串作为文本绘制；文档中的 `renderMode: 'html'` 不会恢复 HTML tooltip。
+- 转义 `toolbox.feature.dataView` 的 `title` 和 `lang` 文案，包括从工具箱和顶层配置继承的值。
+- 限制标题的 `link` / `sublink` 及 treemap、sunburst 节点的 `link`，包括从顶层继承的链接。允许 HTTP(S)、`mailto:`、`tel:` 和相对地址，移除 `javascript:` 等其他协议。
+- 同样处理 `baseOption`、时间轴 `options` 和 `media[].option`，保留已识别的普通系列及 `dataset` 中的业务数据。
+
+混合图表中，增量系列若省略 `type`（或传入空值）且没有可识别的 `id`，其 `link` 也会受树图协议限制。需要保留普通系列中的同名业务字段时，请提供明确的 `type` 或稳定的 `id`。
+
+`sanitize` 处理 Markdown 生成的 HTML，无法覆盖 ECharts 在悬浮或点击时另行创建的 DOM。仅覆盖 `parseOption` 或 `echartsConfig` 会继续保留默认渲染防护；应用中的函数回调仍属于受信任代码。
+
+如果所有 Markdown 内容均可信且确实需要 HTML tooltip 等完整渲染能力，可在挂载组件前显式关闭这一层防护：
+
+```ts
+import { config } from 'md-editor-v3';
+
+config({
+  editorExtensions: {
+    echarts: {
+      sanitizeOption: (option) => option,
+    },
+  },
+});
+```
+
+此配置不会改变 JSON5 解析规则。需要在代码块中使用函数时，还需单独覆盖 `parseOption`；执行型解析器仅适用于完全可信的输入，并受宿主 CSP 限制。若只需统一的函数回调，优先在应用的 `echartsConfig` 中添加。
+
+`sanitizeOption(option, { editorId, element })` 必须同步返回 option。解析、清洗或 `setOption` 失败时，会通过 `onError` 报告 `name: 'echarts'`，保留转义后的代码块源码；已初始化的失败实例会被释放。
+
+上述 `onError` 回调属于 `MdEditor`；`MdPreview` 当前不提供此事件。
+
 ---
 
 ### 🥠 editorExtensionsAttrs
 
-同步添加 CDN 链接标签的上属性，类型与`editorExtensions`一直，值类型是`HTMLElementTagNameMap<script|link>` 内部提供所有链接的`integrity`值，使用方式如下：
+同步添加 CDN 链接标签上的属性，类型与`editorExtensions`一致，值类型是`HTMLElementTagNameMap<script|link>` 内部提供所有链接的`integrity`值，使用方式如下：
 
 ```js
 import { config } from 'md-editor-v3';
@@ -1966,6 +2014,10 @@ config({
 
 mermaid 配置项，[配置详情](https://mermaid.js.org/config/schema-docs/config.html)
 
+默认使用 `securityLevel: 'strict'`，图表中的 init 指令和 YAML frontmatter 不能覆盖受保护的安全配置。仅对完全可信的内容，可在应用挂载组件前返回 `{ ...base, securityLevel: 'loose' }` 开放回调等交互能力；只返回部分主题配置仍会保留安全默认值。
+
+SVG 缓存按预览实例和代码块隔离。主题或 `sanitizeMermaid` 变化、调用 `rerender()` 时会失效旧缓存与异步结果；缓存复用时仍会为新的 DOM 绑定交互事件。
+
 ```js
 import { config } from 'md-editor-v3';
 config({
@@ -1984,6 +2036,8 @@ config({
 
 katex 配置项，[配置详情](https://katex.org/docs/options)
 
+默认使用 `trust: false`。修改其他 KaTeX 选项不会隐式开放 HTML 命令；完全可信的内容可显式设置 `trust: true`，或提供信任判断函数。
+
 ```js
 import { config } from 'md-editor-v3';
 
@@ -2001,7 +2055,7 @@ config({
 
 ### 📊 echartsConfig
 
-ECharts 配置项。该函数接收`editorExtensions.echarts.parseOption`已经解析并校验后的 option，其返回值会传给 ECharts 的`setOption`；它不会接收原始代码块字符串。
+ECharts 配置项。该函数接收 `editorExtensions.echarts.parseOption` 解析后的 option，其返回值还会经过 `editorExtensions.echarts.sanitizeOption`，然后才传给 ECharts 的 `setOption`；它不会接收原始代码块字符串。仅在这里设置 `tooltip.renderMode: 'html'` 不会关闭默认防护。
 
 ```js
 import { config } from 'md-editor-v3';

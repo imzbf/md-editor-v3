@@ -88,7 +88,7 @@ config({
   editorExtensions: {
     echarts: {
       parseOption(code) {
-        return new Function(`return (${code})`)();
+        return new Function(`"use strict"; return (${code}\n);`)();
       },
     },
   },
@@ -100,6 +100,20 @@ config({
 执行型解析器只适用于完全可信的 Markdown 内容，自定义解析器需要自行完成输入校验和安全控制。
 
 !!!
+
+#### 📊 editorExtensions.echarts.sanitizeOption
+
+图表渲染新增独立防护：`parseOption → echartsConfig → sanitizeOption → setOption`。tooltip 默认使用 `richText`，HTML formatter 不再生成 HTML 节点；数据视图文案会转义，标题和树图链接协议受限。这些规则也覆盖时间轴与 media 配置。
+
+原有自定义 `parseOption` 会继续经过默认防护。若完全可信的内容仍需 HTML tooltip，可单独配置 `editorExtensions.echarts.sanitizeOption: (option) => option`；这不会开启 JavaScript 解析。只需添加函数回调时，优先在应用的 `echartsConfig` 中设置。
+
+`sanitize` 无法清洗 ECharts 在交互时生成的 DOM，因此不能替代此配置。完整接口见 [editorExtensions](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%A5%A0%20editorExtensions)。
+
+#### 🛡 Mermaid 与 KaTeX 安全默认值
+
+Mermaid 默认以 `securityLevel: 'strict'` 渲染，文档内的指令不能覆盖受保护配置；KaTeX 默认使用 `trust: false`。仅返回部分主题或排版配置也会保留这些默认值。
+
+完全可信的内容可分别在 `mermaidConfig(base)` 中返回 `{ ...base, securityLevel: 'loose' }`，在 `katexConfig(base)` 中返回 `{ ...base, trust: true }` 或信任判断函数。`sanitizeMermaid` 继续作为异步 SVG 清洗入口；主题、清洗器或手动 `rerender()` 更新后，旧缓存和异步结果不再复用。
 
 ### 🎨 样式
 

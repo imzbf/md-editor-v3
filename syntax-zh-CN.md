@@ -331,7 +331,7 @@ gitGraph
 ```
 
 ````markdown
-```
+```mermaid
 ---
 title: Example Git diagram
 ---
@@ -378,6 +378,10 @@ failure、danger、bug、example、quote、hint、caution、error、attention
 \>= v6.0.0
 
 从 v7.x 开始，默认解析器使用 `JSON5.parse`，且顶层必须是对象。支持未加引号的属性名、单引号字符串、注释和尾随逗号等 JSON5 数据语法。JSON5 只解析数据，因此不支持函数、变量引用、`new` 或调用表达式。
+
+支持反引号或波浪线围栏（如 `~~~echarts`），也支持列表和引用中的代码块；只有围栏正确闭合后才初始化图表。
+
+默认渲染防护会将 tooltip 设为 `richText`，HTML formatter 作为文本显示；同时转义数据视图文案并限制图表链接协议。`baseOption`、时间轴和 media 配置也遵循这些规则。`parseOption` 仅负责解析，更换解析器不会关闭渲染防护；仅对完全可信的文档才可覆盖 `editorExtensions.echarts.sanitizeOption`。详见 [ECharts 配置与渲染防护](https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%A5%A0%20editorExtensions)。
 
 ```echarts
 {
