@@ -1,16 +1,16 @@
 import { inject, nextTick, onBeforeUnmount, Ref, watch } from 'vue';
+import { ContentPreviewProps } from '../ContentPreview';
 import { TASK_STATE_CHANGED } from '~/static/event-name';
 import bus from '~/utils/event-bus';
-import { ContentPreviewProps } from '../ContentPreview';
 
 const template = {
   checked: {
-    regexp: /- \[x\]/,
-    value: '- [ ]'
+    regexp: /\[[xX]\]/,
+    value: '[ ]'
   },
   unChecked: {
-    regexp: /- \[\s\]/,
-    value: '- [x]'
+    regexp: /\[ \]/,
+    value: '[x]'
   }
 };
 
@@ -26,7 +26,9 @@ export const useTaskState = (props: ContentPreviewProps, html: Ref<string>) => {
       return false;
     }
 
-    const tasks = rootRef.value.querySelectorAll('.task-list-item.enabled');
+    const tasks = rootRef.value.querySelectorAll(
+      '.task-list-item.enabled .task-list-item-checkbox'
+    );
 
     const listener = (e: Event) => {
       e.preventDefault();
