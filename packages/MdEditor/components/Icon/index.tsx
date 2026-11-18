@@ -1,7 +1,15 @@
-import { Component, ComputedRef, PropType, defineComponent, h, inject } from 'vue';
+import {
+  Component,
+  ComputedRef,
+  PropType,
+  computed,
+  defineComponent,
+  h,
+  inject
+} from 'vue';
+import Icon, { IconName } from './Icon';
 import { prefix } from '~/config';
 import { CustomIcon } from '~/type';
-import Icon, { IconName } from './Icon';
 
 export default defineComponent({
   name: `${prefix}-icon`,
@@ -12,7 +20,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const customIcon = inject('customIcon') as ComputedRef<CustomIcon>;
+    // 独立使用 MdModal 时没有编辑器提供的图标配置，仍应渲染内置图标。
+    const customIcon = inject<ComputedRef<CustomIcon>>(
+      'customIcon',
+      computed(() => ({}))
+    );
 
     return () => {
       const item = customIcon.value[props.name];

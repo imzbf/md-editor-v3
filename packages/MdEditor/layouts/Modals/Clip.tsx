@@ -163,17 +163,16 @@ export default defineComponent({
                 </div>
               </div>
             ) : (
-              <div
+              <button
                 class={`${prefix}-clip-upload`}
+                type="button"
                 onClick={() => {
                   (uploadRef.value as HTMLInputElement).click();
                 }}
-                role="button"
-                tabindex="0"
                 aria-label={ult.value.imgTitleItem?.upload}
               >
                 <Icon name="upload" />
-              </div>
+              </button>
             )}
           </div>
           <div class={`${prefix}-clip-preview`}>

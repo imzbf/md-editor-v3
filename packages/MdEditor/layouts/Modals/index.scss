@@ -35,6 +35,11 @@
       }
 
       .#{$prefix}-clip-upload {
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: inherit;
+        font: inherit;
         display: flex;
         align-items: center;
         justify-content: center;

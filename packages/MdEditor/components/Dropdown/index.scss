@@ -4,7 +4,8 @@
   overflow: hidden;
   box-sizing: border-box;
   position: absolute;
-  transition: all 0.3s;
+  // visibility 必须立即生效，键盘打开时才能在同一次渲染后聚焦菜单项。
+  transition: opacity 0.3s;
   opacity: 1;
   z-index: 20000;
   background-color: var(--md-bk-color);

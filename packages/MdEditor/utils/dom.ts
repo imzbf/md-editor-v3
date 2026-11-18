@@ -3,6 +3,24 @@ import StrIcon from '~/components/Icon/Str';
 import { prefix } from '~/config';
 import { CustomIcon } from '~/type';
 
+/** 获取当前可通过 Tab 访问的控件，避免将焦点移入隐藏或禁用的内容。 */
+export const getFocusableElements = (container: HTMLElement) => {
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(
+      'a[href], button, input, select, textarea, [tabindex], [contenteditable]:not([contenteditable="false"])'
+    )
+  ).filter(
+    (element) =>
+      // contenteditable 未声明 tabindex 时仍可通过 Tab 访问，但其 tabIndex 为 -1。
+      (element.tabIndex >= 0 ||
+        (element.isContentEditable && !element.hasAttribute('tabindex'))) &&
+      !element.matches(':disabled, [aria-disabled="true"]') &&
+      !element.closest('[hidden], [inert], [aria-hidden="true"]') &&
+      element.getClientRects().length > 0 &&
+      getComputedStyle(element).visibility === 'visible'
+  );
+};
+
 /**
  * 设置页面元素可移动
  *

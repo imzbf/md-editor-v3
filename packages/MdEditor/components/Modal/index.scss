@@ -57,6 +57,12 @@ $mask-z-index: 20000;
 
     .#{$prefix}-modal-adjust,
     .#{$prefix}-modal-close {
+      box-sizing: content-box;
+      padding: 0;
+      border: none;
+      background: transparent;
+      color: var(--md-color);
+      font: inherit;
       cursor: pointer;
       width: 24px;
       height: 24px;
