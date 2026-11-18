@@ -202,8 +202,11 @@ const useMarkdownIt = (props: ContentPreviewProps, previewOnly: boolean) => {
               language: codeLanguage,
               ignoreIllegals: true
             }).value;
-          } else {
+          } else if (!codeLanguage) {
             codeHtml = hljsRef.value.highlightAuto(str).value;
+          } else {
+            // 显式声明但未注册的语言按纯文本展示，避免自动探测遍历所有语法阻塞预览。
+            codeHtml = md.utils.escapeHtml(str);
           }
         } else {
           codeHtml = md.utils.escapeHtml(str);
