@@ -16,4 +16,17 @@ node_modules
 
 lib/
 
-example/**/package-lock.json
+examples/**/package-lock.json
+
+# Generated files and local configuration in runnable examples
+examples/**/dist/
+examples/**/dist-electron/
+examples/**/release/
+examples/**/.next/
+examples/**/.nuxt/
+examples/**/.output/
+examples/**/.cache/
+examples/**/.vscode/
+examples/**/.idea/
+examples/**/.env*
+examples/**/*.tsbuildinfo

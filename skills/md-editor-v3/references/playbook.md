@@ -11,12 +11,13 @@
 - [2.3 让目录跟随编辑区而不是预览区](#23-让目录跟随编辑区而不是预览区)
 - [3. 在应用启动阶段注入本地依赖实例](#3-在应用启动阶段注入本地依赖实例)
 - [3.1 一次性替换常见本地实例](#31-一次性替换常见本地实例)
+- [3.2 ECharts 配置解析](#32-echarts-配置解析)
+- [3.3 按模块开放受信任能力](#33-按模块开放受信任能力)
 - [4. 图片上传](#4-图片上传)
 - [4.1 图片上传排查清单](#41-图片上传排查清单)
 - [5. 保存时拿到最新 HTML](#5-保存时拿到最新-html)
 - [6. 外部通过 ref 控制编辑器](#6-外部通过-ref-控制编辑器)
 - [7. 自定义工具栏](#7-自定义工具栏)
-- [7.1 自定义工具栏的实现步骤](#71-自定义工具栏的实现步骤)
 - [8. 扩展 markdown-it 插件链](#8-扩展-markdown-it-插件链)
 - [9. 扩展 CodeMirror](#9-扩展-codemirror)
 - [10. Web Component / Electron / Nuxt](#10-web-component--electron--nuxt)
@@ -58,15 +59,11 @@ import 'md-editor-v3/lib/preview.css';
 
 const previewId = 'article-preview';
 const text = ref('# Preview');
-const scrollElement = document.documentElement;
+const scrollElement = 'html';
 </script>
 ```
 
-SSR 下改成：
-
-```ts
-const scrollElement = 'html';
-```
+字符串选择器同时适用于客户端和 SSR；这里的 `html` 对应整页滚动。自定义容器应传实际滚动元素的选择器。
 
 ## 2.1 Nuxt / SSR 快速检查清单
 
@@ -120,41 +117,7 @@ const text = ref('# md-editor-v3');
 
 ## 3. 在应用启动阶段注入本地依赖实例
 
-适合：
-
-- 业务有严格 CSP，不能依赖 CDN
-- 已经安装了 `highlight.js`、`katex`、`mermaid` 等依赖
-- 想避免运行时插 script/link
-
-```ts
-import { config } from 'md-editor-v3';
-import highlight from 'highlight.js';
-import mermaid from 'mermaid';
-import katex from 'katex';
-import * as prettier from 'prettier';
-import parserMarkdown from 'prettier/plugins/markdown';
-
-config({
-  editorExtensions: {
-    highlight: { instance: highlight },
-    mermaid: { instance: mermaid, enableZoom: true },
-    katex: { instance: katex },
-    prettier: {
-      prettierInstance: prettier,
-      parserMarkdownInstance: parserMarkdown
-    }
-  }
-});
-```
-
-注意：
-
-- 这类调用应在应用初始化时执行一次
-- 不要在组件 `setup()` 中每次渲染都调用
-
-## 3.1 一次性替换常见本地实例
-
-如果业务项目不希望依赖默认 CDN，可以一次性把常用实例都交给 `config()`：
+下面的完整配置适用于需要离线运行的浏览器入口；只用部分功能时，按 [依赖矩阵](dependency-matrix.md) 保留所需实例并关闭未使用的能力。
 
 ```ts
 import { config } from 'md-editor-v3';
@@ -163,16 +126,21 @@ import mermaid from 'mermaid';
 import katex from 'katex';
 import Cropper from 'cropperjs';
 import screenfull from 'screenfull';
-import * as prettier from 'prettier';
+import * as echarts from 'echarts';
+import * as prettier from 'prettier/standalone';
 import parserMarkdown from 'prettier/plugins/markdown';
+import 'highlight.js/styles/atom-one-dark.css';
+import 'katex/dist/katex.min.css';
+import 'cropperjs/dist/cropper.css';
 
 config({
   editorExtensions: {
     highlight: { instance: highlight },
-    mermaid: { instance: mermaid, enableZoom: true },
+    mermaid: { instance: mermaid },
     katex: { instance: katex },
     cropper: { instance: Cropper },
     screenfull: { instance: screenfull },
+    echarts: { instance: echarts },
     prettier: {
       prettierInstance: prettier,
       parserMarkdownInstance: parserMarkdown
@@ -181,19 +149,14 @@ config({
 });
 ```
 
-别忘了同步处理样式资源，例如：
+## 3.1 一次性替换常见本地实例
 
-- `highlight.js` 代码主题 CSS
-- `katex/dist/katex.min.css`
-- `cropperjs/dist/cropper.css`
-
-例如：
-
-```ts
-import 'highlight.js/styles/atom-one-dark.css';
-import 'katex/dist/katex.min.css';
-import 'cropperjs/dist/cropper.css';
-```
+- 安装与实例 API 兼容的版本：Cropper.js 使用 1.x；本地 screenfull 可使用 ESM 6.x。
+- Prettier 使用浏览器入口 `prettier/standalone`，不要从 Node 主入口导入。
+- ECharts 使用命名空间导入；上面的配置也覆盖了这个可选模块。
+- 同一套配置在应用初始化时设置，不在每个组件实例或重渲染时调用。
+- 提供本地高亮实例后，代码主题 CSS 由应用管理；切换 `codeTheme` 不会自动替换已导入的本地 CSS。
+- Web Component 需要将组件 CSS 注入 Shadow DOM，并在文档中注册字体，见对应 [examples](https://github.com/imzbf/md-editor-v3/tree/develop/examples)。
 
 ## 3.2 ECharts 配置解析
 
@@ -277,6 +240,8 @@ config({
 
 默认安全边界覆盖文档内容。应用注入的 renderer、插件、解析器和回调属于受信任代码，需要与文档数据区分。
 
+浏览器专用依赖的初始化模块应放在客户端入口。Nuxt 可使用 `.client.ts` 插件；Next 中若某个依赖在导入时访问 DOM，再通过客户端动态导入加载，并在配置完成后挂载编辑器。不要仅为了避免业务代码中的 DOM 访问而关闭整个页面的 SSR。
+
 ## 4. 图片上传
 
 ```vue
@@ -284,10 +249,16 @@ config({
 ```
 
 ```ts
-const handleUploadImg = async (files, callback) => {
+import type { UploadImgEvent } from 'md-editor-v3';
+
+const handleUploadImg: UploadImgEvent = async (files, callback) => {
   const uploaded = await Promise.all(
     files.map(async (file) => {
-      const url = await uploadFile(file);
+      const body = new FormData();
+      body.append('file', file);
+      const response = await fetch('/api/upload', { method: 'POST', body });
+      if (!response.ok) throw new Error('上传失败');
+      const { url } = await response.json();
       return {
         url,
         alt: file.name,
@@ -299,6 +270,8 @@ const handleUploadImg = async (files, callback) => {
   callback(uploaded);
 };
 ```
+
+接口片段约定 `/api/upload` 返回 `{ url: string }`，上传异常需要接入业务的错误提示。
 
 理解要点：
 
@@ -319,12 +292,20 @@ const handleUploadImg = async (files, callback) => {
 ## 5. 保存时拿到最新 HTML
 
 ```ts
-const handleSave = (markdown, htmlPromise) => {
-  void htmlPromise.then((html) => {
-    persist(markdown, html);
+import type { SaveEvent } from 'md-editor-v3';
+
+const handleSave: SaveEvent = async (markdown, htmlPromise) => {
+  const html = await htmlPromise;
+  const response = await fetch('/api/article/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ markdown, html })
   });
+  if (!response.ok) throw new Error('保存失败');
 };
 ```
+
+通过 `<MdEditor :on-save="handleSave" />` 绑定到已有编辑器；接口路径和错误提示接入由业务提供。
 
 不要把第二个参数当同步字符串处理。内部渲染默认有 `renderDelay`，而且 mermaid/echarts 等替换流程也是异步的。
 
@@ -334,93 +315,102 @@ const handleSave = (markdown, htmlPromise) => {
 <script setup lang="ts">
 import { ref } from 'vue';
 import { MdEditor, type ExposeParam } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const editorRef = ref<ExposeParam>();
+const text = ref('# 引用模板');
 
-const insertTemplate = () => {
+const insertQuote = () => {
   editorRef.value?.insert((selectedText) => ({
-    targetValue: `> ${selectedText || 'quoted text'}`,
+    targetValue: `> ${selectedText || '引用内容'}`,
     select: false
   }));
 };
 </script>
+
+<template>
+  <button type="button" @click="insertQuote">插入引用</button>
+  <MdEditor ref="editorRef" v-model="text" />
+</template>
 ```
 
-适合：
-
-- 命令面板
-- AI 一键插入模板块
-- 与业务操作按钮联动
+`editorRef` 必须绑定到 `MdEditor` 实例；方法可用于外部命令面板或业务操作按钮。
 
 ## 7. 自定义工具栏
 
 ```vue
-<MdEditor v-model="text" :toolbars="['bold', 'italic', 0, '=', 'preview']">
-  <template #defToolbars>
-    <DropdownToolbar title="模板" :overlay="overlay">
-      Custom
-    </DropdownToolbar>
-  </template>
-</MdEditor>
+<script setup lang="ts">
+import { ref } from 'vue';
+import {
+  MdEditor,
+  DropdownToolbar,
+  NormalFooterToolbar,
+  type ExposeParam
+} from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
+const text = ref('');
+const visible = ref(false);
+const editorRef = ref<ExposeParam>();
+
+const changeVisible = (next: boolean) => {
+  visible.value = next;
+};
+const insertQuote = () => {
+  editorRef.value?.insert((selectedText) => ({
+    targetValue: `> ${selectedText || '引用内容'}`,
+    select: false
+  }));
+  visible.value = false;
+};
+</script>
+
+<template>
+  <MdEditor
+    ref="editorRef"
+    v-model="text"
+    :toolbars="['bold', 'italic', 0, '=', 'preview']"
+    :footers="['markdownTotal', '=', 0]"
+  >
+    <template #defToolbars>
+      <DropdownToolbar title="插入模板" :visible="visible" :on-change="changeVisible">
+        模板
+        <template #overlay>
+          <div role="menu" aria-label="模板">
+            <button type="button" role="menuitem" @click="insertQuote">引用</button>
+          </div>
+        </template>
+      </DropdownToolbar>
+    </template>
+    <template #defFooters>
+      <NormalFooterToolbar>草稿</NormalFooterToolbar>
+    </template>
+  </MdEditor>
+</template>
 ```
 
-规则：
-
-- `toolbars` 里的 `0` 对应 `defToolbars` 的第一个节点
-- 如果有多个自定义节点，顺序靠索引映射，不靠名字
-- 自定义工具栏组件会拿到一个 `insert(generate)` 注入 prop，可直接回填内容
-
-## 7.1 自定义工具栏的实现步骤
-
-推荐按这个顺序做：
-
-1. 先在 `toolbars` 数组里放一个数字占位，例如 `0`
-2. 再在 `defToolbars` 里提供第一个自定义工具节点
-3. 如果自定义工具需要往编辑器里写内容，使用注入进来的 `insert(generate)` 回填 Markdown
-4. 如果是弹窗型或下拉型工具，优先复用 `DropdownToolbar` 或 `ModalToolbar`
-
-先跑通一个自定义按钮，再扩展成多个，避免一开始就把索引映射写乱。
+数字 `0` 对应插槽中的第一个节点。`visible` 与 `onChange` 配套维护下拉状态；这里用编辑器 ref 插入内容，无需让每个业务组件自己实现插入逻辑。原生菜单按钮配合内置键盘导航，表单下拉则保留原生表单语义。
 
 ## 8. 扩展 markdown-it 插件链
 
 ```ts
-import { config, XSSPlugin } from 'md-editor-v3';
+import { config } from 'md-editor-v3';
 
 config({
-  markdownItPlugins(plugins, { editorId }) {
-    return [
-      ...plugins,
-      {
-        type: 'xss',
-        plugin: XSSPlugin,
-        options: {
-          extendedWhiteList: {
-            iframe: ['data-foo']
-          }
-        }
-      }
-    ].map((item) => {
-      if (item.type === 'taskList') {
-        return {
-          ...item,
-          options: {
-            ...item.options,
-            enabled: editorId === 'article-editor'
-          }
-        };
-      }
-
-      return item;
-    });
+  markdownItConfig(md) {
+    md.set({ typographer: true });
+  },
+  markdownItPlugins(plugins) {
+    return plugins.map((item) =>
+      item.type === 'image'
+        ? { ...item, options: { ...item.options, figcaption: false } }
+        : item
+    );
   }
 });
 ```
 
-这个模式适合：
-
-- 加安全清洗
-- 改内置插件参数
-- 追加业务自定义 Markdown 语法
+这里只修改排版选项和图片说明，保留标题、任务列表、代码块等内置插件。需要处理业务允许的原生 HTML 时，再按 [安全与 HTML 清洗](api.md#8-安全与-html-清洗) 接入 `XSSPlugin` 或 `sanitize`。
 
 ## 9. 扩展 CodeMirror
 
@@ -460,7 +450,7 @@ config({
   - 业务代码里不要在服务端路径直接访问 `document` / `window`
 - Web Component
   - 如果目录跟随的滚动容器在 shadow DOM 内，给 `MdCatalog` 传 `isScrollElementInShadow`
-  - 若动态卸载频繁，可考虑 `clearSideEffects()`
+  - 共享 CDN 资源仅在所有相关实例卸载后由宿主统一清理；本地实例模式不需要 `clearSideEffects()`
 - Electron
   - 优先本地依赖实例，不依赖外网 CDN
 

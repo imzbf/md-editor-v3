@@ -8,6 +8,9 @@ Markdown editor for vue3, developed in `jsx` and `typescript`.
 
 - Documentation and example: [Go](https://imzbf.github.io/md-editor-v3)
 
+- Runnable integration examples: [examples](./examples/README.md)
+- Skill for downstream projects: [md-editor-v3](./skills/md-editor-v3/SKILL.md)
+
 - The same series editor for react: [md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
 ## ⭐️ Features
@@ -56,7 +59,7 @@ For more ways to use or contribute, please refer to: [md-editor-extension](https
 
 ## 💡 Usage
 
-When using server-side rendering, make sure to set `id` to a constant value.
+When linking an editor or preview to `MdCatalog`, use a stable `id` and pass that value to `MdCatalog.editorId`. Standalone instances can use the generated id, including during server-side rendering.
 
 Starting from `4.0.0`, internal components can be imported on-demand.
 
@@ -91,7 +94,7 @@ import 'md-editor-v3/lib/preview.css';
 
 const id = 'preview-only';
 const text = ref('# Hello Editor');
-const scrollElement = document.documentElement;
+const scrollElement = 'html';
 </script>
 ```
 

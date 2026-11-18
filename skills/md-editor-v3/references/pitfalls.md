@@ -17,6 +17,10 @@
 - [13. Nuxt / SSR 路径里直接访问了 `document` 或 `window`](#13-nuxt--ssr-路径里直接访问了-document-或-window)
 - [14. 自定义 markdown-it / CodeMirror 时把内置能力全丢了](#14-自定义-markdown-it--codemirror-时把内置能力全丢了)
 
+- [15. 代码语言不存在时预览变慢](#15-代码语言不存在时预览变慢)
+- [16. 自定义菜单或弹窗无法用键盘操作](#16-自定义菜单或弹窗无法用键盘操作)
+- [17. 复制了旧 iconfont 配置](#17-复制了旧-iconfont-配置)
+
 ## 1. 导错样式文件
 
 症状：
@@ -115,7 +119,7 @@
 
 - 先看业务项目里的 `node_modules/md-editor-v3/lib/types/index.d.ts`
 - 再看仓库里的 `packages/MdEditor/props.ts` / `packages/MdEditor/type.ts`
-- 最后再参考 `dev/` 和 `example/`
+- 最后再参考 `examples/` 中的下游接入示例
 
 ## 8. 忽略 HTML/XSS 风险
 
@@ -155,7 +159,7 @@
 处理：
 
 - 如果完全本地注入实例，尽量不用默认 CDN
-- 动态销毁后如有必要调用 `clearSideEffects()`
+- 确认使用共享 CDN 资源的所有实例都已卸载，再由宿主调用 `clearSideEffects()`
 
 ## 11. 预览目录不跟随滚动
 
@@ -218,3 +222,25 @@
 
 - 在返回值里保留原扩展/原插件，再做增量修改
 - 只有在非常清楚后果时才整体替换
+
+## 15. 代码语言不存在时预览变慢
+
+当前源码中，已注册语言使用指定语法高亮，没有语言标签的代码块才走自动探测；显式写了未注册语言时输出转义后的纯文本。此修复可能尚未出现在业务已安装的版本中。
+
+- 使用 `highlight.js/lib/core` 时先注册业务需要的语言，再将实例传给 `config()`。
+- 不要用 `autoDetectCode` 控制预览高亮：它用于识别粘贴到编辑区的代码。
+- 排查旧版本的长代码块卡顿时，可临时设置 `noHighlight`；不要通过删除未知语言标签触发全语法自动探测。
+- 自定义 `markdownItConfig` 中的 `highlight` 时，返回结果会优先使用，需单独检查该实现。
+
+## 16. 自定义菜单或弹窗无法用键盘操作
+
+当前源码为下拉与弹窗提供焦点管理。先检查安装包是否包含相应修复，再检查业务自定义内容：
+
+- 下拉菜单将 `visible` 和 `onChange` 配套传入；菜单项用原生按钮和 `role="menuitem"`，保留文字或可访问名称。
+- 菜单模式支持方向键、Home/End、Enter/Space、Escape；普通表单下拉保留原生输入行为，不把表单节点标记为菜单项。
+- 弹窗通过 `visible`、打开回调和 `onClose` 管理状态，提供有意义的标题和可聚焦操作。不要另加全局按键监听与内置焦点归还冲突。
+- `title` / `modalTitle` 用于组件已有的名称入口；不要往库的语言包中添加不存在的字段。
+
+## 17. 复制了旧 iconfont 配置
+
+7.x 使用内置 SVG 图标，不再使用 `config({ iconfontType: ... })`。移除旧 iconfont 脚本、CSS 和字体；需要替换图标时查当前安装包的 `customIcon` 类型。

@@ -1,0 +1,26 @@
+{
+  "name": "md-editor-v3-nuxt-example",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "nuxt typecheck",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "md-editor-v3": "^7.1.0",
+    "vue": "^3.5.38"
+  },
+  "devDependencies": {
+    "nuxt": "^4.6.4",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.3.14",
+    "@types/node": "^24.3.1"
+  }
+}

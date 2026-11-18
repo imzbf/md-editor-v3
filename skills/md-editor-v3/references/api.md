@@ -1,6 +1,6 @@
 # md-editor-v3 公开 API 速查
 
-> 面向 `md-editor-v3@7.x` 使用环境整理（当前对应 `feature/7` 分支，首个发布版本为 `7.0.0`）。若用户项目版本不同，先核对本地安装包类型定义。
+> 以 7.x 公开 API 和当前源码为参考。安装包可能尚未包含最新修复；先核对业务项目的版本和 `lib/types/index.d.ts`，再使用对应能力。
 
 ## 目录
 
@@ -17,7 +17,7 @@
 
 ## 1. 公开导出
 
-主入口 `packages/index.ts` / `packages/preview.ts` 暴露了这些能力：
+从 `md-editor-v3` 主入口导入以下能力；源码入口为 `packages/index.ts`，其中部分预览能力由 `packages/preview.ts` 复用：
 
 - `MdEditor`
 - `MdPreview`
@@ -33,6 +33,8 @@
 - `allFooter`
 - `editorExtensionsAttrs`
 - `clearSideEffects`
+- `prefix`
+- `zh_CN` / `en_US`
 - `XSSPlugin`
 - 类型导出，例如 `ExposeParam`、`MdHeadingId`、`ToolbarNames`
 
@@ -78,6 +80,7 @@
 - `maxLength`
 - `autoDetectCode`
 - `showToolbarName`
+- `customIcon`
 - `completions`
 
 渲染控制：
@@ -240,6 +243,8 @@ ref API 只有：
 - `showToolbarName`
 - `insert(generate)`，仅工具栏扩展会拿到
 
+下拉工具栏需要同时维护 `visible` 和 `onChange`；弹窗工具栏需要维护 `visible`、打开回调与 `onClose`。菜单动作优先使用带 `role="menuitem"` 的原生按钮，配合有名称的菜单容器；表单内容保留原生输入控件，不强行标记为菜单。参见 [可运行的工具栏模式](playbook.md#7-自定义工具栏)。
+
 ## 7. `config()` 全局配置
 
 `config(options)` 修改的是全局单例 `globalConfig`。
@@ -286,7 +291,7 @@ ref API 只有：
 
 ## 8. 安全与 HTML 清洗
 
-两条常用路径：
+按输出类型选择后处理入口：
 
 - `sanitize(html) => html`
   - 适合业务方接入 DOMPurify、自定义清洗逻辑
@@ -299,13 +304,9 @@ ref API 只有：
 
 ## 9. 清理副作用
 
-`clearSideEffects()` 会移除组件通过 CDN 注入的资源标签，适合：
+`clearSideEffects()` 移除页面共享的 CDN script/link 标签，不是单个组件的销毁方法。组件卸载会自行释放实例监听；仅在使用这些共享资源的所有实例卸载后，由微前端或页面宿主统一清理。
 
-- 微前端宿主卸载
-- Web Component 动态注册/卸载
-- 演示页反复重建实例
-
-如果业务方完全通过 `config()` 注入本地实例并自行管理样式，通常不需要这个方法。
+完全通过本地实例和应用 CSS 管理资源时，通常不需要调用。该函数访问 `document`，只能在客户端执行。
 
 ## 10. 用户项目里如何核对当前版本 API
 

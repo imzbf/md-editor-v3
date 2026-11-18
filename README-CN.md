@@ -8,6 +8,9 @@ vue3 环境的 Markdown 编辑器，使用 `jsx` 和 `typescript` 语法开发�
 
 - 文档与在线预览：[传送门](https://imzbf.github.io/md-editor-v3)
 
+- 可运行的接入示例：[examples](./examples/README.md)
+- 面向下游项目的技能：[md-editor-v3](./skills/md-editor-v3/SKILL.md)
+
 - 同系列`react`版本：[md-editor-rt](https://github.com/imzbf/md-editor-rt)
 
 ## ⭐️ 功能一览
@@ -88,7 +91,7 @@ import 'md-editor-v3/lib/preview.css';
 
 const id = 'preview-only';
 const text = ref('# Hello Editor');
-const scrollElement = document.documentElement;
+const scrollElement = 'html';
 </script>
 ```
 

@@ -1,0 +1,40 @@
+{
+  "name": "md-editor-v3-electron-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "dist-electron/index.cjs",
+  "license": "MIT",
+  "description": "Offline Markdown editing with md-editor-v3 and Electron.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && vite build",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json && tsc -p tsconfig.node.json",
+    "pack": "npm run build && electron-builder"
+  },
+  "dependencies": {
+    "cropperjs": "^1.6.2",
+    "echarts": "^6.0.0",
+    "highlight.js": "^11.10.0",
+    "katex": "^0.16.22",
+    "md-editor-v3": "^7.1.0",
+    "mermaid": "^11.11.0",
+    "prettier": "^3.6.2",
+    "screenfull": "^6.0.2",
+    "vue": "^3.5.38"
+  },
+  "devDependencies": {
+    "@types/katex": "^0.16.7",
+    "@types/node": "^24.3.1",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.8",
+    "vue-tsc": "^3.3.14",
+    "electron": "^45.3.4",
+    "electron-builder": "^26.18.0",
+    "vite-plugin-electron": "^1.2.0"
+  }
+}

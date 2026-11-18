@@ -1,0 +1,9 @@
+{
+  appId: 'io.github.imzbf.md-editor-v3-example',
+  productName: 'md-editor-v3-example',
+  asar: true,
+  directories: {
+    output: 'release'
+  },
+  files: ['dist-electron', 'dist']
+}

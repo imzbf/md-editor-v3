@@ -1,120 +1,48 @@
 ---
 name: md-editor-v3
-description: 集成、定制或排查 md-editor-v3 时使用。适用于在 Vue 3、Nuxt、Electron 或 Web Component 项目中接入 MdEditor、MdPreview、MdCatalog，给 md-editor-v3 增加图片上传、目录联动、自定义工具栏、主题/语言、markdown-it 与 CodeMirror 扩展、config() 全局依赖替换，以及处理 SSR、样式、MdCatalog 滚动、高亮/公式/mermaid/echarts、本地实例替代 CDN、XSS 与副作用等常见问题。
+description: 在 Vue 3.5.3+ 下游项目中集成、定制或排查 md-editor-v3。覆盖编辑器、预览与目录、上传、自定义工具栏、全局依赖和 Nuxt / Web Component 接入；不作为库仓库维护流程。
 ---
 
 # md-editor-v3
 
-默认把这个 skill 用在**下游业务项目**里，而不是 md-editor-v3 仓库维护流程里。
+面向使用 `md-editor-v3` 的下游业务项目。以 7.x 公开 API 和当前源码为参考；已发布安装包可能尚未包含仓库最新修复，先检查业务项目的 `node_modules/md-editor-v3/package.json` 和 `lib/types/index.d.ts`，保留用户已有的框架和部署方式。
 
-本 skill 面向 `md-editor-v3@7.x` 使用环境（当前对应 `feature/7` 分支，首个发布版本为 `7.0.0`）。如果用户项目安装的版本不同，先核对本地安装包版本，再决定是否沿用这里的结论。
+## 按任务读取
 
-## 典型用户请求
+- 常用 props、事件、ref 和配置：读 [公开 API](references/api.md)。
+- 编辑器、预览、SSR、上传、本地依赖、自定义工具栏：读 [实战模式](references/playbook.md) 中对应章节。
+- 离线、CSP 或本地依赖替换：读 [依赖矩阵](references/dependency-matrix.md)。
+- 样式、目录、旧 API、键盘操作或代码高亮异常：读 [常见坑点](references/pitfalls.md)。
+- 公开 API 无法解释的问题：再读 [实现机制](references/architecture.md)，并核对对应安装版本的源码。
+- 完整的框架工程：参考仓库的 [examples](https://github.com/imzbf/md-editor-v3/tree/develop/examples)。技能里的代码模式不依赖本地克隆库仓库。
 
-- 帮我在 Vue 3 / Nuxt 项目里接入 `md-editor-v3`
-- 帮我把 `MdPreview` 和 `MdCatalog` 接到文章详情页
-- 给 `md-editor-v3` 加图片上传或自定义工具栏
-- 用 `config()` 把 `highlight.js` / `katex` / `mermaid` / `echarts` 改成本地实例或自定义解析策略
-- 排查 `MdCatalog` 不跟随滚动、SSR 报错、样式不对、保存时 HTML 不更新
+## 选择接入点
 
-## 先按任务找文档
+- 编辑 Markdown：`MdEditor`，配合 `v-model`（`modelValue`） 和 `md-editor-v3/lib/style.css`。
+- 展示 Markdown：`MdPreview`，导入 `md-editor-v3/lib/preview.css`。
+- 目录导航：`MdCatalog`，`editorId` 对应目标编辑器或预览器的 `id`。
+- 扩展工具栏：`NormalToolbar`、`DropdownToolbar`、`ModalToolbar`；页脚用 `NormalFooterToolbar`。
+- 外部命令：组件 ref 的 `insert`、`triggerSave`、`rerender` 等方法。
+- 改 Markdown 渲染：`markdownItConfig` / `markdownItPlugins`；改编辑体验：`codeMirrorExtensions`。
 
-- 想快速接入编辑器：看 `references/playbook.md#1-最小可编辑接入`
-- 想做只读预览页：看 `references/playbook.md#2-只预览--外置目录`
-- 想禁用 CDN、改用本地依赖实例：看 `references/playbook.md#3-在应用启动阶段注入本地依赖实例`
-- 想做图片上传：看 `references/playbook.md#4-图片上传`
-- 想从外部按钮或 AI 动作控制编辑器：看 `references/playbook.md#6-外部通过-ref-控制编辑器`
-- 想做自定义工具栏或页脚：看 `references/api.md#6-自定义工具栏--页脚组件`
-- 想扩展 markdown-it：看 `references/playbook.md#8-扩展-markdown-it-插件链`
-- 想扩展 CodeMirror：看 `references/playbook.md#9-扩展-codemirror`
-- 想确认某个功能依赖什么库、是否建议本地注入：看 `references/dependency-matrix.md`
-- 想调整 ECharts 代码块解析方式：看 `references/api.md#7-config-全局配置` 和 `references/playbook.md#32-echarts-配置解析`
-- 想开放原生 HTML、Mermaid 交互或 KaTeX 受信任命令：看 `references/playbook.md#33-按模块开放受信任能力`
-- 遇到 SSR、目录滚动、旧 API、样式或安全问题：看 `references/pitfalls.md`
-- 想理解实现机制或需要深度排障：看 `references/architecture.md`
+## 接入约定
 
-## 先选组件，再动代码
+- Vue 使用 `v-model` 维护可编辑内容，`MdPreview` 使用 `:model-value`；依赖的 Vue 版本需满足当前安装包的 peerDependencies。
+- 新代码给 `MdEditor` / `MdPreview` 使用 `id`；`MdCatalog` 仍用 `editorId`。无跨组件联动时可使用自动生成的 id；多个实例显式传值时要保持唯一。
+- `MdPreview` 用于独立只读页面；`previewOnly` 工具栏动作和 `togglePreviewOnly()` 是编辑器内部显示切换，不是旧 `previewOnly` prop。
+- SSR 使用字符串 `scrollElement`，如 `'html'` 或 `'#article-scroll'`；不要在模块初始化或服务端渲染期间访问 DOM。
+- `onSave(markdown, htmlPromise)` 的第二项是 `Promise<string>`；需要 HTML 时先等待它。
+- 自定义工具栏 / 页脚由数字占位符映射到 `defToolbars` / `defFooters`，不是按组件名注册。下拉和弹窗的 `visible` 与回调需要配套维护。
+- `config()` 是全局单例，在应用初始化阶段调用。不要在组件渲染或每个实例的 setup 中反复设置；浏览器专用依赖放在客户端入口。
+- 默认保留内置 markdown-it / CodeMirror 扩展，只增删任务需要的部分。
+- 7.x 使用内置 SVG 图标；不要复制旧版 `iconfontType`、iconfont 脚本和字体资源。自定义图标查 `customIcon` 的当前类型。
 
-先判断用户真正需要什么：
+## 渲染与资源约定
 
-- 需要可编辑 Markdown：用 `MdEditor`
-- 只需要渲染内容：用 `MdPreview`
-- 需要目录导航：用 `MdCatalog`
-- 需要自定义工具栏/页脚：用 `DropdownToolbar`、`ModalToolbar`、`NormalFooterToolbar`
-- 需要改全局依赖、渲染链或编辑链：用 `config()`
-- 需要处理 HTML 安全：用 `sanitize` 或 `XSSPlugin`
-- 需要清理默认注入的外部资源：用 `clearSideEffects()`
+- 原生 HTML 默认关闭，Mermaid 默认 `strict`，KaTeX 默认 `trust: false`。依赖实例替换不改变这些配置。
+- ECharts 默认使用 JSON5 解析对象；`parseOption` 管解析，`sanitizeOption` 管渲染配置。仅在业务明确需要时调整相应模块，保留其他默认值。
+- 没有内置启用的 `XSSPlugin`；启用原生 HTML 或自定义渲染时，根据输入来源选择 `sanitize` / `XSSPlugin`。插件、解析器和回调是应用代码。
+- 需要禁用运行时 CDN 时，为启用的功能注入本地实例并引入相应 CSS；未使用的能力可通过对应 `no*` prop 关闭。
+- `clearSideEffects()` 会移除页面共享的 CDN 标签；在使用这些资源的所有实例卸载后，才由宿主统一清理。完全使用本地实例的普通组件卸载不需要调用它。
 
-默认接入规则：
-
-- `MdEditor` 导入 `md-editor-v3/lib/style.css`
-- `MdPreview` 导入 `md-editor-v3/lib/preview.css`
-- 目录必须和目标编辑器/预览使用同一个 `id`/`editorId`
-- 如果编辑器 / 预览器要和外部 `MdCatalog` 或业务控制逻辑跨组件联动，显式传同一个 `id`
-
-## 按这个顺序排查和实施
-
-1. 先确认场景
-   - 是编辑器、预览器、目录、上传、工具栏扩展，还是渲染链/编辑链定制。
-2. 先检查基础接入
-   - 样式是否导对。
-   - `id` 是否稳定。
-   - `MdCatalog` 是否绑定到同一个实例。
-   - SSR 下 `scrollElement` 是否传字符串选择器而不是 DOM。
-3. 再决定扩展层级
-   - 只改显示或交互：优先 props 和事件。
-   - 需要外部控制：优先 ref API。
-   - 需要改 Markdown 语法或 HTML 输出：优先 markdown-it 钩子。
-   - 需要改编辑体验：优先 CodeMirror 钩子。
-   - 需要改上传、保存、错误处理：优先事件 props。
-4. 最后处理运行时细节
-   - 决定是否要本地实例替换 CDN。
-   - 决定是否要接入 `sanitize` / `XSSPlugin`。
-   - 决定是否存在 Nuxt、Electron、Web Component 特殊约束。
-
-## 坚持这些高优先级约束
-
-- 不要继续引导用户给 `MdEditor` 传已移除的旧 `previewOnly` prop；业务层预览模式应改用 `MdPreview`。
-- 给 `MdPreview` 和 `MdEditor` 写新代码时，优先使用 `id`；`MdPreview.editorId` 仅视为兼容旧代码。
-- 给 `MdCatalog` 传参时继续使用 `editorId`，不要误写成 `id`。
-- 把 `onSave` 的第二个参数当成 `Promise<string>` 处理，不要当同步 HTML 字符串用。
-- 使用自定义工具栏和页脚时，牢记是“数字占位符 + `defToolbars` / `defFooters`”映射，不是按名字自动注册。
-- 把 `config()` 当作全局单例初始化，而不是组件局部状态。
-- 当前默认 markdown-it 使用 `html: false`、Mermaid 使用 `securityLevel: 'strict'`、KaTeX 使用 `trust: false`；通过各模块配置显式开放所需能力，替换依赖实例不会自动放宽策略。
-- ECharts 解析策略要按版本区分：`>=6.5.0` 已支持 `parseOption`；`7.x` 默认用 `JSON5.parse` 解析对象。当前渲染链另有 `editorExtensions.echarts.sanitizeOption`；自定义解析器不会自动关闭渲染防护。应用提供的插件、解析器和回调属于受信任代码。
-
-## 先核对安装版本，再决定是否深挖源码
-
-如果用户反馈“skill 说得对，但项目里行为不一样”，按下面顺序核对：
-
-1. 先看业务项目里的 `node_modules/md-editor-v3/package.json`
-2. 再看业务项目里的 `node_modules/md-editor-v3/lib/types/index.d.ts`
-3. 如果仍然解释不通，再去看本仓库源码：
-   - `packages/MdEditor/props.ts`
-   - `packages/MdEditor/type.ts`
-   - `packages/MdEditor/config.ts`
-   - `packages/MdEditor/composition.ts`
-   - `packages/MdEditor/layouts/Content/composition/useMarkdownIt.ts`
-   - `packages/MdEditor/layouts/Content/composition/useCodeMirror.ts`
-   - `packages/MdPreview/MdPreview.tsx`
-   - `packages/MdCatalog/MdCatalog.tsx`
-
-默认不要一上来就从仓库内部实现讲起，除非用户正在调库源码，或者公开 API 已经不足以定位问题。
-
-## 需要时再读附加文档
-
-- 查公开 API、props、ref 方法：看 `references/api.md`
-- 查推荐接入方式和可直接套用的代码模式：看 `references/playbook.md`
-- 查功能依赖矩阵与本地实例建议：看 `references/dependency-matrix.md`
-- 查常见坑与排查顺序：看 `references/pitfalls.md`
-- 查内部实现理念和进阶排障线索：看 `references/architecture.md`
-
-## 按这个标准交付
-
-交付 md-editor-v3 相关改动时，默认说明：
-
-- 为什么选 `MdEditor` / `MdPreview` / `MdCatalog`
-- 接入点放在哪：组件、样式、`config()`、事件或 ref API
-- 版本前提是什么
-- 风险点有哪些：SSR、XSS、CDN、副作用、目录同步、上传链路
-- 验证了哪些路径：至少写清手工验证项
+交付时说明接入方式、实际验证过的安装版本和场景；仅报告与这次改动相关的限制。
