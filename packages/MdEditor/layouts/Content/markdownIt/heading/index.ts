@@ -19,7 +19,8 @@ const HeadingPlugin = (md: markdownit, options: HeadingPluginOps) => {
         );
       }, '') || '';
 
-    const level = token.markup.length as 1 | 2 | 3 | 4 | 5 | 6;
+    // setext 标题的 markup 只有一个 = 或 -，层级要从 tag（h1~h6）取
+    const level = Number(token.tag.slice(1)) as 1 | 2 | 3 | 4 | 5 | 6;
 
     options.headsRef.value.push({
       text,
