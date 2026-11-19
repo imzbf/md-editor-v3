@@ -1,5 +1,28 @@
 <!-- next-release -->
 
+## 7.1.1 (2026-11-19)
+
+### Fixed Bugs
+
+- skip auto detection for unknown code languages ([commit e2e935d](https://github.com/imzbf/md-editor-v3/commit/e2e935de2f50bc6826ecd2293ce41711a8a8c0dd))
+  - Refs imzbf/md-editor-rt#254
+
+- restore keyboard navigation and focus management ([commit e5058a1](https://github.com/imzbf/md-editor-v3/commit/e5058a1b72556d9e02c2c2136de36606c08b5ab0))
+  - Refs imzbf/md-editor-rt#253
+
+- toggle tasks with all list markers ([commit 984d17d](https://github.com/imzbf/md-editor-v3/commit/984d17d48d63df42c66d1d69c29ce77a8ed56968))
+
+### Others
+
+- chore(integrations): refresh downstream skills and examples ([commit 9342e3b](https://github.com/imzbf/md-editor-v3/commit/9342e3bd1b0d908e3e5616f91b5f1807d0298f48))
+  - Rename example to examples and update documentation links.
+  - Refresh downstream API guidance and runnable integration examples.
+  - Remove obsolete scaffolding and ignore local build and environment files.
+
+**Full Changelog**: [v7.1.0...v7.1.1](https://github.com/imzbf/md-editor-v3/compare/v7.1.0...v7.1.1)
+
+---
+
 ## 7.1.0 (2026-09-28)
 
 ### Fixed Bugs
