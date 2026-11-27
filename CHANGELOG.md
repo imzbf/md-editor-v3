@@ -1,5 +1,23 @@
 <!-- next-release -->
 
+## 7.1.2 (2026-11-27)
+
+### Fixed Bugs
+
+- take heading level from the tag for setext headings ([commit 9aea74a](https://github.com/imzbf/md-editor-v3/commit/9aea74a8959edf0d3818a412c055bca6f613d601))
+  - markdown-it sets `markup` to the single underline character for setext
+  - headings, so `markup.length` made every `===` and `---` heading level 1
+  - in the catalog. Use the `h1`-`h6` tag instead, which is right for both
+  - ATX and setext headings.
+
+### Others
+
+- chore(release): 7.1.2 ([commit 9a54ef3](https://github.com/imzbf/md-editor-v3/commit/9a54ef388ff71b94e0360beaa12d5c80dd696335))
+
+**Full Changelog**: [v7.1.1...v7.1.2](https://github.com/imzbf/md-editor-v3/compare/v7.1.1...v7.1.2)
+
+---
+
 ## 7.1.1 (2026-11-19)
 
 ### Fixed Bugs
